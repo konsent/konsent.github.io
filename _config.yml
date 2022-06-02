@@ -1,6 +1,6 @@
 # Site settings
 title: Stop Bored Play Board
-email: konsent2@gamil.com
+email: konsent2@gmail.com
 description: > 
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "http://konsent.github.io" # the base hostname & protocol for your site
