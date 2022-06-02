@@ -3,16 +3,9 @@ layout: page
 title: About
 permalink: /about/
 ---
-  
-   
-    
+<br/>
 보드게임의 즐거움을 모르는 당신이 불쌍해
- 
-  
-   
-   
-
-
+<br/><br/><br/>
 
 ## 진행중인 보드게임 모임
 
