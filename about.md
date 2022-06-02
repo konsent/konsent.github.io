@@ -4,6 +4,8 @@ title: About
 permalink: /about/
 ---
 <br/>
+<img src="/photo/main.jpg" width="800">
+<br/>
 보드게임의 즐거움을 모르는 당신이 불쌍해
 <br/><br/><br/>
 
