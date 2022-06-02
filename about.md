@@ -4,6 +4,8 @@ title: About
 permalink: /about/
 ---
 <br/>
+<img src="/photo/main.jpg" width="800">
+<br/>
 보드게임의 즐거움을 모르는 당신이 불쌍해
 <br/><br/><br/>
 
@@ -24,7 +26,7 @@ permalink: /about/
 #### 보드게임 인력사무소(Gamers & Party)
 - 여명의 제국, 네메시스, 듄 등 테마 전략게임 
 - 입문자를 위한 엔트리 파티게임 다수 보유
-- 서울 마포 정기 모임 진행중. 관심있으시면 연락 바랍니다.
+- 서울 마포 정기 모임 진행중. 관심있으시면 메일 주세요
 <br/><br/><br/>
 
 
