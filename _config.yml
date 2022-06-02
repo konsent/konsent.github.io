@@ -2,7 +2,7 @@
 title: Stop Bored Play Board
 email: konsent2@gmail.com
 description: > 
-repository: "konsent/konsent.github.io" 
+
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "http://konsent.github.io" # the base hostname & protocol for your site
 #twitter_username: jekyllrb
@@ -11,9 +11,4 @@ github_username:  konsent
 # Build settings
 markdown: kramdown
 permalink: pretty
-comments:
-  provider: "utterances"
-  utterances:
-    theme: "github-light"
-    issue-term: "pathname"
-        
+
