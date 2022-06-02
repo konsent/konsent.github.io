@@ -1,9 +1,33 @@
 ---
 layout: page
-title: about
+title: About
 permalink: /about/
 ---
 
-Bavaria ipsum dolor sit amet hoid a bissal wos gehd ollaweil nomoi. Wolln mei Weißwiaschd sowos, koa Habedehre schaugn san. Foidweg sog i hoggd Kaiwe, wuid Marterl großherzig ned woar.
+보드게임의 즐거움을 모르는 당신이 불쌍해
 
-Obandln singd Hendl spernzaln i hab an singan dringma aweng Hendl oamoi gwiss Fünferl. Xaver Auffisteign vasteh kumm geh i moan oiwei nia om auf’n Gipfe hoam obandeln.
+
+
+
+## 진행중인 보드게임 모임
+
+
+
+
+#### 까미원정대(GloomHaven)
+- GloomHaven 4인팟
+- 22년 내 글룸헤이븐 엔딩 목표
+- 글룸헤이븐 외 다른 게임도 플레이 예정
+- 사실 5인팟인데 1명은 게임에 전혀 참여하지 않고 카톡방에서 관음으로 일관중(헝가리 출신 김두식군)
+
+
+
+
+#### 보드게임 인력사무소(Gamers & Party)
+- 여명의 제국, 네메시스, 듄 등 테마 전략게임 
+- 입문자를 위한 엔트리 파티게임 다수 보유
+- 서울 마포 정기 모임 진행중. 관심있으시면 연락 바랍니다.
+
+
+
+
