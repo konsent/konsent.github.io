@@ -3,9 +3,14 @@ layout: page
 title: About
 permalink: /about/
 ---
-
+  
+   
+    
 보드게임의 즐거움을 모르는 당신이 불쌍해
-
+ 
+  
+   
+   
 
 
 
