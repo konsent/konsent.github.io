@@ -1,7 +1,7 @@
 ---
 layout: post
-title: post3
-date: 2015-10-08 15:39:40
+title: "post2"
+date: #2015-10-08 15:39:40
 preview: /photo/220602_TS.jpg
 ---
 
