@@ -1,10 +1,13 @@
 ---
 layout: post
-title:  "Welcome to Jekyll!"
-date:   2015-10-09 15:39:40
+title:  "황혼의 투쟁 과몰입 주의"
+date:   2022-06-02 22:39:40
 preview: holder.js/300x300?auto=yes
 ---
 
-![Picture 1](holder.js/800x600?auto=yes)
 
-Bavaria ipsum dolor sit amet g’hupft wia gsprunga wolln dringma aweng oba Biazelt hogg di hera helfgod. Sog i hawadere midananda nomoi a bissal wos gehd ollaweil gor kumm geh naa jo leck mi, Xaver: Weiznglasl i hob di liab des muas ma hoid kenna.
+<img src="/photo/220602_TS.jpg" width="1000">
+
+도화동 고르바초프와 공덕동 조지 부시의 대결
+</br>
+도화동 고르바초프는 6.25로 남한도 먹고 KAL기 격추시키며 미제 승냥이들로부터 전세계를 지켜내었다.
