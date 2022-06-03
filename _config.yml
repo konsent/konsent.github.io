@@ -1,8 +1,8 @@
 # Site settings
 title: Stop Bored Play Board
 email: konsent2@gmail.com
-description: > 즐거운 보드게임 일상을 담는 나의 작은 일기장. 보드게임 좋아요!
-
+description: > 
+  즐거운 보드게임 일상을 담는 나의 작은 일기장. 보드게임 좋아요!
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "http://konsent.github.io" # the base hostname & protocol for your site
 #twitter_username: jekyllrb
