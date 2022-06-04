@@ -5,7 +5,7 @@ date: 2015-10-07 15:39:40
 preview: /photo/220604_CC.jpg
 ---
 
-<img src="/photo/220604_CC.jpg" width="1000">
+<img src="/photo/220604_CC.jpg" width="1200">
 
 평 좋길래 홧김에 질렀는데 생각보다 더 편하고 재밌음
 
