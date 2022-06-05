@@ -5,7 +5,7 @@ description: "보드게임 일상을 담는작은 일기장"
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "http://konsent.github.io" # the base hostname & protocol for your site
 #twitter_username: jekyllrb
-
+#github_username:  konsent
 
 # Build settings
 markdown: kramdown
