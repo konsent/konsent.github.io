@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "급발진 금지"
-date: 2022-06-08 15:39:42
+date: 2022-01-01 00:00:00
 preview: /photo/220608_SWD.jpg
 ---
 
