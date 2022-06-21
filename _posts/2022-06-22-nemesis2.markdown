@@ -2,7 +2,7 @@
 layout: post
 title: "네메시스 -2"
 date: 2022-06-22 00:00:00
-preview: /photo/nemesis_intro.jpg
+preview: /photo/nemesis_intro2.jpg
 ---
 
 <img src="/photo/nemesis_1.3.jpg" width="1000">
