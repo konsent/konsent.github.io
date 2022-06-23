@@ -3,7 +3,7 @@ layout: post
 title: "네메시스 -3"
 date: 2022-06-24 00:00:00
 preview: /photo/nemesis_intro.jpg
-#published: true
+published: true
 ---
 
 <img src="/photo/nemesis3.2.jpg" width="1000">
