@@ -1,0 +1,23 @@
+---
+layout: post
+title: "네메시스 -4"
+date: 2022-06-28 00:00:00
+preview: /photo/nemesis4.1.jpg
+published: true
+---
+
+<img src="/photo/nemesis4.2.jpg" width="1000">
+<img src="/photo/nemesis4.3.jpg" width="1000">
+<img src="/photo/nemesis4.4.jpg" width="1000">
+<img src="/photo/nemesis4.5.jpg" width="1000">
+<img src="/photo/nemesis4.6.jpg" width="1000">
+<img src="/photo/nemesis4.7.jpg" width="1000">
+<img src="/photo/nemesis4.8.jpg" width="1000">
+<img src="/photo/nemesis4.9.jpg" width="1000">
+<img src="/photo/nemesis4.10.jpg" width="1000">
+
+보드게임 네메시스의 간략한 스토리 만화
+<br/><br/>
+
+선장의 명령을 받고 엔진을 확인하러 간 비공이는 곧 이 함선이 지구로 가서는 안된다는 결론을 내리고
+고민 끝에 함선의 하이퍼 드라이브를 과부하 시켜 배를 통째로 날려버릴 생각을 하게 된다.
