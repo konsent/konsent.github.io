@@ -12,6 +12,8 @@ permalink: /about/
 
 ## 진행중인 보드게임 모임
 
+- 인원 제한으로 현재 모집 X
+
 <br/><br/>
 
 #### 까미원정대(GloomHaven)
