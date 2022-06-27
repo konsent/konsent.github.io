@@ -9,6 +9,7 @@ published: true
 <img src="/photo/nemesis4.2.jpg" width="1000">
 <img src="/photo/nemesis4.3.jpg" width="1000">
 <img src="/photo/nemesis4.4.jpg" width="1000">
+<img src="/photo/nemesis4.45.jpg" width="1000">
 <img src="/photo/nemesis4.5.jpg" width="1000">
 <img src="/photo/nemesis4.6.jpg" width="1000">
 <img src="/photo/nemesis4.7.jpg" width="1000">
