@@ -1,0 +1,15 @@
+---
+layout: post
+title: "네메시스 -4"
+date: 2022-06-28 00:00:00
+preview: /photo/puco.jpg
+published: true
+---
+
+<img src="/photo/Puerto.jpg" width="1000">
+
+친구가 집에 맡긴 푸에르코리코 카드게임
+<br/><br/>
+
+말로만 듣던 푸에르코리코 게임! 독일어라서 당황하긴 했음
+빨리 해보고 싶당
