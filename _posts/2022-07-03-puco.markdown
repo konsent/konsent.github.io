@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "네메시스 -4"
+title: "뿌에르또리꼬!"
 date: 2022-06-28 00:00:00
 preview: /photo/puco.jpg
 published: true
