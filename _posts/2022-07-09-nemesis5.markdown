@@ -1,0 +1,20 @@
+---
+layout: post
+title: "네메시스 -4"
+date: 2022-07-09 00:00:00
+preview: /photo/nemesis_intro.jpg
+published: true
+---
+
+<img src="/photo/nemesis5.2.jpg" width="1000">
+<img src="/photo/nemesis5.3.jpg" width="1000">
+<img src="/photo/nemesis5.4.jpg" width="1000">
+<br/><br/><br/><br/>
+<img src="/photo/nemesis5.5.jpg" width="1000">
+<img src="/photo/nemesis5.6.jpg" width="1000">
+<img src="/photo/nemesis5.7.jpg" width="1000">
+<br/><br/><br/><br/>
+<img src="/photo/nemesis5.8.jpg" width="1000">
+<img src="/photo/nemesis5.9.jpg" width="1000">
+
+<br/><br/>
