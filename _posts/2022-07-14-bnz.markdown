@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "협찬 받는 게이머"
+title: "장모님 생신파티"
 date: 2022-07-14 00:00:00
 preview: /photo/220714_BNZ.jpg
 published: true
