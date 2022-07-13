@@ -2,11 +2,11 @@
 layout: post
 title: "협찬 받는 게이머"
 date: 2022-07-09 00:00:00
-preview: /photo/kbg.jpg
+preview: /photo/KBG.jpg
 published: true
 ---
 
-<img src="/photo/kbg.jpg" width="1000">
+<img src="/photo/KBG.jpg" width="1000">
 
 <br/><br/><br/><br/>
 
