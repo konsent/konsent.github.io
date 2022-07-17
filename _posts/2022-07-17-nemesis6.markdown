@@ -2,7 +2,7 @@
 layout: post
 title: "네메시스 -6"
 date: 2022-07-17 00:00:00
-preview: /photo/nemesis_intro.jpg
+preview: /photo/Nemesis/nemesis_intro.jpg
 published: true
 ---
 
