@@ -6,12 +6,12 @@ preview: /photo/nemesis_intro.jpg
 published: true
 ---
 
-<img src="/photo/nemesis_1.3.jpg" width="1000">
-<img src="/photo/nemesis2.1.jpg" width="1000">
-<img src="/photo/nemesis2.2.jpg" width="1000">
-<img src="/photo/nemesis2.3.jpg" width="1000">
-<img src="/photo/nemesis2.4.jpg" width="1000">
-<img src="/photo/nemesis2.5.jpg" width="1000">
+<img src="/photo/Nemesis/nemesis_1.3.jpg" width="1000">
+<img src="/photo/Nemesis/nemesis2.1.jpg" width="1000">
+<img src="/photo/Nemesis/nemesis2.2.jpg" width="1000">
+<img src="/photo/Nemesis/nemesis2.3.jpg" width="1000">
+<img src="/photo/Nemesis/nemesis2.4.jpg" width="1000">
+<img src="/photo/Nemesis/nemesis2.5.jpg" width="1000">
 
 보드게임 네메시스의 간략한 스토리 만화
 <br/><br/>

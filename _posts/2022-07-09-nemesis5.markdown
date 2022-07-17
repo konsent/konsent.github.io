@@ -6,15 +6,15 @@ preview: /photo/nemesis_intro.jpg
 published: true
 ---
 
-<img src="/photo/nemesis5.2.jpg" width="1000">
-<img src="/photo/nemesis5.3.jpg" width="1000">
-<img src="/photo/nemesis5.4.jpg" width="1000">
+<img src="/photo/Nemesis/nemesis5.2.jpg" width="1000">
+<img src="/photo/Nemesis/nemesis5.3.jpg" width="1000">
+<img src="/photo/Nemesis/nemesis5.4.jpg" width="1000">
 <br/><br/><br/><br/>
-<img src="/photo/nemesis5.5.jpg" width="1000">
-<img src="/photo/nemesis5.6.jpg" width="1000">
-<img src="/photo/nemesis5.7.jpg" width="1000">
+<img src="/photo/Nemesis/nemesis5.5.jpg" width="1000">
+<img src="/photo/Nemesis/nemesis5.6.jpg" width="1000">
+<img src="/photo/Nemesis/nemesis5.7.jpg" width="1000">
 <br/><br/><br/><br/>
-<img src="/photo/nemesis5.8.jpg" width="1000">
-<img src="/photo/nemesis5.9.jpg" width="1000">
+<img src="/photo/Nemesis/nemesis5.8.jpg" width="1000">
+<img src="/photo/Nemesis/nemesis5.9.jpg" width="1000">
 
 <br/><br/>
