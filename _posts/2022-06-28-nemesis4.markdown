@@ -6,16 +6,16 @@ preview: /photo/Nemesis/nemesis_intro.jpg
 published: true
 ---
 
-<img src="/Nemesis/photo/nemesis4.2.jpg" width="1000">
-<img src="/Nemesis/photo/nemesis4.3.jpg" width="1000">
-<img src="/Nemesis/photo/nemesis4.4.jpg" width="1000">
-<img src="/Nemesis/photo/nemesis4.45.jpg" width="1000">
-<img src="/Nemesis/photo/nemesis4.5.jpg" width="1000">
-<img src="/Nemesis/photo/nemesis4.6.jpg" width="1000">
-<img src="/Nemesis/photo/nemesis4.7.jpg" width="1000">
-<img src="/Nemesis/photo/nemesis4.8.jpg" width="1000">
-<img src="/Nemesis/photo/nemesis4.9.jpg" width="1000">
-<img src="/Nemesis/photo/nemesis4.10.jpg" width="1000">
+<img src="/photo/Nemesis/nemesis4.2.jpg" width="1000">
+<img src="/photo/Nemesis/nemesis4.3.jpg" width="1000">
+<img src="/photo/Nemesis/nemesis4.4.jpg" width="1000">
+<img src="/photo/Nemesis/nemesis4.45.jpg" width="1000">
+<img src="/photo/Nemesis/nemesis4.5.jpg" width="1000">
+<img src="/photo/Nemesis/nemesis4.6.jpg" width="1000">
+<img src="/photo/Nemesis/nemesis4.7.jpg" width="1000">
+<img src="/photo/Nemesis/nemesis4.8.jpg" width="1000">
+<img src="/photo/Nemesis/nemesis4.9.jpg" width="1000">
+<img src="/photo/Nemesis/nemesis4.10.jpg" width="1000">
 
 보드게임 네메시스의 간략한 스토리 만화
 <br/><br/>
