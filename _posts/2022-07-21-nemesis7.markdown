@@ -15,8 +15,8 @@ published: true
 <img src="/photo/Nemesis/nemesis7.8.jpg" width="1000">
 <img src="/photo/Nemesis/nemesis7.9.jpg" width="1000">
 <br/><br/><br/><br/>
-<img src="/photo/Nemesis/nemesis7.11.jpg" width="1000">
 <img src="/photo/Nemesis/nemesis7.12.jpg" width="1000">
+<img src="/photo/Nemesis/nemesis7.13.jpg" width="1000">
 <br/><br/>
 
 드디어 네메시스가 끝났습니다!
