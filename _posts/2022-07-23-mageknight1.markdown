@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "메이지 나이트"
+title: "메이지 나이트-1"
 date: 2022-07-23 00:00:00
-preview: /photo/Mage_Knight/mageknight.jpg
+preview: /photo/Mage_Knight/thumbnail.jpg
 published: true
 ---
 
