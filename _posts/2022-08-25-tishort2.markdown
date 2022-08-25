@@ -2,7 +2,7 @@
 layout: post
 title: "여명의 제국 썰풀기"
 date: 2022-08-25 00:00:00
-preview: /photo/TI/ti-short2_thumb.jpg
+preview: /photo/TI/ti-short2_thumb.jpg.png
 published: true
 ---
 
