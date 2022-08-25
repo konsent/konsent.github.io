@@ -1,0 +1,14 @@
+---
+layout: post
+title: "여명의 제국 썰풀기"
+date: 2022-08-25 00:00:00
+preview: /photo/TI/ti-short2_thumb.jpg
+published: true
+---
+
+<img src="/photo/TI/ti-short2.jpg" width="1000">
+
+<br/><br/>
+
+다이브다이스에서 몇몇 분이 여명의 제국 썰을 풀어달라해서 간단 소개 만화를 그려봄
+여명의 제국 할 사람을 좀 찾아봐야 하나..
