@@ -1,0 +1,13 @@
+---
+layout: post
+title: "우주 무스메!"
+date: 2022-09-04 00:00:00
+preview: /photo/rftg_short1_thumb.jpg
+published: true
+---
+
+<img src="/photo/rftg_short1.jpg" width="1000">
+
+<br/><br/>
+
+스페이스 보난자에 이은 우주 무스메 보드게임
