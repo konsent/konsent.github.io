@@ -1,0 +1,13 @@
+---
+layout: post
+title: "우주게임 덕후가 아니라구요"
+date: 2022-09-14 00:00:00
+preview: /photo/220914_spacegame_thumb.jpg
+published: true
+---
+
+<img src="/photo/220914_spacegame.jpg" width="1000">
+
+<br/><br/>
+
+아예 이참에 우주 게임만 모아볼까 싶기도 하고..
