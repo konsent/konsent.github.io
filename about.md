@@ -1,5 +1,31 @@
 ---
-layout: post2
-title: 장편 만화
+layout: page
+title: About
 permalink: /about/
 ---
+
+<br/>
+<img src="/photo/main.jpg" width="800">
+<br/>
+보드게임의 즐거움을 모르는 당신이 불쌍해
+<br/><br/><br/>
+
+## 진행중인 보드게임 모임
+
+- 인원 제한으로 현재 모집 X
+
+<br/><br/>
+
+#### 까미원정대(GloomHaven)
+
+- GloomHaven 4인팟
+- 22년 내 글룸헤이븐 엔딩 목표
+- 글룸헤이븐 외 다른 게임도 플레이 예정
+- 사실 5인팟인데 1명은 게임에 전혀 참여하지 않고 카톡방에서 관음으로 일관중(헝가리 출신 김두식군)
+  <br/><br/>
+
+#### 보드게임 인력사무소(Gamers & Party)
+
+- 여명의 제국, 네메시스, 듄 등 테마 전략게임
+- 입문자를 위한 엔트리 파티게임 다수 보유
+  <br/><br/><br/>
