@@ -4,6 +4,7 @@ title: "네메시스"
 date: 2022-07-09 00:00:00
 preview: /photo/Nemesis/nemesis_intro.jpg
 long: "on"
+short: null
 published: true
 ---
 
