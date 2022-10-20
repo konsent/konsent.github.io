@@ -4,6 +4,7 @@ title: "짜증나"
 date: 2022-10-08 00:00:00
 preview: /photo/221008_funding_thumb.jpg
 published: true
+short: "on"
 ---
 
 <img src="/photo/221008_funding.jpg" width="1000">

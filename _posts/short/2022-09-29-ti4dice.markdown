@@ -4,6 +4,7 @@ title: "황혼의 비문"
 date: 2022-09-29 00:00:00
 preview: /photo/220929_TI_DICE_thumb.jpg
 published: true
+short: "on"
 ---
 
 <img src="/photo/220929_TI_DICE.jpg" width="1000">

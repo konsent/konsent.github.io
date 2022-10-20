@@ -4,6 +4,7 @@ title: "쉬운 보드게임? 어려운 보드게임?"
 date: 2022-10-02 00:00:00
 preview: /photo/221002_weight_thumb.jpg
 published: true
+short: "on"
 ---
 
 <img src="/photo/221002_weight.jpg" width="1000">
