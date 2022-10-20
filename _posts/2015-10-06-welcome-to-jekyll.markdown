@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: post2
 title: "황혼의 투쟁 과몰입 금지!"
 date: 2015-10-06 15:39:40
 preview: /photo/220602_TS.jpg
