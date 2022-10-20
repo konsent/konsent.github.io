@@ -13,5 +13,8 @@ permalink: pretty
 future: true
 
 # Analytics
-google_analytics: "G-CSE0M4Q6E6"
-
+analytics:
+  provider               : "google-gtag" 
+  google:
+    tracking_id          : "G-CSE0M4Q6E6"
+    anonymize_ip         : # true, false (default)
