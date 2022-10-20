@@ -7,8 +7,9 @@
                         <img src="{{ post.preview }}">
                     </a>
                     <div class="post-title">{{ post.title }}</div>
-            </div>
+                </div>
             </div>
         {% cycle 'end row' : '', '', '</div>' %}
     {% endif %}
+{% endfor %}
 {% cycle 'end row' : '', '</div>', '</div>' %}
