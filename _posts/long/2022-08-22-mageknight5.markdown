@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: post2
 title: "메이지 나이트"
 date: 2022-08-22 00:00:00
 preview: /photo/Mage_Knight/thumbnail.jpg
