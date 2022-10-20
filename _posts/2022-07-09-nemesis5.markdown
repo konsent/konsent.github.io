@@ -1,10 +1,39 @@
 ---
 layout: post
-title: "네메시스 -5"
+title: "네메시스"
 date: 2022-07-09 00:00:00
 preview: /photo/Nemesis/nemesis_intro.jpg
 published: true
 ---
+
+<img src="/photo/Nemesis/nemesis_1.1.jpg" width="1000">
+<img src="/photo/Nemesis/nemesis_1.2.jpg" width="1000">
+<img src="/photo/Nemesis/nemesis_1.3.jpg" width="1000">
+
+<img src="/photo/Nemesis/nemesis_1.3.jpg" width="1000">
+<img src="/photo/Nemesis/nemesis2.1.jpg" width="1000">
+<img src="/photo/Nemesis/nemesis2.2.jpg" width="1000">
+<img src="/photo/Nemesis/nemesis2.3.jpg" width="1000">
+<img src="/photo/Nemesis/nemesis2.4.jpg" width="1000">
+<img src="/photo/Nemesis/nemesis2.5.jpg" width="1000">
+
+<img src="/photo/Nemesis/nemesis3.2.jpg" width="1000">
+<img src="/photo/Nemesis/nemesis3.3.jpg" width="1000">
+<img src="/photo/Nemesis/nemesis3.4.jpg" width="1000">
+<img src="/photo/Nemesis/nemesis3.5.jpg" width="1000">
+<img src="/photo/Nemesis/nemesis3.6.jpg" width="1000">
+<img src="/photo/Nemesis/nemesis3.7.jpg" width="1000">
+
+<img src="/photo/Nemesis/nemesis4.2.jpg" width="1000">
+<img src="/photo/Nemesis/nemesis4.3.jpg" width="1000">
+<img src="/photo/Nemesis/nemesis4.4.jpg" width="1000">
+<img src="/photo/Nemesis/nemesis4.45.jpg" width="1000">
+<img src="/photo/Nemesis/nemesis4.5.jpg" width="1000">
+<img src="/photo/Nemesis/nemesis4.6.jpg" width="1000">
+<img src="/photo/Nemesis/nemesis4.7.jpg" width="1000">
+<img src="/photo/Nemesis/nemesis4.8.jpg" width="1000">
+<img src="/photo/Nemesis/nemesis4.9.jpg" width="1000">
+<img src="/photo/Nemesis/nemesis4.10.jpg" width="1000">
 
 <img src="/photo/Nemesis/nemesis5.2.jpg" width="1000">
 <img src="/photo/Nemesis/nemesis5.3.jpg" width="1000">
@@ -18,3 +47,8 @@ published: true
 <img src="/photo/Nemesis/nemesis5.9.jpg" width="1000">
 
 <br/><br/>
+
+먼 심우주에서의 작전을 마치고 지구로 귀환하는 함선 네메시스...
+승무원들은 사이렌 소리와 함께 갑작스레 동면 장치에서 꺠어나는데...!
+
+쓰고나니 무슨 일일 연속극 같네

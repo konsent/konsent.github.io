@@ -6,6 +6,41 @@ preview: /photo/Mage_Knight/thumbnail.jpg
 published: true
 ---
 
+<img src="/photo/Mage_Knight/mageknight-1.1.jpg" width="1000">
+<img src="/photo/Mage_Knight/mageknight-1.2.jpg" width="1000">
+<img src="/photo/Mage_Knight/mageknight-1.3.jpg" width="1000">
+<img src="/photo/Mage_Knight/mageknight-1.4.jpg" width="1000">
+<img src="/photo/Mage_Knight/mageknight-1.5.jpg" width="1000">
+<img src="/photo/Mage_Knight/mageknight-1.6.jpg" width="1000">
+<img src="/photo/Mage_Knight/mageknight-1.7.jpg" width="1000">
+<img src="/photo/Mage_Knight/mageknight-1.8.jpg" width="1000">
+<br/><br/>
+<img src="/photo/Mage_Knight/mageknight-2.1.jpg" width="1000">
+<img src="/photo/Mage_Knight/mageknight-2.2.jpg" width="1000">
+<img src="/photo/Mage_Knight/mageknight-2.3.jpg" width="1000">
+<img src="/photo/Mage_Knight/mageknight-2.4.jpg" width="1000">
+<img src="/photo/Mage_Knight/mageknight-2.5.jpg" width="1000">
+<img src="/photo/Mage_Knight/mageknight-2.6.jpg" width="1000">
+<img src="/photo/Mage_Knight/mageknight-2.7.jpg" width="1000">
+<br/><br/>
+<img src="/photo/Mage_Knight/mageknight-3.1.jpg" width="1000">
+<img src="/photo/Mage_Knight/mageknight-3.2.jpg" width="1000">
+<img src="/photo/Mage_Knight/mageknight-3.3.jpg" width="1000">
+<img src="/photo/Mage_Knight/mageknight-3.4.jpg" width="1000">
+<img src="/photo/Mage_Knight/mageknight-3.5.jpg" width="1000">
+<img src="/photo/Mage_Knight/mageknight-3.6.jpg" width="1000">
+<img src="/photo/Mage_Knight/mageknight-3.7.jpg" width="1000">
+<img src="/photo/Mage_Knight/mageknight-3.8.jpg" width="1000">
+<br/><br/>
+<img src="/photo/Mage_Knight/mageknight-4.1.jpg" width="1000">
+<img src="/photo/Mage_Knight/mageknight-4.2.jpg" width="1000">
+<img src="/photo/Mage_Knight/mageknight-4.3.jpg" width="1000">
+<img src="/photo/Mage_Knight/mageknight-4.4.jpg" width="1000">
+<img src="/photo/Mage_Knight/mageknight-4.5.jpg" width="1000">
+<img src="/photo/Mage_Knight/mageknight-4.6.jpg" width="1000">
+<img src="/photo/Mage_Knight/mageknight-4.7.jpg" width="1000">
+<img src="/photo/Mage_Knight/mageknight-4.8.jpg" width="1000">
+<br/><br/>
 <img src="/photo/Mage_Knight/mageknight-5-1.jpg" width="1000">
 <img src="/photo/Mage_Knight/mageknight-5-2.jpg" width="1000">
 
