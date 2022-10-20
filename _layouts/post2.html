@@ -5,11 +5,11 @@ layout: default2
 <div class="post">
   <div class="post-nav">
     {% if page.next.long %}
-    <a class="nav-item" href="{{ page.next.url | prepend: site.baseurl }}"
+    <a class="nav-item" href="{{ page.next.long | prepend: site.baseurl }}"
       >&laquo; Prev</a
     >
     {% endif %} {% if page.previous.long %}
-    <a class="nav-item" href="{{ page.previous.url | prepend: site.baseurl }}"
+    <a class="nav-item" href="{{ page.previous.long | prepend: site.baseurl }}"
       >Next &raquo;</a
     >
     {% endif %}
