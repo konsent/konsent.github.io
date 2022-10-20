@@ -5,14 +5,27 @@ layout: default2
 <div class="post">
   <div class="post-nav">
     {% if page.next.long %}
-    <a class="nav-item" href="{{ page.next.long | prepend: site.baseurl }}"
+    <a class="nav-item" href="{{ page.next.url | prepend: site.baseurl }}"
       >&laquo; Prev</a
     >
-    {% endif %} {% if page.previous.long %}
-    <a class="nav-item" href="{{ page.previous.long | prepend: site.baseurl }}"
+    {% else %} {% for post in site.posts reversed%} {% if post.short %} {%
+    continue %} {% elsif post == page %} {% continue %} {% elsif post.long %} {%
+    if post.number > page.number %}
+    <a class="nav-item" href="{{ post.url | prepend: site.baseurl }}"
+      >&laquo; Prev</a
+    >
+    {% break %} {% endif %} {% endif %} {% endfor %} {% endif %} {% if
+    page.previous.long %}
+    <a class="nav-item" href="{{ page.previous.url | prepend: site.baseurl }}"
       >Next &raquo;</a
     >
-    {% endif %}
+    {% else %} {% for post in site.posts%} {% if post.short %} {% continue %} {%
+    elsif post == page %} {% continue %} {% elsif post.long %} {% if page.number
+    > post.number %}
+    <a class="nav-item" href="{{ post.url | prepend: site.baseurl }}"
+      >Next &raquo;</a
+    >
+    {% break %} {% endif %} {% endif %} {% endfor %} {% endif %}
   </div>
 
   <header class="post-header">
