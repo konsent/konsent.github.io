@@ -11,7 +11,6 @@ published: true
 <img src="/photo/Nemesis/nemesis_1.2.jpg" width="1000">
 <img src="/photo/Nemesis/nemesis_1.3.jpg" width="1000">
 
-<img src="/photo/Nemesis/nemesis_1.3.jpg" width="1000">
 <img src="/photo/Nemesis/nemesis2.1.jpg" width="1000">
 <img src="/photo/Nemesis/nemesis2.2.jpg" width="1000">
 <img src="/photo/Nemesis/nemesis2.3.jpg" width="1000">
