@@ -4,7 +4,7 @@ permalink: /long/
 ---
 
 {% for post in site.posts %}
-    {% if post.layout == post2 %}
+    {% if post.long != null %}
         {% cycle 'add row' : '<div class="row">', '', '' %}
             <div class="column column-33">
                 <div class="preview-panel">
