@@ -3,6 +3,7 @@ layout: post
 title: "테스트 플레이"
 date: 2015-10-10 15:39:40
 preview: /photo/220606_RFTG1.jpg
+short: "on"
 ---
 
 <img src="/photo/220606_RFTG1.jpg" width="1000">

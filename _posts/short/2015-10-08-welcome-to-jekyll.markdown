@@ -3,6 +3,7 @@ layout: post
 title: "여명의 제국?"
 date: 2015-10-08 15:39:40
 preview: /photo/TI4-1.jpg
+short: "on"
 ---
 
 <img src="/photo/TI4-1.jpg" width="1000">
@@ -14,4 +15,3 @@ preview: /photo/TI4-1.jpg
 
 은하계 패권을 두고 다투는 여러 종족 간의 전쟁 통수 정치질로 가득한 다이나믹한 대서사시
 확장팩도 한글판으로 나왔으면 좋겠당..
-

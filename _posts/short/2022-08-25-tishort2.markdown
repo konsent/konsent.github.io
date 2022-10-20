@@ -4,6 +4,7 @@ title: "여명의 제국 썰풀기"
 date: 2022-08-25 00:00:00
 preview: /photo/TI/ti-short2_thumb.jpg.png
 published: true
+short: "on"
 ---
 
 <img src="/photo/TI/ti-short2.jpg" width="1000">

@@ -4,6 +4,7 @@ title: "이중 구매!"
 date: 2022-09-01 00:00:00
 preview: /photo/220901_RFTG_thumb.jpg
 published: true
+short: "on"
 ---
 
 <img src="/photo/220901_RFTG.jpg" width="1000">

@@ -4,6 +4,7 @@ title: "다이브다이스 작가 총출동"
 date: 2022-08-13 00:00:00
 preview: /photo/Divedice_people.jpg
 published: true
+short: "on"
 ---
 
 <img src="/photo/Divedice_people.jpg" width="1000">

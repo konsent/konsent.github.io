@@ -4,6 +4,7 @@ title: "우주게임 덕후가 아니라구요"
 date: 2022-09-14 00:00:00
 preview: /photo/220914_spacegame_thumb.jpg
 published: true
+short: "on"
 ---
 
 <img src="/photo/220914_spacegame.jpg" width="1000">

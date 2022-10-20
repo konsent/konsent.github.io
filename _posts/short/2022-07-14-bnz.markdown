@@ -4,6 +4,7 @@ title: "장모님 생신파티"
 date: 2022-07-14 00:00:00
 preview: /photo/220714_BNZ.jpg
 published: true
+short: "on"
 ---
 
 <img src="/photo/220714_BNZ.jpg" width="1000">

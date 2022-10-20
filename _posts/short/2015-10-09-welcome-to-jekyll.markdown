@@ -3,6 +3,7 @@ layout: post
 title: "푸르대콩을 다신 무시하지 마라"
 date: 2015-10-09 15:39:40
 preview: /photo/220605_BNZ.jpg
+short: "on"
 ---
 
 <img src="/photo/220605_BNZ.jpg" width="1000">

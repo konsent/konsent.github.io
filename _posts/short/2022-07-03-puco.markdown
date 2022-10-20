@@ -4,6 +4,7 @@ title: "뿌에르또리꼬!"
 date: 2022-06-28 00:00:00
 preview: /photo/puco.jpg
 published: true
+short: "on"
 ---
 
 <img src="/photo/Puerto.jpg" width="1000">

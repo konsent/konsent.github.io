@@ -4,6 +4,7 @@ title: "여명의 제국을 즐기는 또 다른 방법"
 date: 2022-08-24 00:00:00
 preview: /photo/TI/ti-short1_thumb.jpg
 published: true
+short: "on"
 ---
 
 <img src="/photo/TI/ti-short1.jpg" width="1000">

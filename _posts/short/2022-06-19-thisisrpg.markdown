@@ -3,6 +3,7 @@ layout: post
 title: "롤플레잉 게임"
 date: 2022-06-19 00:00:00
 preview: /photo/220619_GH.jpg
+short: "on"
 ---
 
 <img src="/photo/220619_GH.jpg" width="1000">

@@ -4,6 +4,7 @@ title: "보드게임 숏츠"
 date: 2022-09-28 00:00:00
 preview: /photo/220928_short_thumb.jpg
 published: true
+short: "on"
 ---
 
 <img src="/photo/220928_short.jpg" width="1000">

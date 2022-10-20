@@ -3,6 +3,7 @@ layout: post
 title: "접대 게임"
 date: 2015-10-11 15:39:41
 preview: /photo/220607_SWD1.jpg
+short: "on"
 ---
 
 <img src="/photo/220607_SWD1.jpg" width="1000">

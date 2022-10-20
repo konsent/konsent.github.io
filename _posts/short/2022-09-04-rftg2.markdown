@@ -4,6 +4,7 @@ title: "우주 무스메!"
 date: 2022-09-04 00:00:00
 preview: /photo/rftg_short1_thumb.jpg
 published: true
+short: "on"
 ---
 
 <img src="/photo/rftg_short1.jpg" width="1000">

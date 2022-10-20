@@ -4,6 +4,7 @@ title: "협찬 받는 게이머"
 date: 2022-07-09 00:00:00
 preview: /photo/KBG.jpg
 published: true
+short: "on"
 ---
 
 <img src="/photo/KBG.jpg" width="1000">

@@ -3,6 +3,7 @@ layout: post
 title: "급발진 금지"
 date: 2022-01-01 00:00:00
 preview: /photo/220608_SWD.jpg
+short: "on"
 ---
 
 <img src="/photo/220608_SWD.jpg" width="1000">

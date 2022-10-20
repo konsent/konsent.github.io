@@ -3,6 +3,7 @@ layout: post
 title: "캐스캐디아 꽤 재밌는디?"
 date: 2015-10-07 15:39:40
 preview: /photo/220604_CC.jpg
+short: "on"
 ---
 
 <img src="/photo/220604_CC.jpg" width="1200">
