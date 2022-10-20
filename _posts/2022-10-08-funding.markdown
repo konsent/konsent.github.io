@@ -1,5 +1,5 @@
 ---
-layout: post3
+layout: post
 title: "짜증나"
 date: 2022-10-08 00:00:00
 preview: /photo/221008_funding_thumb.jpg
