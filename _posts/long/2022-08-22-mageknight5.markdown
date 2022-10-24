@@ -5,6 +5,7 @@ date: 2022-08-22 00:00:00
 preview: /photo/Mage_Knight/thumbnail.jpg
 published: true
 long: "on"
+short: null
 ---
 
 <img src="/photo/Mage_Knight/mageknight-1.1.jpg" width="1000">
