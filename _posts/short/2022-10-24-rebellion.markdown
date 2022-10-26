@@ -5,6 +5,7 @@ date: 2022-10-24 00:00:00
 preview: /photo/Rebellion/221024_rebellion_thumb.jpg
 published: true
 short: "on"
+tags: [스타워즈, 보드게임, 리벨리온]
 ---
 
 <img src="/photo/Rebellion/221024_rebellion.jpg" width="1000">
