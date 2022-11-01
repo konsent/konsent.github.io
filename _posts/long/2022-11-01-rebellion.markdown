@@ -8,6 +8,7 @@ long: "on"
 short: null
 ---
 
+<img src="/photo/Rebellion/221101_rebellion_thumb.jpg" width="1000">
 <img src="/photo/Rebellion/221101_rebellion1.jpg" width="1000">
 <img src="/photo/Rebellion/221101_rebellion2.jpg" width="1000">
 <img src="/photo/Rebellion/221101_rebellion3.jpg" width="1000">
