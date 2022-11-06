@@ -19,7 +19,16 @@ short: null
 <img src="/photo/Rebellion/221101_rebellion8.jpg" width="1000">
 <img src="/photo/Rebellion/221101_rebellion9.jpg" width="1000">
 <br/><br/>
-
+<img src="/photo/Rebellion/221106_rebellion_thumb.jpg" width="1000">
+<img src="/photo/Rebellion/221106_rebellion1.jpg" width="1000">
+<img src="/photo/Rebellion/221106_rebellion2.jpg" width="1000">
+<img src="/photo/Rebellion/221106_rebellion3.jpg" width="1000">
+<img src="/photo/Rebellion/221106_rebellion4.jpg" width="1000">
+<img src="/photo/Rebellion/221106_rebellion5.jpg" width="1000">
+<img src="/photo/Rebellion/221106_rebellion6.jpg" width="1000">
+<img src="/photo/Rebellion/221106_rebellion7.jpg" width="1000">
+<img src="/photo/Rebellion/221106_rebellion8.jpg" width="1000">
+<img src="/photo/Rebellion/221106_rebellion9.jpg" width="1000">
 <br/><br/>
 
 코리아보드게임즈에서 협찬 받은 리벨리온!!
