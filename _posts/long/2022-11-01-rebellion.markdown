@@ -41,6 +41,17 @@ short: null
 <img src="/photo/Rebellion/221113_rebellion8.jpg" width="1000">
 <img src="/photo/Rebellion/221113_rebellion9.jpg" width="1000">
 <br/><br/>
+<img src="/photo/Rebellion/221128_rebellion_thumb.jpg" width="1000">
+<img src="/photo/Rebellion/221128_rebellion1.jpg" width="1000">
+<img src="/photo/Rebellion/221128_rebellion2.jpg" width="1000">
+<img src="/photo/Rebellion/221128_rebellion3.jpg" width="1000">
+<img src="/photo/Rebellion/221128_rebellion4.jpg" width="1000">
+<img src="/photo/Rebellion/221128_rebellion5.jpg" width="1000">
+<img src="/photo/Rebellion/221128_rebellion6.jpg" width="1000">
+<img src="/photo/Rebellion/221128_rebellion7.jpg" width="1000">
+<img src="/photo/Rebellion/221128_rebellion8.jpg" width="1000">
+<img src="/photo/Rebellion/221128_rebellion9.jpg" width="1000">
+<br/><br/>
 
 코리아보드게임즈에서 협찬 받은 리벨리온!!
 진짜 너무너무 가지고 싶던 게임인데 협찬 받아서 정말 행복하게 만화를 그리고 있다 ㅋㅋㅋ
