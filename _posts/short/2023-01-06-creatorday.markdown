@@ -7,13 +7,13 @@ published: true
 short: "on"
 ---
 
-<img src="konsent.github.io/photo/230106-creatorday01.jpeg" width="1000">
-<img src="konsent.github.io/photo/230106-creatorday02.jpeg" width="1000">
-<img src="konsent.github.io/photo/230106-creatorday03.jpeg" width="1000">
-<img src="konsent.github.io/photo/230106-creatorday04.jpeg" width="1000">
-<img src="konsent.github.io/photo/230106-creatorday05.jpeg" width="1000">
-<img src="konsent.github.io/photo/230106-creatorday06.jpeg" width="1000">
-<img src="konsent.github.io/photo/230106-creatorday07.jpeg" width="1000">
+<img src="photo/230106-creatorday01.jpeg" width="1000">
+<img src="photo/230106-creatorday02.jpeg" width="1000">
+<img src="photo/230106-creatorday03.jpeg" width="1000">
+<img src="photo/230106-creatorday04.jpeg" width="1000">
+<img src="photo/230106-creatorday05.jpeg" width="1000">
+<img src="photo/230106-creatorday06.jpeg" width="1000">
+<img src="photo/230106-creatorday07.jpeg" width="1000">
 
 
 
