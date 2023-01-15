@@ -2,7 +2,7 @@
 layout: post
 title: "크리에이터 대잔치"
 date: 2023-01-06 00:00:00
-preview: /photo/230104_gh1.jpeg
+preview: /photo/230106-creatorday02.jpeg
 published: true
 short: "on"
 ---
