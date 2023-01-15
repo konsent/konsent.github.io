@@ -7,14 +7,14 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/230104_gh1.jpeg" width="1000">
-<img src="/photo/230104_gh2.jpeg" width="1000">
-<img src="/photo/230104_gh3.jpeg" width="1000">
-<img src="/photo/230104_gh4.jpeg" width="1000">
-<img src="/photo/230104_gh5.jpeg" width="1000">
-<img src="/photo/230104_gh6.jpeg" width="1000">
+<img src="/photo/230106-creatorday01.jpeg" width="1000">
+<img src="/photo/230106-creatorday02.jpeg" width="1000">
+<img src="/photo/230106-creatorday03.jpeg" width="1000">
+<img src="/photo/230106-creatorday04.jpeg" width="1000">
+<img src="/photo/230106-creatorday05.jpeg" width="1000">
+<img src="/photo/230106-creatorday06.jpeg" width="1000">
+<img src="/photo/230106-creatorday07.jpeg" width="1000">
 
 
-21년도부터 모험을 했던 우리 까미 원정대..
-23년도에는 꼭 엔딩 봤음 좋겠다!!
-서보롱이 와야하는데 흑흑
+코리아보드게임즈에서 감사하게도 이번 크리에이터 데이에 초대해주셔서 다녀왔습니다!
+열심히 그려서 하꼬 딱지 떼고 당당하게 인사드릴 수 있도록 노력하겠습니다..
