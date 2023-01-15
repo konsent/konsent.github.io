@@ -11,9 +11,8 @@ short: "on"
 <img src="/photo/230104_gh2.jpeg" width="1000">
 <img src="/photo/230104_gh3.jpeg" width="1000">
 <img src="/photo/230104_gh4.jpeg" width="1000">
-<img src="/photo/230104_gh5.jpeg" width="1000">
 <img src="/photo/230104_gh6.jpeg" width="1000">
-
+<img src="/photo/230104_gh5.jpeg" width="1000">
 
 21년도부터 모험을 했던 우리 까미 원정대..
 23년도에는 꼭 엔딩 봤음 좋겠다!!
