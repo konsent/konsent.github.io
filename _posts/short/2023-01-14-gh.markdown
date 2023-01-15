@@ -2,7 +2,7 @@
 layout: post
 title: "힐러 없는 글룸 원정대"
 date: 2023-01-14 00:00:00
-preview: /photo/230104.jpeg
+preview: /photo/230104_gh1.jpeg
 published: true
 short: "on"
 ---
