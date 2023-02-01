@@ -2,19 +2,19 @@
 layout: post
 title: "서쪽 왕국에는 성기사들이 있어요"
 date: 2023-02-02 00:00:00
-preview: /photo/westkingdom/230201_westkingdom1-1.jpeg
+preview: /photo/westkingdom/230201_westkingdom1-1.jpg
 published: true
 short: "on"
 ---
 
-<img src="/photo/westkingdom/230201_westkingdom1-1.jpeg" width="1000">
-<img src="/photo/westkingdom/230201_westkingdom1-2.jpeg" width="1000">
-<img src="/photo/westkingdom/230201_westkingdom1-3.jpeg" width="1000">
-<img src="/photo/westkingdom/230201_westkingdom1-4.jpeg" width="1000">
-<img src="/photo/westkingdom/230201_westkingdom1-5.jpeg" width="1000">
-<img src="/photo/westkingdom/230201_westkingdom1-6.jpeg" width="1000">
-<img src="/photo/westkingdom/230201_westkingdom1-7.jpeg" width="1000">
-<img src="/photo/westkingdom/230201_westkingdom1-8.jpeg" width="1000">
+<img src="/photo/westkingdom/230201_westkingdom1-1.jpg" width="1000">
+<img src="/photo/westkingdom/230201_westkingdom1-2.jpg" width="1000">
+<img src="/photo/westkingdom/230201_westkingdom1-3.jpg" width="1000">
+<img src="/photo/westkingdom/230201_westkingdom1-4.jpg" width="1000">
+<img src="/photo/westkingdom/230201_westkingdom1-5.jpg" width="1000">
+<img src="/photo/westkingdom/230201_westkingdom1-6.jpg" width="1000">
+<img src="/photo/westkingdom/230201_westkingdom1-7.jpg" width="1000">
+<img src="/photo/westkingdom/230201_westkingdom1-8.jpg" width="1000">
 
 
 
