@@ -2,12 +2,12 @@
 layout: post
 title: "크리에이터 행사는 못참지"
 date: 2023-02-03 00:00:00
-preview: /photo/230203-creatorday1.jpg
+preview: /photo/230203_creatorday1.jpg
 published: true
 short: "on"
 ---
 
-<img src="/photo/230203-creatorday.jpg" width="1000">
+<img src="/photo/230203_creatorday.jpg" width="1000">
 
 
 카르카손은 재밌었고
