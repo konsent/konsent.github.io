@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/westkingdom/230208_westkingdom1.jpg" width="1000">
+<img src="/photo/westkingdom/230208_westkingdom2.jpg" width="1000">
 
 
 
