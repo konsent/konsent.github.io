@@ -1,0 +1,13 @@
+---
+layout: post
+title: "강아지똥 개똥겜"
+date: 2023-03-14 00:00:00
+preview: /photo/220314_dogshit_thumb.jpg
+published: true
+short: "on"
+---
+
+<img src="/photo/220314_dogshit.jpg" width="1000">
+
+
+까먹고 안올린 개똥겜 뒤늦게 업로드!
