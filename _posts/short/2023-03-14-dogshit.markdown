@@ -2,7 +2,7 @@
 layout: post
 title: "강아지똥 개똥겜"
 date: 2023-03-14 00:00:00
-preview: /photo/220314_dogshit_thumb.jpg
+preview: /photo/220314_dogshit_thumb.jpeg
 published: true
 short: "on"
 ---
