@@ -2,7 +2,7 @@
 layout: post
 title: "리벨리온: 제국의 부흥 확장"
 date: 2023-03-22 00:00:00
-preview: /photo/220321_rebelion1.jpg
+preview: /photo/220321_rebelion_thumb.jpg
 published: true
 short: "on"
 ---
