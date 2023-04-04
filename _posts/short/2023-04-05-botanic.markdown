@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "풀내음 가득 보타닉 가든"
-date: 2023-04-04 00:00:00
+date: 2023-04-05 00:00:00
 preview: /photo/230404_botanic_thumb.jpg
 published: true
 short: "on"
