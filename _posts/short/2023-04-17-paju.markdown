@@ -2,12 +2,12 @@
 layout: post
 title: "파주슈필 이모저모"
 date: 2023-04-17 00:00:00
-preview: /photo/230418_pajuspiel_thumb.jpg
+preview: /photo/230418_pajuspiel_thumb.jpeg
 published: true
 short: "on"
 ---
 
-<img src="/photo/2230418_pajuspiel.jpg" width="1000">
+<img src="/photo/230418_pajuspiel.jpg" width="1000">
 
 
 토요일 날 약속이 있어 못갔고 일요일에 다녀왔습니다 ㅋㅋㅋ
