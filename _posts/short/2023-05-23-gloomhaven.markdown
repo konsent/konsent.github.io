@@ -2,12 +2,12 @@
 layout: post
 title: "글룸헤이븐으로 친구 만들기"
 date: 2023-05-23 00:00:00
-preview: /photo/230534_gloonhaven_thumb.jpg
+preview: /photo/230524_gloonhaven_thumb.jpg
 published: true
 short: "on"
 ---
 
-<img src="/photo/230534_gloonhaven.jpg" width="1000">
+<img src="/photo/230524_gloonhaven.jpg" width="1000">
 
 
 글룸헤이븐은 정말 유명한 판타지 보드게임이에요!
