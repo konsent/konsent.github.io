@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/230705_rulemaster.jpg" width="1000">
+<img src="/photo/230705_rulemaster.jpg" width="1000">
 
 
 요새 해외 직구하거나 펀딩한 게임 룰북을 읽을 일이 많아서 몰랐는데
