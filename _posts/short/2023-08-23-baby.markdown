@@ -1,0 +1,12 @@
+---
+layout: post
+title: "인간 미플 만들기 프로젝트"
+date: 2023-08-23 00:00:00
+preview: /photo/230823_baby_thumb.jpg
+published: true
+short: "on"
+---
+
+<img src="/photo/230823_baby.jpg" width="1000">
+
+깡총이랑 빨리 보드게임하고싶어요
