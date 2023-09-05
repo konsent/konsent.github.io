@@ -1,0 +1,14 @@
+---
+layout: post
+title: "해보자! 보드게임 1화!!"
+date: 2023-09-06 00:00:00
+preview: /photo/230906_letsbg1_thumb.jpg
+published: true
+short: "on"
+---
+
+<img src="/photo/230906_letsbg1.jpg" width="1000">
+
+
+무료함을 이기지 못한 오리는 수상한 보드게임 동호회에 들어가게 되는데..!
+보드게임의 즐거움을 하나하나 알아가는 보린이 탈출기!
