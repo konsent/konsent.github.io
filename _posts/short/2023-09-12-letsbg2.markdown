@@ -2,12 +2,12 @@
 layout: post
 title: "해보자! 보드게임 2화"
 date: 2023-09-12 00:00:00
-preview: /photo/230906_letsbg2_thumb.jpg
+preview: /photo/230912_letsbg2_thumb.jpg
 published: true
 short: "on"
 ---
 
-<img src="/photo/230906_letsbg2.jpg" width="1000">
+<img src="/photo/230912_letsbg2.jpg" width="1000">
 
 
 무료함을 이기지 못한 오리는 수상한 보드게임 동호회에 들어가게 되는데..!
