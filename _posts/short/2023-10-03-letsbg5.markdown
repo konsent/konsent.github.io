@@ -1,0 +1,14 @@
+---
+layout: post
+title: "해보자! 보드게임 5화 - 비매너"
+date: 2023-10-03 00:00:00
+preview: /photo/231003_letsbg5_thumb.jpg
+published: true
+short: "on"
+---
+
+<img src="/photo/231003_letsbg5.jpg" width="1000">
+
+
+기름진 손으로 게임하거나 카드를 막 구부리거나 하는 행동은 앙대요
+하지만 글룸헤이븐할때는 피자먹으면서 함 ㅎㅎ
