@@ -2,12 +2,12 @@
 layout: post
 title: "해보자! 보드게임 6화 - 루미큐브"
 date: 2023-10-10 00:00:00
-preview: /photo/231003_letsbg6_thumb.jpg
+preview: /photo/231010_letsbg6_thumb.jpg
 published: true
 short: "on"
 ---
 
-<img src="/photo/231003_letsbg6.jpg" width="1000">
+<img src="/photo/231010_letsbg6.jpg" width="1000">
 
 
 아니 취미가 보드게임이라고 루미큐브 잘하는거 아니라구요
