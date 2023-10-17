@@ -11,8 +11,7 @@ permalink: /rules/
 
 <img src="/photo/issvan.png" width="300">
 
-- ISS Vanguard는 1~4인 협동 캠페인보드게임으로,광대한 은하계를 탐험하고, 함선을 지휘 및 업그레이드하고,연구를 수행하고,장비를 제조하며 모험을 떠납니다.
-- 이 모험으로 우리 DNA에 숨겨져 있던 오래된 은하계 지도의 위대한 미스터리를 밝혀내게 될 것입니다.
+- ISS Vanguard는 우주 테마의 1~4인 협동 캠페인보드게임입니다.
 - [자료 다운로드 링크](https://drive.google.com/file/d/1qQu4gLK4YsdcWPtlxQjmap2RRrk6bU6m/view?usp=sharing)
 
 <br/><br/>
