@@ -4,7 +4,6 @@ title: 보드게임 규칙서
 permalink: /rules/
 ---
 
-기존 PDF 번역물은 다이브다이스/보드라이프에서 확인하실 수 있습니다.
 <br/><br/><br/><br/>
 
 ### ISS Vanguard
