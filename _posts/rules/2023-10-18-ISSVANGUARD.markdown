@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: post3
 title: "ISS Vanguard"
 date: 2023-10-18 00:00:00
 preview: /photo/issvan.png
