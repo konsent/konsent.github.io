@@ -7,6 +7,26 @@ permalink: /rules/
 기존 PDF 번역물은 다이브다이스/보드라이프에서 확인하실 수 있습니다.
 <br/><br/><br/><br/>
 
+### ISS Vanguard
+
+<img src="/photo/issvan.png" width="300">
+
+- ISS Vanguard는 1~4인 협동 캠페인보드게임으로,광대한 은하계를 탐험하고, 함선을 지휘 및 업그레이드하고,연구를 수행하고,장비를 제조하며 모험을 떠납니다.
+- 이 모험으로 우리 DNA에 숨겨져 있던 오래된 은하계 지도의 위대한 미스터리를 밝혀내게 될 것입니다.
+- [자료 다운로드 링크](https://drive.google.com/file/d/1qQu4gLK4YsdcWPtlxQjmap2RRrk6bU6m/view?usp=sharing)
+
+<br/><br/>
+
+### High Frontier 4 ALL
+
+<img src="/photo/hf4.png" width="300">
+
+- High Frontier 4 ALL는 실제 로켓 과학을 활용하여 태양계를 산업화하고 식민지를 만드는 우주 탐험 게임입니다.
+- 코어 게임과 모듈 2 Colonization 룰북 번역본을 포함합니다.
+- [자료 다운로드 링크](https://drive.google.com/drive/folders/1xJtoP6ju97gzZWQkz2s9WGAr8K3M2PsC?usp=sharing)
+
+<br/><br/>
+
 ### Salerno '43
 
 <img src="/photo/s43.png" width="300">
@@ -34,6 +54,15 @@ permalink: /rules/
 
 - Stationfall은 15분 뒤 추락하는 우주 정거장에서 생존하는 게임입니다.
 - [자료 다운로드 링크](https://drive.google.com/drive/folders/16SjdC65f4TaJbEfaAH8mjlowXW_GsS1f?usp=sharing)
+
+<br/><br/>
+
+### Wing Leader: Supremacy
+
+<img src="/photo/wl.jpeg" width="300">
+
+- Wing Leader: Supremacy는 2차대전 공중전을 다룬 워게임입니다.
+- [자료 다운로드 링크](https://drive.google.com/file/d/1A5AOQ15DOWB_RSCxVA98qAA4ul8Tptx1/view?usp=sharing)
 
 <br/><br/>
 
