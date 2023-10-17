@@ -1,6 +1,6 @@
 ---
 layout: page
-title: 보드게임 규칙서
+title: 보드게임 규칙서 번역본
 permalink: /rules/
 ---
 
