@@ -6,25 +6,21 @@ layout: default
   <div class="post-nav">
     {% if page.next.short %}
     <a class="nav-item" href="{{ page.next.url | prepend: site.baseurl }}"
-      >&laquo; Prev</a
-    >
+      >&laquo; Prev</a>
     {% else %} {% for post in site.posts reversed%} {% if post.long %} {%
     continue %} {% elsif post == page %} {% continue %} {% elsif post.short %}
     {% if post.number > page.number %}
     <a class="nav-item" href="{{ post.url | prepend: site.baseurl }}"
-      >&laquo; Prev</a
-    >
+      >&laquo; Prev</a>
     {% break %} {% endif %} {% endif %} {% endfor %} {% endif %} {% if
     page.previous.short %}
     <a class="nav-item" href="{{ page.previous.url | prepend: site.baseurl }}"
-      >Next &raquo;</a
-    >
+      >Next &raquo;</a>
     {% else %} {% for post in site.posts%} {% if post.long %} {% continue %} {%
     elsif post == page %} {% continue %} {% elsif post.short %} {% if
     page.number > post.number %}
     <a class="nav-item" href="{{ post.url | prepend: site.baseurl }}"
-      >Next &raquo;</a
-    >
+      >Next &raquo;</a>
     {% break %} {% endif %} {% endif %} {% endfor %} {% endif %}
   </div>
 
