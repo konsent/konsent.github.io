@@ -9,7 +9,6 @@ short: null
 long: null
 ---
 
-### ISS Vanguard
 
 <img src="/photo/issvan.png" width="300">
 

@@ -9,8 +9,6 @@ short: null
 long: null
 ---
 
-### Salerno '43
-
 <img src="/photo/s43.png" width="300">
 
 - Salerno '43는 1943년 9월 이탈리아 남부 침공을 다루는 게임입니다.

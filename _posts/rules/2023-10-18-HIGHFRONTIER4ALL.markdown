@@ -9,7 +9,6 @@ short: null
 long: null
 ---
 
-### High Frontier 4 ALL
 
 <img src="/photo/hf4.png" width="300">
 
