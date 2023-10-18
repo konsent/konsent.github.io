@@ -9,8 +9,9 @@ permalink: /rules/
             <div class="column column-33">
                 <div class="preview-panel">
                     <a href="{{ post.url | prepend: site.baseurl }}">
-                        <div class="container1"><img src="{{ post.preview }}" class="image1"></div>
-                        
+                        <div class="container1">
+                            <img class="image1" src="{{ post.preview }}" alt="이미지 설명">
+                        </div>
                     </a>
                     <div class="post-title">{{ post.title }}</div>
             </div>
