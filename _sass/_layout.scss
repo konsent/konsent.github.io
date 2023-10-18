@@ -116,11 +116,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    border: 3px solid black;
 }
 
 .square-image img {
     max-width: 100%; /* 이미지가 넓은 면을 기준으로 100%로 확장 */
     max-height: 100%; /* 이미지가 넓은 면을 기준으로 100%로 확장 */
     object-fit: contain;
-    border: 3px solid black;
+    
 }
