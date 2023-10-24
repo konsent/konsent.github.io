@@ -2,12 +2,12 @@
 layout: post
 title: "해보자! 보드게임 7화 - 신작"
 date: 2023-10-24 00:00:00
-preview: /photo/231010_letsbg7_thumb.jpg
+preview: /photo/231024_letsbg7_thumb.jpg
 published: true
 short: "on"
 ---
 
-<img src="/photo/231010_letsbg7.jpg" width="1000">
+<img src="/photo/231024_letsbg7.jpg" width="1000">
 
 
 신작은 일단 사야지!!!
