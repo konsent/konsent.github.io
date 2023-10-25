@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/230329_keyforge" width="1000">
+<img src="/photo/230329_keyforge.jpg" width="1000">
 
 
 키포지에 대해 아십니까..?
