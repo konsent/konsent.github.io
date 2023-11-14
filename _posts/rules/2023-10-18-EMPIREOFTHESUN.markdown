@@ -15,4 +15,3 @@ long: null
 - 한 플레이어는 일본군을 맡고 다른 플레이어는 연합군을 맡습니다.
 - 번역 완료
 - [자료 링크](https://daso-bgg.notion.site/Empire-of-the-Sun-d060553a00ff45a79e434279a33d0404?pvs=4)
-- [참조 자료](https://daso-bgg.notion.site/EOTS-656c999f4aa44472952fb662f3d1e847?pvs=4)
