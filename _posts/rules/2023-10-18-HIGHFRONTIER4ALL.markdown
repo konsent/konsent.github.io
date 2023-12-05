@@ -1,6 +1,6 @@
 ---
 layout: post3
-title: "High Frontier 4 ALL"
+title: "High Frontier 4 ALL 한글 룰북"
 date: 2023-10-18 00:00:00
 preview: /photo/hf4.png
 published: true

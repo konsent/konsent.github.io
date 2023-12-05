@@ -1,6 +1,6 @@
 ---
 layout: post3
-title: "Wing Leader: Supremacy"
+title: "Wing Leader: Supremacy 한글 룰북"
 date: 2023-10-18 00:00:00
 preview: /photo/wl.png
 published: true

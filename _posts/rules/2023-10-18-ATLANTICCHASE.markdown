@@ -1,6 +1,6 @@
 ---
 layout: post3
-title: "Atlantic Chase"
+title: "Atlantic Chase 한글 룰북"
 date: 2023-10-18 00:00:00
 preview: /photo/ac.png
 published: true

@@ -1,6 +1,6 @@
 ---
 layout: post3
-title: "ISS Vanguard"
+title: "ISS Vanguard 한글 룰북"
 date: 2023-10-18 00:00:00
 preview: /photo/issvan.png
 published: true

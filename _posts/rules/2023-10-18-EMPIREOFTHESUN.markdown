@@ -1,6 +1,6 @@
 ---
 layout: post3
-title: "Empire of the Sun"
+title: "Empire of the Sun 한글 룰북"
 date: 2023-10-18 00:00:00
 preview: /photo/eots.png
 published: true
