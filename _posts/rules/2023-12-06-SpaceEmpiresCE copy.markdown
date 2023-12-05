@@ -1,6 +1,6 @@
 ---
 layout: post3
-title: "Space Empires: Close Encounter 한글 룰북"
+title: "Space Empires: Close Encounter 한글 규칙서"
 date: 2023-12-06 00:00:00
 preview: /photo/sece.png
 published: true
