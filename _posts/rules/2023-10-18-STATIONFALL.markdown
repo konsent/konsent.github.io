@@ -20,4 +20,4 @@ long: null
 * 패닉 포드 토큰에는 "거주 구역" / 게임보드에는 "주거 지역" 이라고 다르게 표기되어있습니다. 둘다 같은 것
 
 수정? 그것은 기분이 내킬때 하는 것(?)
-- [자료 다운로드 링크](https://drive.google.com/drive/folders/16SjdC65f4TaJbEfaAH8mjlowXW_GsS1f?usp=sharing)
+- [자료 다운로드 링크](https://drive.google.com/drive/folders/1SNZP-2w3-6hXb_WbxlDoBKx9bglZR1TB?usp=sharing)
