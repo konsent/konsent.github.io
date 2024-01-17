@@ -29,4 +29,6 @@ Atlantic Chase는 1939~1942 기간동안 벌어진 영국 왕립 해군과 독�
 저는 태평양 전쟁 해전사에 관심이 많다보니, 아틀란틱 체이스 말고 퍼시픽 체이스가 나온다면 아마 바로 사지 않을까 싶어요 ㅋㅋㅋ<br>
 아틀란틱 체이스도 절판이라 지금은 못구하지만..! 재판을 기다리며 모두 번역 룰북 한 번 읽어보심을 추천드립니다.<br>
 
-- [자료 링크](https://daso-bgg.notion.site/Atlantic-Chase-79cfc902e84a430ebcd3bc9de6d2ad99?pvs=4)
+- [원문 규칙서 번역본 링크](https://daso-bgg.notion.site/Atlantic-Chase-79cfc902e84a430ebcd3bc9de6d2ad99?pvs=4)
+- [뉴비를 위한 규칙서 압축본 링크](https://daso-bgg.notion.site/Atlantic-Chase-rules-for-newbies-defd916a0abe45c3972bbf4e673d57b4?pvs=4)
+
