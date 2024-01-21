@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/240121_zhangguo.jpg" width="1000">
+<img src="/photo/240121_zhangguo.png" width="1000">
 
 히트게임즈의 새로운 펀딩 프로젝트 전국: 첫번째 제국을 소개합니다!<br>
 
