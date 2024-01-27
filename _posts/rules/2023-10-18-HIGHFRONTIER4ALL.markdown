@@ -34,3 +34,4 @@ High Frontier 4 ALL는 실제 로켓 과학을 활용하여 태양계를 산업�
 
 - 코어 게임과 모듈 2 Colonization 룰북 번역본을 포함합니다.
 - [자료 다운로드 링크](https://drive.google.com/drive/folders/1xJtoP6ju97gzZWQkz2s9WGAr8K3M2PsC?usp=sharing)
+* 중간중간 틀린 부분이 꽤 있습니다. 따로 수정중이긴한데 수정본은 아직 업로드하지않았습니닷
