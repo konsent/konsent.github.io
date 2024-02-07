@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/240130_ac.png" width="1000">
+<img src="/photo/240130_ac.jpg" width="1000">
 
 2차대전 대서양에서 벌어지는 영국과 독일의 혈투를 그린 게임. 아틀란틱 체이스!<br>
 
