@@ -2,12 +2,12 @@
 layout: post
 title: "바르셀로나 선주문 소개하는 만화"
 date: 2024-04-05 00:00:00
-preview: /photo/240405_barcelona_thumb.jpeg
+preview: /photo/240405_barcelona_thumb.jpg
 published: true
 short: "on"
 ---
 
-<img src="/photo/240405_barcelona.jpeg" width="1000">
+<img src="/photo/240405_barcelona.jpg" width="1000">
 
 오랜만에 들고온 히트게임즈 새로운 선주문 신작! 바르셀로나를 소개합니다!<br>
 
