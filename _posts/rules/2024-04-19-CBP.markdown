@@ -1,0 +1,18 @@
+---
+layout: post3
+title: "Carrier Battle: Philippine Sea 작업중"
+date: 2024-03-09 00:00:00
+preview: /photo/na41.jpeg
+published: true
+rules: "on"
+short: null
+long: null
+---
+
+<img src="/photo/cpb_thumb.jpeg" width="300">
+
+Carrier Battle: Philippine Sea 번역 작업중<br>
+차일 피일 미룰까봐 일단 홈페이지 등록부터<br>
+
+
+- [자료 링크]()
