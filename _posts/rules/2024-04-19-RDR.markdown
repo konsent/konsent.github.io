@@ -1,0 +1,18 @@
+---
+layout: post3
+title: "[작업 예정] Red Dust Rebellion"
+date: 2024-04-19 00:00:00
+preview: /photo/rdr_thumb.png
+published: true
+rules: "on"
+short: null
+long: null
+---
+
+<img src="/photo/rdr_thumb.png" width="300">
+
+Red Dust Rebellion 번역 예정<br>
+<br>
+
+
+- [자료 링크]()
