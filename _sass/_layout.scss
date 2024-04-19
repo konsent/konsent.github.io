@@ -76,7 +76,7 @@
     }
     width: 230px; /* 원하는 가로 너비로 조절합니다. */
     height: 230px; /* 원하는 세로 높이로 조절합니다. */
-    background-color: black;
+    // background-color: black;
     /* overflow: hidden; */
 }
 
@@ -84,6 +84,6 @@
     width: 100%;
     height: 100%;
     object-fit: contain;
-    border: 2px solid black;
+    border: 3px solid black;
     background-color: black;
 }
