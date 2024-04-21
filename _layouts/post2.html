@@ -44,9 +44,55 @@ layout: default2
           {% endif %}
         {% endif %}
       {% endfor %}
-    {% endif %} 
+    {% endif %}
   </div>
 </div>
+
+<!-- <div class="post">
+  <div class="post-nav">
+    {% if page.next.long %}
+      <a class="nav-item" href="{{ page.next.url | prepend: site.baseurl }}">&laquo; Prev</a>
+    {% else %}
+      {% for post in site.posts reversed %}
+        {% if post.short %}
+          {% continue %}
+        {% elsif post.rules %}
+          {% continue %}
+        {% elsif post.notitles %}
+          {% continue %}
+        {% elsif post == page %}
+          {% continue %}
+        {% elsif post.long %}
+          {% if post.number > page.number %}
+            <a class="nav-item" href="{{ post.url | prepend: site.baseurl }}">&laquo; Prev</a>
+            {% break %}
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+
+    {% if page.previous.long %}
+      <a class="nav-item" href="{{ page.previous.url | prepend: site.baseurl }}">Next &raquo;</a>
+    {% else %}
+      {% for post in site.posts %}
+        {% if post.short %}
+          {% continue %}
+        {% elsif post.rules %}
+          {% continue %}
+        {% elsif post.notitles %}
+          {% continue %}
+        {% elsif post == page %}
+          {% continue %}
+        {% elsif post.long %}
+          {% if page.number > post.number %}
+            <a class="nav-item" href="{{ post.url | prepend: site.baseurl }}">Next &raquo;</a>
+            {% break %}
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+    {% endif %} 
+  </div>
+</div> -->
 
 <!-- <div class="post">
   <div class="post-nav">
