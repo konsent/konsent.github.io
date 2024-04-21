@@ -4,7 +4,8 @@ title: "테스트"
 date: 2024-04-21 00:00:00
 preview: /photo/ac.png
 published: true
-rules: "on"
+rules: null
+notitles: "on"
 short: null
 long: null
 ---
@@ -12,4 +13,3 @@ long: null
 <img src="/photo/ac.png" width="300">
 
 테스트 포스팅
-
