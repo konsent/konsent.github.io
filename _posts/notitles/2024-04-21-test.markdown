@@ -1,5 +1,5 @@
 ---
-layout: post3
+layout: post4
 title: "테스트"
 date: 2024-04-21 00:00:00
 preview: /photo/ac.png
