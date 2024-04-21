@@ -12,8 +12,8 @@ layout: default4
     {% if post.number > page.number %}
     <a class="nav-item" href="{{ post.url | prepend: site.baseurl }}"
       >&laquo; Prev</a>
-    {% break %} {% endif %} {% endif %} {% endfor %} {% endif %} {% endif %} {% if
-    page.previous.notitles %}
+    {% break %} {% endif %} {% endif %} {% endfor %}
+     {% if page.previous.notitles %}
     <a class="nav-item" href="{{ page.previous.url | prepend: site.baseurl }}"
       >Next &raquo;</a>
     {% else %} {% for post in site.posts%} {% if post.short %} {% continue %} {% elsif post.long %} {% continue %} {% elsif post.rules %} {% continue %} {%
@@ -21,7 +21,7 @@ layout: default4
     > post.number %}
     <a class="nav-item" href="{{ post.url | prepend: site.baseurl }}"
       >Next &raquo;</a>
-    {% break %} {% endif %} {% endif %} {% endfor %} {% endif %} {% endif %}
+    {% break %} {% endif %} {% endif %} {% endfor %}
   </div>
 
   <header class="post-header">

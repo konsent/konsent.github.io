@@ -12,7 +12,7 @@ layout: default2
     {% if post.number > page.number %}
     <a class="nav-item" href="{{ post.url | prepend: site.baseurl }}"
       >&laquo; Prev</a>
-    {% break %} {% endif %} {% endif %} {% endfor %} {% endif %} {% endif %} {% if
+    {% break %} {% endif %} {% endif %} {% endfor %} {% if
     page.previous.long %}
     <a class="nav-item" href="{{ page.previous.url | prepend: site.baseurl }}"
       >Next &raquo;</a>
@@ -21,7 +21,7 @@ layout: default2
     > post.number %}
     <a class="nav-item" href="{{ post.url | prepend: site.baseurl }}"
       >Next &raquo;</a>
-    {% break %} {% endif %} {% endif %} {% endfor %} {% endif %} {% endif %}
+    {% break %} {% endif %} {% endif %} {% endfor %}
   </div>
 
   <header class="post-header">
