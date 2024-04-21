@@ -1,8 +1,8 @@
 ---
 layout: post4
-title: "테스트"
+title: "가지고 싶은 게임이 왜이리 많은지"
 date: 2024-04-21 00:00:00
-preview: /photo/ac.png
+preview: /photo/NATO.png
 published: true
 rules: null
 notitles: "on"
@@ -10,6 +10,22 @@ short: null
 long: null
 ---
 
-<img src="/photo/ac.png" width="300">
-
-테스트 포스팅
+<img src="/photo/cpb_thumb" width="300"> 
+<br>
+최근에 별밤님 추천 게임 Carrier Battle: Philippine Sea 규칙서를 번역하고 있다.
+<br>
+이 게임은 2차 세계대전 태평양 전선의 항모 전투(특히 필리핀 해전)를 다루는 솔리테어 게임이다. 워낙 2차대전물을 좋아하기도 하고 그중에서도 태평양 전선에 관심이 많은데다가, 별밤님이 따끈따끈한 중고 매물까지 바로 알려주셔서 속전속결로 질러버림(별밤님이 내 지갑 거덜내는 중)
+<br>
+재밌게 규칙서 읽으면서 배송 오기만을 기다리고 있는데, 이 와중에 다니엘님이 게임 하나를 소개해준게 바로 NATO: The Cold War Goes Hot. 제목부터 아주 자극적 쏘핫.
+<br>
+<img src="/photo/NATO.png" width="300"> 
+<br> 
+1차대전부터해서 굵직한 주요 전쟁시기를 다루는 게임들을 하나씩 모아보고 싶단 생각을 했는데, 황혼의 투쟁으로는 카운터 워게임의 그 맛을 채우기 어렵다고 생각한 찰나에 아주 재밌어 보이는 게임이 또 이렇게ㅠㅠ. 주변에 왜이리 뽐을 잘 주는 사람들이 많은지 아주 걱정이 된다. 
+<br>
+<img src="/photo/Nato1.png" width="300"> 
+<br> 
+규칙서는 88페이지 정도되는 분량인데, 규칙서 서문에 이렇게 쓰여있다: 규칙서 양이 많긴한데 대부분 예시나 중복되는 내용이고, 한 번 익숙해지면 쉽다!. 워게이머들이 하는 '쉽다'가 대부분 함정이긴한데, 게임이 테마가 너무 재밌어 보여서 일단 다음 구매 목록에 올려놓음.
+<br> 
+세상엔 왜이리 재미난 게임이 많을까. 레드 더스트 리벨리온도 사야하고 퍼시픽 체이스도 나오면 사야하는데..
+<br> 
+<img src="/photo/cpb_thumb" width="100"> <img src="/photo/NATO.png" width="100"> <img src="/photo/rdr_thumb.png" width="100">
