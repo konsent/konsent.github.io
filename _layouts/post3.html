@@ -8,7 +8,7 @@ layout: default3
     <a class="nav-item" href="{{ page.next.url | prepend: site.baseurl }}"
       >&laquo; Prev</a>
     {% else %} {% for post in site.posts reversed%} {% if post.short %} {%
-    continue %} {% elsif post.long %} {% continue %} {% elsif post == page %} {% continue %} {% elsif post.rules %} 
+    continue %} {% elsif post.long %} {% continue %} {% continue %} {% elsif post.notitles %} {% elsif post == page %} {% continue %} {% elsif post.rules %} 
     {% if post.number > page.number %}
     <a class="nav-item" href="{{ post.url | prepend: site.baseurl }}"
       >&laquo; Prev</a>
