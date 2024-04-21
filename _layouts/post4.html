@@ -2,72 +2,62 @@
 layout: default4
 ---
 
-<div class="post">
-  <div class="post-nav">
-    {% if page.next.notitles %}
-      <a class="nav-item" href="{{ page.next.url | prepend: site.baseurl }}">&laquo; Prev</a>
-    {% else %}
-      {% for post in site.posts reversed %}
-        {% if post.long %}
-          {% continue %}
-        {% elsif post.rules %}
-          {% continue %}
-        {% elsif post.short %}
-          {% continue %}
-        {% elsif post == page %}
-          {% continue %}
-        {% elsif post.notitles %}
-          {% if post.number > page.number %}
-            <a class="nav-item" href="{{ post.url | prepend: site.baseurl }}">&laquo; Prev</a>
-            {% break %}
-          {% endif %}
-        {% endif %}
-      {% endfor %}
-
-    {% if page.previous.notitles %}
-      <a class="nav-item" href="{{ page.previous.url | prepend: site.baseurl }}">Next &raquo;</a>
-    {% else %}
-      {% for post in site.posts %}
-        {% if post.long %}
-          {% continue %}
-        {% elsif post.rules %}
-          {% continue %}
-        {% elsif post.short %}
-          {% continue %}
-        {% elsif post == page %}
-          {% continue %}
-        {% elsif post.notitles %}
-          {% if page.number > post.number %}
-            <a class="nav-item" href="{{ post.url | prepend: site.baseurl }}">Next &raquo;</a>
-            {% break %}
-          {% endif %}
-        {% endif %}
-      {% endfor %}
-
-  </div>
-</div>
-
 <!-- <div class="post">
   <div class="post-nav">
     {% if page.next.notitles %}
     <a class="nav-item" href="{{ page.next.url | prepend: site.baseurl }}"
-      >&laquo; Prev</a>
-    {% else %} {% for post in site.posts reversed%} {% if post.short %} {%
-    continue %} {% elsif post.long %} {% continue %} {% elsif post.rules %} {% continue %} {% elsif post == page %} {% continue %} {% elsif post.notitles %} 
-    {% if post.number > page.number %}
+      >&laquo; Prev</a
+    >
+    {% else %} {% for post in site.posts reversed %} {% if post.long %} {%
+    continue %} {% elsif post.rules %} {% continue %} {% elsif post.short %} {%
+    continue %} {% elsif post == page %} {% continue %} {% elsif post.notitles
+    %} {% if post.number > page.number %}
     <a class="nav-item" href="{{ post.url | prepend: site.baseurl }}"
-      >&laquo; Prev</a>
-    {% break %} {% endif %} {% endif %} {% endfor %}
-     {% if page.previous.notitles %}
+      >&laquo; Prev</a
+    >
+    {% break %} {% endif %} {% endif %} {% endfor %} {% if
+    page.previous.notitles %}
     <a class="nav-item" href="{{ page.previous.url | prepend: site.baseurl }}"
-      >Next &raquo;</a>
-    {% else %} {% for post in site.posts%} {% if post.short %} {% continue %} {% elsif post.long %} {% continue %} {% elsif post.rules %} {% continue %} {%
-    elsif post == page %} {% continue %} {% elsif post.notitles %} {% if page.number
-    > post.number %}
+      >Next &raquo;</a
+    >
+    {% else %} {% for post in site.posts %} {% if post.long %} {% continue %} {%
+    elsif post.rules %} {% continue %} {% elsif post.short %} {% continue %} {%
+    elsif post == page %} {% continue %} {% elsif post.notitles %} {% if
+    page.number > post.number %}
     <a class="nav-item" href="{{ post.url | prepend: site.baseurl }}"
-      >Next &raquo;</a>
+      >Next &raquo;</a
+    >
     {% break %} {% endif %} {% endif %} {% endfor %}
-  </div> -->
+  </div>
+</div> -->
+
+<div class="post">
+  <div class="post-nav">
+    {% if page.next.notitles %}
+    <a class="nav-item" href="{{ page.next.url | prepend: site.baseurl }}"
+      >&laquo; Prev</a
+    >
+    {% else %} {% for post in site.posts reversed%} {% if post.short %} {%
+    continue %} {% elsif post.long %} {% continue %} {% elsif post.rules %} {%
+    continue %} {% elsif post == page %} {% continue %} {% elsif post.notitles
+    %} {% if post.number > page.number %}
+    <a class="nav-item" href="{{ post.url | prepend: site.baseurl }}"
+      >&laquo; Prev</a
+    >
+    {% break %} {% endif %} {% endif %} {% endfor %} {% endif %} {% if
+    page.previous.notitles %}
+    <a class="nav-item" href="{{ page.previous.url | prepend: site.baseurl }}"
+      >Next &raquo;</a
+    >
+    {% else %} {% for post in site.posts%} {% if post.short %} {% continue %} {%
+    elsif post.long %} {% continue %} {% elsif post.rules %} {% continue %} {%
+    elsif post == page %} {% continue %} {% elsif post.notitles %} {% if
+    page.number > post.number %}
+    <a class="nav-item" href="{{ post.url | prepend: site.baseurl }}"
+      >Next &raquo;</a
+    >
+    {% break %} {% endif %} {% endif %} {% endfor %} {% endif %}
+  </div>
 
   <header class="post-header">
     <h1 class="post-title">{{ page.title }}</h1>
