@@ -17,11 +17,11 @@ layout: default3
     <a class="nav-item" href="{{ post.url | prepend: site.baseurl }}"
       >&laquo; Prev</a>
     {% break %} {% endif %} {% endif %} {% endfor %} {% endif %} {% if
-    page.previous.rules %}
+    page.previous.notitles %}
     <a class="nav-item" href="{{ page.previous.url | prepend: site.baseurl }}"
       >Next &raquo;</a>
-    {% else %} {% for post in site.posts%} {% if post.short %} {% continue %} {% elsif post.long %} {% continue %} {%
-    elsif post == page %} {% continue %} {% elsif post.rules %} {% if page.number
+    {% else %} {% for post in site.posts%} {% if post.short %} {% continue %} {% elsif post.long %} {% continue %} {% elsif post.rules %} {% continue %} {%
+    elsif post == page %} {% continue %} {% elsif post.notitles %} {% if page.number
     > post.number %}
     <a class="nav-item" href="{{ post.url | prepend: site.baseurl }}"
       >Next &raquo;</a>

@@ -19,7 +19,7 @@ layout: default
     {% break %} {% endif %} {% endif %} {% endfor %} {% endif %} {% if page.previous.short %}
     <a class="nav-item" href="{{ page.previous.url | prepend: site.baseurl }}"
       >Next &raquo;</a>
-    {% else %} {% for post in site.posts%} {% if post.long %} {% continue %} {% elsif post.rules %} {% continue %} {% elsif post == page %} {% continue %} {% elsif post.short %} 
+    {% else %} {% for post in site.posts%} {% if post.long %} {% continue %} {% elsif post.rules %} {% continue %} {% elsif post.notitles %} {% continue %} {% elsif post == page %} {% continue %} {% elsif post.short %} 
     {% if page.number > post.number %}
     <a class="nav-item" href="{{ post.url | prepend: site.baseurl }}"
       >Next &raquo;</a>
