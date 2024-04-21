@@ -23,7 +23,7 @@ layout: default
           {% endif %}
         {% endif %}
       {% endfor %}
-
+    {% endif %}
     {% if page.previous.short %}
       <a class="nav-item" href="{{ page.previous.url | prepend: site.baseurl }}">Next &raquo;</a>
     {% else %}
