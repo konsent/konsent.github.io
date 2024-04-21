@@ -8,8 +8,12 @@ layout: default3
     <a class="nav-item" href="{{ page.next.url | prepend: site.baseurl }}"
       >&laquo; Prev</a>
     {% else %} {% for post in site.posts reversed%} {% if post.short %} {%
-    continue %} {% elsif post.long %} {% continue %} {% continue %} {% elsif post.rules %} {% elsif post == page %} {% continue %} {% elsif post.notitles %} 
+    continue %} {% elsif post.long %} {% continue %} {% elsif post.rules %} {% continue %} {% elsif post == page %} {% continue %} {% elsif post.notitles %} 
     {% if post.number > page.number %}
+
+    <!-- {% else %} {% for post in site.posts reversed%} {% if post.short %} {%
+      continue %} {% elsif post.long %} {% continue %} {% continue %} {% elsif post.rules %} {% elsif post == page %} {% continue %} {% elsif post.notitles %} 
+      {% if post.number > page.number %} -->
     <a class="nav-item" href="{{ post.url | prepend: site.baseurl }}"
       >&laquo; Prev</a>
     {% break %} {% endif %} {% endif %} {% endfor %} {% endif %} {% if
