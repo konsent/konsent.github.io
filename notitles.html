@@ -9,6 +9,22 @@ permalink: /notitles/
             <div class="column column-33">
                 <div class="preview-panel">
                     <a href="{{ post.url | prepend: site.baseurl }}">
+                        <img class="image1" src="{{ post.preview }}" alt="이미지 설명">
+                    </a>
+                    <div class="post-title">{{ post.title }}</div>
+            </div>
+            </div>
+        {% cycle 'end row' : '', '', '</div>' %}
+    {% endif %}
+{% endfor %}
+{% cycle 'end row' : '', '</div>', '</div>' %}
+
+<!-- {% for post in site.posts %}
+    {% if post.notitles != null %}
+        {% cycle 'add row' : '<div class="row">', '', '' %}
+            <div class="column column-33">
+                <div class="preview-panel">
+                    <a href="{{ post.url | prepend: site.baseurl }}">
                         <div class="container1">
                             <img class="image1" src="{{ post.preview }}" alt="이미지 설명">
                         </div>
@@ -19,4 +35,4 @@ permalink: /notitles/
         {% cycle 'end row' : '', '', '</div>' %}
     {% endif %}
 {% endfor %}
-{% cycle 'end row' : '', '</div>', '</div>' %}
+{% cycle 'end row' : '', '</div>', '</div>' %} -->
