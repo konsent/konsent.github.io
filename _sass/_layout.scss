@@ -1,89 +1,89 @@
 /**
  * Site header
  */
- .wrapper .container {
-    max-width: 80rem;
+.wrapper .container {
+  max-width: 80rem;
 }
 
 .site-header {
-    text-align: center;
+  text-align: center;
 }
 
 .navbar {
-    display: block;
+  display: block;
 }
 
 .nav-item {
-    display: inline-block;
-    padding: 1rem;
+  display: inline-block;
+  padding: 1rem;
 }
 
 .post-nav {
-    text-align: center;
-    padding: 1rem;
+  text-align: center;
+  padding: 1rem;
 }
 
 .post-title {
-    display: block;
+  display: block;
 }
 
 /**
  * override column size for mobile
  */
-@media (max-width: 40.0rem) {
-    .row .column.column-33, .row .column.column-34 {
-        flex: 0 0 100%;
-        max-width: 100%;
-    }
+@media (max-width: 40rem) {
+  .row .column.column-33,
+  .row .column.column-34 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
 }
 
 /**
  * Site footer
  */
 .site-footer {
-    border-top: 1px solid $grey-color-light;
-    margin: 2rem 0;
-    padding: 2rem 0;
+  border-top: 1px solid $grey-color-light;
+  margin: 2rem 0;
+  padding: 2rem 0;
 }
 
 .contact-list,
 .social-media-list {
-    list-style: none;
-    margin-left: 0;
+  list-style: none;
+  margin-left: 0;
 }
 
 /**
  * Misc
  */
 .preview-panel {
-    padding: 1rem;
-    box-sizing: border-box;
-    border: 1px solid $color-initial;
-    
-    &:hover {
-        border: 1px solid $grey-color-light;
-    }
+  padding: 1rem;
+  box-sizing: border-box;
+  border: 1px solid $color-initial;
+
+  &:hover {
+    border: 1px solid $grey-color-light;
+  }
 }
 
-
 .container1 {
-    padding: 1rem;
-    box-sizing: border-box;
-    border: 1px solid $color-initial;
+  padding: 1rem;
+  box-sizing: border-box;
+  border: 1px solid $color-initial;
 
-    &:hover {
-        border: 1px solid $grey-color-light;
-    }
-    width: 230px; /* 원하는 가로 너비로 조절합니다. */
-    height: 230px; /* 원하는 세로 높이로 조절합니다. */
-    // background-color: black;
-    /* overflow: hidden; */
+  &:hover {
+    border: 1px solid $grey-color-light;
+  }
+  width: 1700px; /* 원하는 가로 너비로 조절합니다230. */
+  height: 1700px; /* 원하는 세로 높이로 조절합니다. */
+  // background-color: black;
+  /* overflow: hidden; */
 }
 
 .image1 {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    border: 3px solid black;
-    // background-color: black;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border: 3px solid black;
+  // background-color: black;
 }
