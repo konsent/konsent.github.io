@@ -2,7 +2,7 @@
 layout: post3
 title: "Wing Leader: Supremacy 한글 규칙서"
 date: 2023-10-18 00:00:00
-preview: /photo/wl.png
+preview: /photo/WL-resizethumb.jpeg
 published: true
 rules: "on"
 short: null

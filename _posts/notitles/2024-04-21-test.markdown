@@ -2,7 +2,7 @@
 layout: post4
 title: "가지고 싶은 게임이 왜이리 많은지"
 date: 2024-04-21 00:00:00
-preview: /photo/NATO.png
+preview: /photo/NT-resizethumb.jpeg
 published: true
 rules: null
 notitles: "on"

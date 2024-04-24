@@ -2,14 +2,14 @@
 layout: post3
 title: "North Africa 41 한글 규칙서"
 date: 2024-03-09 00:00:00
-preview: /photo/na41.jpeg
+preview: /photo/NA41-resizethumb.jpg
 published: true
 rules: "on"
 short: null
 long: null
 ---
 
-<img src="/photo/na41.jpeg" width="300">
+<img src="/photo/NA41-resizethumb.jpg" width="300">
 
 GMT North Africa 41 한글 규칙서<br>
 이번엔 노션이 아니라 PDF로 작업하였습니다.<br>

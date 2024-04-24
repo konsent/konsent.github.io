@@ -2,7 +2,7 @@
 layout: post3
 title: "[작업 예정] Red Dust Rebellion"
 date: 2024-04-19 00:00:00
-preview: /photo/rdr_thumb.png
+preview: /photo/RDR-resizethumb.jpeg
 published: true
 rules: "on"
 short: null

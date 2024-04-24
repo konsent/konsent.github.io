@@ -2,7 +2,7 @@
 layout: post3
 title: "Stationfall 한글화 자료"
 date: 2023-10-18 00:00:00
-preview: /photo/sf.jpeg
+preview: /photo/ST-resizethumb.jpeg
 published: true
 rules: "on"
 short: null
