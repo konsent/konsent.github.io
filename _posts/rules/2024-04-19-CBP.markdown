@@ -2,7 +2,7 @@
 layout: post3
 title: "[작업중] Carrier Battle: Philippine Sea"
 date: 2024-04-19 00:00:00
-preview: /photo/cpb_thumb.jpeg
+preview: /photo/CBP-resizethumb.jpeg
 published: true
 rules: "on"
 short: null
