@@ -2,14 +2,14 @@
 layout: post3
 title: "Atlantic Chase 한글 규칙서"
 date: 2023-10-18 00:00:00
-preview: /photo/ac.png
+preview: /photo/AC-resizethumb.jpg
 published: true
 rules: "on"
 short: null
 long: null
 ---
 
-<img src="/photo/ac.png" width="300">
+<img src="/photo/AC-resizethumb.jpg" width="300">
 
 별밤님의 강추하던 Atlantic Chase 규칙서를 드디어 번역했습니다!<br>
 Atlantic Chase는 1939~1942 기간동안 벌어진 영국 왕립 해군과 독일 Kriegsmarine의 전투를 묘사하는 게임이에요!
