@@ -10,7 +10,7 @@ short: null
 long: null
 ---
 
-<img src="/photo/cpb_thumb.jpeg" width="200"> <img src="/photo/NATO.png" width="200"> <img src="/photo/rdr_thumb.png" width="200"> <img src="/photo/pog.png" width="200"> <img src="/photo/weimar.png" width="200"> <img src="/photo/IS.png" width="200"> <img src="/photo/na41.jpeg" width="200">
+<img src="/photo/cpb_thumb.jpeg" width="100"> <img src="/photo/NATO.png" width="100"> <img src="/photo/rdr_thumb.png" width="100"> <img src="/photo/pog.png" width="100"> <img src="/photo/weimar.png" width="100"> <img src="/photo/IS.png" width="100"> <img src="/photo/na41.jpeg" width="100">
 
 <br>
 요새 관심있는 게임들
