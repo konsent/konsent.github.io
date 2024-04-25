@@ -1,7 +1,7 @@
 ---
 layout: post3
 title: "Space Empires: Close Encounter 한글 규칙서"
-date: 2023-12-06 00:00:00
+date: 2023-12-05 00:00:00
 preview: /photo/SE-resizethumb.jpeg
 published: true
 rules: "on"
@@ -23,6 +23,5 @@ Space Empires 4X의 첫번째 확장입니다.<br>
 Atlantic Chase도 그렇고 보드게임에서 이렇게 정보를 제한하는 시스템이 참 신기하더라구요.<br>
 
 피규어가 없어서 꺼내기도 부담없고 자주 돌리지않을까 싶은 게임입니다.
-
 
 - [자료 링크](https://daso-bgg.notion.site/Space-Empires-Close-Encounters-f26059aef54943dfa61e0991802920d1?pvs=4)
