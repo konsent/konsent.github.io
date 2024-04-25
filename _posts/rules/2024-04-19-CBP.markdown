@@ -14,5 +14,4 @@ long: null
 Carrier Battle: Philippine Sea 번역 작업중<br>
 차일 피일 미룰까봐 일단 홈페이지 등록부터<br>
 
-
 - [자료 링크]()
