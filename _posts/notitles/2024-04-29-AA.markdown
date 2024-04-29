@@ -2,7 +2,7 @@
 layout: post4
 title: "A&A 커스텀 미니어쳐 눈 돌아가요"
 date: 2024-04-29 00:00:00
-preview: /photo/aa_thumb.jpeg
+preview: /photo/aa_thumb.jpg
 published: true
 rules: null
 notitles: "on"
