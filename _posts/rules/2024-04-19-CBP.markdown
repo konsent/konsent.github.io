@@ -1,6 +1,6 @@
 ---
 layout: post3
-title: "[작업중] Carrier Battle: Philippine Sea"
+title: "Carrier Battle: Philippine Sea"
 date: 2024-04-19 00:00:00
 preview: /photo/CBP-resizethumb.jpeg
 published: true
@@ -11,7 +11,7 @@ long: null
 
 <img src="/photo/cpb_thumb.jpeg" width="300">
 
-Carrier Battle: Philippine Sea 번역 작업중<br>
-차일 피일 미룰까봐 일단 홈페이지 등록부터<br>
+2차대전 태평양 전선의 필리핀 해전을 다루는 솔리테어 게임입니다.<br>
+룰북이 꽤 두껍긴하지만 하나하나 따라가면서 배우기 쉽게 잘 쓰여있어요!<br>
 
-- [자료 링크]()
+- [자료 링크](https://drive.google.com/file/d/1QZ8BKbeyljFHU5M33I_Gm1IJpFGXNLM_/view?usp=drive_link)
