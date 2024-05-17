@@ -14,4 +14,4 @@ long: null
 2차대전 태평양 전선의 필리핀 해전을 다루는 솔리테어 게임입니다.<br>
 룰북이 꽤 두껍긴하지만 하나하나 따라가면서 배우기 쉽게 잘 쓰여있어요!<br>
 
-- [자료 링크](/photo/[KOR]Carrier_Battle_PhilippineSea_v2.pdf)
+- [자료 링크](/photo/[KOR]CBPv1.pdf)
