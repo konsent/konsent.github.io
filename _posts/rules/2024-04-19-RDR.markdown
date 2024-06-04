@@ -11,7 +11,7 @@ long: null
 
 <img src="/photo/rdr_thumb.png" width="300">
 
-GMT Red Dust Rebellion 규칙서 번역입니다<br>
+GMT Red Dust Rebellion 규칙서 번역입니다
 <br>
 - 일부 플레이버 텍스트는 의역하였습니다.
 - 주요 용어 색인(Key Terms Index)은 원본 그대로 알파벳순으로 하되, 번역만 했습니다(가나다 순으로 하려다가 지쳐서 그냥 번역만...).
