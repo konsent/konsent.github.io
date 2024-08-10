@@ -31,5 +31,5 @@ Atlantic Chase는 1939~1942 기간동안 벌어진 영국 왕립 해군과 독�
 
 - [원문 규칙서 번역본 링크](https://daso-bgg.notion.site/Atlantic-Chase-79cfc902e84a430ebcd3bc9de6d2ad99?pvs=4)
 - [뉴비를 위한 규칙서 요약본 링크](https://daso-bgg.notion.site/Atlantic-Chase-rules-for-newbies-defd916a0abe45c3972bbf4e673d57b4?pvs=4)
-- [뉴비를 위한 규칙서 요약본(고급 전투 규칙 포함) PDF 인쇄본](/photo/[KOR]Atlantic Chase_Summary v1.0.pdf)
+- [뉴비를 위한 규칙서 요약본_고급 전투 규칙 포함 PDF 인쇄본](/photo/[KOR]Atlantic Chase_Summary v1.0.pdf)
 
