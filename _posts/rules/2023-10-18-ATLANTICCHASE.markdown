@@ -38,7 +38,7 @@ Atlantic Chase는 1939~1942 기간동안 벌어진 영국 왕립 해군과 독�
 
 <img src="/photo/AC_letsgo.jpeg" width="1000">
 
-- [규칙서 요약본_고급 전투 규칙 포함 PDF 인쇄본](/photo/[KOR]Atlantic Chase_Summary v1.2.pdf)
+- [규칙서 요약본_고급 전투 규칙 포함 PDF 인쇄본](/photo/[KOR]Atlantic Chase_Summary v1.3.pdf)
 <br>
 -----
 <br>
@@ -49,3 +49,5 @@ v1.1 - Snafu 약자 추가(Situation Normal: All Fucked Up) (32pg)
 v1.2 - Acquiring 탐색->조준 번역어 변경.
 <br>
 -----
+<br>
+v1.3 - PDF 서체 오류 수정본. 
