@@ -1,0 +1,30 @@
+---
+layout: post3
+title: "Red Storm"
+date: 2024-09-11 00:00:00
+preview: /photo/240911_redstorm_thumb.jpg
+published: true
+rules: "on"
+short: null
+long: null
+---
+
+<img src="/photo/240911_redstorm.jpg" width="1000">
+
+GMT Games Red Storm 규칙서 번역입니다
+<br>
+PDF 작성 중에 자간 공백이 깨지는 문제가 있습니다. 중간 중간 저장할 때마다 의도치 않은 공백이 들어가네요. PDF는 역시 구려!
+<br>
+실행할 때 폰트 에러 메시지가 뜨긴하는데, 글자가 깨진다거나 하는 문제는 발견하지 못했습니다.
+<br>
+검수를 하긴했지만 빠진 부분/오역이 있을 수 있습니다. 피드백 부탁드립니다.
+<br>
+규칙 색인 부분은 번역하지 않았습니다. 
+<br>
+-----
+<br>
+v1.0 - 최초 업로드본
+<br>
+-----
+
+- [자료 링크](/photo/[KOR]Red Storm_v1.0.pdf)
