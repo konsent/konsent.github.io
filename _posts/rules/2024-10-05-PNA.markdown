@@ -1,0 +1,26 @@
+---
+layout: post3
+title: "PANZER: North Africa"
+date: 2024-10-05 00:00:00
+preview: /photo/pna.jpg
+published: true
+rules: "on"
+short: null
+long: null
+---
+
+<img src="/photo/pna.jpg" width="1000">
+
+GMT PANZER: North Africa 규칙서 번역입니다
+<br>
+상남자 번역이라 검수를 자세히 하지 않았습니다. 빠진 부분/오역이 있을 수 있습니다.
+<br>
+규칙 색인/용어집은 번역하지 않았습니다. 
+<br>
+-----
+<br>ㅇ
+v1.1 - 최초 업로드본(워터마크 제거)
+<br>
+-----
+
+- [자료 링크](/photo/[KOR]Panzer NA ver1.1.pdf)
