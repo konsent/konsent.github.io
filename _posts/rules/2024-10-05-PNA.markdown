@@ -18,9 +18,13 @@ GMT PANZER: North Africa 규칙서 번역입니다
 규칙 색인/용어집은 번역하지 않았습니다. 
 <br>
 -----
-<br>ㅇ
+<br>
 v1.1 - 최초 업로드본(워터마크 제거)
 <br>
 -----
+<br>
+v1.2 - 4.3.1. 주도권 결정하기 수정(첫번째 플레이어가 됩니다->첫번째 플레이어를 결정합니다)
+<br>
+-----
 
-- [자료 링크](/photo/[KOR]Panzer NA ver1.1.pdf)
+- [자료 링크](/photo/[KOR]Panzer NA ver1.2.pdf)
