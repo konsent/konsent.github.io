@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "위험한 보드게임에서 게임하는 만화"
+title: "전운이 감도는 무서운 곳에서 보드게임하는 만화"
 date: 2024-10-13 00:00:00
 preview: /photo/241013_dangerous_thumb.jpg
 published: true
