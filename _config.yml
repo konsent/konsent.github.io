@@ -23,7 +23,3 @@ analytics:
     anonymize_ip: # true, false (default)
 
 
-# 추가분
-assets:
-  features:
-    automatic_img_size: true
