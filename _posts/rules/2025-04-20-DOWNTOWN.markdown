@@ -11,7 +11,7 @@ long: null
 
 <img src="/photo/250420_downtown_thumb.jpeg" width="1000">
 
-<img src="/photo/250420_downtown.png" width="1000">
+<img src="/photo/250420_downtown.jpg" width="1000">
 
 Downtown: Air War Over Hanoi, 1965-1972
 <br>
