@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Downtown 플레이 순서</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.3;
+            margin: 0;
+            padding: 8px;
+            background-color: #1e2130;
+            color: #e8e9ec;
+            width: 210mm;
+            /* A4 landscape width */
+            height: 297mm;
+            /* A4 landscape height */
+            box-sizing: border-box;
+        }
+
+        h1 {
+            text-align: center;
+            color: #fff;
+            margin: 4px 0;
+            font-size: 18px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: row;
+            height: calc(100% - 30px);
+            gap: 8px;
+        }
+
+        .column {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .section {
+            background-color: #2d3142;
+            border-radius: 8px;
+            padding: 6px 10px;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .section-title {
+            color: #61dafb;
+            font-size: 15px;
+            margin: 0 0 6px 0;
+            padding-bottom: 3px;
+            border-bottom: 1px solid #4a5268;
+            font-weight: bold;
+        }
+
+        .phase {
+            margin-bottom: 4px;
+        }
+
+        .phase-title {
+            font-weight: bold;
+            color: #f8c291;
+            margin-bottom: 2px;
+            font-size: 12px;
+        }
+
+        ul {
+            margin: 0;
+            padding-left: 18px;
+        }
+
+        li {
+            font-size: 11px;
+            margin-bottom: 1px;
+            list-style-type: none;
+            position: relative;
+        }
+
+        li:before {
+            content: "•";
+            color: #61dafb;
+            position: absolute;
+            left: -12px;
+        }
+
+        .sub-step {
+            padding-left: 10px;
+            font-size: 10px;
+            color: #c8cad6;
+            margin-top: 1px;
+        }
+
+        .reference {
+            color: #9fa3b8;
+            font-size: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Downtown 플레이 순서</h1>
+
+    <div class="container">
+        <!-- 왼쪽 컬럼 -->
+        <div class="column">
+            <!-- 선발 공격대 -->
+            <div class="section">
+                <div class="section-title">3.1 선발 공격대</div>
+
+                <div class="phase">
+                    <div class="phase-title">▶ DRV 계획 페이즈 <span class="reference">[27.33]</span></div>
+                    <ul>
+                        <li>SAM 대대의 지도 위치 선택</li>
+                        <li>더미 SAM의 지도 위치 선택</li>
+                        <li>더미 레이더의 지도 위치 선택</li>
+                        <li>AAA 집중구역의 지도 위치 선택</li>
+                        <li>파이어 캔 유닛의 지도 위치 선택</li>
+                    </ul>
+                </div>
+
+                <div class="phase">
+                    <div class="phase-title">▶ DRV 지상 배치 페이즈 <span class="reference">[27.61, 27.62]</span></div>
+                    <ul>
+                        <li>비은폐 AAA 설치</li>
+                        <li>위치가 파악된 SAM을 지도 상에 설치</li>
+                    </ul>
+                </div>
+
+                <div class="phase">
+                    <div class="phase-title">▶ 미국 계획 페이즈 <span class="reference">[27.32]</span></div>
+                    <ul>
+                        <li>목표물 선택</li>
+                        <li>공격대를 위한 비행 경로 계획</li>
+                    </ul>
+                </div>
+
+                <div class="phase">
+                    <div class="phase-title">▶ 조기 경보 페이즈</div>
+                    <ul>
+                        <li>날씨 주사위 굴림 <span class="reference">[22.2]</span></li>
+                        <li>공격대의 조기 경보 수준 주사위 굴림 <span class="reference">[27.5]</span></li>
+                        <li>미국 플레이어는 결과에 따라 DRV 플레이어에게 공격대 정보 제공</li>
+                    </ul>
+                </div>
+
+                <div class="phase">
+                    <div class="phase-title">▶ DRV 공중 배치 페이즈</div>
+                    <ul>
+                        <li>DRV 플레이어가 비행대 구매 <span class="reference">[27.21]</span></li>
+                        <li>DRV 비행대를 비행장에서 준비/격납고 상태 또는 공중에 배치 <span class="reference">[27.63]</span></li>
+                    </ul>
+                </div>
+
+                <div class="phase">
+                    <div class="phase-title">▶ 미국 배치 페이즈</div>
+                    <ul>
+                        <li>첫 게임 턴에 진입하는 미국 비행대는 진입 헥스 근처 맵 바깥에 배치 <span class="reference">[27.64]</span></li>
+                        <li>비행대의 탐지 상태는 조기 경보 수준에 따라 설정 <span class="reference">[27.66]</span></li>
+                    </ul>
+                </div>
+
+                <div class="phase">
+                    <div class="phase-title">▶ DRV 레이더 페이즈</div>
+                    <ul>
+                        <li>DRV 플레이어는 파이어 캔/SAM/레이더를 켤 수 있음. AAA 활성화 가능 <span class="reference">[27.65]</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 주력 공격대 일부 -->
+            <div class="section">
+                <div class="section-title">3.2 주력 공격대 (1/2)</div>
+
+                <div class="phase">
+                    <div class="phase-title">▶ 무작위 이벤트 페이즈</div>
+                    <ul>
+                        <li>무작위 이벤트 확인 <span class="reference">[21]</span> (첫 턴에는 제외)</li>
+                    </ul>
+                </div>
+
+                <div class="phase">
+                    <div class="phase-title">▶ 전파 방해 페이즈</div>
+                    <ul>
+                        <li>미국은 스탠드오프 재밍 및 스팟 재밍 마커를 배치하거나 이동 <span class="reference">[19.32, 19.33, 19.34]</span></li>
+                    </ul>
+                </div>
+
+                <div class="phase">
+                    <div class="phase-title">▶ 탐지 페이즈</div>
+                    <ul>
+                        <li>미탐지 비행대 탐지를 위한 주사위 굴림 <span class="reference">[10.2]</span></li>
+                    </ul>
+                </div>
+
+                <div class="phase">
+                    <div class="phase-title">▶ 이동 페이즈</div>
+                    <ul>
+                        <li>비행대가 방어 원형진에 진입/이탈 <span class="reference">[7.11, 7.13]</span></li>
+                        <li>주도권 칩 뽑기 <span class="reference">[5.2]</span></li>
+                        <li>비행대는 주도권 순서대로 이동:
+                            <ul class="sub-step">
+                                <li>적 공중 유닛과 교전 가능 <span class="reference">[11.2]</span></li>
+                                <li>AAA와 SAM은 이동하는 비행대에 사격 가능 <span class="reference">[14.3, 14.43, 15.4]</span></li>
+                                <li>폭격 공격 수행 가능 <span class="reference">[17.1]</span></li>
+                                <li>사진 정찰 실행 <span class="reference">[24.1]</span></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="phase">
+                    <div class="phase-title">▶ 연료 페이즈</div>
+                    <ul>
+                        <li>대시 스로틀/공대공 전투 참여 비행대는 연료 사용량 기록 <span class="reference">[20.1]</span></li>
+                        <li>항공기 회수(착륙 또는 지도 이탈) <span class="reference">[20.2]</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 오른쪽 컬럼 -->
+        <div class="column">
+            <!-- 주력 공격대 나머지 -->
+            <div class="section">
+                <div class="section-title">3.2 주력 공격대 (2/2)</div>
+
+                <div class="phase">
+                    <div class="phase-title">▶ SAM 위치 페이즈</div>
+                    <ul>
+                        <li>미국 플레이어가 SAM 대대 위치 파악 <span class="reference">[15.13]</span></li>
+                    </ul>
+                </div>
+
+                <div class="phase">
+                    <div class="phase-title">▶ 추적 페이즈</div>
+                    <ul>
+                        <li>양 플레이어는 추적 테이블 주사위 굴림으로 미탐지 상태 결정 <span class="reference">[10.3]</span></li>
+                    </ul>
+                </div>
+
+                <div class="phase">
+                    <div class="phase-title">▶ SAM 표적 획득 페이즈</div>
+                    <ul>
+                        <li>신속 표적 획득을 시도하는 SAM 레이더 켜기 <span class="reference">[15.2]</span></li>
+                        <li>SAM 대대는 적 비행대에 표적 획득을 시도하거나 유지 <span class="reference">[15.3]</span></li>
+                        <li>선제 ARM 공격 해결 <span class="reference">[17.58]</span></li>
+                    </ul>
+                </div>
+
+                <div class="phase">
+                    <div class="phase-title">▶ 관리 페이즈</div>
+                    <ul>
+                        <li>비행대 무질서 상태 회복 주사위 굴림 <span class="reference">[13.11]</span></li>
+                        <li>모든 스팟 재밍 마커 제거 <span class="reference">[19.34]</span></li>
+                        <li>비행대 분리 <span class="reference">[4.14]</span></li>
+                        <li>파이어 캔/SAM 레이더 켜기 또는 끄기 <span class="reference">[14.44, 17.53]</span></li>
+                        <li>SAM 경고/발사 카운터 관리 <span class="reference">[15.12, 15.2, 15.42]</span></li>
+                        <li>더미 카운터 생성 <span class="reference">[4.13]</span></li>
+                        <li>DRV 비행대 상태 관리 <span class="reference">[9.42]</span></li>
+                        <li>AAA 제압 손실 및 활성화 <span class="reference">[18.21, 14.2]</span></li>
+                        <li>낙하산 승무원 관리 <span class="reference">[26.1-26.44]</span></li>
+                        <li>다음 턴 진입 비행대 배치 <span class="reference">[27.64]</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 후발 공격대 -->
+            <div class="section">
+                <div class="section-title">3.3 후발 공격대</div>
+                <div class="phase">
+                    <div class="phase-title">▶ 회수 페이즈</div>
+                    <ul>
+                        <li>지도 상에 남아있는 비행대의 회수 주사위 굴림 <span class="reference">[20.2]</span></li>
+                    </ul>
+                </div>
+
+                <div class="phase">
+                    <div class="phase-title">▶ 폭격 피해 평가 페이즈</div>
+                    <ul>
+                        <li>평가되지 않은 모든 공대지 피해 주사위 굴림 <span class="reference">[18.1, 24]</span></li>
+                    </ul>
+                </div>
+
+                <div class="phase">
+                    <div class="phase-title">▶ 승리 페이즈</div>
+                    <ul>
+                        <li>플레이어들은 공격대에서의 승리 조건 확인 <span class="reference">[27.8]</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 도움말/참고 섹션 -->
+
+        </div>
+    </div>
+</body>
+
+</html>
