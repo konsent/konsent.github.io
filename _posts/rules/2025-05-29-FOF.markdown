@@ -1,0 +1,25 @@
+---
+layout: post3
+title: "Fields of Fire Deluxe Edition"
+date: 2025-05-29 00:00:00
+preview: /photo/fof_thumb.jpeg
+published: true
+rules: "on"
+short: null
+long: null
+---
+
+<img src="/photo/fof_thumb.jpeg" width="1000">
+
+Fields of Fire Deluxe Edition
+<br>
+필드 오브 파이어 디럭스 에디션 한국어 룰북입니다.
+제라드님이 정말 큰 도움 주셔서 빠르게 완성했습니다.
+<br>
+원활한 참조를 위해 원문 병기를 하였습니다.
+오역이나 빠진 부분 있으면 말씀주세요!
+
+
+- [자료 링크](/photo/[KOR]field_of_fire_deluxe_v1.1.pdf)
+
+
