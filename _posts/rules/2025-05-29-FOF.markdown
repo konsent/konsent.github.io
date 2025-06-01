@@ -29,6 +29,10 @@ v1.1 - 최초 업로드본
 v1.2 - 2pg. 개요 부분 공백 수정
 <br>
 -----
-- [자료 링크](/photo/[KOR]field_of_fire_deluxe_v1.2.pdf)
+<br>
+v1.3 - Rally 번역어 수정(변경 전: 집결 / 변경 후: 재정비) 
+<br>
+-----
+- [자료 링크](/photo/[KOR]field_of_fire_deluxe_v1.3.pdf)
 
 
