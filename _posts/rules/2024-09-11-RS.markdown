@@ -34,6 +34,6 @@ v1.0 - 최초 업로드본
 팬 확장 솔로 플레이 시나리오 및 플레이 기록!
 시나리오 내용을 기계 번역한 뒤 그 아래 AAR을 기록하고 있습니다.
 - [비공식 솔로 확장 Dark Blue Defection AAR - 시나리오 4: Iron Hand](https://www.notion.so/daso-bgg/NSC4-Iron-Eagle-1ef832825ed880aa8327d3920f180636?pvs=25#1ef832825ed8808d99a2f3d0ecc38128)
-
+- [비공식 솔로 확장 Dark Blue Defection AAR - 시나리오 5: Dark Blue Defection](https://daso-bgg.notion.site/NSC5-Dark-Blue-Defection-204832825ed8802a8b4bdd138752e3ab?source=copy_link)
 
 
