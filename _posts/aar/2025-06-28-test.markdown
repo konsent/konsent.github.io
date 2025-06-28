@@ -5,7 +5,8 @@ date: 2025-06-28 00:00:00
 preview: /photo/NT-resizethumb.jpeg
 published: true
 rules: null
-notitles: "on"
+notitles: null
+aar: "on"
 short: null
 long: null
 ---
