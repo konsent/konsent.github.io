@@ -1,0 +1,113 @@
+---
+layout: default5
+---
+
+<div class="post">
+  <div class="post-nav">
+    {% if page.next.notitles %}
+      <a class="nav-item" href="{{ page.next.url | prepend: site.baseurl }}">&laquo; Prev</a>
+    {% else %}
+      {% for post in site.posts reversed%}
+        {% if post.short %}
+          {% continue %}
+        {% elsif post.long %}
+          {% continue %}
+        {% elsif post.rules %}
+          {% continue %}
+        {% elsif post == page %}
+          {% continue %}
+        {% elsif post.notitles %}
+          {% if post.number > page.number %}
+            <a class="nav-item" href="{{ post.url | prepend: site.baseurl }}">&laquo; Prev</a>
+            {% break %}
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+ 
+    {% if page.previous.notitles %}
+      <a class="nav-item" href="{{ page.previous.url | prepend: site.baseurl }}">Next &raquo;</a>
+    {% else %}
+      {% for post in site.posts%}
+        {% if post.short %}
+          {% continue %}
+        {% elsif post.long %}
+          {% continue %}
+        {% elsif post.rules %}
+          {% continue %}
+        {% elsif post == page %}
+          {% continue %}
+        {% elsif post.notitles %}
+          {% if page.number > post.number %}
+            <a class="nav-item" href="{{ post.url | prepend: site.baseurl }}">Next &raquo;</a>
+            {% break %}
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+  </div>
+ </div>
+
+
+<!-- <div class="post">
+  <div class="post-nav">
+    {% if page.next.notitles %}
+    <a class="nav-item" href="{{ page.next.url | prepend: site.baseurl }}"
+      >&laquo; Prev</a
+    >
+    {% else %} {% for post in site.posts reversed%} {% if post.short %} {%
+    continue %} {% elsif post.long %} {% continue %} {% elsif post.rules %} {%
+    continue %} {% elsif post == page %} {% continue %} {% elsif post.notitles
+    %} {% if post.number > page.number %}
+    <a class="nav-item" href="{{ post.url | prepend: site.baseurl }}"
+      >&laquo; Prev</a
+    >
+    {% break %} {% endif %} {% endif %} {% endfor %} {% endif %} {% if
+    page.previous.notitles %}
+    <a class="nav-item" href="{{ page.previous.url | prepend: site.baseurl }}"
+      >Next &raquo;</a
+    >
+    {% else %} {% for post in site.posts%} {% if post.short %} {% continue %} {%
+    elsif post.long %} {% continue %} {% elsif post.rules %} {% continue %} {%
+    elsif post == page %} {% continue %} {% elsif post.notitles %} {% if
+    page.number > post.number %}
+    <a class="nav-item" href="{{ post.url | prepend: site.baseurl }}"
+      >Next &raquo;</a
+    >
+    {% break %} {% endif %} {% endif %} {% endfor %} {% endif %}
+  </div> -->
+
+  <header class="post-header">
+    <h1 class="post-title">{{ page.title }}</h1>
+    <p class="post-meta">작성일자 {{ page.date | date: "%b %-d, %Y" }}</p>
+  </header>
+
+  <!-- <article class="post-content">{{ content }}</article>
+  <script
+    src="https://utteranc.es/client.js"
+    repo="konsent/konsent.github.io"
+    issue-term="pathname"
+    theme="github-light"
+    crossorigin="anonymous"
+    async
+  ></script>
+</div> -->
+
+  <article class="post-content">{{ content }}</article>
+  <script
+    src="https://giscus.app/client.js"
+    data-repo="konsent/konsent.github.io"
+    data-repo-id="R_kgDOHb--7w"
+    data-category="Announcements"
+    data-category-id="DIC_kwDOHb--784CSLqE"
+    data-mapping="title"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top" 
+    data-theme="light"
+    data-lang="ko"
+    crossorigin="anonymous"
+    async
+  ></script>
+</div>

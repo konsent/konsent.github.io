@@ -1,0 +1,13 @@
+---
+layout: post5
+title: "test"
+date: 2025-06-28 00:00:00
+preview: /photo/NT-resizethumb.jpeg
+published: true
+rules: null
+notitles: "on"
+short: null
+long: null
+---
+
+<img src="/photo/cpb_thumb.jpeg" width="300"> 
