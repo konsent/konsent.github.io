@@ -1,0 +1,39 @@
+---
+layout: post3
+title: "Stellar Horizons"
+date: 2025-07-13 00:00:00
+preview: /photo/SH/250712_SH_thumb.jpg
+published: true
+rules: "on"
+short: null
+long: null
+---
+
+<img src="/photo/SH/250712_SH_thumb.jpg" width="1000">
+
+Stellar Horizons
+<br>
+스텔라 호라이즌 한국어 규칙서 및 보드게임긱 해외 유저들의 참조표 번역자료입니다.
+<br>
+원활한 참조를 위해 원문 병기를 하였습니다.
+오역이나 빠진 부분 있으면 말씀주세요!!
+
+원본 규칙서 자체가 정돈되지 않았다는 평이 많습니다.
+01번 규칙서 참조 메뉴얼이 규칙서를 제대로 정리해서 좋은 평을 듣고 있는 자료입니다.
+01번 자료와 원본 규칙서를 참조하시고 나머지 참조표와 치트 시트를 덧붙여서 보시면 될 것 같습니다.
+
+<br>
+-----
+<br>
+v1.0 - 최초 업로드본
+<br>
+-----
+
+- [한국어 규칙서 번역본](/photo/SH/[KOR]%20Stellar%20Horizons%20rulebook%20v1.0.pdf)
+- [01. Stellar Horizons 규칙서 참조 매뉴얼(출처: BGG/MabLynx)](/photo/SH/01.%20Stellar%20Horizons%20규칙서%20참조%20매뉴얼.html)
+- [02. Stellar Horizons 통합 규칙 설명서(출처: BGG/poifpoif)](/photo/SH/02.%20Stellar%20Horizons%20통합%20규칙%20설명서.html)
+- [03. Stellar Horizons 요약 시트(2장)(출처: BGG/원본을 못찾겠어요 ㅠ)](/photo/SH/03.%20Stellar%20Horizons%20요약%20시트.pdf)
+- [04. Stellar Horizons 규칙 요약(출처: BGG/jdgames)](/photo/SH/05.%20Stellar%20Horizons%20규칙%20요약.html)
+
+
+
