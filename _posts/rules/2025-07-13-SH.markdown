@@ -28,8 +28,13 @@ Stellar Horizons
 v1.0 - 최초 업로드본
 <br>
 -----
+<br>
+v1.1 - 챕터 제목 변경(5pg) / 
+       일부 구간 줄간격 조정 / 
+       "각 기지는 각 유형의 시설을 하나씩만 가질 수 있지만, 시설에는 두 가지 레벨이 있습니다"로 수정(2.7.1 시설, 10pg)
+<br>
 
-- [한국어 규칙서 번역본](/photo/SH/[KOR]%20Stellar%20Horizons%20rulebook%20v1.0.pdf)
+- [한국어 규칙서 번역본](/photo/SH/[KOR]%20Stellar%20Horizons%20rulebook%20v1.1.pdf)
 - [01. Stellar Horizons 규칙서 참조 매뉴얼(출처: BGG/MabLynx)](/photo/SH/01.%20Stellar%20Horizons%20규칙서%20참조%20매뉴얼.html)
 - [02. Stellar Horizons 통합 규칙 설명서(출처: BGG/poifpoif)](/photo/SH/02.%20Stellar%20Horizons%20통합%20규칙%20설명서.html)
 - [03. Stellar Horizons 요약 시트(2장)(출처: BGG/원본을 못찾겠어요 ㅠ)](/photo/SH/03.%20Stellar%20Horizons%20요약%20시트.pdf)
