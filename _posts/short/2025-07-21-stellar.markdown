@@ -1,0 +1,26 @@
+---
+layout: post
+title: "우주 게임은 십중팔구 맛이 좋다"
+date: 2025-07-21 00:00:00
+preview: /photo/250721_Stellar_thumb.jpg
+published: true
+short: "on"
+---
+
+<img src="/photo/250721_Stellar.jpg" width="1000">
+
+오랜만에 즐기는 우주게임
+역시 맛이 좋다
+
+
+
+
+
+
+
+
+
+
+
+
+
