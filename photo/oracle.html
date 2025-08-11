@@ -1,0 +1,535 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>오라클 — 성격 기반 상황/전술 자동화</title>
+<style>
+  :root{
+    --bg:#071226; --card:#0b1622; --accent:#1f6feb; --muted:#9fb0c8;
+    --glass: rgba(255,255,255,0.03); --ok:#10b981; --danger:#ef4444;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; font-family: "Noto Sans KR", Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    background: linear-gradient(180deg,#061027 0%, #071226 100%); color:#e8f0fb; padding:28px;
+  }
+  header{display:flex;flex-direction:column;gap:6px;margin-bottom:18px}
+  h1{font-size:20px;margin:0}
+  p.lead{margin:0;color:var(--muted);font-size:13px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px}
+  .card{background:var(--card); padding:14px; border-radius:12px; border:1px solid rgba(255,255,255,0.03); box-shadow: 0 8px 24px rgba(2,6,23,0.6)}
+  .card h3{margin:0 0 8px 0;font-size:15px}
+  .controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .btn{background:var(--accent);color:white;border:0;padding:8px 10px;border-radius:10px;cursor:pointer;font-weight:600}
+  .btn.small{padding:6px 8px;font-size:13px}
+  .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted)}
+  .row{display:flex;align-items:center;justify-content:space-between;margin:8px 0;padding:6px;border-radius:8px;background:rgba(255,255,255,0.01)}
+  .label{color:var(--muted);font-size:14px;flex:1}
+  .value{min-width:180px;text-align:center;padding:6px 8px;border-radius:8px;background:var(--glass);font-weight:700}
+  .value.val-0{color:var(--muted);font-weight:600}
+  .value.good{color:var(--ok);background:rgba(16,185,129,0.06)}
+  .value.bad{color:var(--danger);background:rgba(239,68,68,0.06)}
+  .hint{font-size:12px;color:var(--muted);margin-top:8px}
+  footer{margin-top:18px;color:var(--muted);font-size:13px}
+  .flex{display:flex;gap:8px;align-items:center}
+  @media (max-width:560px){ .value{min-width:120px} }
+</style>
+</head>
+<body>
+<header>
+  <h1>오라클 — 성격 기반 상황/전술 자동화</h1>
+  <p class="lead">성격을 뽑으면(또는 수동으로 바꾸면) 자동 규칙에 따라 상황·전술이 도출됩니다. 개별 클릭으로 재굴림도 가능.</p>
+</header>
+
+<section class="grid">
+  <!-- 기본 성격 -->
+  <div class="card">
+    <h3>기본 성격 매트릭스</h3>
+    <div class="controls" style="justify-content:space-between;margin-bottom:10px">
+      <div style="display:flex;gap:8px;align-items:center">
+        <button id="seed-personality" class="btn small">기본 성격 설정</button>
+        <button id="reset-personality" class="btn small ghost">초기화</button>
+        <label style="display:flex;align-items:center;gap:6px;color:var(--muted);font-size:13px">
+          <input type="checkbox" id="auto-select" /> 성격 기반 자동 선택
+        </label>
+      </div>
+      <div style="font-size:13px;color:var(--muted)">7단계: 거의 확실 → 가능성 전무</div>
+    </div>
+
+    <div id="personality-list"></div>
+  </div>
+
+  <!-- 상황 매트릭스 -->
+  <div class="card">
+    <h3>상황 별 매트릭스</h3>
+    <div class="controls" style="margin-bottom:8px;justify-content:space-between">
+      <div>
+        <button id="randomize-all-situations" class="btn small">모두 랜덤</button>
+        <button id="reset-situations" class="btn small ghost">초기화</button>
+      </div>
+      <div style="color:var(--muted);font-size:13px">항목 클릭 = 해당 항목 재굴림</div>
+    </div>
+
+    <div id="situations-list"></div>
+    <p class="hint">상황은 성격의 가중치 합산으로 결정됩니다.</p>
+  </div>
+
+  <!-- 전술 매트릭스 -->
+  <div class="card">
+    <h3>전술 매트릭스</h3>
+    <div class="controls" style="margin-bottom:8px;justify-content:space-between">
+      <div>
+        <button id="randomize-all-tactics" class="btn small">모두 랜덤</button>
+        <button id="reset-tactics" class="btn small ghost">초기화</button>
+      </div>
+      <div style="color:var(--muted);font-size:13px">전술 항목 클릭 = 해당 항목 재굴림</div>
+    </div>
+
+    <div id="tactics-list"></div>
+    <p class="hint">전술 자동화는 상황 + 성격에 기반한 가중치 규칙을 따릅니다.</p>
+  </div>
+</section>
+
+<!-- 기본 질문 -->
+<div class="card" style="margin-top:16px">
+  <h3>기본 질문 매트릭스</h3>
+  <div style="display:flex;gap:8px;align-items:center">
+    <button id="custom-question" class="btn small">커스텀 질문</button>
+    <div id="custom-result" class="value val-0">-</div>
+    <div style="color:var(--muted);font-size:13px">(1/7 × 1/6 확률)</div>
+  </div>
+</div>
+
+<footer>
+  필요하면 전술 규칙/가중치를 더 튜닝하거나 "성격→행동" 자동 결정(예: 공격/방어 최종 선택)을 추가해 줄게요.
+</footer>
+
+<script>
+/* ===== 상수 & 데이터 ===== */
+const COMMON_7 = [
+  "거의 확실","매우 가능성 높음","가능성 높음","50/50",
+  "가능성 낮음","매우 가능성 낮음","가능성 전무"
+];
+
+const personalityKeys = [
+  "인내심","용기","공격성","유연성","손실 감내력","임무 확대"
+];
+
+const situationKeys = [
+  "시간이 내 편인가?",
+  "내 지휘관을 보호해야 하는가?",
+  "방어보다 공격이 더 나은가?",
+  "화력보다 기동이 더 나은가?",
+  "병력 보호를 우선해야 하는가?",
+  "간접적인 전략을 선호하는가?",
+  "승리할 수 있는 방법이 하나 이상인가?"
+];
+
+const tacticsMeta = {
+  "공격": ["자살 공격","모든 방향","다수","대부분","단일 축","국지전","탐색전"],
+  "방어": ["결사항전","모든 방향","광범위하게","핵심 요점","선별적으로","필요한 경우만","시간 벌기"],
+  "방법": ["기습 승리","돌파","포위","측면","전방","제파 공격","방향 전환"],
+  "강도": ["거의 없음 (0%)","최소 (10%)","부족 (30%)","평균 (50%)","풍부 (70%)","최대 (90%)","전부 (100%)"],
+  "방향": ["모든 방향","좌측 측면","우측 측면","중앙/전방","후방","측면/중앙","매우 좁음"],
+  "집중": ["거대 스택","큰 스택","가능한 많은 스택","중간 스택","얇은 스택","거의 없는 스택","스택 없음"],
+  "플롯 트위스트": [
+    "모든 성격 재굴림",
+    "공격/방어 매트릭스 바꾸기",
+    "성격 2개 재굴림",
+    "상황 또는 성격 1개 재굴림",
+    "상황 1개 재굴림",
+    "상황 2개 재굴림",
+    "모든 상황 재굴림"
+  ]
+};
+
+/* 기본 질문 매트릭스 (7 x 6) */
+const questionMatrix = [
+  ["아니야","맞아. 하지만...","맞아","맞아. 그리고...","맞아. 그리고...","맞아. 그리고..."], // 거의 확실
+  ["아니야. 하지만...","맞아. 하지만...","맞아. 하지만...","맞아","맞아. 하지만...","맞아. 하지만..."], // 매우 가능성 높음
+  ["아니야. 그리고...","아니야. 하지만...","맞아","맞아. 하지만...","맞아. 하지만...","맞아"], // 가능성 높음
+  ["아니야. 그리고...","아니야","맞아. 하지만...","맞아","맞아 아니야.","하지만..."], // 50/50
+  ["아니야. 그리고...","아니야. 그리고...","아니야","아니야. 하지만...","맞아","아니야. 하지만..."], // 가능성 낮음
+  ["아니야. 그리고...","아니야. 그리고...","아니야. 그리고...","아니야","아니야. 하지만...","아니야"], // 매우 가능성 낮음
+  ["아니야. 그리고...","아니야. 그리고...","아니야. 그리고...","아니야. 그리고...","아니야. 하지만...","아니야. 하지만..."] // 가능성 전무
+];
+
+/* ===== 점수/영향 맵 ===== */
+const stageScore = {
+  "거의 확실": 3,
+  "매우 가능성 높음": 2,
+  "가능성 높음": 1,
+  "50/50": 0,
+  "가능성 낮음": -1,
+  "매우 가능성 낮음": -2,
+  "가능성 전무": -3
+};
+
+/* 성격 → 영향을 주는 상황들 (기본 맵) */
+const personalityToSituations = {
+  "인내심": ["시간이 내 편인가?", "병력 보호를 우선해야 하는가?", "간접적인 전략을 선호하는가?"],
+  "용기": ["방어보다 공격이 더 나은가?", "승리할 수 있는 방법이 하나 이상인가?"],
+  "공격성": ["방어보다 공격이 더 나은가?", "화력보다 기동이 더 나은가?"],
+  "유연성": ["간접적인 전략을 선호하는가?", "승리할 수 있는 방법이 하나 이상인가?"],
+  "손실 감내력": ["병력 보호를 우선해야 하는가?", "화력보다 기동이 더 나은가?"],
+  "임무 확대": ["시간이 내 편인가?", "승리할 수 있는 방법이 하나 이상인가?"]
+};
+
+/* 전술별 영향 가중치: (type:'personality'|'situation', key:string, weight:number) */
+const tacticInfluence = {
+  "공격": [
+    {type:'situation', key:"방어보다 공격이 더 나은가?", weight:2},
+    {type:'personality', key:"공격성", weight:2},
+    {type:'personality', key:"용기", weight:1}
+  ],
+  "방어": [
+    {type:'situation', key:"방어보다 공격이 더 나은가?", weight:-2},
+    {type:'situation', key:"병력 보호를 우선해야 하는가?", weight:2},
+    {type:'personality', key:"손실 감내력", weight:1}
+  ],
+  "방법": [
+    {type:'situation', key:"간접적인 전략을 선호하는가?", weight:2},
+    {type:'personality', key:"유연성", weight:1},
+    {type:'situation', key:"시간이 내 편인가?", weight:1}
+  ],
+  "강도": [
+    {type:'personality', key:"용기", weight:2},
+    {type:'situation', key:"시간이 내 편인가?", weight:1},
+    {type:'situation', key:"병력 보호를 우선해야 하는가?", weight:-1}
+  ],
+  "방향": [
+    {type:'situation', key:"화력보다 기동이 더 나은가?", weight:2},
+    {type:'personality', key:"유연성", weight:1},
+    {type:'personality', key:"임무 확대", weight:1}
+  ],
+  "집중": [
+    {type:'situation', key:"병력 보호를 우선해야 하는가?", weight:2},
+    {type:'personality', key:"손실 감내력", weight:1},
+    {type:'personality', key:"공격성", weight:-1}
+  ],
+  "플롯 트위스트": [
+    {type:'personality', key:"임무 확대", weight:1},
+    {type:'personality', key:"유연성", weight:-1},
+    {type:'situation', key:"승리할 수 있는 방법이 하나 이상인가?", weight:1}
+  ]
+};
+
+/* ===== 상태 저장 ===== */
+let personState = {};     // {key: stage}
+let situationState = {};  // {key: stage}
+let tacticState = {};     // {key: option}
+
+/* ===== 유틸 ===== */
+function randIndex(n){ return Math.floor(Math.random()*n); }
+function randChoice(arr){ return arr[randIndex(arr.length)]; }
+function stageToScore(stage){ return stageScore[stage] ?? 0; }
+
+/* UI 요소 생성 & 업데이트 helper */
+function makeRow(label, valueText = "-", container, onClick){
+  const row = document.createElement('div');
+  row.className = 'row';
+  const lbl = document.createElement('div'); lbl.className='label'; lbl.textContent = label;
+  const val = document.createElement('div'); val.className='value val-0'; val.textContent = valueText;
+  row.appendChild(lbl); row.appendChild(val);
+  if(onClick){
+    val.style.cursor = 'pointer';
+    val.addEventListener('click', onClick);
+  }
+  container.appendChild(row);
+  return {row, val};
+}
+
+/* ===== 초기 UI 생성 ===== */
+const pContainer = document.getElementById('personality-list');
+const sContainer = document.getElementById('situations-list');
+const tContainer = document.getElementById('tactics-list');
+
+function initUI(){
+  pContainer.innerHTML=''; sContainer.innerHTML=''; tContainer.innerHTML='';
+  personalityKeys.forEach(k=>{
+    const {val} = makeRow(k,"-", pContainer, ()=>{
+      // 개별 클릭하면 랜덤 성격 부여
+      const stage = randChoice(COMMON_7);
+      personState[k] = stage;
+      updatePersonUI(k);
+      if(document.getElementById('auto-select').checked){ autoGenerateAll(); }
+    });
+    // store val element for updates
+    val.dataset.key = k;
+  });
+  situationKeys.forEach(k=>{
+    const {val} = makeRow(k,"-", sContainer, ()=>{
+      const stage = randChoice(COMMON_7);
+      situationState[k] = stage;
+      updateSituationUI(k);
+    });
+    val.dataset.key = k;
+  });
+  Object.keys(tacticsMeta).forEach(k=>{
+    const {val} = makeRow(k,"-", tContainer, ()=>{
+      // 개별 전술은 해당 전술 항목에서 직접 랜덤 선택
+      const choice = randChoice(tacticsMeta[k]);
+      tacticState[k] = choice;
+      updateTacticUI(k);
+      // 플롯트위스트면 동작 트리거
+      if(k==="플롯 트위스트") handlePlotTwist(choice);
+    });
+    val.dataset.key = k;
+  });
+}
+initUI();
+
+/* ===== UI 업데이트 함수들 ===== */
+function updatePersonUI(key){
+  const selector = `[data-key="${CSS.escape(key)}"]`;
+  const el = document.querySelector(selector);
+  const stage = personState[key] ?? "-";
+  el.textContent = stage;
+  el.className = "value " + (stage === "-" ? "val-0" : (stageScore[stage] >= 2 ? "good" : (stageScore[stage] <= -2 ? "bad": "")));
+}
+
+function updateSituationUI(key){
+  const selector = `[data-key="${CSS.escape(key)}"]`;
+  const el = document.querySelector(selector);
+  const stage = situationState[key] ?? "-";
+  el.textContent = stage;
+  el.className = "value " + (stage === "-" ? "val-0" : (stageScore[stage] >= 2 ? "good" : (stageScore[stage] <= -2 ? "bad": "")));
+}
+
+function updateTacticUI(key){
+  const selector = `[data-key="${CSS.escape(key)}"]`;
+  const el = document.querySelector(selector);
+  const val = tacticState[key] ?? "-";
+  el.textContent = val;
+  // 간단 색상: '공격' 관련이 공격적인 옵션이면 빨갛게(직관적), 강도 높으면 초록 등
+  el.className = "value " + (val === "-" ? "val-0" : "");
+}
+
+/* ===== 랜덤 생성 함수들 ===== */
+function randomizePersonalityAll(){
+  personalityKeys.forEach(k=>{
+    personState[k] = randChoice(COMMON_7);
+    updatePersonUI(k);
+  });
+}
+
+function randomizeSituationsAll(){
+  situationKeys.forEach(k=>{
+    situationState[k] = randChoice(COMMON_7);
+    updateSituationUI(k);
+  });
+}
+
+function randomizeTacticsAll(){
+  Object.keys(tacticsMeta).forEach(k=>{
+    tacticState[k] = randChoice(tacticsMeta[k]);
+    updateTacticUI(k);
+  });
+}
+
+/* ===== 자동화 규칙: 성격 → 상황 =====
+   각 상황에 대해 연결된 성격들의 점수를 합산하고 그 합에 따라 후보 단계(2개)를 정함.
+*/
+function autoGenerateSituations(){
+  situationKeys.forEach(sit=>{
+    // 합산 점수 계산: 모든 성격 중 해당 상황에 영향주는 것만 합산
+    let sum = 0;
+    for(const p of personalityKeys){
+      const affects = personalityToSituations[p] || [];
+      if(affects.includes(sit)){
+        const st = personState[p] ?? "50/50";
+        sum += stageToScore(st);
+      }
+    }
+    // 후보 단계 선택 로직 (세분화)
+    let candidates;
+    if(sum >= 5) candidates = [0,1];            // 매우 우호적
+    else if(sum >= 3) candidates = [1,2];
+    else if(sum >= 1) candidates = [2,3];
+    else if(sum >= -1) candidates = [2,3];
+    else if(sum >= -3) candidates = [3,4];
+    else if(sum >= -5) candidates = [4,5];
+    else candidates = [5,6];
+
+    const choiceIdx = candidates[Math.floor(Math.random()*candidates.length)];
+    const stage = COMMON_7[choiceIdx];
+    situationState[sit] = stage;
+    updateSituationUI(sit);
+  });
+}
+
+/* ===== 자동화 규칙: 상황 + 성격 → 전술 =====
+   tacticInfluence에서 정의된 항목들을 가중 합산해 점수로 변환.
+   점수 구간에 따라 인덱스 범위를 선택. 일부 전술은 'invert' 옵션 사용 (높은 점수→낮은 인덱스 선택)
+*/
+function scoreForInfluenceList(list){
+  let total = 0;
+  list.forEach(item=>{
+    if(item.type === 'personality'){
+      const st = personState[item.key] ?? "50/50";
+      total += (stageToScore(st) * item.weight);
+    } else if(item.type === 'situation'){
+      const st = situationState[item.key] ?? "50/50";
+      total += (stageToScore(st) * item.weight);
+    }
+  });
+  return total;
+}
+
+function pickIndexFromScore(score, invert=false){
+  // score 가 클수록 '긍정적' 영향. invert일 경우 그 반대.
+  // 기준값은 경험적으로 설정 (score 범위는 대략 -10..+10)
+  if(score >= 6) return invert ? randChoice([6,5]) : randChoice([0,1]);
+  if(score >= 3) return invert ? randChoice([5,4]) : randChoice([1,2]);
+  if(score >= 1) return invert ? randChoice([4,3]) : randChoice([2,3]);
+  if(score >= 0) return 3;
+  if(score >= -2) return invert ? randChoice([2,3]) : randChoice([3,4]);
+  if(score >= -4) return invert ? randChoice([1,2]) : randChoice([4,5]);
+  return invert ? randChoice([0,1]) : randChoice([5,6]);
+}
+
+function autoGenerateTactics(){
+  // 전술마다 합산 → 인덱스 선택
+  Object.keys(tacticInfluence).forEach(tac=>{
+    const infl = tacticInfluence[tac];
+    const score = scoreForInfluenceList(infl);
+    // 어떤 전술은 '공격적일수록 낮은 인덱스(0~)를 선택'하는 식으로 invert 처리
+    let invert = false;
+    if(tac === "공격" || tac === "방법") invert = true; // 공격적이면 인덱스 낮음 = 공격적 항목 우선
+    if(tac === "방어") invert = false;
+    // 선택 인덱
+    const idx = pickIndexFromScore(score, invert);
+    // 안전장치: 0..6 범위
+    const selIdx = Math.max(0, Math.min(6, idx));
+    const choice = tacticsMeta[tac][selIdx];
+    tacticState[tac] = choice;
+    updateTacticUI(tac);
+    // 플롯 트위스트가 뽑혔으면 적용
+    if(tac === "플롯 트위스트") handlePlotTwist(choice);
+  });
+}
+
+/* ===== 플롯 트위스트 처리 (기존 행동들) ===== */
+function handlePlotTwist(choice){
+  // 안전하게 동작: 기존 상태를 바탕으로 재굴림/스왑 등 수행
+  switch(choice){
+    case "모든 성격 재굴림":
+      randomizePersonalityAll();
+      // 자동 선택 켜져있으면 다시 전체 자동화
+      if(document.getElementById('auto-select').checked) autoGenerateAll();
+      break;
+    case "공격/방어 매트릭스 바꾸기":
+      // 공격과 방어 전술을 swap
+      const a = tacticState["공격"], d = tacticState["방어"];
+      tacticState["공격"] = d; tacticState["방어"] = a;
+      updateTacticUI("공격"); updateTacticUI("방어");
+      break;
+    case "성격 2개 재굴림":
+      for(let i=0;i<2;i++){
+        const p = randChoice(personalityKeys);
+        personState[p] = randChoice(COMMON_7);
+        updatePersonUI(p);
+      }
+      if(document.getElementById('auto-select').checked) autoGenerateAll();
+      break;
+    case "상황 또는 성격 1개 재굴림":
+      if(Math.random() < 0.5){
+        const s = randChoice(situationKeys);
+        situationState[s] = randChoice(COMMON_7);
+        updateSituationUI(s);
+      } else {
+        const p = randChoice(personalityKeys);
+        personState[p] = randChoice(COMMON_7);
+        updatePersonUI(p);
+      }
+      if(document.getElementById('auto-select').checked) autoGenerateAll();
+      break;
+    case "상황 1개 재굴림":
+      {
+        const s = randChoice(situationKeys);
+        situationState[s] = randChoice(COMMON_7);
+        updateSituationUI(s);
+        if(document.getElementById('auto-select').checked) autoGenerateTactics();
+      }
+      break;
+    case "상황 2개 재굴림":
+      for(let i=0;i<2;i++){
+        const s = randChoice(situationKeys);
+        situationState[s] = randChoice(COMMON_7);
+        updateSituationUI(s);
+      }
+      if(document.getElementById('auto-select').checked) autoGenerateTactics();
+      break;
+    case "모든 상황 재굴림":
+      randomizeSituationsAll();
+      if(document.getElementById('auto-select').checked) autoGenerateTactics();
+      break;
+    default:
+      // noop
+  }
+}
+
+/* ===== 통합 자동 실행 (성격->상황->전술) ===== */
+function autoGenerateAll(){
+  autoGenerateSituations();
+  autoGenerateTactics();
+}
+
+/* ===== 버튼 바인딩 ===== */
+document.getElementById('seed-personality').addEventListener('click', ()=>{
+  randomizePersonalityAll();
+  if(document.getElementById('auto-select').checked){
+    autoGenerateAll();
+  }
+});
+document.getElementById('reset-personality').addEventListener('click', ()=>{
+  personState = {}; document.querySelectorAll('#personality-list .value').forEach(v=>{ v.textContent = "-"; v.className="value val-0"; });
+});
+document.getElementById('randomize-all-situations').addEventListener('click', ()=>{
+  randomizeSituationsAll();
+});
+document.getElementById('reset-situations').addEventListener('click', ()=>{
+  situationState = {}; document.querySelectorAll('#situations-list .value').forEach(v=>{ v.textContent = "-"; v.className="value val-0"; });
+});
+document.getElementById('randomize-all-tactics').addEventListener('click', ()=>{
+  randomizeTacticsAll();
+});
+document.getElementById('reset-tactics').addEventListener('click', ()=>{
+  tacticState = {}; document.querySelectorAll('#tactics-list .value').forEach(v=>{ v.textContent = "-"; v.className="value val-0"; });
+});
+
+/* 커스텀 질문 (1/7 * 1/6) */
+document.getElementById('custom-question').addEventListener('click', ()=>{
+  const stageIdx = randIndex(7);
+  const optIdx = randIndex(6);
+  const ans = questionMatrix[stageIdx][optIdx];
+  const el = document.getElementById('custom-result');
+  el.textContent = ans;
+  el.className = "value " + (stageIdx <= 1 ? "good" : (stageIdx >=5 ? "bad" : ""));
+});
+
+/* ===== 개별 클릭 시 상태 관리를 위해 초기 상태 셋업 (UI에 data-key 사용) ===== */
+function attachInitialValues(){
+  // 빈 상태로 이미 UI는 초기화되었으므로 상태 객체 초기화
+  personalityKeys.forEach(k=>personState[k] = undefined);
+  situationKeys.forEach(k=>situationState[k] = undefined);
+  Object.keys(tacticsMeta).forEach(k=>tacticState[k] = undefined);
+}
+attachInitialValues();
+
+/* ===== 작은 보정: 각 UI row의 value 엘리먼트이름 검색용 = data-key (생성 시 추가 필요) ===== */
+/* 위의 makeRow 함수는 dataset을 세팅하지 않았으므로, 간단히 재연결 */
+(function setDataKeys(){
+  // personality
+  const pvals = pContainer.querySelectorAll('.value');
+  pvals.forEach((el,i)=> el.dataset.key = personalityKeys[i]);
+  const svals = sContainer.querySelectorAll('.value');
+  svals.forEach((el,i)=> el.dataset.key = situationKeys[i]);
+  const tvals = tContainer.querySelectorAll('.value');
+  Object.keys(tacticsMeta).forEach((k,i)=> tvals[i] && (tvals[i].dataset.key = k));
+})();
+
+</script>
+</body>
+</html>
