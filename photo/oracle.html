@@ -51,7 +51,7 @@
         <button id="seed-personality" class="btn small">기본 성격 설정</button>
         <button id="reset-personality" class="btn small ghost">초기화</button>
         <label style="display:flex;align-items:center;gap:6px;color:var(--muted);font-size:13px">
-          <input type="checkbox" id="auto-select" /> 성격 기반 자동 선택
+          <input type="checkbox" id="auto-select" checked /> 성격 기반 자동 선택
         </label>
       </div>
       <div style="font-size:13px;color:var(--muted)">7단계: 거의 확실 → 가능성 전무</div>
@@ -65,7 +65,7 @@
     <h3>상황 별 매트릭스</h3>
     <div class="controls" style="margin-bottom:8px;justify-content:space-between">
       <div>
-        <button id="randomize-all-situations" class="btn small">모두 랜덤</button>
+        <button id="randomize-all-situations" class="btn small">상황 생성</button>
         <button id="reset-situations" class="btn small ghost">초기화</button>
       </div>
       <div style="color:var(--muted);font-size:13px">항목 클릭 = 해당 항목 재굴림</div>
@@ -80,7 +80,7 @@
     <h3>전술 매트릭스</h3>
     <div class="controls" style="margin-bottom:8px;justify-content:space-between">
       <div>
-        <button id="randomize-all-tactics" class="btn small">모두 랜덤</button>
+        <button id="randomize-all-tactics" class="btn small">전술 생성</button>
         <button id="reset-tactics" class="btn small ghost">초기화</button>
       </div>
       <div style="color:var(--muted);font-size:13px">전술 항목 클릭 = 해당 항목 재굴림</div>
@@ -88,6 +88,8 @@
 
     <div id="tactics-list"></div>
     <p class="hint">전술 자동화는 상황 + 성격에 기반한 가중치 규칙을 따릅니다.</p>
+    <p class="hint">전술 판단이 필요할 때마다, 전술 생성 버튼을 눌러 전술을 선택합니다.</p>
+    <p class="hint">15%의 확률로 상황이 바뀌어 오라클의 성격/상황/전술이 바뀔 수 있습니다!</p>
   </div>
 </section>
 
@@ -127,14 +129,102 @@ const situationKeys = [
 ];
 
 const plotTwistOptions = [
-  "모든 성격 재굴림",
-  "공격/방어 매트릭스 바꾸기",
-  "성격 2개 재굴림",
-  "상황 또는 성격 1개 재굴림",
-  "상황 1개 재굴림",
-  "상황 2개 재굴림",
-  "모든 상황 재굴림"
+  "모든 성격을 재설정합니다",
+  "공격/방어 매트릭스를 서로 바꿉니다",
+  "성격 2개를 재설정합니다",
+  "상황 또는 성격 1개를 재설정합니다",
+  "상황 1개를 재설정합니다",
+  "상황 2개를 재설정합니다",
+  "모든 상황을 재설정합니다"
 ];
+
+// 각 옵션별 플레이버 텍스트 (10개씩)
+const plotTwistFlavorTexts = {
+  "모든 성격을 재설정합니다": [
+    "적 지휘관이 경질되었습니다. 적의 작전 계획에 큰 변화가 있을 것으로 보입니다.",
+    "정찰 결과 적의 동향이 심상치 않습니다… 새로운 지휘부가 나타난 듯합니다.",
+    "예상치 못한 내부 혼란이 발생했습니다. 전술적 불확실성이 커졌습니다.",
+    "적군의 핵심 지휘관이 교체되었습니다. 전력 재편성 중일 가능성이 높습니다.",
+    "전선 전체에 걸쳐 적군의 태도가 급변했습니다. 대처가 필요합니다.",
+    "외부 요인으로 적군 성격이 전면 재조정되었습니다. 대비를 서두르십시오.",
+    "새로운 정보에 따르면 적군이 작전 방향을 전면 재검토 중입니다.",
+    "예상 밖의 지도부 교체로 적의 대응 양상이 바뀌고 있습니다.",
+    "지휘 체계가 흔들리는 중입니다. 적군의 행동이 불규칙해질 수 있습니다.",
+    "내부 소요와 혼란으로 적의 전술 성향이 일시적으로 리셋되었습니다."
+  ],
+  "공격/방어 매트릭스를 서로 바꿉니다": [
+    "적 공격의 흐름이 바뀐 것으로 보입니다. 방어 중심에서 공세로 전환 중입니다.",
+    "수세에 몰린 적이 작전을 바꾼 것 같습니다. 방어가 공격으로 바뀌는 중입니다.",
+    "적의 방어 태세가 해체되고 공격 태세로 급선회했습니다.",
+    "전선에서 공격과 방어의 역할이 역전되고 있습니다. 주의하세요.",
+    "적의 전략적 균형이 깨지고, 방어력이 약화되고 있습니다.",
+    "적군의 작전 방향이 급변해 공격과 방어의 위치가 뒤바뀌고 있습니다.",
+    "공격과 방어의 전술이 서로 교체되어 전황이 크게 요동치고 있습니다.",
+    "적군의 전술적 우선순위가 전면 재배치되어 전투 흐름이 달라졌습니다.",
+    "방어가 공격으로, 공격이 방어로 맞바뀐 상황입니다. 대응책 마련이 시급합니다.",
+    "전선에서 적의 공격·방어 패턴이 완전히 바뀌어 혼란이 가중되고 있습니다."
+  ],
+  "성격 2개를 재설정합니다": [
+    "적의 두 핵심 성향이 갑작스럽게 변화했습니다.",
+    "적 지휘부 내 두 주요 지표가 불안정해졌습니다.",
+    "적군 성격 중 두 축이 새롭게 재조정되었습니다.",
+    "두 가지 핵심 성향이 예기치 않게 바뀌어 대응이 필요합니다.",
+    "내부 갈등으로 두 성격 축이 변동되었습니다. 전술 재검토를 권장합니다.",
+    "적의 두 주요 전술 성향이 흔들리고 있습니다.",
+    "중요한 두 성격 요소가 변동하여 적 대응에 혼란이 예상됩니다.",
+    "예상 외 두 핵심 성향의 변화가 포착되었습니다.",
+    "적군의 작전 특성이 두 곳에서 급격히 변하고 있습니다.",
+    "성격 재설정으로 적군 전술이 부분적으로 리셋되었습니다."
+  ],
+  "상황 또는 성격 1개를 재설정합니다": [
+    "적의 한 가지 전술적 상황이 변동되었습니다.",
+    "전선 상황 중 한 요소가 갑자기 바뀌었습니다.",
+    "적군 한 가지 성격 지표가 재설정되었습니다.",
+    "상황 또는 성격 한 축의 변화가 감지되었습니다.",
+    "작은 변화지만 작전 전개에 영향을 줄 수 있습니다.",
+    "전술 불확실성을 높이는 단기 변동이 발생했습니다.",
+    "적의 한 부분에서 예기치 않은 변화가 일어났습니다.",
+    "전략적 한 축의 변화가 현장에 전달되고 있습니다.",
+    "전술 요소 하나가 리셋되어 대응이 필요합니다.",
+    "상황 혹은 성격의 작은 변화가 전황에 영향을 미칠 수 있습니다."
+  ],
+  "상황 1개를 재설정합니다": [
+    "전선의 한 상황 지표가 급변했습니다.",
+    "중요한 전술 상황 중 하나가 재설정되었습니다.",
+    "전투 환경이 갑자기 바뀌어 혼란이 예상됩니다.",
+    "한 가지 상황 변화가 전황에 영향을 줍니다.",
+    "적의 대응 전략 일부가 바뀌었습니다.",
+    "국지적 상황 변동이 포착되었습니다.",
+    "전술적 환경 중 한 요소가 새롭게 형성되고 있습니다.",
+    "주요 상황 하나가 리셋되어 대응이 요구됩니다.",
+    "전선 상황 중 한 축에 급격한 변화가 일어났습니다.",
+    "현장 상황이 부분적으로 재조정되고 있습니다."
+  ],
+  "상황 2개를 재설정합니다": [
+    "전선 두 상황 지표가 동시에 변화했습니다.",
+    "중대한 국지 상황 두 곳이 재설정되었습니다.",
+    "전술 환경에 큰 변화가 동시에 발생하고 있습니다.",
+    "두 개 상황의 변동으로 전황이 요동치고 있습니다.",
+    "국지적 혼란이 두 지역에서 동시 발생했습니다.",
+    "두 가지 전술적 상황이 동시 재설정되어 긴장이 고조됩니다.",
+    "적의 두 주요 상황 지표가 흔들리고 있습니다.",
+    "두 전술 축이 예기치 않게 변경되었습니다.",
+    "전투 환경이 두 부분에서 급격히 변했습니다.",
+    "다중 상황 변화로 대응 방안 재수립이 필요합니다."
+  ],
+  "모든 상황을 재설정합니다": [
+    "전선 전반의 상황이 전면 재조정되었습니다.",
+    "적의 작전 환경이 완전히 변동되어 혼란이 가중되고 있습니다.",
+    "전술적 상황 전체가 다시 평가되고 있습니다.",
+    "전선 상황 전반에 걸쳐 큰 변화가 발생했습니다.",
+    "적군 전술 상황이 리셋되어 대처가 어렵습니다.",
+    "상황 재설정으로 전투 흐름에 급격한 변화가 일어났습니다.",
+    "국지적 상황들이 전면 재편성되고 있습니다.",
+    "모든 상황 지표가 불확실성 상태로 바뀌었습니다.",
+    "전술 환경 전반에 걸쳐 새로운 국면이 열렸습니다.",
+    "전선 상황 전체가 다시 수립되고 있습니다."
+  ]
+};
 
 
 const tacticsMeta = {
@@ -144,15 +234,6 @@ const tacticsMeta = {
   "강도": ["거의 없음 (0%)","최소 (10%)","부족 (30%)","평균 (50%)","풍부 (70%)","최대 (90%)","전부 (100%)"],
   "방향": ["모든 방향","좌측 측면","우측 측면","중앙/전방","후방","측면/중앙","매우 좁음"],
   "집중": ["거대 스택","큰 스택","가능한 많은 스택","중간 스택","얇은 스택","거의 없는 스택","스택 없음"],
-//   "플롯 트위스트": [
-//     "모든 성격 재굴림",
-//     "공격/방어 매트릭스 바꾸기",
-//     "성격 2개 재굴림",
-//     "상황 또는 성격 1개 재굴림",
-//     "상황 1개 재굴림",
-//     "상황 2개 재굴림",
-//     "모든 상황 재굴림"
-//   ]
 };
 
 
@@ -441,6 +522,9 @@ function pickTactic(tac){
   if(Math.random() < 0.15){
     const twist = plotTwistOptions[Math.floor(Math.random() * plotTwistOptions.length)];
     console.log("플롯 트위스트 발생:", twist);
+    const flavorList = plotTwistFlavorTexts[twist] || [""];
+    const flavorText = flavorList[Math.floor(Math.random() * flavorList.length)];
+    showPlotTwistModal(twist, flavorText);  // 모달로 알림 띄우기
     handlePlotTwist(twist);
 
     // 플롯트위스트로 전술이나 상황이 바뀌었을 수 있으니 UI 전체 갱신
@@ -530,9 +614,22 @@ document.getElementById('randomize-all-situations').addEventListener('click', ()
 document.getElementById('reset-situations').addEventListener('click', ()=>{
   situationState = {}; document.querySelectorAll('#situations-list .value').forEach(v=>{ v.textContent = "-"; v.className="value val-0"; });
 });
-document.getElementById('randomize-all-tactics').addEventListener('click', ()=>{
+document.getElementById('randomize-all-tactics').addEventListener('click', () => {
   randomizeTacticsAll();
+
+  // 10% 확률로 플롯 트위스트 자동 발생 처리
+  if (Math.random() < 0.10) {
+    const twist = plotTwistOptions[Math.floor(Math.random() * plotTwistOptions.length)];
+    const flavorList = plotTwistFlavorTexts[twist] || [""];
+    const flavorText = flavorList[Math.floor(Math.random() * flavorList.length)];
+    showPlotTwistModal(twist, flavorText); // 모달로 알림 띄우기
+    handlePlotTwist(twist);
+
+    // 변경된 상태 UI 업데이트
+    Object.keys(tacticsMeta).forEach(k => updateTacticUI(k));
+  }
 });
+
 document.getElementById('reset-tactics').addEventListener('click', ()=>{
   tacticState = {}; document.querySelectorAll('#tactics-list .value').forEach(v=>{ v.textContent = "-"; v.className="value val-0"; });
 });
@@ -556,6 +653,22 @@ function attachInitialValues(){
 }
 attachInitialValues();
 
+function showPlotTwistModal(message, flavorText) {
+  const modal = document.getElementById('plot-twist-modal');
+  const titleEl = document.getElementById('plot-twist-title');
+  const messageEl = document.getElementById('plot-twist-message');
+  const flavorEl = document.getElementById('plot-twist-flavor');
+  titleEl.textContent = "상황이 바뀌었습니다!";
+  messageEl.textContent = message;
+  flavorEl.textContent = flavorText;
+
+  modal.style.display = 'block';
+
+  setTimeout(() => {
+    modal.style.display = 'none';
+  }, 5000);
+}
+
 /* ===== 작은 보정: 각 UI row의 value 엘리먼트이름 검색용 = data-key (생성 시 추가 필요) ===== */
 /* 위의 makeRow 함수는 dataset을 세팅하지 않았으므로, 간단히 재연결 */
 (function setDataKeys(){
@@ -569,5 +682,30 @@ attachInitialValues();
 })();
 
 </script>
+
+<!-- 플롯 트위스트 발생 시 생성되는 모달 -->
+<div id="plot-twist-modal" style="
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(15, 30, 50, 0.95);
+  color: white;
+  padding: 16px 24px;
+  border-radius: 12px;
+  box-shadow: 0 0 15px #1f6febcc;
+  font-weight: 700;
+  font-size: 16px;
+  display: none;
+  z-index: 1000;
+  text-align: center;
+  max-width: 80%;
+  white-space: pre-line;
+">
+  <div id="plot-twist-title" style="font-size: 24px; font-weight: 900; margin-bottom: 8px;">상황이 바뀌었습니다!</div>
+  <div id="plot-twist-message" style="font-size: 18px; margin-bottom: 6px;"></div>
+  <div id="plot-twist-flavor" style="font-size: 14px; font-style: italic; color: #a0b9e9;"></div>
+</div>
+
+
 </body>
 </html>
