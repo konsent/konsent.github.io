@@ -728,8 +728,21 @@ function showPlotTwistModal(message, flavorText) {
   messageEl.textContent = message;
   flavorEl.textContent = flavorText;
   modal.style.display = 'block';
+
+  // 문서 아무데나 클릭 시 모달 닫히도록 이벤트 리스너 추가
+  const closeModalOnClick = () => {
+    modal.style.display = 'none';
+    document.removeEventListener('click', closeModalOnClick);
+  };
+  // setTimeout으로 이벤트 전파 후 리스너 추가
+  setTimeout(() => {
+    document.addEventListener('click', closeModalOnClick);
+  }, 0);
+
+  // 기존 타이머 유지: 5초 후 자동 닫힘
   setTimeout(() => {
     modal.style.display = 'none';
+    document.removeEventListener('click', closeModalOnClick);
   }, 5000);
 }
 
@@ -764,6 +777,7 @@ document.getElementById('weight-scale').addEventListener('input', (e) => {
   max-width: 80%;
   white-space: pre-line;
 ">
+
   <div id="plot-twist-title" style="font-size: 24px; font-weight: 900; margin-bottom: 8px;">상황이 바뀌었습니다!</div>
   <div id="plot-twist-message" style="font-size: 18px; margin-bottom: 6px;"></div>
   <div id="plot-twist-flavor" style="font-size: 14px; font-style: italic; color: #a0b9e9;"></div>
