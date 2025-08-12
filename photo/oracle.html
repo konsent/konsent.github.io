@@ -86,10 +86,16 @@
       <div style="color:var(--muted);font-size:13px">전술 항목 클릭 = 해당 항목 재굴림</div>
     </div>
 
+    <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px">
+      <label style="color:var(--muted);font-size:13px">가중치 강도: </label>
+      <input type="range" id="weight-scale" min="0" max="2" step="0.1" value="1" style="width:150px">
+      <span id="weight-scale-value" style="color:var(--muted);font-size:13px">1.0</span>
+    </div>
+
     <div id="tactics-list"></div>
-    <p class="hint">전술 자동화는 상황 + 성격에 기반한 가중치 규칙을 따릅니다.</p>
+    <p class="hint">전술 자동화는 상황 + 성격에 기반한 가중치 규칙을 따릅니다. 가중치 강도를 조절하여 영향을 제어할 수 있습니다.</p>
     <p class="hint">전술 판단이 필요할 때마다, 전술 생성 버튼을 눌러 전술을 선택합니다.</p>
-    <p class="hint">15%의 확률로 상황이 바뀌어 오라클의 성격/상황/전술이 바뀔 수 있습니다!</p>
+    <p class="hint">10%의 확률로 상황이 바뀌어 오라클의 성격/상황/전술이 바뀔 수 있습니다!</p>
   </div>
 </section>
 
@@ -110,9 +116,18 @@
 <script>
 /* ===== 상수 & 데이터 ===== */
 const COMMON_7 = [
-  "거의 확실","매우 가능성 높음","가능성 높음","50/50",
-  "가능성 낮음","매우 가능성 낮음","가능성 전무"
+  "거의 확실","매우 가능성 높음","가능성 높음","50/50","가능성 낮음","매우 가능성 낮음","가능성 전무"
 ];
+
+const situationScale = {
+  "거의 확실": 7,
+  "매우 가능성 높음": 6,
+  "가능성 높음": 5,
+  "50/50": 4,
+  "가능성 낮음": 3,
+  "매우 가능성 낮음": 2,
+  "가능성 전무": 1
+};
 
 const personalityKeys = [
   "인내심","용기","공격성","유연성","손실 감내력","임무 확대"
@@ -120,7 +135,7 @@ const personalityKeys = [
 
 const situationKeys = [
   "시간이 내 편인가?",
-  "내 지휘관을 보호해야 하는가?",
+  "본부 병력을 보호해야 하는가?",
   "방어보다 공격이 더 나은가?",
   "화력보다 기동이 더 나은가?",
   "병력 보호를 우선해야 하는가?",
@@ -228,8 +243,8 @@ const plotTwistFlavorTexts = {
 
 
 const tacticsMeta = {
-  "공격": ["자살 공격","모든 방향","다수","대부분","단일 축","국지전","탐색전"],
-  "방어": ["결사항전","모든 방향","광범위하게","핵심 요점","선별적으로","필요한 경우만","시간 벌기"],
+  "공격": ["자살 공격","모든 방향","다수","대부분","단일 공격 축","국지전","탐색전"],
+  "방어": ["결사항전","모든 방향","광범위 방어","핵심 요충지만","선별적 방어","필요한 경우만","시간 벌기"],
   "방법": ["기습 승리","돌파","포위","측면","전방","제파 공격","방향 전환"],
   "강도": ["거의 없음 (0%)","최소 (10%)","부족 (30%)","평균 (50%)","풍부 (70%)","최대 (90%)","전부 (100%)"],
   "방향": ["모든 방향","좌측 측면","우측 측면","중앙/전방","후방","측면/중앙","매우 좁음"],
@@ -266,46 +281,43 @@ const personalityToSituations = {
   "용기": ["방어보다 공격이 더 나은가?", "승리할 수 있는 방법이 하나 이상인가?"],
   "공격성": ["방어보다 공격이 더 나은가?", "화력보다 기동이 더 나은가?"],
   "유연성": ["간접적인 전략을 선호하는가?", "승리할 수 있는 방법이 하나 이상인가?"],
-  "손실 감내력": ["병력 보호를 우선해야 하는가?", "화력보다 기동이 더 나은가?"],
+  "손실 감내력": ["병력 보호를 우선해야 하는가?", "화력보다 기동이 더 나은가?", "본부 병력을 보호해야 하는가?"],
   "임무 확대": ["시간이 내 편인가?", "승리할 수 있는 방법이 하나 이상인가?"]
 };
 
-/* 전술별 영향 가중치: (type:'personality'|'situation', key:string, weight:number) */
+/* 전술별 영향 가중치: (type:'personality'|'situation', key:string, highWeight:number, lowWeight:number) */
 const tacticInfluence = {
   "공격": [
-    {type:'situation', key:"방어보다 공격이 더 나은가?", weight:2},
-    {type:'personality', key:"공격성", weight:2},
-    {type:'personality', key:"용기", weight:1}
+    {type:'situation', key:"방어보다 공격이 더 나은가?", highWeight: 2, lowWeight: -2},
+    {type:'situation', key:"병력 보호를 우선해야 하는가?", highWeight: -2, lowWeight: 3},
+    {type:'personality', key:"공격성", weight: 2},
+    {type:'personality', key:"용기", weight: 2}
   ],
   "방어": [
-    {type:'situation', key:"방어보다 공격이 더 나은가?", weight:-2},
-    {type:'situation', key:"병력 보호를 우선해야 하는가?", weight:2},
-    {type:'personality', key:"손실 감내력", weight:1}
+    {type:'situation', key:"방어보다 공격이 더 나은가?", highWeight: -2, lowWeight: 2},
+    {type:'situation', key:"병력 보호를 우선해야 하는가?", highWeight: 2, lowWeight: -1},
+    {type:'situation', key:"본부 병력을 보호해야 하는가?", highWeight: 2, lowWeight: -1},
+    {type:'personality', key:"손실 감내력", weight: 1}
   ],
   "방법": [
-    {type:'situation', key:"간접적인 전략을 선호하는가?", weight:2},
-    {type:'personality', key:"유연성", weight:1},
-    {type:'situation', key:"시간이 내 편인가?", weight:1}
+    {type:'situation', key:"간접적인 전략을 선호하는가?", highWeight: 2, lowWeight: -1},
+    {type:'personality', key:"유연성", weight: 1},
+    {type:'situation', key:"시간이 내 편인가?", highWeight: 1, lowWeight: -1}
   ],
   "강도": [
-    {type:'personality', key:"용기", weight:2},
-    {type:'situation', key:"시간이 내 편인가?", weight:1},
-    {type:'situation', key:"병력 보호를 우선해야 하는가?", weight:-1}
+    {type:'personality', key:"용기", weight: 2},
+    {type:'situation', key:"시간이 내 편인가?", highWeight: 1, lowWeight: -1},
+    {type:'situation', key:"병력 보호를 우선해야 하는가?", highWeight: -1, lowWeight: 1}
   ],
   "방향": [
-    {type:'situation', key:"화력보다 기동이 더 나은가?", weight:2},
-    {type:'personality', key:"유연성", weight:1},
-    {type:'personality', key:"임무 확대", weight:1}
+    {type:'situation', key:"화력보다 기동이 더 나은가?", highWeight: 2, lowWeight: -1},
+    {type:'personality', key:"유연성", weight: 1},
+    {type:'personality', key:"임무 확대", weight: 1}
   ],
   "집중": [
-    {type:'situation', key:"병력 보호를 우선해야 하는가?", weight:2},
-    {type:'personality', key:"손실 감내력", weight:1},
-    {type:'personality', key:"공격성", weight:-1}
-  ],
-  "플롯 트위스트": [
-    {type:'personality', key:"임무 확대", weight:1},
-    {type:'personality', key:"유연성", weight:-1},
-    {type:'situation', key:"승리할 수 있는 방법이 하나 이상인가?", weight:1}
+    {type:'situation', key:"병력 보호를 우선해야 하는가?", highWeight: 2, lowWeight: -1},
+    {type:'personality', key:"손실 감내력", weight: 1},
+    {type:'personality', key:"공격성", weight: -1}
   ]
 };
 
@@ -464,6 +476,27 @@ function scoreForInfluenceList(list){
     }
   });
   return total;
+}/* 점수 계산 함수 수정 */
+function scoreForInfluenceList(influenceList) {
+  let score = 0;
+  const scale = parseFloat(document.getElementById('weight-scale').value) || 1;
+  influenceList.forEach(infl => {
+    if (infl.type === 'situation') {
+      const label = situationState[infl.key];
+      const val = situationScale[label] || 4; // 기본값 50/50
+      if (val >= 4) {
+        score += (infl.highWeight || 0) * scale;
+      } else {
+        score += (infl.lowWeight || 0) * scale;
+      }
+    } else if (infl.type === 'personality') {
+      const label = personState[infl.key];
+      const val = situationScale[label] || 4;
+      // personality는 기존 방식 유지
+      score += (infl.weight || 0) * scale;
+    }
+  });
+  return score;
 }
 
 function pickIndexFromScore(score, invert=false){
@@ -519,7 +552,7 @@ function pickTactic(tac){
   updateTacticUI(tac);
 
   // 10% 확률로 플롯 트위스트 발생
-  if(Math.random() < 0.15){
+  if(Math.random() < 0.1){
     const twist = plotTwistOptions[Math.floor(Math.random() * plotTwistOptions.length)];
     console.log("플롯 트위스트 발생:", twist);
     const flavorList = plotTwistFlavorTexts[twist] || [""];
@@ -595,7 +628,7 @@ function handlePlotTwist(choice){
 /* ===== 통합 자동 실행 (성격->상황->전술) ===== */
 function autoGenerateAll(){
   autoGenerateSituations();
-//   autoGenerateTactics();
+  autoGenerateTactics();
 }
 
 /* ===== 버튼 바인딩 ===== */
@@ -680,6 +713,11 @@ function showPlotTwistModal(message, flavorText) {
   const tvals = tContainer.querySelectorAll('.value');
   Object.keys(tacticsMeta).forEach((k,i)=> tvals[i] && (tvals[i].dataset.key = k));
 })();
+
+// 슬라이더 값 실시간 업데이트
+document.getElementById('weight-scale').addEventListener('input', (e) => {
+  document.getElementById('weight-scale-value').textContent = e.target.value;
+});
 
 </script>
 
