@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>오라클 — 성격 기반 상황/전술 자동화</title>
+<title>Wargaming Oracle</title>
 <style>
   :root{
     --bg:#071226; --card:#0b1622; --accent:#1f6feb; --muted:#9fb0c8;
@@ -38,8 +38,11 @@
 </head>
 <body>
 <header>
-  <h1>오라클 — 성격 기반 상황/전술 자동화</h1>
-  <p class="lead">성격을 뽑으면(또는 수동으로 바꾸면) 자동 규칙에 따라 상황·전술이 도출됩니다. 개별 클릭으로 재굴림도 가능.</p>
+  <h1>Wargaming Oracle</h1>
+  <p class="lead">혼자서 워게임 2인플을 할 때 가상 플레이어(봇)의 성격과 행동을 정의하는데 도움을 주는 매트릭스입니다.</p>
+  <p class="lead">우선 기본 성격 설정 버튼을 눌러 봇 플레이어의 기본 성격을 설정합니다.</p>
+  <p class="lead">게임 중 봇 플레이어의 행동을 결정해야할 때마다, 전술 매트릭스를 참고하여 봇 행동을 결정합니다.</p>
+  <p class="lead">성격을 뽑으면(또는 수동으로 바꾸면) 자동 규칙에 따라 상황·전술이 도출됩니다. 개별 클릭으로 재설정도 가능합니다.</p>
 </header>
 
 <section class="grid">
@@ -88,7 +91,7 @@
     <div id="tactics-list"></div>
     <p class="hint">전술 자동화는 상황 + 성격에 기반한 가중치 규칙을 따릅니다. 가중치 강도를 조절하여 영향을 제어할 수 있습니다.</p>
     <p class="hint">전술 판단이 필요할 때마다, 전술 생성 버튼을 눌러 전술을 선택합니다.</p>
-    <p class="hint">10%의 확률로 상황이 바뀌어 오라클의 성격/상황/전술이 바뀔 수 있습니다!</p>
+    <p class="hint">25%의 확률로 상황이 바뀌어 오라클의 성격/상황/전술이 바뀔 수 있습니다!</p>
   </div>
 </section>
 
@@ -239,8 +242,8 @@ const plotTwistFlavorTexts = {
 };
 
 const tacticsMeta = {
-  "공격": ["자살 공격","모든 방향","다수","대부분","단일 공격 축","국지전","탐색전"],
-  "방어": ["결사항전","모든 방향","광범위 방어","핵심 요충지만","선별적 방어","필요한 경우만","시간 벌기"],
+  "공격": ["자살 공격","모든 방향","여러 방향","단일 방향","국지전","소규모 정찰","공격 포기"],
+  "방어": ["결사항전","광범위 방어","핵심 요충지만","선별적 방어","필요한 경우만","시간 벌기","후퇴"],
   "방법": ["기습 승리","돌파","포위","측면","전방","제파 공격","방향 전환"],
   "강도": ["거의 없음 (0%)","최소 (10%)","부족 (30%)","평균 (50%)","풍부 (70%)","최대 (90%)","전부 (100%)"],
   "방향": ["모든 방향","좌측 측면","우측 측면","중앙/전방","후방","측면/중앙","매우 좁음"],
@@ -598,7 +601,7 @@ function pickTactic(tac) {
   }
   tacticState[tac] = choice;
   updateTacticUI(tac);
-  if (Math.random() < 0.1) {
+  if (Math.random() < 0.25) {
     const twist = plotTwistOptions[Math.floor(Math.random() * plotTwistOptions.length)];
     const flavorList = plotTwistFlavorTexts[twist] || [""];
     const flavorText = flavorList[Math.floor(Math.random() * flavorList.length)];
