@@ -41,6 +41,8 @@
   .modal-content ul ul{padding-left:32px}
   .modal-content ul ul li{font-size:14px;line-height:1.6}
   .modal-content strong{color:var(--accent);font-weight:700}
+  .modal-content bold{color:var(--danger);font-weight:500}
+  .modal-content italic{font-style: italic;}
   .modal-close{position:absolute;top:12px;right:12px;color:var(--muted);font-size:18px;cursor:pointer;padding:8px}
   .modal-close:hover{color:var(--accent);transform:scale(1.2)}
   @media (max-width:560px){
@@ -164,6 +166,16 @@
       <li>공격 병력 결정
         <ul>
           <li>투입할 유닛(스텝) 수는 <strong>전술 매트릭스의 집중 데이터</strong>를 참고하여 결정한다.</li>
+        </ul>
+      </li>
+      <li>일반 행동 결정
+        <ul>
+          <li>전술 판단을 제외한 모든 선택은 <strong>기본 질문 매트릭스</strong>를 참고하여 결정한다. 
+          <br>이때 매트릭스 결과에 따라 나름의 이유를 생각한다.</li>
+          <li><italic>(예시: <bold>"이 유닛을 이동시켜야할까?"</bold> 라는 질문을 스스로 함
+          <br>기본 질문 매트릭스의 커스텀 질문 버튼을 누름. 결과는 <bold>"맞아. 하지만..."</bold> 이 나옴
+          <br>질문 결과에 따라 행동하고, 후속 이유를 생각한다.
+          <br><bold>"이 유닛을 이동하자. 하지만 본부와 너무 멀리 떨어지면 안되니 여기까지만 이동해야지"</bold>)</italic></li>
         </ul>
       </li>
     </ul>
@@ -744,10 +756,10 @@ function showGuidelineModal() {
   setTimeout(() => {
     document.addEventListener('click', closeModalOnClick);
   }, 0);
-  setTimeout(() => {
-    modal.style.display = 'none';
-    document.removeEventListener('click', closeModalOnClick);
-  }, 10000);
+  // setTimeout(() => {
+  //   modal.style.display = 'none';
+  //   document.removeEventListener('click', closeModalOnClick);
+  // }, 10000);
 }
 
 document.getElementById('seed-personality').addEventListener('click', () => {
