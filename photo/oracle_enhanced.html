@@ -20,6 +20,7 @@
   .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px}
   .card{background:var(--card); padding:14px; border-radius:12px; border:1px solid rgba(255,255,255,0.03); box-shadow: 0 8px 24px rgba(2,6,23,0.6)}
   .card h3{margin:0 0 8px 0;font-size:15px}
+  .card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
   .controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
   .btn{background:var(--accent);color:white;border:0;padding:8px 10px;border-radius:10px;cursor:pointer;font-weight:600}
   .btn.small{padding:6px 8px;font-size:13px}
@@ -39,10 +40,12 @@
   .modal-content ul{margin:12px 0;padding-left:24px}
   .modal-content li{font-size:15px;margin-bottom:8px;line-height:1.6;color:#e8f0fb}
   .modal-content ul ul{padding-left:32px}
-  .modal-content bold{color:var(--danger);font-weight:500}
-  .modal-content italic{font-style: italic;}
-  .modal-content ul ul li{font-size:14px;line-height:1.6}
+  .modal-content li{font-size:14px;line-height:1.6}
   .modal-content strong{color:var(--accent);font-weight:700}
+  .modal-content good{color:var(--ok);background:rgba(16,185,129,0.06)}
+  .modal-content bad{color:var(--danger);background:rgba(239,68,68,0.06)}
+  .modal-content bold{color:var(--danger);font-weight:600}
+  .modal-content italic{font-style: italic;}
   .modal-close{position:absolute;top:12px;right:12px;color:var(--muted);font-size:18px;cursor:pointer;padding:8px}
   .modal-close:hover{color:var(--accent);transform:scale(1.2)}
   @media (max-width:560px){
@@ -50,7 +53,7 @@
     .modal-content h3{font-size:18px}
     .modal-content li{font-size:14px}
     .modal-content ul ul li{font-size:13px}
-    #guideline-modal{padding:16px;max-width:95%}
+    .modal{padding:16px;max-width:95%}
   }
 </style>
 </head>
@@ -64,14 +67,18 @@
     <p class="lead">성격을 뽑으면(또는 수동으로 바꾸면) 자동 규칙에 따라 상황·전술이 도출됩니다. 개별 클릭으로 재설정도 가능합니다。</p>
   </div>
   <div class="guideline-link" id="guideline-link">
-    <span>?</span>
     <span>가이드라인</span>
   </div>
 </header>
 
 <section class="grid">
   <div class="card">
-    <h3>기본 성격 매트릭스</h3>
+    <div class="card-header">
+      <h3>기본 성격 매트릭스</h3>
+      <div class="guideline-link" id="personality-guideline-link">
+        <span>가이드라인</span>
+      </div>
+    </div>
     <div class="controls" style="justify-content:space-between;margin-bottom:10px">
       <div style="display:flex;gap:8px;align-items:center">
         <button id="seed-personality" class="btn small">기본 성격 설정</button>
@@ -86,7 +93,12 @@
   </div>
 
   <div class="card">
-    <h3>상황 별 매트릭스</h3>
+    <div class="card-header">
+      <h3>상황 별 매트릭스</h3>
+      <div class="guideline-link" id="situation-guideline-link">
+        <span>가이드라인</span>
+      </div>
+    </div>
     <div class="controls" style="margin-bottom:8px;justify-content:space-between">
       <div>
         <button id="randomize-all-situations" class="btn small">상황 생성</button>
@@ -99,7 +111,12 @@
   </div>
 
   <div class="card">
-    <h3>전술 매트릭스</h3>
+    <div class="card-header">
+      <h3>전술 매트릭스</h3>
+      <div class="guideline-link" id="tactics-guideline-link">
+        <span>가이드라인</span>
+      </div>
+    </div>
     <div class="controls" style="margin-bottom:8px;justify-content:space-between">
       <div>
         <button id="randomize-all-tactics" class="btn small">전술 생성</button>
@@ -113,9 +130,10 @@
       <span id="weight-scale-value" style="color:var(--muted);font-size:13px">1.0</span>
     </div>
     <div id="tactics-list"></div>
-    <p class="hint">전술 자동화는 상황 + 성격에 기반한 가중치 규칙을 따릅니다. 가중치 강도를 조절하여 영향을 제어할 수 있습니다。</p>
-    <p class="hint">전술 판단이 필요할 때마다, 전술 생성 버튼을 눌러 전술을 선택합니다。</p>
-    <p class="hint">25%의 확률로 상황이 바뀌어 오라클의 성격/상황/전술이 바뀔 수 있습니다！</p>
+    <p class="hint">전술 판단이 필요할 때마다, 전술 생성 버튼을 눌러 전술을 선택합니다.</p>
+    <p class="hint">전술 자동화는 봇 성격과 상황에 기반한 가중치 규칙을 따릅니다.</p>
+    <p class="hint">가중치를 0으로 설정하면 성격/상황과 상관 없이 완전 랜덤하게 전술이 생성됩니다.</p>
+    <p class="hint">일정 확률로 전장이 급변하여 봇 성격/상황/전술이 바뀔 수 있습니다！</p>
   </div>
 </section>
 
@@ -132,7 +150,8 @@
   테이블에 포함되지 않은 판단이 필요한 경우, 커스텀 질문으로 Y/N을 판단할 수 있습니다。
 </footer>
 
-<div id="guideline-modal" style="
+<!-- 기본 가이드라인 모달 -->
+<div id="guideline-modal" class="modal" style="
   position: fixed;
   top: 50%; left: 50%;
   transform: translate(-50%, -50%);
@@ -163,18 +182,115 @@
           <li>인접하거나 공격 가능 범위 내 적이 없다면 적과 인접하는 방향으로 이동한다.</li>
         </ul>
       </li>
-      <li>일반 행동 결정
+      <li><strong>일반 행동 결정</strong>
         <ul>
-          <li>전술 판단을 제외한 모든 선택은 <strong>기본 질문 매트릭스</strong>를 참고하여 결정한다. 
-          <br>이때 매트릭스 결과에 따라 나름의 이유를 생각한다.</li>
-          <li><italic>(예시: <bold>"이 유닛을 이동시켜야할까?"</bold> 라는 질문을 스스로 함
-          <br>기본 질문 매트릭스의 커스텀 질문 버튼을 누름. 결과는 <bold>"맞아. 하지만..."</bold> 이 나옴
-          <br>질문 결과에 따라 행동하고, 후속 이유를 생각한다.
-          <br><bold>"이 유닛을 이동하자. 하지만 본부와 너무 멀리 떨어지면 안되니 여기까지만 이동해야지"</bold>)</italic></li>
+          <li>전술 판단을 제외한 모든 선택은 <strong>기본 질문 매트릭스</strong>를 참고하여 결정한다. <br>이때 매트릭스 결과에 따라 나름의 이유를 생각한다.</li>
+          <li><i><italic>(예시: <bold>"이 유닛을 이동시켜야할까?"</bold> 라는 질문을 스스로 함.<br>기본 질문 매트릭스의 커스텀 질문 버튼을 누름. 결과는 <good>"맞아. 하지만..."</good> 이 나옴<br>질문 결과에 따라 행동하고, 후속 이유를 임의로 생각한다.<br><bold>"이 유닛을 이동하자. 하지만 본부와 너무 멀리 떨어지면 안되니 여기까지만 이동해야지"</bold>)</italic></i></li>
         </ul>
       </li>
     </ul>
-    <h3>공격 전술 행동 지침</h3>
+  </div>
+</div>
+
+<!-- 성격 가이드라인 모달 -->
+<div id="personality-guideline-modal" class="modal" style="
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(15, 30, 50, 0.98);
+  color: #e8f0fb;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid #1f6feb33;
+  box-shadow: 0 0 20px #1f6feb99;
+  font-weight: 700;
+  font-size: 16px;
+  display: none;
+  z-index: 1000;
+  text-align: left;
+  max-width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  white-space: normal;
+">
+  <span class="modal-close" id="personality-guideline-close">✕</span>
+  <div class="modal-content">
+    <h3>성격 가이드라인</h3>
+    <ul>
+      <li><strong>전략적 사고:</strong> 봇이 장기 계획을 중시하는지<good>(높음)</good> 즉흥적 행동을 선호하는지<bad>(낮음)</bad>.</li>
+      <li><strong>위험 회피:</strong> 봇이 손실을 피하려는지<good>(높음)</good> 위험을 감수하는지<bad>(낮음)</bad>.</li>
+      <li><strong>공세적 열정:</strong> 공격적 돌파를 추구하는지<good>(높음)</good> 방어적 태세를 유지하는지<bad>(낮음)</bad>.</li>
+      <li><strong>기동력 중시:</strong> 빠른 이동과 기동전을 선호하는지<good>(높음)</good> 고정된 전선을 유지하는지<bad>(낮음)</bad>.</li>
+      <li><strong>자원 관리:</strong> 자원(병력, 보급)을 효율적으로 사용하는지<good>(높음)</good> 과감히 소모하는지<bad>(낮음)</bad>.</li>
+      <li><strong>적응력:</strong> 상황 변화에 유연히 대응하는지<good>(높음)</good> 고정된 전략을 고수하는지<bad>(낮음)</bad>.</li>
+      <li><strong>병력 관리:</strong> 병력을 완편 부대로 유지하려고 하는지<good>(높음)</good>, 반편 부대 상태로도 작전을 속행하는지<bad>(낮음)</bad>.</li>
+      <li><strong>목표 집착:</strong> 주요 목표(예: 수도 점령)에 집착하는지<good>(높음)</good> 다중 목표를 추구하는지<bad>(낮음)</bad>.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- 상황 가이드라인 모달 -->
+<div id="situation-guideline-modal" class="modal" style="
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(15, 30, 50, 0.98);
+  color: #e8f0fb;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid #1f6feb33;
+  box-shadow: 0 0 20px #1f6feb99;
+  font-weight: 700;
+  font-size: 16px;
+  display: none;
+  z-index: 1000;
+  text-align: left;
+  max-width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  white-space: normal;
+">
+  <span class="modal-close" id="situation-guideline-close">✕</span>
+  <div class="modal-content">
+    <h3>상황 가이드라인</h3>
+    <ul>
+      <li><strong>적 전력 우위:</strong> 적군이 전력에서 우세한가? (<good>거의 확실</good>: 매우 강함 ~ <bad>가능성 전무</bad>: 매우 약함)</li>
+      <li><strong>지형 유리함:</strong> 현재 지형이 우리에게 유리한가? (<good>거의 확실</good>: 매우 유리 ~ <bad>가능성 전무</bad>: 매우 불리)</li>
+      <li><strong>보급 상태:</strong> 보급선이 안정적인가? (<good>거의 확실</good>: 완벽 ~ <bad>가능성 전무</bad>: 붕괴 직전)</li>
+      <li><strong>시간 압박:</strong> 행동에 시간 제약이 강한가? (<good>거의 확실</good>: 매우 급박 ~ <bad>가능성 전무</bad>: 여유로움)</li>
+      <li><strong>병력 상태:</strong> 병력 규모가 유지되고 있는가? (<good>거의 확실</good>: 잘 유지 ~ <bad>가능성 전무</bad>: 크게 감소)</li>
+      <li><strong>지원 가능성:</strong> 아군 지원(증원, 공군 등)이 가능한가? (<good>거의 확실</good>: 즉시 가능 ~ <bad>가능성 전무</bad>: 불가능)</li>
+      <li><strong>전선 안정성:</strong> 전선이 안정적인가? (<good>거의 확실</good>: 매우 안정 ~ <bad>가능성 전무</bad>: 붕괴 위기)</li>
+      <li><strong>보급선 취약성:</strong> 적 보급선이 취약한가? (<good>거의 확실</good>: 매우 취약 ~ <bad>가능성 전무</bad>: 매우 안정)</li>
+    </ul>
+  </div>
+</div>
+
+<!-- 전술 가이드라인 모달 -->
+<div id="tactics-guideline-modal" class="modal" style="
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(15, 30, 50, 0.98);
+  color: #e8f0fb;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid #1f6feb33;
+  box-shadow: 0 0 20px #1f6feb99;
+  font-weight: 700;
+  font-size: 16px;
+  display: none;
+  z-index: 1000;
+  text-align: left;
+  max-width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  white-space: normal;
+">
+  <span class="modal-close" id="tactics-guideline-close">✕</span>
+  <div class="modal-content">
+    <h3>전술 가이드라인</h3>
+    <h4>공격 전술 행동 지침</h4>
     <ul>
       <li><strong>전면 공격:</strong> 대규모 병력을 동원하여 전면적으로 공격한다.</li>
       <li><strong>집중 돌파:</strong> 특정 지점에 병력을 집중하여 돌파를 시도한다.</li>
@@ -184,7 +300,7 @@
       <li><strong>소규모 교전:</strong> 제한된 병력으로 소규모 교전을 벌인다.</li>
       <li><strong>공격 중단:</strong> 공격을 포기하고 병력을 재정비한다.</li>
     </ul>
-    <h3>방어 전술 행동 지침</h3>
+    <h4>방어 전술 행동 지침</h4>
     <ul>
       <li><strong>철통 방어:</strong> 모든 병력을 동원하여 현재 위치를 사수한다.</li>
       <li><strong>탄력 방어:</strong> 유연한 방어선을 구축하며 후퇴 가능성을 열어둔다.</li>
@@ -197,7 +313,8 @@
   </div>
 </div>
 
-<div id="plot-twist-modal" style="
+<!-- 플롯 트위스트 모달 -->
+<div id="plot-twist-modal" class="modal" style="
   position: fixed;
   top: 50%; left: 50%;
   transform: translate(-50%, -50%);
@@ -723,6 +840,18 @@ function autoGenerateAll() {
   autoGenerateTactics();
 }
 
+function showModal(modalId) {
+  const modal = document.getElementById(modalId);
+  modal.style.display = 'block';
+  const closeModalOnClick = () => {
+    modal.style.display = 'none';
+    document.removeEventListener('click', closeModalOnClick);
+  };
+  setTimeout(() => {
+    document.addEventListener('click', closeModalOnClick);
+  }, 0);
+}
+
 function showPlotTwistModal(message, flavorText) {
   const modal = document.getElementById('plot-twist-modal');
   const titleEl = document.getElementById('plot-twist-title');
@@ -743,18 +872,6 @@ function showPlotTwistModal(message, flavorText) {
     modal.style.display = 'none';
     document.removeEventListener('click', closeModalOnClick);
   }, 5000);
-}
-
-function showGuidelineModal() {
-  const modal = document.getElementById('guideline-modal');
-  modal.style.display = 'block';
-  const closeModalOnClick = () => {
-    modal.style.display = 'none';
-    document.removeEventListener('click', closeModalOnClick);
-  };
-  setTimeout(() => {
-    document.addEventListener('click', closeModalOnClick);
-  }, 0);
 }
 
 document.getElementById('seed-personality').addEventListener('click', () => {
@@ -789,9 +906,21 @@ document.getElementById('custom-question').addEventListener('click', () => {
   el.textContent = ans;
   el.className = "value " + (stageIdx <= 1 ? "good" : (stageIdx >= 5 ? "bad" : ""));
 });
-document.getElementById('guideline-link').addEventListener('click', showGuidelineModal);
+document.getElementById('guideline-link').addEventListener('click', () => showModal('guideline-modal'));
 document.getElementById('guideline-close').addEventListener('click', () => {
   document.getElementById('guideline-modal').style.display = 'none';
+});
+document.getElementById('personality-guideline-link').addEventListener('click', () => showModal('personality-guideline-modal'));
+document.getElementById('personality-guideline-close').addEventListener('click', () => {
+  document.getElementById('personality-guideline-modal').style.display = 'none';
+});
+document.getElementById('situation-guideline-link').addEventListener('click', () => showModal('situation-guideline-modal'));
+document.getElementById('situation-guideline-close').addEventListener('click', () => {
+  document.getElementById('situation-guideline-modal').style.display = 'none';
+});
+document.getElementById('tactics-guideline-link').addEventListener('click', () => showModal('tactics-guideline-modal'));
+document.getElementById('tactics-guideline-close').addEventListener('click', () => {
+  document.getElementById('tactics-guideline-modal').style.display = 'none';
 });
 
 function attachInitialValues() {
