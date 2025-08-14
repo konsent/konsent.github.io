@@ -14,6 +14,14 @@
             box-sizing: border-box;
         }
 
+        .impl-note {
+            font-style: italic;   /* 이탤릭 */
+            font-size: 14px;      /* 12px */
+            color: #000;          /* 검은색 */
+            line-height: 1.6;
+            margin: 4px 0;
+        }
+
         .container {
             max-width: 800px;
             margin: 0 auto;
@@ -243,7 +251,7 @@
         }
 
         .result-section p {
-            font-size: 1.2rem;
+            /* font-size: 1.2rem; */
             margin: 10px 0;
         }
 
@@ -360,12 +368,23 @@
     </div>
 
     <script>
+        // Implementation notes
+        const notes = {
+            '[1]': '활성화 시, 연합군 HQ가 보급 상태가 되도록 해서는 안됩니다.',
+            '[2]': '지정된 목표 지점에, 손실(소모전)을 견딜 수 있는 지상 유닛을 AA를 통해 상륙시킨다.',
+            '[3]': '카드와 조건이 충족될 경우, 전략에서 지시하는 순서대로 이벤트를 실행한다.',
+            '[4]': '가능하다면 PBM으로 공군 유닛을 사용하고, 그렇지 않다면 항공모함을 사용한다.',
+            '[5]': 'WiE > 0이고, WiE 자동 이벤트 전략을 사용할 수 있다면 그 전략을 사용한다, 그렇지 않으면 지시에 따라 주사위를 굴린다.',
+            '[6]': '이미 점령한 항구라면, IJA 병력을 최대 3스텝만큼 증원한다. 그렇지 않다면 무시한다.',
+            '[7]': '목표 지역(또는 특정 HQ)을 방어하는 적 AZOI 유닛을, 지정된 피해 수준 이상으로 제거할 수 있을 만큼의 화력을 동원해 공중/해상 공격을 수행한다. 필요하다면 PBM 중에 HQ 위에 AZOI를 형성할 수 있도록 기지를 점령한다.'
+        };
+    
         // 전략 정보 데이터
         const strategies = {
             'Aggressive Air Superiority': {
                 name: '공격적 제공권 전략',
                 details: [
-                    '연합군 본부 무력화<em style="font-size:0.9em;">Neutralize Allied HQs</em>',
+                    '연합군 본부 무력화[7]<em style="font-size:0.9em;">Neutralize Allied HQs</em>',
                     'DEI 항복<em style="font-size:0.9em;">DEI Surrender</em>',
                     '말라야 항복<em style="font-size:0.9em;">Malaya Surrender</em>'
                 ]
@@ -373,27 +392,26 @@
             'Conservative Air Superiority': {
                 name: '보수적 제공권 전략',
                 details: [
-                    '연합군 본부 무력화<em style="font-size:0.9em;">Neutralize Allied HQs</em>',
+                    '연합군 본부 무력화[7]<em style="font-size:0.9em;">Neutralize Allied HQs</em>',
                     'DEI 무력화<em style="font-size:0.9em;">DEI Neutralization</em>'
                 ]
             },
             'Aggressive Southern Resource': {
-                name: '공격적 남방 자원 전략',
+                name: '공격적 남방 자원 전략[1]',
                 details: [
                     'DEI 항복<em style="font-size:0.9em;">DEI Surrender</em>',
                     '말라야 항복<em style="font-size:0.9em;">Malaya Surrender</em>',
                     '필리핀 항복<em style="font-size:0.9em;">Philippines Surrender</em>',
-                    'D10 주사위 하나 굴리기'
+                    'D10 주사위 하나 굴리기[5]'
                 ]
-                
             },
             'Conservative Southern Resource': {
-                name: '보수적 남방 자원 전략',
+                name: '보수적 남방 자원 전략[1]',
                 details: [
                     'DEI 무력화<em style="font-size:0.9em;">DEI Neutralization</em>',
                     '말라야 항복<em style="font-size:0.9em;">Malaya Surrender</em>',
                     '필리핀 항복<em style="font-size:0.9em;">Philippines Surrender</em>',
-                    'D10 주사위 하나 굴리기기'
+                    'D10 주사위 하나 굴리기[5]'
                 ]
             },
             'Defense Perimeter Strategy': {
@@ -414,13 +432,13 @@
                 name: '중부 태평양 전략',
                 details: [
                     '뉴기니 북서부<em style="font-size:0.9em;">NW New Guinea</em>',
-                    'Attu/Kiska',
+                    'Attu/Kiska[2]',
                     'Defend Marshalls',
-                    'Midway'
+                    'Midway[2]'
                 ]
             },
             'Event Strategy': {
-                name: '이벤트 전략',
+                name: '이벤트 전략[3]',
                 details: [
                     '연합군 WiE > 0이면 WiE, 그 외 FOQ',
                     '일본이 ISR이면 ISR 종료, 그 외 FOQ',
@@ -433,23 +451,24 @@
                 ]
             }
         };
-
+    
         // 하위 우선순위 목록
         const subPriorities = {
-            '연합군 본부 무력화<em style="font-size:0.9em;">Neutralize Allied HQs</em>': [
+            '연합군 본부 무력화[7]<em style="font-size:0.9em;">Neutralize Allied HQs</em>': [
                 'Philippines (0.25x)',
                 'Singapore (0.5x)',
                 'ABDA (0.5x)'
             ],
             'DEI 무력화<em style="font-size:0.9em;">DEI Neutralization</em>': [
-                'Jolo',
-                'Makassar',
-                'Teleokbetung',
-                'Bandjermasin'
+                'Jolo[4]',
+                'Makassar[4]',
+                'Teleokbetung[4]',
+                'Bandjermasin[4]',
+                '[4]: 가능하다면 PBM으로 공군 유닛을 사용하고, 그렇지 않다면 항공모함을 사용한다.'
             ],
             'DEI 항복<em style="font-size:0.9em;">DEI Surrender</em>': [
                 'Balikpapan, Tarakan',
-                'Batavia(Java에 일본 지상 병력이 없다면 장악capture)',
+                'Batavia(Java에 일본 지상 병력이 없다면 장악capture)[6]',
                 'Tjilatjap, Soerabaja',
                 'Bangka, Palembang, Medan'
             ],
@@ -461,7 +480,6 @@
                 'Manila',
                 'Davao'
             ],
-
             '호주 위임통치령<em style="font-size:0.9em;">Australian Mandates</em>': [
                 'Rabaul / Allied',
                 'Guadalcanal'
@@ -497,7 +515,7 @@
                 'Biak'
             ]
         };
-
+    
         // 정의
         const conditions = {
             'A': '필리핀, DEI, 말라야에 있는 연합군 본부가 OOS 상태입니까?',
@@ -514,12 +532,29 @@
             'L': '말라야, 필리핀, DEI 중 한 곳이 정복Conquered되기 까지 딱 1 헥스가 부족한 상황입니까?',
             'M': '방어선 전략 목표Defense Perimeter Strategy #1을 달성했습니까?'
         };
-
+    
         let currentStep = 'start';
         let pathHistory = [];
         let stepCount = 0;
         let evaluatedConditions = {};
-
+    
+        // Helper function to create missing DOM elements
+        function createMissingElement(id, tag, parent, classes = []) {
+            let element = document.getElementById(id);
+            if (!element) {
+                console.warn(`Creating missing element: ${id}`);
+                element = document.createElement(tag);
+                element.id = id;
+                classes.forEach(cls => element.classList.add(cls));
+                if (parent && parent.appendChild) {
+                    parent.appendChild(element);
+                } else {
+                    document.body.appendChild(element);
+                }
+            }
+            return element;
+        }
+    
         function startFlow() {
             currentStep = 'A';
             stepCount = 1;
@@ -527,36 +562,42 @@
             evaluatedConditions = {};
             showStep('A');
         }
-
+    
         function showStep(stepId) {
-            const stepNumber = document.getElementById('stepNumber');
-            const stepTitle = document.getElementById('stepTitle');
-            const conditionBox = document.getElementById('conditionBox');
-            const buttonGroup = document.getElementById('buttonGroup');
-
+            const errorContainer = createMissingElement('errorContainer', 'div', document.body, ['hidden']);
+            const stepSection = createMissingElement('stepSection', 'div', document.body);
+            const stepNumber = createMissingElement('stepNumber', 'div', stepSection);
+            const stepTitle = createMissingElement('stepTitle', 'h2', stepSection);
+            const conditionBox = createMissingElement('conditionBox', 'div', stepSection);
+            const buttonGroup = createMissingElement('buttonGroup', 'div', stepSection);
+    
+            if (errorContainer) errorContainer.classList.add('hidden');
+    
             stepNumber.textContent = stepCount;
-
+    
             if (stepId === 'DICE') {
-                document.getElementById('stepSection').classList.add('hidden');
-                document.getElementById('diceSection').classList.remove('hidden');
+                const diceSection = createMissingElement('diceSection', 'div', document.body, ['hidden']);
+                const diceResult = createMissingElement('diceResult', 'div', diceSection);
+                stepSection.classList.add('hidden');
+                diceSection.classList.remove('hidden');
+                diceResult.textContent = '-';
                 buttonGroup.innerHTML = `
                     <button class="btn btn-primary" onclick="rollDice()">주사위 굴리기</button>
                     ${pathHistory.length > 0 ? '<button class="btn btn-back" onclick="goBack()">이전</button>' : ''}
                 `;
                 return;
             }
-
+    
             // 복합 조건들을 처리
             if (stepId.includes('_CHECK') || stepId.includes('_FOR_') || stepId.includes('_FINAL')) {
                 showComplexConditionStep(stepId);
                 return;
             }
-
+    
             // 기본 조건들 처리
             if (conditions[stepId]) {
                 stepTitle.textContent = `${stepId} 확인`;
                 conditionBox.innerHTML = `<strong>Step ${stepCount}:</strong> ${conditions[stepId]}`;
-
                 buttonGroup.innerHTML = `
                     <button class="btn btn-yes" onclick="selectChoice('${stepId}', true)">YES</button>
                     <button class="btn btn-no" onclick="selectChoice('${stepId}', false)">NO</button>
@@ -569,18 +610,18 @@
                     <button class="btn btn-primary" onclick="startFlow()">시작하기</button>
                 `;
             }
-
+    
             updateProgress();
             updatePathHistory();
         }
-
+    
         function selectChoice(conditionId, choice) {
             evaluatedConditions[conditionId] = choice;
             pathHistory.push({ step: conditionId, choice: choice, stepNum: stepCount });
             stepCount++;
-
+    
             const nextStep = getNextStep(conditionId, choice);
-
+    
             if (nextStep.startsWith('STRATEGY_')) {
                 const strategy = nextStep.replace('STRATEGY_', '');
                 showResult(strategy);
@@ -589,7 +630,7 @@
                 showStep(nextStep);
             }
         }
-
+    
         function getNextStep(conditionId, choice) {
             switch (conditionId) {
                 case 'A':
@@ -624,11 +665,16 @@
                     return 'STRATEGY_Defense Perimeter Strategy';
             }
         }
-
+    
         function rollDice() {
+            const errorContainer = createMissingElement('errorContainer', 'div', document.body, ['hidden']);
+            const diceSection = createMissingElement('diceSection', 'div', document.body, ['hidden']);
+            const diceResult = createMissingElement('diceResult', 'div', diceSection);
+            if (errorContainer) errorContainer.classList.add('hidden');
+    
             const diceValue = Math.floor(Math.random() * 10); // 0-9
-            document.getElementById('diceResult').textContent = diceValue;
-
+            diceResult.textContent = diceValue;
+    
             let strategy;
             if (diceValue >= 0 && diceValue <= 2) {
                 strategy = 'Event Strategy';
@@ -637,7 +683,7 @@
             } else if (diceValue >= 7 && diceValue <= 9) {
                 strategy = 'Central Pacific Strategy';
             }
-
+    
             pathHistory.push({
                 step: 'DICE',
                 choice: diceValue,
@@ -645,20 +691,53 @@
                 isResult: true,
                 result: strategy
             });
-
+    
             setTimeout(() => showResult(strategy), 1000);
         }
-
+    
         function showResult(strategyKey) {
             const strategy = strategies[strategyKey];
-
-            document.getElementById('stepSection').classList.add('hidden');
-            document.getElementById('diceSection').classList.add('hidden');
-
-            document.getElementById('strategyName').textContent = strategy.name;
-
-            const detailsDiv = document.getElementById('strategyDetails');
-            detailsDiv.innerHTML = `
+            if (!strategy) {
+                console.error('Strategy not found:', strategyKey);
+                return;
+            }
+    
+            const errorContainer = createMissingElement('errorContainer', 'div', document.body, ['hidden']);
+            const stepSection = createMissingElement('stepSection', 'div', document.body);
+            const diceSection = createMissingElement('diceSection', 'div', document.body, ['hidden']);
+            const resultSection = createMissingElement('resultSection', 'div', document.body, ['hidden']);
+            const strategyName = createMissingElement('strategyName', 'h2', resultSection);
+            const strategyDetails = createMissingElement('strategyDetails', 'div', resultSection);
+            const buttonGroup = resultSection.querySelector('.button-group') || createMissingElement('button-group', 'div', resultSection, ['button-group']);
+    
+            if (errorContainer) errorContainer.classList.add('hidden');
+    
+            stepSection.classList.add('hidden');
+            diceSection.classList.add('hidden');
+            resultSection.classList.remove('hidden');
+            strategyName.textContent = strategy.name;
+    
+            // Extract annotations from strategy name, details, and sub-priorities
+            const annotationRegex = /\[\d+\]/g;
+            const annotations = new Set();
+            if (strategy.name.match(annotationRegex)) {
+                strategy.name.match(annotationRegex).forEach(annotation => annotations.add(annotation));
+            }
+            strategy.details.forEach(detail => {
+                if (detail.match(annotationRegex)) {
+                    detail.match(annotationRegex).forEach(annotation => annotations.add(annotation));
+                }
+                // Check sub-priorities for annotations
+                if (subPriorities[detail]) {
+                    subPriorities[detail].forEach(sub => {
+                        if (sub.match(annotationRegex)) {
+                            sub.match(annotationRegex).forEach(annotation => annotations.add(annotation));
+                        }
+                    });
+                }
+            });
+    
+            strategyDetails.innerHTML = `
                 <h4 style="margin-top: 0; color: #fff;">전략 세부사항:</h4>
                 <ul class="strategy-list">
                     ${strategy.details.map(detail => `
@@ -672,39 +751,53 @@
                         </li>
                     `).join('')}
                 </ul>
+                ${annotations.size > 0 ? `
+                    <h4 style="margin-top: 20px; color: #fff;">주석:</h4>
+                    <ul class="strategy-list">
+                        ${Array.from(annotations).sort().map(annotation => `
+                            <li class="impl-note">${annotation}: ${notes[annotation]}</li>
+                        `).join('')}
+                    </ul>
+                ` : ''}
             `;
-
-            document.getElementById('resultSection').classList.remove('hidden');
-            const buttonGroup = document.getElementById('resultSection').querySelector('.button-group');
+    
             buttonGroup.innerHTML = `
                 <button class="btn btn-secondary" onclick="resetFlow()">다시 시작</button>
                 ${pathHistory.length > 0 ? '<button class="btn btn-back" onclick="goBack()">이전</button>' : ''}
             `;
-            updateProgress(100);
+    
+            updateProgress();
             updatePathHistory();
         }
-
+    
         function updateProgress() {
+            const errorContainer = createMissingElement('errorContainer', 'div', document.body, ['hidden']);
+            const progressBar = createMissingElement('progress-bar', 'div', document.body, ['progress-bar']);
+            const progressFill = createMissingElement('progressFill', 'div', progressBar, ['progress-fill']);
+            if (errorContainer) errorContainer.classList.add('hidden');
+    
             const totalSteps = 15; // 대략적인 최대 단계 수
             const progress = Math.min((stepCount / totalSteps) * 100, 100);
-            document.getElementById('progressFill').style.width = progress + '%';
+            progressFill.style.width = progress + '%';
         }
-
+    
         function updatePathHistory() {
+            const errorContainer = createMissingElement('errorContainer', 'div', document.body, ['hidden']);
+            const pathHistoryDiv = createMissingElement('pathHistory', 'div', document.body, ['hidden']);
+            const pathStepsDiv = createMissingElement('pathSteps', 'div', pathHistoryDiv);
+            if (errorContainer) errorContainer.classList.add('hidden');
+    
             if (pathHistory.length === 0) {
-                document.getElementById('pathHistory').classList.add('hidden');
+                pathHistoryDiv.classList.add('hidden');
                 return;
             }
-
-            const pathHistoryDiv = document.getElementById('pathHistory');
-            const pathStepsDiv = document.getElementById('pathSteps');
-
+    
             pathStepsDiv.innerHTML = '';
-
+    
             pathHistory.forEach(step => {
                 const stepDiv = document.createElement('div');
                 stepDiv.className = `path-step ${step.choice && step.step !== 'DICE' ? 'yes' : step.step !== 'DICE' ? 'no' : ''}`;
-
+    
                 if (step.step === 'DICE') {
                     stepDiv.innerHTML = `
                         <div class="step-icon">${step.choice}</div>
@@ -751,7 +844,7 @@
                                 conditionText = step.step;
                         }
                     }
-
+    
                     stepDiv.innerHTML = `
                         <div class="step-icon">${step.choice ? 'Y' : 'N'}</div>
                         <div>
@@ -760,46 +853,88 @@
                         </div>
                     `;
                 }
-
+    
                 pathStepsDiv.appendChild(stepDiv);
             });
-
+    
             pathHistoryDiv.classList.remove('hidden');
         }
-
+    
         function resetFlow() {
             currentStep = 'start';
             stepCount = 0;
             pathHistory = [];
             evaluatedConditions = {};
-
-            document.getElementById('stepSection').classList.remove('hidden');
-            document.getElementById('diceSection').classList.add('hidden');
-            document.getElementById('resultSection').classList.add('hidden');
-            document.getElementById('pathHistory').classList.add('hidden');
-
-            document.getElementById('stepNumber').textContent = '1';
-            document.getElementById('stepTitle').textContent = '시작';
-            document.getElementById('conditionBox').innerHTML = '<strong>Step 1:</strong> 첫 번째 조건을 확인해주세요.';
-            document.getElementById('buttonGroup').innerHTML = '<button class="btn btn-primary" onclick="startFlow()">시작하기</button>';
-            document.getElementById('progressFill').style.width = '0%';
+    
+            // Step 1: Create top-level elements
+            const errorContainer = createMissingElement('errorContainer', 'div', document.body, ['hidden']);
+            const stepSection = createMissingElement('stepSection', 'div', document.body);
+            const diceSection = createMissingElement('diceSection', 'div', document.body, ['hidden']);
+            const resultSection = createMissingElement('resultSection', 'div', document.body, ['hidden']);
+            const pathHistoryDiv = createMissingElement('pathHistory', 'div', document.body, ['hidden']);
+            const progressBar = createMissingElement('progress-bar', 'div', document.body, ['progress-bar']);
+    
+            // Step 2: Create child elements that depend on top-level elements
+            const elements = {
+                errorContainer,
+                stepSection,
+                diceSection,
+                resultSection,
+                pathHistoryDiv,
+                progressBar,
+                stepNumber: createMissingElement('stepNumber', 'div', stepSection),
+                stepTitle: createMissingElement('stepTitle', 'h2', stepSection),
+                conditionBox: createMissingElement('conditionBox', 'div', stepSection),
+                buttonGroup: createMissingElement('buttonGroup', 'div', stepSection),
+                progressFill: createMissingElement('progressFill', 'div', progressBar, ['progress-fill']),
+                pathSteps: createMissingElement('pathSteps', 'div', pathHistoryDiv),
+                strategyName: createMissingElement('strategyName', 'h2', resultSection),
+                strategyDetails: createMissingElement('strategyDetails', 'div', resultSection),
+                diceResult: createMissingElement('diceResult', 'div', diceSection)
+            };
+    
+            const createdElements = Object.keys(elements).filter(key => {
+                const element = document.getElementById(elements[key].id);
+                return element && element !== document.getElementById(key); // Check if element was newly created
+            });
+    
+            if (createdElements.length > 0) {
+                console.warn('Created missing DOM elements in resetFlow:', createdElements);
+                console.warn('To avoid dynamic creation, add the following to your HTML:', createdElements.map(id => `<div id="${id}"></div>`).join('\n'));
+                if (elements.errorContainer) {
+                    // elements.errorContainer.innerHTML = `경고: 다음 HTML 요소가 누락되어 동적으로 생성되었습니다: ${createdElements.join(', ')}. HTML에 추가하세요.`;
+                    elements.errorContainer.classList.remove('hidden');
+                }
+            } else if (elements.errorContainer) {
+                elements.errorContainer.classList.add('hidden');
+            }
+    
+            if (elements.stepSection) elements.stepSection.classList.remove('hidden');
+            if (elements.diceSection) elements.diceSection.classList.add('hidden');
+            if (elements.resultSection) elements.resultSection.classList.add('hidden');
+            if (elements.pathHistoryDiv) elements.pathHistoryDiv.classList.add('hidden');
+            if (elements.stepNumber) elements.stepNumber.textContent = '1';
+            if (elements.stepTitle) elements.stepTitle.textContent = '시작';
+            if (elements.conditionBox) elements.conditionBox.innerHTML = '<strong>Step 1:</strong> 첫 번째 조건을 확인해주세요.';
+            if (elements.buttonGroup) elements.buttonGroup.innerHTML = '<button class="btn btn-primary" onclick="startFlow()">시작하기</button>';
+            if (elements.progressFill) elements.progressFill.style.width = '0%';
         }
-
+    
         function goBack() {
             if (pathHistory.length === 0) {
                 resetFlow();
                 return;
             }
-
+    
             // Remove the last step from history
             const lastStep = pathHistory.pop();
             stepCount--;
-
+    
             // Remove the last evaluated condition
             if (lastStep.step !== 'DICE') {
                 delete evaluatedConditions[lastStep.step];
             }
-
+    
             // Determine the previous step
             if (pathHistory.length === 0) {
                 currentStep = 'start';
@@ -815,25 +950,34 @@
                     }
                 }
             }
-
+    
             // Update UI
-            document.getElementById('stepSection').classList.remove('hidden');
-            document.getElementById('diceSection').classList.add('hidden');
-            document.getElementById('resultSection').classList.add('hidden');
+            const errorContainer = createMissingElement('errorContainer', 'div', document.body, ['hidden']);
+            const stepSection = createMissingElement('stepSection', 'div', document.body);
+            const diceSection = createMissingElement('diceSection', 'div', document.body, ['hidden']);
+            const resultSection = createMissingElement('resultSection', 'div', document.body, ['hidden']);
+            if (errorContainer) errorContainer.classList.add('hidden');
+    
+            stepSection.classList.remove('hidden');
+            diceSection.classList.add('hidden');
+            resultSection.classList.add('hidden');
             showStep(currentStep);
         }
-
+    
         function showComplexConditionStep(stepId) {
-            const stepNumber = document.getElementById('stepNumber');
-            const stepTitle = document.getElementById('stepTitle');
-            const conditionBox = document.getElementById('conditionBox');
-            const buttonGroup = document.getElementById('buttonGroup');
-
+            const errorContainer = createMissingElement('errorContainer', 'div', document.body, ['hidden']);
+            const stepSection = createMissingElement('stepSection', 'div', document.body);
+            const stepNumber = createMissingElement('stepNumber', 'div', stepSection);
+            const stepTitle = createMissingElement('stepTitle', 'h2', stepSection);
+            const conditionBox = createMissingElement('conditionBox', 'div', stepSection);
+            const buttonGroup = createMissingElement('buttonGroup', 'div', stepSection);
+            if (errorContainer) errorContainer.classList.add('hidden');
+    
             stepNumber.textContent = stepCount;
-
+    
             let conditionText = '';
             let displayTitle = '';
-
+    
             switch (stepId) {
                 case 'CD_CHECK':
                     displayTitle = 'C+D';
@@ -876,23 +1020,26 @@
                     displayTitle = '확인';
                     conditionText = '알 수 없는 조건';
             }
-
+    
             stepTitle.textContent = displayTitle;
             conditionBox.innerHTML = `<strong>Step ${stepCount}:</strong> ${conditionText}`;
-
             buttonGroup.innerHTML = `
                 <button class="btn btn-yes" onclick="selectChoice('${stepId}', true)">YES</button>
                 <button class="btn btn-no" onclick="selectChoice('${stepId}', false)">NO</button>
                 ${pathHistory.length > 0 ? '<button class="btn btn-back" onclick="goBack()">이전</button>' : ''}
             `;
-
+    
             updateProgress();
             updatePathHistory();
         }
-
+    
         // 페이지 로드 시 초기화
         window.onload = function () {
-            resetFlow();
+            if (document.readyState === 'complete') {
+                resetFlow();
+            } else {
+                window.addEventListener('DOMContentLoaded', resetFlow);
+            }
         };
     </script>
 </body>
