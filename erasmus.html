@@ -417,10 +417,10 @@
                 ]
             }
         };
-
+    
         // 조건 정의
         const conditions = {
-            'A': 'Allied HQ\'s in Philippines, DEI and Malaya OOS?',
+            'A': 'Allied HQ\'s in Philippines, DEI and Malaya OOST?',
             'B': 'Are the DEI surrender objectives occupied?',
             'C': 'Does Japan have 3 or more cards?',
             'D': 'Does Japan control less than 13 resource hexes?',
@@ -434,12 +434,12 @@
             'L': 'Is any one of Malaya, Philippines or DEI one hex short of being conquered?',
             'M': 'Has the Defense Perimeter Strategy objective #1 been achieved?'
         };
-
+    
         let currentStep = 'start';
         let pathHistory = [];
         let stepCount = 0;
         let evaluatedConditions = {};
-
+    
         function startFlow() {
             currentStep = 'A';
             stepCount = 1;
@@ -447,181 +447,108 @@
             evaluatedConditions = {};
             showStep('A');
         }
-
+    
         function showStep(stepId) {
             const stepNumber = document.getElementById('stepNumber');
             const stepTitle = document.getElementById('stepTitle');
             const conditionBox = document.getElementById('conditionBox');
             const buttonGroup = document.getElementById('buttonGroup');
-
+    
             stepNumber.textContent = stepCount;
-            
+    
             if (stepId === 'DICE') {
                 document.getElementById('stepSection').classList.add('hidden');
                 document.getElementById('diceSection').classList.remove('hidden');
+                buttonGroup.innerHTML = `
+                    <button class="btn btn-primary" onclick="rollDice()">주사위 굴리기</button>
+                    ${pathHistory.length > 0 ? '<button class="btn btn-back" onclick="goBack()">이전</button>' : ''}
+                `;
                 return;
             }
-
+    
             // 복합 조건들을 처리
             if (stepId.includes('_CHECK') || stepId.includes('_FOR_') || stepId.includes('_FINAL')) {
                 showComplexConditionStep(stepId);
                 return;
             }
-
+    
             // 기본 조건들 처리
             if (conditions[stepId]) {
                 stepTitle.textContent = `조건 ${stepId} 확인`;
                 conditionBox.innerHTML = `<strong>Step ${stepCount}:</strong> ${conditions[stepId]}`;
-                
+    
                 buttonGroup.innerHTML = `
                     <button class="btn btn-yes" onclick="selectChoice('${stepId}', true)">YES</button>
                     <button class="btn btn-no" onclick="selectChoice('${stepId}', false)">NO</button>
-                    ${pathHistory.length > 0 ? `<button class="btn btn-back" onclick="goBack()">이전으로</button>` : ''}
+                    ${pathHistory.length > 0 ? '<button class="btn btn-back" onclick="goBack()">이전</button>' : ''}
+                `;
+            } else if (stepId === 'start') {
+                stepTitle.textContent = '시작';
+                conditionBox.innerHTML = `<strong>Step 1:</strong> 첫 번째 조건을 확인해주세요.`;
+                buttonGroup.innerHTML = `
+                    <button class="btn btn-primary" onclick="startFlow()">시작하기</button>
                 `;
             }
-
+    
             updateProgress();
             updatePathHistory();
         }
-        
-
+    
         function selectChoice(conditionId, choice) {
             evaluatedConditions[conditionId] = choice;
             pathHistory.push({ step: conditionId, choice: choice, stepNum: stepCount });
             stepCount++;
-
+    
             const nextStep = getNextStep(conditionId, choice);
-            
+    
             if (nextStep.startsWith('STRATEGY_')) {
                 const strategy = nextStep.replace('STRATEGY_', '');
                 showResult(strategy);
-            } else if (nextStep === 'DICE') {
-                currentStep = 'DICE';
-                showStep('DICE');
             } else {
                 currentStep = nextStep;
                 showStep(nextStep);
             }
         }
-
+    
         function getNextStep(conditionId, choice) {
-            // 플로우차트 로직 구현
-            switch(conditionId) {
+            switch (conditionId) {
                 case 'A':
                     return choice ? 'B' : 'CD_CHECK';
-                    
                 case 'B':
-                    if (choice) {
-                        // C+ (E or H+I) 확인 필요
-                        return 'C_FOR_E_OR_HI';
-                    } else {
-                        return 'G';
-                    }
-                    
+                    return choice ? 'C_FOR_E_OR_HI' : 'G';
                 case 'C_FOR_E_OR_HI':
-                    if (choice) {
-                        return 'E_OR_HI_CHECK';
-                    } else {
-                        return 'CJE_BIK_CHECK';
-                    }
-                    
+                    return choice ? 'E_OR_HI_CHECK' : 'CJE_BIK_CHECK';
                 case 'E_OR_HI_CHECK':
-                    // E 또는 (H AND I) 체크
-                    if (choice) {
-                        return 'STRATEGY_Defense Perimeter Strategy';
-                    } else {
-                        return 'CJE_BIK_CHECK';
-                    }
-                    
+                    return choice ? 'STRATEGY_Defense Perimeter Strategy' : 'CJE_BIK_CHECK';
                 case 'CJE_BIK_CHECK':
-                    // C+J+E+ (B or I or K) 체크
-                    if (choice) {
-                        return 'DICE';
-                    } else {
-                        return 'CL_CHECK';
-                    }
-                    
+                    return choice ? 'DICE' : 'CL_CHECK';
                 case 'CL_CHECK':
-                    // C+L 체크
-                    if (choice) {
-                        return 'STRATEGY_Aggressive Southern Resource';
-                    } else {
-                        return 'M';
-                    }
-                    
+                    return choice ? 'STRATEGY_Aggressive Southern Resource' : 'M';
                 case 'G':
-                    return choice ? 'STRATEGY_Aggressive Southern Resource' : 'CD_CHECK';
-                    
+                    return choice ? 'STRATEGY_Aggressive Southern Resource' : 'ACD_CHECK';
                 case 'CD_CHECK':
-                    // C+D 체크
-                    if (choice) {
-                        return 'F_FOR_CD';
-                    } else {
-                        return 'ACD_CHECK';
-                    }
-                    
+                    return choice ? 'F_FOR_CD' : 'G';
                 case 'F_FOR_CD':
-                    // 6번 F (C+D에서 오는 F)
                     return choice ? 'STRATEGY_Aggressive Air Superiority' : 'STRATEGY_Conservative Air Superiority';
-                    
                 case 'ACD_CHECK':
-                    // A+C+D 체크
-                    if (choice) {
-                        return 'F_FOR_ACD';
-                    } else {
-                        return 'C_FOR_E_OR_HI_FINAL';
-                    }
-                    
+                    return choice ? 'F_FOR_ACD' : 'C_FOR_E_OR_HI_FINAL';
                 case 'F_FOR_ACD':
-                    // 10번 F (A+C+D에서 오는 F)
                     return choice ? 'STRATEGY_Aggressive Southern Resource' : 'STRATEGY_Conservative Southern Resource';
-                    
                 case 'C_FOR_E_OR_HI_FINAL':
-                    if (choice) {
-                        return 'E_OR_HI_CHECK_FINAL';
-                    } else {
-                        return 'STRATEGY_Conservative Southern Resource';
-                    }
-                    
+                    return choice ? 'E_OR_HI_CHECK_FINAL' : 'STRATEGY_Conservative Southern Resource';
                 case 'E_OR_HI_CHECK_FINAL':
                     return choice ? 'STRATEGY_Defense Perimeter Strategy' : 'STRATEGY_Conservative Southern Resource';
-                    
                 case 'M':
                     return choice ? 'STRATEGY_Defense Perimeter Strategy' : 'STRATEGY_Aggressive Southern Resource';
-                    
                 default:
                     return 'STRATEGY_Defense Perimeter Strategy';
             }
         }
-
-        function goBack() {
-            if (pathHistory.length === 0) return;
-            const lastStep = pathHistory.pop();
-            stepCount--;
-            delete evaluatedConditions[lastStep.step];
-            if (complexConditionState && complexConditionState.results[lastStep.step] !== undefined) {
-                delete complexConditionState.results[lastStep.step];
-                const prevCondition = complexConditionState.getPreviousCondition(lastStep.step);
-                if (prevCondition) {
-                    currentStep = prevCondition;
-                    showStep(prevCondition);
-                } else {
-                    complexConditionState = null;
-                    currentStep = pathHistory.length > 0 ? pathHistory[pathHistory.length - 1].step : 'A';
-                    showStep(currentStep);
-                }
-            } else {
-                currentStep = lastStep.step;
-                showStep(currentStep);
-            }
-            updateProgress();
-            updatePathHistory();
-        }
-
+    
         function rollDice() {
             const diceValue = Math.floor(Math.random() * 10); // 0-9
             document.getElementById('diceResult').textContent = diceValue;
-            
+    
             let strategy;
             if (diceValue >= 0 && diceValue <= 2) {
                 strategy = 'Event Strategy';
@@ -630,26 +557,26 @@
             } else if (diceValue >= 7 && diceValue <= 9) {
                 strategy = 'Central Pacific Strategy';
             }
-            
-            pathHistory.push({ 
-                step: 'DICE', 
-                choice: diceValue, 
+    
+            pathHistory.push({
+                step: 'DICE',
+                choice: diceValue,
                 stepNum: stepCount,
                 isResult: true,
                 result: strategy
             });
-            
+    
             setTimeout(() => showResult(strategy), 1000);
         }
-
+    
         function showResult(strategyKey) {
             const strategy = strategies[strategyKey];
-            
+    
             document.getElementById('stepSection').classList.add('hidden');
             document.getElementById('diceSection').classList.add('hidden');
-            
+    
             document.getElementById('strategyName').textContent = strategy.name;
-            
+    
             const detailsDiv = document.getElementById('strategyDetails');
             detailsDiv.innerHTML = `
                 <h4 style="margin-top: 0; color: #fff;">전략 세부사항:</h4>
@@ -657,30 +584,38 @@
                     ${strategy.details.map(detail => `<li>${detail}</li>`).join('')}
                 </ul>
             `;
-            
+    
             document.getElementById('resultSection').classList.remove('hidden');
+            const buttonGroup = document.getElementById('resultSection').querySelector('.button-group');
+            buttonGroup.innerHTML = `
+                <button class="btn btn-secondary" onclick="resetFlow()">다시 시작</button>
+                ${pathHistory.length > 0 ? '<button class="btn btn-back" onclick="goBack()">이전</button>' : ''}
+            `;
             updateProgress(100);
             updatePathHistory();
         }
-
+    
         function updateProgress() {
             const totalSteps = 15; // 대략적인 최대 단계 수
             const progress = Math.min((stepCount / totalSteps) * 100, 100);
             document.getElementById('progressFill').style.width = progress + '%';
         }
-
+    
         function updatePathHistory() {
-            if (pathHistory.length === 0) return;
-            
+            if (pathHistory.length === 0) {
+                document.getElementById('pathHistory').classList.add('hidden');
+                return;
+            }
+    
             const pathHistoryDiv = document.getElementById('pathHistory');
             const pathStepsDiv = document.getElementById('pathSteps');
-            
+    
             pathStepsDiv.innerHTML = '';
-            
+    
             pathHistory.forEach(step => {
                 const stepDiv = document.createElement('div');
-                stepDiv.className = `path-step ${step.choice ? 'yes' : 'no'}`;
-                
+                stepDiv.className = `path-step ${step.choice && step.step !== 'DICE' ? 'yes' : step.step !== 'DICE' ? 'no' : ''}`;
+    
                 if (step.step === 'DICE') {
                     stepDiv.innerHTML = `
                         <div class="step-icon">${step.choice}</div>
@@ -690,51 +625,127 @@
                         </div>
                     `;
                 } else {
+                    let conditionText = '';
+                    if (conditions[step.step]) {
+                        conditionText = conditions[step.step];
+                    } else {
+                        switch (step.step) {
+                            case 'CD_CHECK':
+                                conditionText = 'C+D 복합 조건';
+                                break;
+                            case 'CJE_BIK_CHECK':
+                                conditionText = 'C+J+E+(B or I or K) 복합 조건';
+                                break;
+                            case 'ACD_CHECK':
+                                conditionText = 'A+C+D 복합 조건';
+                                break;
+                            case 'E_OR_HI_CHECK':
+                            case 'E_OR_HI_CHECK_FINAL':
+                                conditionText = 'E or (H+I) 복합 조건';
+                                break;
+                            case 'CL_CHECK':
+                                conditionText = 'C+L 복합 조건';
+                                break;
+                            case 'C_FOR_E_OR_HI':
+                                conditionText = '조건 C';
+                                break;
+                            case 'C_FOR_E_OR_HI_FINAL':
+                                conditionText = '조건 C (최종)';
+                                break;
+                            case 'F_FOR_CD':
+                                conditionText = '조건 F (제공권)';
+                                break;
+                            case 'F_FOR_ACD':
+                                conditionText = '조건 F (남방자원)';
+                                break;
+                            default:
+                                conditionText = step.step;
+                        }
+                    }
+    
                     stepDiv.innerHTML = `
                         <div class="step-icon">${step.choice ? 'Y' : 'N'}</div>
                         <div>
                             <strong>Step ${step.stepNum} (${step.step}):</strong> 
-                            ${conditions[step.step]} → ${step.choice ? 'YES' : 'NO'}
+                            ${conditionText} → ${step.choice ? 'YES' : 'NO'}
                         </div>
                     `;
                 }
-                
+    
                 pathStepsDiv.appendChild(stepDiv);
             });
-            
+    
             pathHistoryDiv.classList.remove('hidden');
         }
-
+    
         function resetFlow() {
             currentStep = 'start';
             stepCount = 0;
             pathHistory = [];
             evaluatedConditions = {};
-            
+    
             document.getElementById('stepSection').classList.remove('hidden');
             document.getElementById('diceSection').classList.add('hidden');
             document.getElementById('resultSection').classList.add('hidden');
             document.getElementById('pathHistory').classList.add('hidden');
-            
+    
             document.getElementById('stepNumber').textContent = '1';
             document.getElementById('stepTitle').textContent = '시작';
             document.getElementById('conditionBox').innerHTML = '<strong>Step 1:</strong> 첫 번째 조건을 확인해주세요.';
             document.getElementById('buttonGroup').innerHTML = '<button class="btn btn-primary" onclick="startFlow()">시작하기</button>';
             document.getElementById('progressFill').style.width = '0%';
         }
-
+    
+        function goBack() {
+            if (pathHistory.length === 0) {
+                resetFlow();
+                return;
+            }
+    
+            // Remove the last step from history
+            const lastStep = pathHistory.pop();
+            stepCount--;
+    
+            // Remove the last evaluated condition
+            if (lastStep.step !== 'DICE') {
+                delete evaluatedConditions[lastStep.step];
+            }
+    
+            // Determine the previous step
+            if (pathHistory.length === 0) {
+                currentStep = 'start';
+            } else {
+                currentStep = pathHistory[pathHistory.length - 1].step;
+                // If the last step was DICE, we need to go back to the step before DICE
+                if (lastStep.step === 'DICE') {
+                    currentStep = pathHistory.length > 0 ? pathHistory[pathHistory.length - 1].step : 'start';
+                    pathHistory.pop(); // Remove the step before DICE as well
+                    stepCount--;
+                    if (pathHistory.length > 0) {
+                        delete evaluatedConditions[pathHistory[pathHistory.length - 1].step];
+                    }
+                }
+            }
+    
+            // Update UI
+            document.getElementById('stepSection').classList.remove('hidden');
+            document.getElementById('diceSection').classList.add('hidden');
+            document.getElementById('resultSection').classList.add('hidden');
+            showStep(currentStep);
+        }
+    
         function showComplexConditionStep(stepId) {
             const stepNumber = document.getElementById('stepNumber');
             const stepTitle = document.getElementById('stepTitle');
             const conditionBox = document.getElementById('conditionBox');
             const buttonGroup = document.getElementById('buttonGroup');
-
+    
             stepNumber.textContent = stepCount;
-            
+    
             let conditionText = '';
             let displayTitle = '';
-            
-            switch(stepId) {
+    
+            switch (stepId) {
                 case 'CD_CHECK':
                     displayTitle = '복합 조건 C+D';
                     conditionText = 'Does Japan have 3 or more cards AND control less than 13 resource hexes?';
@@ -745,7 +756,7 @@
                     break;
                 case 'ACD_CHECK':
                     displayTitle = '복합 조건 A+C+D';
-                    conditionText = 'Are Allied HQs OOS AND Japan has 3+ cards AND controls less than 13 resource hexes?';
+                    conditionText = 'Are Allied HQs OOST AND Japan has 3+ cards AND controls less than 13 resource hexes?';
                     break;
                 case 'E_OR_HI_CHECK':
                 case 'E_OR_HI_CHECK_FINAL':
@@ -776,22 +787,22 @@
                     displayTitle = '조건 확인';
                     conditionText = 'Unknown condition';
             }
-
+    
             stepTitle.textContent = displayTitle;
             conditionBox.innerHTML = `<strong>Step ${stepCount}:</strong> ${conditionText}`;
-            
+    
             buttonGroup.innerHTML = `
                 <button class="btn btn-yes" onclick="selectChoice('${stepId}', true)">YES</button>
                 <button class="btn btn-no" onclick="selectChoice('${stepId}', false)">NO</button>
-                ${pathHistory.length > 0 ? `<button class="btn btn-back" onclick="goBack()">이전으로</button>` : ''}
+                ${pathHistory.length > 0 ? '<button class="btn btn-back" onclick="goBack()">이전</button>' : ''}
             `;
-
+    
             updateProgress();
             updatePathHistory();
         }
-
+    
         // 페이지 로드 시 초기화
-        window.onload = function() {
+        window.onload = function () {
             resetFlow();
         };
     </script>
