@@ -269,6 +269,21 @@
             border-left: 3px solid rgba(255, 255, 255, 0.5);
         }
 
+        .sub-priority-list {
+            list-style: none;
+            padding-left: 20px;
+            margin-top: 5px;
+        }
+
+        .sub-priority-list li {
+            margin: 5px 0;
+            padding: 5px 10px;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 5px;
+            border-left: 2px solid rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
         .hidden {
             display: none;
         }
@@ -350,96 +365,160 @@
             'Aggressive Air Superiority': {
                 name: '공격적 제공권 전략',
                 details: [
-                    '1. Neutralize Allied HQs',
-                    '2. DEI Surrender',
-                    '3. Malaya Surrender'
+                    '연합군 본부 무력화<em style="font-size:0.9em;">Neutralize Allied HQs</em>',
+                    'DEI 항복<em style="font-size:0.9em;">DEI Surrender</em>',
+                    '말라야 항복<em style="font-size:0.9em;">Malaya Surrender</em>'
                 ]
             },
             'Conservative Air Superiority': {
                 name: '보수적 제공권 전략',
                 details: [
-                    '1. Neutralize Allied HQs',
-                    '2. DEI Neutralization'
+                    '연합군 본부 무력화<em style="font-size:0.9em;">Neutralize Allied HQs</em>',
+                    'DEI 무력화<em style="font-size:0.9em;">DEI Neutralization</em>'
                 ]
             },
             'Aggressive Southern Resource': {
                 name: '공격적 남방 자원 전략',
                 details: [
-                    '1. DEI Surrender',
-                    '2. Malaya Surrender',
-                    '3. Philippines Surrender',
-                    '4. Use Roll 1d10!'
+                    'DEI 항복<em style="font-size:0.9em;">DEI Surrender</em>',
+                    '말라야 항복<em style="font-size:0.9em;">Malaya Surrender</em>',
+                    '필리핀 항복<em style="font-size:0.9em;">Philippines Surrender</em>',
+                    'D10 주사위 하나 굴리기'
                 ]
             },
             'Conservative Southern Resource': {
                 name: '보수적 남방 자원 전략',
                 details: [
-                    '1. DEI Neutralization',
-                    '2. Malaya Surrender',
-                    '3. Philippine Surrender',
-                    '4. Use Roll 1d10!'
+                    'DEI 무력화<em style="font-size:0.9em;">DEI Neutralization</em>',
+                    '말라야 항복<em style="font-size:0.9em;">Malaya Surrender</em>',
+                    '필리핀 항복<em style="font-size:0.9em;">Philippines Surrender</em>',
+                    'D10 주사위 하나 굴리기기'
                 ]
             },
             'Defense Perimeter Strategy': {
                 name: '방어선 전략',
                 details: [
-                    '1. Australian Mandates',
-                    '2. New Guinea'
+                    '호주 위임통치령<em style="font-size:0.9em;">Australian Mandates</em>',
+                    '뉴기니<em style="font-size:0.9em;">New Guinea</em>'
                 ]
             },
             'CBI Strategy': {
                 name: 'CBI 전략',
                 details: [
-                    '1. Burma Surrender',
-                    '2. China Surrender'
+                    '버마 항복<em style="font-size:0.9em;">Burma Surrender</em>',
+                    '중국 항복<em style="font-size:0.9em;">China Surrender</em>'
                 ]
             },
             'Central Pacific Strategy': {
                 name: '중부 태평양 전략',
                 details: [
-                    '1. NW New Guinea',
-                    '2. Attu/Kiska',
-                    '3. Defend Marshalls',
-                    '4. Midway'
+                    '뉴기니 북서부<em style="font-size:0.9em;">NW New Guinea</em>',
+                    'Attu/Kiska',
+                    'Defend Marshalls',
+                    'Midway'
                 ]
             },
             'Event Strategy': {
                 name: '이벤트 전략',
                 details: [
-                    '1. WiE if Allied WiE value positive, else FOQ',
-                    '2. ISR end if Japan under ISR, else FOQ',
-                    '3. ISR create if Allies under strategic agreement, else FOQ',
-                    '4. Tokyo Rose to FOQ',
-                    '5. Replacements to FOQ',
-                    '6. Weather card to FOQ',
-                    '7. Tojo, play as TOC unless play as event puts US PW at zero',
-                    '8. Others: If no FOQ put card into the FOQ'
+                    '연합군 WiE > 0이면 WiE, 그 외 FOQ',
+                    '일본이 ISR이면 ISR 종료, 그 외 FOQ',
+                    '연합군이 전략적 합의 상태면 ISR 생성, 그 외 FOQ.',
+                    '도쿄 로즈를 FOQ로',
+                    '병력 보충을 FOQ로',
+                    '날씨 카드를 FOQ로',
+                    '이벤트로 플레이했을 때 미국 PW가 0이 되지 않는 한, 도조 카드를 TOC로 플레이',
+                    '기타: FOQ에 넣을 카드가 없는 경우.'
                 ]
             }
         };
-    
-        // 조건 정의
-        const conditions = {
-            'A': 'Allied HQ\'s in Philippines, DEI and Malaya OOST?',
-            'B': 'Are the DEI surrender objectives occupied?',
-            'C': 'Does Japan have 3 or more cards?',
-            'D': 'Does Japan control less than 13 resource hexes?',
-            'E': 'Does Japan control 13 or more resource hexes?',
-            'F': 'Is the logistics evaluation value 20 or more?',
-            'G': 'Is it game turn 3 or later?',
-            'H': 'Is the logistics evaluation value 19 or less?',
-            'I': 'Does Japan have AZOI over all DEI ports?',
-            'J': 'Does Japan control Rabaul and Guadalcanal?',
-            'K': 'Does Japan control or have AZOI over 4 out of 6 New Guinea ports?',
-            'L': 'Is any one of Malaya, Philippines or DEI one hex short of being conquered?',
-            'M': 'Has the Defense Perimeter Strategy objective #1 been achieved?'
+
+        // 하위 우선순위 목록
+        const subPriorities = {
+            '연합군 본부 무력화<em style="font-size:0.9em;">Neutralize Allied HQs</em>': [
+                'Philippines (0.25x)',
+                'Singapore (0.5x)',
+                'ABDA (0.5x)'
+            ],
+            'DEI 무력화<em style="font-size:0.9em;">DEI Neutralization</em>': [
+                'Jolo',
+                'Makassar',
+                'Teleokbetung',
+                'Bandjermasin'
+            ],
+            'DEI 항복<em style="font-size:0.9em;">DEI Surrender</em>': [
+                'Balikpapan, Tarakan',
+                'Batavia capture if no other JP ground',
+                'Tjilatjap, Soerabaja',
+                'Bangka, Palembang, Medan'
+            ],
+            '말라야 항복<em style="font-size:0.9em;">Malaya Surrender</em>': [
+                'Kuantan',
+                'Singapore'
+            ],
+            '필리핀 항복<em style="font-size:0.9em;">Philippines Surrender</em>': [
+                'Manila',
+                'Davao'
+            ],
+
+            '호주 위임통치령<em style="font-size:0.9em;">Australian Mandates</em>': [
+                'Rabaul / Allied',
+                'Guadalcanal'
+            ],
+            '버마 항복<em style="font-size:0.9em;">Burma Surrender</em>': [
+                'Rangoon',
+                'Mandalay',
+                'Lashio',
+                'Myitkyina'
+            ],
+            '중국 항복<em style="font-size:0.9em;">China Surrender</em>': [
+                'Lashio',
+                'China Offensive',
+                'China Event'
+            ],
+            '뉴기니 북서부<em style="font-size:0.9em;">NW New Guinea</em>': [
+                'Hollandia',
+                'Lae',
+                'Buna',
+                'Biak',
+                'Wewak',
+                'Vogelkop',
+                'Gili-Gili',
+                'Port Moresby'
+            ],
+            'Defend Marshalls': [
+                'Wake',
+                'Tarawa'
+            ],
+            '뉴기니<em style="font-size:0.9em;">New Guinea</em>': [
+                'Sarong',
+                'Vogelkop',
+                'Biak'
+            ]
         };
-    
+
+        // 정의
+        const conditions = {
+            'A': '필리핀, DEI, 말라야에 있는 연합군 본부가 OOS 상태입니까?',
+            'B': 'DEI 항복 목표들이 점령되었습니까?',
+            'C': '일본이 카드를 3장 이상 가지고 있습니까?',
+            'D': '일본이 통제Control하는 자원 헥스가 13개 미만입니까?',
+            'E': '일본이 통제Control하는 자원 헥스가 13개 이상입니까?',
+            'F': '병참 평가 수치가 20 이상입니까?',
+            'G': '지금 진행하는 게임 턴이 3턴 또는 그 이후 턴입니까?',
+            'H': '병참 평가 수치가 19 이하입니까?',
+            'I': '모든 DEI 항구가 일본군의 AZOI 영향권에 있습니까?',
+            'J': '일본이 과달카날과 라바울을 통제Control합니까?',
+            'K': '일본이 뉴기니 항구 6개 중 4개를 통제Control하거나 AZOI를 행사하고 있습니까?',
+            'L': '말라야, 필리핀, DEI 중 한 곳이 정복Conquered되기 까지 딱 1 헥스가 부족한 상황입니까?',
+            'M': '방어선 전략 목표Defense Perimeter Strategy #1을 달성했습니까?'
+        };
+
         let currentStep = 'start';
         let pathHistory = [];
         let stepCount = 0;
         let evaluatedConditions = {};
-    
+
         function startFlow() {
             currentStep = 'A';
             stepCount = 1;
@@ -447,15 +526,15 @@
             evaluatedConditions = {};
             showStep('A');
         }
-    
+
         function showStep(stepId) {
             const stepNumber = document.getElementById('stepNumber');
             const stepTitle = document.getElementById('stepTitle');
             const conditionBox = document.getElementById('conditionBox');
             const buttonGroup = document.getElementById('buttonGroup');
-    
+
             stepNumber.textContent = stepCount;
-    
+
             if (stepId === 'DICE') {
                 document.getElementById('stepSection').classList.add('hidden');
                 document.getElementById('diceSection').classList.remove('hidden');
@@ -465,18 +544,18 @@
                 `;
                 return;
             }
-    
+
             // 복합 조건들을 처리
             if (stepId.includes('_CHECK') || stepId.includes('_FOR_') || stepId.includes('_FINAL')) {
                 showComplexConditionStep(stepId);
                 return;
             }
-    
+
             // 기본 조건들 처리
             if (conditions[stepId]) {
-                stepTitle.textContent = `조건 ${stepId} 확인`;
+                stepTitle.textContent = `${stepId} 확인`;
                 conditionBox.innerHTML = `<strong>Step ${stepCount}:</strong> ${conditions[stepId]}`;
-    
+
                 buttonGroup.innerHTML = `
                     <button class="btn btn-yes" onclick="selectChoice('${stepId}', true)">YES</button>
                     <button class="btn btn-no" onclick="selectChoice('${stepId}', false)">NO</button>
@@ -489,18 +568,18 @@
                     <button class="btn btn-primary" onclick="startFlow()">시작하기</button>
                 `;
             }
-    
+
             updateProgress();
             updatePathHistory();
         }
-    
+
         function selectChoice(conditionId, choice) {
             evaluatedConditions[conditionId] = choice;
             pathHistory.push({ step: conditionId, choice: choice, stepNum: stepCount });
             stepCount++;
-    
+
             const nextStep = getNextStep(conditionId, choice);
-    
+
             if (nextStep.startsWith('STRATEGY_')) {
                 const strategy = nextStep.replace('STRATEGY_', '');
                 showResult(strategy);
@@ -509,7 +588,7 @@
                 showStep(nextStep);
             }
         }
-    
+
         function getNextStep(conditionId, choice) {
             switch (conditionId) {
                 case 'A':
@@ -544,11 +623,11 @@
                     return 'STRATEGY_Defense Perimeter Strategy';
             }
         }
-    
+
         function rollDice() {
             const diceValue = Math.floor(Math.random() * 10); // 0-9
             document.getElementById('diceResult').textContent = diceValue;
-    
+
             let strategy;
             if (diceValue >= 0 && diceValue <= 2) {
                 strategy = 'Event Strategy';
@@ -557,7 +636,7 @@
             } else if (diceValue >= 7 && diceValue <= 9) {
                 strategy = 'Central Pacific Strategy';
             }
-    
+
             pathHistory.push({
                 step: 'DICE',
                 choice: diceValue,
@@ -565,26 +644,35 @@
                 isResult: true,
                 result: strategy
             });
-    
+
             setTimeout(() => showResult(strategy), 1000);
         }
-    
+
         function showResult(strategyKey) {
             const strategy = strategies[strategyKey];
-    
+
             document.getElementById('stepSection').classList.add('hidden');
             document.getElementById('diceSection').classList.add('hidden');
-    
+
             document.getElementById('strategyName').textContent = strategy.name;
-    
+
             const detailsDiv = document.getElementById('strategyDetails');
             detailsDiv.innerHTML = `
                 <h4 style="margin-top: 0; color: #fff;">전략 세부사항:</h4>
                 <ul class="strategy-list">
-                    ${strategy.details.map(detail => `<li>${detail}</li>`).join('')}
+                    ${strategy.details.map(detail => `
+                        <li>
+                            ${detail}
+                            ${subPriorities[detail] ? `
+                                <ul class="sub-priority-list">
+                                    ${subPriorities[detail].map(sub => `<li>${sub}</li>`).join('')}
+                                </ul>
+                            ` : ''}
+                        </li>
+                    `).join('')}
                 </ul>
             `;
-    
+
             document.getElementById('resultSection').classList.remove('hidden');
             const buttonGroup = document.getElementById('resultSection').querySelector('.button-group');
             buttonGroup.innerHTML = `
@@ -594,28 +682,28 @@
             updateProgress(100);
             updatePathHistory();
         }
-    
+
         function updateProgress() {
             const totalSteps = 15; // 대략적인 최대 단계 수
             const progress = Math.min((stepCount / totalSteps) * 100, 100);
             document.getElementById('progressFill').style.width = progress + '%';
         }
-    
+
         function updatePathHistory() {
             if (pathHistory.length === 0) {
                 document.getElementById('pathHistory').classList.add('hidden');
                 return;
             }
-    
+
             const pathHistoryDiv = document.getElementById('pathHistory');
             const pathStepsDiv = document.getElementById('pathSteps');
-    
+
             pathStepsDiv.innerHTML = '';
-    
+
             pathHistory.forEach(step => {
                 const stepDiv = document.createElement('div');
                 stepDiv.className = `path-step ${step.choice && step.step !== 'DICE' ? 'yes' : step.step !== 'DICE' ? 'no' : ''}`;
-    
+
                 if (step.step === 'DICE') {
                     stepDiv.innerHTML = `
                         <div class="step-icon">${step.choice}</div>
@@ -631,38 +719,38 @@
                     } else {
                         switch (step.step) {
                             case 'CD_CHECK':
-                                conditionText = 'C+D 복합 조건';
+                                conditionText = 'C+D';
                                 break;
                             case 'CJE_BIK_CHECK':
-                                conditionText = 'C+J+E+(B or I or K) 복합 조건';
+                                conditionText = 'C+J+E+(B or I or K)';
                                 break;
                             case 'ACD_CHECK':
-                                conditionText = 'A+C+D 복합 조건';
+                                conditionText = 'A+C+D';
                                 break;
                             case 'E_OR_HI_CHECK':
                             case 'E_OR_HI_CHECK_FINAL':
-                                conditionText = 'E or (H+I) 복합 조건';
+                                conditionText = 'E or (H+I)';
                                 break;
                             case 'CL_CHECK':
-                                conditionText = 'C+L 복합 조건';
+                                conditionText = 'C+L';
                                 break;
                             case 'C_FOR_E_OR_HI':
-                                conditionText = '조건 C';
+                                conditionText = 'C';
                                 break;
                             case 'C_FOR_E_OR_HI_FINAL':
-                                conditionText = '조건 C (최종)';
+                                conditionText = 'C(최종)';
                                 break;
                             case 'F_FOR_CD':
-                                conditionText = '조건 F (제공권)';
+                                conditionText = 'F(제공권)';
                                 break;
                             case 'F_FOR_ACD':
-                                conditionText = '조건 F (남방자원)';
+                                conditionText = 'F(남방자원)';
                                 break;
                             default:
                                 conditionText = step.step;
                         }
                     }
-    
+
                     stepDiv.innerHTML = `
                         <div class="step-icon">${step.choice ? 'Y' : 'N'}</div>
                         <div>
@@ -671,46 +759,46 @@
                         </div>
                     `;
                 }
-    
+
                 pathStepsDiv.appendChild(stepDiv);
             });
-    
+
             pathHistoryDiv.classList.remove('hidden');
         }
-    
+
         function resetFlow() {
             currentStep = 'start';
             stepCount = 0;
             pathHistory = [];
             evaluatedConditions = {};
-    
+
             document.getElementById('stepSection').classList.remove('hidden');
             document.getElementById('diceSection').classList.add('hidden');
             document.getElementById('resultSection').classList.add('hidden');
             document.getElementById('pathHistory').classList.add('hidden');
-    
+
             document.getElementById('stepNumber').textContent = '1';
             document.getElementById('stepTitle').textContent = '시작';
             document.getElementById('conditionBox').innerHTML = '<strong>Step 1:</strong> 첫 번째 조건을 확인해주세요.';
             document.getElementById('buttonGroup').innerHTML = '<button class="btn btn-primary" onclick="startFlow()">시작하기</button>';
             document.getElementById('progressFill').style.width = '0%';
         }
-    
+
         function goBack() {
             if (pathHistory.length === 0) {
                 resetFlow();
                 return;
             }
-    
+
             // Remove the last step from history
             const lastStep = pathHistory.pop();
             stepCount--;
-    
+
             // Remove the last evaluated condition
             if (lastStep.step !== 'DICE') {
                 delete evaluatedConditions[lastStep.step];
             }
-    
+
             // Determine the previous step
             if (pathHistory.length === 0) {
                 currentStep = 'start';
@@ -726,81 +814,81 @@
                     }
                 }
             }
-    
+
             // Update UI
             document.getElementById('stepSection').classList.remove('hidden');
             document.getElementById('diceSection').classList.add('hidden');
             document.getElementById('resultSection').classList.add('hidden');
             showStep(currentStep);
         }
-    
+
         function showComplexConditionStep(stepId) {
             const stepNumber = document.getElementById('stepNumber');
             const stepTitle = document.getElementById('stepTitle');
             const conditionBox = document.getElementById('conditionBox');
             const buttonGroup = document.getElementById('buttonGroup');
-    
+
             stepNumber.textContent = stepCount;
-    
+
             let conditionText = '';
             let displayTitle = '';
-    
+
             switch (stepId) {
                 case 'CD_CHECK':
-                    displayTitle = '복합 조건 C+D';
-                    conditionText = 'Does Japan have 3 or more cards AND control less than 13 resource hexes?';
+                    displayTitle = 'C+D';
+                    conditionText = '<br>다음 조건을 모두 충족합니까? <li>일본이 가진 카드가 3장 이상</li> <li>일본이 통제Control하는 자원 헥스가 13개 미만</li>';
                     break;
                 case 'CJE_BIK_CHECK':
-                    displayTitle = '복합 조건 C+J+E+(B or I or K)';
-                    conditionText = 'Does Japan have 3+ cards AND control Rabaul/Guadalcanal AND control 13+ resource hexes AND (DEI surrender objectives occupied OR have AZOI over all DEI ports OR control/AZOI over 4+ New Guinea ports)?';
+                    displayTitle = 'C+J+E+(B or I or K)';
+                    conditionText = '<br>일본이 카드를 3장 이상 가지고 있고, <br>과달카날과 라바울을 통제Control하며, <br>통제Control하는 자원 헥스가 13개 이상이며, <br> <br>다음 중 하나 이상이 참인 경우 <li>DEI 항복 목표들이 점령된 상태거나</li> <li>모든 DEI 항구가 일본군의 AZOI 영향권에 있거나</li> <li>일본이 뉴기니 항구 6개 중 4개를 통제Control하거나 AZOI를 행사하고 있는 경우</li>';
                     break;
                 case 'ACD_CHECK':
-                    displayTitle = '복합 조건 A+C+D';
-                    conditionText = 'Are Allied HQs OOST AND Japan has 3+ cards AND controls less than 13 resource hexes?';
+                    displayTitle = 'A+C+D';
+                    conditionText = '<br>다음 조건을 모두 충족합니까? <li>필리핀, DEI, 말라야에 있는 연합군 본부가 OOS 상태</li> <li>일본이 가진 카드가 3장 이상</li> <li>일본이 통제Control하는 자원 헥스가 13개 미만</li>';
                     break;
                 case 'E_OR_HI_CHECK':
                 case 'E_OR_HI_CHECK_FINAL':
-                    displayTitle = '복합 조건 E or (H+I)';
-                    conditionText = 'Does Japan control 13+ resource hexes OR (logistics value ≤19 AND have AZOI over all DEI ports)?';
+                    displayTitle = 'E or (H+I)';
+                    conditionText = '<br>다음 중 하나 이상이 참입니까? <li>일본이 통제Control하는 자원 헥스가 13개 이상</li>  <li>병참 평가 수치가 19 이하이고 모든 DEI 항구가 일본군의 AZOI 영향권에 있는 경우';
                     break;
                 case 'CL_CHECK':
-                    displayTitle = '복합 조건 C+L';
-                    conditionText = 'Does Japan have 3+ cards AND any of Malaya/Philippines/DEI is one hex short of conquest?';
+                    displayTitle = 'C+L';
+                    conditionText = '<br>다음 조건을 모두 충족합니까? <li>일본이 가진 카드가 3장 이상</</li><li>말라야, 필리핀, DEI 중 한 곳이 정복Conquered되기 까지 딱 1 헥스가 부족한 상황</li>';
                     break;
                 case 'C_FOR_E_OR_HI':
-                    displayTitle = '조건 C';
-                    conditionText = 'Does Japan have 3 or more cards?';
+                    displayTitle = 'C';
+                    conditionText = '일본이 가진 카드가 3장 이상입니까?';
                     break;
                 case 'C_FOR_E_OR_HI_FINAL':
-                    displayTitle = '조건 C (최종 확인)';
-                    conditionText = 'Does Japan have 3 or more cards?';
+                    displayTitle = 'C (최종 확인)';
+                    conditionText = '일본이 가진 카드가 3장 이상입니까?';
                     break;
                 case 'F_FOR_CD':
-                    displayTitle = '조건 F (제공권 결정)';
-                    conditionText = 'Is the logistics evaluation value 20 or more?';
+                    displayTitle = 'F (제공권 결정)';
+                    conditionText = '병참 평가 수치가 20 이상입니까?';
                     break;
                 case 'F_FOR_ACD':
-                    displayTitle = '조건 F (남방자원 결정)';
-                    conditionText = 'Is the logistics evaluation value 20 or more?';
+                    displayTitle = 'F (남방자원 결정)';
+                    conditionText = '병참 평가 수치가 20 이상입니까?';
                     break;
                 default:
-                    displayTitle = '조건 확인';
-                    conditionText = 'Unknown condition';
+                    displayTitle = '확인';
+                    conditionText = '알 수 없는 조건';
             }
-    
+
             stepTitle.textContent = displayTitle;
             conditionBox.innerHTML = `<strong>Step ${stepCount}:</strong> ${conditionText}`;
-    
+
             buttonGroup.innerHTML = `
                 <button class="btn btn-yes" onclick="selectChoice('${stepId}', true)">YES</button>
                 <button class="btn btn-no" onclick="selectChoice('${stepId}', false)">NO</button>
                 ${pathHistory.length > 0 ? '<button class="btn btn-back" onclick="goBack()">이전</button>' : ''}
             `;
-    
+
             updateProgress();
             updatePathHistory();
         }
-    
+
         // 페이지 로드 시 초기화
         window.onload = function () {
             resetFlow();
