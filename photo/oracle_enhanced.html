@@ -14,6 +14,64 @@
     margin:0; font-family: "Noto Sans KR", Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
     background: linear-gradient(180deg,#061027 0%, #071226 100%); color:#e8f0fb; padding:28px;
   }
+  /* 드랍다운 스타일 수정: 폰트 크기 및 시각적 일관성 강화 */
+select {
+  background: var(--glass);
+  color: #e8f0fb;
+  border: 1px solid rgba(255,255,255,0.03);
+  border-radius: 8px;
+  padding: 6px 24px 6px 8px; /* 오른쪽 패딩 증가로 화살표 공간 확보 */
+  font-weight: 700; /* .value와 동일 */
+  font-size: 16px; /* .value와 동일 */
+  line-height: 1.5; /* 시각적 높이 조정 */
+  cursor: pointer;
+  min-width: 180px;
+  text-align: center;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='rgba(255,255,255,0.5)' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+}
+select:hover {
+  background-color: rgba(255,255,255,0.05);
+}
+select option {
+  background: rgba(15, 30, 50, 0.95);
+  color: #e8f0fb;
+  font-weight: 700;
+  font-size: 14px; /* .value와 동일 */
+  line-height: 1.5; /* 시각적 높이 조정 */
+}
+select option:nth-child(-n+3) {
+  color: var(--ok); /* 맨 위 2개 초록색 */
+}
+select option:nth-last-child(-n+2) {
+  color: var(--danger); /* 맨 아래 2개 빨간색 */
+}
+select.val-0 {
+  color: var(--muted);
+  font-weight: 600;
+}
+select.good {
+  color: var(--ok);
+  background: rgba(16,185,129,0.06);
+}
+select.bad {
+  color: var(--danger);
+  background: rgba(239,68,68,0.06);
+}
+@media (max-width:560px) {
+  select {
+    min-width: 120px;
+    font-size: 14px; /* 모바일에서도 동일 크기 유지 */
+  }
+  select option {
+    font-size: 14px; /* 모바일에서도 동일 크기 유지 */
+  }
+}
+  
   .tooltip {
     position: relative;
     display: inline-block;
@@ -104,7 +162,7 @@
         <button id="seed-personality" class="btn small">기본 성격 설정</button>
         <button id="reset-personality" class="btn small ghost">초기화</button>
         <label style="display:flex;align-items:center;gap:6px;color:var(--muted);font-size:13px">
-          <input type="checkbox" id="auto-select" checked /> 성격 기반 자동 선택
+          <input type="checkbox" id="auto-select" /> 성격 기반 자동 선택
         </label>
       </div>
       <div style="font-size:13px;color:var(--muted)">7단계: 거의 확실 → 가능성 전무</div>
@@ -152,7 +210,7 @@
     <div id="tactics-list"></div>
     <p class="hint">전술 및 요충지 자동화는 상황 + 성격에 기반한 가중치 규칙을 따릅니다. 가중치 강도를 조절하여 영향을 제어할 수 있습니다。</p>
     <p class="hint">전술 판단이 필요할 때마다, 전술 생성 버튼을 눌러 전술을 선택합니다。</p>
-    <p class="hint">25%의 확률로 상황이 바뀌어 오라클의 성격/상황/전술/요충지가 바뀔 수 있습니다！</p>
+    <p class="hint">5%의 확률로 상황이 바뀌어 오라클의 성격/상황/전술/요충지가 바뀔 수 있습니다！</p>
   </div>
 
   <div class="card">
@@ -298,7 +356,7 @@
       <li><strong>병력 상태:</strong> 병력 규모가 유지되고 있는가? (거의 확실: 잘 유지 ~ 가능성 전무: 크게 감소)</li>
       <li><strong>지원 가능성:</strong> 아군 지원(증원, 공군 등)이 가능한가? (거의 확실: 즉시 가능 ~ 가능성 전무: 불가능)</li>
       <li><strong>전선 안정성:</strong> 전선이 안정적인가? (거의 확실: 매우 안정 ~ 가능성 전무: 붕괴 위기)</li>
-      <li><strong>보급선 취약성:</strong> 적 보급선이 취약한가? (거의 확실: 매우 취약 ~ 가능성 전무: 매우 안정)</li>
+      <li><strong>적 보급선 취약성:</strong> 적 보급선이 취약한가? (거의 확실: 매우 취약 ~ 가능성 전무: 매우 안정)</li>
     </ul>
   </div>
 </div>
@@ -448,7 +506,7 @@ const personalityKeys = [
 
 const situationKeys = [
   "적 전력 우위", "지형 유리함", "보급 상태", "시간 압박", 
-  "병력 상태", "지원 가능성", "전선 안정성", "보급선 취약성"
+  "병력 상태", "지원 가능성", "전선 안정성", "적 보급선 취약성"
 ];
 
 const tacticsMeta = {
@@ -482,18 +540,18 @@ const questionMatrix = [
 const personalityToSituations = {
   "전략적 사고": ["시간 압박", "보급 상태", "전선 안정성"],
   "위험 회피": ["적 전력 우위", "병력 상태", "지원 가능성"],
-  "공세적 열정": ["적 전력 우위", "지형 유리함", "보급선 취약성"],
+  "공세적 열정": ["적 전력 우위", "지형 유리함", "적 보급선 취약성"],
   "기동력 중시": ["지형 유리함", "시간 압박", "보급 상태"],
-  "자원 관리": ["보급 상태", "병력 상태", "보급선 취약성"],
-  "적응력": ["전선 안정성", "지원 가능성", "보급선 취약성"],
+  "자원 관리": ["보급 상태", "병력 상태", "적 보급선 취약성"],
+  "적응력": ["전선 안정성", "지원 가능성", "적 보급선 취약성"],
   "병력 관리": ["병력 상태", "보급 상태", "전선 안정성"],
-  "목표 집착": ["시간 압박", "보급선 취약성", "지형 유리함"]
+  "목표 집착": ["시간 압박", "적 보급선 취약성", "지형 유리함"]
 };
 
 const tacticInfluence = {
   "공격 스타일": [
     {type: 'situation', key: "적 전력 우위", highWeight: -3, lowWeight: 3},
-    {type: 'situation', key: "보급선 취약성", highWeight: 3, lowWeight: -2},
+    {type: 'situation', key: "적 보급선 취약성", highWeight: 3, lowWeight: -2},
     {type: 'personality', key: "공세적 열정", weight: 3},
     {type: 'personality', key: "위험 회피", weight: -2}
   ],
@@ -514,7 +572,7 @@ const tacticInfluence = {
     {type: 'situation', key: "병력 상태", highWeight: 2, lowWeight: -1}
   ],
   "목표 우선순위": [
-    {type: 'situation', key: "보급선 취약성", highWeight: 3, lowWeight: -2},
+    {type: 'situation', key: "적 보급선 취약성", highWeight: 3, lowWeight: -2},
     {type: 'personality', key: "목표 집착", weight: 3},
     {type: 'situation', key: "시간 압박", highWeight: -2, lowWeight: 1}
   ],
@@ -531,7 +589,7 @@ const tacticInfluence = {
   "보급 관리": [
     {type: 'situation', key: "보급 상태", highWeight: 3, lowWeight: -2},
     {type: 'personality', key: "자원 관리", weight: 2},
-    {type: 'situation', key: "보급선 취약성", highWeight: 2, lowWeight: -1}
+    {type: 'situation', key: "적 보급선 취약성", highWeight: 2, lowWeight: -1}
   ],
   "지원 활용": [
     {type: 'situation', key: "지원 가능성", highWeight: 3, lowWeight: -2},
@@ -542,7 +600,7 @@ const tacticInfluence = {
 
 const keypointInfluence = {
     "보급선 끊길 위험 큰 곳": [
-      {type: 'situation', key: "보급선 취약성", highWeight: 4.5, lowWeight: -2.0},
+      {type: 'situation', key: "적 보급선 취약성", highWeight: 4.5, lowWeight: -2.0},
       {type: 'personality', key: "공세적 열정", weight: 3.5},
       {type: 'personality', key: "목표 집착", weight: 2.5},
       {type: 'situation', key: "적 전력 우위", highWeight: -1.5, lowWeight: 1.0},
@@ -611,7 +669,7 @@ const keypointInfluence = {
       {type: 'situation', key: "시간 압박", highWeight: -1.0, lowWeight: 1.0},
       {type: 'situation', key: "보급 상태", highWeight: 1.0, lowWeight: -0.5},
       {type: 'personality', key: "적응력", weight: 1.0},
-      {type: 'situation', key: "보급선 취약성", highWeight: 0.5, lowWeight: -0.5}
+      {type: 'situation', key: "적 보급선 취약성", highWeight: 0.5, lowWeight: -0.5}
     ],
     "고지대": [
       {type: 'situation', key: "지형 유리함", highWeight: 2.5, lowWeight: -1.5},
@@ -624,7 +682,7 @@ const keypointInfluence = {
     "교차로": [
       {type: 'situation', key: "지형 유리함", highWeight: 2.0, lowWeight: -1.0},
       {type: 'personality', key: "기동력 중시", weight: 2.0},
-      {type: 'situation', key: "보급선 취약성", highWeight: 1.5, lowWeight: -0.5},
+      {type: 'situation', key: "적 보급선 취약성", highWeight: 1.5, lowWeight: -0.5},
       {type: 'personality', key: "적응력", weight: 1.0},
       {type: 'situation', key: "시간 압박", highWeight: -0.5, lowWeight: 0.5},
       {type: 'situation', key: "보급 상태", highWeight: 0.5, lowWeight: -0.5}
@@ -634,14 +692,11 @@ const keypointInfluence = {
 
 
 const plotTwistOptions = [
-  "모든 성격을 재설정합니다",
-  "성격 2개를 재설정합니다",
-  "상황 또는 성격 1개를 재설정합니다",
-  "상황 1개를 재설정합니다",
-  "상황 2개를 재설정합니다",
-  "모든 상황을 재설정합니다",
-  "전술 하나를 예상 밖으로 변경합니다",
-  "요충지 우선순위 재설정"
+    "모든 성격을 재설정합니다",
+    "성격 2개를 재설정합니다",
+    "상황 또는 성격 1개를 재설정합니다", // 이건 유지하지만 handle에서 상황 제외
+    "전술 하나를 예상 밖으로 변경합니다",
+    "요충지 우선순위 재설정"
 ];
 
 const plotTwistFlavorTexts = {
@@ -680,42 +735,6 @@ const plotTwistFlavorTexts = {
     "전략적 한 축의 변화가 현장에 전달되고 있습니다。",
     "전술 요소 하나가 리셋되어 대응이 필요합니다。",
     "상황 혹은 성격의 작은 변화가 전황에 영향을 미칠 수 있습니다"
-  ],
-  "상황 1개를 재설정합니다": [
-    "전선의 한 상황 지표가 급변했습니다。",
-    "중요한 전술 상황 중 하나가 재설정되었습니다。",
-    "전투 환경이 갑자기 바뀌어 혼란이 예상됩니다。",
-    "한 가지 상황 변화가 전황에 영향을 줍니다。",
-    "적의 대응 전략 일부가 바뀌었습니다。",
-    "국지적 상황 변동이 포착되었습니다。",
-    "전술적 환경 중 한 요소가 새롭게 형성되고 있습니다。",
-    "주요 상황 하나가 리셋되어 대응이 요구됩니다。",
-    "전선 상황 중 한 축에 급격한 변화가 일어났습니다。",
-    "현장 상황이 부분적으로 재조정되고 있습니다"
-  ],
-  "상황 2개를 재설정합니다": [
-    "전선 두 상황 지표가 동시에 변화했습니다。",
-    "중대한 국지 상황 두 곳이 재설정되었습니다。",
-    "전술 환경에 큰 변화가 동시에 발생하고 있습니다。",
-    "두 개 상황의 변동으로 전황이 요동치고 있습니다。",
-    "국지적 혼란이 두 지역에서 동시 발생했습니다。",
-    "두 가지 전술적 상황이 동시 재설정되어 긴장이 고조됩니다。",
-    "적의 두 주요 상황 지표가 흔들리고 있습니다。",
-    "두 전술 축이 예기치 않게 변경되었습니다。",
-    "전투 환경이 두 부분에서 급격히 변했습니다。",
-    "다중 상황 변화로 대응 방안 재수립이 필요합니다"
-  ],
-  "모든 상황을 재설정합니다": [
-    "전선 전반의 상황이 전면 재조정되었습니다。",
-    "적의 작전 환경이 완전히 변동되어 혼란이 가중되고 있습니다。",
-    "전술적 상황 전체가 다시 평가되고 있습니다。",
-    "전선 상황 전반에 걸쳐 큰 변화가 발생했습니다。",
-    "적군 전술 상황이 리셋되어 대처가 어렵습니다。",
-    "상황 재설정으로 전투 흐름에 급격한 변화가 일어났습니다。",
-    "국지적 상황들이 전면 재편성되고 있습니다。",
-    "모든 상황 지표가 불확실성 상태로 바뀌었습니다。",
-    "전술 환경 전반에 걸쳐 새로운 국면이 열렸습니다。",
-    "전선 상황 전체가 다시 수립되고 있습니다"
   ],
   "전술 하나를 예상 밖으로 변경합니다": [
     "적의 전술이 예기치 않게 변경되었습니다!",
@@ -757,6 +776,7 @@ const sContainer = document.getElementById('situations-list');
 const tContainer = document.getElementById('tactics-list');
 const kContainer = document.getElementById('keypoint-list');
 
+/* initUI 함수 수정: select에 .value 클래스 추가 */
 function initUI() {
   pContainer.innerHTML = ''; sContainer.innerHTML = ''; tContainer.innerHTML = ''; kContainer.innerHTML = '';
   personalityKeys.forEach(k => {
@@ -769,12 +789,29 @@ function initUI() {
     val.dataset.key = k;
   });
   situationKeys.forEach(k => {
-    const {val} = makeRow(k, "-", sContainer, () => {
-      const stage = randChoice(COMMON_7);
+    const row = document.createElement('div');
+    row.className = 'row';
+    const lbl = document.createElement('div'); lbl.className = 'label'; lbl.textContent = k;
+    const select = document.createElement('select');
+    select.className = 'value'; /* .value 클래스 추가 */
+    const defaultOption = document.createElement('option');
+    defaultOption.value = "-";
+    defaultOption.textContent = "-";
+    select.appendChild(defaultOption);
+    COMMON_7.forEach(opt => {
+      const option = document.createElement('option');
+      option.value = opt;
+      option.textContent = opt;
+      select.appendChild(option);
+    });
+    select.addEventListener('change', (e) => {
+      const stage = e.target.value;
       situationState[k] = stage;
       updateSituationUI(k);
     });
-    val.dataset.key = k;
+    row.appendChild(lbl); row.appendChild(select);
+    sContainer.appendChild(row);
+    select.dataset.key = k;
   });
   Object.keys(tacticsMeta).forEach(k => {
     const {val} = makeRow(k, "-", tContainer, () => {
@@ -782,7 +819,6 @@ function initUI() {
     });
     val.dataset.key = k;
   });
-  // 요충지: 단일 선택만 표시
   const {val} = makeRow("선택된 요충지", "-", kContainer);
   val.dataset.key = "selected-keypoint";
 }
@@ -798,10 +834,12 @@ function updatePersonUI(key) {
 
 function updateSituationUI(key) {
   const selector = `[data-key="${CSS.escape(key)}"]`;
-  const el = document.querySelector(selector);
-  const stage = situationState[key] ?? "-";
-  el.textContent = stage;
-  el.className = "value " + (stage === "-" ? "val-0" : (stageScore[stage] >= 2 ? "good" : (stageScore[stage] <= -2 ? "bad" : "")));
+  const el = document.querySelector(selector); // 이제 select 요소
+  if (el && el.tagName === 'SELECT') {
+    const stage = situationState[key] ?? "-";
+    el.value = stage;
+    el.className = (stage === "-" ? "val-0" : (stageScore[stage] >= 2 ? "good" : (stageScore[stage] <= -2 ? "bad" : "")));
+  }
 }
 
 function updateTacticUI(key) {
@@ -853,7 +891,7 @@ function randomizeTacticsAll() {
     tacticState[tac] = choice;
     updateTacticUI(tac);
   });
-  if (Math.random() < 0.1) {
+  if (Math.random() < 0.05) {
     const twist = randChoice(plotTwistOptions);
     const flavorList = plotTwistFlavorTexts[twist] || [""];
     const flavorText = randChoice(flavorList);
@@ -1095,34 +1133,11 @@ function handlePlotTwist(choice) {
       if (document.getElementById('auto-select').checked) autoGenerateAll();
       break;
     case "상황 또는 성격 1개를 재설정합니다":
-      if (Math.random() < 0.5) {
-        const s = randChoice(situationKeys);
-        situationState[s] = randChoice(COMMON_7);
-        updateSituationUI(s);
-      } else {
-        const p = randChoice(personalityKeys);
-        personState[p] = randChoice(COMMON_7);
-        updatePersonUI(p);
-      }
+      // 상황 제외, 성격만 재설정
+      const p = randChoice(personalityKeys);
+      personState[p] = randChoice(COMMON_7);
+      updatePersonUI(p);
       if (document.getElementById('auto-select').checked) autoGenerateAll();
-      break;
-    case "상황 1개를 재설정합니다":
-      const s = randChoice(situationKeys);
-      situationState[s] = randChoice(COMMON_7);
-      updateSituationUI(s);
-      if (document.getElementById('auto-select').checked) autoGenerateTactics();
-      break;
-    case "상황 2개를 재설정합니다":
-      for (let i = 0; i < 2; i++) {
-        const s = randChoice(situationKeys);
-        situationState[s] = randChoice(COMMON_7);
-        updateSituationUI(s);
-      }
-      if (document.getElementById('auto-select').checked) autoGenerateTactics();
-      break;
-    case "모든 상황을 재설정합니다":
-      randomizeSituationsAll();
-      if (document.getElementById('auto-select').checked) autoGenerateTactics();
       break;
     case "전술 하나를 예상 밖으로 변경합니다":
       const tac = randChoice(Object.keys(tacticsMeta));

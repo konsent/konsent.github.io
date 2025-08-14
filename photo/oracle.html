@@ -542,7 +542,7 @@ function randomizeTacticsAll() {
     tacticState[tac] = choice;
     updateTacticUI(tac);
   });
-  if (Math.random() < 0.1) {
+  if (Math.random() < 0.08) {
     const twist = randChoice(plotTwistOptions);
     const flavorList = plotTwistFlavorTexts[twist] || [""];
     const flavorText = randChoice(flavorList);
