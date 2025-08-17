@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Japanese Erasmus Bot - 카드 선택</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #2e2e2e;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            color: #d8d8d8;
+        }
+    
+        .impl-note {
+            font-style: italic;
+            font-size: 14px;
+            color: #ffffff;
+            line-height: 1.6;
+            margin: 4px 0;
+        }
+    
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #3c3c3c;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+    
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #4a4a4a;
+            border-radius: 8px;
+            color: #ffffff;
+            border: 1px solid #5c5c5c;
+        }
+    
+        .header h1 {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+    
+        .header p {
+            margin: 8px 0 0 0;
+            font-size: 1rem;
+            font-weight: 400;
+        }
+    
+        .progress-bar {
+            background: #4a4a4a;
+            border-radius: 5px;
+            height: 6px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            border: 1px solid #5c5c5c;
+        }
+    
+        .progress-fill {
+            background: #4682b4;
+            height: 100%;
+            border-radius: 5px;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+    
+        .step-section {
+            background: #3c3c3c;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border: 1px solid #5c5c5c;
+        }
+    
+        .step-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+    
+        .step-number {
+            background: #4682b4;
+            color: #ffffff;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1rem;
+            margin-right: 15px;
+        }
+    
+        .step-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #d8d8d8;
+            margin: 0;
+        }
+    
+        .condition-box {
+            background: #4a4a4a;
+            border-left: 4px solid #4682b4;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #c8c8c8;
+        }
+    
+        .condition-box strong {
+            color: #4682b4;
+            font-size: 1.1rem;
+        }
+    
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+    
+        .btn {
+            padding: 10px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s ease, transform 0.1s ease;
+            text-transform: uppercase;
+            min-width: 100px;
+            font-family: 'Georgia', 'Times New Roman', Times, serif;
+        }
+    
+        .btn-yes {
+            background: #2e8b57;
+            color: #ffffff;
+        }
+    
+        .btn-yes:hover {
+            background: #257a4b;
+            transform: translateY(-2px);
+        }
+    
+        .btn-no {
+            background: #696969;
+            color: #ffffff;
+        }
+    
+        .btn-no:hover {
+            background: #585858;
+            transform: translateY(-2px);
+        }
+    
+        .btn-primary {
+            background: #4682b4;
+            color: #ffffff;
+        }
+    
+        .btn-primary:hover {
+            background: #3a6b9a;
+            transform: translateY(-2px);
+        }
+    
+        .btn-secondary {
+            background: #5c5c5c;
+            color: #ffffff;
+        }
+    
+        .btn-secondary:hover {
+            background: #4b4b4b;
+            transform: translateY(-2px);
+        }
+    
+        .btn-back {
+            background: #5c5c5c;
+            color: #ffffff;
+        }
+    
+        .btn-back:hover {
+            background: #4b4b4b;
+            transform: translateY(-2px);
+        }
+    
+        .path-history {
+            background: #4a4a4a;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 3px solid #2e8b57;
+        }
+    
+        .path-step {
+            display: flex;
+            align-items: center;
+            margin: 8px 0;
+            padding: 8px;
+            background: #3c3c3c;
+            border-radius: 5px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+    
+        .path-step .step-icon {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 10px;
+            font-size: 0.8rem;
+        }
+    
+        .path-step.yes .step-icon {
+            background: #2e8b57;
+            color: #ffffff;
+        }
+    
+        .path-step.no .step-icon {
+            background: #696969;
+            color: #ffffff;
+        }
+    
+        .dice-section {
+            background: #4a4a4a;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            margin: 15px 0;
+            border: 1px solid #5c5c5c;
+        }
+    
+        .dice-result {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #d8d8d8;
+            margin: 15px 0;
+        }
+    
+        .result-section {
+            background: #2e8b57;
+            color: #ffffff;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            margin-top: 15px;
+            border: 1px solid #3c3c3c;
+        }
+    
+        .result-section h2 {
+            margin: 0 0 15px 0;
+            font-size: 2rem;
+            display: none;
+        }
+    
+        .result-section p {
+            margin: 10px 0;
+            font-size: 32px;
+            white-space: pre-line;
+            font-weight: bold;
+            font-style: italic;
+        }
+    
+        .strategy-details {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+    
+        .strategy-list {
+            text-align: left;
+            margin: 15px 0;
+            list-style: none;
+            padding: 0;
+        }
+    
+        .strategy-list li {
+            margin: 8px 0;
+            padding: 8px 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 5px;
+            border-left: 3px solid rgba(255, 255, 255, 0.3);
+        }
+    
+        .sub-priority-list {
+            list-style: none;
+            padding-left: 20px;
+            margin-top: 5px;
+        }
+    
+        .sub-priority-list li {
+            margin: 5px 0;
+            padding: 5px 10px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            border-left: 2px solid rgba(255, 255, 255, 0.4);
+            font-size: 0.9rem;
+        }
+    
+        .hidden {
+            display: none;
+        }
+    
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+                margin: 10px;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .button-group {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 180px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Japanese Erasmus Bot</h1>
+            <p>모든 페이즈 - 카드 선택</p>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <div id="pathHistory" class="path-history hidden">
+            <h4 style="margin-top: 0; color: #ffffff;">진행 경로</h4>
+            <div id="pathSteps"></div>
+        </div>
+
+        <div id="stepSection" class="step-section">
+            <div class="step-header">
+                <div class="step-number" id="stepNumber">1</div>
+                <h2 class="step-title" id="stepTitle">시작</h2>
+            </div>
+            
+            <div class="condition-box" id="conditionBox">
+                첫 번째 조건을 확인해주세요.
+            </div>
+            
+            <div class="button-group" id="buttonGroup">
+                <button class="btn btn-primary" onclick="startFlow()">시작하기</button>
+            </div>
+        </div>
+
+        <div id="diceSection" class="dice-section hidden">
+            <h3 style="margin: 0 0 20px 0; color: #2d3436;">주사위 굴리기 (1d10)</h3>
+            <div class="dice-result" id="diceResult">?</div>
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="rollDice()">주사위 굴리기</button>
+            </div>
+        </div>
+
+        <div id="resultSection" class="result-section hidden">
+            <h2 id="strategyTitle">최종 전략 결정</h2>
+            <p id="strategyName"></p>
+            <div class="strategy-details" id="strategyDetails"></div>
+            <div class="button-group" style="margin-top: 30px;">
+                <button class="btn btn-secondary" onclick="resetFlow()">다시 시작</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const notes = {
+            '[1]': '카드를 왼쪽에서 오른쪽 순서로 다음과 같이 배열합니다: 군사 이벤트, 대응 이벤트, 자원 이벤트, 정치 이벤트. 마지막 카드 두 장은 다음 순서에서 가장 좋은 이벤트를 선택합니다: 도쿄 로즈, 도조, 유럽 전쟁, 일본군 내부 항쟁 종료, 미군 내부 항쟁 시작, 보충, 날씨 대응. 그 외의 카드는 무작위로 선택하세요.',
+            '[2]': '일본 에라스무스가 아직 오프닝 페이즈에 있고, 전략이 중부 태평양Central Pacific 또는 방어 경계Defensive Perimeter거나, 목표를 달성할 수 있는 유일한 남은 군사 이벤트 카드 가 아니라면 Operation MI 카드는 고려하지 않습니다.',
+            '[3]': '공세 단계(Offensives Phase)의 시작에서, 정렬된 순서에서 첫 번째 카드를 사용하세요.',
+            '[4]': '제한없는 군사 이벤트 카드란? 활성화 제한(지상, 공군, 해군)도 없고 전투 헥스 제한도 없는 군사 이벤트 카드입니다. HQ 제한은 무시하세요.',
+            '[5]': '제한적 군사 이벤트 카드란? 활성화 제한(지상, 공군, 해군) 또는 전투 헥스 제한이 있는 군사 이벤트 카드입니다. HQ 제한은 무시하세요.'
+        };
+
+        const strategies = {
+            'First Strike EC Strategy': { 
+                name: '첫 타격 EC 전략', 
+                details: [
+                    '다음 우선 순위에 따라 사용 가능한 카드 사용',
+                    '1. Operation I-Go',
+                    '2. 2nd Operational Phase'
+                ] 
+            },
+            'Unrestricted Event EC Strategy': { 
+                name: '제한 없는 이벤트 EC 전략[4]', 
+                details: [
+                    '기준: 병참 값이 가장 높은 카드를 선택합니다. 만약 공세 보너스가 있다면 다음 우선순위에 따라 선택합니다',
+                    '1. 공수부대 보너스',
+                    '2. 비-공수부대 보너스',
+                    '3. 보너스 없음'
+                ] 
+            },
+            'Restricted Event OC Strategy': { 
+                name: '제한된 이벤트 OC 전략[2][5]', 
+                details: [
+                    '기준: 가장 높은 OC 값을 가진 카드를 선택합니다. 단, 그것이 군사 이벤트 카드고, 군사 이벤트가 아닌 카드가 있다면(값과 관계없이), 군사 이벤트 카드는 제외하고 OC 카드를 무작위로 선택합니다.'
+                ] 
+            },
+            'Restricted Event EC Strategy': { 
+                name: '제한된 이벤트 EC 전략[2][5]', 
+                details: [
+                    '기준: 병참 값이 가장 높은 카드를 선택합니다. 동률일 경우 보너스가 없는 카드보다 공세 보너스 카드들을 우선 선택합니다. 그 외에는 무작위로 선택합니다.'
+                ] 
+            },
+            'Non-Military Event OC Strategy': { 
+                name: '비군사 이벤트 OC 전략[3]', 
+                details: [
+                    '기준: 가장 높은 OC 값을 가진 카드를 선택합니다'
+                ] 
+            },
+            'Play Card as Future Offensive': { 
+                name: '미래 공세 카드 플레이', 
+                details: [
+                    '카드를 미래 공세로 사용합니다'
+                ] 
+            },
+            'Event Strategy': { 
+                name: '이벤트 전략', 
+                details: [
+                    '다음 우선순위에 따라 사용 가능한 이벤트 카드를 플레이하세요:',
+                    '1. 유럽 전쟁(War in Europe)',
+                    '2. 병력 보충(Replacements)',
+                    '3. 일본 ISR 종료',
+                    '4. 미군 ISR 생성',
+                    '5. 기타 (무작위)'
+                ] 
+            },
+            // 'Restricted Event As OC Strategy': { 
+            //     name: '제한된 이벤트 OC 전략', 
+            //     details: ['OC 가치 기준으로 제한된 이벤트 처리'
+            //     ] 
+            // }
+        };
+
+        const conditions = {
+            'A': '이번 공세 페이즈 동안, 카드를 하나라도 사용했습니까?',
+            'B': '손패에 카드가 2장 이상 있습니까?',
+            'C': '이 카드가 이번 게임에서 처음 사용하는 카드입니까?',
+            'D': '손패에 Operation I-GO 또는 2차 작전 단계 군사 이벤트 카드가 있습니까?',
+            'E': '사용 가능한 제한없는Unrestricted 군사 이벤트가 있습니까?',
+            'F': '사용 가능한 제한된Restricted 군사 이벤트가 있습니까?',
+            'G': '사용 가능한 모든 군사 이벤트 카드 제한 사항 때문에 선택한 대상을 공격하거나 점령할 수 없습니까?',
+            'H': '이번 턴에 보관할 FO 카드를 선택했습니까?',
+            'I': 'DEI 목표를 완료했습니까? (전쟁 초기인 경우에만)',
+            'J': '남은 카드가 1장 있습니까?',
+            'K': '남아있는 사용 가능한 이벤트 카드가 모두 대응 카드입니까?'
+        };
+
+        let currentStep = 'start';
+        let pathHistory = [];
+        let stepCount = 0;
+        let evaluatedConditions = {};
+
+        function createMissingElement(id, tag, parent, classes = []) {
+            let element = document.getElementById(id);
+            if (!element) {
+                element = document.createElement(tag);
+                element.id = id;
+                classes.forEach(cls => element.classList.add(cls));
+                if (parent && parent.appendChild) {
+                    parent.appendChild(element);
+                } else {
+                    document.body.appendChild(element);
+                }
+            }
+            return element;
+        }
+
+        function startFlow() {
+            currentStep = 'A';
+            stepCount = 1;
+            pathHistory = [];
+            evaluatedConditions = {};
+            showStep('A');
+        }
+
+        function showStep(stepId) {
+            const errorContainer = createMissingElement('errorContainer', 'div', document.body, ['hidden']);
+            const stepSection = createMissingElement('stepSection', 'div', document.body);
+            const stepNumber = createMissingElement('stepNumber', 'div', stepSection);
+            const stepTitle = createMissingElement('stepTitle', 'h2', stepSection);
+            const conditionBox = createMissingElement('conditionBox', 'div', stepSection);
+            const buttonGroup = createMissingElement('buttonGroup', 'div', stepSection);
+
+            if (errorContainer) errorContainer.classList.add('hidden');
+
+            stepNumber.textContent = stepCount;
+
+            if (stepId === 'Sort Cards') {
+                stepTitle.textContent = '카드 정렬';
+                conditionBox.innerHTML = ` 카드를 정렬합니다.[1]<br>카드를 왼쪽에서 오른쪽 순서로 다음과 같이 배열합니다: 군사 이벤트, 대응 이벤트, 자원 이벤트, 정치 이벤트. 마지막 카드 두 장은 다음 순서에서 가장 좋은 이벤트를 선택합니다: 도쿄 로즈, 도조, 유럽 전쟁, 일본군 내부 항쟁 종료, 미군 내부 항쟁 시작, 보충, 날씨 대응. 그 외의 카드는 무작위로 선택하세요.`;
+                buttonGroup.innerHTML = `
+                    <button class="btn btn-continue" onclick="selectChoice('Sort Cards', true)">계속</button>
+                    ${pathHistory.length > 0 ? '<button class="btn btn-back" onclick="goBack()">이전</button>' : ''}
+                `;
+            } else if (conditions[stepId]) {
+                stepTitle.textContent = `${stepId} 확인`;
+                conditionBox.innerHTML = ` ${conditions[stepId]}`;
+                buttonGroup.innerHTML = `
+                    <button class="btn btn-yes" onclick="selectChoice('${stepId}', true)">YES</button>
+                    <button class="btn btn-no" onclick="selectChoice('${stepId}', false)">NO</button>
+                    ${pathHistory.length > 0 ? '<button class="btn btn-back" onclick="goBack()">이전</button>' : ''}
+                `;
+            } else if (stepId === 'start') {
+                stepTitle.textContent = '시작';
+                conditionBox.innerHTML = `카드 선택`;
+                buttonGroup.innerHTML = `
+                    <button class="btn btn-primary" onclick="startFlow()">시작하기</button>
+                `;
+            }
+
+            updateProgress();
+            updatePathHistory();
+        }
+
+        function selectChoice(conditionId, choice) {
+            evaluatedConditions[conditionId] = choice;
+            pathHistory.push({ step: conditionId, choice: choice, stepNum: stepCount });
+            stepCount++;
+
+            const nextStep = getNextStep(conditionId, choice);
+
+            if (nextStep.startsWith('STRATEGY_')) {
+                const strategy = nextStep.replace('STRATEGY_', '');
+                showResult(strategy);
+            } else if (nextStep) {
+                currentStep = nextStep;
+                showStep(nextStep);
+            } else {
+                console.warn('No next step defined for', conditionId, choice);
+                showResult('Event Strategy'); // 기본 전략으로 전환
+            }
+        }
+
+        function getNextStep(conditionId, choice) {
+            switch (conditionId) {
+                case 'A':
+                    return choice ? 'B' : 'Sort Cards'; // 수정: A가 true면 B, false면 Sort Cards
+                case 'Sort Cards':
+                    return 'B';
+                case 'B':
+                    return choice ? 'C' : 'H';
+                case 'C':
+                    return choice ? 'D' : 'E';
+                case 'D':
+                    return choice ? 'STRATEGY_First Strike EC Strategy' : 'E';
+                case 'E':
+                    return choice ? 'STRATEGY_Unrestricted Event EC Strategy' : 'F';
+                case 'F':
+                    return choice ? 'G' : 'STRATEGY_Non-Military Event OC Strategy';
+                case 'G':
+                    return choice ? 'STRATEGY_Restricted Event OC Strategy' : 'STRATEGY_Restricted Event EC Strategy';
+                case 'H':
+                    return choice ? 'STRATEGY_Non-Military Event OC Strategy' : 'I';
+                case 'I':
+                    return choice ? 'J' : 'STRATEGY_Non-Military Event OC Strategy';
+                case 'J':
+                    return choice ? 'STRATEGY_Play Card as Future Offensive' : 'K';
+                case 'K':
+                    return choice ? 'STRATEGY_Non-Military Event OC Strategy' : 'STRATEGY_Event Strategy';
+                default:
+                    return 'STRATEGY_Event Strategy';
+            }
+        }
+
+        function rollDice() {
+            const errorContainer = createMissingElement('errorContainer', 'div', document.body, ['hidden']);
+            const diceSection = createMissingElement('diceSection', 'div', document.body, ['hidden']);
+            const diceResult = createMissingElement('diceResult', 'div', diceSection);
+            if (errorContainer) errorContainer.classList.add('hidden');
+
+            const diceValue = Math.floor(Math.random() * 10);
+            diceResult.textContent = diceValue;
+
+            let strategy;
+            if (diceValue >= 0 && diceValue <= 3) {
+                strategy = 'Event Strategy';
+            } else if (diceValue >= 4 && diceValue <= 7) {
+                strategy = 'Non-Military Event OC Strategy';
+            } else if (diceValue >= 8 && diceValue <= 9) {
+                strategy = 'First Strike EC Strategy';
+            }
+
+            pathHistory.push({
+                step: 'DICE',
+                choice: diceValue,
+                stepNum: stepCount,
+                isResult: true,
+                result: strategy
+            });
+
+            setTimeout(() => showResult(strategy), 1000);
+        }
+
+        function showResult(strategyKey) {
+            const strategy = strategies[strategyKey];
+            if (!strategy) {
+                console.error('Strategy not found:', strategyKey);
+                return;
+            }
+
+            const errorContainer = createMissingElement('errorContainer', 'div', document.body, ['hidden']);
+            const stepSection = createMissingElement('stepSection', 'div', document.body);
+            const diceSection = createMissingElement('diceSection', 'div', document.body, ['hidden']);
+            const resultSection = createMissingElement('resultSection', 'div', document.body, ['hidden']);
+            const strategyName = createMissingElement('strategyName', 'h2', resultSection);
+            const strategyDetails = createMissingElement('strategyDetails', 'div', resultSection);
+            const buttonGroup = resultSection.querySelector('.button-group') || createMissingElement('button-group', 'div', resultSection, ['button-group']);
+
+            if (errorContainer) errorContainer.classList.add('hidden');
+
+            stepSection.classList.add('hidden');
+            diceSection.classList.add('hidden');
+            resultSection.classList.remove('hidden');
+            strategyName.textContent = strategy.name;
+
+            const annotationRegex = /\[\d+\]/g;
+            const annotations = new Set();
+            if (strategy.name.match(annotationRegex)) {
+                strategy.name.match(annotationRegex).forEach(annotation => annotations.add(annotation));
+            }
+            strategy.details.forEach(detail => {
+                if (detail.match(annotationRegex)) {
+                    detail.match(annotationRegex).forEach(annotation => annotations.add(annotation));
+                }
+            });
+
+            strategyDetails.innerHTML = `
+                <h4 style="margin-top: 0; color: #fff;">전략 세부사항:</h4>
+                <ul class="strategy-list">
+                    ${strategy.details.map(detail => `<li>${detail}</li>`).join('')}
+                </ul>
+                ${annotations.size > 0 ? `
+                    <h4 style="margin-top: 20px; color: #fff;">주석:</h4>
+                    <ul class="strategy-list">
+                        ${Array.from(annotations).sort().map(annotation => `
+                            <li class="impl-note">${annotation}: ${notes[annotation]}</li>
+                        `).join('')}
+                    </ul>
+                ` : ''}
+            `;
+
+            buttonGroup.innerHTML = `
+                <button class="btn btn-secondary" onclick="resetFlow()">다시 시작</button>
+                ${pathHistory.length > 0 ? '<button class="btn btn-back" onclick="goBack()">이전</button>' : ''}
+            `;
+
+            updateProgress();
+            updatePathHistory();
+        }
+
+        function updateProgress() {
+            const errorContainer = createMissingElement('errorContainer', 'div', document.body, ['hidden']);
+            const progressBar = createMissingElement('progress-bar', 'div', document.body, ['progress-bar']);
+            const progressFill = createMissingElement('progressFill', 'div', progressBar, ['progress-fill']);
+            if (errorContainer) errorContainer.classList.add('hidden');
+
+            const totalSteps = 11; // A부터 K까지 최대 단계 수
+            const progress = Math.min((stepCount / totalSteps) * 100, 100);
+            progressFill.style.width = progress + '%';
+        }
+
+        function updatePathHistory() {
+            const errorContainer = createMissingElement('errorContainer', 'div', document.body, ['hidden']);
+            const pathHistoryDiv = createMissingElement('pathHistory', 'div', document.body, ['hidden']);
+            const pathStepsDiv = createMissingElement('pathSteps', 'div', pathHistoryDiv);
+            if (errorContainer) errorContainer.classList.add('hidden');
+
+            if (pathHistory.length === 0) {
+                pathHistoryDiv.classList.add('hidden');
+                return;
+            }
+
+            pathStepsDiv.innerHTML = '';
+
+            pathHistory.forEach(step => {
+                const stepDiv = document.createElement('div');
+                stepDiv.className = `path-step ${step.choice && step.step !== 'DICE' ? 'yes' : step.step !== 'DICE' ? 'no' : ''}`;
+
+                if (step.step === 'DICE') {
+                    stepDiv.innerHTML = `
+                        <div class="step-icon">${step.choice}</div>
+                        <div>
+                            <strong>주사위 굴리기:</strong> ${step.choice} 
+                            ${step.result ? `→ ${strategies[step.result].name}` : ''}
+                        </div>
+                    `;
+                } else if (step.step === 'Sort Cards') {
+                    stepDiv.innerHTML = `
+                        <div class="step-icon">S</div>
+                        <div>
+                            <strong>${step.step}:</strong> 
+                            카드 정렬 → 계속
+                        </div>
+                    `;
+                } else {
+                    let conditionText = conditions[step.step] || '';
+                    stepDiv.innerHTML = `
+                        <div class="step-icon">${step.choice ? 'Y' : 'N'}</div>
+                        <div>
+                            <strong>${step.step}:</strong> 
+                            ${conditionText} → ${step.choice ? 'YES' : 'NO'}
+                        </div>
+                    `;
+                }
+
+                pathStepsDiv.appendChild(stepDiv);
+            });
+
+            pathHistoryDiv.classList.remove('hidden');
+        }
+
+        function resetFlow() {
+            currentStep = 'start';
+            stepCount = 0;
+            pathHistory = [];
+            evaluatedConditions = {};
+
+            const errorContainer = createMissingElement('errorContainer', 'div', document.body, ['hidden']);
+            const stepSection = createMissingElement('stepSection', 'div', document.body);
+            const diceSection = createMissingElement('diceSection', 'div', document.body, ['hidden']);
+            const resultSection = createMissingElement('resultSection', 'div', document.body, ['hidden']);
+            const pathHistoryDiv = createMissingElement('pathHistory', 'div', document.body, ['hidden']);
+            const progressBar = createMissingElement('progress-bar', 'div', document.body, ['progress-bar']);
+
+            const elements = {
+                errorContainer,
+                stepSection,
+                diceSection,
+                resultSection,
+                pathHistoryDiv,
+                progressBar,
+                stepNumber: createMissingElement('stepNumber', 'div', stepSection),
+                stepTitle: createMissingElement('stepTitle', 'h2', stepSection),
+                conditionBox: createMissingElement('conditionBox', 'div', stepSection),
+                buttonGroup: createMissingElement('buttonGroup', 'div', stepSection),
+                progressFill: createMissingElement('progressFill', 'div', progressBar, ['progress-fill']),
+                pathSteps: createMissingElement('pathSteps', 'div', pathHistoryDiv),
+                strategyName: createMissingElement('strategyName', 'h2', resultSection),
+                strategyDetails: createMissingElement('strategyDetails', 'div', resultSection),
+                diceResult: createMissingElement('diceResult', 'div', diceSection)
+            };
+
+            const createdElements = Object.keys(elements).filter(key => {
+                const element = document.getElementById(elements[key].id);
+                return element && element !== document.getElementById(key);
+            });
+
+            if (createdElements.length > 0) {
+                console.warn('Created missing DOM elements in resetFlow:', createdElements);
+                if (elements.errorContainer) {
+                    elements.errorContainer.classList.remove('hidden');
+                }
+            } else if (elements.errorContainer) {
+                elements.errorContainer.classList.add('hidden');
+            }
+
+            if (elements.stepSection) elements.stepSection.classList.remove('hidden');
+            if (elements.diceSection) elements.diceSection.classList.add('hidden');
+            if (elements.resultSection) elements.resultSection.classList.add('hidden');
+            if (elements.pathHistoryDiv) elements.pathHistoryDiv.classList.add('hidden');
+            if (elements.stepNumber) elements.stepNumber.textContent = '1';
+            if (elements.stepTitle) elements.stepTitle.textContent = '시작';
+            if (elements.conditionBox) elements.conditionBox.innerHTML = '에라스무스가 사용할 카드를 결정합니다';
+            if (elements.buttonGroup) elements.buttonGroup.innerHTML = '<button class="btn btn-primary" onclick="startFlow()">시작하기</button>';
+            if (elements.progressFill) elements.progressFill.style.width = '0%';
+        }
+
+        function goBack() {
+            if (pathHistory.length === 0) {
+                resetFlow();
+                return;
+            }
+
+            const lastStep = pathHistory.pop();
+            stepCount--;
+
+            if (lastStep.step !== 'DICE') {
+                delete evaluatedConditions[lastStep.step];
+            }
+
+            if (pathHistory.length === 0) {
+                currentStep = 'start';
+            } else {
+                currentStep = pathHistory[pathHistory.length - 1].step;
+                if (lastStep.step === 'DICE') {
+                    currentStep = pathHistory.length > 0 ? pathHistory[pathHistory.length - 1].step : 'start';
+                    pathHistory.pop();
+                    stepCount--;
+                    if (pathHistory.length > 0) {
+                        delete evaluatedConditions[pathHistory[pathHistory.length - 1].step];
+                    }
+                }
+            }
+
+            const errorContainer = createMissingElement('errorContainer', 'div', document.body, ['hidden']);
+            const stepSection = createMissingElement('stepSection', 'div', document.body);
+            const diceSection = createMissingElement('diceSection', 'div', document.body, ['hidden']);
+            const resultSection = createMissingElement('resultSection', 'div', document.body, ['hidden']);
+            if (errorContainer) errorContainer.classList.add('hidden');
+
+            stepSection.classList.remove('hidden');
+            diceSection.classList.add('hidden');
+            resultSection.classList.add('hidden');
+            showStep(currentStep);
+        }
+
+        window.onload = function () {
+            if (document.readyState === 'complete') {
+                resetFlow();
+            } else {
+                window.addEventListener('DOMContentLoaded', resetFlow);
+            }
+        };
+    </script>

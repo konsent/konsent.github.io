@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Japanese Erasmus Bot - 대응 구성</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #2e2e2e;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            color: #d8d8d8;
+        }
+    
+        .impl-note {
+            font-style: italic;
+            font-size: 14px;
+            color: #ffffff;
+            line-height: 1.6;
+            margin: 4px 0;
+        }
+    
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #3c3c3c;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+    
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #4a4a4a;
+            border-radius: 8px;
+            color: #ffffff;
+            border: 1px solid #5c5c5c;
+        }
+    
+        .header h1 {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+    
+        .header p {
+            margin: 8px 0 0 0;
+            font-size: 1rem;
+            font-weight: 400;
+        }
+    
+        .progress-bar {
+            background: #4a4a4a;
+            border-radius: 5px;
+            height: 6px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            border: 1px solid #5c5c5c;
+        }
+    
+        .progress-fill {
+            background: #4682b4;
+            height: 100%;
+            border-radius: 5px;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+    
+        .step-section {
+            background: #3c3c3c;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border: 1px solid #5c5c5c;
+        }
+    
+        .step-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+    
+        .step-number {
+            background: #4682b4;
+            color: #ffffff;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1rem;
+            margin-right: 15px;
+        }
+    
+        .step-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #d8d8d8;
+            margin: 0;
+        }
+    
+        .condition-box {
+            background: #4a4a4a;
+            border-left: 4px solid #4682b4;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #c8c8c8;
+        }
+    
+        .condition-box strong {
+            color: #4682b4;
+            font-size: 1.1rem;
+        }
+    
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+    
+        .btn {
+            padding: 10px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s ease, transform 0.1s ease;
+            text-transform: uppercase;
+            min-width: 100px;
+            font-family: 'Georgia', 'Times New Roman', Times, serif;
+        }
+    
+        .btn-yes {
+            background: #2e8b57;
+            color: #ffffff;
+        }
+    
+        .btn-yes:hover {
+            background: #257a4b;
+            transform: translateY(-2px);
+        }
+    
+        .btn-no {
+            background: #696969;
+            color: #ffffff;
+        }
+    
+        .btn-no:hover {
+            background: #585858;
+            transform: translateY(-2px);
+        }
+    
+        .btn-primary {
+            background: #4682b4;
+            color: #ffffff;
+        }
+    
+        .btn-primary:hover {
+            background: #3a6b9a;
+            transform: translateY(-2px);
+        }
+    
+        .btn-secondary {
+            background: #5c5c5c;
+            color: #ffffff;
+        }
+    
+        .btn-secondary:hover {
+            background: #4b4b4b;
+            transform: translateY(-2px);
+        }
+    
+        .btn-back {
+            background: #5c5c5c;
+            color: #ffffff;
+        }
+    
+        .btn-back:hover {
+            background: #4b4b4b;
+            transform: translateY(-2px);
+        }
+    
+        .path-history {
+            background: #4a4a4a;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 3px solid #2e8b57;
+        }
+    
+        .path-step {
+            display: flex;
+            align-items: center;
+            margin: 8px 0;
+            padding: 8px;
+            background: #3c3c3c;
+            border-radius: 5px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+    
+        .path-step .step-icon {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 10px;
+            font-size: 0.8rem;
+        }
+    
+        .path-step.yes .step-icon {
+            background: #2e8b57;
+            color: #ffffff;
+        }
+    
+        .path-step.no .step-icon {
+            background: #696969;
+            color: #ffffff;
+        }
+    
+        .dice-section {
+            background: #4a4a4a;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            margin: 15px 0;
+            border: 1px solid #5c5c5c;
+        }
+    
+        .dice-result {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #d8d8d8;
+            margin: 15px 0;
+        }
+    
+        .result-section {
+            background: #2e8b57;
+            color: #ffffff;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            margin-top: 15px;
+            border: 1px solid #3c3c3c;
+        }
+    
+        .result-section h2 {
+            margin: 0 0 15px 0;
+            font-size: 2rem;
+            display: none;
+        }
+    
+        .result-section p {
+            margin: 10px 0;
+            font-size: 32px;
+            white-space: pre-line;
+            font-weight: bold;
+            font-style: italic;
+        }
+    
+        .strategy-details {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+    
+        .strategy-list {
+            text-align: left;
+            margin: 15px 0;
+            list-style: none;
+            padding: 0;
+        }
+    
+        .strategy-list li {
+            margin: 8px 0;
+            padding: 8px 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 5px;
+            border-left: 3px solid rgba(255, 255, 255, 0.3);
+        }
+    
+        .sub-priority-list {
+            list-style: none;
+            padding-left: 20px;
+            margin-top: 5px;
+        }
+    
+        .sub-priority-list li {
+            margin: 5px 0;
+            padding: 5px 10px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            border-left: 2px solid rgba(255, 255, 255, 0.4);
+            font-size: 0.9rem;
+        }
+    
+        .hidden {
+            display: none;
+        }
+    
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+                margin: 10px;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .button-group {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 180px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Japanese Erasmus Bot</h1>
+            <p>대응</p>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <div id="pathHistory" class="path-history hidden">
+            <h4 style="margin-top: 0; color: #ffffff;">진행 경로</h4>
+            <div id="pathSteps"></div>
+        </div>
+
+        <div id="stepSection" class="step-section">
+            <div class="step-header">
+                <div class="step-number" id="stepNumber">1</div>
+                <h2 class="step-title" id="stepTitle">시작</h2>
+            </div>
+            
+            <div class="condition-box" id="conditionBox">
+                첫 번째 조건을 확인해주세요.
+            </div>
+            
+            <div class="button-group" id="buttonGroup">
+                <button class="btn btn-primary" onclick="startFlow()">시작하기</button>
+            </div>
+        </div>
+
+        <div id="diceSection" class="dice-section hidden">
+            <h3 style="margin: 0 0 20px 0; color: #2d3436;">주사위 굴리기 (1d10)</h3>
+            <div class="dice-result" id="diceResult">?</div>
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="rollDice()">주사위 굴리기</button>
+            </div>
+        </div>
+
+        <div id="resultSection" class="result-section hidden">
+            <h2 id="strategyTitle">최종 병력 구성</h2>
+            <p id="strategyName"></p>
+            <div class="strategy-details" id="strategyDetails"></div>
+            <div class="button-group" style="margin-top: 30px;">
+                <button class="btn btn-secondary" onclick="resetFlow()">다시 시작</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Implementation notes
+        const notes = {
+            '[1]': '선택지가 있다면, 반격(Counteroffensive) 카드보다 먼저 JN-25 첩보(Intelligence) 카드를 사용합니다.',
+            '[2]': '여러 적 유닛 중에서 선택해야 할 경우, 우선순위는 다음과 같습니다: 항모(CV) → 전함(BB) → 중순양함(CA) → 구축함(DD). 동일 유형일 경우 방어력이 가장 높은 유닛을 선택합니다.',
+            '[3]': '여러 전투 헥스가 가능할 경우, 대응 전략의 우선순위 목록을 따라 전투 헥스를 선택합니다.',
+            '[4]': '2스텝 손실을 가할 때도 [2]와 동일하게, CV → BB → CA → DD 순서로, 같은 유형 중에서는 방어력이 가장 높은 유닛을 선택합니다.',
+            '[5]': '우선순위가 동일한 전투 헥스가 여러 개 있을 경우, 무작위로 순서를 결정합니다.',
+            '[6]': '최우선 전투 헥스의 대응 병력 조건을 먼저 충족해야 하며, 그다음은 두 번째, 세 번째 순으로 충족합니다.',
+            '[7]': '특정 전투 헥스 조건을 충족할 수 없을 경우, 다음 우선순위 전투 헥스로 건너뜁니다. 이 과정을 반복하다가 더 이상 대응할 전투 헥스가 없으면 종료합니다.',
+            '[8]': '가용(Available)"이란 카드를 손에 보유하는 것 외에도, Erasmus가 해당 페이즈에서 최대 3장의 보너스 뽑기 제한을 아직 초과하지 않았다는 뜻입니다.',
+            '[9]': '특정 전략에 PBM이 있다면, 이 표를 적용하기 전에 먼저 그것을 따릅니다.',
+            '[10]': '우선순위 헥스가 모두 일본 AZOI에 이미 들어가 있는 경우, 그 우선순위는 건너뜁니다.',
+            '[11]': '여러 공군 기지가 있을 경우, 여러 우선순위를 동시에 충족할 수 있는 기지를 우선적으로 선택합니다.',
+            '[12]': '한 공군 기지에는 공중 유닛은 최대 1개만 배치할 수 있습니다.',
+            '[13]': '가능한 공중 유닛 중에서는 가장 강력한 유닛을 선택합니다.',
+            '[14]': '자원 헥스가 여러개인 경우, 가장 가까운 자원 헥스 → 두 번째로 가까운 자원 헥스 .. 순으로 선택합니다.',
+            '[15]': '대응 카드에 보너스 뽑기가 적혀 있을 경우, 주사위 굴림에 -4를 적용합니다.'
+        };
+    
+        // 병력 구성 정보 데이터
+        const strategies = {
+            'Play Weather Reaction Card': {
+                name: '날씨 대응 카드 사용',
+                details: ['날씨 대응 카드를 사용합니다.']
+            },
+            'Roll for each SR': {
+                name: '각 SR에 대해 주사위 굴림',
+                details: ['각 SR에 대해 주사위를 굴립니다.']
+            },
+            'Play Intel-CO Reaction Card': {
+                name: '첩보-CO 대응 카드 사용 [1]',
+                details: ['첩보-CO 대응 카드를 사용합니다.']
+            },
+            'If possible, roll for Intelligence': {
+                name: '가능하다면 첩보 주사위 굴림',
+                details: ['첩보 주사위 굴림을 시도합니다.']
+            },
+            'Play Kamikaze Attack Card': {
+                name: '가미카제 공격 카드 사용 [3][4]',
+                details: ['가미카제 공격 카드를 사용합니다.']
+            },
+            'Play Submarine Attack Card': {
+                name: '잠수함 공격 카드 사용 [2]',
+                details: ['잠수함 공격 카드를 사용합니다.']
+            },
+            'Execute PBM if applicable': {
+                name: '적용 가능한 경우 PBM 수행',
+                details: ['적용 가능한 경우 PBM을 수행합니다.']
+            },
+            'Reaction Strategy': {
+                name: '대응 전략',
+                details: ['대응 전략을 실행합니다.']
+            }
+        };
+    
+        // 하위 우선순위 목록 (필요 시 추가)
+        const subPriorities = {};
+    
+        // 조건 정의
+        const conditions = {
+            'A': '사용 가능한 날씨 카드가 있습니까?',
+            'B': '날씨 카드 기준을 충족합니까?<br><br><b>날씨 카드 기준</b><li>1d10을 굴립니다. 결과가 활성 아군 유닛 수 x 2보다 적으면 사용합니다.</li> <li>기습 카드인 경우 주사위 결과에 -2를 적용합니다</li>',
+            'C': 'SR 상황이 있습니까?',
+            'E+(F or G)': '다음 조건을 모두 충족합니까? <li>전투 헥스가 보급 상태인 본부의 범위 안에 있음</li> <li>JN-25 대응 카드를 사용할 수 있거나 반격 대응 카드를 사용할 수 있음[8]</li>',
+            'I+J': '다음 조건을 모두 충족합니까? <li>DEI 및 방어 경계 목표를 충족함(초기 단계에서만)</li> <li>가미카제 카드를 가지고 있으며 가미카제 공격 기준을 충족함[8]</li><br><br><b>가미카제 카드 기준</b><br>가미카제 공격이 가능한 전투 헥스가 있다고 가정하고, 다음 경우에만 사용합니다:<li>1. 최소 한 척의 연합군 BB 또는 CV에 명중할 수 있는 경우</li> <li>2. 1스텝 손실이 가능하며 점이 없는(Non-dot) 공중 유닛이 있는 경우</li>',
+            'K+L': '다음 조건을 모두 충족합니까? <li>사용 가능한 잠수함 공격 카드가 있음[8]</li> <li>잠수함 공격 카드의 특정 조건을 충족하는 적 유닛이 최소 하나 있음</li>',
+            'D': '전투 헥스가 있습니까?',
+            'E': '전투 헥스가 보급 상태인 본부의 범위 안에 있습니까?',
+            'F': 'JN-25 대응 카드를 사용할 수 있습니까?[8]',
+            'G': '반격 대응 카드를 사용할 수 있습니까?[8]',
+            'H': '최소 하나의 전투 헥스에서 대응 부대 기준을 충족합니까?<br><br><b>대응 부대 기준</b><br>다음 경우일 때, 최소한 유닛 # 개를 활성화합니다:<li>1. 공중/해상 통합 전투력이 상대 공중/해상 전투력의 1x 이상</li><li>2. 아군 공중 유닛 # 개 = 적 공중 유닛 # 개</li><li>3. 1D10 주사위 굴림 결과: <ul><li>0-4: 2x 결과에서 지상 유닛의 상대 지상 유닛을 제거할 수 있음.</li> <li>5-9: 기준 없음.</li></ul></li>',
+            'I': 'DEI 및 방어 경계 목표를 충족합니까?(초기 단계에서만)',
+            'J': '가미카제 카드를 가지고 있으며 가미카제 공격 기준을 충족합니까?[8]',
+            'K': '사용 가능한 잠수함 공격 카드가 있습니까?[8]',
+            'L': '잠수함 공격 카드의 특정 조건을 충족하는 적 유닛이 최소 하나 있습니까?'
+        };
+    
+        let currentStep = 'start';
+        let pathHistory = [];
+        let stepCount = 0;
+        let evaluatedConditions = {};
+    
+        function startFlow() {
+            currentStep = 'A';
+            stepCount = 1;
+            pathHistory = [];
+            evaluatedConditions = {};
+            showStep('A');
+        }
+    
+        function showStep(stepId) {
+            const stepSection = document.getElementById('stepSection');
+            const stepNumber = document.getElementById('stepNumber');
+            const stepTitle = document.getElementById('stepTitle');
+            const conditionBox = document.getElementById('conditionBox');
+            const buttonGroup = document.getElementById('buttonGroup');
+            const diceSection = document.getElementById('diceSection');
+            const resultSection = document.getElementById('resultSection');
+    
+            stepSection.classList.remove('hidden');
+            diceSection.classList.add('hidden');
+            resultSection.classList.add('hidden');
+    
+            stepNumber.textContent = stepCount;
+    
+            if (stepId === 'DICE') {
+                stepSection.classList.add('hidden');
+                diceSection.classList.remove('hidden');
+                document.getElementById('diceResult').textContent = '?';
+                return;
+            }
+    
+            if (conditions[stepId]) {
+                stepTitle.textContent = `${stepId} 확인`;
+                conditionBox.innerHTML = ` ${conditions[stepId]}`;
+                buttonGroup.innerHTML = `
+                    <button class="btn btn-yes" onclick="selectChoice('${stepId}', true)">YES</button>
+                    <button class="btn btn-no" onclick="selectChoice('${stepId}', false)">NO</button>
+                    ${pathHistory.length > 0 ? '<button class="btn btn-back" onclick="goBack()">이전</button>' : ''}
+                `;
+            } else if (stepId === 'start') {
+                stepTitle.textContent = '시작';
+                conditionBox.innerHTML = `첫 번째 조건을 확인해주세요.`;
+                buttonGroup.innerHTML = `
+                    <button class="btn btn-primary" onclick="startFlow()">시작하기</button>
+                `;
+            } else if (stepId === 'C') {
+                stepTitle.textContent = '각 SR에 대해 굴림';
+                conditionBox.innerHTML = ` 각 SR에 대해 주사위를 굴립니다.`;
+                buttonGroup.innerHTML = `
+                    <button class="btn btn-primary" onclick="selectChoice('C', true)">계속</button>
+                    ${pathHistory.length > 0 ? '<button class="btn btn-back" onclick="goBack()">이전</button>' : ''}
+                `;
+            } else if (stepId === 'If possible, roll for Intelligence') {
+                stepTitle.textContent = '첩보 굴림 가능 여부';
+                conditionBox.innerHTML = ` 가능하다면 첩보 주사위를 굴립니다. 성공 여부를 골라주세요`;
+                buttonGroup.innerHTML = `
+                    <button class="btn btn-yes" onclick="selectChoice('If possible, roll for Intelligence', 'success')">성공</button>
+                    <button class="btn btn-no" onclick="selectChoice('If possible, roll for Intelligence', 'failure')">실패</button>
+                    ${pathHistory.length > 0 ? '<button class="btn btn-back" onclick="goBack()">이전</button>' : ''}
+                `;
+            }
+    
+            updateProgress();
+            updatePathHistory();
+        }
+    
+        function selectChoice(conditionId, choice) {
+            evaluatedConditions[conditionId] = choice;
+            pathHistory.push({ step: conditionId, choice: choice, stepNum: stepCount });
+            stepCount++;
+    
+            const nextStep = getNextStep(conditionId, choice);
+    
+            if (nextStep.startsWith('STRATEGY_')) {
+                const strategy = nextStep.replace('STRATEGY_', '');
+                showResult(strategy);
+            } else if (nextStep === 'DICE') {
+                currentStep = nextStep;
+                showStep(nextStep);
+            } else {
+                currentStep = nextStep;
+                showStep(nextStep);
+            }
+        }
+    
+        function getNextStep(conditionId, choice) {
+            switch (conditionId) {
+                case 'A':
+                    return choice ? 'B' : 'C';
+                case 'B':
+                    return choice ? 'STRATEGY_Play Weather Reaction Card' : 'C';
+                case 'C':
+                    return choice ? 'STRATEGY_Roll for each SR' : 'D' // '계속'으로 D로 이동
+                case 'D':
+                    return choice ? 'E+(F or G)' : 'K+L';
+                case 'E+(F or G)':
+                    return choice ? 'DICE' : 'If possible, roll for Intelligence';
+                case 'If possible, roll for Intelligence':
+                    return choice === 'success' ? 'H' : 'I+J';
+                case 'H':
+                    return choice ? 'STRATEGY_Reaction Strategy' : 'I+J';
+                case 'I+J':
+                    return choice ? 'STRATEGY_Play Kamikaze Attack Card' : 'K+L';
+                case 'K+L':
+                    return choice ? 'STRATEGY_Play Submarine Attack Card' : 'STRATEGY_Execute PBM if applicable';
+                case 'Play Kamikaze Attack Card Continue':
+                    return 'K+L';
+                case 'Play Submarine Attack Card Continue':
+                    return 'STRATEGY_Execute PBM if applicable';
+                case 'Roll for each SR Continue':
+                    return 'D';
+                case 'Reaction Strategy Continue':
+                    return 'I+J';
+                case 'Play Intel-CO Reaction Card Continue':
+                    return 'H';
+                default:
+                    return 'start';
+            }
+        }
+    
+        function rollDice() {
+            const diceValue = Math.floor(Math.random() * 10); // 0-9
+            document.getElementById('diceResult').textContent = diceValue;
+    
+            let nextStep;
+            if (diceValue === 0) {
+                nextStep = 'STRATEGY_Play Intel-CO Reaction Card';
+            } else {
+                nextStep = 'If possible, roll for Intelligence';
+            }
+    
+            pathHistory.push({
+                step: 'DICE',
+                choice: diceValue,
+                stepNum: stepCount,
+                isResult: true,
+                result: nextStep.replace('STRATEGY_', '')
+            });
+    
+            setTimeout(() => {
+                if (nextStep.startsWith('STRATEGY_')) {
+                    showResult(nextStep.replace('STRATEGY_', ''));
+                } else {
+                    currentStep = nextStep;
+                    showStep(nextStep);
+                }
+            }, 1000);
+        }
+    
+        function showResult(strategyKey) {
+            const strategy = strategies[strategyKey];
+            if (!strategy) {
+                console.error('Strategy not found:', strategyKey);
+                return;
+            }
+    
+            const stepSection = document.getElementById('stepSection');
+            const diceSection = document.getElementById('diceSection');
+            const resultSection = document.getElementById('resultSection');
+            const strategyTitle = document.getElementById('strategyTitle');
+            const strategyName = document.getElementById('strategyName');
+            const strategyDetails = document.getElementById('strategyDetails');
+            const buttonGroup = document.getElementById('resultSection').querySelector('.button-group');
+    
+            stepSection.classList.add('hidden');
+            diceSection.classList.add('hidden');
+            resultSection.classList.remove('hidden');
+            strategyTitle.textContent = '최종 병력 구성';
+            strategyName.textContent = strategy.name;
+
+            const continueStrategies = [];
+            // const continueStrategies = ['Roll for each SR','Play Kamikaze Attack Card','Play Submarine Attack Card', 'Play Intel-CO Reaction Card', 'Reaction Strategy'];
+            if (continueStrategies.includes(strategyKey)) {
+                // strategyDetails.innerHTML = '';
+                // buttonGroup.innerHTML = `
+                //     <button class="btn btn-primary" onclick="selectChoice('${strategyKey} Continue', true)">계속</button>
+                //     <button class="btn btn-secondary" onclick="resetFlow()">다시 시작</button>
+                //     ${pathHistory.length > 0 ? '<button class="btn btn-back" onclick="goBack()">이전</button>' : ''}
+                // `;
+                const annotationRegex = /\[\d+\]/g;
+                const parts = strategy.details.split(annotationRegex);
+                const annotations = strategy.details.match(annotationRegex);
+
+                let combined = '';
+                parts.forEach((part, i) => {
+                    combined += part;
+                    if (annotations && annotations[i]) {
+                        const number = annotations[i].replace(/\[|\]/g, '');
+                        combined += `<sup class="annotation" data-number="${number}">[${number}]</sup>`;
+                    }
+                });
+                strategyDetails.innerHTML = combined;
+
+                // 그리고 버튼 그룹에는 "계속" 버튼 + 기존 버튼들 추가
+                buttonGroup.innerHTML = `
+                    <button class="btn btn-primary" onclick="selectChoice('${strategyKey} Continue', true)">계속</button>
+                    <button class="btn btn-secondary" onclick="resetFlow()">다시 시작</button>
+                    ${pathHistory.length > 0 ? '<button class="btn btn-back" onclick="goBack()">이전</button>' : ''}
+                `;
+
+            } else {
+                const annotationRegex = /\[\d+\]/g;
+                const annotations = new Set();
+                if (strategy.name.match(annotationRegex)) {
+                    strategy.name.match(annotationRegex).forEach(annotation => annotations.add(annotation));
+                }
+                strategy.details.forEach(detail => {
+                    if (detail.match(annotationRegex)) {
+                        detail.match(annotationRegex).forEach(annotation => annotations.add(annotation));
+                    }
+                });
+    
+                strategyDetails.innerHTML = `
+                    <h4 style="margin-top: 0; color: #fff;">병력 구성 세부사항:</h4>
+                    <ul class="strategy-list">
+                        ${strategy.details.map(detail => `
+                            <li>
+                                ${detail}
+                                ${subPriorities[detail] ? `
+                                    <ul class="sub-priority-list">
+                                        ${subPriorities[detail].map(sub => `<li>${sub}</li>`).join('')}
+                                    </ul>
+                                ` : ''}
+                            </li>
+                        `).join('')}
+                    </ul>
+                    ${annotations.size > 0 ? `
+                        <h4 style="margin-top: 20px; color: #fff;">주석:</h4>
+                        <ul class="strategy-list">
+                            ${Array.from(annotations).sort().map(annotation => `
+                                <li class="impl-note">${annotation}: ${notes[annotation]}</li>
+                            `).join('')}
+                        </ul>
+                    ` : ''}
+                `;
+                buttonGroup.innerHTML = `
+                    <button class="btn btn-primary" onclick="selectChoice('${strategyKey} Continue', true)">계속</button>
+                    <button class="btn btn-secondary" onclick="resetFlow()">다시 시작</button>
+                    ${pathHistory.length > 0 ? '<button class="btn btn-back" onclick="goBack()">이전</button>' : ''}
+                `;
+            }
+    
+            updateProgress();
+            updatePathHistory();
+        }
+    
+        function updateProgress() {
+            const progressFill = document.getElementById('progressFill');
+            const totalSteps = 15;
+            const progress = Math.min((stepCount / totalSteps) * 100, 100);
+            progressFill.style.width = progress + '%';
+        }
+    
+        function updatePathHistory() {
+            const pathHistoryDiv = document.getElementById('pathHistory');
+            const pathStepsDiv = document.getElementById('pathSteps');
+    
+            if (pathHistory.length === 0) {
+                pathHistoryDiv.classList.add('hidden');
+                return;
+            }
+    
+            pathStepsDiv.innerHTML = '';
+    
+            pathHistory.forEach(step => {
+                const stepDiv = document.createElement('div');
+                stepDiv.className = `path-step ${step.choice && step.step !== 'DICE' ? 'yes' : step.step !== 'DICE' ? 'no' : ''}`;
+    
+                if (step.step === 'DICE') {
+                    stepDiv.innerHTML = `
+                        <div class="step-icon">${step.choice}</div>
+                        <div>
+                            <strong>주사위 굴리기:</strong> ${step.choice} 
+                            ${step.result ? `→ ${strategies[step.result].name}` : ''}
+                        </div>
+                    `;
+                } else if (step.choice === 'success' || step.choice === 'failure') {
+                    stepDiv.innerHTML = `
+                        <div class="step-icon">${step.choice === 'success' ? 'S' : 'F'}</div>
+                        <div>
+                            <strong>${step.step}:</strong> 
+                            ${conditions[step.step] || step.step} → ${step.choice === 'success' ? '성공' : '실패'}
+                        </div>
+                    `;
+                } else {
+                    let conditionText = conditions[step.step] || step.step;
+                    stepDiv.innerHTML = `
+                        <div class="step-icon">${step.choice ? 'Y' : 'N'}</div>
+                        <div>
+                            <strong>${step.step}:</strong> 
+                            ${conditionText} → ${step.choice ? 'YES' : 'NO'}
+                        </div>
+                    `;
+                }
+    
+                pathStepsDiv.appendChild(stepDiv);
+            });
+    
+            pathHistoryDiv.classList.remove('hidden');
+        }
+    
+        function resetFlow() {
+            currentStep = 'start';
+            stepCount = 0;
+            pathHistory = [];
+            evaluatedConditions = {};
+    
+            const stepSection = document.getElementById('stepSection');
+            const diceSection = document.getElementById('diceSection');
+            const resultSection = document.getElementById('resultSection');
+            const pathHistoryDiv = document.getElementById('pathHistory');
+            const stepNumber = document.getElementById('stepNumber');
+            const stepTitle = document.getElementById('stepTitle');
+            const conditionBox = document.getElementById('conditionBox');
+            const buttonGroup = document.getElementById('buttonGroup');
+            const progressFill = document.getElementById('progressFill');
+    
+            stepSection.classList.remove('hidden');
+            diceSection.classList.add('hidden');
+            resultSection.classList.add('hidden');
+            pathHistoryDiv.classList.add('hidden');
+            stepNumber.textContent = '1';
+            stepTitle.textContent = '시작';
+            conditionBox.innerHTML = '에라스무스의 대응 여부를 결정합니다';
+            buttonGroup.innerHTML = '<button class="btn btn-primary" onclick="startFlow()">시작하기</button>';
+            progressFill.style.width = '0%';
+        }
+    
+        function goBack() {
+            if (pathHistory.length === 0) return;
+    
+            const lastStep = pathHistory.pop();
+            stepCount--;
+    
+            if (lastStep.step !== 'DICE') {
+                delete evaluatedConditions[lastStep.step];
+            }
+    
+            currentStep = pathHistory.length > 0 ? pathHistory[pathHistory.length - 1].step : 'start';
+    
+            const stepSection = document.getElementById('stepSection');
+            const diceSection = document.getElementById('diceSection');
+            const resultSection = document.getElementById('resultSection');
+    
+            stepSection.classList.remove('hidden');
+            diceSection.classList.add('hidden');
+            resultSection.classList.add('hidden');
+            showStep(currentStep);
+        }
+    
+        window.onload = resetFlow;
+    </script>

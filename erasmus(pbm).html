@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Japanese Erasmus Bot - PBM</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #2e2e2e;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            color: #d8d8d8;
+        }
+    
+        .impl-note {
+            font-style: italic;
+            font-size: 14px;
+            color: #ffffff;
+            line-height: 1.6;
+            margin: 4px 0;
+        }
+    
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #3c3c3c;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+    
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #4a4a4a;
+            border-radius: 8px;
+            color: #ffffff;
+            border: 1px solid #5c5c5c;
+        }
+    
+        .header h1 {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+    
+        .header p {
+            margin: 8px 0 0 0;
+            font-size: 1rem;
+            font-weight: 400;
+        }
+    
+        .progress-bar {
+            background: #4a4a4a;
+            border-radius: 5px;
+            height: 6px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            border: 1px solid #5c5c5c;
+        }
+    
+        .progress-fill {
+            background: #4682b4;
+            height: 100%;
+            border-radius: 5px;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+    
+        .step-section {
+            background: #3c3c3c;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border: 1px solid #5c5c5c;
+        }
+    
+        .step-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+    
+        .step-number {
+            background: #4682b4;
+            color: #ffffff;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1rem;
+            margin-right: 15px;
+        }
+    
+        .step-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #d8d8d8;
+            margin: 0;
+        }
+    
+        .condition-box {
+            background: #4a4a4a;
+            border-left: 4px solid #4682b4;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #c8c8c8;
+        }
+    
+        .condition-box strong {
+            color: #4682b4;
+            font-size: 1.1rem;
+        }
+    
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+    
+        .btn {
+            padding: 10px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s ease, transform 0.1s ease;
+            text-transform: uppercase;
+            min-width: 100px;
+            font-family: 'Georgia', 'Times New Roman', Times, serif;
+        }
+    
+        .btn-yes {
+            background: #2e8b57;
+            color: #ffffff;
+        }
+    
+        .btn-yes:hover {
+            background: #257a4b;
+            transform: translateY(-2px);
+        }
+    
+        .btn-no {
+            background: #696969;
+            color: #ffffff;
+        }
+    
+        .btn-no:hover {
+            background: #585858;
+            transform: translateY(-2px);
+        }
+    
+        .btn-primary {
+            background: #4682b4;
+            color: #ffffff;
+        }
+    
+        .btn-primary:hover {
+            background: #3a6b9a;
+            transform: translateY(-2px);
+        }
+    
+        .btn-secondary {
+            background: #5c5c5c;
+            color: #ffffff;
+        }
+    
+        .btn-secondary:hover {
+            background: #4b4b4b;
+            transform: translateY(-2px);
+        }
+    
+        .btn-back {
+            background: #5c5c5c;
+            color: #ffffff;
+        }
+    
+        .btn-back:hover {
+            background: #4b4b4b;
+            transform: translateY(-2px);
+        }
+    
+        .path-history {
+            background: #4a4a4a;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 3px solid #2e8b57;
+        }
+    
+        .path-step {
+            display: flex;
+            align-items: center;
+            margin: 8px 0;
+            padding: 8px;
+            background: #3c3c3c;
+            border-radius: 5px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+    
+        .path-step .step-icon {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 10px;
+            font-size: 0.8rem;
+        }
+    
+        .path-step.yes .step-icon {
+            background: #2e8b57;
+            color: #ffffff;
+        }
+    
+        .path-step.no .step-icon {
+            background: #696969;
+            color: #ffffff;
+        }
+    
+        .dice-section {
+            background: #4a4a4a;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            margin: 15px 0;
+            border: 1px solid #5c5c5c;
+        }
+    
+        .dice-result {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #d8d8d8;
+            margin: 15px 0;
+        }
+    
+        .result-section {
+            background: #2e8b57;
+            color: #ffffff;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            margin-top: 15px;
+            border: 1px solid #3c3c3c;
+        }
+    
+        .result-section h2 {
+            margin: 0 0 15px 0;
+            font-size: 2rem;
+            display: none;
+        }
+    
+        .result-section p {
+            margin: 10px 0;
+            font-size: 32px;
+            white-space: pre-line;
+            font-weight: bold;
+            font-style: italic;
+        }
+    
+        .strategy-details {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+    
+        .strategy-list {
+            text-align: left;
+            margin: 15px 0;
+            list-style: none;
+            padding: 0;
+        }
+    
+        .strategy-list li {
+            margin: 8px 0;
+            padding: 8px 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 5px;
+            border-left: 3px solid rgba(255, 255, 255, 0.3);
+        }
+    
+        .sub-priority-list {
+            list-style: none;
+            padding-left: 20px;
+            margin-top: 5px;
+        }
+    
+        .sub-priority-list li {
+            margin: 5px 0;
+            padding: 5px 10px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            border-left: 2px solid rgba(255, 255, 255, 0.4);
+            font-size: 0.9rem;
+        }
+    
+        .hidden {
+            display: none;
+        }
+    
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+                margin: 10px;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .button-group {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 180px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Japanese Erasmus Bot</h1>
+            <p>PBM</p>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <div id="pathHistory" class="path-history hidden">
+            <h4 style="margin-top: 0; color: #495057;">진행 경로</h4>
+            <div id="pathSteps"></div>
+        </div>
+
+        <div id="stepSection" class="step-section">
+            <div class="step-header">
+                <div class="step-number" id="stepNumber">1</div>
+                <h2 class="step-title" id="stepTitle">시작</h2>
+            </div>
+            
+            <div class="condition-box" id="conditionBox">
+                첫 번째 조건을 확인해주세요.
+            </div>
+            
+            <div class="button-group" id="buttonGroup">
+                <button class="btn btn-primary" onclick="startFlow()">시작하기</button>
+            </div>
+        </div>
+
+        <div id="diceSection" class="dice-section hidden">
+            <h3 style="margin: 0 0 20px 0; color: #2d3436;">주사위 굴리기 (1d10)</h3>
+            <div class="dice-result" id="diceResult">?</div>
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="rollDice()">주사위 굴리기</button>
+            </div>
+        </div>
+
+        <div id="resultSection" class="result-section hidden">
+            <h2 id="strategyTitle">최종 병력 구성</h2>
+            <p id="strategyName"></p>
+            <div class="strategy-details" id="strategyDetails"></div>
+            <div class="button-group" style="margin-top: 30px;">
+                <button class="btn btn-secondary" onclick="resetFlow()">다시 시작</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Implementation notes
+        const notes = {
+            '[1]': '선택지가 있다면, 반격(Counteroffensive) 카드보다 먼저 JN-25 첩보(Intelligence) 카드를 사용합니다.',
+            '[2]': '여러 적 유닛 중에서 선택해야 할 경우, 우선순위는 다음과 같습니다: 항모(CV) → 전함(BB) → 중순양함(CA) → 구축함(DD). 동일 유형일 경우 방어력이 가장 높은 유닛을 선택합니다.',
+            '[3]': '여러 전투 헥스가 가능할 경우, 대응 전략의 우선순위 목록을 따라 전투 헥스를 선택합니다.',
+            '[4]': '2스텝 손실을 가할 때도 [2]와 동일하게, CV → BB → CA → DD 순서로, 같은 유형 중에서는 방어력이 가장 높은 유닛을 선택합니다.',
+            '[5]': '우선순위가 동일한 전투 헥스가 여러 개 있을 경우, 무작위로 순서를 결정합니다.',
+            '[6]': '최우선 전투 헥스의 대응 병력 조건을 먼저 충족해야 하며, 그다음은 두 번째, 세 번째 순으로 충족합니다.',
+            '[7]': '특정 전투 헥스 조건을 충족할 수 없을 경우, 다음 우선순위 전투 헥스로 건너뜁니다. 이 과정을 반복하다가 더 이상 대응할 전투 헥스가 없으면 종료합니다.',
+            '[8]': '가용(Available)"이란 카드를 손에 보유하는 것 외에도, Erasmus가 해당 페이즈에서 최대 3장의 보너스 뽑기 제한을 아직 초과하지 않았다는 뜻입니다.',
+            '[9]': '특정 전략에 PBM이 있다면, 이 표를 적용하기 전에 먼저 그것을 따릅니다.',
+            '[10]': '우선순위 헥스가 모두 일본 AZOI에 이미 들어가 있는 경우, 그 우선순위는 건너뜁니다.',
+            '[11]': '여러 공군 기지가 있을 경우, 여러 우선순위를 동시에 충족할 수 있는 기지를 우선적으로 선택합니다.',
+            '[12]': '한 공군 기지에는 공중 유닛은 최대 1개만 배치할 수 있습니다.',
+            '[13]': '가능한 공중 유닛 중에서는 가장 강력한 유닛을 선택합니다.',
+            '[14]': '자원 헥스가 여러개인 경우, 가장 가까운 자원 헥스 → 두 번째로 가까운 자원 헥스 .. 순으로 선택합니다.',
+            '[15]': '대응 카드에 보너스 뽑기가 적혀 있을 경우, 주사위 굴림에 -4를 적용합니다.'
+        };
+
+        // 병력 구성 정보 데이터
+        const strategies = {
+            'Air PBM Strategy': { 
+                name: '공중 PBM 전략', 
+                details: [
+                    '다음 우선 순위에 따라 AZOI를 전개할 수 있는 공군 기지가 있는 헥스를 향해 PBM을 수행합니다 [9][10][11]<li>1. AZOI가 없는 일본 열도 밖 본부.</li><li>2. 연합군 본부[13]</li><li>3. 연합군 AZOI 내 일본군 항구</li><li>4. 연합군 AZOI 내 일본군 공군 기지</li><li>5. 연합군 AZOI 내 일본군 지상 유닛</li><li>6. 가장 가까운 자원 헥스(연합/일본군)[14]</li>'
+                ] 
+            },
+            'Naval PBM Strategy': { 
+                name: '해상 PBM 전략', 
+                details: [
+                    '우선 순위에 따라 아군 항구가 있는 헥스를 향해 해상 유닛 PBM을 수행합니다:<li>1. 해상 유닛이 없고 범위 내에 있는 남해 본부.</li><li>2. 지상 유닛만 있는 항구</li><li>3. 가장 가까운 항구</li>'
+                ] 
+            },
+            'AA PBM Strategy': { 
+                name: 'AA 지상 PBM 전략', 
+                details: [
+                    '우선 순위에 따라 아군 항구가 있는 헥스를 향해 지상 유닛 PBM을 수행합니다:<li>1. 해상 유닛이 있는 항구.</li><li>2. 가장 가까운 항구.</li>'
+                ] 
+            }
+        };
+
+        // 하위 우선순위 목록 (필요 시 추가)
+        const subPriorities = {};
+
+        // 조건 정의
+        const conditions = {
+            'A': 'PBM을 수행할 공중 유닛이 있습니까?',
+            'B': 'PBM을 수행할 해상 유닛이 있습니까?',
+            'C': 'PBM에 실패한 AA 지상 유닛이 있습니까?'
+        };
+
+        let currentStep = 'start';
+        let pathHistory = [];
+        let stepCount = 0;
+        let evaluatedConditions = {};
+
+        function startFlow() {
+            currentStep = 'A';
+            stepCount = 1;
+            pathHistory = [];
+            evaluatedConditions = {};
+            showStep('A');
+        }
+
+        function showStep(stepId) {
+            const stepSection = document.getElementById('stepSection');
+            const stepNumber = document.getElementById('stepNumber');
+            const stepTitle = document.getElementById('stepTitle');
+            const conditionBox = document.getElementById('conditionBox');
+            const buttonGroup = document.getElementById('buttonGroup');
+            const diceSection = document.getElementById('diceSection');
+            const resultSection = document.getElementById('resultSection');
+            const progressFill = document.getElementById('progressFill');
+            const pathHistoryDiv = document.getElementById('pathHistory');
+            const pathStepsDiv = document.getElementById('pathSteps');
+
+            if (!stepSection || !stepNumber || !stepTitle || !conditionBox || !buttonGroup || !diceSection || !resultSection || !progressFill || !pathHistoryDiv || !pathStepsDiv) {
+                console.error('Show step elements are missing:', { stepSection, stepNumber, stepTitle, conditionBox, buttonGroup, diceSection, resultSection, progressFill, pathHistoryDiv, pathStepsDiv });
+                const missingElements = [];
+                if (!stepSection) missingElements.push('stepSection');
+                if (!stepNumber) missingElements.push('stepNumber');
+                if (!stepTitle) missingElements.push('stepTitle');
+                if (!conditionBox) missingElements.push('conditionBox');
+                if (!buttonGroup) missingElements.push('buttonGroup');
+                if (!diceSection) missingElements.push('diceSection');
+                if (!resultSection) missingElements.push('resultSection');
+                if (!progressFill) missingElements.push('progressFill');
+                if (!pathHistoryDiv) missingElements.push('pathHistoryDiv');
+                if (!pathStepsDiv) missingElements.push('pathStepsDiv');
+                console.error('Missing element IDs:', missingElements);
+                alert('페이지에 필요한 요소가 누락되었습니다. HTML을 확인해 주세요. 누락된 ID: ' + missingElements.join(', '));
+                return;
+            }
+
+            stepSection.classList.remove('hidden');
+            diceSection.classList.add('hidden');
+            resultSection.classList.add('hidden');
+
+            stepNumber.textContent = stepCount;
+
+            if (stepId === 'DICE') {
+                stepSection.classList.add('hidden');
+                diceSection.classList.remove('hidden');
+                const diceResult = document.getElementById('diceResult');
+                if (diceResult) diceResult.textContent = '?';
+                return;
+            }
+
+            if (conditions[stepId]) {
+                stepTitle.textContent = `${stepId} 확인`;
+                conditionBox.innerHTML = `${conditions[stepId]}`;
+                buttonGroup.innerHTML = `
+                    <button class="btn btn-yes" onclick="selectChoice('${stepId}', true)">YES</button>
+                    <button class="btn btn-no" onclick="selectChoice('${stepId}', false)">NO</button>
+                    ${pathHistory.length > 0 ? '<button class="btn btn-back" onclick="goBack()">이전</button>' : ''}
+                `;
+            } else if (stepId === 'start') {
+                stepTitle.textContent = '시작';
+                conditionBox.innerHTML = `PBM 결정 시작`;
+                buttonGroup.innerHTML = `
+                    <button class="btn btn-primary" onclick="startFlow()">시작하기</button>
+                `;
+            } else if (stepId === 'End') {
+                stepTitle.textContent = '종료';
+                conditionBox.innerHTML = `PBM 프로세스가 완료되었습니다.`;
+                buttonGroup.innerHTML = `
+                    <button class="btn btn-secondary" onclick="resetFlow()">다시 시작</button>
+                    ${pathHistory.length > 0 ? '<button class="btn btn-back" onclick="goBack()">이전</button>' : ''}
+                `;
+            }
+
+            updateProgress();
+            updatePathHistory();
+        }
+
+        function selectChoice(conditionId, choice) {
+            evaluatedConditions[conditionId] = choice;
+            pathHistory.push({ step: conditionId, choice: choice, stepNum: stepCount });
+            stepCount++;
+
+            const nextStep = getNextStep(conditionId, choice);
+
+            if (nextStep.startsWith('STRATEGY_')) {
+                const strategy = nextStep.replace('STRATEGY_', '');
+                showResult(strategy);
+            } else {
+                currentStep = nextStep;
+                showStep(nextStep);
+            }
+        }
+
+        function getNextStep(conditionId, choice) {
+            switch (conditionId) {
+                case 'A':
+                    return choice ? 'STRATEGY_Air PBM Strategy' : 'B';
+                case 'B':
+                    return choice ? 'STRATEGY_Naval PBM Strategy' : 'C';
+                case 'C':
+                    return choice ? 'STRATEGY_AA PBM Strategy' : 'End';
+                default:
+                    return 'start';
+            }
+        }
+
+        function rollDice() {
+            const diceSection = document.getElementById('diceSection');
+            const diceResult = document.getElementById('diceResult');
+            if (!diceSection || !diceResult) {
+                console.error('Dice section or result element is missing:', { diceSection, diceResult });
+                const missingElements = [];
+                if (!diceSection) missingElements.push('diceSection');
+                if (!diceResult) missingElements.push('diceResult');
+                console.error('Missing element IDs:', missingElements);
+                alert('페이지에 필요한 요소가 누락되었습니다. HTML을 확인해 주세요. 누락된 ID: ' + missingElements.join(', '));
+                return;
+            }
+
+            const diceValue = Math.floor(Math.random() * 10); // 0-9
+            diceResult.textContent = diceValue;
+
+            let nextStep;
+            if (diceValue === 0) {
+                nextStep = 'STRATEGY_Air PBM Strategy';
+            } else {
+                nextStep = 'B';
+            }
+
+            pathHistory.push({
+                step: 'DICE',
+                choice: diceValue,
+                stepNum: stepCount,
+                isResult: true,
+                result: nextStep.replace('STRATEGY_', '')
+            });
+
+            setTimeout(() => {
+                if (nextStep.startsWith('STRATEGY_')) {
+                    showResult(nextStep.replace('STRATEGY_', ''));
+                } else {
+                    currentStep = nextStep;
+                    showStep(nextStep);
+                }
+            }, 1000);
+        }
+
+        function showResult(strategyKey) {
+            const resultSection = document.getElementById('resultSection');
+            const strategyTitle = document.getElementById('strategyTitle');
+            const strategyName = document.getElementById('strategyName');
+            const strategyDetails = document.getElementById('strategyDetails');
+            const buttonGroup = resultSection ? resultSection.querySelector('.button-group') : null;
+
+            if (!resultSection || !strategyTitle || !strategyName || !strategyDetails || !buttonGroup) {
+                console.error('Result section elements are missing:', { resultSection, strategyTitle, strategyName, strategyDetails, buttonGroup });
+                const missingElements = [];
+                if (!resultSection) missingElements.push('resultSection');
+                if (!strategyTitle) missingElements.push('strategyTitle');
+                if (!strategyName) missingElements.push('strategyName');
+                if (!strategyDetails) missingElements.push('strategyDetails');
+                if (!buttonGroup) missingElements.push('buttonGroup');
+                console.error('Missing element IDs:', missingElements);
+                alert('페이지에 필요한 요소가 누락되었습니다. HTML을 확인해 주세요. 누락된 ID: ' + missingElements.join(', '));
+                return;
+            }
+
+            const strategy = strategies[strategyKey];
+            if (!strategy) {
+                console.error('Strategy not found:', strategyKey);
+                alert('해당 전략을 찾을 수 없습니다. 다시 시작해주세요.');
+                return;
+            }
+
+            stepSection.classList.add('hidden');
+            diceSection.classList.add('hidden');
+            resultSection.classList.remove('hidden');
+            strategyTitle.textContent = 'PBM 전략';
+            strategyName.textContent = strategy.name;
+
+            // 주석 추출을 위한 정규 표현식
+            const annotationRegex = /\[\d+\]/g;
+            const annotations = new Set();
+
+            // strategy.name에서 주석 추출
+            if (strategy.name.match(annotationRegex)) {
+                strategy.name.match(annotationRegex).forEach(annotation => annotations.add(annotation));
+            }
+
+            // strategy.details에서 주석 추출
+            strategy.details.forEach(detail => {
+                if (detail.match(annotationRegex)) {
+                    detail.match(annotationRegex).forEach(annotation => annotations.add(annotation));
+                }
+            });
+
+            strategyDetails.innerHTML = `
+                <h4 style="margin-top: 0; color: #fff;">세부사항:</h4>
+                <ul class="strategy-list">
+                    ${strategy.details.map(detail => `
+                        <li>
+                            ${detail}
+                            ${subPriorities[detail] ? `
+                                <ul class="sub-priority-list">
+                                    ${subPriorities[detail].map(sub => `<li>${sub}</li>`).join('')}
+                                </ul>
+                            ` : ''}
+                        </li>
+                    `).join('')}
+                </ul>
+                ${annotations.size > 0 ? `
+                    <h4 style="margin-top: 20px; color: #fff;">주석:</h4>
+                    <ul class="strategy-list">
+                        ${Array.from(annotations).sort().map(annotation => `
+                            <li class="impl-note">${annotation}: ${notes[annotation]}</li>
+                        `).join('')}
+                    </ul>
+                ` : ''}
+            `;
+            buttonGroup.innerHTML = `
+                <button class="btn btn-primary" onclick="startFlow()">계속</button>
+                <button class="btn btn-secondary" onclick="resetFlow()">다시 시작</button>
+                ${pathHistory.length > 0 ? '<button class="btn btn-back" onclick="goBack()">이전</button>' : ''}
+            `;
+
+            updateProgress();
+            updatePathHistory();
+        }
+
+        function updateProgress() {
+            const progressFill = document.getElementById('progressFill');
+            if (progressFill) {
+                const totalSteps = 3; // A, B, C 조건에 기반
+                const progress = Math.min((stepCount / totalSteps) * 100, 100);
+                progressFill.style.width = progress + '%';
+            }
+        }
+
+        function updatePathHistory() {
+            const pathHistoryDiv = document.getElementById('pathHistory');
+            const pathStepsDiv = document.getElementById('pathSteps');
+            if (!pathHistoryDiv || !pathStepsDiv) {
+                console.error('Path history elements are missing:', { pathHistoryDiv, pathStepsDiv });
+                const missingElements = [];
+                if (!pathHistoryDiv) missingElements.push('pathHistoryDiv');
+                if (!pathStepsDiv) missingElements.push('pathStepsDiv');
+                console.error('Missing element IDs:', missingElements);
+                alert('페이지에 필요한 요소가 누락되었습니다. HTML을 확인해 주세요. 누락된 ID: ' + missingElements.join(', '));
+                return;
+            }
+
+            if (pathHistory.length === 0) {
+                pathHistoryDiv.classList.add('hidden');
+                return;
+            }
+
+            pathStepsDiv.innerHTML = '';
+
+            pathHistory.forEach(step => {
+                const stepDiv = document.createElement('div');
+                stepDiv.className = `path-step ${step.choice && step.step !== 'DICE' ? 'yes' : step.step !== 'DICE' ? 'no' : ''}`;
+
+                if (step.step === 'DICE') {
+                    stepDiv.innerHTML = `
+                        <div class="step-icon">${step.choice}</div>
+                        <div>
+                            <strong>주사위 굴리기:</strong> ${step.choice} 
+                            ${step.result ? `→ ${strategies[step.result].name}` : ''}
+                        </div>
+                    `;
+                } else if (step.choice === 'success' || step.choice === 'failure') {
+                    stepDiv.innerHTML = `
+                        <div class="step-icon">${step.choice === 'success' ? 'S' : 'F'}</div>
+                        <div>
+                            <strong>${step.step}:</strong> 
+                            ${conditions[step.step] || step.step} → ${step.choice === 'success' ? '성공' : '실패'}
+                        </div>
+                    `;
+                } else {
+                    let conditionText = conditions[step.step] || step.step;
+                    stepDiv.innerHTML = `
+                        <div class="step-icon">${step.choice ? 'Y' : 'N'}</div>
+                        <div>
+                            <strong>${step.step}:</strong> 
+                            ${conditionText} → ${step.choice ? 'YES' : 'NO'}
+                        </div>
+                    `;
+                }
+
+                pathStepsDiv.appendChild(stepDiv);
+            });
+
+            pathHistoryDiv.classList.remove('hidden');
+        }
+
+        function resetFlow() {
+            const stepSection = document.getElementById('stepSection');
+            const diceSection = document.getElementById('diceSection');
+            const resultSection = document.getElementById('resultSection');
+            const pathHistoryDiv = document.getElementById('pathHistory');
+            const stepNumber = document.getElementById('stepNumber');
+            const stepTitle = document.getElementById('stepTitle');
+            const conditionBox = document.getElementById('conditionBox');
+            const buttonGroup = document.getElementById('buttonGroup');
+            const progressFill = document.getElementById('progressFill');
+
+            if (!stepSection || !diceSection || !resultSection || !pathHistoryDiv || !stepNumber || !stepTitle || !conditionBox || !buttonGroup || !progressFill) {
+                console.error('Reset flow elements are missing:', {
+                    stepSection, diceSection, resultSection, pathHistoryDiv, stepNumber, stepTitle, conditionBox, buttonGroup, progressFill
+                });
+                const missingElements = [];
+                if (!stepSection) missingElements.push('stepSection');
+                if (!diceSection) missingElements.push('diceSection');
+                if (!resultSection) missingElements.push('resultSection');
+                if (!pathHistoryDiv) missingElements.push('pathHistoryDiv');
+                if (!stepNumber) missingElements.push('stepNumber');
+                if (!stepTitle) missingElements.push('stepTitle');
+                if (!conditionBox) missingElements.push('conditionBox');
+                if (!buttonGroup) missingElements.push('buttonGroup');
+                if (!progressFill) missingElements.push('progressFill');
+                console.error('Missing element IDs:', missingElements);
+                alert('페이지에 필요한 요소가 누락되었습니다. HTML을 확인해 주세요. 누락된 ID: ' + missingElements.join(', '));
+                return;
+            }
+
+            currentStep = 'start';
+            stepCount = 0;
+            pathHistory = [];
+            evaluatedConditions = {};
+
+            stepSection.classList.remove('hidden');
+            diceSection.classList.add('hidden');
+            resultSection.classList.add('hidden');
+            pathHistoryDiv.classList.add('hidden');
+            stepNumber.textContent = '1';
+            stepTitle.textContent = '시작';
+            conditionBox.innerHTML = 'PBM 결정 시작';
+            buttonGroup.innerHTML = '<button class="btn btn-primary" onclick="startFlow()">시작하기</button>';
+            progressFill.style.width = '0%';
+        }
+
+        function goBack() {
+            if (pathHistory.length === 0) return;
+
+            const lastStep = pathHistory.pop();
+            stepCount--;
+
+            if (lastStep.step !== 'DICE') {
+                delete evaluatedConditions[lastStep.step];
+            }
+
+            currentStep = pathHistory.length > 0 ? pathHistory[pathHistory.length - 1].step : 'start';
+
+            const stepSection = document.getElementById('stepSection');
+            const diceSection = document.getElementById('diceSection');
+            const resultSection = document.getElementById('resultSection');
+            if (!stepSection || !diceSection || !resultSection) {
+                console.error('Go back elements are missing:', { stepSection, diceSection, resultSection });
+                const missingElements = [];
+                if (!stepSection) missingElements.push('stepSection');
+                if (!diceSection) missingElements.push('diceSection');
+                if (!resultSection) missingElements.push('resultSection');
+                console.error('Missing element IDs:', missingElements);
+                alert('페이지에 필요한 요소가 누락되었습니다. HTML을 확인해 주세요. 누락된 ID: ' + missingElements.join(', '));
+                return;
+            }
+
+            stepSection.classList.remove('hidden');
+            diceSection.classList.add('hidden');
+            resultSection.classList.add('hidden');
+            showStep(currentStep);
+        }
+
+        // DOM이 완전히 로드된 후 실행
+        document.addEventListener('DOMContentLoaded', () => {
+            window.onload = resetFlow;
+        });
+    </script>

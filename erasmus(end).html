@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Japanese Erasmus Bot -  전쟁 말기</title>
+    <!-- 연합군이 도쿄 8헥스 이내에 있는 항구를 점령했을 때만 이 매트릭스를 따릅니다. 그렇지 않은 경우 전쟁 중기 매트릭스를 사용합니다 -->
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #2e2e2e;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            color: #d8d8d8;
+        }
+    
+        .impl-note {
+            font-style: italic;
+            font-size: 14px;
+            color: #ffffff;
+            line-height: 1.6;
+            margin: 4px 0;
+        }
+    
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #3c3c3c;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+    
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #4a4a4a;
+            border-radius: 8px;
+            color: #ffffff;
+            border: 1px solid #5c5c5c;
+        }
+    
+        .header h1 {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+    
+        .header p {
+            margin: 8px 0 0 0;
+            font-size: 1rem;
+            font-weight: 400;
+        }
+    
+        .progress-bar {
+            background: #4a4a4a;
+            border-radius: 5px;
+            height: 6px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            border: 1px solid #5c5c5c;
+        }
+    
+        .progress-fill {
+            background: #4682b4;
+            height: 100%;
+            border-radius: 5px;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+    
+        .step-section {
+            background: #3c3c3c;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border: 1px solid #5c5c5c;
+        }
+    
+        .step-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+    
+        .step-number {
+            background: #4682b4;
+            color: #ffffff;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1rem;
+            margin-right: 15px;
+        }
+    
+        .step-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #d8d8d8;
+            margin: 0;
+        }
+    
+        .condition-box {
+            background: #4a4a4a;
+            border-left: 4px solid #4682b4;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #c8c8c8;
+        }
+    
+        .condition-box strong {
+            color: #4682b4;
+            font-size: 1.1rem;
+        }
+    
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+    
+        .btn {
+            padding: 10px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s ease, transform 0.1s ease;
+            text-transform: uppercase;
+            min-width: 100px;
+            font-family: 'Georgia', 'Times New Roman', Times, serif;
+        }
+    
+        .btn-yes {
+            background: #2e8b57;
+            color: #ffffff;
+        }
+    
+        .btn-yes:hover {
+            background: #257a4b;
+            transform: translateY(-2px);
+        }
+    
+        .btn-no {
+            background: #696969;
+            color: #ffffff;
+        }
+    
+        .btn-no:hover {
+            background: #585858;
+            transform: translateY(-2px);
+        }
+    
+        .btn-primary {
+            background: #4682b4;
+            color: #ffffff;
+        }
+    
+        .btn-primary:hover {
+            background: #3a6b9a;
+            transform: translateY(-2px);
+        }
+    
+        .btn-secondary {
+            background: #5c5c5c;
+            color: #ffffff;
+        }
+    
+        .btn-secondary:hover {
+            background: #4b4b4b;
+            transform: translateY(-2px);
+        }
+    
+        .btn-back {
+            background: #5c5c5c;
+            color: #ffffff;
+        }
+    
+        .btn-back:hover {
+            background: #4b4b4b;
+            transform: translateY(-2px);
+        }
+    
+        .path-history {
+            background: #4a4a4a;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 3px solid #2e8b57;
+        }
+    
+        .path-step {
+            display: flex;
+            align-items: center;
+            margin: 8px 0;
+            padding: 8px;
+            background: #3c3c3c;
+            border-radius: 5px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+    
+        .path-step .step-icon {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 10px;
+            font-size: 0.8rem;
+        }
+    
+        .path-step.yes .step-icon {
+            background: #2e8b57;
+            color: #ffffff;
+        }
+    
+        .path-step.no .step-icon {
+            background: #696969;
+            color: #ffffff;
+        }
+    
+        .dice-section {
+            background: #4a4a4a;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            margin: 15px 0;
+            border: 1px solid #5c5c5c;
+        }
+    
+        .dice-result {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #d8d8d8;
+            margin: 15px 0;
+        }
+    
+        .result-section {
+            background: #2e8b57;
+            color: #ffffff;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            margin-top: 15px;
+            border: 1px solid #3c3c3c;
+        }
+    
+        .result-section h2 {
+            margin: 0 0 15px 0;
+            font-size: 2rem;
+            display: none;
+        }
+    
+        .result-section p {
+            margin: 10px 0;
+            font-size: 32px;
+            white-space: pre-line;
+            font-weight: bold;
+            font-style: italic;
+        }
+    
+        .strategy-details {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+    
+        .strategy-list {
+            text-align: left;
+            margin: 15px 0;
+            list-style: none;
+            padding: 0;
+        }
+    
+        .strategy-list li {
+            margin: 8px 0;
+            padding: 8px 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 5px;
+            border-left: 3px solid rgba(255, 255, 255, 0.3);
+        }
+    
+        .sub-priority-list {
+            list-style: none;
+            padding-left: 20px;
+            margin-top: 5px;
+        }
+    
+        .sub-priority-list li {
+            margin: 5px 0;
+            padding: 5px 10px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            border-left: 2px solid rgba(255, 255, 255, 0.4);
+            font-size: 0.9rem;
+        }
+    
+        .hidden {
+            display: none;
+        }
+    
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+                margin: 10px;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .button-group {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 180px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Japanese Erasmus Bot</h1>
+            <p> 전쟁 말기</p>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <div id="pathHistory" class="path-history hidden">
+            <h4 style="margin-top: 0; color: #ffffff;">진행 경로</h4>
+            <div id="pathSteps"></div>
+        </div>
+
+        <div id="stepSection" class="step-section">
+            <div class="step-header">
+                <div class="step-number" id="stepNumber">1</div>
+                <h2 class="step-title" id="stepTitle">시작</h2>
+            </div>
+            
+            <div class="condition-box" id="conditionBox">
+                첫 번째 조건을 확인해주세요.
+            </div>
+            
+            <div class="button-group" id="buttonGroup">
+                <button class="btn btn-primary" onclick="startFlow()">시작하기</button>
+            </div>
+        </div>
+
+        <div id="diceSection" class="dice-section hidden">
+            <h3 style="margin: 0 0 20px 0; color: #2d3436;">주사위 굴리기 (1d10)</h3>
+            <div class="dice-result" id="diceResult">?</div>
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="rollDice()">주사위 굴리기</button>
+            </div>
+        </div>
+
+        <div id="resultSection" class="result-section hidden">
+            <h2 id="strategyTitle">최종 전략 결정</h2>
+            <p id="strategyName"></p>
+            <div class="strategy-details" id="strategyDetails"></div>
+            <div class="button-group" style="margin-top: 30px;">
+                <button class="btn btn-secondary" onclick="resetFlow()">다시 시작</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Implementation notes
+        const notes = {
+            '[1]': '카드 및 조건이 있다면 나열된 순서대로 이벤트를 플레이합니다. 12번 턴에는 카드를 절대 FO로 사용할 수 없습니다.',
+            '[2]': '일본이 통제하는 헥스만 병력이 주둔하고 있는 것으로Garrison로 간주합니다.',
+            '[3]': '혼슈에 공중 또는 해군 보충 유닛을 배치합니다. 공중 유닛을 사용해서 혼슈에 있는 일본 본부와 일본이 통제하는 자원 헥스 사이의 통신선(AZOI)을 유지합니다.',
+            '[4]': '혼슈에 있는 연합군 지상 유닛에 인접한 헥스를 모두 점령할 때까지 지상 유닛을 연합군 지상 유닛 인접 헥스로 이동합니다.',
+            '[5]': '지상 유닛이 있는 혼슈의 각 헥스마다, 가능하다면 해당 헥스에 공군 또는 해군 유닛 배치를 시도합니다.',
+            '[6]': '일본 지상 유닛이 혼슈에 있는 연합군 유닛과 인접한 모든 헥스를 점령했다면, 가능한 많은 유닛으로 연합군 지상 유닛을 공격합니다. 선택할 수 있다면, 가장 강력한 유닛을 먼저 사용합니다.',
+            '[7]': '혼슈 전투 헥스마다, 가능하다면 해당 전투 헥스를 지원하도록 하나의 공군 또는 해군 유닛을 배치합니다(해군을 헥스 안으로 이동시키거나, 공중 유닛이 범위 내에서 공격하는 방식).',
+            '[8]': '마지막 지상 유닛 스텝까지 싸웁니다.'
+        };
+    
+        // 전략 정보 데이터
+        const strategies = {
+            'Event Strategy': {
+                name: '이벤트 전략[1]',
+                details: [
+                    '자원[3]',
+                    '연합군이 전략적 합의 상태면 ISR 생성.',
+                    '일본이 ISR이면 ISR 종료',
+                    '도쿄 로즈 이벤트 발동',
+                    '강제로 도조 이벤트 발동',
+                    '마지막 턴이 아니라면, 날씨 카드를 FOQ로',
+                    '이벤트로 플레이했을 때 미국 PW가 0이 되지 않는 한, 도조 카드를 TOC로 플레이',
+                    '기타: FOQ가 없다면 카드를 FOQ에 넣음'
+                ]
+            },
+            'Final Perimeter Strategy': {
+                name: '최종 방어선 전략',
+                details: [
+                    '항구 주둔[2]',
+                    '공군 기지 주둔[2]',
+                    '일본 항구 주둔[2]'
+                ]
+            },
+            'Final Defense Strategy': {
+                name: '최종 방어 전략',
+                details: [
+                    '병력 집결[4]',
+                    '공중/해상 지원[5]',
+                    '반자이 돌격[6][7][8]'
+                ]
+            },
+            'Pass': {
+                name: 'PASS (작전 중지)',
+                details: [
+                    '행동을 패스합니다'
+                ]
+            }
+        };
+    
+        // 하위 우선순위 목록
+        const subPriorities = {
+            '공군 기지 주둔[2]': [
+                'Iwo Jima',
+                'Kyoto'
+            ],
+            '항구 주둔[2]': [
+                'Okinawa',
+                'Seoul',
+                'Pusan',
+                'Tainan',
+                'Saipan/Tinian'
+            ],
+            '일본 항구 주둔[2]': [
+                'Sasebo',
+                'Kure',
+                'Tokyo',
+                'Osaka',
+                'Nagoya',
+                'Ominato',
+                'Hakodate'
+            ]
+        };
+    
+        // 정의
+        const conditions = {
+            'A': '일본이 가진 카드가 3장 이상입니까?',
+            'B': '도쿄에서 8헥스 이내에 있고 중국 항구가 아닌 항구에 병력이 주둔하고 있습니까?[2]',
+            'C': '도쿄에서 5헥스 이내에 있고 중국 공군기지(항구 제외)가 아닌 공군기지에 병력이 주둔하고 있습니까?[2]',
+            'D': '일본에게 사용 가능한 PASS가 남아 있습니까?',
+            'E': '혼슈에 연합군 지상 유닛이 있습니까?'
+        };
+    
+        let currentStep = 'start';
+        let pathHistory = [];
+        let stepCount = 0;
+        let evaluatedConditions = {};
+    
+        // Helper function to create missing DOM elements
+    function createMissingElement(id, tag, parent, classes = []) {
+        let element = document.getElementById(id);
+        if (!element) {
+            console.warn(`Creating missing element: ${id}`);
+            element = document.createElement(tag);
+            element.id = id;
+            classes.forEach(cls => element.classList.add(cls));
+            if (parent && parent.appendChild) {
+                parent.appendChild(element);
+            } else {
+                document.body.appendChild(element);
+            }
+        }
+        return element;
+    }
+
+    function startFlow() {
+        currentStep = 'A';
+        stepCount = 1;
+        pathHistory = [];
+        evaluatedConditions = {};
+        showStep('A');
+    }
+
+    function showStep(stepId) {
+        const errorContainer = createMissingElement('errorContainer', 'div', document.body, ['hidden']);
+        const stepSection = createMissingElement('stepSection', 'div', document.body);
+        const stepNumber = createMissingElement('stepNumber', 'div', stepSection);
+        const stepTitle = createMissingElement('stepTitle', 'h2', stepSection);
+        const conditionBox = createMissingElement('conditionBox', 'div', stepSection);
+        const buttonGroup = createMissingElement('buttonGroup', 'div', stepSection);
+
+        if (errorContainer) errorContainer.classList.add('hidden');
+
+        stepNumber.textContent = stepCount;
+
+        if (stepId === 'B+C') {
+            stepTitle.textContent = 'B+C 확인';
+            conditionBox.innerHTML = ` <br>다음 조건을 모두 충족합니까? <ul><li>${conditions['B']}</li><li>${conditions['C']}</li></ul>`;
+            buttonGroup.innerHTML = `
+                <button class="btn btn-yes" onclick="selectChoice('B+C', true)">YES</button>
+                <button class="btn btn-no" onclick="selectChoice('B+C', false)">NO</button>
+                ${pathHistory.length > 0 ? '<button class="btn btn-back" onclick="goBack()">이전</button>' : ''}
+            `;
+        } else if (stepId === 'DICE') {
+            const diceSection = createMissingElement('diceSection', 'div', document.body, ['hidden']);
+            const diceResult = createMissingElement('diceResult', 'div', diceSection);
+            stepSection.classList.add('hidden');
+            diceSection.classList.remove('hidden');
+            diceResult.textContent = '-';
+            buttonGroup.innerHTML = `
+                <button class="btn btn-primary" onclick="rollDice()">주사위 굴리기</button>
+                ${pathHistory.length > 0 ? '<button class="btn btn-back" onclick="goBack()">이전</button>' : ''}
+            `;
+            return;
+        } else if (conditions[stepId]) {
+            stepTitle.textContent = `${stepId} 확인`;
+            conditionBox.innerHTML = ` ${conditions[stepId]}`;
+            buttonGroup.innerHTML = `
+                <button class="btn btn-yes" onclick="selectChoice('${stepId}', true)">YES</button>
+                <button class="btn btn-no" onclick="selectChoice('${stepId}', false)">NO</button>
+                ${pathHistory.length > 0 ? '<button class="btn btn-back" onclick="goBack()">이전</button>' : ''}
+            `;
+        } else if (stepId === 'start') {
+            stepTitle.textContent = '시작';
+            conditionBox.innerHTML = `전쟁 말기 페이즈`;
+            buttonGroup.innerHTML = `
+                <button class="btn btn-primary" onclick="startFlow()">시작하기</button>
+            `;
+        }
+
+        updateProgress();
+        updatePathHistory();
+    }
+
+    function selectChoice(conditionId, choice) {
+        evaluatedConditions[conditionId] = choice;
+        pathHistory.push({ step: conditionId, choice: choice, stepNum: stepCount });
+        stepCount++;
+
+        const nextStep = getNextStep(conditionId, choice);
+
+        if (nextStep.startsWith('STRATEGY_')) {
+            const strategy = nextStep.replace('STRATEGY_', '');
+            showResult(strategy);
+        } else {
+            currentStep = nextStep;
+            showStep(nextStep);
+        }
+    }
+
+    function getNextStep(conditionId, choice) {
+        switch (conditionId) {
+            case 'A':
+                return choice ? 'B+C' : 'STRATEGY_Event Strategy';
+            case 'B+C':
+                return choice ? 'D' : 'STRATEGY_Final Perimeter Strategy';
+            case 'D':
+                return choice ? 'STRATEGY_Pass' : 'E';
+            case 'E':
+                return choice ? 'STRATEGY_Final Defense Strategy' : 'STRATEGY_Event Strategy';
+            default:
+                return 'STRATEGY_Event Strategy';
+        }
+    }
+
+    function rollDice() {
+        const errorContainer = createMissingElement('errorContainer', 'div', document.body, ['hidden']);
+        const diceSection = createMissingElement('diceSection', 'div', document.body, ['hidden']);
+        const diceResult = createMissingElement('diceResult', 'div', diceSection);
+        if (errorContainer) errorContainer.classList.add('hidden');
+
+        const diceValue = Math.floor(Math.random() * 10); // 0-9
+        diceResult.textContent = diceValue;
+
+        let strategy;
+        if (diceValue >= 0 && diceValue <= 3) {
+            strategy = 'Event Strategy';
+        } else if (diceValue >= 4 && diceValue <= 7) {
+            strategy = 'Final Perimeter Strategy';
+        } else if (diceValue >= 8 && diceValue <= 9) {
+            strategy = 'Final Defense Strategy';
+        }
+
+        pathHistory.push({
+            step: 'DICE',
+            choice: diceValue,
+            stepNum: stepCount,
+            isResult: true,
+            result: strategy
+        });
+
+        setTimeout(() => showResult(strategy), 1000);
+    }
+
+    function showResult(strategyKey) {
+        const strategy = strategies[strategyKey];
+        if (!strategy) {
+            console.error('Strategy not found:', strategyKey);
+            return;
+        }
+
+        const errorContainer = createMissingElement('errorContainer', 'div', document.body, ['hidden']);
+        const stepSection = createMissingElement('stepSection', 'div', document.body);
+        const diceSection = createMissingElement('diceSection', 'div', document.body, ['hidden']);
+        const resultSection = createMissingElement('resultSection', 'div', document.body, ['hidden']);
+        const strategyName = createMissingElement('strategyName', 'h2', resultSection);
+        const strategyDetails = createMissingElement('strategyDetails', 'div', resultSection);
+        const buttonGroup = resultSection.querySelector('.button-group') || createMissingElement('button-group', 'div', resultSection, ['button-group']);
+
+        if (errorContainer) errorContainer.classList.add('hidden');
+
+        stepSection.classList.add('hidden');
+        diceSection.classList.add('hidden');
+        resultSection.classList.remove('hidden');
+        strategyName.textContent = strategy.name;
+
+        // Extract annotations from strategy name, details, and sub-priorities
+        const annotationRegex = /\[\d+\]/g;
+        const annotations = new Set();
+        if (strategy.name.match(annotationRegex)) {
+            strategy.name.match(annotationRegex).forEach(annotation => annotations.add(annotation));
+        }
+        strategy.details.forEach(detail => {
+            if (detail.match(annotationRegex)) {
+                detail.match(annotationRegex).forEach(annotation => annotations.add(annotation));
+            }
+            // Check sub-priorities for annotations
+            if (subPriorities[detail]) {
+                subPriorities[detail].forEach(sub => {
+                    if (sub.match(annotationRegex)) {
+                        sub.match(annotationRegex).forEach(annotation => annotations.add(annotation));
+                    }
+                });
+            }
+        });
+
+        strategyDetails.innerHTML = `
+            <h4 style="margin-top: 0; color: #fff;">전략 세부사항:</h4>
+            <ul class="strategy-list">
+                ${strategy.details.map(detail => `
+                    <li>
+                        ${detail}
+                        ${subPriorities[detail] ? `
+                            <ul class="sub-priority-list">
+                                ${subPriorities[detail].map(sub => `<li>${sub}</li>`).join('')}
+                            </ul>
+                        ` : ''}
+                    </li>
+                `).join('')}
+            </ul>
+            ${annotations.size > 0 ? `
+                <h4 style="margin-top: 20px; color: #fff;">주석:</h4>
+                <ul class="strategy-list">
+                    ${Array.from(annotations).sort().map(annotation => `
+                        <li class="impl-note">${annotation}: ${notes[annotation]}</li>
+                    `).join('')}
+                </ul>
+            ` : ''}
+        `;
+
+        buttonGroup.innerHTML = `
+            <button class="btn btn-secondary" onclick="resetFlow()">다시 시작</button>
+            ${pathHistory.length > 0 ? '<button class="btn btn-back" onclick="goBack()">이전</button>' : ''}
+        `;
+
+        updateProgress();
+        updatePathHistory();
+    }
+
+    function updateProgress() {
+        const errorContainer = createMissingElement('errorContainer', 'div', document.body, ['hidden']);
+        const progressBar = createMissingElement('progress-bar', 'div', document.body, ['progress-bar']);
+        const progressFill = createMissingElement('progressFill', 'div', progressBar, ['progress-fill']);
+        if (errorContainer) errorContainer.classList.add('hidden');
+
+        const totalSteps = 5; // 대략적인 최대 단계 수 (A, B+C, D, E)
+        const progress = Math.min((stepCount / totalSteps) * 100, 100);
+        progressFill.style.width = progress + '%';
+    }
+
+    function updatePathHistory() {
+        const errorContainer = createMissingElement('errorContainer', 'div', document.body, ['hidden']);
+        const pathHistoryDiv = createMissingElement('pathHistory', 'div', document.body, ['hidden']);
+        const pathStepsDiv = createMissingElement('pathSteps', 'div', pathHistoryDiv);
+        if (errorContainer) errorContainer.classList.add('hidden');
+
+        if (pathHistory.length === 0) {
+            pathHistoryDiv.classList.add('hidden');
+            return;
+        }
+
+        pathStepsDiv.innerHTML = '';
+
+        pathHistory.forEach(step => {
+            const stepDiv = document.createElement('div');
+            stepDiv.className = `path-step ${step.choice && step.step !== 'DICE' ? 'yes' : step.step !== 'DICE' ? 'no' : ''}`;
+
+            if (step.step === 'DICE') {
+                stepDiv.innerHTML = `
+                    <div class="step-icon">${step.choice}</div>
+                    <div>
+                        <strong>주사위 굴리기:</strong> ${step.choice} 
+                        ${step.result ? `→ ${strategies[step.result].name}` : ''}
+                    </div>
+                `;
+            } else {
+                let conditionText = '';
+                if (conditions[step.step]) {
+                    conditionText = conditions[step.step];
+                } else if (step.step === 'B+C') {
+                    conditionText = '다음 조건을 모두 충족합니까? <ul><li>혼슈에 일본 지상 유닛이 연합군 유닛과 인접한 헥스를 모두 점령했습니까?</li><li>현재 턴이 12번 턴입니까?</li></ul>';
+                }
+
+                stepDiv.innerHTML = `
+                    <div class="step-icon">${step.choice ? 'Y' : 'N'}</div>
+                    <div>
+                        <strong>${step.step}:</strong> 
+                        ${conditionText} → ${step.choice ? 'YES' : 'NO'}
+                    </div>
+                `;
+
+                pathStepsDiv.appendChild(stepDiv);
+            }
+        });
+
+        pathHistoryDiv.classList.remove('hidden');
+    }
+
+    function resetFlow() {
+        currentStep = 'start';
+        stepCount = 0;
+        pathHistory = [];
+        evaluatedConditions = {};
+
+        // Step 1: Create top-level elements
+        const errorContainer = createMissingElement('errorContainer', 'div', document.body, ['hidden']);
+        const stepSection = createMissingElement('stepSection', 'div', document.body);
+        const diceSection = createMissingElement('diceSection', 'div', document.body, ['hidden']);
+        const resultSection = createMissingElement('resultSection', 'div', document.body, ['hidden']);
+        const pathHistoryDiv = createMissingElement('pathHistory', 'div', document.body, ['hidden']);
+        const progressBar = createMissingElement('progress-bar', 'div', document.body, ['progress-bar']);
+
+        // Step 2: Create child elements that depend on top-level elements
+        const elements = {
+            errorContainer,
+            stepSection,
+            diceSection,
+            resultSection,
+            pathHistoryDiv,
+            progressBar,
+            stepNumber: createMissingElement('stepNumber', 'div', stepSection),
+            stepTitle: createMissingElement('stepTitle', 'h2', stepSection),
+            conditionBox: createMissingElement('conditionBox', 'div', stepSection),
+            buttonGroup: createMissingElement('buttonGroup', 'div', stepSection),
+            progressFill: createMissingElement('progressFill', 'div', progressBar, ['progress-fill']),
+            pathSteps: createMissingElement('pathSteps', 'div', pathHistoryDiv),
+            strategyName: createMissingElement('strategyName', 'h2', resultSection),
+            strategyDetails: createMissingElement('strategyDetails', 'div', resultSection),
+            diceResult: createMissingElement('diceResult', 'div', diceSection)
+        };
+
+        const createdElements = Object.keys(elements).filter(key => {
+            const element = document.getElementById(elements[key].id);
+            return element && element !== document.getElementById(key); // Check if element was newly created
+        });
+
+        if (createdElements.length > 0) {
+            console.warn('Created missing DOM elements in resetFlow:', createdElements);
+            console.warn('To avoid dynamic creation, add the following to your HTML:', createdElements.map(id => `<div id="${id}"></div>`).join('\n'));
+            if (elements.errorContainer) {
+                // elements.errorContainer.innerHTML = `경고: 다음 HTML 요소가 누락되어 동적으로 생성되었습니다: ${createdElements.join(', ')}. HTML에 추가하세요.`;
+                elements.errorContainer.classList.remove('hidden');
+            }
+        } else if (elements.errorContainer) {
+            elements.errorContainer.classList.add('hidden');
+        }
+
+        if (elements.stepSection) elements.stepSection.classList.remove('hidden');
+        if (elements.diceSection) elements.diceSection.classList.add('hidden');
+        if (elements.resultSection) elements.resultSection.classList.add('hidden');
+        if (elements.pathHistoryDiv) elements.pathHistoryDiv.classList.add('hidden');
+        if (elements.stepNumber) elements.stepNumber.textContent = '1';
+        if (elements.stepTitle) elements.stepTitle.textContent = '시작';
+        if (elements.conditionBox) elements.conditionBox.innerHTML = '에라스무스의 전쟁 말기 전략을 결정합니다';
+        if (elements.buttonGroup) elements.buttonGroup.innerHTML = '<button class="btn btn-primary" onclick="startFlow()">시작하기</button>';
+        if (elements.progressFill) elements.progressFill.style.width = '0%';
+    }
+
+    function goBack() {
+        if (pathHistory.length === 0) {
+            resetFlow();
+            return;
+        }
+
+        // Remove the last step from history
+        const lastStep = pathHistory.pop();
+        stepCount--;
+
+        // Remove the last evaluated condition
+        if (lastStep.step !== 'DICE') {
+            delete evaluatedConditions[lastStep.step];
+        }
+
+        // Determine the previous step
+        if (pathHistory.length === 0) {
+            currentStep = 'start';
+        } else {
+            currentStep = pathHistory[pathHistory.length - 1].step;
+            // If the last step was DICE, we need to go back to the step before DICE
+            if (lastStep.step === 'DICE') {
+                currentStep = pathHistory.length > 0 ? pathHistory[pathHistory.length - 1].step : 'start';
+                pathHistory.pop(); // Remove the step before DICE as well
+                stepCount--;
+                if (pathHistory.length > 0) {
+                    delete evaluatedConditions[pathHistory[pathHistory.length - 1].step];
+                }
+            }
+        }
+
+        // Update UI
+        const errorContainer = createMissingElement('errorContainer', 'div', document.body, ['hidden']);
+        const stepSection = createMissingElement('stepSection', 'div', document.body);
+        const diceSection = createMissingElement('diceSection', 'div', document.body, ['hidden']);
+        const resultSection = createMissingElement('resultSection', 'div', document.body, ['hidden']);
+        if (errorContainer) errorContainer.classList.add('hidden');
+
+        stepSection.classList.remove('hidden');
+        diceSection.classList.add('hidden');
+        resultSection.classList.add('hidden');
+        showStep(currentStep);
+    }
+
+    // 페이지 로드 시 초기화
+    window.onload = function () {
+        if (document.readyState === 'complete') {
+            resetFlow();
+        } else {
+            window.addEventListener('DOMContentLoaded', resetFlow);
+        }
+    };
+</script>
+</body>
+</html>

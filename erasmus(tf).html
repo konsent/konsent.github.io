@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Japanese Erasmus Bot - 태스크 포스 구성</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #2e2e2e;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            color: #d8d8d8;
+        }
+    
+        .impl-note {
+            font-style: italic;
+            font-size: 14px;
+            color: #ffffff;
+            line-height: 1.6;
+            margin: 4px 0;
+        }
+    
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #3c3c3c;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+    
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #4a4a4a;
+            border-radius: 8px;
+            color: #ffffff;
+            border: 1px solid #5c5c5c;
+        }
+    
+        .header h1 {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+    
+        .header p {
+            margin: 8px 0 0 0;
+            font-size: 1rem;
+            font-weight: 400;
+        }
+    
+        .progress-bar {
+            background: #4a4a4a;
+            border-radius: 5px;
+            height: 6px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            border: 1px solid #5c5c5c;
+        }
+    
+        .progress-fill {
+            background: #4682b4;
+            height: 100%;
+            border-radius: 5px;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+    
+        .step-section {
+            background: #3c3c3c;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border: 1px solid #5c5c5c;
+        }
+    
+        .step-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+    
+        .step-number {
+            background: #4682b4;
+            color: #ffffff;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1rem;
+            margin-right: 15px;
+        }
+    
+        .step-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #d8d8d8;
+            margin: 0;
+        }
+    
+        .condition-box {
+            background: #4a4a4a;
+            border-left: 4px solid #4682b4;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #c8c8c8;
+        }
+    
+        .condition-box strong {
+            color: #4682b4;
+            font-size: 1.1rem;
+        }
+    
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+    
+        .btn {
+            padding: 10px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s ease, transform 0.1s ease;
+            text-transform: uppercase;
+            min-width: 100px;
+            font-family: 'Georgia', 'Times New Roman', Times, serif;
+        }
+    
+        .btn-yes {
+            background: #2e8b57;
+            color: #ffffff;
+        }
+    
+        .btn-yes:hover {
+            background: #257a4b;
+            transform: translateY(-2px);
+        }
+    
+        .btn-no {
+            background: #696969;
+            color: #ffffff;
+        }
+    
+        .btn-no:hover {
+            background: #585858;
+            transform: translateY(-2px);
+        }
+    
+        .btn-primary {
+            background: #4682b4;
+            color: #ffffff;
+        }
+    
+        .btn-primary:hover {
+            background: #3a6b9a;
+            transform: translateY(-2px);
+        }
+    
+        .btn-secondary {
+            background: #5c5c5c;
+            color: #ffffff;
+        }
+    
+        .btn-secondary:hover {
+            background: #4b4b4b;
+            transform: translateY(-2px);
+        }
+    
+        .btn-back {
+            background: #5c5c5c;
+            color: #ffffff;
+        }
+    
+        .btn-back:hover {
+            background: #4b4b4b;
+            transform: translateY(-2px);
+        }
+    
+        .path-history {
+            background: #4a4a4a;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 3px solid #2e8b57;
+        }
+    
+        .path-step {
+            display: flex;
+            align-items: center;
+            margin: 8px 0;
+            padding: 8px;
+            background: #3c3c3c;
+            border-radius: 5px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+    
+        .path-step .step-icon {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 10px;
+            font-size: 0.8rem;
+        }
+    
+        .path-step.yes .step-icon {
+            background: #2e8b57;
+            color: #ffffff;
+        }
+    
+        .path-step.no .step-icon {
+            background: #696969;
+            color: #ffffff;
+        }
+    
+        .dice-section {
+            background: #4a4a4a;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            margin: 15px 0;
+            border: 1px solid #5c5c5c;
+        }
+    
+        .dice-result {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #d8d8d8;
+            margin: 15px 0;
+        }
+    
+        .result-section {
+            background: #2e8b57;
+            color: #ffffff;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            margin-top: 15px;
+            border: 1px solid #3c3c3c;
+        }
+    
+        .result-section h2 {
+            margin: 0 0 15px 0;
+            font-size: 2rem;
+            display: none;
+        }
+    
+        .result-section p {
+            margin: 10px 0;
+            font-size: 32px;
+            white-space: pre-line;
+            font-weight: bold;
+            font-style: italic;
+        }
+    
+        .strategy-details {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+    
+        .strategy-list {
+            text-align: left;
+            margin: 15px 0;
+            list-style: none;
+            padding: 0;
+        }
+    
+        .strategy-list li {
+            margin: 8px 0;
+            padding: 8px 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 5px;
+            border-left: 3px solid rgba(255, 255, 255, 0.3);
+        }
+    
+        .sub-priority-list {
+            list-style: none;
+            padding-left: 20px;
+            margin-top: 5px;
+        }
+    
+        .sub-priority-list li {
+            margin: 5px 0;
+            padding: 5px 10px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            border-left: 2px solid rgba(255, 255, 255, 0.4);
+            font-size: 0.9rem;
+        }
+    
+        .hidden {
+            display: none;
+        }
+    
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+                margin: 10px;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .button-group {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 180px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Japanese Erasmus Bot</h1>
+            <p>태스크 포스 구성</p>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <div id="pathHistory" class="path-history hidden">
+            <h4 style="margin-top: 0; color: #ffffff;">진행 경로</h4>
+            <div id="pathSteps"></div>
+        </div>
+
+        <div id="stepSection" class="step-section">
+            <div class="step-header">
+                <div class="step-number" id="stepNumber">1</div>
+                <h2 class="step-title" id="stepTitle">시작</h2>
+            </div>
+            
+            <div class="condition-box" id="conditionBox">
+                첫 번째 조건을 확인해주세요.
+            </div>
+            
+            <div class="button-group" id="buttonGroup">
+                <button class="btn btn-primary" onclick="startFlow()">시작하기</button>
+            </div>
+        </div>
+
+        <div id="diceSection" class="dice-section hidden">
+            <h3 style="margin: 0 0 20px 0; color: #2d3436;">주사위 굴리기 (1d10)</h3>
+            <div class="dice-result" id="diceResult">?</div>
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="rollDice()">주사위 굴리기</button>
+            </div>
+        </div>
+
+        <div id="resultSection" class="result-section hidden">
+            <h2 id="strategyTitle">최종 병력 구성</h2>
+            <p id="strategyName"></p>
+            <div class="strategy-details" id="strategyDetails"></div>
+            <div class="button-group" style="margin-top: 30px;">
+                <button class="btn btn-secondary" onclick="resetFlow()">다시 시작</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Implementation notes
+        const notes = {
+            '[1]': '매트릭스에 의해 결정된 각 목표마다 이 표에 따라 병력을 편성합니다. 만약 OC 공세 상황이고 이미 전투 헥스 하나가 지정됐다면, **점령되지 않은 목표만 고려**한 후, 다음으로 우선순위가 높은 목표에 지상 → 공군 → 해군 순서로 더 가까워지도록 하는 두 장 카드 조합을 선택하세요.',
+            '[2]': '지상 유닛 하나를 활성화하여 이 헥스로 진격시킵니다. 만약 적 해군 유닛이 목표를 점령 중이라면 전투 헥스 생성 방지를 위해 지상 유닛을 목표 밖으로 이동시킵니다. 필요하다면 이 지상 유닛을 육상 진격(Overland Advance)을 통해 추가 목표를 점령하는 데 다시 사용할 수 있습니다.',
+            '[3]': '선택된 전략의 병력Force 편성 유형에 따라, 목표 범위 내에서 해당 헥스의 피해 수준 기준Damage Level criteria을 달성할 수 있는 최소한의 유닛을 활성화합니다. 달성 불가한 경우 가능한 한 많은 유닛을 활성화합니다. 만약 대응이 가능하다면, 목표에 도달할 수 있는 적의 대응 병력을 고려하여 필요한 전력을 계산합니다.',
+            '[4]': '일본 제도 외의 HQ 헥스에 주둔 중인 지상 유닛의 경우, HQ를 방어하기 위해 반드시 하나는 해당 헥스에 남겨둬야 하며 활성화하지않습니다.',
+            '[5]': '지상 유닛 하나를 활성화하여 AA(상륙 강습)를 통해 목표를 침공하세요. 가능하다면 유기적 수송(organic transportation)을 이용하고, 그렇지 않으면 ASP를 사용하여 해당 지상 유닛과 동반하는 해군 유닛을 활성화합니다. ASP가 없으면 이 목표는 건너뜁니다.',
+            '[6]': '"장악(Capture)"이란 전투 결과로 수비자가 입힌 손실보다 더 많은 스텝 손실을 가해 전투에서 승리하는 것을 의미합니다. 즉, 에라스무스가 해당 전투 결과 이상을 굴리고, 수비자는 동일 결과 이하를 굴렸을 때를 말합니다.',
+            '[7]': '만약 에라스무스가 적 유닛의 후퇴를 수행해야 하는 경우, 가장 약한 수비 유닛부터 가장 강한 유닛 순으로 후퇴 규칙을 따라 이동합니다.',
+            '[8]': '대응이 가능한 경우, 가장 우선순위가 높은 목표에 대해 해군 → 공군 순으로 번갈아 추가하세요. 그렇지 않은 경우에는 공군을 활성화해 적 공군을 공격하고, 그다음 해군, 마지막으로 지상군을 활성화하세요.',
+            '[9]': '육상 진격 / AA(상륙 강습) 규칙<br>지상 공격을 하려면, 지상 전투 결과가 1x일 때 헥스를 점령[6][7]할 수 있을 만큼 공격력이 충분히 커야 하며, 최소 지상 유닛 1스텝이 적의 2x 결과에서 살아남아야 합니다. <br> 이때 발생할 수 있는 AA 대응과 전투 헥스에 도달 할 수 있는 충분한 MP를 가진 인접 헥스의 공격도 포함합니다.',
+            '[10]': '피해 수준<br>공격력에 피해 결과를 곱한 값으로, 목표 헥스에 있는 적 부대를 파괴합니다. 1x 결과는 전투 테이블의 결과가 1x인 경우 적과 동등 이상의 전투력이 있어야 적 유닛을 제거한다는 의미입니다. 지상 전투는 (육상 진격/AA 규칙)을 참고.<br>목표에 대한 수치가 따로 적혀있지 않다면, 지상 전투: 1x, 공중/해상 전투: 0.5x 사용.',
+            '[11]': '전투 지원 기준<br>공습(Air Raid): 없음. 자동으로 YES.<br>지상 공격(Ground Attacks): 최소한 공중 또는 해상 유닛 1개 이상 필요. <br>해상 침공(Naval Invasion): 최소한 해상 유닛 1개 이상 필요. <br>공중/해상 침공(Air/Naval Invasion): 공중과 해상 유닛 각각 최소 1개 이상, 또는 항모 1개 이상 필요.',
+            '[12]': '질식 공격(Smothering Attack): 활성화된 하나 이상의 공중/해상 유닛이 적의 유닛/스택을 묶어 두기 위해 그들이 위치한 헥스를 공격하여 목표 헥스 이외의 전투 헥스를 만들어내는 것. 전투 헥스가 하나 이상 생성되어야 하기 때문에 EC 공세 중에만 수행할 수 있음.'
+        };
+    
+        // 병력 구성 정보 데이터
+        const strategies = {
+            'Air Raid': {
+                name: '공중 습격 \n (Air Raid)',
+                details: [
+                    '병력: 공중 유닛, 해상 유닛, 항모',
+                    '유닛을 선택할 때 가능하다면 공중 균형(Air Parity)을 맞출 만큼 충분히 선택합니다.'
+                ]
+            },
+            'Ground Attack with Air Support': {
+                name: '공중 지원 지상 공격\n(Ground Attack with Air Support)',
+                details: [
+                    '병력: 지상 유닛, 공중 유닛, 항모(범위 내).'
+                ]
+            },
+            'Ground Attack with Air/Naval Support': {
+                name: '공중/해상 지원 지상 공격\n(Ground Attack with Air/Naval Support)',
+                details: [
+                    '병력: 지상 유닛, 공중 유닛, 항모'
+                ]
+            },
+            'Invasion with Naval Support': {
+                name: '해군 지원 하 침공\n(Invasion with Naval Support)',
+                details: [
+                    '병력: 해상 유닛, 지상 유닛 상륙 강습(AA) 및 항모.'
+                ]
+            },
+            'Invasion with Air/Naval Support': {
+                name: '공중/해상 지원 하 침공\n(Invasion with Air/Naval Support)',
+                details: [
+                    '병력: 공중 유닛, 해상 유닛, 지상 유닛 상륙 강습(AA) 및 항모.'
+                ]
+            },
+            'Unsupported Invasion': {
+                name: '무지원 침공 [4][5]\n(Unsupported Invasion)',
+                details: [
+                    '병력: 지상 유닛 상륙 강습(AA)'
+                ]
+            },
+            'March into the Target': {
+                name: '목표로 진군 [2][4] \n (March into the Target)',
+                details: [
+                    '목표 헥스로 진군합니다.'
+                ]
+            },
+            'Execute Air/Naval Attack against weakest stack': {
+                name: '가장 약한 스택을 대상으로 공중/해상 공격 실행',
+                details: [
+                    '가장 약한 스택에 공중/해상 공격을 수행합니다.'
+                ]
+            },
+            'Move activated units to the Target': {
+                name: '활성화된 유닛을 목표로 이동',
+                details: [
+                    '활성화된 유닛을 목표 헥스로 이동합니다.'
+                ]
+            },
+            'Consider Performing a Smothering Attack (see CDSS)': {
+                name: '질식 공격 고려 [12]',
+                details: [
+                    '질식 공격을 고려합니다.'
+                ]
+            },
+            'Create a new Force for the next Target': {
+                name: '다음 목표를 위한 새로운 병력 생성',
+                details: [
+                    '다음 목표를 위한 새로운 병력을 생성합니다.'
+                ]
+            },
+            'Activate units for the target': {
+                name: '목표를 위해 유닛을 활성화합니다 [3]][4]',
+                details: [
+                    '목표를 위해 유닛을 활성화합니다.'
+                ]
+            },
+            'Activate more units with extra activations': {
+                name: '추가 활성화로 더 많은 유닛 활성화 [8]',
+                details: [
+                    '추가 활성화로 더 많은 유닛을 활성화합니다.'
+                ]
+            }
+        };
+    
+        // 하위 우선순위 목록 (필요 시 추가, 이미지에 따라 비어있음)
+        const subPriorities = {};
+    
+        // 조건 정의
+        const conditions = {
+            'A': '목표에 대한 공중-해상 공격입니까?',
+            'B': '목표가 해안 또는 섬 헥스입니까?',
+            'C': '육상 진격(Overland Advance)로 목표를 장악할 수 있습니까?',
+            'D or (E and F)': '다음 중 하나 이상이 참입니까? <li>목표에 적의 해상 유닛만 있고, 지상 유닛이 목표에 진입하거나 빠져나올 수 있는 경우</li> <li>목표 헥스가 점령되지 않은 경우</li>',
+            'D1': '목표 헥스가 점령되지 않았습니까?',
+            'D2': '목표 헥스가 점령되지 않았습니까?',
+            'G': '목표 헥스가 잠재적인 SR(특수 대응) 헥스입니까?',
+            'H': '적 공중 유닛 또는 항공 모함 유닛이 이 목표에 대응할 수 있습니까?',
+            'I': '전투 지원 기준을 충족할 만큼 활성화 개수가 충분합니까?',
+            'J': '목표에 피해 수준만큼의 피해를 입혔습니까?',
+            'K+L': '다음 조건을 모두 충족합니까? <li>적 해상 또는 지상 유닛이 이 목표에 대응할 수 있음</li> <li>EC 공세임</li>',
+            'M': '이 헥스가 마지막 목표입니까?'
+        };
+    
+        let currentStep = 'start';
+        let pathHistory = [];
+        let stepCount = 0;
+        let evaluatedConditions = {};
+    
+        function startFlow() {
+            currentStep = 'A';
+            stepCount = 1;
+            pathHistory = [];
+            evaluatedConditions = {};
+            showStep('A');
+        }
+    
+        function showStep(stepId) {
+            const stepSection = document.getElementById('stepSection');
+            const stepNumber = document.getElementById('stepNumber');
+            const stepTitle = document.getElementById('stepTitle');
+            const conditionBox = document.getElementById('conditionBox');
+            const buttonGroup = document.getElementById('buttonGroup');
+            const diceSection = document.getElementById('diceSection');
+            const resultSection = document.getElementById('resultSection');
+    
+            stepSection.classList.remove('hidden');
+            diceSection.classList.add('hidden');
+            resultSection.classList.add('hidden');
+    
+            stepNumber.textContent = stepCount;
+    
+            if (stepId === 'DICE') {
+                stepSection.classList.add('hidden');
+                diceSection.classList.remove('hidden');
+                document.getElementById('diceResult').textContent = '?';
+                return;
+            }
+
+            // if (conditions[stepId]) {
+            //     stepTitle.textContent = `${stepId} 확인`;
+            //     conditionBox.innerHTML = `<strong>Step ${stepCount}:</strong> ${conditions[stepId]}`;
+            //     buttonGroup.innerHTML = `
+            //         <button class="btn btn-yes" onclick="selectChoice('${stepId}', true)">YES</button>
+            //         <button class="btn btn-no" onclick="selectChoice('${stepId}', false)">NO</button>
+            //         ${pathHistory.length > 0 ? '<button class="btn btn-back" onclick="goBack()">이전</button>' : ''}
+            //     `;
+            // } else if (stepId === 'start') {
+            //     stepTitle.textContent = '시작';
+            //     conditionBox.innerHTML = `<strong>Step 1:</strong> 태스크 포스 결정 시작`;
+            //     buttonGroup.innerHTML = `
+            //         <button class="btn btn-primary" onclick="startFlow()">시작하기</button>
+            //     `;
+            // } else if (stepId === 'Activate Units for the Target') {
+            //     stepTitle.textContent = '목표에 대한 유닛 활성화';
+            //     conditionBox.innerHTML = `<strong>Step ${stepCount}:</strong> 목표에 대한 유닛을 활성화합니다.`;
+            //     buttonGroup.innerHTML = `
+            //         <button class="btn btn-primary" onclick="selectChoice('Activate Units for the Target', true)">계속</button>
+            //         ${pathHistory.length > 0 ? '<button class="btn btn-back" onclick="goBack()">이전</button>' : ''}
+            //     `;
+            // } else if (stepId === 'K+L') {
+            //     stepTitle.textContent = 'K+L 확인';
+            //     conditionBox.innerHTML = `<strong>Step ${stepCount}:</strong> K와 L 조건을 확인하세요.`;
+            //     buttonGroup.innerHTML = `
+            //         <button class="btn btn-yes" onclick="selectChoice('K+L', true)">YES</button>
+            //         <button class="btn btn-no" onclick="selectChoice('K+L', false)">NO</button>
+            //         ${pathHistory.length > 0 ? '<button class="btn btn-back" onclick="goBack()">이전</button>' : ''}
+            //     `;
+            // } else if (stepId === 'M') {
+            //     stepTitle.textContent = 'M 확인';
+            //     conditionBox.innerHTML = `<strong>Step ${stepCount}:</strong> 추가 활성화로 더 많은 유닛을 활성화할 수 있습니까?`;
+            //     buttonGroup.innerHTML = `
+            //         <button class="btn btn-yes" onclick="selectChoice('M', true)">YES</button>
+            //         <button class="btn btn-no" onclick="selectChoice('M', false)">NO</button>
+            //         ${pathHistory.length > 0 ? '<button class="btn btn-back" onclick="goBack()">이전</button>' : ''}
+            //     `;
+            // }
+    
+            if (conditions[stepId]) {
+                stepTitle.textContent = `${stepId} 확인`;
+                conditionBox.innerHTML = ` ${conditions[stepId]}`;
+                buttonGroup.innerHTML = `
+                    <button class="btn btn-yes" onclick="selectChoice('${stepId}', true)">YES</button>
+                    <button class="btn btn-no" onclick="selectChoice('${stepId}', false)">NO</button>
+                    ${pathHistory.length > 0 ? '<button class="btn btn-back" onclick="goBack()">이전</button>' : ''}
+                `;
+            } else if (stepId === 'start') {
+                stepTitle.textContent = '시작';
+                conditionBox.innerHTML = `태스크 포스 결정 시작`;
+                buttonGroup.innerHTML = `
+                    <button class="btn btn-primary" onclick="startFlow()">시작하기</button>
+                `;
+            } else if (stepId === 'Activate Units for the Target') {
+                stepTitle.textContent = '목표에 대한 유닛 활성화';
+                conditionBox.innerHTML = ` 목표에 대한 유닛을 활성화합니다. <br><ul><li>선택된 전략의 병력Force 편성 유형에 따라, 목표 범위 내에서 해당 헥스의 피해 수준 기준을 달성할 수 있는 최소한의 유닛을 활성화합니다. 달성 불가한 경우 가능한 한 많은 유닛을 활성화합니다. 만약 대응이 가능하다면, 목표에 도달할 수 있는 적의 대응 병력을 고려하여 필요한 전력을 계산합니다.</li><li>일본 제도 외의 HQ 헥스에 주둔 중인 지상 유닛의 경우, HQ를 방어하기 위해 반드시 하나는 해당 헥스에 남겨둬야 하며 활성화하지않습니다.</li></ul><br><b>피해 수준 기준</b><ul><li>공격력에 피해 결과를 곱한 값으로, 목표 헥스에 있는 적 부대를 파괴합니다. 1x 결과는 전투 테이블의 결과가 1x인 경우 적과 동등 이상의 전투력이 있어야 적 유닛을 제거한다는 의미입니다. 지상 전투는 (육상 진격/AA 규칙)을 참고.</li><li>목표에 대한 수치가 따로 적혀있지 않다면, 지상 전투: 1x, 공중/해상 전투: 0.5x 사용.</li></ul>`;
+                buttonGroup.innerHTML = `
+                    <button class="btn btn-primary" onclick="selectChoice('Activate Units for the Target', true)">계속</button>
+                    ${pathHistory.length > 0 ? '<button class="btn btn-back" onclick="goBack()">이전</button>' : ''}
+                `;
+            } else if (stepId === 'K+L') {
+                stepTitle.textContent = 'K+L 확인';
+                conditionBox.innerHTML = ` K와 L 조건을 확인하세요.`;
+                buttonGroup.innerHTML = `
+                    <button class="btn btn-yes" onclick="selectChoice('K+L', true)">YES</button>
+                    <button class="btn btn-no" onclick="selectChoice('K+L', false)">NO</button>
+                    ${pathHistory.length > 0 ? '<button class="btn btn-back" onclick="goBack()">이전</button>' : ''}
+                `;
+            } else if (stepId === 'M') {
+                stepTitle.textContent = 'M 확인';
+                conditionBox.innerHTML = ` 추가 활성화로 더 많은 유닛을 활성화할 수 있습니까?`;
+                buttonGroup.innerHTML = `
+                    <button class="btn btn-yes" onclick="selectChoice('M', true)">YES</button>
+                    <button class="btn btn-no" onclick="selectChoice('M', false)">NO</button>
+                    ${pathHistory.length > 0 ? '<button class="btn btn-back" onclick="goBack()">이전</button>' : ''}
+                `;
+            }
+    
+            updateProgress();
+            updatePathHistory();
+        }
+    
+        function selectChoice(conditionId, choice) {
+            evaluatedConditions[conditionId] = choice;
+            pathHistory.push({ step: conditionId, choice: choice, stepNum: stepCount });
+            stepCount++;
+    
+            const nextStep = getNextStep(conditionId, choice);
+    
+            if (nextStep.startsWith('STRATEGY_')) {
+                const strategy = nextStep.replace('STRATEGY_', '');
+                showResult(strategy);
+            } else {
+                currentStep = nextStep;
+                showStep(nextStep);
+            }
+        }
+    
+        function getNextStep(conditionId, choice) {
+            switch (conditionId) {
+                case 'A':
+                    return choice ? 'STRATEGY_Air Raid' : 'B';
+                case 'B':
+                    return choice ? 'C' : 'D2';
+                case 'C':
+                    return choice ? 'D or (E and F)' : 'D1';
+                case 'D1':
+                    return choice ? 'G' : 'H';
+                case 'G':
+                    return choice ? 'H' : 'STRATEGY_Unsupported Invasion';
+                case 'D2':
+                    return choice ? 'STRATEGY_March into the Target' : 'STRATEGY_Ground Attack with Air Support';
+                case 'D or (E and F)':
+                    return choice ? 'STRATEGY_March into the Target' : 'STRATEGY_Ground Attack with Air/Naval Support';
+                case 'H':
+                    return choice ? 'STRATEGY_Invasion with Air/Naval Support' : 'STRATEGY_Invasion with Naval Support';
+                case 'I':
+                    return choice ? 'J' : 'STRATEGY_Execute Air/Naval Attack against weakest stack';
+                case 'J':
+                    return choice ? 'STRATEGY_Move activated units to the Target' : 'DICE';
+                case 'K+L':
+                    return choice ? 'STRATEGY_Consider Performing a Smothering Attack (see CDSS)' : 'M';
+                case 'M':
+                    return choice ? 'STRATEGY_Activate more units with extra activations' : 'STRATEGY_Create a new Force for the next Target';
+                case 'Activate Units for the Target':
+                    return 'I';
+                case 'Air Raid Continue':
+                case 'Ground Attack with Air Support Continue':
+                case 'Ground Attack with Air/Naval Support Continue':
+                case 'Invasion with Naval Support Continue':
+                case 'Invasion with Air/Naval Support Continue':
+                    return 'Activate Units for the Target';
+                case 'Move activated units to the Target Continue':
+                    return 'K+L';
+                case 'Consider Performing a Smothering Attack (see CDSS) Continue':
+                    return 'M';
+                case 'Execute Air/Naval Attack against weakest stack Continue':
+                    return 'K+L';
+                default:
+                    return 'start';
+            }
+        }
+    
+        function rollDice() {
+            const diceValue = Math.floor(Math.random() * 10); // 0-9
+            document.getElementById('diceResult').textContent = diceValue;
+    
+            let strategy;
+            if (diceValue <= 3) {
+                strategy = 'Move activated units to the Target';
+            } else {
+                strategy = 'Execute Air/Naval Attack against weakest stack';
+            }
+    
+            pathHistory.push({
+                step: 'DICE',
+                choice: diceValue,
+                stepNum: stepCount,
+                isResult: true,
+                result: strategy
+            });
+    
+            setTimeout(() => showResult(strategy), 1000);
+        }
+    
+        function showResult(strategyKey) {
+            const strategy = strategies[strategyKey];
+            if (!strategy) {
+                console.error('Strategy not found:', strategyKey);
+                return;
+            }
+    
+            const stepSection = document.getElementById('stepSection');
+            const diceSection = document.getElementById('diceSection');
+            const resultSection = document.getElementById('resultSection');
+            const strategyTitle = document.getElementById('strategyTitle');
+            const strategyName = document.getElementById('strategyName');
+            const strategyDetails = document.getElementById('strategyDetails');
+            const buttonGroup = document.getElementById('resultSection').querySelector('.button-group');
+    
+            stepSection.classList.add('hidden');
+            diceSection.classList.add('hidden');
+            resultSection.classList.remove('hidden');
+            strategyTitle.textContent = '최종 병력 구성';
+            strategyName.textContent = strategy.name;
+    
+            // 특정 전략에 대해 내용 없이 제목만 표시하고 '계속' 버튼 추가
+            const continueStrategies = [];
+            // const continueStrategies = ['Air Raid', 'Ground Attack with Air Support', 'Ground Attack with Air/Naval Support', 'Invasion with Naval Support', 'Invasion with Air/Naval Support', 'Move activated units to the Target', 'Consider Performing a Smothering Attack (see CDSS)'];
+            if (continueStrategies.includes(strategyKey)) {
+                // // strategyDetails.innerHTML = '';
+                // buttonGroup.innerHTML = `
+                //     <button class="btn btn-primary" onclick="selectChoice('${strategyKey} Continue', true)">계속</button>
+                //     <button class="btn btn-secondary" onclick="resetFlow()">다시 시작</button>
+                //     ${pathHistory.length > 0 ? '<button class="btn btn-back" onclick="goBack()">이전</button>' : ''}
+                // `;
+                const annotationRegex = /\[\d+\]/g;
+                const parts = strategy.details.split(annotationRegex);
+                const annotations = strategy.details.match(annotationRegex);
+
+                let combined = '';
+                parts.forEach((part, i) => {
+                    combined += part;
+                    if (annotations && annotations[i]) {
+                        const number = annotations[i].replace(/\[|\]/g, '');
+                        combined += `<sup class="annotation" data-number="${number}">[${number}]</sup>`;
+                    }
+                });
+                strategyDetails.innerHTML = combined;
+
+                // 그리고 버튼 그룹에는 "계속" 버튼 + 기존 버튼들 추가
+                buttonGroup.innerHTML = `
+                    <button class="btn btn-primary" onclick="selectChoice('${strategyKey} Continue', true)">계속</button>
+                    <button class="btn btn-secondary" onclick="resetFlow()">다시 시작</button>
+                    ${pathHistory.length > 0 ? '<button class="btn btn-back" onclick="goBack()">이전</button>' : ''}
+                `;
+            } else {
+                const annotationRegex = /\[\d+\]/g;
+                const annotations = new Set();
+                if (strategy.name.match(annotationRegex)) {
+                    strategy.name.match(annotationRegex).forEach(annotation => annotations.add(annotation));
+                }
+                strategy.details.forEach(detail => {
+                    if (detail.match(annotationRegex)) {
+                        detail.match(annotationRegex).forEach(annotation => annotations.add(annotation));
+                    }
+                });
+    
+                strategyDetails.innerHTML = `
+                    <h4 style="margin-top: 0; color: #fff;">병력 구성 세부사항:</h4>
+                    <ul class="strategy-list">
+                        ${strategy.details.map(detail => `
+                            <li>
+                                ${detail}
+                                ${subPriorities[detail] ? `
+                                    <ul class="sub-priority-list">
+                                        ${subPriorities[detail].map(sub => `<li>${sub}</li>`).join('')}
+                                    </ul>
+                                ` : ''}
+                            </li>
+                        `).join('')}
+                    </ul>
+                    ${annotations.size > 0 ? `
+                        <h4 style="margin-top: 20px; color: #fff;">주석:</h4>
+                        <ul class="strategy-list">
+                            ${Array.from(annotations).sort().map(annotation => `
+                                <li class="impl-note">${annotation}: ${notes[annotation]}</li>
+                            `).join('')}
+                        </ul>
+                    ` : ''}
+                `;
+                buttonGroup.innerHTML = `
+                    <button class="btn btn-primary" onclick="selectChoice('${strategyKey} Continue', true)">계속</button>
+                    <button class="btn btn-secondary" onclick="resetFlow()">다시 시작</button>
+                    ${pathHistory.length > 0 ? '<button class="btn btn-back" onclick="goBack()">이전</button>' : ''}
+                `;
+            }
+    
+            updateProgress();
+            updatePathHistory();
+        }
+    
+        function updateProgress() {
+            const progressFill = document.getElementById('progressFill');
+            const totalSteps = 15;
+            const progress = Math.min((stepCount / totalSteps) * 100, 100);
+            progressFill.style.width = progress + '%';
+        }
+    
+        function updatePathHistory() {
+            const pathHistoryDiv = document.getElementById('pathHistory');
+            const pathStepsDiv = document.getElementById('pathSteps');
+    
+            if (pathHistory.length === 0) {
+                pathHistoryDiv.classList.add('hidden');
+                return;
+            }
+    
+            pathStepsDiv.innerHTML = '';
+    
+            pathHistory.forEach(step => {
+                const stepDiv = document.createElement('div');
+                stepDiv.className = `path-step ${step.choice && step.step !== 'DICE' ? 'yes' : step.step !== 'DICE' ? 'no' : ''}`;
+    
+                if (step.step === 'DICE') {
+                    stepDiv.innerHTML = `
+                        <div class="step-icon">${step.choice}</div>
+                        <div>
+                            <strong>주사위 굴리기:</strong> ${step.choice} 
+                            ${step.result ? `→ ${strategies[step.result].name}` : ''}
+                        </div>
+                    `;
+                } else {
+                    let conditionText = conditions[step.step] || step.step;
+                    stepDiv.innerHTML = `
+                        <div class="step-icon">${step.choice ? 'Y' : 'N'}</div>
+                        <div>
+                            <strong>${step.step}:</strong> 
+                            ${conditionText} → ${step.choice ? 'YES' : 'NO'}
+                        </div>
+                    `;
+                }
+    
+                pathStepsDiv.appendChild(stepDiv);
+            });
+    
+            pathHistoryDiv.classList.remove('hidden');
+        }
+    
+        function resetFlow() {
+            currentStep = 'start';
+            stepCount = 0;
+            pathHistory = [];
+            evaluatedConditions = {};
+    
+            const stepSection = document.getElementById('stepSection');
+            const diceSection = document.getElementById('diceSection');
+            const resultSection = document.getElementById('resultSection');
+            const pathHistoryDiv = document.getElementById('pathHistory');
+            const stepNumber = document.getElementById('stepNumber');
+            const stepTitle = document.getElementById('stepTitle');
+            const conditionBox = document.getElementById('conditionBox');
+            const buttonGroup = document.getElementById('buttonGroup');
+            const progressFill = document.getElementById('progressFill');
+    
+            stepSection.classList.remove('hidden');
+            diceSection.classList.add('hidden');
+            resultSection.classList.add('hidden');
+            pathHistoryDiv.classList.add('hidden');
+            stepNumber.textContent = '1';
+            stepTitle.textContent = '시작';
+            conditionBox.innerHTML = '에라스무스의 태스크 포스 구성을 결정합니다';
+            buttonGroup.innerHTML = '<button class="btn btn-primary" onclick="startFlow()">시작하기</button>';
+            progressFill.style.width = '0%';
+        }
+    
+        function goBack() {
+            if (pathHistory.length === 0) return;
+    
+            const lastStep = pathHistory.pop();
+            stepCount--;
+    
+            if (lastStep.step !== 'DICE') {
+                delete evaluatedConditions[lastStep.step];
+            }
+    
+            currentStep = pathHistory.length > 0 ? pathHistory[pathHistory.length - 1].step : 'start';
+    
+            const stepSection = document.getElementById('stepSection');
+            const diceSection = document.getElementById('diceSection');
+            const resultSection = document.getElementById('resultSection');
+    
+            stepSection.classList.remove('hidden');
+            diceSection.classList.add('hidden');
+            resultSection.classList.add('hidden');
+            showStep(currentStep);
+        }
+    
+        window.onload = resetFlow;
+    </script>
