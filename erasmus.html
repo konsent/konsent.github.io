@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <title>태양의 제국 - 봇 플레이어 헬퍼 (통합)</title>
+  <title>태양의 제국 - 일본군 Erasmus (통합)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     :root { --bg:#1f1f1f; --nav:#2a2a2a; --text:#e8e8e8; }
@@ -342,7 +342,7 @@
   </style>
 </head>
 <body>
-  <header><h1>태양의 제국 - 봇 플레이어 헬퍼 (통합)</h1></header>
+  <header><h1>태양의 제국 - 일본군 Erasmus 웹 애플리케이션</h1></header>
 
   <nav id="tabs">
     <button data-target="early" class="active">전쟁 초기</button>
@@ -367,9 +367,6 @@
 
   <footer>한 파일 통합 · 각 페이지는 iframe으로 격리되어 변수/ID 충돌 없음</footer>
 
-  <!-- ▼▼▼ 여기부터 각 파일의 “원본 HTML 전체”를 템플릿에 그대로 넣습니다 ▼▼▼ -->
-
-  <!-- 1. 전쟁 초기 (=> 여기에 위에서 주신 “전체 코드”를 통째로 붙여 넣으세요) -->
   <template id="tmpl-early">
     <!DOCTYPE html>
     <html lang="ko">
@@ -711,8 +708,7 @@
     <body>
         <div class="container">
             <div class="header">
-                <h1>Japanese Erasmus Bot</h1>
-                <p>전쟁 초기</p>
+                <h1>전쟁 초기 페이즈</h1>
             </div>
 
             <div class="progress-bar">
@@ -1778,8 +1774,7 @@
     <body>
         <div class="container">
             <div class="header">
-                <h1>Japanese Erasmus Bot</h1>
-                <p> 전쟁 중기</p>
+                <h1>전쟁 중기 페이즈</h1>
                 <br>Malaya, DEI, Philippines이 항복했거나 4턴 이후인 경우에만 사용합니다.<br>그 외에는 <b>전쟁 초기 차트</b>를 사용합니다.</strong>
             </div>
 
@@ -2780,8 +2775,7 @@
     <body>
         <div class="container">
             <div class="header">
-                <h1>Japanese Erasmus Bot</h1>
-                <p> 전쟁 말기</p>
+                <h1>전쟁 말기 페이즈</h1>
                 <br>
                 연합군이 도쿄 8헥스 이내에 있는 항구를 점령했을 때만 사용합니다. <br>그외에는 <b>전쟁 중기 차트</b>를 사용합니다
             </div>
@@ -3647,8 +3641,7 @@
     <body>
         <div class="container">
             <div class="header">
-                <h1>Japanese Erasmus Bot</h1>
-                <p>모든 페이즈 - 카드 선택</p>
+                <h1>카드 선택</h1>
             </div>
 
             <div class="progress-bar">
@@ -4487,8 +4480,7 @@
     <body>
         <div class="container">
             <div class="header">
-                <h1>Japanese Erasmus Bot</h1>
-                <p>태스크 포스 구성</p>
+                <h1>태스크 포스 구성</h1>
             </div>
 
             <div class="progress-bar">
@@ -5391,8 +5383,7 @@
     <body>
         <div class="container">
             <div class="header">
-                <h1>Japanese Erasmus Bot</h1>
-                <p>대응</p>
+                <h1>대응</h1>
             </div>
 
             <div class="progress-bar">
@@ -6215,8 +6206,7 @@
     <body>
         <div class="container">
             <div class="header">
-                <h1>Japanese Erasmus Bot</h1>
-                <p>PBM</p>
+                <h1>PBM</h1>
             </div>
 
             <div class="progress-bar">
@@ -6656,7 +6646,7 @@
                 pathHistoryDiv.classList.add('hidden');
                 stepNumber.textContent = '1';
                 stepTitle.textContent = '시작';
-                conditionBox.innerHTML = 'PBM 결정 시작';
+                conditionBox.innerHTML = 'PBM을 수행할 유닛을 결정합니다';
                 buttonGroup.innerHTML = '<button class="btn btn-primary" onclick="startFlow()">시작하기</button>';
                 progressFill.style.width = '0%';
             }
