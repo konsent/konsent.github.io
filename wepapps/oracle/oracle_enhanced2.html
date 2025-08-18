@@ -1,0 +1,1309 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Wargaming Oracle</title>
+<style>
+  :root{
+    --bg:#071226; --card:#0b1622; --accent:#1f6feb; --muted:#9fb0c8;
+    --glass: rgba(255,255,255,0.03); --ok:#10b981; --danger:#ef4444;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; font-family: "Noto Sans KR", Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    background: linear-gradient(180deg,#061027 0%, #071226 100%); color:#e8f0fb; padding:28px;
+  }
+  /* 드랍다운 스타일 수정: 폰트 크기 및 시각적 일관성 강화 */
+select {
+  background: var(--glass);
+  color: #e8f0fb;
+  border: 1px solid rgba(255,255,255,0.03);
+  border-radius: 8px;
+  padding: 6px 24px 6px 8px; /* 오른쪽 패딩 증가로 화살표 공간 확보 */
+  font-weight: 700; /* .value와 동일 */
+  font-size: 16px; /* .value와 동일 */
+  line-height: 1.5; /* 시각적 높이 조정 */
+  cursor: pointer;
+  min-width: 180px;
+  text-align: center;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='rgba(255,255,255,0.5)' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+}
+select:hover {
+  background-color: rgba(255,255,255,0.05);
+}
+select option {
+  background: rgba(15, 30, 50, 0.95);
+  color: #e8f0fb;
+  font-weight: 700;
+  font-size: 14px; /* .value와 동일 */
+  line-height: 1.5; /* 시각적 높이 조정 */
+}
+select option:nth-child(-n+3) {
+  color: var(--ok); /* 맨 위 2개 초록색 */
+}
+select option:nth-last-child(-n+2) {
+  color: var(--danger); /* 맨 아래 2개 빨간색 */
+}
+select.val-0 {
+  color: var(--muted);
+  font-weight: 600;
+}
+select.good {
+  color: var(--ok);
+  background: rgba(16,185,129,0.06);
+}
+select.bad {
+  color: var(--danger);
+  background: rgba(239,68,68,0.06);
+}
+@media (max-width:560px) {
+  select {
+    min-width: 120px;
+    font-size: 14px; /* 모바일에서도 동일 크기 유지 */
+  }
+  select option {
+    font-size: 14px; /* 모바일에서도 동일 크기 유지 */
+  }
+}
+  
+  .tooltip {
+    position: relative;
+    display: inline-block;
+  }
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    width: 200px;
+    background-color: rgba(15, 30, 50, 0.95);
+    color: #e8f0fb;
+    text-align: left;
+    padding: 8px;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 12px;
+  }
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+  }
+  header{display:flex;justify-content:space-between;align-items:flex-start;gap:6px;margin-bottom:18px}
+  h1{font-size:20px;margin:0}
+  p.lead{margin:0;color:var(--muted);font-size:13px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px}
+  .card{background:var(--card); padding:14px; border-radius:12px; border:1px solid rgba(255,255,255,0.03); box-shadow: 0 8px 24px rgba(2,6,23,0.6)}
+  .card h3{margin:0 0 8px 0;font-size:15px}
+  .card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+  .controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .btn{background:var(--accent);color:white;border:0;padding:8px 10px;border-radius:10px;cursor:pointer;font-weight:600}
+  .btn.small{padding:6px 8px;font-size:13px}
+  .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted)}
+  .row{display:flex;align-items:center;justify-content:space-between;margin:8px 0;padding:6px;border-radius:8px;background:rgba(255,255,255,0.01)}
+  .label{color:var(--muted);font-size:14px;flex:1}
+  .value{min-width:180px;text-align:center;padding:6px 8px;border-radius:8px;background:var(--glass);font-weight:700}
+  .value.val-0{color:var(--muted);font-weight:600}
+  .value.good{color:var(--ok);background:rgba(16,185,129,0.06)}
+  .value.bad{color:var(--danger);background:rgba(239,68,68,0.06)}
+  .value.single{font-size:16px;font-weight:800;color:#e8f0fb;background:rgba(31,111,235,0.15)} /* 요충지 단일 선택 강조 */
+  .hint{font-size:12px;color:var(--muted);margin-top:8px}
+  footer{margin-top:18px;color:var(--muted);font-size:13px}
+  .flex{display:flex;gap:8px;align-items:center}
+  .guideline-link{display:flex;gap:6px;align-items:center;color:var(--muted);font-size:14px;cursor:pointer}
+  .guideline-link:hover{color:var(--accent)}
+  .modal-content h3{font-size:20px;margin:0 0 12px;line-height:1.5;color:#e8f0fb}
+  .modal-content h4{font-size:16px;margin:16px 0 8px;color:#e8f0fb}
+  .modal-content ul{margin:12px 0;padding-left:24px}
+  .modal-content li{font-size:15px;margin-bottom:8px;line-height:1.6;color:#e8f0fb}
+  .modal-content ul ul{padding-left:32px}
+  .modal-content li{font-size:14px;line-height:1.6}
+  .modal-content strong{color:var(--accent);font-weight:700}
+  .modal-close{position:absolute;top:12px;right:12px;color:var(--muted);font-size:18px;cursor:pointer;padding:8px}
+  .modal-close:hover{color:var(--accent);transform:scale(1.2)}
+  @media (max-width:560px){
+    .value{min-width:120px}
+    .modal-content h3{font-size:18px}
+    .modal-content li{font-size:14px}
+    .modal-content ul ul li{font-size:13px}
+    .modal{padding:16px;max-width:95%}
+  }
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>Wargaming Oracle</h1>
+    <p class="lead">혼자서 워게임 2인플을 할 때 가상 플레이어(봇)의 성격과 행동을 정의하는데 도움을 주는 매트릭스입니다.</p>
+    <p class="lead">우선 기본 성격 설정 버튼을 눌러 봇 플레이어의 기본 성격을 설정합니다.</p>
+    <p class="lead">게임 중 봇 플레이어의 행동을 결정해야할 때마다, 전술/요충지 매트릭스를 참고하여 봇 행동을 결정합니다.</p>
+    <p class="lead">성격을 뽑으면(또는 수동으로 바꾸면) 자동 규칙에 따라 상황·전술·요충지가 도출됩니다. 개별 클릭으로 재설정도 가능합니다。</p>
+  </div>
+  <div class="guideline-link" id="guideline-link">
+    <span>가이드라인</span>
+  </div>
+</header>
+
+<section class="grid">
+  <div class="card">
+    <div class="card-header">
+      <h3>기본 성격 매트릭스</h3>
+      <div class="guideline-link" id="personality-guideline-link">
+        <span>가이드라인</span>
+      </div>
+    </div>
+    <div class="controls" style="justify-content:space-between;margin-bottom:10px">
+      <div style="display:flex;gap:8px;align-items:center">
+        <button id="seed-personality" class="btn small">성격 설정</button>
+        <button id="reset-personality" class="btn small ghost">초기화</button>
+        <label style="display:flex;align-items:center;gap:6px;color:var(--muted);font-size:13px">
+          <input type="checkbox" id="auto-select" /> 자동 선택
+        </label>
+        <label style="display:flex;align-items:center;gap:6px;color:var(--muted);font-size:13px">
+          <input type="radio" name="bot-type" value="random" checked /> 랜덤
+        </label>
+        <label style="display:flex;align-items:center;gap:6px;color:var(--muted);font-size:13px">
+          <input type="radio" name="bot-type" value="aggressive" /> 공격적
+        </label>
+        <label style="display:flex;align-items:center;gap:6px;color:var(--muted);font-size:13px">
+          <input type="radio" name="bot-type" value="defensive" /> 방어적
+        </label>
+      </div>
+      <div style="font-size:13px;color:var(--muted)">7단계: 거의 확실 → 가능성 전무</div>
+    </div>
+    <div id="personality-list"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <h3>상황 별 매트릭스</h3>
+      <div class="guideline-link" id="situation-guideline-link">
+        <span>가이드라인</span>
+      </div>
+    </div>
+    <div class="controls" style="margin-bottom:8px;justify-content:space-between">
+      <div>
+        <button id="randomize-all-situations" class="btn small">상황 생성</button>
+        <button id="reset-situations" class="btn small ghost">초기화</button>
+      </div>
+      <div style="color:var(--muted);font-size:13px">항목 클릭 = 해당 항목 재굴림</div>
+    </div>
+    <div id="situations-list"></div>
+    <p class="hint">상황은 성격의 가중치 합산으로 결정됩니다。</p>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <h3>전술 매트릭스</h3>
+      <div class="guideline-link" id="tactics-guideline-link">
+        <span>가이드라인</span>
+      </div>
+    </div>
+    <div class="controls" style="margin-bottom:8px;justify-content:space-between">
+      <div>
+        <button id="randomize-all-tactics" class="btn small">전술 생성</button>
+        <button id="reset-tactics" class="btn small ghost">초기화</button>
+      </div>
+      <div style="color:var(--muted);font-size:13px">전술 항목 클릭 = 해당 항목 재굴림</div>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px">
+      <label style="color:var(--muted);font-size:13px">가중치 강도: </label>
+      <input type="range" id="weight-scale" min="0" max="2" step="0.1" value="1" style="width:150px">
+      <span id="weight-scale-value" style="color:var(--muted);font-size:13px">1.0</span>
+    </div>
+    <div id="tactics-list"></div>
+    <p class="hint">전술 및 요충지 자동화는 상황 + 성격에 기반한 가중치 규칙을 따릅니다. 가중치 강도를 조절하여 영향을 제어할 수 있습니다。</p>
+    <p class="hint">전술 판단이 필요할 때마다, 전술 생성 버튼을 눌러 전술을 선택합니다。</p>
+    <p class="hint">5%의 확률로 상황이 바뀌어 오라클의 성격/상황/전술/요충지가 바뀔 수 있습니다！</p>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <h3>요충지 선택 매트릭스</h3>
+      <div class="guideline-link" id="keypoint-guideline-link">
+        <span>가이드라인</span>
+      </div>
+    </div>
+    <div class="controls" style="margin-bottom:8px;justify-content:space-between">
+      <div>
+        <button id="randomize-keypoint" class="btn small">요충지 선택</button>
+        <button id="reset-keypoint" class="btn small ghost">초기화</button>
+      </div>
+      <div style="color:var(--muted);font-size:13px">버튼 클릭 = 가중치 기반 요충지 선택</div>
+    </div>
+    <div id="keypoint-list"></div>
+    <p class="hint">요충지는 상황과 성격에 따라 가중치로 선택됩니다. 가중치 강도 슬라이더를 조절하여 영향을 제어할 수 있습니다。</p>
+  </div>
+</section>
+
+<div class="card" style="margin-top:16px">
+  <h3>기본 질문 매트릭스</h3>
+  <div style="display:flex;gap:8px;align-items:center">
+    <button id="custom-question" class="btn small">커스텀 질문</button>
+    <div id="custom-result" class="value val-0">-</div>
+    <div style="color:var(--muted);font-size:13px">(1/7 × 1/6 확률)</div>
+  </div>
+</div>
+
+<footer>
+  테이블에 포함되지 않은 판단이 필요한 경우, 커스텀 질문으로 Y/N을 판단할 수 있습니다。
+</footer>
+
+<!-- 기본 가이드라인 모달 -->
+<div id="guideline-modal" class="modal" style="
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(15, 30, 50, 0.98);
+  color: #e8f0fb;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid #1f6feb33;
+  box-shadow: 0 0 20px #1f6feb99;
+  font-weight: 700;
+  font-size: 16px;
+  display: none;
+  z-index: 1000;
+  text-align: left;
+  max-width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  white-space: normal;
+">
+  <span class="modal-close" id="guideline-close">✕</span>
+  <div class="modal-content">
+    <h3>기본 가이드라인</h3>
+    <ul>
+      <li><strong>목표 선정</strong>
+        <ul>
+          <li>봇은 자신보다 <strong>전력이 약하거나 승산이 있는 상대</strong>를 우선적으로 공격한다.</li>
+          <li>압도적으로 강한 상대에게는 불필요한 공격을 하지 않는다.</li>
+          <li>인접하거나 공격 가능 범위 내 적이 없다면 적과 인접하는 방향으로 이동한다.</li>
+        </ul>
+      </li>
+      <li><strong>일반 행동 결정</strong>
+        <ul>
+          <li>전술 판단을 제외한 모든 선택은 <strong>기본 질문 매트릭스</strong>를 참고하여 결정한다. <br>이때 매트릭스 결과에 따라 나름의 이유를 생각한다.</li>
+          <li><i>(예시: <strong>"이 유닛을 이동시켜야할까?"</strong> 라는 질문을 스스로 함<br>기본 질문 매트릭스의 커스텀 질문 버튼을 누름. 결과는 <strong>"맞아. 하지만..."</strong> 이 나옴<br>질문 결과에 따라 행동하고, 후속 이유를 생각한다.<br><strong>"이 유닛을 이동하자. 하지만 본부와 너무 멀리 떨어지면 안되니 여기까지만 이동해야지"</strong>)</i></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<!-- 성격 가이드라인 모달 -->
+<div id="personality-guideline-modal" class="modal" style="
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(15, 30, 50, 0.98);
+  color: #e8f0fb;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid #1f6feb33;
+  box-shadow: 0 0 20px #1f6feb99;
+  font-weight: 700;
+  font-size: 16px;
+  display: none;
+  z-index: 1000;
+  text-align: left;
+  max-width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  white-space: normal;
+">
+  <span class="modal-close" id="personality-guideline-close">✕</span>
+  <div class="modal-content">
+    <h3>성격 가이드라인</h3>
+    <ul>
+      <li><strong>전략적 사고:</strong> 봇이 장기 계획을 중시하는지(높음) 즉흥적 행동을 선호하는지(낮음).</li>
+      <li><strong>위험 회피:</strong> 봇이 손실을 피하려는지(높음) 위험을 감수하는지(낮음).</li>
+      <li><strong>공세적 열정:</strong> 공격적 돌파를 추구하는지(높음) 방어적 태세를 유지하는지(낮음).</li>
+      <li><strong>기동력 중시:</strong> 빠른 이동과 기동전을 선호하는지(높음) 고정된 전선을 유지하는지(낮음).</li>
+      <li><strong>자원 관리:</strong> 자원(병력, 보급)을 효율적으로 사용하는지(높음) 과감히 소모하는지(낮음).</li>
+      <li><strong>적응력:</strong> 상황 변화에 유연히 대응하는지(높음) 고정된 전략을 고수하는지(낮음).</li>
+      <li><strong>병력 관리:</strong> 병력을 완편 부대로 유지하려고 하는지(높음), 반편 부대 상태로도 작전을 속행하는지(낮음).</li>
+      <li><strong>목표 집착:</strong> 주요 목표(예: 수도 점령)에 집착하는지(높음) 다중 목표를 추구하는지(낮음).</li>
+    </ul>
+  </div>
+</div>
+
+<!-- 상황 가이드라인 모달 -->
+<div id="situation-guideline-modal" class="modal" style="
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(15, 30, 50, 0.98);
+  color: #e8f0fb;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid #1f6feb33;
+  box-shadow: 0 0 20px #1f6feb99;
+  font-weight: 700;
+  font-size: 16px;
+  display: none;
+  z-index: 1000;
+  text-align: left;
+  max-width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  white-space: normal;
+">
+  <span class="modal-close" id="situation-guideline-close">✕</span>
+  <div class="modal-content">
+    <h3>상황 가이드라인</h3>
+    <ul>
+      <li><strong>적 전력 우위:</strong> 적군이 전력에서 우세한가? (거의 확실: 매우 강함 ~ 가능성 전무: 매우 약함)</li>
+      <li><strong>지형 유리함:</strong> 현재 지형이 우리에게 유리한가? (거의 확실: 매우 유리 ~ 가능성 전무: 매우 불리)</li>
+      <li><strong>보급 상태:</strong> 보급선이 안정적인가? (거의 확실: 완벽 ~ 가능성 전무: 붕괴 직전)</li>
+      <li><strong>시간 압박:</strong> 행동에 시간 제약이 강한가? (거의 확실: 매우 급박 ~ 가능성 전무: 여유로움)</li>
+      <li><strong>병력 상태:</strong> 병력 규모가 유지되고 있는가? (거의 확실: 잘 유지 ~ 가능성 전무: 크게 감소)</li>
+      <li><strong>지원 가능성:</strong> 아군 지원(증원, 공군 등)이 가능한가? (거의 확실: 즉시 가능 ~ 가능성 전무: 불가능)</li>
+      <li><strong>전선 안정성:</strong> 전선이 안정적인가? (거의 확실: 매우 안정 ~ 가능성 전무: 붕괴 위기)</li>
+      <li><strong>적 보급선 취약성:</strong> 적 보급선이 취약한가? (거의 확실: 매우 취약 ~ 가능성 전무: 매우 안정)</li>
+    </ul>
+  </div>
+</div>
+
+<!-- 전술 가이드라인 모달 -->
+<div id="tactics-guideline-modal" class="modal" style="
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(15, 30, 50, 0.98);
+  color: #e8f0fb;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid #1f6feb33;
+  box-shadow: 0 0 20px #1f6feb99;
+  font-weight: 700;
+  font-size: 16px;
+  display: none;
+  z-index: 1000;
+  text-align: left;
+  max-width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  white-space: normal;
+">
+  <span class="modal-close" id="tactics-guideline-close">✕</span>
+  <div class="modal-content">
+    <h3>전술 가이드라인</h3>
+    <h4>공격 전술 행동 지침</h4>
+    <ul>
+      <li><strong>전면 공격:</strong> 대규모 병력을 동원하여 전면적으로 공격한다.</li>
+      <li><strong>집중 돌파:</strong> 특정 지점에 병력을 집중하여 돌파를 시도한다.</li>
+      <li><strong>기습:</strong> 적의 약점을 노려 예상치 못한 공격을 수행한다.</li>
+      <li><strong>측면 우회:</strong> 적의 측면을 우회하여 공격한다.</li>
+      <li><strong>게릴라전:</strong> 소규모 부대를 활용해 교란 공격을 수행한다.</li>
+      <li><strong>소규모 교전:</strong> 제한된 병력으로 소규모 교전을 벌인다.</li>
+      <li><strong>공격 중단:</strong> 공격을 포기하고 병력을 재정비한다.</li>
+    </ul>
+    <h4>방어 전술 행동 지침</h4>
+    <ul>
+      <li><strong>철통 방어:</strong> 모든 병력을 동원하여 현재 위치를 사수한다.</li>
+      <li><strong>탄력 방어:</strong> 유연한 방어선을 구축하며 후퇴 가능성을 열어둔다.</li>
+      <li><strong>요새화:</strong> 주요 지점을 요새화하여 방어한다.</li>
+      <li><strong>지연 방어:</strong> 적의 진격을 지연시키며 방어한다.</li>
+      <li><strong>선택적 사수:</strong> 일부 지점만 방어하고 나머지는 포기한다.</li>
+      <li><strong>후방 방어:</strong> 후방으로 이동하여 방어선을 재구축한다.</li>
+      <li><strong>완전 후퇴:</strong> 모든 병력을 후퇴시킨다.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- 요충지 가이드라인 모달 -->
+<div id="keypoint-guideline-modal" class="modal" style="
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(15, 30, 50, 0.98);
+  color: #e8f0fb;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid #1f6feb33;
+  box-shadow: 0 0 20px #1f6feb99;
+  font-weight: 700;
+  font-size: 16px;
+  display: none;
+  z-index: 1000;
+  text-align: left;
+  max-width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  white-space: normal;
+">
+  <span class="modal-close" id="keypoint-guideline-close">✕</span>
+  <div class="modal-content">
+    <h3>요충지 가이드라인</h3>
+    <ul>
+      <li><strong>보급선 끊길 위험 큰 곳:</strong> 적 보급선을 차단할 수 있는 헥스. 적 작전 지속 능력을 약화시킴.</li>
+      <li><strong>항구 도시:</strong> 해상 보급과 병력 수송의 핵심 거점. 보급선 안정성과 지원 가능성 제공.</li>
+      <li><strong>주요 도로를 포함하는 도시:</strong> 기동성과 보급의 중심지. 도로망 연결과 방어적 이점 제공.</li>
+      <li><strong>비행장:</strong> 공군 지원과 정찰 범위 확대. 공중 지원 가능성과 적 기동 견제에 기여.</li>
+      <li><strong>주요 도시/요새:</strong> 전략적 중심지(수도, 본부 등). 승점과 방어적 이점 제공.</li>
+      <li><strong>기타 보급 거점:</strong> 지역 보급망 유지에 기여. 장기전에서 보급 상태 안정화.</li>
+      <li><strong>요새:</strong> 높은 방어적 이점. 전선 안정성과 적 공격 견제에 유리.</li>
+      <li><strong>지원이 필요한 아군 헥스:</strong> 아군 병력 상태와 전선 유지에 기여. 지원 가능성 강화.</li>
+      <li><strong>주요 도로:</strong> 빠른 병력 이동과 보급 경로 제공. 기동성 중심 전략에 유리.</li>
+      <li><strong>고지대:</strong> 전술적 방어 이점과 시야 확보. 지형 유리함 상황에서 우선순위 상승.</li>
+      <li><strong>교차로:</strong> 도로 연결로 기동성 제공. 독립적 전략적 가치는 낮음.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- 플롯 트위스트 모달 -->
+<div id="plot-twist-modal" class="modal" style="
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(15, 30, 50, 0.95);
+  color: white;
+  padding: 16px 24px;
+  border-radius: 12px;
+  box-shadow: 0 0 15px #1f6febcc;
+  font-weight: 700;
+  font-size: 16px;
+  display: none;
+  z-index: 1000;
+  text-align: center;
+  max-width: 80%;
+  white-space: pre-line;
+">
+  <div id="plot-twist-title" style="font-size: 24px; font-weight: 900; margin-bottom: 8px;">상황이 바뀌었습니다!</div>
+  <div id="plot-twist-message" style="font-size: 18px; margin-bottom: 6px;"></div>
+  <div id="plot-twist-flavor" style="font-size: 14px; font-style: italic; color: #a0b9e9;"></div>
+</div>
+
+<footer style="
+  text-align: center;
+  padding: 12px 0;
+  font-size: 14px;
+  color: #666;
+  border-top: 1px solid #ccc;
+  margin-top: 40px;
+  font-family: Arial, sans-serif;
+">
+  Based on Daniel's Wargaming Oracle
+</footer>
+
+<script>
+/* 상수 & 데이터 */
+const COMMON_7 = [
+  "거의 확실","매우 가능성 높음","가능성 높음","50/50","가능성 낮음","매우 가능성 낮음","가능성 전무"
+];
+
+const stageScore = {
+  "거의 확실": 3,
+  "매우 가능성 높음": 2,
+  "가능성 높음": 1,
+  "50/50": 0,
+  "가능성 낮음": -1,
+  "매우 가능성 낮음": -2,
+  "가능성 전무": -3
+};
+
+const personalityKeys = [
+  "전략적 사고", "위험 회피", "공세적 열정", "기동력 중시", 
+  "자원 관리", "적응력", "병력 관리", "목표 집착"
+];
+
+const situationKeys = [
+  "적 전력 우위", "지형 유리함", "보급 상태", "시간 압박", 
+  "병력 상태", "지원 가능성", "전선 안정성", "적 보급선 취약성"
+];
+
+const tacticsMeta = {
+  "공격 스타일": ["전면 공격", "집중 돌파", "기습", "측면 우회", "게릴라전", "소규모 교전", "공격 중단"],
+  "방어 전략": ["철통 방어", "탄력 방어", "요새화", "지연 방어", "선택적 사수", "후방 방어", "완전 후퇴"],
+  "기동 방식": ["고속 기동", "은밀 이동", "집중 전진", "분산 이동", "전략적 후퇴", "정찰 이동", "이동 없음"],
+  "자원 할당": ["전부 투입", "대량 투입", "중간 투입", "최소 투입", "예비 유지", "정찰만", "자원 보존"],
+  "목표 우선순위": ["주요 목표 공격", "부차 목표 공격", "적 본부 타격", "보급선 차단", "지형 점령", "교란 작전", "목표 무시"],
+  "전투 강도": ["총력전", "고강도 전투", "중강도 전투", "저강도 교전", "소규모 접촉", "교전 회피", "완전 중단"],
+  "정찰 전략": ["전면 정찰", "은밀 정찰", "공중 정찰", "지역 정찰", "정찰 최소화", "정찰 생략", "적극 방해"],
+  "보급 관리": ["보급 최우선", "보급 유지", "보급 절약", "최소 보급", "보급 희생", "보급 재배치", "보급 보존"],
+  "지원 활용": ["전폭 지원", "공군 지원", "포병 지원", "특수부대 투입", "지원 제한", "지원 요청 없음", "지원 차단"]
+};
+
+const keypointKeys = [
+  "보급선 끊길 위험 큰 곳", "항구 도시", "주요 도로를 포함하는 도시", "비행장", 
+  "주요 도시/요새", "기타 보급 거점", "요새", "지원이 필요한 아군 헥스", 
+  "주요 도로", "고지대", "교차로"
+];
+
+const questionMatrix = [
+  ["아니야","맞아. 하지만...","맞아","맞아. 그리고...","맞아. 그리고...","맞아. 그리고..."],
+  ["아니야. 하지만...","맞아. 하지만...","맞아. 하지만...","맞아","맞아. 하지만...","맞아. 하지만..."],
+  ["아니야. 그리고...","아니야. 하지만...","맞아","맞아. 하지만...","맞아. 하지만...","맞아"],
+  ["아니야. 그리고...","아니야","맞아. 하지만...","맞아","맞아 아니야.","하지만..."],
+  ["아니야. 그리고...","아니야. 그리고...","아니야","아니야. 하지만...","맞아","아니야. 하지만..."],
+  ["아니야. 그리고...","아니야. 그리고...","아니야. 그리고...","아니야","아니야. 하지만...","아니야"],
+  ["아니야. 그리고...","아니야. 그리고...","아니야. 그리고...","아니야. 그리고...","아니야. 하지만...","아니야. 하지만..."]
+];
+
+const personalityToSituations = {
+  "전략적 사고": ["시간 압박", "보급 상태", "전선 안정성"],
+  "위험 회피": ["적 전력 우위", "병력 상태", "지원 가능성"],
+  "공세적 열정": ["적 전력 우위", "지형 유리함", "적 보급선 취약성"],
+  "기동력 중시": ["지형 유리함", "시간 압박", "보급 상태"],
+  "자원 관리": ["보급 상태", "병력 상태", "적 보급선 취약성"],
+  "적응력": ["전선 안정성", "지원 가능성", "적 보급선 취약성"],
+  "병력 관리": ["병력 상태", "보급 상태", "전선 안정성"],
+  "목표 집착": ["시간 압박", "적 보급선 취약성", "지형 유리함"]
+};
+
+const tacticInfluence = {
+  "공격 스타일": [
+    {type: 'situation', key: "적 전력 우위", highWeight: -3, lowWeight: 3},
+    {type: 'situation', key: "적 보급선 취약성", highWeight: 3, lowWeight: -2},
+    {type: 'personality', key: "공세적 열정", weight: 3},
+    {type: 'personality', key: "위험 회피", weight: -2}
+  ],
+  "방어 전략": [
+    {type: 'situation', key: "적 전력 우위", highWeight: 3, lowWeight: -3},
+    {type: 'situation', key: "병력 상태", highWeight: 2, lowWeight: -2},
+    {type: 'situation', key: "전선 안정성", highWeight: 2, lowWeight: -1},
+    {type: 'personality', key: "병력 관리", weight: 2}
+  ],
+  "기동 방식": [
+    {type: 'situation', key: "지형 유리함", highWeight: 3, lowWeight: -2},
+    {type: 'personality', key: "기동력 중시", weight: 3},
+    {type: 'personality', key: "적응력", weight: 2}
+  ],
+  "자원 할당": [
+    {type: 'situation', key: "보급 상태", highWeight: 2, lowWeight: -2},
+    {type: 'personality', key: "자원 관리", weight: 3},
+    {type: 'situation', key: "병력 상태", highWeight: 2, lowWeight: -1}
+  ],
+  "목표 우선순위": [
+    {type: 'situation', key: "적 보급선 취약성", highWeight: 3, lowWeight: -2},
+    {type: 'personality', key: "목표 집착", weight: 3},
+    {type: 'situation', key: "시간 압박", highWeight: -2, lowWeight: 1}
+  ],
+  "전투 강도": [
+    {type: 'personality', key: "공세적 열정", weight: 3},
+    {type: 'situation', key: "적 전력 우위", highWeight: -2, lowWeight: 2},
+    {type: 'situation', key: "병력 상태", highWeight: 2, lowWeight: -2}
+  ],
+  "정찰 전략": [
+    {type: 'situation', key: "지형 유리함", highWeight: 2, lowWeight: -2},
+    {type: 'personality', key: "전략적 사고", weight: 2},
+    {type: 'situation', key: "지원 가능성", highWeight: 1, lowWeight: -1}
+  ],
+  "보급 관리": [
+    {type: 'situation', key: "보급 상태", highWeight: 3, lowWeight: -2},
+    {type: 'personality', key: "자원 관리", weight: 2},
+    {type: 'situation', key: "적 보급선 취약성", highWeight: 2, lowWeight: -1}
+  ],
+  "지원 활용": [
+    {type: 'situation', key: "지원 가능성", highWeight: 3, lowWeight: -2},
+    {type: 'personality', key: "적응력", weight: 2},
+    {type: 'situation', key: "시간 압박", highWeight: -1, lowWeight: 1}
+  ]
+};
+
+const keypointInfluence = {
+    "보급선 끊길 위험 큰 곳": [
+      {type: 'situation', key: "적 보급선 취약성", highWeight: 4.5, lowWeight: -2.0},
+      {type: 'personality', key: "공세적 열정", weight: 3.5},
+      {type: 'personality', key: "목표 집착", weight: 2.5},
+      {type: 'situation', key: "적 전력 우위", highWeight: -1.5, lowWeight: 1.0},
+      {type: 'personality', key: "전략적 사고", weight: 1.5},
+      {type: 'situation', key: "시간 압박", highWeight: -1.0, lowWeight: 0.5}
+    ],
+    "항구 도시": [
+      {type: 'situation', key: "보급 상태", highWeight: 4.0, lowWeight: -2.0},
+      {type: 'situation', key: "지원 가능성", highWeight: 2.5, lowWeight: -1.0},
+      {type: 'personality', key: "자원 관리", weight: 2.0},
+      {type: 'situation', key: "지형 유리함", highWeight: 1.5, lowWeight: -0.5},
+      {type: 'personality', key: "적응력", weight: 1.0},
+      {type: 'situation', key: "전선 안정성", highWeight: 1.0, lowWeight: -0.5}
+    ],
+    "주요 도로를 포함하는 도시": [
+      {type: 'situation', key: "지형 유리함", highWeight: 3.0, lowWeight: -1.5},
+      {type: 'personality', key: "기동력 중시", weight: 3.0},
+      {type: 'personality', key: "자원 관리", weight: 1.5},
+      {type: 'situation', key: "보급 상태", highWeight: 1.5, lowWeight: -1.0},
+      {type: 'personality', key: "전략적 사고", weight: 1.0},
+      {type: 'situation', key: "시간 압박", highWeight: -0.5, lowWeight: 0.5}
+    ],
+    "비행장": [
+      {type: 'situation', key: "지원 가능성", highWeight: 3.5, lowWeight: -2.0},
+      {type: 'personality', key: "전략적 사고", weight: 2.5},
+      {type: 'personality', key: "공세적 열정", weight: 2.0},
+      {type: 'situation', key: "시간 압박", highWeight: -1.0, lowWeight: 1.0},
+      {type: 'personality', key: "적응력", weight: 1.0},
+      {type: 'situation', key: "지형 유리함", highWeight: 0.5, lowWeight: -0.5}
+    ],
+    "주요 도시/요새": [
+      {type: 'personality', key: "목표 집착", weight: 4.0},
+      {type: 'situation', key: "시간 압박", highWeight: -2.0, lowWeight: 1.5},
+      {type: 'situation', key: "전선 안정성", highWeight: 2.5, lowWeight: -1.0},
+      {type: 'personality', key: "위험 회피", weight: -1.5},
+      {type: 'situation', key: "적 전력 우위", highWeight: -1.5, lowWeight: 1.0},
+      {type: 'personality', key: "병력 관리", weight: 0.5}
+    ],
+    "기타 보급 거점": [
+      {type: 'situation', key: "보급 상태", highWeight: 3.0, lowWeight: -2.0},
+      {type: 'personality', key: "자원 관리", weight: 2.5},
+      {type: 'situation', key: "병력 상태", highWeight: 2.0, lowWeight: -1.0},
+      {type: 'situation', key: "전선 안정성", highWeight: 1.5, lowWeight: -0.5},
+      {type: 'personality', key: "병력 관리", weight: 1.0},
+      {type: 'situation', key: "지원 가능성", highWeight: 0.5, lowWeight: -0.5}
+    ],
+    "요새": [
+      {type: 'situation', key: "적 전력 우위", highWeight: 3.0, lowWeight: -1.5},
+      {type: 'situation', key: "전선 안정성", highWeight: 2.5, lowWeight: -1.0},
+      {type: 'personality', key: "병력 관리", weight: 2.0},
+      {type: 'situation', key: "지형 유리함", highWeight: 1.5, lowWeight: -0.5},
+      {type: 'personality', key: "위험 회피", weight: 1.0},
+      {type: 'personality', key: "전략적 사고", weight: 0.5}
+    ],
+    "지원이 필요한 아군 헥스": [
+      {type: 'situation', key: "병력 상태", highWeight: 3.0, lowWeight: -2.0},
+      {type: 'situation', key: "지원 가능성", highWeight: 2.5, lowWeight: -1.0},
+      {type: 'personality', key: "병력 관리", weight: 2.0},
+      {type: 'situation', key: "전선 안정성", highWeight: 1.5, lowWeight: -0.5},
+      {type: 'personality', key: "자원 관리", weight: 1.0},
+      {type: 'situation', key: "시간 압박", highWeight: -0.5, lowWeight: 0.5}
+    ],
+    "주요 도로": [
+      {type: 'situation', key: "지형 유리함", highWeight: 2.5, lowWeight: -1.0},
+      {type: 'personality', key: "기동력 중시", weight: 2.5},
+      {type: 'situation', key: "시간 압박", highWeight: -1.0, lowWeight: 1.0},
+      {type: 'situation', key: "보급 상태", highWeight: 1.0, lowWeight: -0.5},
+      {type: 'personality', key: "적응력", weight: 1.0},
+      {type: 'situation', key: "적 보급선 취약성", highWeight: 0.5, lowWeight: -0.5}
+    ],
+    "고지대": [
+      {type: 'situation', key: "지형 유리함", highWeight: 2.5, lowWeight: -1.5},
+      {type: 'personality', key: "위험 회피", weight: 2.0},
+      {type: 'situation', key: "적 전력 우위", highWeight: 1.5, lowWeight: -0.5},
+      {type: 'personality', key: "전략적 사고", weight: 1.0},
+      {type: 'situation', key: "전선 안정성", highWeight: 1.0, lowWeight: -0.5},
+      {type: 'personality', key: "병력 관리", weight: 0.5}
+    ],
+    "교차로": [
+      {type: 'situation', key: "지형 유리함", highWeight: 2.0, lowWeight: -1.0},
+      {type: 'personality', key: "기동력 중시", weight: 2.0},
+      {type: 'situation', key: "적 보급선 취약성", highWeight: 1.5, lowWeight: -0.5},
+      {type: 'personality', key: "적응력", weight: 1.0},
+      {type: 'situation', key: "시간 압박", highWeight: -0.5, lowWeight: 0.5},
+      {type: 'situation', key: "보급 상태", highWeight: 0.5, lowWeight: -0.5}
+    ]
+  };
+
+
+
+const plotTwistOptions = [
+    "모든 성격을 재설정합니다",
+    "성격 2개를 재설정합니다",
+    "상황 또는 성격 1개를 재설정합니다", // 이건 유지하지만 handle에서 상황 제외
+    "전술 하나를 예상 밖으로 변경합니다",
+    "요충지 우선순위 재설정"
+];
+
+const plotTwistFlavorTexts = {
+  "모든 성격을 재설정합니다": [
+    "적 지휘관이 경질되었습니다. 적의 작전 계획에 큰 변화가 있을 것으로 보입니다。",
+    "정찰 결과 적의 동향이 심상치 않습니다… 새로운 지휘부가 나타난 듯합니다。",
+    "예상치 못한 내부 혼란이 발생했습니다. 전술적 불확실성이 커졌습니다。",
+    "적군의 핵심 지휘관이 교체되었습니다. 전력 재편성 중일 가능성이 높습니다。",
+    "전선 전체에 걸쳐 적군의 태도가 급변했습니다. 대처가 필요합니다。",
+    "외부 요인으로 적군 성격이 전면 재조정되었습니다. 대비를 서두르십시오。",
+    "새로운 정보에 따르면 적군이 작전 방향을 전면 재검토 중입니다。",
+    "예상 밖의 지도부 교체로 적의 대응 양상이 바뀌고 있습니다。",
+    "지휘 체계가 흔들리는 중입니다. 적군의 행동이 불규칙해질 수 있습니다。",
+    "내부 소요와 혼란으로 적의 전술 성향이 일시적으로 리셋되었습니다"
+  ],
+  "성격 2개를 재설정합니다": [
+    "적의 두 핵심 성향이 갑작스럽게 변화했습니다。",
+    "적 지휘부 내 두 주요 지표가 불안정해졌습니다。",
+    "적군 핵심 기조 중, 두가지 요소가 새롭게 재조정되었습니다。",
+    "두 가지 핵심 성향이 예기치 않게 바뀌어 대응이 필요합니다。",
+    "내부 갈등으로 적의 2가지 성격이 바뀌었습니다. 전술 재검토를 권장합니다。",
+    "적의 두 주요 전술적 성향이 흔들리고 있습니다。",
+    "중요한 두가지 성격 요소가 변동하여 적 대응에 혼란이 예상됩니다。",
+    "예상 외 두 핵심 성향의 변화가 포착되었습니다。",
+    "적군의 작전 특성이 두 곳에서 급격히 변하고 있습니다。",
+  ],
+  "상황 또는 성격 1개를 재설정합니다": [
+    "적의 한 가지 전술적 상황이 변동되었습니다。",
+    "전선 상황 중 한 요소가 갑자기 바뀌었습니다。",
+    "적군 한 가지 성격 지표가 재설정되었습니다。",
+    "상황 또는 성격 한 축의 변화가 감지되었습니다。",
+    "작은 변화지만 작전 전개에 영향을 줄 수 있습니다。",
+    "전술 불확실성을 높이는 단기 변동이 발생했습니다。",
+    "적의 한 부분에서 예기치 않은 변화가 일어났습니다。",
+    "전략적 한 축의 변화가 현장에 전달되고 있습니다。",
+    "전술 요소 하나가 리셋되어 대응이 필요합니다。",
+    "상황 혹은 성격의 작은 변화가 전황에 영향을 미칠 수 있습니다"
+  ],
+  "전술 하나를 예상 밖으로 변경합니다": [
+    "적의 전술이 예기치 않게 변경되었습니다!",
+    "전선에서 예상 밖의 전술적 변동이 발생했습니다。",
+    "적군이 예상치 못한 전술을 채택했습니다。"
+  ],
+  "요충지 우선순위 재설정": [
+    "적의 목표가 바뀐 것 같습니다. 대비하세요",
+    "적이 예상치 못한 지역으로 향하고 있습니다",
+    "적군이 새로운 요충지를 목표로 삼고 있습니다."
+  ]
+};
+
+let personState = {};
+let situationState = {};
+let tacticState = {};
+let keypointState = {};
+
+function randIndex(n) { return Math.floor(Math.random() * n); }
+function randChoice(arr) { return arr[randIndex(arr.length)]; }
+function stageToScore(stage) { return stageScore[stage] ?? 0; }
+
+function makeRow(label, valueText = "-", container, onClick) {
+  const row = document.createElement('div');
+  row.className = 'row';
+  const lbl = document.createElement('div'); lbl.className = 'label'; lbl.textContent = label;
+  const val = document.createElement('div'); val.className = 'value val-0'; val.textContent = valueText;
+  row.appendChild(lbl); row.appendChild(val);
+  if (onClick) {
+    val.style.cursor = 'pointer';
+    val.addEventListener('click', onClick);
+  }
+  container.appendChild(row);
+  return {row, val};
+}
+
+const pContainer = document.getElementById('personality-list');
+const sContainer = document.getElementById('situations-list');
+const tContainer = document.getElementById('tactics-list');
+const kContainer = document.getElementById('keypoint-list');
+
+/* initUI 함수 수정: select에 .value 클래스 추가 */
+function initUI() {
+  pContainer.innerHTML = ''; sContainer.innerHTML = ''; tContainer.innerHTML = ''; kContainer.innerHTML = '';
+  personalityKeys.forEach(k => {
+    const {val} = makeRow(k, "-", pContainer, () => {
+      const stage = randChoice(COMMON_7);
+      personState[k] = stage;
+      updatePersonUI(k);
+      if (document.getElementById('auto-select').checked) { autoGenerateAll(); }
+    });
+    val.dataset.key = k;
+  });
+  situationKeys.forEach(k => {
+    const row = document.createElement('div');
+    row.className = 'row';
+    const lbl = document.createElement('div'); lbl.className = 'label'; lbl.textContent = k;
+    const select = document.createElement('select');
+    select.className = 'value'; /* .value 클래스 추가 */
+    const defaultOption = document.createElement('option');
+    defaultOption.value = "-";
+    defaultOption.textContent = "-";
+    select.appendChild(defaultOption);
+    COMMON_7.forEach(opt => {
+      const option = document.createElement('option');
+      option.value = opt;
+      option.textContent = opt;
+      select.appendChild(option);
+    });
+    select.addEventListener('change', (e) => {
+      const stage = e.target.value;
+      situationState[k] = stage;
+      updateSituationUI(k);
+    });
+    row.appendChild(lbl); row.appendChild(select);
+    sContainer.appendChild(row);
+    select.dataset.key = k;
+  });
+  Object.keys(tacticsMeta).forEach(k => {
+    const {val} = makeRow(k, "-", tContainer, () => {
+      pickTactic(k);
+    });
+    val.dataset.key = k;
+  });
+  const {val} = makeRow("선택된 요충지", "-", kContainer);
+  val.dataset.key = "selected-keypoint";
+}
+initUI();
+
+function updatePersonUI(key) {
+  const selector = `[data-key="${CSS.escape(key)}"]`;
+  const el = document.querySelector(selector);
+  const stage = personState[key] ?? "-";
+  el.textContent = stage;
+  el.className = "value " + (stage === "-" ? "val-0" : (stageScore[stage] >= 2 ? "good" : (stageScore[stage] <= -2 ? "bad" : "")));
+}
+
+function updateSituationUI(key) {
+  const selector = `[data-key="${CSS.escape(key)}"]`;
+  const el = document.querySelector(selector); // 이제 select 요소
+  if (el && el.tagName === 'SELECT') {
+    const stage = situationState[key] ?? "-";
+    el.value = stage;
+    el.className = (stage === "-" ? "val-0" : (stageScore[stage] >= 2 ? "good" : (stageScore[stage] <= -2 ? "bad" : "")));
+  }
+}
+
+function updateTacticUI(key) {
+  const selector = `[data-key="${CSS.escape(key)}"]`;
+  const el = document.querySelector(selector);
+  const val = tacticState[key] ?? "-";
+  el.textContent = val;
+  el.className = "value " + (val === "-" ? "val-0" : "");
+}
+
+function updateKeypointUI() {
+  const selector = `[data-key="selected-keypoint"]`;
+  const el = document.querySelector(selector);
+  const val = keypointState.selected ?? "-";
+  el.textContent = val;
+  el.className = "value " + (val === "-" ? "val-0" : "single");
+}
+
+function randomizePersonalityAll() {
+  const botType = document.querySelector('input[name="bot-type"]:checked')?.value || 'random';
+  const aggressivePositive = ["공세적 열정", "기동력 중시", "목표 집착", "적응력"];
+  const aggressiveNegative = ["위험 회피", "자원 관리", "병력 관리"];
+  const defensivePositive = ["위험 회피", "자원 관리", "병력 관리", "전략적 사고"];
+  const defensiveNegative = ["공세적 열정", "기동력 중시", "목표 집착"];
+  personalityKeys.forEach(k => {
+    let stage;
+    if (botType === 'aggressive') {
+      if (aggressivePositive.includes(k)) {
+        stage = randChoice(COMMON_7.slice(0, 3));
+      } else if (aggressiveNegative.includes(k)) {
+        stage = randChoice(COMMON_7.slice(4, 7));
+      } else {
+        stage = randChoice(COMMON_7);
+      }
+    } else if (botType === 'defensive') {
+      if (defensivePositive.includes(k)) {
+        stage = randChoice(COMMON_7.slice(0, 3));
+      } else if (defensiveNegative.includes(k)) {
+        stage = randChoice(COMMON_7.slice(4, 7));
+      } else {
+        stage = randChoice(COMMON_7);
+      }
+    } else {
+      stage = randChoice(COMMON_7);
+    }
+    personState[k] = stage;
+    updatePersonUI(k);
+  });
+}
+
+function randomizeSituationsAll() {
+  situationKeys.forEach(k => {
+    situationState[k] = randChoice(COMMON_7);
+    updateSituationUI(k);
+  });
+}
+
+function randomizeTacticsAll() {
+  Object.keys(tacticsMeta).forEach(tac => {
+    let choice;
+    const scale = Number(document.getElementById('weight-scale').value);
+    if (scale === 0) {
+      const idx = Math.floor(Math.random() * tacticsMeta[tac].length);
+      choice = tacticsMeta[tac][idx];
+      console.log(`randomizeTacticsAll: tac=${tac}, scale=${scale}, idx=${idx}, choice=${choice}`);
+    } else {
+      const infl = tacticInfluence[tac];
+      const score = scoreForInfluenceList(infl);
+      let idx = pickIndexFromScore(score);
+      idx = Math.max(0, Math.min(tacticsMeta[tac].length - 1, idx));
+      choice = tacticsMeta[tac][idx];
+      console.log(`randomizeTacticsAll: tac=${tac}, scale=${scale}, score=${score}, idx=${idx}, choice=${choice}`);
+    }
+    tacticState[tac] = choice;
+    updateTacticUI(tac);
+  });
+  if (Math.random() < 0.05) {
+    const twist = randChoice(plotTwistOptions);
+    const flavorList = plotTwistFlavorTexts[twist] || [""];
+    const flavorText = randChoice(flavorList);
+    console.log(`PlotTwist: twist=${twist}, flavorText=${flavorText}`);
+    showPlotTwistModal(twist, flavorText);
+    handlePlotTwist(twist);
+    Object.keys(tacticsMeta).forEach(k => updateTacticUI(k));
+    updateKeypointUI();
+  }
+}
+
+// function randomizeKeypoint() {
+//   let choice;
+//   const scale = Number(document.getElementById('weight-scale').value);
+//   if (scale === 0) {
+//     choice = randChoice(keypointKeys);
+//     console.log(`randomizeKeypoint: scale=${scale}, choice=${choice}`);
+//   } else {
+//     let maxScore = -Infinity;
+//     let candidates = [];
+//     keypointKeys.forEach(kp => {
+//       const infl = keypointInfluence[kp];
+//       const score = scoreForInfluenceList(infl);
+//       if (score > maxScore) {
+//         maxScore = score;
+//         candidates = [kp];
+//       } else if (score === maxScore) {
+//         candidates.push(kp);
+//       }
+//       console.log(`randomizeKeypoint: kp=${kp}, scale=${scale}, score=${score}`);
+//     });
+//     choice = randChoice(candidates);
+//     console.log(`randomizeKeypoint: scale=${scale}, choice=${choice}, candidates=${candidates.join(',')}`);
+//   }
+//   keypointState.selected = choice;
+//   updateKeypointUI();
+//   if (Math.random() < 0.1) {
+//     const twist = randChoice(plotTwistOptions);
+//     const flavorList = plotTwistFlavorTexts[twist] || [""];
+//     const flavorText = randChoice(flavorList);
+//     console.log(`PlotTwist: twist=${twist}, flavorText=${flavorText}`);
+//     showPlotTwistModal(twist, flavorText);
+//     handlePlotTwist(twist);
+//     Object.keys(tacticsMeta).forEach(k => updateTacticUI(k));
+//     updateKeypointUI();
+//   }
+// }
+function randomizeKeypoint() {
+    let choice;
+    const scale = Number(document.getElementById('weight-scale').value);
+    if (scale === 0) {
+      choice = randChoice(keypointKeys);
+      console.log(`randomizeKeypoint: scale=${scale}, choice=${choice}`);
+    } else {
+      // 점수 계산
+      const scores = keypointKeys.map(kp => {
+        const infl = keypointInfluence[kp];
+        const score = scoreForInfluenceList(infl);
+        return { keypoint: kp, score };
+      });
+      // 소프트맥스 변환
+      const temperature = 2.0 / Math.max(0.1, scale); // scale 낮을수록 랜덤성↑
+      const expScores = scores.map(s => Math.exp(s.score / temperature));
+      const sumExpScores = expScores.reduce((sum, val) => sum + val, 0);
+      const probabilities = expScores.map(val => val / sumExpScores);
+      // 확률 기반 선택
+      const rand = Math.random();
+      let cumulative = 0;
+      for (let i = 0; i < probabilities.length; i++) {
+        cumulative += probabilities[i];
+        if (rand <= cumulative) {
+          choice = scores[i].keypoint;
+          break;
+        }
+      }
+      // 상위 점수 외 선택 가능성 (25%)
+      if (Math.random() < 0.25) {
+        const lowerChoices = scores.filter(s => s.score < Math.max(...scores.map(s => s.score))).map(s => s.keypoint);
+        if (lowerChoices.length > 0) {
+          choice = randChoice(lowerChoices);
+        }
+      }
+      // 디버깅 로그
+      console.log(`randomizeKeypoint: scale=${scale}, scores=${JSON.stringify(scores)}, probabilities=${probabilities.map(p => p.toFixed(3)).join(',')}, choice=${choice}`);
+    }
+    keypointState.selected = choice;
+    updateKeypointUI();
+    // 툴팁 업데이트
+    const selector = `[data-key="selected-keypoint"]`;
+    const el = document.querySelector(selector);
+    el.className = "value single tooltip";
+    const scores = keypointKeys.map(kp => {
+      const infl = keypointInfluence[kp];
+      return { keypoint: kp, score: scoreForInfluenceList(infl) };
+    }).sort((a, b) => b.score - a.score);
+    const maxScore = Math.max(...scores.map(s => s.score));
+    const tooltipText = scores.slice(0, 3).map(s => `${s.keypoint}: ${maxScore > 0 ? (s.score / maxScore * 100).toFixed(1) : 0}%`).join('<br>');
+    el.innerHTML = `<span>${choice}</span><span class="tooltiptext">${tooltipText}</span>`;
+    // 플롯 트위스트
+    if (Math.random() < 0.1) {
+      const twist = randChoice(plotTwistOptions);
+      const flavorList = plotTwistFlavorTexts[twist] || [""];
+      const flavorText = randChoice(flavorList);
+      console.log(`PlotTwist: twist=${twist}, flavorText=${flavorText}`);
+      showPlotTwistModal(twist, flavorText);
+      handlePlotTwist(twist);
+      Object.keys(tacticsMeta).forEach(k => updateTacticUI(k));
+      updateKeypointUI();
+    }
+  }
+
+function scoreForInfluenceList(influenceList) {
+  if (!influenceList || !Array.isArray(influenceList)) return 0;
+  const scale = Number(document.getElementById('weight-scale').value);
+  if (scale === 0) return 0;
+  let score = 0;
+  influenceList.forEach(infl => {
+    if (infl.type === 'situation') {
+      const label = situationState[infl.key] || "50/50";
+      const val = stageScore[label] || 0;
+      if (val >= 0) {
+        score += (infl.highWeight || 0) * val * scale;
+      } else {
+        score += (infl.lowWeight || 0) * val * scale;
+      }
+    } else if (infl.type === 'personality') {
+      const label = personState[infl.key] || "50/50";
+      const val = stageScore[label] || 0;
+      score += (infl.weight || 0) * val * scale;
+    }
+  });
+  return score;
+}
+
+function pickIndexFromScore(score) {
+  let baseIdx;
+  if (score >= 9) baseIdx = 0;
+  else if (score >= 6) baseIdx = 1;
+  else if (score >= 3) baseIdx = 2;
+  else if (score >= 0) baseIdx = 3;
+  else if (score >= -3) baseIdx = 4;
+  else if (score >= -6) baseIdx = 5;
+  else baseIdx = 6;
+  let candidates = [baseIdx];
+  if (baseIdx > 0) candidates.unshift(baseIdx - 1);
+  if (baseIdx < 6) candidates.push(baseIdx + 1);
+  return randChoice(candidates);
+}
+
+function autoGenerateSituations() {
+  situationKeys.forEach(sit => {
+    let sum = 0;
+    for (const p of personalityKeys) {
+      const affects = personalityToSituations[p] || [];
+      if (affects.includes(sit)) {
+        const st = personState[p] ?? "50/50";
+        sum += stageToScore(st);
+      }
+    }
+    let candidates;
+    if (sum >= 5) candidates = [0, 1];
+    else if (sum >= 3) candidates = [1, 2];
+    else if (sum >= 1) candidates = [2, 3];
+    else if (sum >= -1) candidates = [2, 3];
+    else if (sum >= -3) candidates = [4, 5];
+    else if (sum >= -5) candidates = [4, 5];
+    else candidates = [5, 6];
+    const choiceIdx = candidates[Math.floor(Math.random() * candidates.length)];
+    const stage = COMMON_7[choiceIdx];
+    situationState[sit] = stage;
+    updateSituationUI(sit);
+  });
+}
+
+function autoGenerateTactics() {
+  Object.keys(tacticsMeta).forEach(tac => {
+    let choice;
+    const scale = Number(document.getElementById('weight-scale').value);
+    if (scale === 0) {
+      const idx = Math.floor(Math.random() * tacticsMeta[tac].length);
+      choice = tacticsMeta[tac][idx];
+      console.log(`autoGenerateTactics: tac=${tac}, scale=${scale}, idx=${idx}, choice=${choice}`);
+    } else {
+      const infl = tacticInfluence[tac];
+      const score = scoreForInfluenceList(infl);
+      let idx = pickIndexFromScore(score);
+      idx = Math.max(0, Math.min(tacticsMeta[tac].length - 1, idx));
+      choice = tacticsMeta[tac][idx];
+      console.log(`autoGenerateTactics: tac=${tac}, scale=${scale}, score=${score}, idx=${idx}, choice=${choice}`);
+    }
+    tacticState[tac] = choice;
+    updateTacticUI(tac);
+  });
+}
+
+function pickTactic(tac) {
+  const opts = tacticsMeta[tac];
+  if (!opts || !opts.length) return;
+  let choice;
+  const scale = Number(document.getElementById('weight-scale').value);
+  if (scale === 0) {
+    const idx = Math.floor(Math.random() * opts.length);
+    choice = opts[idx];
+    console.log(`pickTactic: tac=${tac}, scale=${scale}, idx=${idx}, choice=${choice}`);
+  } else {
+    const infl = tacticInfluence[tac];
+    const score = scoreForInfluenceList(infl);
+    let idx = pickIndexFromScore(score);
+    idx = Math.max(0, Math.min(opts.length - 1, idx));
+    choice = opts[idx];
+    console.log(`pickTactic: tac=${tac}, scale=${scale}, score=${score}, idx=${idx}, choice=${choice}`);
+  }
+  tacticState[tac] = choice;
+  updateTacticUI(tac);
+  if (Math.random() < 0.25) {
+    const twist = randChoice(plotTwistOptions);
+    const flavorList = plotTwistFlavorTexts[twist] || [""];
+    const flavorText = randChoice(flavorList);
+    console.log(`PlotTwist: twist=${twist}, flavorText=${flavorText}`);
+    showPlotTwistModal(twist, flavorText);
+    handlePlotTwist(twist);
+    Object.keys(tacticsMeta).forEach(k => updateTacticUI(k));
+    updateKeypointUI();
+  }
+}
+
+function handlePlotTwist(choice) {
+  switch (choice) {
+    case "모든 성격을 재설정합니다":
+      randomizePersonalityAll();
+      if (document.getElementById('auto-select').checked) autoGenerateAll();
+      break;
+    case "성격 2개를 재설정합니다":
+      for (let i = 0; i < 2; i++) {
+        const p = randChoice(personalityKeys);
+        personState[p] = randChoice(COMMON_7);
+        updatePersonUI(p);
+      }
+      if (document.getElementById('auto-select').checked) autoGenerateAll();
+      break;
+    case "상황 또는 성격 1개를 재설정합니다":
+      // 상황 제외, 성격만 재설정
+      const p = randChoice(personalityKeys);
+      personState[p] = randChoice(COMMON_7);
+      updatePersonUI(p);
+      if (document.getElementById('auto-select').checked) autoGenerateAll();
+      break;
+    case "전술 하나를 예상 밖으로 변경합니다":
+      const tac = randChoice(Object.keys(tacticsMeta));
+      tacticState[tac] = randChoice(tacticsMeta[tac]);
+      updateTacticUI(tac);
+      break;
+    case "요충지 우선순위 재설정":
+      randomizeKeypoint();
+      break;
+  }
+}
+
+function autoGenerateAll() {
+  autoGenerateSituations();
+  autoGenerateTactics();
+}
+
+function showModal(modalId) {
+  const modal = document.getElementById(modalId);
+  modal.style.display = 'block';
+  const closeModalOnClick = () => {
+    modal.style.display = 'none';
+    document.removeEventListener('click', closeModalOnClick);
+  };
+  setTimeout(() => {
+    document.addEventListener('click', closeModalOnClick);
+  }, 0);
+}
+
+function showPlotTwistModal(message, flavorText) {
+  const modal = document.getElementById('plot-twist-modal');
+  const titleEl = document.getElementById('plot-twist-title');
+  const messageEl = document.getElementById('plot-twist-message');
+  const flavorEl = document.getElementById('plot-twist-flavor');
+  titleEl.textContent = "상황이 바뀌었습니다!";
+  messageEl.textContent = message;
+  flavorEl.textContent = flavorText;
+  modal.style.display = 'block';
+  const closeModalOnClick = () => {
+    modal.style.display = 'none';
+    document.removeEventListener('click', closeModalOnClick);
+  };
+  setTimeout(() => {
+    document.addEventListener('click', closeModalOnClick);
+  }, 0);
+  setTimeout(() => {
+    modal.style.display = 'none';
+    document.removeEventListener('click', closeModalOnClick);
+  }, 5000);
+}
+
+document.getElementById('seed-personality').addEventListener('click', () => {
+  randomizePersonalityAll();
+  if (document.getElementById('auto-select').checked) {
+    autoGenerateAll();
+  }
+});
+document.getElementById('reset-personality').addEventListener('click', () => {
+  personState = {};
+  document.querySelectorAll('#personality-list .value').forEach(v => { v.textContent = "-"; v.className = "value val-0"; });
+});
+document.getElementById('randomize-all-situations').addEventListener('click', () => {
+  randomizeSituationsAll();
+});
+document.getElementById('reset-situations').addEventListener('click', () => {
+  situationState = {};
+  document.querySelectorAll('#situations-list .value').forEach(v => { v.textContent = "-"; v.className = "value val-0"; });
+});
+document.getElementById('randomize-all-tactics').addEventListener('click', () => {
+  randomizeTacticsAll();
+});
+document.getElementById('reset-tactics').addEventListener('click', () => {
+  tacticState = {};
+  document.querySelectorAll('#tactics-list .value').forEach(v => { v.textContent = "-"; v.className = "value val-0"; });
+});
+document.getElementById('randomize-keypoint').addEventListener('click', () => {
+  randomizeKeypoint();
+});
+document.getElementById('reset-keypoint').addEventListener('click', () => {
+  keypointState = {};
+  updateKeypointUI();
+});
+document.getElementById('custom-question').addEventListener('click', () => {
+  const stageIdx = randIndex(7);
+  const optIdx = randIndex(6);
+  const ans = questionMatrix[stageIdx][optIdx];
+  const el = document.getElementById('custom-result');
+  el.textContent = ans;
+  el.className = "value " + (stageIdx <= 1 ? "good" : (stageIdx >= 5 ? "bad" : ""));
+});
+document.getElementById('guideline-link').addEventListener('click', () => showModal('guideline-modal'));
+document.getElementById('guideline-close').addEventListener('click', () => {
+  document.getElementById('guideline-modal').style.display = 'none';
+});
+document.getElementById('personality-guideline-link').addEventListener('click', () => showModal('personality-guideline-modal'));
+document.getElementById('personality-guideline-close').addEventListener('click', () => {
+  document.getElementById('personality-guideline-modal').style.display = 'none';
+});
+document.getElementById('situation-guideline-link').addEventListener('click', () => showModal('situation-guideline-modal'));
+document.getElementById('situation-guideline-close').addEventListener('click', () => {
+  document.getElementById('situation-guideline-modal').style.display = 'none';
+});
+document.getElementById('tactics-guideline-link').addEventListener('click', () => showModal('tactics-guideline-modal'));
+document.getElementById('tactics-guideline-close').addEventListener('click', () => {
+  document.getElementById('tactics-guideline-modal').style.display = 'none';
+});
+document.getElementById('keypoint-guideline-link').addEventListener('click', () => showModal('keypoint-guideline-modal'));
+document.getElementById('keypoint-guideline-close').addEventListener('click', () => {
+  document.getElementById('keypoint-guideline-modal').style.display = 'none';
+});
+
+function attachInitialValues() {
+  personalityKeys.forEach(k => personState[k] = undefined);
+  situationKeys.forEach(k => situationState[k] = undefined);
+  Object.keys(tacticsMeta).forEach(k => tacticState[k] = undefined);
+  keypointState.selected = undefined;
+}
+attachInitialValues();
+
+(function setDataKeys() {
+  const pvals = pContainer.querySelectorAll('.value');
+  pvals.forEach((el, i) => el.dataset.key = personalityKeys[i]);
+  const svals = sContainer.querySelectorAll('.value');
+  svals.forEach((el, i) => el.dataset.key = situationKeys[i]);
+  const tvals = tContainer.querySelectorAll('.value');
+  Object.keys(tacticsMeta).forEach((k, i) => tvals[i] && (tvals[i].dataset.key = k));
+  const kvals = kContainer.querySelectorAll('.value');
+  kvals.forEach((el, i) => el.dataset.key = "selected-keypoint");
+})();
+
+document.getElementById('weight-scale').addEventListener('input', (e) => {
+  document.getElementById('weight-scale-value').textContent = e.target.value;
+});
+</script>
+</body>
+</html>
