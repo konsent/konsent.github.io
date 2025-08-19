@@ -352,6 +352,7 @@
     <button data-target="task">태스크 포스 구성</button>
     <button data-target="resp">대응</button>
     <button data-target="pbm">PBM</button>
+    <button data-target="offensive">공세 절차</button>
   </nav>
 
   <div class="viewport">
@@ -363,6 +364,7 @@
     <iframe id="frame-task"  class="frame"></iframe>
     <iframe id="frame-resp"  class="frame"></iframe>
     <iframe id="frame-pbm"   class="frame"></iframe>
+    <iframe id="frame-offensive"   class="frame"></iframe>
   </div>
 
   <footer>이렇게까지 만들었으니 올해는 꼭 태제 10판 돌린다</footer>
@@ -6690,6 +6692,615 @@
         </script>
   </template>
 
+  <!--  -->
+
+  <template id="tmpl-offensive">
+    <!DOCTYPE html>
+    <html lang="ko">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>공세 플로우차트</title>
+        <style>
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                background: #2e2e2e;
+                min-height: 100vh;
+                margin: 0;
+                padding: 20px;
+                box-sizing: border-box;
+                color: #d8d8d8;
+            }
+
+            .red {
+            color: red;
+            font-style: italic;
+            font-weight: bold;
+            }
+
+            .bold {
+                color: white;
+                font-size: 1.1rem;
+                font-weight: bold;
+            }
+        
+            .impl-note {
+                font-style: italic;
+                font-size: 14px;
+                color: #ffffff;
+                line-height: 1.6;
+                margin: 4px 0;
+            }
+        
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+                background: #3c3c3c;
+                border-radius: 8px;
+                padding: 20px;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            }
+        
+            .header {
+                text-align: center;
+                margin-bottom: 20px;
+                padding: 15px;
+                background: #4a4a4a;
+                border-radius: 8px;
+                color: #ffffff;
+                border: 1px solid #5c5c5c;
+            }
+        
+            .header h1 {
+                margin: 0;
+                font-size: 2rem;
+                font-weight: 700;
+            }
+        
+            .header p {
+                margin: 8px 0 0 0;
+                font-size: 1rem;
+                font-weight: 400;
+            }
+        
+            .progress-bar {
+                background: #4a4a4a;
+                border-radius: 5px;
+                height: 6px;
+                margin-bottom: 20px;
+                overflow: hidden;
+                border: 1px solid #5c5c5c;
+            }
+        
+            .progress-fill {
+                background: #4682b4;
+                height: 100%;
+                border-radius: 5px;
+                transition: width 0.3s ease;
+                width: 0%;
+            }
+        
+            .step-section {
+                background: #3c3c3c;
+                border-radius: 8px;
+                padding: 20px;
+                margin-bottom: 15px;
+                border: 1px solid #5c5c5c;
+            }
+        
+            .step-header {
+                display: flex;
+                align-items: center;
+                margin-bottom: 15px;
+            }
+        
+            .step-number {
+                background: #4682b4;
+                color: #ffffff;
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: bold;
+                font-size: 1rem;
+                margin-right: 15px;
+            }
+        
+            .step-title {
+                font-size: 1.3rem;
+                font-weight: 600;
+                color: #d8d8d8;
+                margin: 0;
+            }
+        
+            .condition-box {
+                background: #4a4a4a;
+                border-left: 4px solid #4682b4;
+                border-radius: 5px;
+                padding: 15px;
+                margin: 15px 0;
+                font-size: 1rem;
+                line-height: 1.5;
+                color: #c8c8c8;
+            }
+        
+            .condition-box strong {
+                color: #4682b4;
+                font-size: 1.1rem;
+            }
+        
+            .button-group {
+                display: flex;
+                gap: 15px;
+                justify-content: center;
+                margin-top: 20px;
+            }
+        
+            .btn {
+                padding: 10px 30px;
+                border: none;
+                border-radius: 5px;
+                font-size: 1rem;
+                font-weight: 500;
+                cursor: pointer;
+                transition: background 0.2s ease, transform 0.1s ease;
+                text-transform: uppercase;
+                min-width: 100px;
+                font-family: 'Georgia', 'Times New Roman', Times, serif;
+            }
+        
+            .btn-yes {
+                background: #2e8b57;
+                color: #ffffff;
+            }
+        
+            .btn-yes:hover {
+                background: #257a4b;
+                transform: translateY(-2px);
+            }
+        
+            .btn-no {
+                background: #696969;
+                color: #ffffff;
+            }
+        
+            .btn-no:hover {
+                background: #585858;
+                transform: translateY(-2px);
+            }
+        
+            .btn-primary {
+                background: #4682b4;
+                color: #ffffff;
+            }
+        
+            .btn-primary:hover {
+                background: #3a6b9a;
+                transform: translateY(-2px);
+            }
+        
+            .btn-secondary {
+                background: #5c5c5c;
+                color: #ffffff;
+            }
+        
+            .btn-secondary:hover {
+                background: #4b4b4b;
+                transform: translateY(-2px);
+            }
+        
+            .btn-back {
+                background: #5c5c5c;
+                color: #ffffff;
+            }
+        
+            .btn-back:hover {
+                background: #4b4b4b;
+                transform: translateY(-2px);
+            }
+        
+            .path-history {
+                background: #4a4a4a;
+                border-radius: 8px;
+                padding: 15px;
+                margin-bottom: 15px;
+                border-left: 3px solid #2e8b57;
+            }
+        
+            .path-step {
+                display: flex;
+                align-items: center;
+                margin: 8px 0;
+                padding: 8px;
+                background: #3c3c3c;
+                border-radius: 5px;
+                box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+            }
+        
+            .path-step .step-icon {
+                width: 25px;
+                height: 25px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: bold;
+                margin-right: 10px;
+                font-size: 0.8rem;
+            }
+        
+            .path-step.yes .step-icon {
+                background: #2e8b57;
+                color: #ffffff;
+            }
+        
+            .path-step.no .step-icon {
+                background: #696969;
+                color: #ffffff;
+            }
+        
+            .dice-section {
+                background: #4a4a4a;
+                border-radius: 8px;
+                padding: 20px;
+                text-align: center;
+                margin: 15px 0;
+                border: 1px solid #5c5c5c;
+            }
+        
+            .dice-result {
+                font-size: 3rem;
+                font-weight: bold;
+                color: #d8d8d8;
+                margin: 15px 0;
+            }
+        
+            .result-section {
+                background: #2e8b57;
+                color: #ffffff;
+                border-radius: 8px;
+                padding: 20px;
+                text-align: center;
+                margin-top: 15px;
+                border: 1px solid #3c3c3c;
+            }
+        
+            .result-section h2 {
+                margin: 0 0 15px 0;
+                font-size: 2rem;
+                display: none;
+            }
+        
+            .result-section p {
+                margin: 10px 0;
+                font-size: 32px;
+                white-space: pre-line;
+                font-weight: bold;
+                font-style: italic;
+            }
+        
+            .strategy-details {
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 5px;
+                padding: 15px;
+                margin-top: 15px;
+            }
+        
+            .strategy-list {
+                text-align: left;
+                margin: 15px 0;
+                list-style: none;
+                padding: 0;
+            }
+        
+            .strategy-list li {
+                margin: 8px 0;
+                padding: 8px 10px;
+                background: rgba(255, 255, 255, 0.05);
+                border-radius: 5px;
+                border-left: 3px solid rgba(255, 255, 255, 0.3);
+            }
+        
+            .sub-priority-list {
+                list-style: none;
+                padding-left: 20px;
+                margin-top: 5px;
+            }
+        
+            .sub-priority-list li {
+                margin: 5px 0;
+                padding: 5px 10px;
+                background: rgba(0, 0, 0, 0.2);
+                border-radius: 5px;
+                border-left: 2px solid rgba(255, 255, 255, 0.4);
+                font-size: 0.9rem;
+            }
+        
+            .hidden {
+                display: none;
+            }
+        
+            @media (max-width: 768px) {
+                .container {
+                    padding: 15px;
+                    margin: 10px;
+                }
+                
+                .header h1 {
+                    font-size: 1.5rem;
+                }
+                
+                .button-group {
+                    flex-direction: column;
+                    align-items: center;
+                }
+                
+                .btn {
+                    width: 100%;
+                    max-width: 180px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <h1>공세 절차 플로우</h1>
+            </div>
+
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+
+            <div id="pathHistory" class="path-history hidden">
+                <h4 style="margin-top: 0; color: #ffffff;">진행 경로</h4>
+                <div id="pathSteps"></div>
+            </div>
+
+            <div id="stepSection" class="step-section">
+                <div class="step-header">
+                    <div class="step-number" id="stepNumber">1</div>
+                    <h2 class="step-title" id="stepTitle">시작</h2>
+                </div>
+                
+                <div class="condition-box" id="conditionBox">
+                    첫 번째 조건을 확인해주세요.
+                </div>
+                
+                <div class="button-group" id="buttonGroup">
+                    <button class="btn btn-primary" onclick="startFlow()">시작하기</button>
+                </div>
+            </div>
+
+            <div id="diceSection" class="dice-section hidden">
+                <h3 style="margin: 0 0 20px 0; color: #2d3436;">주사위 굴리기 (1d10)</h3>
+                <div class="dice-result" id="diceResult">?</div>
+                <div class="button-group">
+                    <button class="btn btn-primary" onclick="rollDice()">주사위 굴리기</button>
+                </div>
+            </div>
+
+            <div id="resultSection" class="result-section hidden">
+                <h2 id="strategyTitle">최종 전략 결정</h2>
+                <p id="strategyName"></p>
+                <div class="strategy-details" id="strategyDetails"></div>
+                <div class="button-group" style="margin-top: 30px;">
+                    <button class="btn btn-secondary" onclick="resetFlow()">다시 시작</button>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            const notes = {
+                '[7.21]': '<span class="bold">[7.21] 공격 플레이어 유닛 활성화</span><br> 공격 플레이어는 공세를 수행하기 위해 보급 상태의 HQ를 선택합니다. <br>플레이어는 공격에 사용하는 HQ의 효율성 등급과 OC 수치 또는 이벤트 병참 수치 중 하나를 합한 값에 해당하는 수 만큼의 유닛을 활성화할 수 있습니다*.  <br><br><span class="red">활성화 유닛 수 = HQ 효율성 등급 + 이벤트 병참 수치 / OC 수치 중 하나</span> <br><br>미군 및 연합군 HQ이 지도의 동쪽 가장자리에 있는 절대 보급원과 연결할 수 없는 경우(6.25), 일본군 HQ가 CBI 인프라가 부족한 경우에(13.79) HQ 효율성 수치가 바뀔 수 있습니다. 활성화 유닛은 보급 상태여야 합니다. 유닛을 활성화하려면 해당 HQ부터 활성화 유닛까지 활성화 경로이어져야 합니다(6.3). <br>군간 경쟁*Inter-Servie Rivalry*(14.0)으로 활성화 유닛이 제한될 수 있습니다. <br><br>연합군 HQ는 이벤트 카드 텍스트에 명시되지 않는 한 특정 국적의 유닛만 활성화 할 수 있습니다. <br>자세한 내용은 다음과 같습니다. <br> - 미국(예: 중부, 남부(곰리Ghormley 또는 홀지Halsey), 남서부) <br> - 영연방(예: 말라야*Malaya*, SEAC)<br> - 합동(예: ANZAC, ABDA).<br><br><span class="red">*일본에는 한 가지 유형의 HQ만 있습니다.</span><br><br>A. 미국 HQ는 미국 유닛(육군 및 해군 모두)과 중국 유닛을 활성화할 수 있습니다. <br>B. 영연방 HQ는 영연방, 중국, 미국 공군 유닛(미 육군 및 해병 공군 유닛 모두)을 활성화할 수 있습니다. <br>C. 합동 HQ는 모든 연합군 유닛을 활성화할 수 있습니다. 참고: 네덜란드 유닛은 합동 HQ만 활성화할 수 있습니다. <br>D. 일본 본부는 모든 일본 유닛을 활성화할 수 있습니다.',
+                '[7.22]': '<span class="bold">[7.22] 유닛 이동 허용량</span><br>공격 또는 대응 유닛이 이동할 수 있는 거리: <br><br> <span class="red">이동 가능 거리 = OC 수치 * 유닛 타입별 기본 이동 허용량</span> <br><b>이동 허용량: 해상 = 5, 지상 = 1, 공중 = 일반/확장 범위)</b> <br><br><b>예외</b>: 카드를 EC로 사용한 경우, 카드의 OC 수치보다 더 많이 유닛을 이동시킬 수 있으며, 해당 이벤트가 우선합니다.<br> 항공 유닛은 이동의 각 "단계"를 아군 공군기지에서 끝내야 하므로 이동이 제한됩니다 (8.31). 해군 유닛은 이동을 끝낼 수 있는 헥스가 제한됩니다(8.21).',
+                '[7.23]': '<span class="bold">[7.23] 공세 중 이동 단계</span><br>공세 중에 유닛을 이동할 때는 다른 유닛이나 유닛 스택을 이동하기 전에 각 유닛 스택 이동을 끝내야 합니다. <br>이동 중에는 유닛을 픽업하거나 내려놓을 수 없습니다. <br>공세 중에 이동하는데 가장 큰 장애물은 무력화되지 않은 적의 항공 ZOI의 위치입니다.',
+                '[7.24]': '<span class="bold">[7.24] 전투 헥스 선언하기</span><br>공격 플레이어는 공격 유닛이 모두 이동한 후에 전투 헥스를 선언합니다. <br>공격 유닛과 대응 유닛이 함께 있는 모든 헥스를 전투 헥스로 선언해야 합니다. <br>다른 전투에 참여하지 않은 공격 플레이어의 활성화된 공중/항모 유닛의 범위 안에 전투 헥스가 있고 전투 헥스에 대응 유닛만 있다면, 해당 헥스를 전투 헥스로 선언할 수 있습니다. <br>중국에 있는 해안이 아닌 헥스는 전투 헥스로 선언할 수 없습니다.<br><br> OC를 사용할 때, 플레이어는 전투 헥스 하나를 선언할 수 있습니다. <br>대응 플레이어의 특수 대응(7.27)으로 OC를 사용할 때 여러 전투가 발생할 수 있습니다.<br> EC를 플레이할 때, 플레이어는 원하는 만큼 전투 헥스를 선언할 수 있습니다.<br> 공격 플레이어는 선언한 전투 헥스마다 해당 헥스 전투에 참가할 유닛을 정해야 합니다. <br>어떤 유닛도 공세 당 한 번 이상 전투에 참여할 수 없습니다(단, 아래에서 언급하듯이 특정 상황에서는 특수 대응으로 인해 유닛을 교체해야 할 수도 있습니다). <br>전투 헥스에 속한 모든 유닛은 해당 전투에 참여해야 합니다. <br><br>아군 항구에서 이동을 마치지 않은 모든 항공모함 유닛은 범위 내 전투 헥스에 참여하거나 적이 통제하는 비어 있는 헥스에 상륙 공격하는 아군 지상 유닛을 엄호하도록 선언해야 합니다. <br>할당된 엄호 헥스가 특수 대응으로 전투 헥스가 되면 항공모함은 해당 전투에 참여해야 합니다.<br>아군 항구에서 이동을 마친 항공모함과 선언된 전투에 참여하지 않은 활성화된 항공 유닛도 같은 방식으로 범위 내 전투를 엄호하도록 지정될 수 있지만 반드시 참여해야 하는 것은 아닙니다.',
+                '[7.25]': '<span class="bold">[7.25] 공세 첩보 조건 결정</span><br>공세 첩보 조건은 공세가 진행되는 동안 모든 전투 헥스에 동일하게 적용됩니다.<br> 따라서 대응 플레이어가 첩보 조건을 변경하는 데 성공하면, 해당 공세 때 선언된 모든 전투 헥스에 영향을 줍니다. <br><br>A. 공세 첩보 조건은 기본적으로 기습 공격(Surprise Attack)입니다. <br><br>B. 대응 플레이어는 다음 두 가지 중 하나로 첩보 조건을 변경할 수 있습니다. <br>첫째, 첩보 조건을 저지(Intercept) 또는 매복(Ambush)으로 지정하는 대응 카드를 플레이할 수 있습니다. 대응 카드를 플레이하면 전략 카드가 지정한 첩보 조건을 대체합니다. 대응 카드를 여러장 사용해서 저지와 매복 첩보 조건이 모두 지정되었다면, 첩보 조건은 매복입니다.<br><br> 둘째, 대응 플레이어가 카드를 사용하지 않았고 공세 카드에 기습 공격이 명시되어 있지 않은 경우(단, 이 경우에만 해당), 대응 플레이어는 첩보 주사위를 굴릴 수 있습니다. 첩보 주사위를 굴리면 첩보 조건을 기습 공격에서 저지로 변경할 수 있습니다(매복은 바꿀 수는 없고 매복으로 바꾸려면 대응 카드를 사용해야만 가능합니다). 대응 플레이어가 정보 주사위를 굴린 후에는 대응 카드 텍스트에서 특별히 허용하지 않는 한, 첩보 조건을 바꾸기 위해 대응 카드를 사용할 수 없습니다. 대응 플레이어는 공세 당 한 번만 정보 주사위를 굴릴 수 있습니다. <br><br>C. 첩보 주사위 굴리기 절차는 다음과 같습니다. 공세를 시작하는데 사용된 카드에는 OC와 EC 첩보 수치가 있을 수 있습니다. 카드의 OC 수치로 공세가 시작되었다면, OC 첩보 수치를 사용합니다. 공세가 EC 공세로 시작되었다면, EC 첩보 수치를 사용합니다. 주사위 굴림 결과가 해당 공세 카드 첩보 수치(아래 7.25.E에 따라 해당되는 경우 수정됨)보다 작거나 같으면 주사위 굴림이 성공하고 공세 첩보 조건이 저지로 변경됩니다. 주사위 굴림이 지정된 값보다 크면 주사위 굴림은 실패하며, 공세 첩보 조건은 기습 공격으로 유지됩니다. <br><br>D. 첩보 주사위 값을 보정할 수 있는 한 가지 방법이 있습니다. 공격 플레이어의 유닛이 이동하는 동안 언제든지 해당 유닛이(무력화 여부와 상관없이) 적의 항공 ZOI로 진입하거나 통과하거나 빠져나오면, 대응 플레이어는 자신의 첩보 주사위 굴림에서 2를 뺍니다. 그러나 수정되지 않은 주사위 결과가 9인 경우 항상 실패로 간주하며 기습 공격으로 간주합니다.',
+                '[7.26]': '<span class="bold">[7.26] 대응 이동</span><br>첩보 조건이 기습 공격이면 대응 이동을 할 수 없으며, 대응 플레이어가 공격 대응 카드를 플레이할 기회를 가진 후에 공격 플레이어가 공세로 발생한 모든 전투를 즉시 처리합니다. 첩보 조건이 저지 또는 매복인 경우, 대응 플레이어는 보급 상태의 HQ 중 하나만 대응 HQ로 지정할 수 있으며, 이 HQ로 전투에 대응할 유닛을 활성화할 수 있습니다. 이 HQ의 범위 내에 선언된 전투 헥스가 하나 이상 있어야 하며(이 범위는 어떤 방법으로도 막을 수 없음), 조건에 맞는 HQ가 없으면 공세에 대응할 수 없습니다. 대응 HQ가 활성화한 유닛은 도달할 수 있는 모든 선언한 전투에 참여할 수 있습니다. 이 때 해당 전투 헥스가 대응 HQ 범위 밖에 있더라도 참여할 수 있습니다. <br><br>대응 플레이어는 HQ의 <span class="red">효율성 등급 + 방어자 병참 수치</span>만큼의 유닛을 활성화할 수 있습니다. 반격 대응 카드를 사용한 경우, 반격 대응 카드의 병참 수치가 방어자의 병참 수치입니다. <br>반격 대응 카드를 사용하지 않았다면 공격 플레이어의 전략 카드의 OC 수치가 방어자의 병참 수치입니다(OC로 플레이했는지 EC로 플레이했는지 여부와 상관없습니다). 대응 HQ는 보급을 받고 있고 HQ까지 활성화 경로가 이어지는 유닛만 활성화할 수 있습니다. 대응하기 위한 활성화 경로는 적 유닛이 포함되어 있더라도 선언된 전투 헥스를 통해 형성할 수 있습니다. <br><br>대응 플레이어가 활성화한 모든 유닛은 선언한 전투에 참여해야 합니다. 전투에 참여할 수 있도록 이동할 수 없는 유닛은 활성화할 수 없습니다. 전투 헥스에 있는 대응 유닛은 활성화할 수 있습니다. 첩보 조건이 저지 또는 매복이라고 해서 대응 플레이어가 꼭 유닛을 활성화해야하는 것은 아닙니다. 공격 활성화에 적용되는 모든 제한 사항이 대응 활성화에도 적용됩니다. <br><br>대응 이동 중에 여러개의 ASP를 사용할 수 없습니다. 대응 이동 중에 해군 수송 편제 유닛(Organic Naval Unit Transport/8.46)을 사용할 수 있습니다. 대응 플레이어는 전략 이동을 사용할 수 없습니다. 활성화된 항공 및 항공모함 유닛은 전투가 처리되기 전에 대응 이동으로 전투 헥스를 떠날 수 있지만, 떠난 전투 헥스에서 벌어지고 있는 전투에 계속 참여해야 합니다. 전투 헥스에서 시작한 다른 유닛은 활성화되더라도 해당 전투 헥스에 남아 있어야 합니다.',
+                '[7.27]': '<span class="bold">[7.27] 특수 대응 이동(SR)</span><br>상대 지상 유닛이 <b>⑴대응 플레이어가 통제하고 있는 비어있는 도시, ⑵자원 헥스, ⑶항구, ⑷대응 HQ 범위 내에 있고 대응 항공 ZOI(무력화 여부와 상관없이) 범위 내에 있는 비행장 헥스</b>에서 공격 이동을 끝냈다면, 대응 플레이어는 하나 이상의 해당 헥스에서 특수 대응을 시도할 수 있습니다. <br>대응 플레이어가 첩보 주사위를 굴려 특수 대응 성공 여부를 판단합니다(대응 카드를 사용할 수 없지만, ZOI 보정으로 -2를 적용합니다). 주사위를 굴려 성공하면, 해당 헥스는 전투 헥스가 됩니다. 이는 공격 플레이어가 전투 헥스를 선언했는지는 상관없이 발생할 수 있습니다. 헥스 두 개 이상이 특수 대응에 해당한다면 각 헥스마다 주사위를 따로 굴려야 합니다. <br><br>지상 이동만으로 진입한 헥스에서는 특수 대응을 적용하지 않습니다. 기습 공격 EC 이벤트에서 특수 대응 가능성이 발생하면 OC 첩보 수치를 사용합니다. 특수 대응만으로는 첩보 조건이 바뀌지 않습니다. <br><br>새로 생성된 전투 헥스에서 진행하는 상륙 작전을 엄호하도록 할당된 모든 공중/항모 유닛은 해당 전투에 참여합니다. 새로 생성된 전투 헥스에 범위 내에 다른 전투에 참여하기로 선언된 공중/항모 유닛이 있고, 적이 해당 전투 헥스에 대응하는 경우, 해당 공중/항모 유닛은 자신이 점령하고 있는 전투 헥스에서 벌어진 전투로 전환하고 이를 먼저 처리합니다. 이는 멀리서 이 전투 헥스를 공격하는 대응 유닛에겐 적용되지 않으며, 새로 생성된 전투 헥스에 대응 유닛이 물리적으로 존재해야 합니다. <br><br>해당 유닛의 원래 배틀 헥스에 공세에 참여한 다른 유닛이 없다면 해당 위치에는 전투가 발생하지 않을 수 있습니다. 하지만 해당 헥스는 여전히 전투 헥스로 남아 있으며 해당 전투 헥스에 투입된 모든 유닛은 전투를 처리하지 않고 전투 헥스에 투입된 상태로 유지됩니다. 규칙에 따라 원래 전투 헥스에 있는 모든 대응 유닛은 다른 전투에 참여할 수 없지만, 활성화되면 전투 후 이동(Post Battle Movement)을 수행할 수 있습니다. 플레이어가 전투 헥스로 선언한 헥스에서 전투를 처리하지 않는 경우는 잠수함 공격으로 전투를 처리하기 전에 모든 공세 유닛을 제거하는 경우와 같이 여러가지 방법으로 발생할 수 있습니다.',
+                '[7.28]': '<span class="bold">[7.28] 전투와 공세 마무리</span><br>각 전투는 규칙 9.0에 따라 처리합니다. 그 후, 대응 플레이어가 먼저 활성화된 모든 유닛에 대해 전투 후 이동을 수행합니다(9.6). 이때 공세가 종료되고 상대 플레이어가 전략 카드를 내거나, 두 플레이어 모두 카드가 없는 경우 공세 단계가 종료됩니다.',
+                '[9.6]': '<span class="bold">[9.6] 전투 후 이동 (Post Battle Movement)</span><br>전투 후 이동은 전투 수행 여부와 관계없이 규칙 7.2의 13번째 단계 때 처리됩니다. <br>전략 이동을 수행하지 않은 활성화 유닛만 전투 후 이동을 수행할 수 있습니다. <br><br>전투 후 이동을 수행할 때, 공군 및 해군 유닛의 이동 허용량은 공세에 사용된 이동 허용량과 동일합니다. <br>지상 유닛은 후퇴할 때를 제외하고 전투 후 이동을 수행할 수 없습니다(9.5). 대응 플레이어가 먼저 전투 후 이동을 수행한 후 공격 플레이어가 그 다음에 수행합니다. <br><br><span class="red">전투 후 이동 중에는 어떤 형태의 전략 이동도 허용되지 않습니다.</span>',
+                '[8.32]': '<span class="bold">[8.32] 긴급 공중 이동 (Emergency Air Move)</span><br><br><br>공세 또는 정치 단계(국가 항복을 통해)중에 플레이어가 활성화되지 않은 적 공중 유닛이 위치한 헥스의 통제권을 가져온 경우, 해당 공중 유닛은 긴급 공중 이동을 수행해야 합니다. 공세 중에 헥스 통제권이 바뀐 경우, 공세가 끝나고 나서 이동합니다. 정치 단계에서 발생한 경우 해당 단계가 끝난 후 이동합니다. <br><br>정상 또는 확장 범위 내에 아군 비행장이 있는 경우, 공중 유닛은 해당 위치로 이동하는 것이 아니라 바로 배치됩니다. 이 조건을 충족하는 비행장이 두 곳 이상일 경우, 소유한 플레이어가 유닛을 이동할 비행장을 선택합니다. 범위 내에 아군 비행장이 없으면 공중 유닛은 제거됩니다. 공중 유닛이 전투에 참여했더라도 괄호 안의 확장된 범위를 긴급 공중 이동에 사용할 수 있습니다.',
+                '[8.22]': '<span class="bold">[8.22] 긴급 해상 이동 (Emergency Naval Move)</span><br><br><br>공세 또는 정치 단계(국가 항복을 통해)중에 플레이어가 활성화되지 않은 적 해군 유닛이 있는 헥스 통제권을 가져왔다면 해당 해군 유닛은 긴급 해상 이동을 수행해야 합니다. 공세 중에 헥스 통제권이 바뀐 경우, 공세가 끝나고 나서 이동합니다. 정치 단계에서 발생한 경우 해당 단계가 끝난 후 이동합니다. <br><br>긴급 해상 이동 시 해군 유닛은 지형 상관 없이 10 헥스거리 이내에 있는 아군 항구에 배치됩니다(이동하는 것이 아님). 범위 내에 아군 항구가 두 개 이상 있는 경우, 소유한 플레이어가 유닛을 옮길 항구를 선택합니다. 상대의 항공 ZOI은 긴급 해상 이동에 영향을 주지 않습니다. 10 헥스 거리에 아군 항구가 없으면 해군 유닛은 제거됩니다.',
+
+            };
+            const steps = [
+                { id: '1단계', text: '<li>공격 플레이어는 적합한 HQ의 활성화 범위 내에 있는 보급 상태의 유닛을 활성화합니다[7.21].</li> <li>이동하기 전에 적용되는 EC 카드의 모든 공세 보너스를 적용합니다(증원 병력 수령 포함)</li>' },
+                { id: '2단계', text: '<li>공격 플레이어가 활성화된 유닛을 이동합니다 [7.22] [7.23]</li>' },
+                { id: '3단계', text: '<li>공격 플레이어가 전투 헥스를 선언합니다 [7.24]</li>' },
+                { id: '4단계', text: '<li>대응 플레이어는 날씨 대응 이벤트를 사용하여 공세를 취소할 수 있습니다.</li> <li>공세가 취소되면 모든 유닛을 다시 시작 위치로 되돌리고,</li> <li>이벤트 증원 유닛과 보충 유닛을 제거하고,</li> <li>사용한 공세 카드를 버린 카드 더미에 넣고,</li> <li>공세 중에 사용한 모든 ASP를 반환하면 공격이 종료됩니다[7.28].</li>' },
+                { id: '5단계', text: '<li>대응하기 전에 공격 플레이어의 EC 카드에서 가능한 이벤트 보너스를 적용합니다.</li>' },
+                { id: '6단계', text: '<li>특수 대응이 가능한 경우, 대응 플레이어는 주사위를 굴려서 특수 대응으로 추가 전투 헥스를 생성을 시도할 수 있습니다[7.27].</li> <li>그 이후에 특수 대응으로 인해 선언되거나 생성된 전투 헥스가 없다면, 대응 플레이어는 해당하는 공격 대응 카드를 모두 사용할 수 있으며,</li> <li>13단계인 전투 후 이동 단계로 넘어갑니다.</li>' },
+                { id: '7단계', text: '<li>대응 플레이어는 적절한 대응 카드를 사용하거나 첩보 주사위를 굴려서 공격하는 측의 첩보 조건 변경을 시도합니다[7.25].</li> <li>이 단계가 끝났을 때 공격자의 첩보 조건이 기습 공격*Surprise Attack*이면 9단계로 건너뜁니다.</li>' },
+                { id: '8단계', text: '<li>대응 플레이어는 공격 플레이어가 선언했거나 특수 대응으로 생성된 전투 헥스에 참여할 유닛을 활성화하고 이동합니다[7.26].' },
+                { id: '9단계', text: '<li>대응 플레이어는 모든 공격 대응 카드를 사용할 수 있습니다.</li>' },
+                { id: '10단계', text: '<li>대응 후 적용되는 모든 공세 보너스를 적용합니다.</li> <li>전투 전에 적용되는 모든 공격 대응 카드를 적용합니다.</li>' },
+                { id: '11단계', text: '<li>플레이어들이 모든 전투를 해결합니다[7.28].</li>' },
+                { id: '12단계', text: '<li>전투 후 적용되는 모든 공격 대응 카드를 적용합니다.</li>' },
+                { id: '13단계', text: '<li>플레이어는 전투 후 이동을 실시합니다[9.6].</li> <li>대응 플레이어가 먼저 움직이고 그다음에 공격 플레이어가 움직입니다.</li>' },
+                { id: '14단계', text: '<li>필요한 모든 긴급 해상 이동[8.22]과 긴급 공중 이동[8.32]을 수행합니다.</li>' },
+                { id: 'End', text: '공세 절차가 완료되었습니다.' }
+            ];
+
+            let currentStep = 'start';
+            let pathHistory = [];
+
+            function showStep(stepId) {
+                const stepSection = document.getElementById('stepSection');
+                const stepNumber = document.getElementById('stepNumber');
+                const stepTitle = document.getElementById('stepTitle');
+                const conditionBox = document.getElementById('conditionBox');
+                const buttonGroup = document.getElementById('buttonGroup');
+                const progressFill = document.getElementById('progressFill');
+                const pathHistoryDiv = document.getElementById('pathHistory');
+                const pathStepsDiv = document.getElementById('pathSteps');
+
+                if (!stepSection || !stepNumber || !stepTitle || !conditionBox || !buttonGroup || !progressFill || !pathHistoryDiv || !pathStepsDiv) {
+                    console.error('Show step elements are missing:', { stepSection, stepNumber, stepTitle, conditionBox, buttonGroup, progressFill, pathHistoryDiv, pathStepsDiv });
+                    const missingElements = [];
+                    if (!stepSection) missingElements.push('stepSection');
+                    if (!stepNumber) missingElements.push('stepNumber');
+                    if (!stepTitle) missingElements.push('stepTitle');
+                    if (!conditionBox) missingElements.push('conditionBox');
+                    if (!buttonGroup) missingElements.push('buttonGroup');
+                    if (!progressFill) missingElements.push('progressFill');
+                    if (!pathHistoryDiv) missingElements.push('pathHistoryDiv');
+                    if (!pathStepsDiv) missingElements.push('pathStepsDiv');
+                    console.error('Missing element IDs:', missingElements);
+                    alert('페이지에 필요한 요소가 누락되었습니다. HTML을 확인해 주세요. 누락된 ID: ' + missingElements.join(', '));
+                    return;
+                }
+
+                stepSection.classList.remove('hidden');
+
+                // 주석 추출
+                const annotationRegex = /\[\d+\.\d+\]/g;
+                const annotations = new Set();
+                let textWithAnnotations = '';
+
+                if (stepId === 'start') {
+                    stepNumber.textContent = '';
+                    stepTitle.textContent = '시작';
+                    textWithAnnotations = '공세 절차를 시작하려면 아래 버튼을 클릭하세요.';
+                } else {
+                    const index = steps.findIndex(s => s.id === stepId);
+                    if (index === -1) return;
+                    textWithAnnotations = steps[index].text;
+                    if (textWithAnnotations.match(annotationRegex)) {
+                        textWithAnnotations.match(annotationRegex).forEach(annotation => annotations.add(annotation));
+                    }
+                    stepNumber.textContent = index + 1;
+                    stepTitle.textContent = steps[index].id;
+                }
+
+                conditionBox.innerHTML = `
+                    ${textWithAnnotations}
+                    ${annotations.size > 0 ? `
+                        <h4 style="margin-top: 20px; color: #ffffff;">참고 자료:</h4>
+                        <ul class="strategy-list">
+                            ${Array.from(annotations).sort().map(annotation => `
+                                <li class="impl-note">${notes[annotation] || ''}</li>
+                            `).join('')}
+                        </ul>
+                    ` : ''}
+                `;
+                buttonGroup.innerHTML = `
+                    ${stepId === 'start' ? '<button class="btn btn-primary" onclick="startFlow()">시작하기</button>' : ''}
+                    ${stepId !== 'start' && stepId !== 'End' ? '<button class="btn btn-primary" onclick="nextStep()">계속</button>' : ''}
+                    ${stepId === 'End' ? '<button class="btn btn-secondary" onclick="resetFlow()">다시 시작</button>' : ''}
+                    ${pathHistory.length > 0 ? '<button class="btn btn-back" onclick="goBack()">이전</button>' : ''}
+                `;
+
+                const progress = stepId === 'start' ? 0 : ((steps.findIndex(s => s.id === stepId) + 1) / steps.length) * 100;
+                progressFill.style.width = progress + '%';
+
+                if (stepId !== 'start') {
+                    pathHistory.push({ step: steps.find(s => s.id === stepId).id, stepNum: steps.findIndex(s => s.id === stepId) + 1 });
+                    updatePathHistory();
+                }
+            }
+
+            function startFlow() {
+                currentStep = '1단계';
+                showStep(currentStep);
+            }
+
+            function nextStep() {
+                const currentIndex = steps.findIndex(s => s.id === currentStep);
+                if (currentIndex < steps.length - 1) {
+                    currentStep = steps[currentIndex + 1].id;
+                    showStep(currentStep);
+                }
+            }
+
+            function updatePathHistory() {
+                const pathHistoryDiv = document.getElementById('pathHistory');
+                const pathStepsDiv = document.getElementById('pathSteps');
+                if (!pathHistoryDiv || !pathStepsDiv) {
+                    console.error('Path history elements are missing:', { pathHistoryDiv, pathStepsDiv });
+                    const missingElements = [];
+                    if (!pathHistoryDiv) missingElements.push('pathHistoryDiv');
+                    if (!pathStepsDiv) missingElements.push('pathStepsDiv');
+                    console.error('Missing element IDs:', missingElements);
+                    alert('페이지에 필요한 요소가 누락되었습니다. HTML을 확인해 주세요. 누락된 ID: ' + missingElements.join(', '));
+                    return;
+                }
+
+                if (pathHistory.length === 0) {
+                    pathHistoryDiv.classList.add('hidden');
+                    return;
+                }
+
+                pathStepsDiv.innerHTML = '';
+                pathHistory.forEach(step => {
+                    const stepDiv = document.createElement('div');
+                    stepDiv.className = 'path-step';
+                    stepDiv.innerHTML = `
+                        <div class="step-icon">${step.stepNum}</div>
+                        <div><strong>${step.step}:</strong> ${steps.find(s => s.id === step.step).text}</div>
+                    `;
+                    pathStepsDiv.appendChild(stepDiv);
+                });
+
+                pathHistoryDiv.classList.remove('hidden');
+            }
+
+            function resetFlow() {
+                const stepSection = document.getElementById('stepSection');
+                const stepNumber = document.getElementById('stepNumber');
+                const stepTitle = document.getElementById('stepTitle');
+                const conditionBox = document.getElementById('conditionBox');
+                const buttonGroup = document.getElementById('buttonGroup');
+                const progressFill = document.getElementById('progressFill');
+                const pathHistoryDiv = document.getElementById('pathHistory');
+
+                if (!stepSection || !stepNumber || !stepTitle || !conditionBox || !buttonGroup || !progressFill || !pathHistoryDiv) {
+                    console.error('Reset flow elements are missing:', { stepSection, stepNumber, stepTitle, conditionBox, buttonGroup, progressFill, pathHistoryDiv });
+                    const missingElements = [];
+                    if (!stepSection) missingElements.push('stepSection');
+                    if (!stepNumber) missingElements.push('stepNumber');
+                    if (!stepTitle) missingElements.push('stepTitle');
+                    if (!conditionBox) missingElements.push('conditionBox');
+                    if (!buttonGroup) missingElements.push('buttonGroup');
+                    if (!progressFill) missingElements.push('progressFill');
+                    if (!pathHistoryDiv) missingElements.push('pathHistoryDiv');
+                    console.error('Missing element IDs:', missingElements);
+                    alert('페이지에 필요한 요소가 누락되었습니다. HTML을 확인해 주세요. 누락된 ID: ' + missingElements.join(', '));
+                    return;
+                }
+
+                currentStep = 'start';
+                pathHistory = [];
+                stepSection.classList.remove('hidden');
+                stepNumber.textContent = '';
+                stepTitle.textContent = '시작';
+                conditionBox.innerHTML = '공세 절차를 시작하려면 아래 버튼을 클릭하세요.';
+                buttonGroup.innerHTML = '<button class="btn btn-primary" onclick="startFlow()">시작하기</button>';
+                progressFill.style.width = '0%';
+                pathHistoryDiv.classList.add('hidden');
+            }
+
+            function goBack() {
+                if (pathHistory.length <= 1) return;
+
+                pathHistory.pop();
+                currentStep = pathHistory[pathHistory.length - 1].step;
+                showStep(currentStep);
+            }
+
+            document.addEventListener('DOMContentLoaded', () => {
+                window.onload = resetFlow;
+            });
+        </script>
+    </body>
+    </html>
+    
+  </template>
+
+
   <script>
     // 템플릿 내용을 각 iframe의 srcdoc으로 주입 (한 파일 내에 모두 포함)
     const map = {
@@ -6700,6 +7311,7 @@
       task:  { frame: 'frame-task',  tmpl: 'tmpl-task' },
       resp:  { frame: 'frame-resp',  tmpl: 'tmpl-resp' },
       pbm:   { frame: 'frame-pbm',   tmpl: 'tmpl-pbm' },
+      offensive:   { frame: 'frame-offensive',   tmpl: 'tmpl-offensive' },
     };
 
     // 최초 1회: 모든 페이지를 미리 로드(상태 유지 목적). 필요 없으면 첫 탭만 로드해도 됨.
