@@ -10,7 +10,7 @@
             background-color: #2b2b2b;
             color: #d4c4a1;
             margin: 0;
-            overflow: hidden;
+            overflow: auto;
         }
         #main-screen {
             display: flex;
@@ -35,6 +35,7 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
             position: relative;
             display: none;
+            min-height: 100vh;
         }
         #turn-display {
             font-size: 28px;
@@ -385,8 +386,8 @@
 
         function updateDiscardDisplay() {
             discardHandDiv.innerHTML = '';
-            discardPile.forEach((card) => {
-                const cardElem = createCardElem(card, null);
+            discardPile.forEach((card, index) => {
+                const cardElem = createCardElem(card, () => enlargeDiscardCard(index));
                 discardHandDiv.appendChild(cardElem);
             });
         }
@@ -566,6 +567,64 @@
                 enlargedCard.remove();
                 enlargedCard = null;
             };
+        }
+
+        function enlargeDiscardCard(index) {
+            if (enlargedCard) return;
+
+            const card = discardPile[index];
+            enlargedCard = document.createElement('div');
+            enlargedCard.classList.add('enlarged');
+            const img = document.createElement('img');
+            img.src = card.image.replace(/200x300\?text=JP(\d+)/, '400x600?text=JP$1');
+            // 실제 이미지 사용 시: img.src = card.image.replace('.gif', '_large.gif');
+            img.alt = card.id;
+            img.onerror = () => {
+                console.error(`확대 이미지 로드 실패: ${img.src}`);
+                messageDiv.textContent = `확대 이미지 로드 실패: ${card.id}`;
+                setTimeout(() => { messageDiv.textContent = ''; }, 5000);
+            };
+            enlargedCard.appendChild(img);
+
+            const buttonDiv = document.createElement('div');
+            buttonDiv.classList.add('enlarged-buttons');
+
+            const returnButton = document.createElement('button');
+            returnButton.textContent = '카드 덱으로 다시 가져오기 (4)';
+            returnButton.addEventListener('click', () => {
+                hand.push(discardPile.splice(index, 1)[0]);
+                updateHandDisplay();
+                updateDiscardDisplay();
+                updateDeckRemainingDisplay();
+                closeEnlarged();
+                messageDiv.textContent = '카드가 핸드에 추가되었습니다!';
+                setTimeout(() => { messageDiv.textContent = ''; }, 3000);
+            });
+
+            buttonDiv.appendChild(returnButton);
+            enlargedCard.appendChild(buttonDiv);
+            document.body.appendChild(enlargedCard);
+
+            // 키보드 이벤트: 4번 동작
+            const handleKeyPress = (e) => {
+                if (e.key === '4') {
+                    returnButton.click();
+                }
+            };
+            document.addEventListener('keydown', handleKeyPress);
+
+            // 클로저
+            enlargedCard.close = () => {
+                document.removeEventListener('keydown', handleKeyPress);
+                document.removeEventListener('click', closeEnlargedOutside);
+                enlargedCard.remove();
+                enlargedCard = null;
+            };
+
+            // 확대된 카드 닫기
+            setTimeout(() => {
+                document.addEventListener('click', closeEnlargedOutside);
+            }, 0);
         }
 
         function closeEnlarged() {
