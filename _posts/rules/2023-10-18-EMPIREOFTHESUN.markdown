@@ -35,6 +35,7 @@ v1.1 - 시나리오 준비 부분 내용 추가
 
 - [CDSS 기계 번역](/wepapps/eots/cdss.html)
 - [에라스무스 웹 앱 링크](/wepapps/eots/erasmus.html)
+- [에라스무스 카드 앱(테스트 중)](/wepapps/eots/card.html)
 
 8페이지 분량의 플레이어 도움말 번역 자료입니다.
 - [자료 다운로드 링크](https://drive.google.com/file/d/1mEgoGYVaZwMXADcdef2x9HI5HKnccgO6/view?usp=sharing)
