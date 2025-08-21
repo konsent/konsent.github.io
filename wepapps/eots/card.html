@@ -179,7 +179,7 @@
     </div>
 
     <script>
-        const numCards = 20; // 일본군 덱 크기
+        const numCards = 82; // 일본군 덱 크기
         let deck = [];
         let currentTurn = 1;
         let hand = [];
@@ -190,7 +190,7 @@
 
         // 덱 초기화
         for (let i = 1; i <= numCards; i++) {
-            deck.push({ id: `JP Card ${i}`, image: `${i}.gif` });
+            deck.push({ id: `JP Card ${i}`, image: `https://via.placeholder.com/200x300?text=JP${i}` });
         }
 
         function shuffle(array) {
@@ -232,7 +232,10 @@
             let finalCardsToDraw;
             let reductions = submarineSuccess + Math.min(2, bombingSuccesses);
 
-            if (currentTurn >= 2 && currentTurn <= 4) {
+            if (currentTurn === 1) {
+                baseCards = 2; // 1턴: JP Card 1, JP Card 2만 뽑음
+                finalCardsToDraw = 2; // 감소 적용 안 함
+            } else if (currentTurn >= 2 && currentTurn <= 4) {
                 baseCards = 7; // 2~4턴: 무조건 7장 [12.12]
                 finalCardsToDraw = 7; // 감소 적용 안 함
             } else {
@@ -250,21 +253,28 @@
 
             // 덱에서 카드 뽑기
             let cardsDrawn = 0;
-            while (cardsDrawn < finalCardsToDraw) {
-                if (deck.length === 0) {
-                    if (discardPile.length === 0) {
-                        messageDiv.textContent = '뽑을 카드가 없습니다!';
-                        break;
+            if (currentTurn === 1) {
+                // 1턴: JP Card 1, JP Card 2만 뽑음
+                hand = deck.filter(card => card.id === 'JP Card 1' || card.id === 'JP Card 2');
+                deck = deck.filter(card => card.id !== 'JP Card 1' && card.id !== 'JP Card 2');
+                cardsDrawn = hand.length;
+            } else {
+                while (cardsDrawn < finalCardsToDraw) {
+                    if (deck.length === 0) {
+                        if (discardPile.length === 0) {
+                            messageDiv.textContent = '뽑을 카드가 없습니다!';
+                            break;
+                        }
+                        deck = discardPile.slice();
+                        discardPile = [];
+                        shuffle(deck);
+                        messageDiv.textContent = '버린 카드 더미를 섞는 중...';
+                        setTimeout(() => { messageDiv.textContent = ''; }, 5000);
+                        updateDiscardDisplay();
                     }
-                    deck = discardPile.slice();
-                    discardPile = [];
-                    shuffle(deck);
-                    messageDiv.textContent = '버린 카드 더미를 섞는 중...';
-                    setTimeout(() => { messageDiv.textContent = ''; }, 5000);
-                    updateDiscardDisplay();
+                    hand.push(deck.pop());
+                    cardsDrawn++;
                 }
-                hand.push(deck.pop());
-                cardsDrawn++;
             }
 
             updateHandDisplay();
