@@ -179,18 +179,19 @@
     </div>
 
     <script>
-        const numCards = 82; // 일본군 덱 크기
+        const numCards = 20; // 일본군 덱 크기
         let deck = [];
         let currentTurn = 1;
         let hand = [];
         let futureOffensive = null;
         let discardPile = [];
+        let removedCards = []; // 게임에서 제거된 카드
         let enlargedCard = null;
         let passes = 0;
 
         // 덱 초기화
         for (let i = 1; i <= numCards; i++) {
-            deck.push({ id: `JP Card ${i}`, image: `https://via.placeholder.com/200x300?text=JP${i}` });
+            deck.push({ id: `JP Card ${i}`, image: `${i}.gif` });
         }
 
         function shuffle(array) {
@@ -328,7 +329,7 @@
             enlargedCard = document.createElement('div');
             enlargedCard.classList.add('enlarged');
             const img = document.createElement('img');
-            img.src = card.image.replace('200x300', '400x600');
+            img.src = card.image.replace('.gif', '_large.gif'); // 확대 이미지 (예: 1.gif → 1_large.gif)
             img.alt = card.id;
             enlargedCard.appendChild(img);
 
@@ -347,7 +348,7 @@
 
             const futureButton = document.createElement('button');
             futureButton.textContent = '미래 공세 (2)';
-            futureButton.disabled = !!futureOffensive || ['JP Card 43', 'JP Card 82'].includes(card.id);
+            futureButton.disabled = !!futureOffensive || ['JP Card 19', 'JP Card 20'].includes(card.id);
             futureButton.addEventListener('click', () => {
                 if (!futureOffensive) {
                     futureOffensive = hand.splice(index, 1)[0];
@@ -358,8 +359,18 @@
                 }
             });
 
+            const removeButton = document.createElement('button');
+            removeButton.textContent = '게임에서 제거 (3)';
+            removeButton.addEventListener('click', () => {
+                removedCards.push(hand.splice(index, 1)[0]);
+                closeEnlarged();
+                updateHandDisplay();
+                checkNextTurn();
+            });
+
             buttonDiv.appendChild(useButton);
             buttonDiv.appendChild(futureButton);
+            buttonDiv.appendChild(removeButton);
             enlargedCard.appendChild(buttonDiv);
             document.body.appendChild(enlargedCard);
 
@@ -369,6 +380,8 @@
                     useButton.click();
                 } else if (e.key === '2' && !futureButton.disabled) {
                     futureButton.click();
+                } else if (e.key === '3') {
+                    removeButton.click();
                 }
             };
             document.addEventListener('keydown', handleKeyPress);
@@ -394,7 +407,7 @@
             enlargedCard = document.createElement('div');
             enlargedCard.classList.add('enlarged');
             const img = document.createElement('img');
-            img.src = card.image.replace('200x300', '400x600');
+            img.src = card.image.replace('.gif', '_large.gif'); // 확대 이미지
             img.alt = card.id;
             enlargedCard.appendChild(img);
 
