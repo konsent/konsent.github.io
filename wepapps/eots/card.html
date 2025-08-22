@@ -120,6 +120,7 @@
             border-radius: 5px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
             transition: transform 0.2s;
+            position: relative;
         }
         .card:hover {
             transform: scale(1.05);
@@ -129,6 +130,10 @@
             height: 100%;
             object-fit: cover;
             border-radius: 3px;
+            display: none; /* 로드 전 숨김 */
+        }
+        .card img.loaded {
+            display: block;
         }
         .enlarged {
             position: fixed;
@@ -137,16 +142,21 @@
             transform: translate(-50%, -50%);
             width: 400px;
             height: 600px;
-            z-index: 10;
+            z-index: 30; /* 모달(z-index: 20) 앞에 표시 */
             border: 3px solid #d4c4a1;
             border-radius: 8px;
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7);
+            transition: none; /* 떨림 방지 */
         }
         .enlarged img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             border-radius: 5px;
+            display: none; /* 로드 전 숨김 */
+        }
+        .enlarged img.loaded {
+            display: block;
         }
         .enlarged-buttons {
             position: absolute;
@@ -288,6 +298,18 @@
             80% { opacity: 1; }
             100% { opacity: 0; display: none; }
         }
+        .placeholder {
+            width: 100%;
+            height: 100%;
+            background: #4b4e50;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #d4c4a1;
+            font-size: 16px;
+            text-align: center;
+            border-radius: 3px;
+        }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&display=swap" rel="stylesheet">
 </head>
@@ -346,6 +368,8 @@
 
     <script>
         const numCards = 20; // 각 군대별 덱 크기
+        const imageExtensions = ['.png']; // PNG로 고정
+        const placeholderImage = 'card_image/placeholder.png'; // 플레이스홀더 이미지
         let factions = {
             allied: { deck: [], hand: [], futureOffensive: null, discardPile: [], removedCards: [], currentTurn: 1, passes: 0, stateHistory: [] },
             japanese: { deck: [], hand: [], futureOffensive: null, discardPile: [], removedCards: [], currentTurn: 1, passes: 0, stateHistory: [] }
@@ -353,12 +377,18 @@
         let currentFaction = 'japanese'; // 기본: 일본군
         let enlargedCard = null;
 
+        // 이미지 경로 생성 함수
+        function getValidImagePath(basePath, cardNumber, isLarge = false) {
+            return `${basePath}/${cardNumber}${isLarge ? '_large' : ''}${imageExtensions[0]}`;
+        }
+
         // 덱 초기화
         function initializeDeck(faction) {
             const deck = [];
             const path = faction === 'allied' ? 'card_image/al' : 'card_image/jp';
             for (let i = 1; i <= numCards; i++) {
-                deck.push({ id: `${faction === 'allied' ? 'AL Card' : 'JP Card'} ${i}`, image: `${path}/${i}.gif` });
+                const imagePath = getValidImagePath(path, i);
+                deck.push({ id: `${faction === 'allied' ? 'AL Card' : 'JP Card'} ${i}`, image: imagePath });
             }
             shuffle(deck);
             return deck;
@@ -483,10 +513,18 @@
             passDisplay.textContent = `패스: ${faction.passes}`;
             alliedUsePassButton.disabled = faction.passes === 0;
             japaneseUsePassButton.disabled = faction.passes === 0;
-            alliedDrawButton.disabled = faction.hand.length > 0 && currentFaction === 'allied';
+            alliedDrawButton.disabled = faction.hand.length > 0 || (currentFaction === 'allied' && faction.currentTurn === 1);
             japaneseDrawButton.disabled = faction.hand.length > 0 && currentFaction === 'japanese';
             nextTurnButton.disabled = faction.hand.length > 0;
             undoButton.disabled = faction.stateHistory.length === 0;
+
+            // 연합군 1턴에서 메시지 표시
+            if (currentFaction === 'allied' && faction.currentTurn === 1) {
+                messageDiv.textContent = '연합군은 1턴에 카드를 뽑지 않습니다';
+            } else {
+                messageDiv.textContent = '';
+            }
+
             updateHandDisplay();
             updateFutureDisplay();
             updateDiscardModal();
@@ -611,7 +649,7 @@
 
             updateHandDisplay();
             updateDeckRemainingDisplay();
-            alliedDrawButton.disabled = faction.hand.length > 0 && factionType === 'allied';
+            alliedDrawButton.disabled = faction.hand.length > 0 || (factionType === 'allied' && faction.currentTurn === 1);
             japaneseDrawButton.disabled = faction.hand.length > 0 && factionType === 'japanese';
             checkNextTurn();
         }
@@ -669,11 +707,12 @@
                     // 턴 전환
                     faction.currentTurn++;
                     turnDisplay.textContent = `턴: ${faction.currentTurn}`;
-                    alliedDrawButton.disabled = currentFaction === 'allied' && faction.hand.length > 0;
+                    alliedDrawButton.disabled = currentFaction === 'allied' && (faction.hand.length > 0 || faction.currentTurn === 1);
                     japaneseDrawButton.disabled = currentFaction === 'japanese' && faction.hand.length > 0;
                     faction.hand = [];
                     updateHandDisplay();
                     updateDeckRemainingDisplay();
+                    updateUI(); // 메시지 및 버튼 상태 갱신
                 }
             }
         });
@@ -701,14 +740,26 @@
         function createCardElem(card, clickHandler) {
             const cardElem = document.createElement('div');
             cardElem.classList.add('card');
+            const placeholder = document.createElement('div');
+            placeholder.classList.add('placeholder');
+            placeholder.textContent = '이미지 로드 중...';
+            cardElem.appendChild(placeholder);
+
             const img = document.createElement('img');
-            img.src = card.image;
             img.alt = card.id;
+            img.src = card.image;
+            console.log(`이미지 로드 시도: ${card.id}, 경로: ${img.src}`);
             img.onerror = () => {
-                messageDiv.textContent = `이미지 로드 실패: ${card.id}`;
-                setTimeout(() => { messageDiv.textContent = ''; }, 5000);
+                // messageDiv.textContent = `이미지 로드 실패: ${card.id}, 시도한 경로: ${card.image}`;
+                // setTimeout(() => { messageDiv.textContent = ''; }, 5000);
+                img.src = placeholderImage;
+                console.log(`이미지 로드 실패, 플레이스홀더 사용: ${card.id}, 경로: ${img.src}`);
             };
-            cardElem.appendChild(img);
+            img.onload = () => {
+                cardElem.removeChild(placeholder);
+                img.classList.add('loaded');
+                cardElem.appendChild(img);
+            };
             if (clickHandler) {
                 cardElem.addEventListener('click', clickHandler);
             }
@@ -751,21 +802,29 @@
             const card = faction.hand[index];
             enlargedCard = document.createElement('div');
             enlargedCard.classList.add('enlarged');
+            const placeholder = document.createElement('div');
+            placeholder.classList.add('placeholder');
+            placeholder.textContent = '확대 이미지 로드 중...';
+            enlargedCard.appendChild(placeholder);
+
             const img = document.createElement('img');
-            img.src = ''; // 초기화
-            img.src = `${card.image.replace(/\.gif$/, '_large.gif')}`;
-            console.log(`확대 이미지 로드 시도: ${img.src}`);
             img.alt = card.id;
-            img.onload = () => {
-                console.log(`확대 이미지 로드 성공: ${img.src}`);
-            };
+            const basePath = card.image.substring(0, card.image.lastIndexOf('/'));
+            const cardNumber = card.id.split(' ')[2];
+            img.src = getValidImagePath(basePath, cardNumber, true);
+            console.log(`확대 이미지 로드 시도: ${card.id}, 경로: ${img.src}`);
             img.onerror = () => {
-                if (!img.complete || img.naturalWidth === 0) {
-                    img.src = card.image; // 원본 이미지로 대체
-                    setTimeout(() => { messageDiv.textContent = ''; }, 5000);
-                }
+                // messageDiv.textContent = `확대 이미지 로드 실패: ${card.id}, 시도한 경로: ${basePath}/${cardNumber}_large${imageExtensions[0]}`;
+                // setTimeout(() => { messageDiv.textContent = ''; }, 5000);
+                img.src = card.image; // 원본 이미지로 대체
+                // console.log(`확대 이미지 로드 실패, 원본 사용: ${card.id}, 경로: ${img.src}`);
             };
-            enlargedCard.appendChild(img);
+            img.onload = () => {
+                enlargedCard.removeChild(placeholder);
+                img.classList.add('loaded');
+                enlargedCard.appendChild(img);
+                document.body.appendChild(enlargedCard);
+            };
 
             const buttonDiv = document.createElement('div');
             buttonDiv.classList.add('enlarged-buttons');
@@ -864,8 +923,7 @@
                 };
             }
 
-            enlargedCard.appendChild(buttonDiv);
-            document.body.appendChild(enlargedCard);
+            enlargedCard.appendChild(buttonDiv); // 버튼 즉시 추가
 
             // 확대된 카드 닫기
             setTimeout(() => {
@@ -880,21 +938,29 @@
             const card = faction.futureOffensive;
             enlargedCard = document.createElement('div');
             enlargedCard.classList.add('enlarged');
+            const placeholder = document.createElement('div');
+            placeholder.classList.add('placeholder');
+            placeholder.textContent = '확대 이미지 로드 중...';
+            enlargedCard.appendChild(placeholder);
+
             const img = document.createElement('img');
-            img.src = ''; // 초기화
-            img.src = `${card.image.replace(/\.gif$/, '_large.gif')}`;
-            console.log(`확대 이미지 로드 시도: ${img.src}`);
             img.alt = card.id;
-            img.onload = () => {
-                console.log(`확대 이미지 로드 성공: ${img.src}`);
-            };
+            const basePath = card.image.substring(0, card.image.lastIndexOf('/'));
+            const cardNumber = card.id.split(' ')[2];
+            img.src = getValidImagePath(basePath, cardNumber, true);
+            console.log(`확대 이미지 로드 시도: ${card.id}, 경로: ${img.src}`);
             img.onerror = () => {
-                if (!img.complete || img.naturalWidth === 0) {
-                    img.src = card.image; // 원본 이미지로 대체
-                    setTimeout(() => { messageDiv.textContent = ''; }, 5000);
-                }
+                // messageDiv.textContent = `확대 이미지 로드 실패: ${card.id}, 시도한 경로: ${basePath}/${cardNumber}_large${imageExtensions[0]}`;
+                // setTimeout(() => { messageDiv.textContent = ''; }, 5000);
+                img.src = card.image; // 원본 이미지로 대체
+                console.log(`확대 이미지 로드 실패, 원본 사용: ${card.id}, 경로: ${img.src}`);
             };
-            enlargedCard.appendChild(img);
+            img.onload = () => {
+                enlargedCard.removeChild(placeholder);
+                img.classList.add('loaded');
+                enlargedCard.appendChild(img);
+                document.body.appendChild(enlargedCard);
+            };
 
             const buttonDiv = document.createElement('div');
             buttonDiv.classList.add('enlarged-buttons');
@@ -913,8 +979,7 @@
             });
 
             buttonDiv.appendChild(useButton);
-            enlargedCard.appendChild(buttonDiv);
-            document.body.appendChild(enlargedCard);
+            enlargedCard.appendChild(buttonDiv); // 버튼 즉시 추가
 
             // 키보드 이벤트 추가
             const handleKeyPress = (e) => {
@@ -945,21 +1010,29 @@
             const card = faction.discardPile[index];
             enlargedCard = document.createElement('div');
             enlargedCard.classList.add('enlarged');
+            const placeholder = document.createElement('div');
+            placeholder.classList.add('placeholder');
+            placeholder.textContent = '확대 이미지 로드 중...';
+            enlargedCard.appendChild(placeholder);
+
             const img = document.createElement('img');
-            img.src = ''; // 초기화
-            img.src = `${card.image.replace(/\.gif$/, '_large.gif')}`;
-            console.log(`확대 이미지 로드 시도: ${img.src}`);
             img.alt = card.id;
-            img.onload = () => {
-                console.log(`확대 이미지 로드 성공: ${img.src}`);
-            };
+            const basePath = card.image.substring(0, card.image.lastIndexOf('/'));
+            const cardNumber = card.id.split(' ')[2];
+            img.src = getValidImagePath(basePath, cardNumber, true);
+            console.log(`확대 이미지 로드 시도: ${card.id}, 경로: ${img.src}`);
             img.onerror = () => {
-                if (!img.complete || img.naturalWidth === 0) {
-                    img.src = card.image; // 원본 이미지로 대체
-                    setTimeout(() => { messageDiv.textContent = ''; }, 5000);
-                }
+                // messageDiv.textContent = `확대 이미지 로드 실패: ${card.id}, 시도한 경로: ${basePath}/${cardNumber}_large${imageExtensions[0]}`;
+                // setTimeout(() => { messageDiv.textContent = ''; }, 5000);
+                img.src = card.image; // 원본 이미지로 대체
+                console.log(`확대 이미지 로드 실패, 원본 사용: ${card.id}, 경로: ${img.src}`);
             };
-            enlargedCard.appendChild(img);
+            img.onload = () => {
+                enlargedCard.removeChild(placeholder);
+                img.classList.add('loaded');
+                enlargedCard.appendChild(img);
+                document.body.appendChild(enlargedCard);
+            };
 
             const buttonDiv = document.createElement('div');
             buttonDiv.classList.add('enlarged-buttons');
@@ -978,8 +1051,7 @@
             });
 
             buttonDiv.appendChild(returnButton);
-            enlargedCard.appendChild(buttonDiv);
-            document.body.appendChild(enlargedCard);
+            enlargedCard.appendChild(buttonDiv); // 버튼 즉시 추가
 
             // 키보드 이벤트: 4번 동작
             const handleKeyPress = (e) => {
