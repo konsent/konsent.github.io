@@ -14,17 +14,39 @@
         }
         #main-screen {
             display: flex;
+            flex-direction: row;
+            height: 100vh;
+            width: 100%;
+        }
+        #main-image {
+            height: 100vh;
+            width: auto;
+            overflow: hidden;
+        }
+        #main-image img {
+            height: 100%;
+            width: auto;
+            object-fit: contain;
+            object-position: left;
+            display: block;
+            z-index: 0;
+        }
+        #main-content {
+            flex: 1;
+            display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            background-color: #2b2b2b;
             text-align: center;
         }
-        #main-screen h1 {
+        #main-content h1 {
             font-size: 48px;
             margin-bottom: 20px;
             text-transform: uppercase;
             letter-spacing: 3px;
+            white-space: pre-line; /* <br> 태그 반영 */
+            line-height: 1.2; /* 줄 간격 조정 */
         }
         #game-container {
             max-width: 1400px;
@@ -90,8 +112,9 @@
             font-size: 16px;
         }
         #inputs input[type="number"], #allied-inputs input[type="number"] {
-            width: 60px;
-            padding: 5px;
+            width: 50px;
+            font-size: 18px;
+            padding: 4px;
             background: #4b4e50;
             color: #d4c4a1;
             border: 1px solid #6b6e70;
@@ -205,20 +228,20 @@
             font-size: 20px;
             text-align: center;
         }
-        #discard-pile {
+        #discard-pile, #removed-pile {
             margin-top: 10px;
             font-size: 20px;
             text-align: center;
             cursor: pointer;
             transition: color 0.2s;
         }
-        #discard-pile:hover {
+        #discard-pile:hover, #removed-pile:hover {
             color: #ffffff;
         }
         #discard-hand {
             display: none;
         }
-        #discard-modal {
+        #discard-modal, #removed-modal {
             display: none;
             position: fixed;
             top: 50%;
@@ -233,7 +256,7 @@
             max-height: 80vh;
             text-align: center;
         }
-        #discard-modal-content {
+        #discard-modal-content, #removed-modal-content {
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
@@ -244,7 +267,7 @@
             background: #2f3537;
             border-radius: 5px;
         }
-        #discard-modal-close {
+        #discard-modal-close, #removed-modal-close {
             margin-top: 10px;
             padding: 10px 20px;
             background: #ff6b6b;
@@ -254,10 +277,10 @@
             cursor: pointer;
             transition: background 0.2s, transform 0.1s;
         }
-        #discard-modal-close:hover {
+        #discard-modal-close:hover, #removed-modal-close:hover {
             background: #ff8b8b;
         }
-        #discard-modal-close:active {
+        #discard-modal-close:active, #removed-modal-close:active {
             background: #e55b5b;
             transform: scale(0.95);
         }
@@ -315,8 +338,13 @@
 </head>
 <body>
     <div id="main-screen">
-        <h1>태양의 제국 에라스무스 카드 앱</h1>
-        <button id="start-game">게임 시작</button>
+        <div id="main-image">
+            <img src="card_image/eots.jpg" alt="태양의 제국 이미지">
+        </div>
+        <div id="main-content">
+            <h1>태양의 제국<br>에라스무스 카드 앱</h1>
+            <button id="start-game">게임 시작</button>
+        </div>
     </div>
     <div id="game-container">
         <div id="tabs">
@@ -353,6 +381,7 @@
             <div id="future-hand"></div>
             <div id="deck-remaining">남은 카드 더미: 20장</div>
             <div id="discard-pile">버린 카드 더미:</div>
+            <div id="removed-pile">제거된 카드 더미:</div>
             <div id="discard-hand"></div>
             <button id="next-turn" style="display: none;" disabled>다음 턴</button>
             <button id="undo-button" style="display: none;" disabled>이전</button>
@@ -362,6 +391,10 @@
             <div id="discard-modal">
                 <div id="discard-modal-content"></div>
                 <button id="discard-modal-close">닫기</button>
+            </div>
+            <div id="removed-modal">
+                <div id="removed-modal-content"></div>
+                <button id="removed-modal-close">닫기</button>
             </div>
         </div>
     </div>
@@ -412,8 +445,8 @@
                 deck: [...faction.deck],
                 hand: [...faction.hand],
                 discardPile: [...faction.discardPile],
-                futureOffensive: faction.futureOffensive ? { ...faction.futureOffensive } : null,
                 removedCards: [...faction.removedCards],
+                futureOffensive: faction.futureOffensive ? { ...faction.futureOffensive } : null,
                 currentTurn: faction.currentTurn,
                 passes: faction.passes
             });
@@ -429,8 +462,8 @@
             faction.deck = [...lastState.deck];
             faction.hand = [...lastState.hand];
             faction.discardPile = [...lastState.discardPile];
-            faction.futureOffensive = lastState.futureOffensive ? { ...lastState.futureOffensive } : null;
             faction.removedCards = [...lastState.removedCards];
+            faction.futureOffensive = lastState.futureOffensive ? { ...lastState.futureOffensive } : null;
             faction.currentTurn = lastState.currentTurn;
             faction.passes = lastState.passes;
 
@@ -449,6 +482,7 @@
             gameContainer.style.display = 'none';
             mainScreen.style.display = 'flex';
             discardModal.style.display = 'none';
+            removedModal.style.display = 'none';
         }
 
         const mainScreen = document.getElementById('main-screen');
@@ -469,6 +503,7 @@
         const futureHandDiv = document.getElementById('future-hand');
         const deckRemainingDiv = document.getElementById('deck-remaining');
         const discardPileDiv = document.getElementById('discard-pile');
+        const removedPileDiv = document.getElementById('removed-pile');
         const discardHandDiv = document.getElementById('discard-hand');
         const nextTurnButton = document.getElementById('next-turn');
         const undoButton = document.getElementById('undo-button');
@@ -479,6 +514,9 @@
         const discardModal = document.getElementById('discard-modal');
         const discardModalContent = document.getElementById('discard-modal-content');
         const discardModalClose = document.getElementById('discard-modal-close');
+        const removedModal = document.getElementById('removed-modal');
+        const removedModalContent = document.getElementById('removed-modal-content');
+        const removedModalClose = document.getElementById('removed-modal-close');
 
         startGameButton.addEventListener('click', () => {
             mainScreen.style.display = 'none';
@@ -528,8 +566,10 @@
             updateHandDisplay();
             updateFutureDisplay();
             updateDiscardModal();
+            updateRemovedModal();
             updateDeckRemainingDisplay();
             discardModal.style.display = 'none';
+            removedModal.style.display = 'none';
         }
 
         discardPileDiv.addEventListener('click', () => {
@@ -544,6 +584,21 @@
         discardModal.addEventListener('click', (e) => {
             if (e.target === discardModal) {
                 discardModal.style.display = 'none';
+            }
+        });
+
+        removedPileDiv.addEventListener('click', () => {
+            removedModal.style.display = 'block';
+            updateRemovedModal();
+        });
+
+        removedModalClose.addEventListener('click', () => {
+            removedModal.style.display = 'none';
+        });
+
+        removedModal.addEventListener('click', (e) => {
+            if (e.target === removedModal) {
+                removedModal.style.display = 'none';
             }
         });
 
@@ -795,6 +850,14 @@
             });
         }
 
+        function updateRemovedModal() {
+            removedModalContent.innerHTML = '';
+            factions[currentFaction].removedCards.forEach((card, index) => {
+                const cardElem = createCardElem(card, () => enlargeRemovedCard(index));
+                removedModalContent.appendChild(cardElem);
+            });
+        }
+
         function enlargeCard(index) {
             if (enlargedCard) return;
 
@@ -817,7 +880,7 @@
                 // messageDiv.textContent = `확대 이미지 로드 실패: ${card.id}, 시도한 경로: ${basePath}/${cardNumber}_large${imageExtensions[0]}`;
                 // setTimeout(() => { messageDiv.textContent = ''; }, 5000);
                 img.src = card.image; // 원본 이미지로 대체
-                // console.log(`확대 이미지 로드 실패, 원본 사용: ${card.id}, 경로: ${img.src}`);
+                console.log(`확대 이미지 로드 실패, 원본 사용: ${card.id}, 경로: ${img.src}`);
             };
             img.onload = () => {
                 enlargedCard.removeChild(placeholder);
@@ -838,6 +901,7 @@
                     faction.removedCards.push(faction.hand.splice(index, 1)[0]);
                     closeEnlarged();
                     updateHandDisplay();
+                    updateRemovedModal();
                     updateDeckRemainingDisplay();
                     checkNextTurn();
                 });
@@ -894,6 +958,7 @@
                     faction.removedCards.push(faction.hand.splice(index, 1)[0]);
                     closeEnlarged();
                     updateHandDisplay();
+                    updateRemovedModal();
                     updateDeckRemainingDisplay();
                     checkNextTurn();
                 });
@@ -1044,6 +1109,78 @@
                 faction.hand.push(faction.discardPile.splice(index, 1)[0]);
                 updateHandDisplay();
                 updateDiscardModal();
+                updateDeckRemainingDisplay();
+                closeEnlarged();
+                messageDiv.textContent = '카드가 핸드에 추가되었습니다!';
+                setTimeout(() => { messageDiv.textContent = ''; }, 3000);
+            });
+
+            buttonDiv.appendChild(returnButton);
+            enlargedCard.appendChild(buttonDiv); // 버튼 즉시 추가
+
+            // 키보드 이벤트: 4번 동작
+            const handleKeyPress = (e) => {
+                if (e.key === '4') {
+                    returnButton.click();
+                }
+            };
+            document.addEventListener('keydown', handleKeyPress);
+
+            // 클로저
+            enlargedCard.close = () => {
+                document.removeEventListener('keydown', handleKeyPress);
+                document.removeEventListener('click', closeEnlargedOutside);
+                enlargedCard.remove();
+                enlargedCard = null;
+            };
+
+            // 확대된 카드 닫기
+            setTimeout(() => {
+                document.addEventListener('click', closeEnlargedOutside);
+            }, 0);
+        }
+
+        function enlargeRemovedCard(index) {
+            if (enlargedCard) return;
+
+            const faction = factions[currentFaction];
+            const card = faction.removedCards[index];
+            enlargedCard = document.createElement('div');
+            enlargedCard.classList.add('enlarged');
+            const placeholder = document.createElement('div');
+            placeholder.classList.add('placeholder');
+            placeholder.textContent = '확대 이미지 로드 중...';
+            enlargedCard.appendChild(placeholder);
+
+            const img = document.createElement('img');
+            img.alt = card.id;
+            const basePath = card.image.substring(0, card.image.lastIndexOf('/'));
+            const cardNumber = card.id.split(' ')[2];
+            img.src = getValidImagePath(basePath, cardNumber, true);
+            console.log(`확대 이미지 로드 시도: ${card.id}, 경로: ${img.src}`);
+            img.onerror = () => {
+                // messageDiv.textContent = `확대 이미지 로드 실패: ${card.id}, 시도한 경로: ${basePath}/${cardNumber}_large${imageExtensions[0]}`;
+                // setTimeout(() => { messageDiv.textContent = ''; }, 5000);
+                img.src = card.image; // 원본 이미지로 대체
+                console.log(`확대 이미지 로드 실패, 원본 사용: ${card.id}, 경로: ${img.src}`);
+            };
+            img.onload = () => {
+                enlargedCard.removeChild(placeholder);
+                img.classList.add('loaded');
+                enlargedCard.appendChild(img);
+                document.body.appendChild(enlargedCard);
+            };
+
+            const buttonDiv = document.createElement('div');
+            buttonDiv.classList.add('enlarged-buttons');
+
+            const returnButton = document.createElement('button');
+            returnButton.textContent = '카드 덱으로 다시 가져오기 (4)';
+            returnButton.addEventListener('click', () => {
+                saveState();
+                faction.hand.push(faction.removedCards.splice(index, 1)[0]);
+                updateHandDisplay();
+                updateRemovedModal();
                 updateDeckRemainingDisplay();
                 closeEnlarged();
                 messageDiv.textContent = '카드가 핸드에 추가되었습니다!';
