@@ -48,6 +48,53 @@
             white-space: pre-line; /* <br> 태그 반영 */
             line-height: 1.2; /* 줄 간격 조정 */
         }
+        #start-game {
+            padding: 10px 20px;
+            background: #6b6e70;
+            color: #d4c4a1;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            text-transform: uppercase;
+            transition: background 0.2s, transform 0.1s;
+        }
+        #start-game:hover {
+            background: #8b8e90;
+        }
+        #start-game:active {
+            background: #5b5e60;
+            transform: scale(0.95);
+        }
+        /* 모바일 반응형 스타일 */
+        @media (max-width: 768px) {
+            #main-screen {
+                flex-direction: column;
+                height: auto;
+            }
+            #main-image {
+                width: 100%;
+                height: auto;
+            }
+            #main-image img {
+                width: 100%;
+                height: auto;
+                object-fit: contain;
+                object-position: center;
+            }
+            #main-content {
+                width: 100%;
+                padding: 20px;
+            }
+            #main-content h1 {
+                font-size: 32px;
+                margin: 10px 0;
+            }
+            #start-game {
+                font-size: 16px;
+                padding: 8px 16px;
+            }
+        }
         #game-container {
             max-width: 1400px;
             margin: auto;
