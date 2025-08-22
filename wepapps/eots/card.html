@@ -37,6 +37,34 @@
             display: none;
             min-height: 100vh;
         }
+        #tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .tab {
+            padding: 10px 20px;
+            background: #6b6e70;
+            color: #d4c4a1;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            text-transform: uppercase;
+            transition: background 0.2s, transform 0.1s;
+        }
+        .tab:hover {
+            background: #8b8e90;
+        }
+        .tab.active {
+            background: #d4c4a1;
+            color: #2b2b2b;
+        }
+        .tab:active:not(.active) {
+            background: #5b5e60;
+            transform: scale(0.95);
+        }
         #turn-display {
             font-size: 28px;
             margin-bottom: 15px;
@@ -49,7 +77,7 @@
             text-align: center;
             margin-bottom: 15px;
         }
-        #inputs {
+        #inputs, #allied-inputs {
             margin-bottom: 20px;
             display: flex;
             gap: 15px;
@@ -58,10 +86,10 @@
             padding: 10px;
             border-radius: 5px;
         }
-        #inputs label {
+        #inputs label, #allied-inputs label {
             font-size: 16px;
         }
-        #inputs input[type="number"] {
+        #inputs input[type="number"], #allied-inputs input[type="number"] {
             width: 60px;
             padding: 5px;
             background: #4b4e50;
@@ -69,8 +97,12 @@
             border: 1px solid #6b6e70;
             border-radius: 3px;
         }
-        #inputs input[type="checkbox"] {
+        #inputs input[type="checkbox"], #allied-inputs input[type="checkbox"] {
             transform: scale(1.5);
+        }
+        #allied-inputs .surrender-checkbox {
+            display: inline-block;
+            margin-right: 10px;
         }
         #hand {
             display: flex;
@@ -145,7 +177,7 @@
             opacity: 0.5;
             cursor: not-allowed;
         }
-        #next-turn, #undo-button {
+        #next-turn, #undo-button, #restart-button {
             position: absolute;
             top: 20px;
         }
@@ -154,6 +186,9 @@
         }
         #undo-button {
             right: 120px;
+        }
+        #restart-button {
+            right: 220px;
         }
         #deck-remaining {
             margin-top: 30px;
@@ -164,16 +199,57 @@
             margin-top: 10px;
             font-size: 20px;
             text-align: center;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        #discard-pile:hover {
+            color: #ffffff;
         }
         #discard-hand {
+            display: none;
+        }
+        #discard-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            z-index: 20;
+            width: 80%;
+            max-width: 1000px;
+            max-height: 80vh;
+            text-align: center;
+        }
+        #discard-modal-content {
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
-            margin-top: 10px;
             justify-content: center;
-            background: #2f3537;
+            max-height: 60vh;
+            overflow-y: auto;
             padding: 10px;
+            background: #2f3537;
             border-radius: 5px;
+        }
+        #discard-modal-close {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background: #ff6b6b;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+        }
+        #discard-modal-close:hover {
+            background: #ff8b8b;
+        }
+        #discard-modal-close:active {
+            background: #e55b5b;
+            transform: scale(0.95);
         }
         #future-offensive {
             margin-top: 20px;
@@ -192,7 +268,7 @@
             margin-bottom: 15px;
             text-align: center;
         }
-        #turn-modal {
+        #turn-modal, #game-over-modal {
             display: none;
             position: fixed;
             top: 50%;
@@ -205,7 +281,7 @@
             font-size: 24px;
             z-index: 20;
             text-align: center;
-            animation: fadeOut 2s forwards;
+            animation: fadeOut 3s forwards;
         }
         @keyframes fadeOut {
             0% { opacity: 1; }
@@ -221,44 +297,76 @@
         <button id="start-game">게임 시작</button>
     </div>
     <div id="game-container">
-        <div id="turn-display" style="display: none;">턴: 1</div>
-        <div id="pass-display" style="display: none;">패스: 0</div>
-        <div id="message"></div>
-        <div id="inputs" style="display: none;">
-            <label>자원 헥스: <input type="number" id="resource-hexes" min="0" max="14" value="14"></label>
-            <label>잠수함전 성공: <input type="checkbox" id="submarine-success"></label>
-            <label>전략 폭격 성공 횟수: <input type="number" id="bombing-successes" min="0" max="2" value="0"></label>
-            <button id="draw-cards">카드 뽑기</button>
-            <button id="use-pass" disabled>패스 사용</button>
+        <div id="tabs">
+            <button id="allied-tab" class="tab">연합군</button>
+            <button id="japanese-tab" class="tab active">일본군</button>
         </div>
-        <div id="hand"></div>
-        <div id="future-offensive">미래 공세:</div>
-        <div id="future-hand"></div>
-        <div id="deck-remaining">남은 카드 더미: 20장</div>
-        <div id="discard-pile">버린 카드 더미:</div>
-        <div id="discard-hand"></div>
-        <button id="next-turn" style="display: none;" disabled>다음 턴</button>
-        <button id="undo-button" style="display: none;" disabled>이전</button>
-        <div id="turn-modal"></div>
+        <div id="faction-content">
+            <div id="turn-display" style="display: none;">턴: 1</div>
+            <div id="pass-display" style="display: none;">패스: 0</div>
+            <div id="message"></div>
+            <div id="inputs" style="display: none;">
+                <label>자원 헥스: <input type="number" id="resource-hexes" min="0" max="14" value="14"></label>
+                <label>잠수함전 성공: <input type="checkbox" id="submarine-success"></label>
+                <label>전략 폭격 성공 횟수: <input type="number" id="bombing-successes" min="0" max="2" value="0"></label>
+                <button id="japanese-draw-cards">카드 뽑기</button>
+                <button id="japanese-use-pass" disabled>패스 사용</button>
+            </div>
+            <div id="allied-inputs" style="display: none;">
+                <label>유럽 전쟁 레벨: <input type="number" id="wie-level" min="0" max="4" value="0"></label>
+                <div class="surrender-checkbox">
+                    <label>중국 항복: <input type="checkbox" id="china-surrender"></label>
+                </div>
+                <div class="surrender-checkbox">
+                    <label>인도 항복: <input type="checkbox" id="india-surrender"></label>
+                </div>
+                <div class="surrender-checkbox">
+                    <label>호주 항복: <input type="checkbox" id="australia-surrender"></label>
+                </div>
+                <button id="allied-draw-cards">카드 뽑기</button>
+                <button id="allied-use-pass" disabled>패스 사용</button>
+            </div>
+            <div id="hand"></div>
+            <div id="future-offensive">미래 공세:</div>
+            <div id="future-hand"></div>
+            <div id="deck-remaining">남은 카드 더미: 20장</div>
+            <div id="discard-pile">버린 카드 더미:</div>
+            <div id="discard-hand"></div>
+            <button id="next-turn" style="display: none;" disabled>다음 턴</button>
+            <button id="undo-button" style="display: none;" disabled>이전</button>
+            <button id="restart-button" style="display: none;">다시 시작</button>
+            <div id="turn-modal"></div>
+            <div id="game-over-modal"></div>
+            <div id="discard-modal">
+                <div id="discard-modal-content"></div>
+                <button id="discard-modal-close">닫기</button>
+            </div>
+        </div>
     </div>
 
     <script>
-        const numCards = 20; // 일본군 덱 크기
-        let deck = [];
-        let currentTurn = 1;
-        let hand = [];
-        let futureOffensive = null;
-        let discardPile = [];
-        let removedCards = []; // 게임에서 제거된 카드
+        const numCards = 20; // 각 군대별 덱 크기
+        let factions = {
+            allied: { deck: [], hand: [], futureOffensive: null, discardPile: [], removedCards: [], currentTurn: 1, passes: 0, stateHistory: [] },
+            japanese: { deck: [], hand: [], futureOffensive: null, discardPile: [], removedCards: [], currentTurn: 1, passes: 0, stateHistory: [] }
+        };
+        let currentFaction = 'japanese'; // 기본: 일본군
         let enlargedCard = null;
-        let passes = 0;
-        let stateHistory = []; // 상태 기록 배열
 
         // 덱 초기화
-        for (let i = 1; i <= numCards; i++) {
-            deck.push({ id: `JP Card ${i}`, image: `${i}.gif` });
-            // 실제 이미지 사용 시: { id: `JP Card ${i}`, image: `${i}.gif` }
+        function initializeDeck(faction) {
+            const deck = [];
+            const path = faction === 'allied' ? 'card_image/al' : 'card_image/jp';
+            for (let i = 1; i <= numCards; i++) {
+                deck.push({ id: `${faction === 'allied' ? 'AL Card' : 'JP Card'} ${i}`, image: `${path}/${i}.gif` });
+            }
+            shuffle(deck);
+            return deck;
         }
+
+        // 초기화
+        factions.allied.deck = initializeDeck('allied');
+        factions.japanese.deck = initializeDeck('japanese');
 
         function shuffle(array) {
             for (let i = array.length - 1; i > 0; i--) {
@@ -267,156 +375,269 @@
             }
         }
 
-        shuffle(deck);
-
         // 상태 저장 함수
         function saveState() {
-            stateHistory.push({
-                deck: [...deck],
-                hand: [...hand],
-                discardPile: [...discardPile],
-                futureOffensive: futureOffensive ? { ...futureOffensive } : null,
-                removedCards: [...removedCards],
-                currentTurn: currentTurn,
-                passes: passes
+            const faction = factions[currentFaction];
+            faction.stateHistory.push({
+                deck: [...faction.deck],
+                hand: [...faction.hand],
+                discardPile: [...faction.discardPile],
+                futureOffensive: faction.futureOffensive ? { ...faction.futureOffensive } : null,
+                removedCards: [...faction.removedCards],
+                currentTurn: faction.currentTurn,
+                passes: faction.passes
             });
             undoButton.disabled = false;
         }
 
         // 상태 복원 함수
         function undo() {
-            if (stateHistory.length === 0) return;
+            const faction = factions[currentFaction];
+            if (faction.stateHistory.length === 0) return;
 
-            const lastState = stateHistory.pop();
-            deck = [...lastState.deck];
-            hand = [...lastState.hand];
-            discardPile = [...lastState.discardPile];
-            futureOffensive = lastState.futureOffensive ? { ...lastState.futureOffensive } : null;
-            removedCards = [...lastState.removedCards];
-            currentTurn = lastState.currentTurn;
-            passes = lastState.passes;
+            const lastState = faction.stateHistory.pop();
+            faction.deck = [...lastState.deck];
+            faction.hand = [...lastState.hand];
+            faction.discardPile = [...lastState.discardPile];
+            faction.futureOffensive = lastState.futureOffensive ? { ...lastState.futureOffensive } : null;
+            faction.removedCards = [...lastState.removedCards];
+            faction.currentTurn = lastState.currentTurn;
+            faction.passes = lastState.passes;
 
             // UI 갱신
-            turnDisplay.textContent = `턴: ${currentTurn}`;
-            passDisplay.textContent = `패스: ${passes}`;
-            usePassButton.disabled = passes === 0;
-            drawButton.disabled = hand.length > 0;
-            nextTurnButton.disabled = hand.length > 0;
-            updateHandDisplay();
-            updateFutureDisplay();
-            updateDiscardDisplay();
-            updateDeckRemainingDisplay();
-            undoButton.disabled = stateHistory.length === 0;
+            updateUI();
 
             messageDiv.textContent = '작업이 취소되었습니다!';
             setTimeout(() => { messageDiv.textContent = ''; }, 3000);
         }
 
+        // 게임 초기화 함수
+        function resetGame() {
+            factions.allied = { deck: initializeDeck('allied'), hand: [], futureOffensive: null, discardPile: [], removedCards: [], currentTurn: 1, passes: 0, stateHistory: [] };
+            factions.japanese = { deck: initializeDeck('japanese'), hand: [], futureOffensive: null, discardPile: [], removedCards: [], currentTurn: 1, passes: 0, stateHistory: [] };
+            updateUI();
+            gameContainer.style.display = 'none';
+            mainScreen.style.display = 'flex';
+            discardModal.style.display = 'none';
+        }
+
         const mainScreen = document.getElementById('main-screen');
         const startGameButton = document.getElementById('start-game');
         const gameContainer = document.getElementById('game-container');
+        const alliedTab = document.getElementById('allied-tab');
+        const japaneseTab = document.getElementById('japanese-tab');
         const turnDisplay = document.getElementById('turn-display');
         const passDisplay = document.getElementById('pass-display');
         const inputsDiv = document.getElementById('inputs');
-        const drawButton = document.getElementById('draw-cards');
-        const usePassButton = document.getElementById('use-pass');
+        const alliedInputs = document.getElementById('allied-inputs');
+        const alliedDrawButton = document.getElementById('allied-draw-cards');
+        const japaneseDrawButton = document.getElementById('japanese-draw-cards');
+        const alliedUsePassButton = document.getElementById('allied-use-pass');
+        const japaneseUsePassButton = document.getElementById('japanese-use-pass');
         const handDiv = document.getElementById('hand');
         const futureDiv = document.getElementById('future-offensive');
         const futureHandDiv = document.getElementById('future-hand');
         const deckRemainingDiv = document.getElementById('deck-remaining');
-        const discardDiv = document.getElementById('discard-pile');
+        const discardPileDiv = document.getElementById('discard-pile');
         const discardHandDiv = document.getElementById('discard-hand');
         const nextTurnButton = document.getElementById('next-turn');
         const undoButton = document.getElementById('undo-button');
+        const restartButton = document.getElementById('restart-button');
         const messageDiv = document.getElementById('message');
         const turnModal = document.getElementById('turn-modal');
+        const gameOverModal = document.getElementById('game-over-modal');
+        const discardModal = document.getElementById('discard-modal');
+        const discardModalContent = document.getElementById('discard-modal-content');
+        const discardModalClose = document.getElementById('discard-modal-close');
 
         startGameButton.addEventListener('click', () => {
             mainScreen.style.display = 'none';
             gameContainer.style.display = 'block';
             turnDisplay.style.display = 'block';
             passDisplay.style.display = 'block';
-            inputsDiv.style.display = 'flex';
+            inputsDiv.style.display = currentFaction === 'japanese' ? 'flex' : 'none';
+            alliedInputs.style.display = currentFaction === 'allied' ? 'flex' : 'none';
             nextTurnButton.style.display = 'block';
             undoButton.style.display = 'block';
-            updateDeckRemainingDisplay();
+            restartButton.style.display = 'block';
+            updateUI();
         });
 
-        drawButton.addEventListener('click', () => {
+        alliedTab.addEventListener('click', () => switchFaction('allied'));
+        japaneseTab.addEventListener('click', () => switchFaction('japanese'));
+
+        function switchFaction(faction) {
+            if (currentFaction !== faction) {
+                currentFaction = faction;
+                alliedTab.classList.toggle('active', faction === 'allied');
+                japaneseTab.classList.toggle('active', faction === 'japanese');
+                inputsDiv.style.display = faction === 'japanese' ? 'flex' : 'none';
+                alliedInputs.style.display = faction === 'allied' ? 'flex' : 'none';
+                updateUI();
+            }
+        }
+
+        function updateUI() {
+            const faction = factions[currentFaction];
+            turnDisplay.textContent = `턴: ${faction.currentTurn}`;
+            passDisplay.textContent = `패스: ${faction.passes}`;
+            alliedUsePassButton.disabled = faction.passes === 0;
+            japaneseUsePassButton.disabled = faction.passes === 0;
+            alliedDrawButton.disabled = faction.hand.length > 0 && currentFaction === 'allied';
+            japaneseDrawButton.disabled = faction.hand.length > 0 && currentFaction === 'japanese';
+            nextTurnButton.disabled = faction.hand.length > 0;
+            undoButton.disabled = faction.stateHistory.length === 0;
+            updateHandDisplay();
+            updateFutureDisplay();
+            updateDiscardModal();
+            updateDeckRemainingDisplay();
+            discardModal.style.display = 'none';
+        }
+
+        discardPileDiv.addEventListener('click', () => {
+            discardModal.style.display = 'block';
+            updateDiscardModal();
+        });
+
+        discardModalClose.addEventListener('click', () => {
+            discardModal.style.display = 'none';
+        });
+
+        discardModal.addEventListener('click', (e) => {
+            if (e.target === discardModal) {
+                discardModal.style.display = 'none';
+            }
+        });
+
+        function drawCards(factionType) {
             saveState();
-            const resourceHexes = Math.min(14, parseInt(document.getElementById('resource-hexes').value) || 0);
-            const submarineSuccess = document.getElementById('submarine-success').checked ? 1 : 0;
-            const bombingSuccesses = parseInt(document.getElementById('bombing-successes').value) || 0;
+            const faction = factions[factionType];
+            let baseCards = 0;
+            let finalCardsToDraw = 0;
+            let basePasses = 0;
+            let reductions = 0;
+            let additionalPasses = 0;
 
-            let baseCards;
-            let finalCardsToDraw;
-            let reductions = submarineSuccess + Math.min(2, bombingSuccesses);
+            if (factionType === 'allied') {
+                // 연합군 카드 뽑기 규칙
+                if (faction.currentTurn === 1) {
+                    baseCards = 0; // 1턴: 카드 뽑지 않음
+                    basePasses = 0;
+                } else if (faction.currentTurn === 2) {
+                    baseCards = 5; // 2턴: 5장
+                    basePasses = 2;
+                } else if (faction.currentTurn === 3) {
+                    baseCards = 6; // 3턴: 6장
+                    basePasses = 1;
+                } else {
+                    baseCards = 7; // 4턴 이후: 7장
+                    basePasses = 0;
+                }
 
-            if (currentTurn === 1) {
-                baseCards = 2; // 1턴: JP Card 1, JP Card 2만 뽑음
-                finalCardsToDraw = 2; // 감소 적용 안 함
-            } else if (currentTurn >= 2 && currentTurn <= 4) {
-                baseCards = 7; // 2~4턴: 무조건 7장
-                finalCardsToDraw = 7; // 감소 적용 안 함
+                // WIE 레벨 및 항복 국가
+                const wieLevel = parseInt(document.getElementById('wie-level').value) || 0;
+                reductions = (wieLevel === 4 ? 1 : 0) +
+                            (document.getElementById('china-surrender').checked ? 1 : 0) +
+                            (document.getElementById('india-surrender').checked ? 1 : 0) +
+                            (document.getElementById('australia-surrender').checked ? 1 : 0);
+                finalCardsToDraw = Math.max(4, baseCards - reductions); // 최소 4장
+                additionalPasses = reductions;
+                faction.passes = Math.min(2, basePasses + additionalPasses); // 최대 2개 패스
+
+                // 디버그 메시지
+                messageDiv.textContent = `연합군 - 뽑을 카드: ${finalCardsToDraw} (턴: ${faction.currentTurn}, 기본: ${baseCards}, WIE 레벨: ${wieLevel}, 중국: ${document.getElementById('china-surrender').checked ? '항복' : '미항복'}, 인도: ${document.getElementById('india-surrender').checked ? '항복' : '미항복'}, 호주: ${document.getElementById('australia-surrender').checked ? '항복' : '미항복'}, 감소: ${reductions}, 패스: ${faction.passes})`;
+                setTimeout(() => { messageDiv.textContent = ''; }, 5000);
             } else {
-                baseCards = Math.max(4, Math.ceil(resourceHexes / 2)); // 자원 헥스 2개당 1장, 최소 4장
-                finalCardsToDraw = Math.max(4, baseCards - reductions); // 감소 적용, 최소 4장
+                // 일본군 카드 뽑기 규칙
+                const resourceHexes = Math.min(14, parseInt(document.getElementById('resource-hexes').value) || 0);
+                const submarineSuccess = document.getElementById('submarine-success').checked ? 1 : 0;
+                const bombingSuccesses = parseInt(document.getElementById('bombing-successes').value) || 0;
+                reductions = submarineSuccess + Math.min(2, bombingSuccesses);
+
+                if (faction.currentTurn === 1) {
+                    baseCards = 2; // 1턴: 첫 두 카드
+                    finalCardsToDraw = 2; // 감소 적용 안 함
+                } else if (faction.currentTurn >= 2 && faction.currentTurn <= 4) {
+                    baseCards = 7; // 2~4턴: 7장
+                    finalCardsToDraw = 7; // 감소 적용 안 함
+                } else {
+                    baseCards = Math.max(4, Math.ceil(resourceHexes / 2)); // 자원 헥스 2개당 1장, 최소 4장
+                    finalCardsToDraw = Math.max(4, baseCards - reductions); // 감소 적용, 최소 4장
+                }
+
+                // 패스 계산
+                faction.passes = faction.currentTurn === 1 ? 0 : finalCardsToDraw === 6 ? 1 : finalCardsToDraw <= 5 ? 2 : 0;
+
+                // 디버그 메시지
+                messageDiv.textContent = `일본군 - 뽑을 카드: ${finalCardsToDraw} (턴: ${faction.currentTurn}, 기본: ${baseCards}, 잠수함전: ${submarineSuccess}, 폭격: ${bombingSuccesses}, 감소: ${reductions}, 패스: ${faction.passes})`;
+                setTimeout(() => { messageDiv.textContent = ''; }, 5000);
             }
 
-            // 디버그 메시지
-            messageDiv.textContent = `뽑을 카드: ${finalCardsToDraw} (턴: ${currentTurn}, 기본: ${baseCards}, 잠수함전: ${submarineSuccess}, 폭격: ${bombingSuccesses}, 감소: ${reductions})`;
-            setTimeout(() => { messageDiv.textContent = ''; }, 5000);
-
-            // 패스 계산 (미래 공세 카드 제외)
-            passes = currentTurn === 1 ? 0 : finalCardsToDraw === 6 ? 1 : finalCardsToDraw <= 5 ? 2 : 0;
-            passDisplay.textContent = `패스: ${passes}`;
-            usePassButton.disabled = passes === 0;
+            // 패스 UI 갱신
+            passDisplay.textContent = `패스: ${faction.passes}`;
+            alliedUsePassButton.disabled = faction.passes === 0;
+            japaneseUsePassButton.disabled = faction.passes === 0;
 
             // 덱에서 카드 뽑기
             let cardsDrawn = 0;
-            if (currentTurn === 1) {
-                // 1턴: JP Card 1, JP Card 2만 뽑음
-                hand = deck.filter(card => card.id === 'JP Card 1' || card.id === 'JP Card 2');
-                deck = deck.filter(card => card.id !== 'JP Card 1' && card.id !== 'JP Card 2');
-                cardsDrawn = hand.length;
+            if (faction.currentTurn === 1 && factionType === 'allied') {
+                // 연합군 1턴: 카드 뽑지 않음
+                faction.hand = [];
+                cardsDrawn = 0;
+            } else if (faction.currentTurn === 1) {
+                // 일본군 1턴: JP Card 1, JP Card 2
+                const prefix = 'JP Card';
+                faction.hand = faction.deck.filter(card => card.id === `${prefix} 1` || card.id === `${prefix} 2`);
+                faction.deck = faction.deck.filter(card => card.id !== `${prefix} 1` && card.id !== `${prefix} 2`);
+                cardsDrawn = faction.hand.length;
             } else {
                 while (cardsDrawn < finalCardsToDraw) {
-                    if (deck.length === 0) {
-                        if (discardPile.length === 0) {
+                    if (faction.deck.length === 0) {
+                        if (faction.discardPile.length === 0) {
                             messageDiv.textContent = `뽑을 카드가 없습니다! (필요: ${finalCardsToDraw - cardsDrawn}장)`;
                             break;
                         }
-                        deck = discardPile.slice();
-                        discardPile = [];
-                        shuffle(deck);
+                        faction.deck = faction.discardPile.slice();
+                        faction.discardPile = [];
+                        shuffle(faction.deck);
                         messageDiv.textContent = '버린 카드 더미를 섞는 중...';
                         setTimeout(() => { messageDiv.textContent = ''; }, 5000);
-                        updateDiscardDisplay();
+                        updateDiscardModal();
                     }
-                    hand.push(deck.pop());
+                    faction.hand.push(faction.deck.pop());
                     cardsDrawn++;
                 }
             }
 
             updateHandDisplay();
             updateDeckRemainingDisplay();
-            drawButton.disabled = true;
+            alliedDrawButton.disabled = faction.hand.length > 0 && factionType === 'allied';
+            japaneseDrawButton.disabled = faction.hand.length > 0 && factionType === 'japanese';
             checkNextTurn();
-        });
+        }
 
-        usePassButton.addEventListener('click', () => {
-            if (passes > 0) {
+        alliedDrawButton.addEventListener('click', () => drawCards('allied'));
+        japaneseDrawButton.addEventListener('click', () => drawCards('japanese'));
+
+        alliedUsePassButton.addEventListener('click', () => usePass('allied'));
+        japaneseUsePassButton.addEventListener('click', () => usePass('japanese'));
+
+        function usePass(factionType) {
+            const faction = factions[factionType];
+            if (faction.passes > 0) {
                 saveState();
-                passes--;
-                passDisplay.textContent = `패스: ${passes}`;
-                usePassButton.disabled = passes === 0;
+                faction.passes--;
+                passDisplay.textContent = `패스: ${faction.passes}`;
+                alliedUsePassButton.disabled = faction.passes === 0;
+                japaneseUsePassButton.disabled = faction.passes === 0;
                 messageDiv.textContent = '패스를 사용했습니다!';
                 setTimeout(() => { messageDiv.textContent = ''; }, 3000);
             }
-        });
+        }
 
         nextTurnButton.addEventListener('click', () => {
-            if (hand.length === 0) {
+            const faction = factions[currentFaction];
+            if (faction.hand.length === 0) {
                 saveState();
                 // 버튼 클릭 피드백
                 nextTurnButton.style.background = '#5b5e60';
@@ -426,23 +647,34 @@
                     nextTurnButton.style.transform = 'scale(1)';
                 }, 200);
 
-                // 화면 맨 위로 스크롤
-                window.scrollTo(0, 0);
+                if (faction.currentTurn === 12) {
+                    // 게임 종료
+                    gameOverModal.textContent = '게임이 종료되었습니다!';
+                    gameOverModal.style.display = 'block';
+                    setTimeout(() => {
+                        gameOverModal.style.display = 'none';
+                        resetGame();
+                    }, 3000);
+                } else {
+                    // 화면 맨 위로 스크롤
+                    window.scrollTo(0, 0);
 
-                // 모달 표시
-                turnModal.textContent = `턴 ${currentTurn + 1}로 넘어갑니다!`;
-                turnModal.style.display = 'block';
-                setTimeout(() => {
-                    turnModal.style.display = 'none';
-                }, 2000);
+                    // 모달 표시
+                    turnModal.textContent = `턴 ${faction.currentTurn + 1}로 넘어갑니다!`;
+                    turnModal.style.display = 'block';
+                    setTimeout(() => {
+                        turnModal.style.display = 'none';
+                    }, 2000);
 
-                // 턴 전환
-                currentTurn++;
-                turnDisplay.textContent = `턴: ${currentTurn}`;
-                drawButton.disabled = false;
-                hand = [];
-                updateHandDisplay();
-                updateDeckRemainingDisplay();
+                    // 턴 전환
+                    faction.currentTurn++;
+                    turnDisplay.textContent = `턴: ${faction.currentTurn}`;
+                    alliedDrawButton.disabled = currentFaction === 'allied' && faction.hand.length > 0;
+                    japaneseDrawButton.disabled = currentFaction === 'japanese' && faction.hand.length > 0;
+                    faction.hand = [];
+                    updateHandDisplay();
+                    updateDeckRemainingDisplay();
+                }
             }
         });
 
@@ -456,6 +688,16 @@
             undo();
         });
 
+        restartButton.addEventListener('click', () => {
+            restartButton.style.background = '#5b5e60';
+            restartButton.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                restartButton.style.background = '#6b6e70';
+                restartButton.style.transform = 'scale(1)';
+            }, 200);
+            resetGame();
+        });
+
         function createCardElem(card, clickHandler) {
             const cardElem = document.createElement('div');
             cardElem.classList.add('card');
@@ -463,7 +705,6 @@
             img.src = card.image;
             img.alt = card.id;
             img.onerror = () => {
-                console.error(`이미지 로드 실패: ${card.image}`);
                 messageDiv.textContent = `이미지 로드 실패: ${card.id}`;
                 setTimeout(() => { messageDiv.textContent = ''; }, 5000);
             };
@@ -476,7 +717,7 @@
 
         function updateHandDisplay() {
             handDiv.innerHTML = '';
-            hand.forEach((card, index) => {
+            factions[currentFaction].hand.forEach((card, index) => {
                 const cardElem = createCardElem(card, () => enlargeCard(index));
                 handDiv.appendChild(cardElem);
             });
@@ -484,51 +725,58 @@
 
         function updateFutureDisplay() {
             futureHandDiv.innerHTML = '';
-            if (futureOffensive) {
-                const cardElem = createCardElem(futureOffensive, enlargeFutureCard);
+            const faction = factions[currentFaction];
+            if (faction.futureOffensive) {
+                const cardElem = createCardElem(faction.futureOffensive, enlargeFutureCard);
                 futureHandDiv.appendChild(cardElem);
             }
         }
 
         function updateDeckRemainingDisplay() {
-            deckRemainingDiv.textContent = `남은 카드 더미: ${deck.length}장`;
+            deckRemainingDiv.textContent = `남은 카드 더미: ${factions[currentFaction].deck.length}장`;
         }
 
-        function updateDiscardDisplay() {
-            discardHandDiv.innerHTML = '';
-            discardPile.forEach((card, index) => {
+        function updateDiscardModal() {
+            discardModalContent.innerHTML = '';
+            factions[currentFaction].discardPile.forEach((card, index) => {
                 const cardElem = createCardElem(card, () => enlargeDiscardCard(index));
-                discardHandDiv.appendChild(cardElem);
+                discardModalContent.appendChild(cardElem);
             });
         }
 
         function enlargeCard(index) {
             if (enlargedCard) return;
 
-            const card = hand[index];
+            const faction = factions[currentFaction];
+            const card = faction.hand[index];
             enlargedCard = document.createElement('div');
             enlargedCard.classList.add('enlarged');
             const img = document.createElement('img');
-            img.src = card.image.replace(/200x300\?text=JP(\d+)/, '400x600?text=JP$1');
-            // 실제 이미지 사용 시: img.src = card.image.replace('.gif', '_large.gif');
+            img.src = ''; // 초기화
+            img.src = `${card.image.replace(/\.gif$/, '_large.gif')}`;
+            console.log(`확대 이미지 로드 시도: ${img.src}`);
             img.alt = card.id;
+            img.onload = () => {
+                console.log(`확대 이미지 로드 성공: ${img.src}`);
+            };
             img.onerror = () => {
-                console.error(`확대 이미지 로드 실패: ${img.src}`);
-                messageDiv.textContent = `확대 이미지 로드 실패: ${card.id}`;
-                setTimeout(() => { messageDiv.textContent = ''; }, 5000);
+                if (!img.complete || img.naturalWidth === 0) {
+                    img.src = card.image; // 원본 이미지로 대체
+                    setTimeout(() => { messageDiv.textContent = ''; }, 5000);
+                }
             };
             enlargedCard.appendChild(img);
 
             const buttonDiv = document.createElement('div');
             buttonDiv.classList.add('enlarged-buttons');
 
-            if (card.id === 'JP Card 1' || card.id === 'JP Card 2') {
-                // JP Card 1, 2: 게임에서 제거 버튼만 표시
+            // 일본군의 1, 2번 카드만 제거 버튼 표시
+            if (currentFaction === 'japanese' && (card.id === 'JP Card 1' || card.id === 'JP Card 2')) {
                 const removeButton = document.createElement('button');
                 removeButton.textContent = '게임에서 제거 (3)';
                 removeButton.addEventListener('click', () => {
                     saveState();
-                    removedCards.push(hand.splice(index, 1)[0]);
+                    faction.removedCards.push(faction.hand.splice(index, 1)[0]);
                     closeEnlarged();
                     updateHandDisplay();
                     updateDeckRemainingDisplay();
@@ -552,13 +800,13 @@
                     enlargedCard = null;
                 };
             } else {
-                // 다른 카드: 기존 버튼 모두 표시
+                // 연합군(모든 카드) 및 일본군(1,2번 제외): 사용, 미래 공세, 제거 버튼 표시
                 const useButton = document.createElement('button');
                 useButton.textContent = '사용 (1)';
                 useButton.addEventListener('click', () => {
                     saveState();
-                    discardPile.push(hand.splice(index, 1)[0]);
-                    updateDiscardDisplay();
+                    faction.discardPile.push(faction.hand.splice(index, 1)[0]);
+                    updateDiscardModal();
                     closeEnlarged();
                     updateHandDisplay();
                     updateDeckRemainingDisplay();
@@ -567,11 +815,11 @@
 
                 const futureButton = document.createElement('button');
                 futureButton.textContent = '미래 공세 (2)';
-                futureButton.disabled = !!futureOffensive || ['JP Card 19', 'JP Card 20'].includes(card.id);
+                futureButton.disabled = !!faction.futureOffensive || [19, 20].includes(parseInt(card.id.split(' ')[2]));
                 futureButton.addEventListener('click', () => {
-                    if (!futureOffensive) {
+                    if (!faction.futureOffensive) {
                         saveState();
-                        futureOffensive = hand.splice(index, 1)[0];
+                        faction.futureOffensive = faction.hand.splice(index, 1)[0];
                         updateFutureDisplay();
                         closeEnlarged();
                         updateHandDisplay();
@@ -584,7 +832,7 @@
                 removeButton.textContent = '게임에서 제거 (3)';
                 removeButton.addEventListener('click', () => {
                     saveState();
-                    removedCards.push(hand.splice(index, 1)[0]);
+                    faction.removedCards.push(faction.hand.splice(index, 1)[0]);
                     closeEnlarged();
                     updateHandDisplay();
                     updateDeckRemainingDisplay();
@@ -628,17 +876,23 @@
         function enlargeFutureCard() {
             if (enlargedCard) return;
 
-            const card = futureOffensive;
+            const faction = factions[currentFaction];
+            const card = faction.futureOffensive;
             enlargedCard = document.createElement('div');
             enlargedCard.classList.add('enlarged');
             const img = document.createElement('img');
-            img.src = card.image.replace(/200x300\?text=JP(\d+)/, '400x600?text=JP$1');
-            // 실제 이미지 사용 시: img.src = card.image.replace('.gif', '_large.gif');
+            img.src = ''; // 초기화
+            img.src = `${card.image.replace(/\.gif$/, '_large.gif')}`;
+            console.log(`확대 이미지 로드 시도: ${img.src}`);
             img.alt = card.id;
+            img.onload = () => {
+                console.log(`확대 이미지 로드 성공: ${img.src}`);
+            };
             img.onerror = () => {
-                console.error(`확대 이미지 로드 실패: ${img.src}`);
-                messageDiv.textContent = `확대 이미지 로드 실패: ${card.id}`;
-                setTimeout(() => { messageDiv.textContent = ''; }, 5000);
+                if (!img.complete || img.naturalWidth === 0) {
+                    img.src = card.image; // 원본 이미지로 대체
+                    setTimeout(() => { messageDiv.textContent = ''; }, 5000);
+                }
             };
             enlargedCard.appendChild(img);
 
@@ -649,10 +903,10 @@
             useButton.textContent = '사용 (1)';
             useButton.addEventListener('click', () => {
                 saveState();
-                discardPile.push(futureOffensive);
-                futureOffensive = null;
+                faction.discardPile.push(faction.futureOffensive);
+                faction.futureOffensive = null;
                 updateFutureDisplay();
-                updateDiscardDisplay();
+                updateDiscardModal();
                 closeEnlarged();
                 updateDeckRemainingDisplay();
                 checkNextTurn();
@@ -687,17 +941,23 @@
         function enlargeDiscardCard(index) {
             if (enlargedCard) return;
 
-            const card = discardPile[index];
+            const faction = factions[currentFaction];
+            const card = faction.discardPile[index];
             enlargedCard = document.createElement('div');
             enlargedCard.classList.add('enlarged');
             const img = document.createElement('img');
-            img.src = card.image.replace(/200x300\?text=JP(\d+)/, '400x600?text=JP$1');
-            // 실제 이미지 사용 시: img.src = card.image.replace('.gif', '_large.gif');
+            img.src = ''; // 초기화
+            img.src = `${card.image.replace(/\.gif$/, '_large.gif')}`;
+            console.log(`확대 이미지 로드 시도: ${img.src}`);
             img.alt = card.id;
+            img.onload = () => {
+                console.log(`확대 이미지 로드 성공: ${img.src}`);
+            };
             img.onerror = () => {
-                console.error(`확대 이미지 로드 실패: ${img.src}`);
-                messageDiv.textContent = `확대 이미지 로드 실패: ${card.id}`;
-                setTimeout(() => { messageDiv.textContent = ''; }, 5000);
+                if (!img.complete || img.naturalWidth === 0) {
+                    img.src = card.image; // 원본 이미지로 대체
+                    setTimeout(() => { messageDiv.textContent = ''; }, 5000);
+                }
             };
             enlargedCard.appendChild(img);
 
@@ -708,9 +968,9 @@
             returnButton.textContent = '카드 덱으로 다시 가져오기 (4)';
             returnButton.addEventListener('click', () => {
                 saveState();
-                hand.push(discardPile.splice(index, 1)[0]);
+                faction.hand.push(faction.discardPile.splice(index, 1)[0]);
                 updateHandDisplay();
-                updateDiscardDisplay();
+                updateDiscardModal();
                 updateDeckRemainingDisplay();
                 closeEnlarged();
                 messageDiv.textContent = '카드가 핸드에 추가되었습니다!';
@@ -756,11 +1016,10 @@
         }
 
         function checkNextTurn() {
-            nextTurnButton.disabled = hand.length > 0;
+            nextTurnButton.disabled = factions[currentFaction].hand.length > 0;
         }
 
-        updateFutureDisplay();
-        updateDeckRemainingDisplay();
+        updateUI();
     </script>
 </body>
 </html>
