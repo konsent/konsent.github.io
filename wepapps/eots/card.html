@@ -985,10 +985,11 @@
                             faction.hand = [];
                             updateHandDisplay();
                             updateDeckRemainingDisplay();
-                            updateUI();
-                            if (currentFaction === 'japanese' && faction.currentTurn === 1) {
-                                drawCards('japanese');
+                            // 자동으로 카드 뽑기 (연합군 1턴 제외)
+                            if (!(currentFaction === 'allied' && faction.currentTurn === 1)) {
+                                drawCards(currentFaction);
                             }
+                            updateUI();
                         }
                     }
                 });
@@ -1277,8 +1278,8 @@
                     });
 
                     buttonDiv.appendChild(ocButton);
-                    buttonDiv.appendChild(eventButton);
                     buttonDiv.appendChild(futureButton);
+                    buttonDiv.appendChild(eventButton);
 
                     const handleKeyPress = (e) => {
                         if (e.key === '1') {
