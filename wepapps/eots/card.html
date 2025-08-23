@@ -1185,7 +1185,7 @@
                     };
                 } else {
                     const ocButton = document.createElement('button');
-                    ocButton.textContent = 'OC (1)';
+                    ocButton.textContent = 'OC/버리기 (1)';
                     ocButton.addEventListener('click', () => {
                         saveState();
                         faction.discardPile.push(faction.hand.splice(index, 1)[0]);
@@ -1203,6 +1203,30 @@
                         if (currentFaction === 'japanese' && faction.currentTurn === 1) {
                             faction.cardsPlayedTurn1.push(card.id);
                             japaneseDrawButton.disabled = true;
+                        }
+                    });
+
+                    const futureButton = document.createElement('button');
+                    futureButton.textContent = '미래 공세 (2)';
+                    const cardNumber = parseInt(card.id.split(' ')[2]);
+                    futureButton.disabled = !!faction.futureOffensive || 
+                        (currentFaction === 'allied' && [79].includes(cardNumber)) || 
+                        (currentFaction === 'japanese' && [43].includes(cardNumber));
+                    futureButton.addEventListener('click', () => {
+                        if (!faction.futureOffensive) {
+                            saveState();
+                            faction.futureOffensive = faction.hand.splice(index, 1)[0];
+                            updateFutureDisplay();
+                            closeEnlarged();
+                            updateHandDisplay();
+                            updateDeckRemainingDisplay();
+                            checkNextTurn();
+                            messageDiv.textContent = '카드가 미래 공세로 설정되었습니다!';
+                            setTimeout(() => { messageDiv.textContent = ''; }, 3000);
+                            if (currentFaction === 'japanese' && faction.currentTurn === 1) {
+                                faction.cardsPlayedTurn1.push(card.id);
+                                japaneseDrawButton.disabled = true;
+                            }
                         }
                     });
 
@@ -1239,33 +1263,12 @@
                         checkNextTurn();
                     });
 
-                    const futureButton = document.createElement('button');
-                    futureButton.textContent = '미래 공세 (2)';
-                    const cardNumber = parseInt(card.id.split(' ')[2]);
-                    futureButton.disabled = !!faction.futureOffensive || 
-                        (currentFaction === 'allied' && [79].includes(cardNumber)) || 
-                        (currentFaction === 'japanese' && [43].includes(cardNumber));
-                    futureButton.addEventListener('click', () => {
-                        if (!faction.futureOffensive) {
-                            saveState();
-                            faction.futureOffensive = faction.hand.splice(index, 1)[0];
-                            updateFutureDisplay();
-                            closeEnlarged();
-                            updateHandDisplay();
-                            updateDeckRemainingDisplay();
-                            checkNextTurn();
-                            messageDiv.textContent = '카드가 미래 공세로 설정되었습니다!';
-                            setTimeout(() => { messageDiv.textContent = ''; }, 3000);
-                            if (currentFaction === 'japanese' && faction.currentTurn === 1) {
-                                faction.cardsPlayedTurn1.push(card.id);
-                                japaneseDrawButton.disabled = true;
-                            }
-                        }
-                    });
+                    
 
                     buttonDiv.appendChild(ocButton);
-                    buttonDiv.appendChild(eventButton);
                     buttonDiv.appendChild(futureButton);
+                    buttonDiv.appendChild(eventButton);
+                    
 
                     const handleKeyPress = (e) => {
                         if (e.key === '1') {
