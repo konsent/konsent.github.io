@@ -546,76 +546,73 @@
             const imageExtensions = ['.png'];
             const placeholderImage = 'card_image/placeholder.png';
 
-            // 샘플 카드 속성 (나중에 실제 데이터로 대체)
             const alliedCardProperties = Array(numCardsAllied).fill().map((_, i) => {
                 const patterns = ['01','10','01',
-                                    '01','00','01',
-                                    '01','11','00',
-                                    '01','01','01',
-                                    '00','01','00',
-                                    '01','01','01',
-                                    '00','01','00',
-                                    '01','11','11',
-                                    '00','01','01',
-                                    '00','00','01',
-                                    '00','00','00',
-                                    '00','00','00',
-                                    '00','00','01',
-                                    '00','01','01',
-                                    '10','00','00',
-                                    '00','01','00',
-                                    '01','00','01',
-                                    '01','00','00',
-                                    '00','00','00',
-                                    '00','10','01',
-                                    '11','01','00',
-                                    '00','01','01',
-                                    '01','11','00',
-                                    '01','00','00',
-                                    '01','00','00',
-                                    '00','01','11',
-                                    '01','11','00',
-                                    '00','00','00'
-                                    ];
+                                  '01','00','01',
+                                  '01','11','00',
+                                  '01','01','01',
+                                  '00','01','00',
+                                  '01','01','01',
+                                  '00','01','00',
+                                  '01','11','11',
+                                  '00','01','01',
+                                  '00','00','01',
+                                  '00','00','00',
+                                  '00','00','00',
+                                  '00','00','01',
+                                  '00','01','01',
+                                  '10','00','00',
+                                  '00','01','00',
+                                  '01','00','01',
+                                  '01','00','00',
+                                  '00','00','00',
+                                  '00','10','01',
+                                  '11','01','00',
+                                  '00','01','01',
+                                  '01','11','00',
+                                  '01','00','00',
+                                  '01','00','00',
+                                  '00','01','11',
+                                  '01','11','00',
+                                  '00','00','00'];
                 return patterns[i % patterns.length];
             });
             const japaneseCardProperties = Array(numCardsJapanese).fill().map((_, i) => {
                 const patterns = ['00','00','00',
-                                    '10','01','01',
-                                    '10','00','00',
-                                    '00','00','10',
-                                    '01','00','01',
-                                    '00','10','01',
-                                    '01','00','11',
-                                    '01','00','10',
-                                    '00','01','10',
-                                    '00','00','01',
-                                    '01','00','00',
-                                    '10','00','10',
-                                    '01','01','01',
-                                    '00','01','01',
-                                    '01','00','01',
-                                    '01','00','00',
-                                    '10','00','01',
-                                    '01','01','01',
-                                    '01','01','01',
-                                    '00','00','00',
-                                    '11','11','11',
-                                    '11','01','11',
-                                    '00','00','10',
-                                    '10','01','01',
-                                    '01','01','10',
-                                    '01','00','01',
-                                    '01','11','11',
-                                    '00','00','10',
-                                    '01','10'
-                                    ];
+                                  '10','01','01',
+                                  '10','00','00',
+                                  '00','00','10',
+                                  '01','00','01',
+                                  '00','10','01',
+                                  '01','00','11',
+                                  '01','00','10',
+                                  '00','01','10',
+                                  '00','00','01',
+                                  '01','00','00',
+                                  '10','00','10',
+                                  '01','01','01',
+                                  '00','01','01',
+                                  '01','00','01',
+                                  '01','00','00',
+                                  '10','00','01',
+                                  '01','01','01',
+                                  '01','01','01',
+                                  '00','00','00',
+                                  '11','11','11',
+                                  '11','01','11',
+                                  '00','00','10',
+                                  '10','01','01',
+                                  '01','01','10',
+                                  '01','00','01',
+                                  '01','11','11',
+                                  '00','00','10',
+                                  '01','10'];
                 return patterns[i % patterns.length];
             });
 
             let factions = {
-                allied: { deck: [], hand: [], futureOffensive: null, discardPile: [], removedCards: [], currentTurn: 1, passes: 0, stateHistory: [], needReshuffle: false },
-                japanese: { deck: [], hand: [], futureOffensive: null, discardPile: [], removedCards: [], currentTurn: 1, passes: 0, stateHistory: [], needReshuffle: false, cardsPlayedTurn1: [] }
+                allied: { deck: [], hand: [], futureOffensive: null, discardPile: [], removedCards: [], currentTurn: 1, passes: 0, stateHistory: [], needReshuffle: false, eventCardsDrawnThisTurn: 0 },
+                japanese: { deck: [], hand: [], futureOffensive: null, discardPile: [], removedCards: [], currentTurn: 1, passes: 0, stateHistory: [], needReshuffle: false, cardsPlayedTurn1: [], eventCardsDrawnThisTurn: 0 }
             };
             let currentFaction = 'japanese';
             let enlargedCard = null;
@@ -653,7 +650,6 @@
             const undoButton = document.getElementById('undo-button');
             const restartButton = document.getElementById('restart-button');
 
-            // 메인 화면 이미지 우클릭 방지
             document.querySelector('#main-image img').addEventListener('contextmenu', (e) => e.preventDefault());
 
             function getValidImagePath(basePath, cardNumber, isLarge = false) {
@@ -694,7 +690,8 @@
                     currentTurn: faction.currentTurn,
                     passes: faction.passes,
                     needReshuffle: faction.needReshuffle,
-                    cardsPlayedTurn1: currentFaction === 'japanese' ? [...faction.cardsPlayedTurn1] : []
+                    cardsPlayedTurn1: currentFaction === 'japanese' ? [...faction.cardsPlayedTurn1] : [],
+                    eventCardsDrawnThisTurn: faction.eventCardsDrawnThisTurn
                 });
                 if (undoButton) undoButton.disabled = false;
             }
@@ -712,6 +709,7 @@
                 faction.currentTurn = lastState.currentTurn;
                 faction.passes = lastState.passes;
                 faction.needReshuffle = lastState.needReshuffle;
+                faction.eventCardsDrawnThisTurn = lastState.eventCardsDrawnThisTurn;
                 if (currentFaction === 'japanese') {
                     faction.cardsPlayedTurn1 = [...lastState.cardsPlayedTurn1];
                 }
@@ -722,8 +720,8 @@
             }
 
             function resetGame() {
-                factions.allied = { deck: initializeDeck('allied'), hand: [], futureOffensive: null, discardPile: [], removedCards: [], currentTurn: 1, passes: 0, stateHistory: [], needReshuffle: false };
-                factions.japanese = { deck: initializeDeck('japanese'), hand: [], futureOffensive: null, discardPile: [], removedCards: [], currentTurn: 1, passes: 0, stateHistory: [], needReshuffle: false, cardsPlayedTurn1: [] };
+                factions.allied = { deck: initializeDeck('allied'), hand: [], futureOffensive: null, discardPile: [], removedCards: [], currentTurn: 1, passes: 0, stateHistory: [], needReshuffle: false, eventCardsDrawnThisTurn: 0 };
+                factions.japanese = { deck: initializeDeck('japanese'), hand: [], futureOffensive: null, discardPile: [], removedCards: [], currentTurn: 1, passes: 0, stateHistory: [], needReshuffle: false, cardsPlayedTurn1: [], eventCardsDrawnThisTurn: 0 };
                 updateUI();
                 gameContainer.style.display = 'none';
                 mainScreen.style.display = 'flex';
@@ -977,6 +975,7 @@
                             }, 2000);
 
                             faction.currentTurn++;
+                            faction.eventCardsDrawnThisTurn = 0;
                             if (currentFaction === 'japanese') {
                                 faction.cardsPlayedTurn1 = [];
                             }
@@ -1020,9 +1019,14 @@
             }
 
             function drawOneCard(faction) {
+                if (faction.eventCardsDrawnThisTurn >= 3) {
+                    messageDiv.textContent = `이 턴에 더 이상 이벤트로 카드를 뽑을 수 없습니다! (최대 3장, 현재: ${faction.eventCardsDrawnThisTurn}장)`;
+                    setTimeout(() => { messageDiv.textContent = ''; }, 3000);
+                    return false;
+                }
                 if (faction.deck.length === 0) {
                     if (faction.discardPile.length === 0) {
-                        messageDiv.textContent = '뽑을 카드가 없습니다!';
+                        messageDiv.textContent = '뽑을 카드가 없습니다! (덱과 버린 카드 더미가 비어있음)';
                         setTimeout(() => { messageDiv.textContent = ''; }, 3000);
                         return false;
                     }
@@ -1034,6 +1038,9 @@
                     updateDiscardModal();
                 }
                 faction.hand.push(faction.deck.pop());
+                faction.eventCardsDrawnThisTurn++;
+                messageDiv.textContent = `이벤트로 추가 카드를 뽑았습니다! (현재: ${faction.eventCardsDrawnThisTurn}/3장)`;
+                setTimeout(() => { messageDiv.textContent = ''; }, 3000);
                 return true;
             }
 
@@ -1143,20 +1150,23 @@
                         const property = card.property;
                         const drawAdditional = property.charAt(0) === '1';
                         const removeFromGame = property.charAt(1) === '1';
-                        if (drawAdditional) {
+                        if (drawAdditional && faction.eventCardsDrawnThisTurn < 3) {
                             if (drawOneCard(faction)) {
-                                messageDiv.textContent = '추가 카드를 뽑았습니다!';
-                                setTimeout(() => { messageDiv.textContent = ''; }, 3000);
+                                messageDiv.textContent = `이벤트로 추가 카드를 뽑았습니다! (현재: ${faction.eventCardsDrawnThisTurn}/3장)`;
+                            } else {
+                                messageDiv.textContent = `이벤트로 추가 카드를 뽑을 수 없습니다! (덱: ${faction.deck.length}, 버린 더미: ${faction.discardPile.length}, 뽑은 이벤트 카드: ${faction.eventCardsDrawnThisTurn}/3)`;
                             }
+                        } else if (drawAdditional) {
+                            messageDiv.textContent = `이 턴에 더 이상 이벤트로 카드를 뽑을 수 없습니다! (현재: ${faction.eventCardsDrawnThisTurn}/3장)`;
                         }
                         if (removeFromGame) {
                             faction.removedCards.push(faction.hand.splice(index, 1)[0]);
                             updateRemovedModal();
-                            messageDiv.textContent = '카드가 게임에서 제거되었습니다!';
+                            messageDiv.textContent = messageDiv.textContent ? `${messageDiv.textContent} 카드가 게임에서 제거되었습니다!` : '카드가 게임에서 제거되었습니다!';
                         } else {
                             faction.discardPile.push(faction.hand.splice(index, 1)[0]);
                             updateDiscardModal();
-                            messageDiv.textContent = '카드가 버린 카드 더미로 이동했습니다!';
+                            messageDiv.textContent = messageDiv.textContent ? `${messageDiv.textContent} 카드가 버린 카드 더미로 이동했습니다!` : '카드가 버린 카드 더미로 이동했습니다!';
                         }
                         if (currentFaction === 'japanese' && faction.currentTurn === 1) {
                             faction.cardsPlayedTurn1.push(card.id);
@@ -1185,7 +1195,7 @@
                     };
                 } else {
                     const ocButton = document.createElement('button');
-                    ocButton.textContent = 'OC/버리기 (1)';
+                    ocButton.textContent = 'OC (1)';
                     ocButton.addEventListener('click', () => {
                         saveState();
                         faction.discardPile.push(faction.hand.splice(index, 1)[0]);
@@ -1204,6 +1214,42 @@
                             faction.cardsPlayedTurn1.push(card.id);
                             japaneseDrawButton.disabled = true;
                         }
+                    });
+
+                    const eventButton = document.createElement('button');
+                    eventButton.textContent = '이벤트 (3)';
+                    eventButton.addEventListener('click', () => {
+                        saveState();
+                        const property = card.property;
+                        const drawAdditional = property.charAt(0) === '1';
+                        const removeFromGame = property.charAt(1) === '1';
+                        if (drawAdditional && faction.eventCardsDrawnThisTurn < 3) {
+                            if (drawOneCard(faction)) {
+                                messageDiv.textContent = `이벤트로 추가 카드를 뽑았습니다! (현재: ${faction.eventCardsDrawnThisTurn}/3장)`;
+                            } else {
+                                messageDiv.textContent = `이벤트로 추가 카드를 뽑을 수 없습니다! (덱: ${faction.deck.length}, 버린 더미: ${faction.discardPile.length}, 뽑은 이벤트 카드: ${faction.eventCardsDrawnThisTurn}/3)`;
+                            }
+                        } else if (drawAdditional) {
+                            messageDiv.textContent = `이 턴에 더 이상 이벤트로 카드를 뽑을 수 없습니다! (현재: ${faction.eventCardsDrawnThisTurn}/3장)`;
+                        }
+                        if (removeFromGame) {
+                            faction.removedCards.push(faction.hand.splice(index, 1)[0]);
+                            updateRemovedModal();
+                            messageDiv.textContent = messageDiv.textContent ? `${messageDiv.textContent} 카드가 게임에서 제거되었습니다!` : '카드가 게임에서 제거되었습니다!';
+                        } else {
+                            faction.discardPile.push(faction.hand.splice(index, 1)[0]);
+                            updateDiscardModal();
+                            messageDiv.textContent = messageDiv.textContent ? `${messageDiv.textContent} 카드가 버린 카드 더미로 이동했습니다!` : '카드가 버린 카드 더미로 이동했습니다!';
+                        }
+                        if (currentFaction === 'japanese' && faction.currentTurn === 1) {
+                            faction.cardsPlayedTurn1.push(card.id);
+                            japaneseDrawButton.disabled = true;
+                        }
+                        setTimeout(() => { messageDiv.textContent = ''; }, 3000);
+                        closeEnlarged();
+                        updateHandDisplay();
+                        updateDeckRemainingDisplay();
+                        checkNextTurn();
                     });
 
                     const futureButton = document.createElement('button');
@@ -1230,45 +1276,9 @@
                         }
                     });
 
-                    const eventButton = document.createElement('button');
-                    eventButton.textContent = '이벤트 (3)';
-                    eventButton.addEventListener('click', () => {
-                        saveState();
-                        const property = card.property;
-                        const drawAdditional = property.charAt(0) === '1';
-                        const removeFromGame = property.charAt(1) === '1';
-                        if (drawAdditional) {
-                            if (drawOneCard(faction)) {
-                                messageDiv.textContent = '추가 카드를 뽑았습니다!';
-                                setTimeout(() => { messageDiv.textContent = ''; }, 3000);
-                            }
-                        }
-                        if (removeFromGame) {
-                            faction.removedCards.push(faction.hand.splice(index, 1)[0]);
-                            updateRemovedModal();
-                            messageDiv.textContent = '카드가 게임에서 제거되었습니다!';
-                        } else {
-                            faction.discardPile.push(faction.hand.splice(index, 1)[0]);
-                            updateDiscardModal();
-                            messageDiv.textContent = '카드가 버린 카드 더미로 이동했습니다!';
-                        }
-                        if (currentFaction === 'japanese' && faction.currentTurn === 1) {
-                            faction.cardsPlayedTurn1.push(card.id);
-                            japaneseDrawButton.disabled = true;
-                        }
-                        setTimeout(() => { messageDiv.textContent = ''; }, 3000);
-                        closeEnlarged();
-                        updateHandDisplay();
-                        updateDeckRemainingDisplay();
-                        checkNextTurn();
-                    });
-
-                    
-
                     buttonDiv.appendChild(ocButton);
-                    buttonDiv.appendChild(futureButton);
                     buttonDiv.appendChild(eventButton);
-                    
+                    buttonDiv.appendChild(futureButton);
 
                     const handleKeyPress = (e) => {
                         if (e.key === '1') {
@@ -1422,6 +1432,7 @@
                         faction.cardsPlayedTurn1.push(card.id);
                         japaneseDrawButton.disabled = true;
                     }
+                    faction.eventCardsDrawnThisTurn++;
                 });
 
                 buttonDiv.appendChild(returnButton);
@@ -1494,6 +1505,7 @@
                         faction.cardsPlayedTurn1.push(card.id);
                         japaneseDrawButton.disabled = true;
                     }
+                    faction.eventCardsDrawnThisTurn++;
                 });
 
                 buttonDiv.appendChild(returnButton);
@@ -1541,66 +1553,3 @@
     </script>
 </body>
 </html>
-
-<!-- ['01','10','01',
- '01','00','01',
- '01','11','00',
- '01','01','01',
- '00','01','00',
- '01','01','01',
- '00','01','00',
- '01','11','11',
- '00','01','01',
- '00','00','01',
- '00','00','00',
- '00','00','00',
- '00','00','01',
- '00','01','01',
- '10','00','00',
- '00','01','00',
- '01','00','01',
- '01','00','00',
- '00','00','00',
- '00','10','01',
- '11','01','00',
- '00','01','01',
- '01','11','00',
- '01','00','00',
- '01','00','00',
- '00','01','11',
- '01','11','00',
- '00','00','00'
- ] -->
-
-
-
- <!-- ['00','00','00',
-  '10','01','01',
-  '10','00','00',
-  '00','00','10',
-  '01','00','01',
-  '00','10','01',
-  '01','00','11',
-  '01','00','10',
-  '00','01','10',
-  '00','00','01',
-  '01','00','00',
-  '10','00','10',
-  '01','01','01',
-  '00','01','01',
-  '01','00','01',
-  '01','00','00',
-  '10','00','01',
-  '01','01','01',
-  '01','01','01',
-  '00','00','00',
-  '11','11','11',
-  '11','01','11',
-  '00','00','10',
-  '10','01','01',
-  '01','01','10',
-  '01','00','01',
-  '01','11','11',
-  '00','00','10',
-  '01','10'
-  ] -->
