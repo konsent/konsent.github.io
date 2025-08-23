@@ -542,12 +542,80 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const numCardsAllied = 84;
-            const numCardsJapanese = 20;
+            const numCardsJapanese = 86;
             const imageExtensions = ['.png'];
             const placeholderImage = 'card_image/placeholder.png';
+
+            // 샘플 카드 속성 (나중에 실제 데이터로 대체)
+            const alliedCardProperties = Array(numCardsAllied).fill().map((_, i) => {
+                const patterns = ['01','10','01',
+                                    '01','00','01',
+                                    '01','11','00',
+                                    '01','01','01',
+                                    '00','01','00',
+                                    '01','01','01',
+                                    '00','01','00',
+                                    '01','11','11',
+                                    '00','01','01',
+                                    '00','00','01',
+                                    '00','00','00',
+                                    '00','00','00',
+                                    '00','00','01',
+                                    '00','01','01',
+                                    '10','00','00',
+                                    '00','01','00',
+                                    '01','00','01',
+                                    '01','00','00',
+                                    '00','00','00',
+                                    '00','10','01',
+                                    '11','01','00',
+                                    '00','01','01',
+                                    '01','11','00',
+                                    '01','00','00',
+                                    '01','00','00',
+                                    '00','01','11',
+                                    '01','11','00',
+                                    '00','00','00'
+                                    ];
+                return patterns[i % patterns.length];
+            });
+            const japaneseCardProperties = Array(numCardsJapanese).fill().map((_, i) => {
+                const patterns = ['00','00','00',
+                                    '10','01','01',
+                                    '10','00','00',
+                                    '00','00','10',
+                                    '01','00','01',
+                                    '00','10','01',
+                                    '01','00','11',
+                                    '01','00','10',
+                                    '00','01','10',
+                                    '00','00','01',
+                                    '01','00','00',
+                                    '10','00','10',
+                                    '01','01','01',
+                                    '00','01','01',
+                                    '01','00','01',
+                                    '01','00','00',
+                                    '10','00','01',
+                                    '01','01','01',
+                                    '01','01','01',
+                                    '00','00','00',
+                                    '11','11','11',
+                                    '11','01','11',
+                                    '00','00','10',
+                                    '10','01','01',
+                                    '01','01','10',
+                                    '01','00','01',
+                                    '01','11','11',
+                                    '00','00','10',
+                                    '01','10'
+                                    ];
+                return patterns[i % patterns.length];
+            });
+
             let factions = {
-                allied: { deck: [], hand: [], futureOffensive: null, discardPile: [], removedCards: [], currentTurn: 1, passes: 0, stateHistory: [] },
-                japanese: { deck: [], hand: [], futureOffensive: null, discardPile: [], removedCards: [], currentTurn: 1, passes: 0, stateHistory: [] }
+                allied: { deck: [], hand: [], futureOffensive: null, discardPile: [], removedCards: [], currentTurn: 1, passes: 0, stateHistory: [], needReshuffle: false },
+                japanese: { deck: [], hand: [], futureOffensive: null, discardPile: [], removedCards: [], currentTurn: 1, passes: 0, stateHistory: [], needReshuffle: false, cardsPlayedTurn1: [] }
             };
             let currentFaction = 'japanese';
             let enlargedCard = null;
@@ -596,9 +664,10 @@
                 const deck = [];
                 const path = faction === 'allied' ? 'card_image/al' : 'card_image/jp';
                 const numCards = faction === 'allied' ? numCardsAllied : numCardsJapanese;
+                const cardProperties = faction === 'allied' ? alliedCardProperties : japaneseCardProperties;
                 for (let i = 1; i <= numCards; i++) {
                     const imagePath = getValidImagePath(path, i);
-                    deck.push({ id: `${faction === 'allied' ? 'AL Card' : 'JP Card'} ${i}`, image: imagePath });
+                    deck.push({ id: `${faction === 'allied' ? 'AL Card' : 'JP Card'} ${i}`, image: imagePath, property: cardProperties[i - 1] });
                 }
                 shuffle(deck);
                 return deck;
@@ -623,7 +692,9 @@
                     removedCards: [...faction.removedCards],
                     futureOffensive: faction.futureOffensive ? { ...faction.futureOffensive } : null,
                     currentTurn: faction.currentTurn,
-                    passes: faction.passes
+                    passes: faction.passes,
+                    needReshuffle: faction.needReshuffle,
+                    cardsPlayedTurn1: currentFaction === 'japanese' ? [...faction.cardsPlayedTurn1] : []
                 });
                 if (undoButton) undoButton.disabled = false;
             }
@@ -640,6 +711,10 @@
                 faction.futureOffensive = lastState.futureOffensive ? { ...lastState.futureOffensive } : null;
                 faction.currentTurn = lastState.currentTurn;
                 faction.passes = lastState.passes;
+                faction.needReshuffle = lastState.needReshuffle;
+                if (currentFaction === 'japanese') {
+                    faction.cardsPlayedTurn1 = [...lastState.cardsPlayedTurn1];
+                }
 
                 updateUI();
                 messageDiv.textContent = '작업이 취소되었습니다!';
@@ -647,8 +722,8 @@
             }
 
             function resetGame() {
-                factions.allied = { deck: initializeDeck('allied'), hand: [], futureOffensive: null, discardPile: [], removedCards: [], currentTurn: 1, passes: 0, stateHistory: [] };
-                factions.japanese = { deck: initializeDeck('japanese'), hand: [], futureOffensive: null, discardPile: [], removedCards: [], currentTurn: 1, passes: 0, stateHistory: [] };
+                factions.allied = { deck: initializeDeck('allied'), hand: [], futureOffensive: null, discardPile: [], removedCards: [], currentTurn: 1, passes: 0, stateHistory: [], needReshuffle: false };
+                factions.japanese = { deck: initializeDeck('japanese'), hand: [], futureOffensive: null, discardPile: [], removedCards: [], currentTurn: 1, passes: 0, stateHistory: [], needReshuffle: false, cardsPlayedTurn1: [] };
                 updateUI();
                 gameContainer.style.display = 'none';
                 mainScreen.style.display = 'flex';
@@ -666,6 +741,9 @@
                 if (nextTurnButton) nextTurnButton.style.display = 'block';
                 if (undoButton) undoButton.style.display = 'block';
                 if (restartButton) restartButton.style.display = 'block';
+                if (currentFaction === 'japanese' && factions.japanese.currentTurn === 1) {
+                    drawCards('japanese');
+                }
                 updateUI();
             });
 
@@ -679,6 +757,9 @@
                     japaneseTab.classList.toggle('active', faction === 'japanese');
                     inputsDiv.style.display = faction === 'japanese' ? 'flex' : 'none';
                     alliedInputs.style.display = faction === 'allied' ? 'flex' : 'none';
+                    if (faction === 'japanese' && factions.japanese.currentTurn === 1 && factions.japanese.hand.length === 0) {
+                        drawCards('japanese');
+                    }
                     updateUI();
                 }
             }
@@ -690,7 +771,8 @@
                 alliedUsePassButton.disabled = faction.passes === 0;
                 japaneseUsePassButton.disabled = faction.passes === 0;
                 alliedDrawButton.disabled = faction.hand.length > 0 || (currentFaction === 'allied' && faction.currentTurn === 1);
-                japaneseDrawButton.disabled = faction.hand.length > 0 && currentFaction === 'japanese';
+                japaneseDrawButton.disabled = (faction.hand.length > 0 && currentFaction === 'japanese') || 
+                                             (currentFaction === 'japanese' && faction.currentTurn === 1 && faction.cardsPlayedTurn1 && faction.cardsPlayedTurn1.length > 0);
                 if (nextTurnButton) nextTurnButton.disabled = faction.hand.length > 0;
                 if (undoButton) undoButton.disabled = faction.stateHistory.length === 0;
 
@@ -805,7 +887,7 @@
                 if (faction.currentTurn === 1 && factionType === 'allied') {
                     faction.hand = [];
                     cardsDrawn = 0;
-                } else if (faction.currentTurn === 1) {
+                } else if (faction.currentTurn === 1 && factionType === 'japanese') {
                     const prefix = 'JP Card';
                     faction.hand = faction.deck.filter(card => card.id === `${prefix} 1` || card.id === `${prefix} 2`);
                     faction.deck = faction.deck.filter(card => card.id !== `${prefix} 1` && card.id !== `${prefix} 2`);
@@ -832,7 +914,8 @@
                 updateHandDisplay();
                 updateDeckRemainingDisplay();
                 alliedDrawButton.disabled = faction.hand.length > 0 || (factionType === 'allied' && faction.currentTurn === 1);
-                japaneseDrawButton.disabled = faction.hand.length > 0 && factionType === 'japanese';
+                japaneseDrawButton.disabled = (faction.hand.length > 0 && factionType === 'japanese') || 
+                                             (factionType === 'japanese' && faction.currentTurn === 1 && faction.cardsPlayedTurn1 && faction.cardsPlayedTurn1.length > 0);
                 checkNextTurn();
             }
 
@@ -867,6 +950,17 @@
                             nextTurnButton.style.transform = 'scale(1)';
                         }, 200);
 
+                        if (faction.needReshuffle) {
+                            faction.deck = faction.deck.concat(faction.discardPile);
+                            faction.discardPile = [];
+                            shuffle(faction.deck);
+                            faction.needReshuffle = false;
+                            messageDiv.textContent = '제거된 카드를 제외한 모든 카드를 섞었습니다!';
+                            setTimeout(() => { messageDiv.textContent = ''; }, 3000);
+                            updateDiscardModal();
+                            updateDeckRemainingDisplay();
+                        }
+
                         if (faction.currentTurn === 12) {
                             gameOverModal.textContent = '게임이 종료되었습니다!';
                             gameOverModal.style.display = 'block';
@@ -883,6 +977,9 @@
                             }, 2000);
 
                             faction.currentTurn++;
+                            if (currentFaction === 'japanese') {
+                                faction.cardsPlayedTurn1 = [];
+                            }
                             turnDisplay.textContent = `턴: ${faction.currentTurn}`;
                             alliedDrawButton.disabled = currentFaction === 'allied' && (faction.hand.length > 0 || faction.currentTurn === 1);
                             japaneseDrawButton.disabled = currentFaction === 'japanese' && faction.hand.length > 0;
@@ -890,6 +987,9 @@
                             updateHandDisplay();
                             updateDeckRemainingDisplay();
                             updateUI();
+                            if (currentFaction === 'japanese' && faction.currentTurn === 1) {
+                                drawCards('japanese');
+                            }
                         }
                     }
                 });
@@ -917,6 +1017,24 @@
                     }, 200);
                     resetGame();
                 });
+            }
+
+            function drawOneCard(faction) {
+                if (faction.deck.length === 0) {
+                    if (faction.discardPile.length === 0) {
+                        messageDiv.textContent = '뽑을 카드가 없습니다!';
+                        setTimeout(() => { messageDiv.textContent = ''; }, 3000);
+                        return false;
+                    }
+                    faction.deck = faction.discardPile.slice();
+                    faction.discardPile = [];
+                    shuffle(faction.deck);
+                    messageDiv.textContent = '버린 카드 더미를 섞는 중...';
+                    setTimeout(() => { messageDiv.textContent = ''; }, 5000);
+                    updateDiscardModal();
+                }
+                faction.hand.push(faction.deck.pop());
+                return true;
             }
 
             function createCardElem(card, clickHandler) {
@@ -1018,22 +1136,43 @@
                 buttonDiv.classList.add('enlarged-buttons');
 
                 if (currentFaction === 'japanese' && (card.id === 'JP Card 1' || card.id === 'JP Card 2')) {
-                    const removeButton = document.createElement('button');
-                    removeButton.textContent = '게임에서 제거 (3)';
-                    removeButton.addEventListener('click', () => {
+                    const eventButton = document.createElement('button');
+                    eventButton.textContent = '이벤트 (3)';
+                    eventButton.addEventListener('click', () => {
                         saveState();
-                        faction.removedCards.push(faction.hand.splice(index, 1)[0]);
+                        const property = card.property;
+                        const drawAdditional = property.charAt(0) === '1';
+                        const removeFromGame = property.charAt(1) === '1';
+                        if (drawAdditional) {
+                            if (drawOneCard(faction)) {
+                                messageDiv.textContent = '추가 카드를 뽑았습니다!';
+                                setTimeout(() => { messageDiv.textContent = ''; }, 3000);
+                            }
+                        }
+                        if (removeFromGame) {
+                            faction.removedCards.push(faction.hand.splice(index, 1)[0]);
+                            updateRemovedModal();
+                            messageDiv.textContent = '카드가 게임에서 제거되었습니다!';
+                        } else {
+                            faction.discardPile.push(faction.hand.splice(index, 1)[0]);
+                            updateDiscardModal();
+                            messageDiv.textContent = '카드가 버린 카드 더미로 이동했습니다!';
+                        }
+                        if (currentFaction === 'japanese' && faction.currentTurn === 1) {
+                            faction.cardsPlayedTurn1.push(card.id);
+                            japaneseDrawButton.disabled = true;
+                        }
+                        setTimeout(() => { messageDiv.textContent = ''; }, 3000);
                         closeEnlarged();
                         updateHandDisplay();
-                        updateRemovedModal();
                         updateDeckRemainingDisplay();
                         checkNextTurn();
                     });
-                    buttonDiv.appendChild(removeButton);
+                    buttonDiv.appendChild(eventButton);
 
                     const handleKeyPress = (e) => {
                         if (e.key === '3') {
-                            removeButton.click();
+                            eventButton.click();
                         }
                     };
                     document.addEventListener('keydown', handleKeyPress);
@@ -1045,12 +1184,55 @@
                         enlargedCard = null;
                     };
                 } else {
-                    const useButton = document.createElement('button');
-                    useButton.textContent = '사용 (1)';
-                    useButton.addEventListener('click', () => {
+                    const ocButton = document.createElement('button');
+                    ocButton.textContent = 'OC (1)';
+                    ocButton.addEventListener('click', () => {
                         saveState();
                         faction.discardPile.push(faction.hand.splice(index, 1)[0]);
                         updateDiscardModal();
+                        closeEnlarged();
+                        updateHandDisplay();
+                        updateDeckRemainingDisplay();
+                        checkNextTurn();
+                        messageDiv.textContent = '카드가 버린 카드 더미로 이동했습니다!';
+                        setTimeout(() => { messageDiv.textContent = ''; }, 3000);
+                        const cardNumber = parseInt(card.id.split(' ')[2]);
+                        if ((currentFaction === 'allied' && cardNumber === 79) || (currentFaction === 'japanese' && cardNumber === 43)) {
+                            faction.needReshuffle = true;
+                        }
+                        if (currentFaction === 'japanese' && faction.currentTurn === 1) {
+                            faction.cardsPlayedTurn1.push(card.id);
+                            japaneseDrawButton.disabled = true;
+                        }
+                    });
+
+                    const eventButton = document.createElement('button');
+                    eventButton.textContent = '이벤트 (3)';
+                    eventButton.addEventListener('click', () => {
+                        saveState();
+                        const property = card.property;
+                        const drawAdditional = property.charAt(0) === '1';
+                        const removeFromGame = property.charAt(1) === '1';
+                        if (drawAdditional) {
+                            if (drawOneCard(faction)) {
+                                messageDiv.textContent = '추가 카드를 뽑았습니다!';
+                                setTimeout(() => { messageDiv.textContent = ''; }, 3000);
+                            }
+                        }
+                        if (removeFromGame) {
+                            faction.removedCards.push(faction.hand.splice(index, 1)[0]);
+                            updateRemovedModal();
+                            messageDiv.textContent = '카드가 게임에서 제거되었습니다!';
+                        } else {
+                            faction.discardPile.push(faction.hand.splice(index, 1)[0]);
+                            updateDiscardModal();
+                            messageDiv.textContent = '카드가 버린 카드 더미로 이동했습니다!';
+                        }
+                        if (currentFaction === 'japanese' && faction.currentTurn === 1) {
+                            faction.cardsPlayedTurn1.push(card.id);
+                            japaneseDrawButton.disabled = true;
+                        }
+                        setTimeout(() => { messageDiv.textContent = ''; }, 3000);
                         closeEnlarged();
                         updateHandDisplay();
                         updateDeckRemainingDisplay();
@@ -1059,7 +1241,10 @@
 
                     const futureButton = document.createElement('button');
                     futureButton.textContent = '미래 공세 (2)';
-                    futureButton.disabled = !!faction.futureOffensive || [19, 20].includes(parseInt(card.id.split(' ')[2]));
+                    const cardNumber = parseInt(card.id.split(' ')[2]);
+                    futureButton.disabled = !!faction.futureOffensive || 
+                        (currentFaction === 'allied' && [79].includes(cardNumber)) || 
+                        (currentFaction === 'japanese' && [43].includes(cardNumber));
                     futureButton.addEventListener('click', () => {
                         if (!faction.futureOffensive) {
                             saveState();
@@ -1069,32 +1254,26 @@
                             updateHandDisplay();
                             updateDeckRemainingDisplay();
                             checkNextTurn();
+                            messageDiv.textContent = '카드가 미래 공세로 설정되었습니다!';
+                            setTimeout(() => { messageDiv.textContent = ''; }, 3000);
+                            if (currentFaction === 'japanese' && faction.currentTurn === 1) {
+                                faction.cardsPlayedTurn1.push(card.id);
+                                japaneseDrawButton.disabled = true;
+                            }
                         }
                     });
 
-                    const removeButton = document.createElement('button');
-                    removeButton.textContent = '게임에서 제거 (3)';
-                    removeButton.addEventListener('click', () => {
-                        saveState();
-                        faction.removedCards.push(faction.hand.splice(index, 1)[0]);
-                        closeEnlarged();
-                        updateHandDisplay();
-                        updateRemovedModal();
-                        updateDeckRemainingDisplay();
-                        checkNextTurn();
-                    });
-
-                    buttonDiv.appendChild(useButton);
+                    buttonDiv.appendChild(ocButton);
+                    buttonDiv.appendChild(eventButton);
                     buttonDiv.appendChild(futureButton);
-                    buttonDiv.appendChild(removeButton);
 
                     const handleKeyPress = (e) => {
                         if (e.key === '1') {
-                            useButton.click();
+                            ocButton.click();
+                        } else if (e.key === '3') {
+                            eventButton.click();
                         } else if (e.key === '2' && !futureButton.disabled) {
                             futureButton.click();
-                        } else if (e.key === '3') {
-                            removeButton.click();
                         }
                     };
                     document.addEventListener('keydown', handleKeyPress);
@@ -1147,9 +1326,9 @@
                 const buttonDiv = document.createElement('div');
                 buttonDiv.classList.add('enlarged-buttons');
 
-                const useButton = document.createElement('button');
-                useButton.textContent = '사용 (1)';
-                useButton.addEventListener('click', () => {
+                const ocButton = document.createElement('button');
+                ocButton.textContent = 'OC (1)';
+                ocButton.addEventListener('click', () => {
                     saveState();
                     faction.discardPile.push(faction.futureOffensive);
                     faction.futureOffensive = null;
@@ -1158,14 +1337,24 @@
                     closeEnlarged();
                     updateDeckRemainingDisplay();
                     checkNextTurn();
+                    messageDiv.textContent = '카드가 버린 카드 더미로 이동했습니다!';
+                    setTimeout(() => { messageDiv.textContent = ''; }, 3000);
+                    const cardNumber = parseInt(card.id.split(' ')[2]);
+                    if ((currentFaction === 'allied' && cardNumber === 79) || (currentFaction === 'japanese' && cardNumber === 43)) {
+                        faction.needReshuffle = true;
+                    }
+                    if (currentFaction === 'japanese' && faction.currentTurn === 1) {
+                        faction.cardsPlayedTurn1.push(card.id);
+                        japaneseDrawButton.disabled = true;
+                    }
                 });
 
-                buttonDiv.appendChild(useButton);
+                buttonDiv.appendChild(ocButton);
                 enlargedCard.appendChild(buttonDiv);
 
                 const handleKeyPress = (e) => {
                     if (e.key === '1') {
-                        useButton.click();
+                        ocButton.click();
                     }
                 };
                 document.addEventListener('keydown', handleKeyPress);
@@ -1226,6 +1415,10 @@
                     closeEnlarged();
                     messageDiv.textContent = '카드가 핸드에 추가되었습니다!';
                     setTimeout(() => { messageDiv.textContent = ''; }, 3000);
+                    if (currentFaction === 'japanese' && faction.currentTurn === 1) {
+                        faction.cardsPlayedTurn1.push(card.id);
+                        japaneseDrawButton.disabled = true;
+                    }
                 });
 
                 buttonDiv.appendChild(returnButton);
@@ -1294,6 +1487,10 @@
                     closeEnlarged();
                     messageDiv.textContent = '카드가 핸드에 추가되었습니다!';
                     setTimeout(() => { messageDiv.textContent = ''; }, 3000);
+                    if (currentFaction === 'japanese' && faction.currentTurn === 1) {
+                        faction.cardsPlayedTurn1.push(card.id);
+                        japaneseDrawButton.disabled = true;
+                    }
                 });
 
                 buttonDiv.appendChild(returnButton);
@@ -1341,3 +1538,66 @@
     </script>
 </body>
 </html>
+
+<!-- ['01','10','01',
+ '01','00','01',
+ '01','11','00',
+ '01','01','01',
+ '00','01','00',
+ '01','01','01',
+ '00','01','00',
+ '01','11','11',
+ '00','01','01',
+ '00','00','01',
+ '00','00','00',
+ '00','00','00',
+ '00','00','01',
+ '00','01','01',
+ '10','00','00',
+ '00','01','00',
+ '01','00','01',
+ '01','00','00',
+ '00','00','00',
+ '00','10','01',
+ '11','01','00',
+ '00','01','01',
+ '01','11','00',
+ '01','00','00',
+ '01','00','00',
+ '00','01','11',
+ '01','11','00',
+ '00','00','00'
+ ] -->
+
+
+
+ <!-- ['00','00','00',
+  '10','01','01',
+  '10','00','00',
+  '00','00','10',
+  '01','00','01',
+  '00','10','01',
+  '01','00','11',
+  '01','00','10',
+  '00','01','10',
+  '00','00','01',
+  '01','00','00',
+  '10','00','10',
+  '01','01','01',
+  '00','01','01',
+  '01','00','01',
+  '01','00','00',
+  '10','00','01',
+  '01','01','01',
+  '01','01','01',
+  '00','00','00',
+  '11','11','11',
+  '11','01','11',
+  '00','00','10',
+  '10','01','01',
+  '01','01','10',
+  '01','00','01',
+  '01','11','11',
+  '00','00','10',
+  '01','10'
+  ] -->
