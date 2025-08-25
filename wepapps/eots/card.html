@@ -265,10 +265,11 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
-            text-transform: uppercase;
+            /* text-transform: uppercase; */
             transition: background 0.2s, transform 0.1s;
-            min-width: 100px;
+            /* min-width: 100px; */
             box-sizing: border-box;
+            text-align: center; /* 텍스트 가운데 정렬 명시 */
         }
         button:active:not(:disabled) {
             background: #5b5e60;
@@ -1023,11 +1024,14 @@
             function resetGame() {
                 factions.allied = { deck: initializeDeck('allied'), hand: [], futureOffensive: null, discardPile: [], removedCards: [], currentTurn: 1, passes: 0, stateHistory: [], needReshuffle: false, eventCardsDrawnThisTurn: 0 };
                 factions.japanese = { deck: initializeDeck('japanese'), hand: [], futureOffensive: null, discardPile: [], removedCards: [], currentTurn: 1, passes: 0, stateHistory: [], needReshuffle: false, cardsPlayedTurn1: [], eventCardsDrawnThisTurn: 0 };
-                updateUI();
+                isGameStarted = false; // 명시적으로 초기화
+                currentFaction = 'japanese';
+                updateUI(); // UI 즉시 갱신
                 gameContainer.style.display = 'none';
                 mainScreen.style.display = 'flex';
                 discardModal.style.display = 'none';
                 removedModal.style.display = 'none';
+                console.log('Game reset, language-toggle should be in start-game-container');
             }
 
             startGameButton.addEventListener('click', () => {
