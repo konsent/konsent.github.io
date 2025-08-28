@@ -499,9 +499,23 @@
                 font-size: 14px;
                 padding: 8px 16px;
             }
+            .sortable {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+                margin-bottom: 30px;
+                justify-content: center;
+            }
+
+            .dragging {
+                opacity: 0.5; /* 드래그 중 카드 투명도 조정 */
+                transform: scale(1.05); /* 드래그 중 카드 확대 */
+                border: 2px solid #ff6b6b; /* 드래그 중 테두리 강조 */
+            }
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&display=swap" rel="stylesheet">
+    
 </head>
 <body>
     <div id="main-screen">
@@ -555,7 +569,7 @@
                 <button id="allied-draw-cards"></button>
                 <button id="allied-use-pass" disabled>패스 사용</button>
             </div>
-            <div id="hand"></div>
+            <div id="hand" class="sortable"></div>
             <div id="future-offensive">미래 공세:</div>
             <div id="future-hand"></div>
             <div id="deck-remaining">남은 카드 더미: 계산 중...</div>
@@ -1939,8 +1953,36 @@
                 }
             }
 
+            function updateHandDisplay() {
+                handDiv.innerHTML = '';
+                factions[currentFaction].hand.forEach((card, index) => {
+                    const cardElem = createCardElem(card, () => enlargeCard(index));
+                    cardElem.dataset.index = index; // 드래그 시 원본 인덱스 저장
+                    handDiv.appendChild(cardElem);
+                });
+
+                // Sortable 초기화 (드래그 재정렬 활성화)
+                if (Sortable.get(handDiv)) Sortable.get(handDiv).destroy(); // 기존 Sortable 제거
+                new Sortable(handDiv, {
+                    animation: 150,
+                    ghostClass: 'dragging', // 드래그 중 클래스 적용
+                    onEnd: (evt) => {
+                        const oldIndex = evt.oldIndex;
+                        const newIndex = evt.newIndex;
+                        if (oldIndex !== newIndex) {
+                            // 핸드 배열 재정렬
+                            const card = factions[currentFaction].hand.splice(oldIndex, 1)[0];
+                            factions[currentFaction].hand.splice(newIndex, 0, card);
+                            console.log(`Card reordered: from ${oldIndex} to ${newIndex}`, factions[currentFaction].hand);
+                            updateHandDisplay(); // 재렌더링
+                        }
+                    }
+                });
+            }
+
             updateUI();
         });
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 </body>
 </html>
