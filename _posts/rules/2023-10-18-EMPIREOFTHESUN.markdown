@@ -33,11 +33,17 @@ v1.1 - 시나리오 준비 부분 내용 추가.
 일본군 에라스무스(오토마) 자료입니다. 틀린 부분 있어요!
 - [자료 다운로드 링크](https://drive.google.com/file/d/1zkBbiArIxtLtp5MZE-tE7ruYy3Mkngoj/view?usp=sharing)
 
+솔로 플레이를 위한 CDSS(Card Driven Solitaire System) 규칙 단순 기계 번역입니다(검수 안함)
 - [CDSS 기계 번역](/wepapps/eots/cdss.html)
+
+에라스무스(오토마) 플로우차트 웹 앱과 카드 앱입니다.
 - [에라스무스 웹 앱 링크](/wepapps/eots/erasmus.html)
 - [에라스무스 카드 앱](/wepapps/eots/card.html)
 
 8페이지 분량의 플레이어 도움말 번역 자료입니다.
 - [자료 다운로드 링크](https://drive.google.com/file/d/1mEgoGYVaZwMXADcdef2x9HI5HKnccgO6/view?usp=sharing)
+
+플레이 중 헷갈리는 내용을 정리한 자료입니다.
+- [놓치기 쉬운 규칙](/wepapps/eots/aid.html)
 
 
