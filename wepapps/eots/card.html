@@ -396,122 +396,162 @@
             border-radius: 3px;
         }
         @media (max-width: 768px) {
-            #main-screen {
-                flex-direction: column;
-                height: auto;
-            }
-            #main-image {
-                width: 100%;
-                height: auto;
-            }
-            #main-image img {
-                width: 100%;
-                height: auto;
-                object-fit: contain;
-                object-position: center;
-            }
-            #main-content {
-                width: 100%;
-                padding: 20px;
-            }
-            #main-content h1 {
-                font-size: 32px;
-                margin: 10px 0;
-            }
-            #start-game {
-                font-size: 16px;
-                padding: 8px 16px;
-            }
-            #game-container {
-                padding: 10px;
-            }
-            #control-buttons {
-                display: flex;
-                justify-content: center;
-                gap: 10px;
-                margin-bottom: 10px;
-            }
-            #tabs {
-                flex-direction: column;
-                align-items: center;
-            }
-            .tab {
-                font-size: 16px;
-                padding: 8px 16px;
-                width: 100%;
-                max-width: 200px;
-            }
-            #inputs, #allied-inputs {
-                flex-direction: column;
-                align-items: center;
-                gap: 10px;
-            }
-            #inputs button, #allied-inputs button {
-                font-size: 14px;
-                padding: 8px 16px;
-                width: 100%;
-                max-width: 200px;
-            }
-            #next-turn, #undo-button, #restart-button {
-                font-size: 14px;
-                padding: 8px 16px;
-                width: 100%;
-                max-width: 200px;
-            }
-            #discard-modal, #removed-modal {
-                width: 90%;
-                max-width: 600px;
-            }
-            #discard-modal-close, #removed-modal-close {
-                font-size: 14px;
-                padding: 8px 16px;
-                width: 100%;
-                max-width: 200px;
-            }
-            .enlarged {
-                width: 80%;
-                height: auto;
-                max-height: 70vh;
-            }
-            .enlarged img {
-                width: 100%;
-                height: auto;
-                object-fit: contain;
-            }
-            .enlarged-buttons {
-                bottom: -50px;
-                gap: 8px;
-            }
-            .enlarged-buttons button {
-                font-size: 14px;
-                padding: 8px 12px;
-                min-width: 80px;
-            }
-            .card {
-                width: 150px;
-                height: 225px;
-            }
-            #start-game-container, #control-buttons {
-                flex-direction: column;
-                gap: 8px;
-            }
-            #language-toggle {
-                font-size: 14px;
-                padding: 8px 16px;
-            }
-            .sortable {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 10px;
-                margin-bottom: 30px;
-                justify-content: center;
-            }
+        #main-screen {
+            flex-direction: column;
+            height: auto;
+        }
+        #main-image {
+            width: 100%;
+            height: auto;
+        }
+        #main-image img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+            object-position: center;
+        }
+        #main-content {
+            width: 100%;
+            padding: 20px;
+        }
+        #main-content h1 {
+            font-size: 32px;
+            margin: 10px 0;
+        }
+        #start-game {
+            font-size: 16px;
+            padding: 8px 16px;
+        }
+        #game-container {
+            padding: 10px;
+        }
+        #control-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        #tabs {
+            flex-direction: column;
+            align-items: center;
+        }
+        .tab {
+            font-size: 16px;
+            padding: 8px 16px;
+            width: 100%;
+            max-width: 200px;
+        }
+        #inputs, #allied-inputs {
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        #inputs button, #allied-inputs button {
+            font-size: 14px;
+            padding: 8px 16px;
+            width: 100%;
+            max-width: 200px;
+        }
+        #next-turn, #undo-button, #restart-button {
+            font-size: 14px;
+            padding: 8px 16px;
+            width: 100%;
+            max-width: 200px;
+        }
+        #discard-modal, #removed-modal {
+            width: 90%;
+            max-width: 600px;
+        }
+        #discard-modal-close, #removed-modal-close {
+            font-size: 14px;
+            padding: 8px 16px;
+            width: 100%;
+            max-width: 200px;
+        }
+        .enlarged {
+            width: 80%;
+            height: auto;
+            max-height: 70vh;
+        }
+        .enlarged img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+        .enlarged-buttons {
+            bottom: -50px;
+            gap: 8px;
+        }
+        .enlarged-buttons button {
+            font-size: 14px;
+            padding: 8px 12px;
+            min-width: 80px;
+        }
+        .card {
+            width: 150px;
+            height: 225px;
+        }
+        #start-game-container, #control-buttons {
+            flex-direction: column;
+            gap: 8px;
+        }
+        #language-toggle {
+            font-size: 14px;
+            padding: 8px 16px;
+        }
+        .sortable {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+            justify-content: center;
+        }
 
-            .dragging {
-                opacity: 0.5; /* 드래그 중 카드 투명도 조정 */
-                transform: scale(1.05); /* 드래그 중 카드 확대 */
-                border: 2px solid #ff6b6b; /* 드래그 중 테두리 강조 */
+        .dragging {
+            opacity: 0.5; /* 드래그 중 카드 투명도 조정 */
+            transform: scale(1.05); /* 드래그 중 카드 확대 */
+            border: 2px solid #ff6b6b; /* 드래그 중 테두리 강조 */
+        }
+        #save-game {
+            padding: 10px 20px;
+            background: #6b6e70;
+            color: #d4c4a1;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            text-transform: uppercase;
+            transition: background 0.2s, transform 0.1s;
+            min-width: 100px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+        #save-game:hover {
+            background: #8b8e90;
+        }
+        #save-game:active {
+            background: #5b5e60;
+            transform: scale(0.95);
+        }
+        #load-game-input {
+            display: none; /* 숨겨진 파일 입력 */
+        }
+
+        #load-game:hover {
+            background: #8b8e90;
+        }
+        #load-game:active {
+            background: #5b5e60;
+            transform: scale(0.95);
+        }
+        @media (max-width: 768px) {
+            #save-game, #load-game {
+                font-size: 14px;
+                padding: 8px 16px;
+                width: 100%;
+                max-width: 200px;
             }
+        }
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&display=swap" rel="stylesheet">
@@ -535,6 +575,9 @@
             <button id="restart-button" style="display: none;">다시 시작</button>
             <button id="undo-button" style="display: none;" disabled>이전</button>
             <button id="next-turn" style="display: none;" disabled>다음 턴</button>
+            <button id="save-game" style="display: none;">저장</button>
+            <button id="load-game" style="display: none;">불러오기</button>
+            <input type="file" id="load-game-input" style="display: none;" accept=".json">
         </div>
         <div id="tabs">
             <button id="allied-tab" class="tab">연합군</button>
@@ -639,6 +682,11 @@
                 passMessage: '패스를 사용했습니다!',
                 reshuffleMessage: '제거된 카드를 제외한 모든 카드를 섞었습니다!',
                 gameOverMessage: '게임이 종료되었습니다!',
+                saveGame: '저장',
+                loadGame: '불러오기',
+                saveSuccessMessage: '게임 상태를 저장했습니다!',
+                loadSuccessMessage: '게임 상태를 불러왔습니다!',
+                loadErrorMessage: '유효하지 않은 파일입니다. JSON 파일을 선택해주세요.',
                 alliedDrawMessage: (cards, turn, base, wie, china, india, australia, reductions, passes) =>
                     `연합군 - 뽑을 카드: ${cards} (턴: ${turn}, 기본: ${base}, WIE 레벨: ${wie}, 중국: ${china ? '항복' : '미항복'}, 인도: ${india ? '항복' : '미항복'}, 호주: ${australia ? '항복' : '미항복'}, 감소: ${reductions}, 패스: ${passes})`,
                 japaneseDrawMessage: (cards, turn, base, submarine, bombing, reductions, passes) =>
@@ -690,6 +738,11 @@
                 passMessage: 'Pass used!',
                 reshuffleMessage: 'All cards except removed ones have been shuffled!',
                 gameOverMessage: 'Game Over!',
+                saveGame: 'Save',
+                loadGame: 'Load',
+                saveSuccessMessage: 'Game state saved successfully!',
+                loadSuccessMessage: 'Game state loaded successfully!',
+                loadErrorMessage: 'Invalid file. Please select a valid JSON file.',
                 alliedDrawMessage: (cards, turn, base, wie, china, india, australia, reductions, passes) =>
                     `Allies - Cards to draw: ${cards} (Turn: ${turn}, Base: ${base}, WIE: ${wie}, China: ${china ? 'Surrendered' : 'Not Surrendered'}, India: ${india ? 'Surrendered' : 'Not Surrendered'}, Australia: ${australia ? 'Surrendered' : 'Not Surrendered'}, Reductions: ${reductions}, Passes: ${passes})`,
                 japaneseDrawMessage: (cards, turn, base, submarine, bombing, reductions, passes) =>
@@ -807,6 +860,9 @@
             const undoButton = document.getElementById('undo-button');
             const restartButton = document.getElementById('restart-button');
             const languageToggleButton = document.getElementById('language-toggle');
+            const saveGameButton = document.getElementById('save-game');
+            const loadGameButton = document.getElementById('load-game');
+            const loadGameInput = document.getElementById('load-game-input');
 
             document.querySelector('#main-image img').addEventListener('contextmenu', (e) => e.preventDefault());
             document.getElementById('start-game').addEventListener('click', () => {
@@ -823,6 +879,22 @@
                 if (alliedDrawButton) alliedDrawButton.disabled = true;
                 if (japaneseDrawButton) japaneseDrawButton.disabled = false;
                 updateTurnDisplay();
+                if (saveGameButton) {
+                    saveGameButton.addEventListener('click', () => {
+                        saveGame();
+                    });
+                } else {
+                    console.error('save-game button not found');
+                }
+                
+                if (loadGameButton && loadGameInput) {
+                    loadGameButton.addEventListener('click', () => {
+                        loadGameInput.click();
+                    });
+                    loadGameInput.addEventListener('change', loadGame);
+                } else {
+                    console.error('load-game or load-game-input not found');
+                }
             });     
 
             function updateTurnDisplay() {
@@ -970,6 +1042,11 @@
                     }
                 });
 
+                const saveGameButton = document.getElementById('save-game');
+                const loadGameButton = document.getElementById('load-game');
+                if (saveGameButton) saveGameButton.textContent = isEnglish ? 'Save' : '저장';
+                if (loadGameButton) loadGameButton.textContent = isEnglish ? 'Load' : '불러오기';
+
                 // UI 갱신
                 updateHandDisplay();
                 updateFutureDisplay();
@@ -1080,12 +1157,100 @@
                     updateUI();
                 }
             }
+
+            function saveGame() {
+                const gameState = {
+                    factions: {
+                        allied: {
+                            deck: factions.allied.deck,
+                            hand: factions.allied.hand,
+                            futureOffensive: factions.allied.futureOffensive,
+                            discardPile: factions.allied.discardPile,
+                            removedCards: factions.allied.removedCards,
+                            currentTurn: factions.allied.currentTurn,
+                            passes: factions.allied.passes,
+                            stateHistory: factions.allied.stateHistory,
+                            needReshuffle: factions.allied.needReshuffle,
+                            eventCardsDrawnThisTurn: factions.allied.eventCardsDrawnThisTurn
+                        },
+                        japanese: {
+                            deck: factions.japanese.deck,
+                            hand: factions.japanese.hand,
+                            futureOffensive: factions.japanese.futureOffensive,
+                            discardPile: factions.japanese.discardPile,
+                            removedCards: factions.japanese.removedCards,
+                            currentTurn: factions.japanese.currentTurn,
+                            passes: factions.japanese.passes,
+                            stateHistory: factions.japanese.stateHistory,
+                            needReshuffle: factions.japanese.needReshuffle,
+                            cardsPlayedTurn1: factions.japanese.cardsPlayedTurn1,
+                            eventCardsDrawnThisTurn: factions.japanese.eventCardsDrawnThisTurn
+                        }
+                    },
+                    currentFaction: currentFaction,
+                    isGameStarted: isGameStarted,
+                    isEnglish: isEnglish
+                };
+                
+                const blob = new Blob([JSON.stringify(gameState, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `eots_game_state_${new Date().toISOString().replace(/[:.]/g, '-')}.json`;
+                a.click();
+                URL.revokeObjectURL(url);
+                
+                messageDiv.textContent = isEnglish ? languageData.en.saveSuccessMessage : languageData.ko.saveSuccessMessage;
+                setTimeout(() => { messageDiv.textContent = ''; }, 3000);
+            }
+
+            // loadGame 함수 추가
+            function loadGame(event) {
+                const file = event.target.files[0];
+                if (!file || !file.name.endsWith('.json')) {
+                    messageDiv.textContent = isEnglish ? languageData.en.loadErrorMessage : languageData.ko.loadErrorMessage;
+                    setTimeout(() => { messageDiv.textContent = ''; }, 3000);
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    try {
+                        const gameState = JSON.parse(e.target.result);
+                        // 상태 복원
+                        factions.allied = gameState.factions.allied;
+                        factions.japanese = gameState.factions.japanese;
+                        currentFaction = gameState.currentFaction;
+                        isGameStarted = gameState.isGameStarted;
+                        isEnglish = gameState.isEnglish;
+                        
+                        // 언어 및 UI 갱신
+                        languageToggleButton.textContent = isEnglish ? 'KOR' : 'ENG';
+                        updateLanguage();
+                        updateUI();
+                        
+                        messageDiv.textContent = isEnglish ? languageData.en.loadSuccessMessage : languageData.ko.loadSuccessMessage;
+                        setTimeout(() => { messageDiv.textContent = ''; }, 3000);
+                    } catch (error) {
+                        console.error('Failed to load game state:', error);
+                        messageDiv.textContent = isEnglish ? languageData.en.loadErrorMessage : languageData.ko.loadErrorMessage;
+                        setTimeout(() => { messageDiv.textContent = ''; }, 3000);
+                    }
+                };
+                reader.readAsText(file);
+                // input 초기화
+                event.target.value = '';
+            }
+            
             function updateUI() {
                 const faction = factions[currentFaction];
                 const lang = isEnglish ? languageData.en : languageData.ko;
                 const languageToggle = document.getElementById('language-toggle');
                 const startGameContainer = document.getElementById('start-game-container');
                 const controlButtons = document.getElementById('control-buttons');
+                const saveGameButton = document.getElementById('save-game');
+                const loadGameButton = document.getElementById('load-game');
+                const loadGameInput = document.getElementById('load-game-input');
 
                 turnDisplay.textContent = `${lang.turnDisplay}${faction.currentTurn}`;
                 passDisplay.textContent = `${lang.passDisplay}${faction.passes}`;
@@ -1093,6 +1258,11 @@
                 japaneseUsePassButton.disabled = faction.passes === 0;
                 if (nextTurnButton) nextTurnButton.disabled = faction.hand.length > 0;
                 if (undoButton) undoButton.disabled = faction.stateHistory.length === 0;
+
+                if (!saveGameButton || !loadGameButton || !loadGameInput) {
+                    console.error('save-game, load-game, or load-game-input not found in DOM');
+                    return;
+                }
 
                 if (isGameStarted) {
                     mainScreen.style.display = 'none';
@@ -1104,10 +1274,15 @@
                     if (nextTurnButton) nextTurnButton.style.display = 'inline-block';
                     if (undoButton) undoButton.style.display = 'inline-block';
                     if (restartButton) restartButton.style.display = 'inline-block';
-                    
+                    if (saveGameButton) saveGameButton.style.display = 'inline-block';
+                    if (loadGameButton) loadGameButton.style.display = 'inline-block';
+                    if (loadGameInput) loadGameInput.style.display = 'none';
+
                     // language-toggle을 control-buttons로 이동
                     if (languageToggle && startGameContainer.contains(languageToggle)) {
                         startGameContainer.removeChild(languageToggle);
+                        controlButtons.appendChild(languageToggle);
+                    } else if (!controlButtons.contains(languageToggle)) {
                         controlButtons.appendChild(languageToggle);
                     }
                 } else {
@@ -1120,10 +1295,15 @@
                     if (nextTurnButton) nextTurnButton.style.display = 'none';
                     if (undoButton) undoButton.style.display = 'none';
                     if (restartButton) restartButton.style.display = 'none';
-                    
+                    if (saveGameButton) saveGameButton.style.display = 'none';
+                    if (loadGameButton) loadGameButton.style.display = 'none';
+                    if (loadGameInput) loadGameInput.style.display = 'none';
+
                     // language-toggle을 start-game-container로 이동
                     if (languageToggle && controlButtons.contains(languageToggle)) {
                         controlButtons.removeChild(languageToggle);
+                        startGameContainer.appendChild(languageToggle);
+                    } else if (!startGameContainer.contains(languageToggle)) {
                         startGameContainer.appendChild(languageToggle);
                     }
                 }
@@ -1134,6 +1314,10 @@
                     messageDiv.textContent = '';
                 }
 
+                // 제거: 저장/불러오기 버튼 텍스트 설정 (updateLanguage로 이동)
+                // if (saveGameButton) saveGameButton.textContent = isEnglish ? 'Save' : '저장';
+                // if (loadGameButton) loadGameButton.textContent = isEnglish ? 'Load' : '불러오기';
+
                 updateHandDisplay();
                 updateFutureDisplay();
                 updateDiscardModal();
@@ -1142,35 +1326,6 @@
                 discardModal.style.display = 'none';
                 removedModal.style.display = 'none';
             }
-
-            // function updateUI() {
-            //     const faction = factions[currentFaction];
-            //     const lang = isEnglish ? languageData.en : languageData.ko;
-            //     const languageToggle = document.getElementById('language-toggle');
-            //     turnDisplay.textContent = `${lang.turnDisplay}${faction.currentTurn}`;
-            //     passDisplay.textContent = `${lang.passDisplay}${faction.passes}`;
-            //     alliedUsePassButton.disabled = faction.passes === 0;
-            //     japaneseUsePassButton.disabled = faction.passes === 0;
-            //     // alliedDrawButton.disabled = faction.hand.length > 0 || (currentFaction === 'allied' && faction.currentTurn === 1);
-            //     // japaneseDrawButton.disabled = (faction.hand.length > 0 && currentFaction === 'japanese') || 
-            //     //                              (currentFaction === 'japanese' && faction.currentTurn === 1 && faction.cardsPlayedTurn1 && faction.cardsPlayedTurn1.length > 0);
-            //     if (nextTurnButton) nextTurnButton.disabled = faction.hand.length > 0;
-            //     if (undoButton) undoButton.disabled = faction.stateHistory.length === 0;
-
-            //     if (currentFaction === 'allied' && faction.currentTurn === 1) {
-            //         messageDiv.textContent = lang.alliedTurn1Message;
-            //     } else {
-            //         messageDiv.textContent = '';
-            //     }
-
-            //     updateHandDisplay();
-            //     updateFutureDisplay();
-            //     updateDiscardModal();
-            //     updateRemovedModal();
-            //     updateDeckRemainingDisplay();
-            //     discardModal.style.display = 'none';
-            //     removedModal.style.display = 'none';
-            // }
 
             discardPileDiv.addEventListener('click', () => {
                 discardModal.style.display = 'block';
