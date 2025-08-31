@@ -552,6 +552,29 @@
                 max-width: 200px;
             }
         }
+        .arcadia-modal-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        #arcadia-yes, #arcadia-no {
+            padding: 10px 20px;
+            background: #6b6e70;
+            color: #d4c4a1;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.2s, transform 0.1s;
+        }
+        #arcadia-yes:hover, #arcadia-no:hover {
+            background: #8b8e90;
+        }
+        #arcadia-yes:active, #arcadia-no:active {
+            background: #5b5e60;
+            transform: scale(0.95);
+        }
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&display=swap" rel="stylesheet">
@@ -629,6 +652,13 @@
                 <div id="removed-modal-content"></div>
                 <button id="removed-modal-close">닫기</button>
             </div>
+            <div id="arcadia-modal" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0, 0, 0, 0.8); color: #d4c4a1; padding: 20px 40px; border-radius: 10px; font-size: 24px; z-index: 20; text-align: center;">
+                <div id="arcadia-modal-content"></div>
+                <div class="arcadia-modal-buttons">
+                    <button id="arcadia-yes">예</button>
+                    <button id="arcadia-no">아니오</button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -687,6 +717,9 @@
                 saveSuccessMessage: '게임 상태를 저장했습니다!',
                 loadSuccessMessage: '게임 상태를 불러왔습니다!',
                 loadErrorMessage: '유효하지 않은 파일입니다. JSON 파일을 선택해주세요.',
+                arcadiaModalMessage: '아카디아 회담[4번] 카드를 뽑으시겠습니까?',
+                arcadiaYes: '예',
+                arcadiaNo: '아니오',
                 alliedDrawMessage: (cards, turn, base, wie, china, india, australia, reductions, passes) =>
                     `연합군 - 뽑을 카드: ${cards} (턴: ${turn}, 기본: ${base}, WIE 레벨: ${wie}, 중국: ${china ? '항복' : '미항복'}, 인도: ${india ? '항복' : '미항복'}, 호주: ${australia ? '항복' : '미항복'}, 감소: ${reductions}, 패스: ${passes})`,
                 japaneseDrawMessage: (cards, turn, base, submarine, bombing, reductions, passes) =>
@@ -743,6 +776,9 @@
                 saveSuccessMessage: 'Game state saved successfully!',
                 loadSuccessMessage: 'Game state loaded successfully!',
                 loadErrorMessage: 'Invalid file. Please select a valid JSON file.',
+                arcadiaModalMessage: 'Would you like to draw the Arcadia Conference [Card 4]?',
+                arcadiaYes: 'Yes',
+                arcadiaNo: 'No',
                 alliedDrawMessage: (cards, turn, base, wie, china, india, australia, reductions, passes) =>
                     `Allies - Cards to draw: ${cards} (Turn: ${turn}, Base: ${base}, WIE: ${wie}, China: ${china ? 'Surrendered' : 'Not Surrendered'}, India: ${india ? 'Surrendered' : 'Not Surrendered'}, Australia: ${australia ? 'Surrendered' : 'Not Surrendered'}, Reductions: ${reductions}, Passes: ${passes})`,
                 japaneseDrawMessage: (cards, turn, base, submarine, bombing, reductions, passes) =>
@@ -826,6 +862,8 @@
             };
             let currentFaction = 'japanese';
             let enlargedCard = null;
+            let drawArcadia = false;
+
 
             const mainScreen = document.getElementById('main-screen');
             const startGameButton = document.getElementById('start-game');
@@ -1404,7 +1442,7 @@
             //             finalCardsToDraw = 2;
             //         } else if (faction.currentTurn >= 2 && faction.currentTurn <= 4) {
             //             baseCards = 7;
-            //             finalCardsToDraw = 7;
+            //             finalCardsToDraw = Math.max(4, baseCards - reductions); // 중복 감소 제거
             //         } else {
             //             baseCards = Math.max(4, Math.ceil(resourceHexes / 2));
             //             finalCardsToDraw = Math.max(4, baseCards - reductions);
@@ -1452,7 +1490,7 @@
             //     updateDeckRemainingDisplay();
             //     alliedDrawButton.disabled = faction.hand.length > 0 || (factionType === 'allied' && faction.currentTurn === 1);
             //     japaneseDrawButton.disabled = (faction.hand.length > 0 && factionType === 'japanese') || 
-            //                                  (factionType === 'japanese' && faction.currentTurn === 1 && faction.cardsPlayedTurn1 && faction.cardsPlayedTurn1.length > 0);
+            //                                 (factionType === 'japanese' && faction.currentTurn === 1 && faction.cardsPlayedTurn1 && faction.cardsPlayedTurn1.length > 0);
             //     checkNextTurn();
             // }
             function drawCards(factionType) {
@@ -1491,6 +1529,38 @@
 
                     messageDiv.textContent = lang.alliedDrawMessage(finalCardsToDraw, faction.currentTurn, baseCards, wieLevel, chinaSurrender, indiaSurrender, australiaSurrender, reductions, faction.passes);
                     setTimeout(() => { messageDiv.textContent = ''; }, 5000);
+
+                    let cardsDrawn = 0;
+                    if (faction.currentTurn === 1) {
+                        faction.hand = [];
+                        cardsDrawn = 0;
+                    } else {
+                        if (faction.currentTurn === 2 && drawArcadia) {
+                            const arcadiaCard = faction.deck.find(card => card.id === 'AL Card 4');
+                            if (arcadiaCard) {
+                                faction.hand.push(arcadiaCard);
+                                faction.deck = faction.deck.filter(card => card.id !== 'AL Card 4');
+                                cardsDrawn++;
+                            }
+                        }
+                        while (cardsDrawn < finalCardsToDraw) {
+                            if (faction.deck.length === 0) {
+                                if (faction.discardPile.length === 0) {
+                                    messageDiv.textContent = lang.noCardsMessage(finalCardsToDraw - cardsDrawn);
+                                    break;
+                                }
+                                faction.deck = faction.discardPile.slice();
+                                faction.discardPile = [];
+                                shuffle(faction.deck);
+                                messageDiv.textContent = lang.shuffleMessage;
+                                setTimeout(() => { messageDiv.textContent = ''; }, 5000);
+                                updateDiscardModal();
+                            }
+                            faction.hand.push(faction.deck.pop());
+                            cardsDrawn++;
+                        }
+                    }
+                    drawArcadia = false; // 리셋
                 } else {
                     const resourceHexes = Math.min(14, parseInt(document.getElementById('resource-hexes').value) || 0);
                     const submarineSuccess = document.getElementById('submarine-success').checked;
@@ -1502,7 +1572,7 @@
                         finalCardsToDraw = 2;
                     } else if (faction.currentTurn >= 2 && faction.currentTurn <= 4) {
                         baseCards = 7;
-                        finalCardsToDraw = Math.max(4, baseCards - reductions); // 중복 감소 제거
+                        finalCardsToDraw = Math.max(4, baseCards - reductions);
                     } else {
                         baseCards = Math.max(4, Math.ceil(resourceHexes / 2));
                         finalCardsToDraw = Math.max(4, baseCards - reductions);
@@ -1512,39 +1582,36 @@
 
                     messageDiv.textContent = lang.japaneseDrawMessage(finalCardsToDraw, faction.currentTurn, baseCards, submarineSuccess, bombingSuccesses, reductions, faction.passes);
                     setTimeout(() => { messageDiv.textContent = ''; }, 5000);
+
+                    let cardsDrawn = 0;
+                    if (faction.currentTurn === 1 && factionType === 'japanese') {
+                        const prefix = 'JP Card';
+                        faction.hand = faction.deck.filter(card => card.id === `${prefix} 1` || card.id === `${prefix} 2`);
+                        faction.deck = faction.deck.filter(card => card.id !== `${prefix} 1` && card.id !== `${prefix} 2`);
+                        cardsDrawn = faction.hand.length;
+                    } else {
+                        while (cardsDrawn < finalCardsToDraw) {
+                            if (faction.deck.length === 0) {
+                                if (faction.discardPile.length === 0) {
+                                    messageDiv.textContent = lang.noCardsMessage(finalCardsToDraw - cardsDrawn);
+                                    break;
+                                }
+                                faction.deck = faction.discardPile.slice();
+                                faction.discardPile = [];
+                                shuffle(faction.deck);
+                                messageDiv.textContent = lang.shuffleMessage;
+                                setTimeout(() => { messageDiv.textContent = ''; }, 5000);
+                                updateDiscardModal();
+                            }
+                            faction.hand.push(faction.deck.pop());
+                            cardsDrawn++;
+                        }
+                    }
                 }
 
                 passDisplay.textContent = `${lang.passDisplay}${faction.passes}`;
                 alliedUsePassButton.disabled = faction.passes === 0;
                 japaneseUsePassButton.disabled = faction.passes === 0;
-
-                let cardsDrawn = 0;
-                if (faction.currentTurn === 1 && factionType === 'allied') {
-                    faction.hand = [];
-                    cardsDrawn = 0;
-                } else if (faction.currentTurn === 1 && factionType === 'japanese') {
-                    const prefix = 'JP Card';
-                    faction.hand = faction.deck.filter(card => card.id === `${prefix} 1` || card.id === `${prefix} 2`);
-                    faction.deck = faction.deck.filter(card => card.id !== `${prefix} 1` && card.id !== `${prefix} 2`);
-                    cardsDrawn = faction.hand.length;
-                } else {
-                    while (cardsDrawn < finalCardsToDraw) {
-                        if (faction.deck.length === 0) {
-                            if (faction.discardPile.length === 0) {
-                                messageDiv.textContent = lang.noCardsMessage(finalCardsToDraw - cardsDrawn);
-                                break;
-                            }
-                            faction.deck = faction.discardPile.slice();
-                            faction.discardPile = [];
-                            shuffle(faction.deck);
-                            messageDiv.textContent = lang.shuffleMessage;
-                            setTimeout(() => { messageDiv.textContent = ''; }, 5000);
-                            updateDiscardModal();
-                        }
-                        faction.hand.push(faction.deck.pop());
-                        cardsDrawn++;
-                    }
-                }
 
                 updateHandDisplay();
                 updateDeckRemainingDisplay();
@@ -1553,6 +1620,14 @@
                                             (factionType === 'japanese' && faction.currentTurn === 1 && faction.cardsPlayedTurn1 && faction.cardsPlayedTurn1.length > 0);
                 checkNextTurn();
             }
+
+            function handleArcadiaModal(choice) {
+                const arcadiaModal = document.getElementById('arcadia-modal');
+                drawArcadia = choice;
+                arcadiaModal.style.display = 'none';
+                drawCards('allied');
+            }
+
 
             alliedDrawButton.addEventListener('click', () => drawCards('allied'));
             japaneseDrawButton.addEventListener('click', () => drawCards('japanese'));
@@ -1574,6 +1649,64 @@
                 }
             }
 
+            // if (nextTurnButton) {
+            //     nextTurnButton.addEventListener('click', () => {
+            //         const faction = factions[currentFaction];
+            //         const lang = isEnglish ? languageData.en : languageData.ko;
+            //         if (faction.hand.length === 0) {
+            //             saveState();
+            //             nextTurnButton.style.background = '#5b5e60';
+            //             nextTurnButton.style.transform = 'scale(0.95)';
+            //             setTimeout(() => {
+            //                 nextTurnButton.style.background = '#6b6e70';
+            //                 nextTurnButton.style.transform = 'scale(1)';
+            //             }, 200);
+
+            //             if (faction.needReshuffle) {
+            //                 faction.deck = faction.deck.concat(faction.discardPile);
+            //                 faction.discardPile = [];
+            //                 shuffle(faction.deck);
+            //                 faction.needReshuffle = false;
+            //                 messageDiv.textContent = lang.reshuffleMessage;
+            //                 setTimeout(() => { messageDiv.textContent = ''; }, 3000);
+            //                 updateDiscardModal();
+            //                 updateDeckRemainingDisplay();
+            //             }
+
+            //             if (faction.currentTurn === 12) {
+            //                 gameOverModal.textContent = lang.gameOverMessage;
+            //                 gameOverModal.style.display = 'block';
+            //                 setTimeout(() => {
+            //                     gameOverModal.style.display = 'none';
+            //                     resetGame();
+            //                 }, 3000);
+            //             } else {
+            //                 window.scrollTo(0, 0);
+            //                 turnModal.textContent = lang.turnModalMessage(faction.currentTurn + 1);
+            //                 turnModal.style.display = 'block';
+            //                 setTimeout(() => {
+            //                     turnModal.style.display = 'none';
+            //                 }, 2000);
+
+            //                 faction.currentTurn++;
+            //                 faction.eventCardsDrawnThisTurn = 0;
+            //                 if (currentFaction === 'japanese') {
+            //                     faction.cardsPlayedTurn1 = [];
+            //                 }
+            //                 turnDisplay.textContent = `${lang.turnDisplay}${faction.currentTurn}`;
+            //                 alliedDrawButton.disabled = currentFaction === 'allied' && (faction.hand.length > 0 || faction.currentTurn === 1);
+            //                 japaneseDrawButton.disabled = currentFaction === 'japanese' && faction.hand.length > 0;
+            //                 faction.hand = [];
+            //                 updateHandDisplay();
+            //                 updateDeckRemainingDisplay();
+            //                 if (!(currentFaction === 'allied' && faction.currentTurn === 1)) {
+            //                     drawCards(currentFaction);
+            //                 }
+            //                 updateUI();
+            //             }
+            //         }
+            //     });
+            // }
             if (nextTurnButton) {
                 nextTurnButton.addEventListener('click', () => {
                     const faction = factions[currentFaction];
@@ -1607,12 +1740,6 @@
                             }, 3000);
                         } else {
                             window.scrollTo(0, 0);
-                            turnModal.textContent = lang.turnModalMessage(faction.currentTurn + 1);
-                            turnModal.style.display = 'block';
-                            setTimeout(() => {
-                                turnModal.style.display = 'none';
-                            }, 2000);
-
                             faction.currentTurn++;
                             faction.eventCardsDrawnThisTurn = 0;
                             if (currentFaction === 'japanese') {
@@ -1624,8 +1751,27 @@
                             faction.hand = [];
                             updateHandDisplay();
                             updateDeckRemainingDisplay();
-                            if (!(currentFaction === 'allied' && faction.currentTurn === 1)) {
-                                drawCards(currentFaction);
+
+                            if (currentFaction === 'allied' && faction.currentTurn === 2) {
+                                const arcadiaModal = document.getElementById('arcadia-modal');
+                                const arcadiaModalContent = document.getElementById('arcadia-modal-content');
+                                const arcadiaYes = document.getElementById('arcadia-yes');
+                                const arcadiaNo = document.getElementById('arcadia-no');
+                                arcadiaModalContent.textContent = lang.arcadiaModalMessage;
+                                arcadiaYes.textContent = lang.arcadiaYes;
+                                arcadiaNo.textContent = lang.arcadiaNo;
+                                arcadiaModal.style.display = 'block';
+                                arcadiaYes.onclick = () => handleArcadiaModal(true);
+                                arcadiaNo.onclick = () => handleArcadiaModal(false);
+                            } else {
+                                turnModal.textContent = lang.turnModalMessage(faction.currentTurn);
+                                turnModal.style.display = 'block';
+                                setTimeout(() => {
+                                    turnModal.style.display = 'none';
+                                }, 2000);
+                                if (!(currentFaction === 'allied' && faction.currentTurn === 1)) {
+                                    drawCards(currentFaction);
+                                }
                             }
                             updateUI();
                         }
