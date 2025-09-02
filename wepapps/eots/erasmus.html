@@ -7539,12 +7539,14 @@
                 addToHistory(`${expression} = ${result}`);
                 currentInput = result.toString();
                 expression = '';
-                calcDisplay.value = currentInput;
+                calcDisplay.value = currentInput; // 결과값 유지
             } catch (e) {
                 calcDisplay.value = 'Error';
                 currentInput = '';
                 expression = '';
             }
+        } else {
+            calcDisplay.value = currentInput || ''; // currentInput 유지
         }
     }
 
@@ -7552,7 +7554,6 @@
         if (currentInput) {
             currentInput = currentInput.slice(0, -1);
         } else if (expression) {
-            // expression 끝에서 연산자(+와 공백) 제거
             expression = expression.trim().slice(0, -2).trim();
         }
         calcDisplay.value = expression + currentInput;
