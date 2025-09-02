@@ -20,6 +20,108 @@
     .frame { display:none; width:100%; height:100%; border:0; background:#111; }
     .frame.active { display:block; }
     footer { padding:8px 12px; background:#242424; border-top:1px solid #3a3a3a; font-size:12px; color:#bbb; }
+
+    #calculator-btn {
+        transition: transform 0.2s, background 0.2s !important;
+        background: linear-gradient(145deg, #ff9500, #e87b00) !important;
+        border: none !important;
+        outline: none !important;
+    }
+
+    #calculator-btn:hover {
+        background: linear-gradient(145deg, #e87b00, #cc6b00) !important;
+        transform: translateY(-2px) scale(1.08) !important;
+    }
+
+    #calc-display {
+        border-radius: 8px !important;
+        transition: background 0.2s !important;
+        background: #1c2526 !important;
+        border: none !important;
+        outline: none !important;
+    }
+
+    #calc-history li {
+        background: #2e2e2e !important;
+        padding: 6px !important;
+        margin: 4px 0 !important;
+        border-radius: 4px !important;
+        color: #ffffff !important;
+        font-size: 11px !important;
+    }
+
+    /* 계산기 버튼 전용 스타일 (텍스트 중앙 정렬, iOS 스타일) */
+    #calculator-modal > div > button.calc-btn {
+        padding: 12px !important;
+        font-size: 16px !important;
+        border-radius: 50% !important; /* 원형 버튼 */
+        cursor: pointer !important;
+        width: 100% !important;
+        aspect-ratio: 1 / 1 !important; /* 정사각형 비율 */
+        box-sizing: border-box !important;
+        text-align: center !important;
+        line-height: 1.2 !important;
+        min-height: 54px !important; /* 버튼 크기 */
+        max-width: 54px !important; /* 버튼 너비 제한 */
+        margin: 0 auto !important; /* 중앙 정렬 */
+        display: flex !important; /* 텍스트 수직 중앙 정렬 */
+        align-items: center !important;
+        justify-content: center !important;
+        transition: transform 0.1s, background 0.1s !important;
+        font-family: -apple-system, sans-serif !important;
+        font-weight: 500 !important;
+        border: none !important;
+        outline: none !important;
+        background: none !important; /* 외부 배경 초기화 */
+    }
+
+    #calculator-modal > div > button.calc-btn:hover {
+        transform: scale(1.12) !important;
+    }
+
+    #calculator-modal > div > button.calc-btn-number {
+        background: linear-gradient(145deg, #333333, #2b2b2b) !important; /* 숫자 버튼: iOS 다크 회색 */
+        color: #ffffff !important;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.4) !important;
+    }
+
+    #calculator-modal > div > button.calc-btn-number:hover {
+        background: linear-gradient(145deg, #2b2b2b, #232323) !important;
+    }
+
+    #calculator-modal > div > button.calc-btn-primary {
+        background: linear-gradient(145deg, #ff6200, #d45200) !important; /* 곱셈 버튼: iOS 진한 오렌지 */
+        color: #ffffff !important;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.4) !important;
+    }
+
+    #calculator-modal > div > button.calc-btn-primary:hover {
+        background: linear-gradient(145deg, #d45200, #b44600) !important;
+    }
+
+    #calculator-modal > div > button.calc-btn-secondary {
+        background: linear-gradient(145deg, #d4d4d2, #bcbcbc) !important; /* 기능 버튼: iOS 밝은 회색 */
+        color: #000000 !important;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.4) !important;
+    }
+
+    #calculator-modal > div > button.calc-btn-secondary:hover {
+        background: linear-gradient(145deg, #bcbcbc, #a4a4a4) !important;
+    }
+
+    #calculator-modal > div > button.calc-btn-operator {
+        background: linear-gradient(145deg, #ff9500, #e87b00) !important; /* 연산 버튼: iOS 오렌지 */
+        color: #ffffff !important;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.4) !important;
+    }
+
+    #calculator-modal > div > button.calc-btn-operator:hover {
+        background: linear-gradient(145deg, #e87b00, #cc6b00) !important;
+    }
+
+
+
+
     .impl-note {
             font-style: italic;
             font-size: 14px;
@@ -337,12 +439,13 @@
                 width: 100%;
                 max-width: 180px;
             }
+            
         }
     </style>
   </style>
 </head>
 <body>
-  <header><h1>태양의 제국 - 일본군 Erasmus 웹 애플리케이션</h1></header>
+  <header><h1>태양의 제국 Erasmus</h1></header>
 
   <nav id="tabs">
     <button data-target="early" class="active">전쟁 초기</button>
@@ -367,6 +470,40 @@
     <iframe id="frame-offensive"   class="frame"></iframe>
   </div>
 
+  <div id="calculator-btn" style="position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px; background: linear-gradient(145deg, #ff9500, #e87b00); border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; color: white; font-size: 28px; z-index: 1000; box-shadow: 0 4px 8px rgba(0,0,0,0.2); transition: transform 0.2s, background 0.2s;">+</div>
+
+    <div id="calculator-modal" style="position: fixed; bottom: 90px; right: 20px; width: 390px; background: linear-gradient(145deg, #1c2526, #2e2e2e); border-radius: 16px; padding: 15px; box-shadow: 0 8px 16px rgba(0,0,0,0.3); display: none; z-index: 1000; box-sizing: border-box;">
+        <div style="margin-bottom: 12px;">
+            <h4 style="color: #ffffff; font-size: 15px; margin: 0 0 8px 0; font-weight: 600; font-family: -apple-system, sans-serif;">이전 기록 (최대 10개)</h4>
+            <ul id="calc-history" style="list-style: none; padding: 0; max-height: 80px; overflow-y: auto; font-size: 12px; font-family: -apple-system, sans-serif;"></ul>
+        </div>
+        <div style="margin-bottom: 12px;">
+            <input type="text" id="calc-display" style="width: 100%; padding: 12px; background: #1c2526; border: none; color: #ffffff; font-size: 18px; text-align: right; border-radius: 8px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.3); font-family: -apple-system, sans-serif;" readonly>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; width: 100%; box-sizing: border-box;">
+            <button class="calc-btn calc-btn-primary" onclick="multiply(0.25)">*0.25</button>
+            <button class="calc-btn calc-btn-primary" onclick="multiply(0.5)">*0.5</button>
+            <button class="calc-btn calc-btn-primary" onclick="multiply(1)">*1</button>
+            <button class="calc-btn calc-btn-primary" onclick="multiply(1.5)">*1.5</button>
+            <button class="calc-btn calc-btn-primary" onclick="multiply(2)">*2</button>
+            <button class="calc-btn calc-btn-number" onclick="appendToDisplay('7')">7</button>
+            <button class="calc-btn calc-btn-number" onclick="appendToDisplay('8')">8</button>
+            <button class="calc-btn calc-btn-number" onclick="appendToDisplay('9')">9</button>
+            <button class="calc-btn calc-btn-secondary" onclick="clearDisplay()">C</button>
+            <button class="calc-btn calc-btn-secondary" onclick="backspace()">←</button>
+            <button class="calc-btn calc-btn-number" onclick="appendToDisplay('4')">4</button>
+            <button class="calc-btn calc-btn-number" onclick="appendToDisplay('5')">5</button>
+            <button class="calc-btn calc-btn-number" onclick="appendToDisplay('6')">6</button>
+            <button class="calc-btn calc-btn-operator" onclick="appendToDisplay('+')">+</button>
+            <button class="calc-btn calc-btn-operator" onclick="calculate()">=</button>
+            <button class="calc-btn calc-btn-number" onclick="appendToDisplay('1')">1</button>
+            <button class="calc-btn calc-btn-number" onclick="appendToDisplay('2')">2</button>
+            <button class="calc-btn calc-btn-number" onclick="appendToDisplay('3')">3</button>
+            <button class="calc-btn calc-btn-number" onclick="appendToDisplay('0')">0</button>
+            <button class="calc-btn calc-btn-number" style="visibility: hidden;"></button> <!-- 빈 공간 채우기 -->
+        </div>
+    </div>
+
   <footer>이렇게까지 만들었으니 올해는 꼭 태제 10판 돌린다</footer>
 
   <template id="tmpl-early">
@@ -385,305 +522,305 @@
                 padding: 20px;
                 box-sizing: border-box;
                 color: #d8d8d8;
-            }
-        
-            .impl-note {
-                font-style: italic;
-                font-size: 14px;
-                color: #ffffff;
-                line-height: 1.6;
-                margin: 4px 0;
-            }
-        
-            .container {
-                max-width: 800px;
-                margin: 0 auto;
-                background: #3c3c3c;
-                border-radius: 8px;
-                padding: 20px;
-                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            }
-        
-            .header {
-                text-align: center;
-                margin-bottom: 20px;
-                padding: 15px;
-                background: #4a4a4a;
-                border-radius: 8px;
-                color: #ffffff;
-                border: 1px solid #5c5c5c;
-            }
-        
-            .header h1 {
-                margin: 0;
-                font-size: 2rem;
-                font-weight: 700;
-            }
-        
-            .header p {
-                margin: 8px 0 0 0;
-                font-size: 1rem;
-                font-weight: 400;
-            }
-        
-            .progress-bar {
-                background: #4a4a4a;
-                border-radius: 5px;
-                height: 6px;
-                margin-bottom: 20px;
-                overflow: hidden;
-                border: 1px solid #5c5c5c;
-            }
-        
-            .progress-fill {
-                background: #4682b4;
-                height: 100%;
-                border-radius: 5px;
-                transition: width 0.3s ease;
-                width: 0%;
-            }
-        
-            .step-section {
-                background: #3c3c3c;
-                border-radius: 8px;
-                padding: 20px;
-                margin-bottom: 15px;
-                border: 1px solid #5c5c5c;
-            }
-        
-            .step-header {
-                display: flex;
-                align-items: center;
-                margin-bottom: 15px;
-            }
-        
-            .step-number {
-                background: #4682b4;
-                color: #ffffff;
-                width: 40px;
-                height: 40px;
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-weight: bold;
-                font-size: 1rem;
-                margin-right: 15px;
-            }
-        
-            .step-title {
-                font-size: 1.3rem;
-                font-weight: 600;
-                color: #d8d8d8;
-                margin: 0;
-            }
-        
-            .condition-box {
-                background: #4a4a4a;
-                border-left: 4px solid #4682b4;
-                border-radius: 5px;
-                padding: 15px;
-                margin: 15px 0;
-                font-size: 1rem;
-                line-height: 1.5;
-                color: #c8c8c8;
-            }
-        
-            .condition-box strong {
-                color: #4682b4;
-                font-size: 1.1rem;
-            }
-        
-            .button-group {
-                display: flex;
-                gap: 15px;
-                justify-content: center;
-                margin-top: 20px;
-            }
-        
-            .btn {
-                padding: 10px 30px;
-                border: none;
-                border-radius: 5px;
-                font-size: 1rem;
-                font-weight: 500;
-                cursor: pointer;
-                transition: background 0.2s ease, transform 0.1s ease;
-                text-transform: uppercase;
-                min-width: 100px;
-                font-family: 'Georgia', 'Times New Roman', Times, serif;
-            }
-        
-            .btn-yes {
-                background: #2e8b57;
-                color: #ffffff;
-            }
-        
-            .btn-yes:hover {
-                background: #257a4b;
-                transform: translateY(-2px);
-            }
-        
-            .btn-no {
-                background: #696969;
-                color: #ffffff;
-            }
-        
-            .btn-no:hover {
-                background: #585858;
-                transform: translateY(-2px);
-            }
-        
-            .btn-primary {
-                background: #4682b4;
-                color: #ffffff;
-            }
-        
-            .btn-primary:hover {
-                background: #3a6b9a;
-                transform: translateY(-2px);
-            }
-        
-            .btn-secondary {
-                background: #5c5c5c;
-                color: #ffffff;
-            }
-        
-            .btn-secondary:hover {
-                background: #4b4b4b;
-                transform: translateY(-2px);
-            }
-        
-            .btn-back {
-                background: #5c5c5c;
-                color: #ffffff;
-            }
-        
-            .btn-back:hover {
-                background: #4b4b4b;
-                transform: translateY(-2px);
-            }
-        
-            .path-history {
-                background: #4a4a4a;
-                border-radius: 8px;
-                padding: 15px;
-                margin-bottom: 15px;
-                border-left: 3px solid #2e8b57;
-            }
-        
-            .path-step {
-                display: flex;
-                align-items: center;
-                margin: 8px 0;
-                padding: 8px;
-                background: #3c3c3c;
-                border-radius: 5px;
-                box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-            }
-        
-            .path-step .step-icon {
-                width: 25px;
-                height: 25px;
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-weight: bold;
-                margin-right: 10px;
-                font-size: 0.8rem;
-            }
-        
-            .path-step.yes .step-icon {
-                background: #2e8b57;
-                color: #ffffff;
-            }
-        
-            .path-step.no .step-icon {
-                background: #696969;
-                color: #ffffff;
-            }
-        
-            .dice-section {
-                background: #4a4a4a;
-                border-radius: 8px;
-                padding: 20px;
-                text-align: center;
-                margin: 15px 0;
-                border: 1px solid #5c5c5c;
-            }
-        
-            .dice-result {
-                font-size: 3rem;
-                font-weight: bold;
-                color: #d8d8d8;
-                margin: 15px 0;
-            }
-        
-            .result-section {
-                background: #2e8b57;
-                color: #ffffff;
-                border-radius: 8px;
-                padding: 20px;
-                text-align: center;
-                margin-top: 15px;
-                border: 1px solid #3c3c3c;
-            }
-        
-            .result-section h2 {
-                margin: 0 0 15px 0;
-                font-size: 2rem;
-                display: none;
-            }
-        
-            .result-section p {
-                margin: 10px 0;
-                font-size: 32px;
-                white-space: pre-line;
-                font-weight: bold;
-                font-style: italic;
-            }
-        
-            .strategy-details {
-                background: rgba(255, 255, 255, 0.1);
-                border-radius: 5px;
-                padding: 15px;
-                margin-top: 15px;
-            }
-        
-            .strategy-list {
-                text-align: left;
-                margin: 15px 0;
-                list-style: none;
-                padding: 0;
-            }
-        
-            .strategy-list li {
-                margin: 8px 0;
-                padding: 8px 10px;
-                background: rgba(255, 255, 255, 0.05);
-                border-radius: 5px;
-                border-left: 3px solid rgba(255, 255, 255, 0.3);
-            }
-        
-            .sub-priority-list {
-                list-style: none;
-                padding-left: 20px;
-                margin-top: 5px;
-            }
-        
-            .sub-priority-list li {
-                margin: 5px 0;
-                padding: 5px 10px;
-                background: rgba(0, 0, 0, 0.2);
-                border-radius: 5px;
-                border-left: 2px solid rgba(255, 255, 255, 0.4);
-                font-size: 0.9rem;
-            }
-        
-            .hidden {
-                display: none;
-            }
+                }
+            
+                .impl-note {
+                    font-style: italic;
+                    font-size: 14px;
+                    color: #ffffff;
+                    line-height: 1.6;
+                    margin: 4px 0;
+                }
+            
+                .container {
+                    max-width: 800px;
+                    margin: 0 auto;
+                    background: #3c3c3c;
+                    border-radius: 8px;
+                    padding: 20px;
+                    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+                }
+            
+                .header {
+                    text-align: center;
+                    margin-bottom: 20px;
+                    padding: 15px;
+                    background: #4a4a4a;
+                    border-radius: 8px;
+                    color: #ffffff;
+                    border: 1px solid #5c5c5c;
+                }
+            
+                .header h1 {
+                    margin: 0;
+                    font-size: 2rem;
+                    font-weight: 700;
+                }
+            
+                .header p {
+                    margin: 8px 0 0 0;
+                    font-size: 1rem;
+                    font-weight: 400;
+                }
+            
+                .progress-bar {
+                    background: #4a4a4a;
+                    border-radius: 5px;
+                    height: 6px;
+                    margin-bottom: 20px;
+                    overflow: hidden;
+                    border: 1px solid #5c5c5c;
+                }
+            
+                .progress-fill {
+                    background: #4682b4;
+                    height: 100%;
+                    border-radius: 5px;
+                    transition: width 0.3s ease;
+                    width: 0%;
+                }
+            
+                .step-section {
+                    background: #3c3c3c;
+                    border-radius: 8px;
+                    padding: 20px;
+                    margin-bottom: 15px;
+                    border: 1px solid #5c5c5c;
+                }
+            
+                .step-header {
+                    display: flex;
+                    align-items: center;
+                    margin-bottom: 15px;
+                }
+            
+                .step-number {
+                    background: #4682b4;
+                    color: #ffffff;
+                    width: 40px;
+                    height: 40px;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-weight: bold;
+                    font-size: 1rem;
+                    margin-right: 15px;
+                }
+            
+                .step-title {
+                    font-size: 1.3rem;
+                    font-weight: 600;
+                    color: #d8d8d8;
+                    margin: 0;
+                }
+            
+                .condition-box {
+                    background: #4a4a4a;
+                    border-left: 4px solid #4682b4;
+                    border-radius: 5px;
+                    padding: 15px;
+                    margin: 15px 0;
+                    font-size: 1rem;
+                    line-height: 1.5;
+                    color: #c8c8c8;
+                }
+            
+                .condition-box strong {
+                    color: #4682b4;
+                    font-size: 1.1rem;
+                }
+            
+                .button-group {
+                    display: flex;
+                    gap: 15px;
+                    justify-content: center;
+                    margin-top: 20px;
+                }
+            
+                .btn {
+                    padding: 10px 30px;
+                    border: none;
+                    border-radius: 5px;
+                    font-size: 1rem;
+                    font-weight: 500;
+                    cursor: pointer;
+                    transition: background 0.2s ease, transform 0.1s ease;
+                    text-transform: uppercase;
+                    min-width: 100px;
+                    font-family: 'Georgia', 'Times New Roman', Times, serif;
+                }
+            
+                .btn-yes {
+                    background: #2e8b57;
+                    color: #ffffff;
+                }
+            
+                .btn-yes:hover {
+                    background: #257a4b;
+                    transform: translateY(-2px);
+                }
+            
+                .btn-no {
+                    background: #696969;
+                    color: #ffffff;
+                }
+            
+                .btn-no:hover {
+                    background: #585858;
+                    transform: translateY(-2px);
+                }
+            
+                .btn-primary {
+                    background: #4682b4;
+                    color: #ffffff;
+                }
+            
+                .btn-primary:hover {
+                    background: #3a6b9a;
+                    transform: translateY(-2px);
+                }
+            
+                .btn-secondary {
+                    background: #5c5c5c;
+                    color: #ffffff;
+                }
+            
+                .btn-secondary:hover {
+                    background: #4b4b4b;
+                    transform: translateY(-2px);
+                }
+            
+                .btn-back {
+                    background: #5c5c5c;
+                    color: #ffffff;
+                }
+            
+                .btn-back:hover {
+                    background: #4b4b4b;
+                    transform: translateY(-2px);
+                }
+            
+                .path-history {
+                    background: #4a4a4a;
+                    border-radius: 8px;
+                    padding: 15px;
+                    margin-bottom: 15px;
+                    border-left: 3px solid #2e8b57;
+                }
+            
+                .path-step {
+                    display: flex;
+                    align-items: center;
+                    margin: 8px 0;
+                    padding: 8px;
+                    background: #3c3c3c;
+                    border-radius: 5px;
+                    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+                }
+            
+                .path-step .step-icon {
+                    width: 25px;
+                    height: 25px;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-weight: bold;
+                    margin-right: 10px;
+                    font-size: 0.8rem;
+                }
+            
+                .path-step.yes .step-icon {
+                    background: #2e8b57;
+                    color: #ffffff;
+                }
+            
+                .path-step.no .step-icon {
+                    background: #696969;
+                    color: #ffffff;
+                }
+            
+                .dice-section {
+                    background: #4a4a4a;
+                    border-radius: 8px;
+                    padding: 20px;
+                    text-align: center;
+                    margin: 15px 0;
+                    border: 1px solid #5c5c5c;
+                }
+            
+                .dice-result {
+                    font-size: 3rem;
+                    font-weight: bold;
+                    color: #d8d8d8;
+                    margin: 15px 0;
+                }
+            
+                .result-section {
+                    background: #2e8b57;
+                    color: #ffffff;
+                    border-radius: 8px;
+                    padding: 20px;
+                    text-align: center;
+                    margin-top: 15px;
+                    border: 1px solid #3c3c3c;
+                }
+            
+                .result-section h2 {
+                    margin: 0 0 15px 0;
+                    font-size: 2rem;
+                    display: none;
+                }
+            
+                .result-section p {
+                    margin: 10px 0;
+                    font-size: 32px;
+                    white-space: pre-line;
+                    font-weight: bold;
+                    font-style: italic;
+                }
+            
+                .strategy-details {
+                    background: rgba(255, 255, 255, 0.1);
+                    border-radius: 5px;
+                    padding: 15px;
+                    margin-top: 15px;
+                }
+            
+                .strategy-list {
+                    text-align: left;
+                    margin: 15px 0;
+                    list-style: none;
+                    padding: 0;
+                }
+            
+                .strategy-list li {
+                    margin: 8px 0;
+                    padding: 8px 10px;
+                    background: rgba(255, 255, 255, 0.05);
+                    border-radius: 5px;
+                    border-left: 3px solid rgba(255, 255, 255, 0.3);
+                }
+            
+                .sub-priority-list {
+                    list-style: none;
+                    padding-left: 20px;
+                    margin-top: 5px;
+                }
+            
+                .sub-priority-list li {
+                    margin: 5px 0;
+                    padding: 5px 10px;
+                    background: rgba(0, 0, 0, 0.2);
+                    border-radius: 5px;
+                    border-left: 2px solid rgba(255, 255, 255, 0.4);
+                    font-size: 0.9rem;
+                }
+            
+                .hidden {
+                    display: none;
+                }   
         
             @media (max-width: 768px) {
                 .container {
@@ -7335,6 +7472,108 @@
       // 프레임 전환
       document.querySelectorAll('.frame').forEach(f => f.classList.remove('active'));
       document.getElementById(map[target].frame).classList.add('active');
+    });
+
+    const calcBtn = document.getElementById('calculator-btn');
+    const calcModal = document.getElementById('calculator-modal');
+    const calcDisplay = document.getElementById('calc-display');
+    const calcHistory = document.getElementById('calc-history');
+
+    let currentInput = '';
+    let history = [];
+    let expression = '';
+
+    calcBtn.addEventListener('click', () => {
+        calcModal.style.display = calcModal.style.display === 'block' ? 'none' : 'block';
+    });
+
+    // 키패드 입력 처리
+    document.addEventListener('keydown', (e) => {
+        if (calcModal.style.display === 'block') {
+            if (/[0-9]/.test(e.key)) {
+                currentInput += e.key;
+                calcDisplay.value = expression + currentInput;
+            } else if (e.key === '+') {
+                appendToDisplay('+');
+            } else if (e.key === 'Enter') {
+                calculate();
+            } else if (e.key === 'Escape') {
+                clearDisplay();
+            } else if (e.key === 'Backspace') {
+                backspace();
+            }
+        }
+    });
+
+    function appendToDisplay(value) {
+        if (value === '+') {
+            if (currentInput) {
+                expression += currentInput + ' + ';
+                currentInput = '';
+                calcDisplay.value = expression;
+            }
+        } else {
+            currentInput += value;
+            calcDisplay.value = expression + currentInput;
+        }
+    }
+
+    function multiply(factor) {
+        if (currentInput) {
+            let result = parseFloat(currentInput) * factor;
+            // *0.25, *0.5, *1, *1.5, *2 모두 소수점 올림 처리
+            if ([0.25, 0.5, 1, 1.5, 2].includes(factor)) {
+                result = Math.ceil(result);
+            }
+            addToHistory(`${currentInput} * ${factor} = ${result}`);
+            currentInput = result.toString();
+            calcDisplay.value = expression + currentInput;
+        }
+    }
+
+    function calculate() {
+        if (currentInput) {
+            expression += currentInput;
+            try {
+                const result = eval(expression);
+                addToHistory(`${expression} = ${result}`);
+                currentInput = result.toString();
+                expression = '';
+                calcDisplay.value = currentInput;
+            } catch (e) {
+                calcDisplay.value = 'Error';
+                currentInput = '';
+                expression = '';
+            }
+        }
+    }
+
+    function backspace() {
+        if (currentInput) {
+            currentInput = currentInput.slice(0, -1);
+        } else if (expression) {
+            // expression 끝에서 연산자(+와 공백) 제거
+            expression = expression.trim().slice(0, -2).trim();
+        }
+        calcDisplay.value = expression + currentInput;
+    }
+
+    function clearDisplay() {
+        currentInput = '';
+        expression = '';
+        calcDisplay.value = '';
+    }
+
+    function addToHistory(entry) {
+        history.push(entry);
+        if (history.length > 10) history.shift();
+        calcHistory.innerHTML = history.map(h => `<li>${h}</li>`).join('');
+    }
+
+    // 입력창 직접 입력 비활성화
+    calcDisplay.addEventListener('input', (e) => {
+        e.preventDefault();
+        calcDisplay.value = expression + currentInput;
     });
   </script>
 </body>
