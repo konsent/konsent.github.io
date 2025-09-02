@@ -119,6 +119,25 @@
         background: linear-gradient(145deg, #e87b00, #cc6b00) !important;
     }
 
+    /* 추가: 토글 버튼 스타일 */
+    #history-toggle {
+        transition: transform 0.2s !important;
+    }
+
+    #history-toggle.open {
+        transform: rotate(180deg) !important;
+    }
+
+    /* 추가: 드래그 앤 드롭 스타일 */
+    #allied-text, #japanese-text {
+        border: 1px dashed #fff;
+        min-height: 40px;
+        padding: 5px;
+        border-radius: 4px;
+        color: white;
+        text-align: center;
+    }
+
 
 
 
@@ -473,12 +492,25 @@
   <div id="calculator-btn" style="position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px; background: linear-gradient(145deg, #ff9500, #e87b00); border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; color: white; font-size: 28px; z-index: 1000; box-shadow: 0 4px 8px rgba(0,0,0,0.2); transition: transform 0.2s, background 0.2s;">+</div>
 
     <div id="calculator-modal" style="position: fixed; bottom: 90px; right: 20px; width: 390px; background: linear-gradient(145deg, #1c2526, #2e2e2e); border-radius: 16px; padding: 15px; box-shadow: 0 8px 16px rgba(0,0,0,0.3); display: none; z-index: 1000; box-sizing: border-box;">
-        <div style="margin-bottom: 12px;">
-            <h4 style="color: #ffffff; font-size: 15px; margin: 0 0 8px 0; font-weight: 600; font-family: -apple-system, sans-serif;">이전 기록 (최대 10개)</h4>
-            <ul id="calc-history" style="list-style: none; padding: 0; max-height: 80px; overflow-y: auto; font-size: 12px; font-family: -apple-system, sans-serif;"></ul>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+            <div id="allied-box" style="width: 48%; background: #4682b4; border-radius: 8px; padding: 10px; color: white; position: relative;">
+                <span style="font-weight: bold;">연합군</span>
+                <div id="allied-text" style="margin-top: 5px; background: rgba(255,255,255,0.1); padding: 5px; border-radius: 4px; min-height: 30px; word-wrap: break-word;"></div>
+                <button onclick="clearBox('allied-text')" style="position: absolute; top: 5px; right: 5px; background: none; border: none; color: white; font-size: 12px; cursor: pointer;">X</button>
+            </div>
+            <div id="japanese-box" style="width: 48%; background: #dc3545; border-radius: 8px; padding: 10px; color: white; position: relative;">
+                <span style="font-weight: bold;">일본군</span>
+                <div id="japanese-text" style="margin-top: 5px; background: rgba(255,255,255,0.1); padding: 5px; border-radius: 4px; min-height: 30px; word-wrap: break-word;"></div>
+                <button onclick="clearBox('japanese-text')" style="position: absolute; top: 5px; right: 5px; background: none; border: none; color: white; font-size: 12px; cursor: pointer;">X</button>
+            </div>
         </div>
+        <div style="margin-bottom: 12px; display: flex; align-items: center;">
+            <button id="history-toggle" style="background: none; border: none; color: white; cursor: pointer; font-size: 18px; margin-right: 10px;">▼</button>
+            <h4 style="color: #ffffff; font-size: 15px; margin: 0; font-weight: 600; font-family: -apple-system, sans-serif;">이전 기록 (최대 10개)</h4>
+        </div>
+        <ul id="calc-history" style="list-style: none; padding: 0; max-height: 80px; overflow-y: auto; font-size: 12px; font-family: -apple-system, sans-serif; display: none;"></ul>
         <div style="margin-bottom: 12px;">
-            <input type="text" id="calc-display" style="width: 100%; padding: 12px; background: #1c2526; border: none; color: #ffffff; font-size: 18px; text-align: right; border-radius: 8px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.3); font-family: -apple-system, sans-serif;" readonly>
+            <input type="text" id="calc-display" style="width: 100%; padding: 16px; background: #1c2526; border: none; color: #ffffff; font-size: 20px; text-align: right; border-radius: 8px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.3); font-family: -apple-system, sans-serif;" readonly draggable="true" ondragstart="dragStart(event)">
         </div>
         <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; width: 100%; box-sizing: border-box;">
             <button class="calc-btn calc-btn-primary" onclick="multiply(0.25)">*0.25</button>
@@ -7478,6 +7510,9 @@
     const calcModal = document.getElementById('calculator-modal');
     const calcDisplay = document.getElementById('calc-display');
     const calcHistory = document.getElementById('calc-history');
+    const historyToggle = document.getElementById('history-toggle');
+    const alliedText = document.getElementById('allied-text');
+    const japaneseText = document.getElementById('japanese-text');
 
     let currentInput = '';
     let history = [];
@@ -7546,7 +7581,7 @@
                 expression = '';
             }
         } else {
-            calcDisplay.value = currentInput || ''; // currentInput 유지
+            calcDisplay.value = currentInput || '0'; // currentInput 유지 또는 기본값
         }
     }
 
@@ -7576,6 +7611,41 @@
         e.preventDefault();
         calcDisplay.value = expression + currentInput;
     });
+
+    // 추가: 이전 기록 토글
+    historyToggle.addEventListener('click', () => {
+        if (calcHistory.style.display === 'none') {
+            calcHistory.style.display = 'block';
+            historyToggle.classList.add('open');
+            historyToggle.textContent = '▲';
+        } else {
+            calcHistory.style.display = 'none';
+            historyToggle.classList.remove('open');
+            historyToggle.textContent = '▼';
+        }
+    });
+
+    // 추가: 드래그 앤 드롭 기능
+    function dragStart(e) {
+        e.dataTransfer.setData('text/plain', calcDisplay.value);
+    }
+
+    alliedText.addEventListener('dragover', (e) => e.preventDefault());
+    alliedText.addEventListener('drop', (e) => {
+        e.preventDefault();
+        alliedText.textContent = e.dataTransfer.getData('text/plain');
+    });
+
+    japaneseText.addEventListener('dragover', (e) => e.preventDefault());
+    japaneseText.addEventListener('drop', (e) => {
+        e.preventDefault();
+        japaneseText.textContent = e.dataTransfer.getData('text/plain');
+    });
+
+    // 추가: 박스 초기화 함수
+    function clearBox(boxId) {
+        document.getElementById(boxId).textContent = '';
+    }
   </script>
 </body>
 </html>
