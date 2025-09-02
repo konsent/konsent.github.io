@@ -945,13 +945,15 @@
                     console.warn('turn-display not found');
                 }
             }
-
+            
             function getValidImagePath(faction, cardNumber, isLarge = false) {
                 const lang = isEnglish ? '_eng' : '';
                 const extension = isEnglish ? '.gif' : '.png';
-                const basePath = `card_image/${faction === 'allied' ? 'al' : 'jp'}${lang}`;
-                return `${basePath}/${cardNumber}${isLarge ? '_large' : ''}${extension}`;
-            }
+                const basePath = `card_image/${faction === 'allied' ? 'al' : 'jp'}${lang}`; // 'al'로 직접 비교
+                const path = `${basePath}/${cardNumber}${isLarge ? '_large' : ''}${extension}`;
+                console.log(`getValidImagePath: faction=${faction}, cardNumber=${cardNumber}, isLarge=${isLarge}, path=${path}`);
+                return path;
+}
 
 
             function initializeDeck(faction) {
@@ -1353,10 +1355,6 @@
                     messageDiv.textContent = '';
                 }
 
-                // 제거: 저장/불러오기 버튼 텍스트 설정 (updateLanguage로 이동)
-                // if (saveGameButton) saveGameButton.textContent = isEnglish ? 'Save' : '저장';
-                // if (loadGameButton) loadGameButton.textContent = isEnglish ? 'Load' : '불러오기';
-
                 updateHandDisplay();
                 updateFutureDisplay();
                 updateDiscardModal();
@@ -1396,104 +1394,7 @@
                 }
             });
 
-            // function drawCards(factionType) {
-            //     saveState();
-            //     const faction = factions[factionType];
-            //     const lang = isEnglish ? languageData.en : languageData.ko;
-            //     let baseCards = 0;
-            //     let finalCardsToDraw = 0;
-            //     let basePasses = 0;
-            //     let reductions = 0;
-            //     let additionalPasses = 0;
-
-            //     if (factionType === 'allied') {
-            //         if (faction.currentTurn === 1) {
-            //             baseCards = 0;
-            //             basePasses = 0;
-            //         } else if (faction.currentTurn === 2) {
-            //             baseCards = 5;
-            //             basePasses = 2;
-            //         } else if (faction.currentTurn === 3) {
-            //             baseCards = 6;
-            //             basePasses = 1;
-            //         } else {
-            //             baseCards = 7;
-            //             basePasses = 0;
-            //         }
-
-            //         const wieLevel = parseInt(document.getElementById('wie-level').value) || 0;
-            //         const chinaSurrender = document.getElementById('china-surrender').checked;
-            //         const indiaSurrender = document.getElementById('india-surrender').checked;
-            //         const australiaSurrender = document.getElementById('australia-surrender').checked;
-            //         reductions = (wieLevel === 4 ? 1 : 0) + (chinaSurrender ? 1 : 0) + (indiaSurrender ? 1 : 0) + (australiaSurrender ? 1 : 0);
-            //         finalCardsToDraw = Math.max(4, baseCards - reductions);
-            //         additionalPasses = reductions;
-            //         faction.passes = Math.min(2, basePasses + additionalPasses);
-
-            //         messageDiv.textContent = lang.alliedDrawMessage(finalCardsToDraw, faction.currentTurn, baseCards, wieLevel, chinaSurrender, indiaSurrender, australiaSurrender, reductions, faction.passes);
-            //         setTimeout(() => { messageDiv.textContent = ''; }, 5000);
-            //     } else {
-            //         const resourceHexes = Math.min(14, parseInt(document.getElementById('resource-hexes').value) || 0);
-            //         const submarineSuccess = document.getElementById('submarine-success').checked;
-            //         const bombingSuccesses = parseInt(document.getElementById('bombing-successes').value) || 0;
-            //         reductions = (submarineSuccess ? 1 : 0) + Math.min(2, bombingSuccesses);
-
-            //         if (faction.currentTurn === 1) {
-            //             baseCards = 2;
-            //             finalCardsToDraw = 2;
-            //         } else if (faction.currentTurn >= 2 && faction.currentTurn <= 4) {
-            //             baseCards = 7;
-            //             finalCardsToDraw = Math.max(4, baseCards - reductions); // 중복 감소 제거
-            //         } else {
-            //             baseCards = Math.max(4, Math.ceil(resourceHexes / 2));
-            //             finalCardsToDraw = Math.max(4, baseCards - reductions);
-            //         }
-
-            //         faction.passes = faction.currentTurn === 1 ? 0 : finalCardsToDraw === 6 ? 1 : finalCardsToDraw <= 5 ? 2 : 0;
-
-            //         messageDiv.textContent = lang.japaneseDrawMessage(finalCardsToDraw, faction.currentTurn, baseCards, submarineSuccess, bombingSuccesses, reductions, faction.passes);
-            //         setTimeout(() => { messageDiv.textContent = ''; }, 5000);
-            //     }
-
-            //     passDisplay.textContent = `${lang.passDisplay}${faction.passes}`;
-            //     alliedUsePassButton.disabled = faction.passes === 0;
-            //     japaneseUsePassButton.disabled = faction.passes === 0;
-
-            //     let cardsDrawn = 0;
-            //     if (faction.currentTurn === 1 && factionType === 'allied') {
-            //         faction.hand = [];
-            //         cardsDrawn = 0;
-            //     } else if (faction.currentTurn === 1 && factionType === 'japanese') {
-            //         const prefix = 'JP Card';
-            //         faction.hand = faction.deck.filter(card => card.id === `${prefix} 1` || card.id === `${prefix} 2`);
-            //         faction.deck = faction.deck.filter(card => card.id !== `${prefix} 1` && card.id !== `${prefix} 2`);
-            //         cardsDrawn = faction.hand.length;
-            //     } else {
-            //         while (cardsDrawn < finalCardsToDraw) {
-            //             if (faction.deck.length === 0) {
-            //                 if (faction.discardPile.length === 0) {
-            //                     messageDiv.textContent = lang.noCardsMessage(finalCardsToDraw - cardsDrawn);
-            //                     break;
-            //                 }
-            //                 faction.deck = faction.discardPile.slice();
-            //                 faction.discardPile = [];
-            //                 shuffle(faction.deck);
-            //                 messageDiv.textContent = lang.shuffleMessage;
-            //                 setTimeout(() => { messageDiv.textContent = ''; }, 5000);
-            //                 updateDiscardModal();
-            //             }
-            //             faction.hand.push(faction.deck.pop());
-            //             cardsDrawn++;
-            //         }
-            //     }
-
-            //     updateHandDisplay();
-            //     updateDeckRemainingDisplay();
-            //     alliedDrawButton.disabled = faction.hand.length > 0 || (factionType === 'allied' && faction.currentTurn === 1);
-            //     japaneseDrawButton.disabled = (faction.hand.length > 0 && factionType === 'japanese') || 
-            //                                 (factionType === 'japanese' && faction.currentTurn === 1 && faction.cardsPlayedTurn1 && faction.cardsPlayedTurn1.length > 0);
-            //     checkNextTurn();
-            // }
+        
             function drawCards(factionType) {
                 saveState();
                 const faction = factions[factionType];
@@ -1650,64 +1551,6 @@
                 }
             }
 
-            // if (nextTurnButton) {
-            //     nextTurnButton.addEventListener('click', () => {
-            //         const faction = factions[currentFaction];
-            //         const lang = isEnglish ? languageData.en : languageData.ko;
-            //         if (faction.hand.length === 0) {
-            //             saveState();
-            //             nextTurnButton.style.background = '#5b5e60';
-            //             nextTurnButton.style.transform = 'scale(0.95)';
-            //             setTimeout(() => {
-            //                 nextTurnButton.style.background = '#6b6e70';
-            //                 nextTurnButton.style.transform = 'scale(1)';
-            //             }, 200);
-
-            //             if (faction.needReshuffle) {
-            //                 faction.deck = faction.deck.concat(faction.discardPile);
-            //                 faction.discardPile = [];
-            //                 shuffle(faction.deck);
-            //                 faction.needReshuffle = false;
-            //                 messageDiv.textContent = lang.reshuffleMessage;
-            //                 setTimeout(() => { messageDiv.textContent = ''; }, 3000);
-            //                 updateDiscardModal();
-            //                 updateDeckRemainingDisplay();
-            //             }
-
-            //             if (faction.currentTurn === 12) {
-            //                 gameOverModal.textContent = lang.gameOverMessage;
-            //                 gameOverModal.style.display = 'block';
-            //                 setTimeout(() => {
-            //                     gameOverModal.style.display = 'none';
-            //                     resetGame();
-            //                 }, 3000);
-            //             } else {
-            //                 window.scrollTo(0, 0);
-            //                 turnModal.textContent = lang.turnModalMessage(faction.currentTurn + 1);
-            //                 turnModal.style.display = 'block';
-            //                 setTimeout(() => {
-            //                     turnModal.style.display = 'none';
-            //                 }, 2000);
-
-            //                 faction.currentTurn++;
-            //                 faction.eventCardsDrawnThisTurn = 0;
-            //                 if (currentFaction === 'japanese') {
-            //                     faction.cardsPlayedTurn1 = [];
-            //                 }
-            //                 turnDisplay.textContent = `${lang.turnDisplay}${faction.currentTurn}`;
-            //                 alliedDrawButton.disabled = currentFaction === 'allied' && (faction.hand.length > 0 || faction.currentTurn === 1);
-            //                 japaneseDrawButton.disabled = currentFaction === 'japanese' && faction.hand.length > 0;
-            //                 faction.hand = [];
-            //                 updateHandDisplay();
-            //                 updateDeckRemainingDisplay();
-            //                 if (!(currentFaction === 'allied' && faction.currentTurn === 1)) {
-            //                     drawCards(currentFaction);
-            //                 }
-            //                 updateUI();
-            //             }
-            //         }
-            //     });
-            // }
             if (nextTurnButton) {
                 nextTurnButton.addEventListener('click', () => {
                     const faction = factions[currentFaction];
@@ -2108,6 +1951,7 @@
                 }, 0);
             }
 
+
             function enlargeFutureCard() {
                 if (enlargedCard) return;
 
@@ -2123,10 +1967,10 @@
 
                 const img = document.createElement('img');
                 img.alt = card.id;
-                const factionPrefix = currentFaction === 'allied' ? 'al' : 'jp';
+                const factionPrefix = card.id.startsWith('AL') ? 'allied' : 'jp';
                 const cardNumber = card.id.split(' ')[2];
                 img.src = getValidImagePath(factionPrefix, cardNumber, true);
-                console.log(`확대 이미지 로드 시도: ${card.id}, 경로: ${img.src}`);
+                console.log(`enlargeFutureCard: cardId=${card.id}, factionPrefix=${factionPrefix}, path=${img.src}`);
                 img.onerror = () => {
                     img.src = getValidImagePath(factionPrefix, cardNumber, false);
                     console.log(`확대 이미지 로드 실패, 원본 사용: ${card.id}, 경로: ${img.src}`);
@@ -2202,10 +2046,10 @@
 
                 const img = document.createElement('img');
                 img.alt = card.id;
-                const factionPrefix = currentFaction === 'allied' ? 'al' : 'jp';
+                const factionPrefix = card.id.startsWith('AL') ? 'allied' : 'jp';
                 const cardNumber = card.id.split(' ')[2];
                 img.src = getValidImagePath(factionPrefix, cardNumber, true);
-                console.log(`확대 이미지 로드 시도: ${card.id}, 경로: ${img.src}`);
+                console.log(`enlargeDiscardCard: cardId=${card.id}, factionPrefix=${factionPrefix}, path=${img.src}`);
                 img.onerror = () => {
                     img.src = getValidImagePath(factionPrefix, cardNumber, false);
                     console.log(`확대 이미지 로드 실패, 원본 사용: ${card.id}, 경로: ${img.src}`);
@@ -2276,10 +2120,10 @@
 
                 const img = document.createElement('img');
                 img.alt = card.id;
-                const factionPrefix = currentFaction === 'allied' ? 'al' : 'jp';
+                const factionPrefix = card.id.startsWith('AL') ? 'allied' : 'jp';
                 const cardNumber = card.id.split(' ')[2];
                 img.src = getValidImagePath(factionPrefix, cardNumber, true);
-                console.log(`확대 이미지 로드 시도: ${card.id}, 경로: ${img.src}`);
+                console.log(`enlargeRemovedCard: cardId=${card.id}, factionPrefix=${factionPrefix}, path=${img.src}`);
                 img.onerror = () => {
                     img.src = getValidImagePath(factionPrefix, cardNumber, false);
                     console.log(`확대 이미지 로드 실패, 원본 사용: ${card.id}, 경로: ${img.src}`);
@@ -2334,6 +2178,10 @@
                     document.addEventListener('click', closeEnlargedOutside);
                 }, 0);
             }
+
+
+
+
 
             function closeEnlarged() {
                 if (enlargedCard) {
