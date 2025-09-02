@@ -7718,7 +7718,7 @@
         diceButton.textContent = '?'; // 초기 물음표
         diceButton.classList.add('spin');
         setTimeout(() => {
-            const result = Math.floor(Math.random() * 10) + 1;
+            const result = Math.floor(Math.random() * 10);
             diceButton.classList.remove('spin');
             diceButton.textContent = result; // 애니메이션 후 숫자 표시
             resultDisplay.textContent = result;
