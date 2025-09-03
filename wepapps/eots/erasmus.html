@@ -159,9 +159,14 @@
         overflow: hidden;
     }
 
-    .dice-btn.spin {
+    #dice1.spin {
         animation: spin 0.7s ease-in-out !important;
-        background: linear-gradient(145deg, #f8f9fa, #dee2e6) !important;
+        background: linear-gradient(145deg, #4682b4, #008cff) !important; /* 주사위 1: 파란색 계열 */
+    }
+
+    #dice2.spin {
+        animation: spin 0.7s ease-in-out !important;
+        background: linear-gradient(145deg, #dc3545, #ff0019) !important; /* 주사위 2: 빨간색 계열 */
     }
 
     @keyframes spin {
@@ -7718,7 +7723,7 @@
         diceButton.textContent = '?'; // 초기 물음표
         diceButton.classList.add('spin');
         setTimeout(() => {
-            const result = Math.floor(Math.random() * 10) + 1;
+            const result = Math.floor(Math.random() * 10);
             diceButton.classList.remove('spin');
             diceButton.textContent = result; // 애니메이션 후 숫자 표시
             resultDisplay.textContent = result;
