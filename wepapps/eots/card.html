@@ -575,6 +575,44 @@
             background: #5b5e60;
             transform: scale(0.95);
         }
+        #logistics-score {
+            margin-left: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        #pass-section {
+            display: flex;
+            align-items: center;
+        }
+        #pass-display, #logistics-score {
+            margin-left: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            display: inline-block;
+            visibility: visible;
+        }
+        #faction-content {
+            display: block;
+        }
+        #pass-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        #pass-display, #allied-logistics-score, #japanese-logistics-score {
+            background: #3c3f41;
+            padding: 5px 10px;
+            border-radius: 5px;
+            color: #d4c4a1;
+            display: inline-block;
+            visibility: visible;
+        }
+        #allied-logistics-score.hidden, #japanese-logistics-score.hidden {
+            display: none;
+        }
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&display=swap" rel="stylesheet">
@@ -609,6 +647,16 @@
         <div id="faction-content">
             <div id="turn-display" style="display: none;">턴: 1</div>
             <div id="pass-display" style="display: none;">패스: 0</div>
+            <div id="pass-section">
+                <span id="pass-display" style="display: none;">패스: 0</span>
+                
+                
+            </div>
+           
+            
+
+            
+
             <div id="message"></div>
             <div id="inputs" style="display: none;">
                 <label for="resource-hexes">자원 헥스: <input type="number" id="resource-hexes" min="0" max="14" value="14"></label>
@@ -616,6 +664,10 @@
                 <label for="bombing-successes">전략 폭격 성공 횟수: <input type="number" id="bombing-successes" min="0" max="2" value="0"></label>
                 <button id="japanese-draw-cards"></button>
                 <button id="japanese-use-pass" disabled>패스 사용</button>
+                <span id="japanese-logistics-score"></span>
+                
+    
+                
             </div>
             <div id="allied-inputs" style="display: none;">
                 <label for="wie-level">WIE: </label>
@@ -634,6 +686,8 @@
                 </div>
                 <button id="allied-draw-cards"></button>
                 <button id="allied-use-pass" disabled>패스 사용</button>
+                <span id="allied-logistics-score"></span>
+                
             </div>
             <div id="hand" class="sortable"></div>
             <div id="future-offensive">미래 공세:</div>
@@ -720,6 +774,7 @@
                 arcadiaModalMessage: '아카디아 회담[4번] 카드를 뽑으시겠습니까?',
                 arcadiaYes: '예',
                 arcadiaNo: '아니오',
+                logisticsScore: '병참 평가: ',
                 alliedDrawMessage: (cards, turn, base, wie, china, india, australia, reductions, passes) =>
                     `연합군 - 뽑을 카드: ${cards} (턴: ${turn}, 기본: ${base}, WIE 레벨: ${wie}, 중국: ${china ? '항복' : '미항복'}, 인도: ${india ? '항복' : '미항복'}, 호주: ${australia ? '항복' : '미항복'}, 감소: ${reductions}, 패스: ${passes})`,
                 japaneseDrawMessage: (cards, turn, base, submarine, bombing, reductions, passes) =>
@@ -779,6 +834,7 @@
                 arcadiaModalMessage: 'Would you like to draw the Arcadia Conference [Card 4]?',
                 arcadiaYes: 'Yes',
                 arcadiaNo: 'No',
+                logisticsScore: 'Logistics Score: ',
                 alliedDrawMessage: (cards, turn, base, wie, china, india, australia, reductions, passes) =>
                     `Allies - Cards to draw: ${cards} (Turn: ${turn}, Base: ${base}, WIE: ${wie}, China: ${china ? 'Surrendered' : 'Not Surrendered'}, India: ${india ? 'Surrendered' : 'Not Surrendered'}, Australia: ${australia ? 'Surrendered' : 'Not Surrendered'}, Reductions: ${reductions}, Passes: ${passes})`,
                 japaneseDrawMessage: (cards, turn, base, submarine, bombing, reductions, passes) =>
@@ -792,73 +848,141 @@
             }
         };
 
+            // const alliedCardProperties = Array(numCardsAllied).fill().map((_, i) => {
+            //     const patterns = ['01','10','01',
+            //                       '01','00','01',
+            //                       '01','11','00',
+            //                       '01','01','01',
+            //                       '00','01','00',
+            //                       '01','01','01',
+            //                       '00','01','00',
+            //                       '01','11','11',
+            //                       '00','01','01',
+            //                       '00','00','01',
+            //                       '00','00','00',
+            //                       '00','00','00',
+            //                       '00','00','01',
+            //                       '00','01','01',
+            //                       '10','00','00',
+            //                       '00','01','00',
+            //                       '01','00','01',
+            //                       '01','00','00',
+            //                       '00','00','00',
+            //                       '00','10','01',
+            //                       '11','01','00',
+            //                       '00','01','01',
+            //                       '01','11','00',
+            //                       '01','00','00',
+            //                       '01','00','00',
+            //                       '00','01','11',
+            //                       '01','11','00',
+            //                       '00','00','00'];
+            //     return patterns[i % patterns.length];
+            // });
+            // const japaneseCardProperties = Array(numCardsJapanese).fill().map((_, i) => {
+            //     const patterns = ['00','00','00',
+            //                       '10','01','01',
+            //                       '10','00','00',
+            //                       '00','10','00',
+            //                       '01','00','01',
+            //                       '00','10','01',
+            //                       '01','00','11',
+            //                       '01','00','10',
+            //                       '00','01','10',
+            //                       '00','00','01',
+            //                       '01','00','00',
+            //                       '10','00','10',
+            //                       '01','01','01',
+            //                       '00','01','01',
+            //                       '01','00','01',
+            //                       '01','00','00',
+            //                       '10','00','01',
+            //                       '01','01','01',
+            //                       '01','01','01',
+            //                       '00','00','00',
+            //                       '11','11','11',
+            //                       '11','01','11',
+            //                       '00','00','10',
+            //                       '10','01','01',
+            //                       '01','01','10',
+            //                       '01','00','01',
+            //                       '01','11','11',
+            //                       '00','00','10',
+            //                       '01','10'];
+            //     return patterns[i % patterns.length];
+            // });
+
+
             const alliedCardProperties = Array(numCardsAllied).fill().map((_, i) => {
-                const patterns = ['01','10','01',
-                                  '01','00','01',
-                                  '01','11','00',
-                                  '01','01','01',
-                                  '00','01','00',
-                                  '01','01','01',
-                                  '00','01','00',
-                                  '01','11','11',
-                                  '00','01','01',
-                                  '00','00','01',
-                                  '00','00','00',
-                                  '00','00','00',
-                                  '00','00','01',
-                                  '00','01','01',
-                                  '10','00','00',
-                                  '00','01','00',
-                                  '01','00','01',
-                                  '01','00','00',
-                                  '00','00','00',
-                                  '00','10','01',
-                                  '11','01','00',
-                                  '00','01','01',
-                                  '01','11','00',
-                                  '01','00','00',
-                                  '01','00','00',
-                                  '00','01','11',
-                                  '01','11','00',
-                                  '00','00','00'];
+                const patterns = ['3100001','3100010','5100001',
+                                  '3100001','2203100','3300001',
+                                  '1204101','2100111','1312100',
+                                  '3100001','3200001','2200001',
+                                  '1305100','3200001','5200000',
+                                  '5100001','5200001','5100001',
+                                  '1203100','1104101','1306000',
+                                  '2200001','5200011','2200011',
+                                  '1103100','2200001','5100001',
+                                  '1203000','1204000','1204101',
+                                  '1306100','1307000','1203100',
+                                  '1204100','1202100','1305100',
+                                  '1306100','1204100','3200001',
+                                  '1305000','3200001','3200001',
+                                  '3100010','1202100','1305100',
+                                  '1201000','3200001','1204100',
+                                  '3100001','1204000','1204101',
+                                  '3100001','1306000','1205100',
+                                  '1306000','1204000','1205100',
+                                  '1204100','2100010','5300001',
+                                  '2100011','1308101','1306000',
+                                  '1204000','1308101','3200001',
+                                  '5300001','2100011','1308000',
+                                  '1206101','1206000','1208000',
+                                  '3200001','1308100','1308100',
+                                  '1205100','3200001','2100011',
+                                  '3300001','5100011','3200000',
+                                  '3200000','3200000','1300100'];
                 return patterns[i % patterns.length];
             });
             const japaneseCardProperties = Array(numCardsJapanese).fill().map((_, i) => {
-                const patterns = ['00','00','00',
-                                  '10','01','01',
-                                  '10','00','00',
-                                  '00','10','00',
-                                  '01','00','01',
-                                  '00','10','01',
-                                  '01','00','11',
-                                  '01','00','10',
-                                  '00','01','10',
-                                  '00','00','01',
-                                  '01','00','00',
-                                  '10','00','10',
-                                  '01','01','01',
-                                  '00','01','01',
-                                  '01','00','01',
-                                  '01','00','00',
-                                  '10','00','01',
-                                  '01','01','01',
-                                  '01','01','01',
-                                  '00','00','00',
-                                  '11','11','11',
-                                  '11','01','11',
-                                  '00','00','10',
-                                  '10','01','01',
-                                  '01','01','10',
-                                  '01','00','01',
-                                  '01','11','11',
-                                  '00','00','10',
-                                  '01','10'];
+                const patterns = ['1300001','1326001','1203100',
+                                  '2100010','5200001','3200001',
+                                  '3200010','1304100','1306100',
+                                  '1306000','3200010','1308100',
+                                  '2200101','1305100','3300001',
+                                  '1304100','2203110','3100001',
+                                  '2200001','1205000','2300011',
+                                  '2200001','1203000','2100010',
+                                  '1304000','3200001','2100010',
+                                  '1304100','1304100','5300001',
+                                  '5300001','1304100','3200000',
+                                  '3200010','5300000','2100010',
+                                  '1302001','1302001','5200001',
+                                  '1304100','3300001','3300001',
+                                  '3100001','1304000','2305101',
+                                  '2305001','1307000','1305100',
+                                  '2100010','1306100','3300001',
+                                  '3300001','3300001','3300001',
+                                  '3300001','3300001','3300001',
+                                  '1305000','1305000','1305000',
+                                  '2200011','2200011','2200011',
+                                  '2200011','2101101','2200011',
+                                  '3200000','3200000','2100010',
+                                  '2100010','5300001','5300001',
+                                  '1203001','3100001','2100010',
+                                  '1201101','5300000','5100001',
+                                  '1201101','5200011','2200011',
+                                  '3300000','1204000','2100010',
+                                  '2203101','2100010'];
                 return patterns[i % patterns.length];
             });
+            
+
+
 
             let factions = {
-                allied: { deck: [], hand: [], futureOffensive: null, discardPile: [], removedCards: [], currentTurn: 1, passes: 0, stateHistory: [], needReshuffle: false, eventCardsDrawnThisTurn: 0 },
-                japanese: { deck: [], hand: [], futureOffensive: null, discardPile: [], removedCards: [], currentTurn: 1, passes: 0, stateHistory: [], needReshuffle: false, cardsPlayedTurn1: [], eventCardsDrawnThisTurn: 0 }
+                allied: { deck: [], hand: [], futureOffensive: null, discardPile: [], removedCards: [], currentTurn: 1, passes: 0, stateHistory: [], logisticsScore: 0, needReshuffle: false, eventCardsDrawnThisTurn: 0 },
+                japanese: { deck: [], hand: [], futureOffensive: null, discardPile: [], removedCards: [], currentTurn: 1, passes: 0, stateHistory: [], logisticsScore: 0,needReshuffle: false, cardsPlayedTurn1: [], eventCardsDrawnThisTurn: 0 }
             };
             let currentFaction = 'japanese';
             let enlargedCard = null;
@@ -902,6 +1026,10 @@
             const loadGameButton = document.getElementById('load-game');
             const loadGameInput = document.getElementById('load-game-input');
 
+            updateLanguage();
+
+            
+
             document.querySelector('#main-image img').addEventListener('contextmenu', (e) => e.preventDefault());
             document.getElementById('start-game').addEventListener('click', () => {
                 isGameStarted = true;
@@ -933,6 +1061,7 @@
                 } else {
                     console.error('load-game or load-game-input not found');
                 }
+                
             });     
 
             function updateTurnDisplay() {
@@ -955,17 +1084,51 @@
 }
 
 
-            function initializeDeck(faction) {
+            // function initializeDeck(faction) {
+            //     const deck = [];
+            //     const numCards = faction === 'allied' ? numCardsAllied : numCardsJapanese;
+            //     const cardProperties = faction === 'allied' ? alliedCardProperties : japaneseCardProperties;
+            //     for (let i = 1; i <= numCards; i++) {
+            //         const imagePath = getValidImagePath(faction, i);
+            //         deck.push({ id: `${faction === 'allied' ? 'AL Card' : 'JP Card'} ${i}`, image: imagePath, property: cardProperties[i - 1] });
+            //     }
+            //     shuffle(deck);
+            //     return deck;
+            // }
+
+
+            function initializeDeck(factionType) {
+                const properties = factionType === 'allied' ? alliedCardProperties : japaneseCardProperties;
+                const prefix = factionType === 'allied' ? 'AL Card' : 'JP Card';
                 const deck = [];
-                const numCards = faction === 'allied' ? numCardsAllied : numCardsJapanese;
-                const cardProperties = faction === 'allied' ? alliedCardProperties : japaneseCardProperties;
-                for (let i = 1; i <= numCards; i++) {
-                    const imagePath = getValidImagePath(faction, i);
-                    deck.push({ id: `${faction === 'allied' ? 'AL Card' : 'JP Card'} ${i}`, image: imagePath, property: cardProperties[i - 1] });
-                }
+
+                properties.forEach((prop, index) => {
+                    if (typeof prop !== 'string' || prop.length !== 7) {
+                        console.error(`Invalid property format for card ${index + 1}: ${prop}`);
+                        return;
+                    }
+                    const card = {
+                        id: `${prefix} ${index + 1}`,
+                        type: parseInt(prop[0], 10), // 카드 종류 (1~5)
+                        oc: parseInt(prop[1], 10), // OC 수치 (1~3)
+                        logistics: parseInt(prop.slice(2, 4), 10), // Logistics 수치 (00~99)
+                        condition: parseInt(prop[4], 10), // 조건 여부 (0, 1)
+                        drawStrategic: parseInt(prop[5], 10), // 전략카드 뽑기 (0, 1)
+                        removeOnEvent: parseInt(prop[6], 10) // 이벤트 제거 여부 (0, 1)
+                    };
+                    console.log(`initializeDeck: cardId=${card.id}, properties=${prop}, condition=${card.condition}, drawStrategic=${card.drawStrategic}, removeOnEvent=${card.removeOnEvent}`);
+                    deck.push(card);
+                });
+
                 shuffle(deck);
                 return deck;
             }
+
+
+
+
+
+
             function updateLanguage() {
                 const lang = isEnglish ? languageData.en : languageData.ko;
 
@@ -975,6 +1138,24 @@
                 
                 const startGame = document.getElementById('start-game');
                 if (startGame) startGame.textContent = lang.startGame;
+
+                const alliedLogisticsSpan = document.getElementById('allied-logistics-score');
+                
+                const japaneseLogisticsSpan = document.getElementById('japanese-logistics-score');
+                if (alliedLogisticsSpan) {
+                    alliedLogisticsSpan.textContent = `${lang.logisticsScore}${factions.allied.logisticsScore}`;
+                    alliedLogisticsSpan.className = currentFaction === 'allied' ? '' : 'hidden';
+                    console.log(`Updated allied logistics score: ${alliedLogisticsSpan.textContent}, display=${alliedLogisticsSpan.style.display}`);
+                } else {
+                    console.error('allied-logistics-score element not found in DOM');
+                }
+                if (japaneseLogisticsSpan) {
+                    japaneseLogisticsSpan.textContent = `${lang.logisticsScore}${factions.japanese.logisticsScore}`;
+                    japaneseLogisticsSpan.className = currentFaction === 'japanese' ? '' : 'hidden';
+                    console.log(`Updated japanese logistics score: ${japaneseLogisticsSpan.textContent}, display=${japaneseLogisticsSpan.style.display}`);
+                } else {
+                    console.error('japanese-logistics-score element not found in DOM');
+                }
 
                 // 게임 화면 요소
                 const restartButton = document.getElementById('restart-button');
@@ -1015,6 +1196,11 @@
                 
                 const removedModalClose = document.getElementById('removed-modal-close');
                 if (removedModalClose) removedModalClose.textContent = lang.removedModalClose;
+
+
+                
+
+
                 
                 // const japaneseDrawCards = document.getElementById('japanese-draw-cards');
                 // if (japaneseDrawCards) japaneseDrawCards.textContent = lang.japaneseDrawCards;
@@ -1184,19 +1370,72 @@
             alliedTab.addEventListener('click', () => switchFaction('allied'));
             japaneseTab.addEventListener('click', () => switchFaction('japanese'));
 
-            function switchFaction(faction) {
-                if (currentFaction !== faction) {
-                    currentFaction = faction;
-                    alliedTab.classList.toggle('active', faction === 'allied');
-                    japaneseTab.classList.toggle('active', faction === 'japanese');
-                    inputsDiv.style.display = faction === 'japanese' ? 'flex' : 'none';
-                    alliedInputs.style.display = faction === 'allied' ? 'flex' : 'none';
-                    if (faction === 'japanese' && factions.japanese.currentTurn === 1 && factions.japanese.hand.length === 0) {
-                        drawCards('japanese');
-                    }
-                    updateUI();
+            // function switchFaction(faction) {
+            //     if (currentFaction !== faction) {
+            //         currentFaction = faction;
+            //         alliedTab.classList.toggle('active', faction === 'allied');
+            //         japaneseTab.classList.toggle('active', faction === 'japanese');
+            //         inputsDiv.style.display = faction === 'japanese' ? 'flex' : 'none';
+            //         alliedInputs.style.display = faction === 'allied' ? 'flex' : 'none';
+            //         if (faction === 'japanese' && factions.japanese.currentTurn === 1 && factions.japanese.hand.length === 0) {
+            //             drawCards('japanese');
+            //         }
+            //         updateUI();
+            //     }
+            // }
+
+
+            // function switchFaction(newFaction) {
+            //     currentFaction = newFaction;
+            //     const lang = isEnglish ? languageData.en : languageData.ko;
+            //     console.log(`Switching to faction: ${newFaction}, lang.logisticsScore=${lang.logisticsScore}`);
+            //     updateUI();
+
+            //     // 진영별 병참 평가 점수 갱신 및 표시/숨김
+            //     const logisticsSpan = document.getElementById(`${newFaction}-logistics-score`);
+            //     const otherFaction = newFaction === 'allied' ? 'japanese' : 'allied';
+            //     const otherLogisticsSpan = document.getElementById(`${otherFaction}-logistics-score`);
+            //     if (logisticsSpan) {
+            //         console.log(`Setting ${newFaction} logistics score: lang.logisticsScore=${lang.logisticsScore}, score=${factions[newFaction].logisticsScore}`);
+            //         logisticsSpan.textContent = `${lang.logisticsScore}${factions[newFaction].logisticsScore}`;
+            //         logisticsSpan.style.display = 'inline-block';
+            //     } else {
+            //         console.error(`${newFaction}-logistics-score element not found in DOM`);
+            //     }
+            //     if (otherLogisticsSpan) {
+            //         otherLogisticsSpan.style.display = 'none';
+            //     }
+            // }
+
+
+            function switchFaction(newFaction) {
+                currentFaction = newFaction;
+                const lang = isEnglish ? languageData.en : languageData.ko;
+                console.log(`Switching to faction: ${newFaction}, lang.logisticsScore=${lang.logisticsScore}`);
+
+                // 진영별 병참 평가 점수 갱신 및 표시/숨김
+                const logisticsSpan = document.getElementById(`${newFaction}-logistics-score`);
+                const otherFaction = newFaction === 'allied' ? 'japanese' : 'allied';
+                const otherLogisticsSpan = document.getElementById(`${otherFaction}-logistics-score`);
+                if (logisticsSpan) {
+                    console.log(`Setting ${newFaction} logistics score: lang.logisticsScore=${lang.logisticsScore}, score=${factions[newFaction].logisticsScore}`);
+                    logisticsSpan.textContent = `${lang.logisticsScore}${factions[newFaction].logisticsScore}`;
+                    logisticsSpan.className = ''; // 표시
+                } else {
+                    console.error(`${newFaction}-logistics-score element not found in DOM`);
                 }
+                if (otherLogisticsSpan) {
+                    otherLogisticsSpan.className = 'hidden'; // 상대 진영 숨김
+                }
+
+                updateUI();
             }
+
+
+
+
+
+
 
             function saveGame() {
                 const gameState = {
@@ -1294,6 +1533,27 @@
 
                 turnDisplay.textContent = `${lang.turnDisplay}${faction.currentTurn}`;
                 passDisplay.textContent = `${lang.passDisplay}${faction.passes}`;
+
+
+                const alliedLogisticsSpan = document.getElementById('allied-logistics-score');
+                const japaneseLogisticsSpan = document.getElementById('japanese-logistics-score');
+                if (alliedLogisticsSpan) {
+                    alliedLogisticsSpan.textContent = `${lang.logisticsScore}${factions.allied.logisticsScore}`;
+                    alliedLogisticsSpan.className = currentFaction === 'allied' ? '' : 'hidden';
+                } else {
+                    console.error('allied-logistics-score element not found in DOM');
+                }
+                if (japaneseLogisticsSpan) {
+                    japaneseLogisticsSpan.textContent = `${lang.logisticsScore}${factions.japanese.logisticsScore}`;
+                    japaneseLogisticsSpan.className = currentFaction === 'japanese' ? '' : 'hidden';
+                } else {
+                    console.error('japanese-logistics-score element not found in DOM');
+                }
+                document.getElementById('pass-section').style.display = 'flex';
+
+
+
+
                 alliedUsePassButton.disabled = faction.passes === 0;
                 japaneseUsePassButton.disabled = faction.passes === 0;
                 if (nextTurnButton) nextTurnButton.disabled = faction.hand.length > 0;
@@ -1317,6 +1577,8 @@
                     if (saveGameButton) saveGameButton.style.display = 'inline-block';
                     if (loadGameButton) loadGameButton.style.display = 'inline-block';
                     if (loadGameInput) loadGameInput.style.display = 'none';
+                    if (discardModalClose) discardModalClose.textContent = lang.close;
+                    if (removedModalClose) removedModalClose.textContent = lang.close;
 
                     // language-toggle을 control-buttons로 이동
                     if (languageToggle && startGameContainer.contains(languageToggle)) {
@@ -1329,6 +1591,7 @@
                     mainScreen.style.display = 'flex';
                     gameContainer.style.display = 'none';
                     turnDisplay.style.display = 'none';
+                    document.getElementById('pass-section').style.display = 'none';
                     passDisplay.style.display = 'none';
                     inputsDiv.style.display = 'none';
                     alliedInputs.style.display = 'none';
@@ -1363,6 +1626,7 @@
                 removedModal.style.display = 'none';
             }
 
+
             discardPileDiv.addEventListener('click', () => {
                 discardModal.style.display = 'block';
                 updateDiscardModal();
@@ -1393,7 +1657,1243 @@
                 }
             });
 
+
+            // function toggleLanguage() {
+            //     isEnglish = !isEnglish;
+            //     const lang = isEnglish ? languageData.en : languageData.ko;
+            //     console.log(`Language toggled: isEnglish=${isEnglish}, lang.logisticsScore=${lang.logisticsScore}`);
+                
+            //     // UI 갱신
+            //     const faction = factions[currentFaction];
+            //     passDisplay.textContent = `${lang.passDisplay}${faction.passes}`;
+            //     const logisticsScore = calculateLogisticsScore(faction.hand);
+            //     const logisticsSpan = document.getElementById('logistics-score');
+            //     if (logisticsSpan) {
+            //         logisticsSpan.textContent = `${lang.logisticsScore}${logisticsScore}`;
+            //     } else {
+            //         console.error('logistics-score element not found');
+            //     }
+            //     updateHandDisplay();
+            // }
+
+
+
+
+            // function toggleLanguage() {
+            //     isEnglish = !isEnglish;
+            //     const lang = isEnglish ? languageData.en : languageData.ko;
+            //     console.log(`Language toggled: isEnglish=${isEnglish}, lang.logisticsScore=${lang.logisticsScore}`);
+
+            //     // 병참 평가 점수 갱신
+            //     const alliedLogisticsSpan = document.getElementById('allied-logistics-score');
+            //     const japaneseLogisticsSpan = document.getElementById('japanese-logistics-score');
+            //     if (alliedLogisticsSpan) {
+            //         alliedLogisticsSpan.textContent = `${lang.logisticsScore}${factions.allied.logisticsScore}`;
+            //         alliedLogisticsSpan.className = currentFaction === 'allied' ? '' : 'hidden';
+            //     } else {
+            //         console.error('allied-logistics-score element not found in DOM');
+            //     }
+            //     if (japaneseLogisticsSpan) {
+            //         japaneseLogisticsSpan.textContent = `${lang.logisticsScore}${factions.japanese.logisticsScore}`;
+            //         japaneseLogisticsSpan.className = currentFaction === 'japanese' ? '' : 'hidden';
+            //     } else {
+            //         console.error('japanese-logistics-score element not found in DOM');
+            //     }
+
+            //     updateUI(); // 전체 UI 갱신
+            // }
+
+
+            // function toggleLanguage() {
+            //     isEnglish = !isEnglish;
+            //     const lang = isEnglish ? languageData.en : languageData.ko;
+            //     console.log(`Language toggled: isEnglish=${isEnglish}, lang.logisticsScore=${lang.logisticsScore}`);
+
+            //     // 병참 평가 점수 즉시 갱신
+            //     const alliedLogisticsSpan = document.getElementById('allied-logistics-score');
+            //     const japaneseLogisticsSpan = document.getElementById('japanese-logistics-score');
+            //     if (alliedLogisticsSpan) {
+            //         alliedLogisticsSpan.textContent = `${lang.logisticsScore}${factions.allied.logisticsScore}`;
+            //         alliedLogisticsSpan.className = currentFaction === 'allied' ? '' : 'hidden';
+            //     } else {
+            //         console.error('allied-logistics-score element not found in DOM');
+            //     }
+            //     if (japaneseLogisticsSpan) {
+            //         japaneseLogisticsSpan.textContent = `${lang.logisticsScore}${factions.japanese.logisticsScore}`;
+            //         japaneseLogisticsSpan.className = currentFaction === 'japanese' ? '' : 'hidden';
+            //     } else {
+            //         console.error('japanese-logistics-score element not found in DOM');
+            //     }
+
+            //     // DOM 갱신 보장
+            //     setTimeout(() => {
+            //         updateUI();
+            //         updateHandDisplay();
+            //     }, 0);
+            // }
+
+
+
+
+            function toggleLanguage() {
+                isEnglish = !isEnglish;
+                const lang = isEnglish ? languageData.en : languageData.ko;
+                console.log(`Language toggled: isEnglish=${isEnglish}, lang.logisticsScore=${lang.logisticsScore}`);
+
+                // 즉시 병참 평가 및 패스 갱신
+                const alliedLogisticsSpan = document.getElementById('allied-logistics-score');
+                const japaneseLogisticsSpan = document.getElementById('japanese-logistics-score');
+                const passDisplay = document.getElementById('pass-display');
+                const turnDisplay = document.getElementById('turn-display');
+                if (alliedLogisticsSpan) {
+                    alliedLogisticsSpan.textContent = `${lang.logisticsScore}${factions.allied.logisticsScore}`;
+                    alliedLogisticsSpan.className = currentFaction === 'allied' ? '' : 'hidden';
+                    console.log(`Toggled allied logistics score: ${alliedLogisticsSpan.textContent}`);
+                } else {
+                    console.error('allied-logistics-score element not found in DOM');
+                }
+                if (japaneseLogisticsSpan) {
+                    japaneseLogisticsSpan.textContent = `${lang.logisticsScore}${factions.japanese.logisticsScore}`;
+                    japaneseLogisticsSpan.className = currentFaction === 'japanese' ? '' : 'hidden';
+                    console.log(`Toggled japanese logistics score: ${japaneseLogisticsSpan.textContent}`);
+                } else {
+                    console.error('japanese-logistics-score element not found in DOM');
+                }
+                if (passDisplay) {
+                    passDisplay.textContent = `${lang.passDisplay}${factions[currentFaction].passes}`;
+                    console.log(`Toggled pass display: ${passDisplay.textContent}`);
+                } else {
+                    console.error('pass-display element not found in DOM');
+                }
+                if (turnDisplay) {
+                    turnDisplay.textContent = `${lang.turnDisplay}${factions[currentFaction].currentTurn}`;
+                    console.log(`Toggled turn display: ${turnDisplay.textContent}`);
+                } else {
+                    console.error('turn-display element not found in DOM');
+                }
+
+                // 버튼 및 기타 UI 요소 갱신
+                if (saveGameButton) saveGameButton.textContent = lang.saveGame;
+                if (loadGameButton) loadGameButton.textContent = lang.loadGame;
+                if (discardModalClose) discardModalClose.textContent = lang.close;
+                if (removedModalClose) removedModalClose.textContent = lang.close;
+
+                // 전체 UI 갱신
+                setTimeout(() => {
+                    updateUI();
+                    updateHandDisplay();
+                    updateFutureDisplay();
+                    updateDiscardModal();
+                    updateRemovedModal();
+                    updateDeckRemainingDisplay();
+                }, 0);
+            }
+
+
+
+
+
+
         
+            // function drawCards(factionType) {
+            //     saveState();
+            //     const faction = factions[factionType];
+            //     const lang = isEnglish ? languageData.en : languageData.ko;
+            //     let baseCards = 0;
+            //     let finalCardsToDraw = 0;
+            //     let basePasses = 0;
+            //     let reductions = 0;
+            //     let additionalPasses = 0;
+
+            //     if (factionType === 'allied') {
+            //         if (faction.currentTurn === 1) {
+            //             baseCards = 0;
+            //             basePasses = 0;
+            //         } else if (faction.currentTurn === 2) {
+            //             baseCards = 5;
+            //             basePasses = 2;
+            //         } else if (faction.currentTurn === 3) {
+            //             baseCards = 6;
+            //             basePasses = 1;
+            //         } else {
+            //             baseCards = 7;
+            //             basePasses = 0;
+            //         }
+
+            //         const wieLevel = parseInt(document.getElementById('wie-level').value) || 0;
+            //         const chinaSurrender = document.getElementById('china-surrender').checked;
+            //         const indiaSurrender = document.getElementById('india-surrender').checked;
+            //         const australiaSurrender = document.getElementById('australia-surrender').checked;
+            //         reductions = (wieLevel === 4 ? 1 : 0) + (chinaSurrender ? 1 : 0) + (indiaSurrender ? 1 : 0) + (australiaSurrender ? 1 : 0);
+            //         finalCardsToDraw = Math.max(4, baseCards - reductions);
+            //         additionalPasses = reductions;
+            //         faction.passes = Math.min(2, basePasses + additionalPasses);
+
+            //         messageDiv.textContent = lang.alliedDrawMessage(finalCardsToDraw, faction.currentTurn, baseCards, wieLevel, chinaSurrender, indiaSurrender, australiaSurrender, reductions, faction.passes);
+            //         setTimeout(() => { messageDiv.textContent = ''; }, 5000);
+
+            //         let cardsDrawn = 0;
+            //         if (faction.currentTurn === 1) {
+            //             faction.hand = [];
+            //             cardsDrawn = 0;
+            //         } else {
+            //             if (faction.currentTurn === 2 && drawArcadia) {
+            //                 const arcadiaCard = faction.deck.find(card => card.id === 'AL Card 4');
+            //                 if (arcadiaCard) {
+            //                     faction.hand.push(arcadiaCard);
+            //                     faction.deck = faction.deck.filter(card => card.id !== 'AL Card 4');
+            //                     cardsDrawn++;
+            //                 }
+            //             }
+            //             while (cardsDrawn < finalCardsToDraw) {
+            //                 if (faction.deck.length === 0) {
+            //                     if (faction.discardPile.length === 0) {
+            //                         messageDiv.textContent = lang.noCardsMessage(finalCardsToDraw - cardsDrawn);
+            //                         break;
+            //                     }
+            //                     faction.deck = faction.discardPile.slice();
+            //                     faction.discardPile = [];
+            //                     shuffle(faction.deck);
+            //                     messageDiv.textContent = lang.shuffleMessage;
+            //                     setTimeout(() => { messageDiv.textContent = ''; }, 5000);
+            //                     updateDiscardModal();
+            //                 }
+            //                 faction.hand.push(faction.deck.pop());
+            //                 cardsDrawn++;
+            //             }
+            //         }
+            //         drawArcadia = false; // 리셋
+            //     } else {
+            //         const resourceHexes = Math.min(14, parseInt(document.getElementById('resource-hexes').value) || 0);
+            //         const submarineSuccess = document.getElementById('submarine-success').checked;
+            //         const bombingSuccesses = parseInt(document.getElementById('bombing-successes').value) || 0;
+            //         reductions = (submarineSuccess ? 1 : 0) + Math.min(2, bombingSuccesses);
+
+            //         if (faction.currentTurn === 1) {
+            //             baseCards = 2;
+            //             finalCardsToDraw = 2;
+            //         } else if (faction.currentTurn >= 2 && faction.currentTurn <= 4) {
+            //             baseCards = 7;
+            //             finalCardsToDraw = Math.max(4, baseCards - reductions);
+            //         } else {
+            //             baseCards = Math.max(4, Math.ceil(resourceHexes / 2));
+            //             finalCardsToDraw = Math.max(4, baseCards - reductions);
+            //         }
+
+            //         faction.passes = faction.currentTurn === 1 ? 0 : finalCardsToDraw === 6 ? 1 : finalCardsToDraw <= 5 ? 2 : 0;
+
+            //         messageDiv.textContent = lang.japaneseDrawMessage(finalCardsToDraw, faction.currentTurn, baseCards, submarineSuccess, bombingSuccesses, reductions, faction.passes);
+            //         setTimeout(() => { messageDiv.textContent = ''; }, 5000);
+
+            //         let cardsDrawn = 0;
+            //         if (faction.currentTurn === 1 && factionType === 'japanese') {
+            //             const prefix = 'JP Card';
+            //             faction.hand = faction.deck.filter(card => card.id === `${prefix} 1` || card.id === `${prefix} 2`);
+            //             faction.deck = faction.deck.filter(card => card.id !== `${prefix} 1` && card.id !== `${prefix} 2`);
+            //             cardsDrawn = faction.hand.length;
+            //         } else {
+            //             while (cardsDrawn < finalCardsToDraw) {
+            //                 if (faction.deck.length === 0) {
+            //                     if (faction.discardPile.length === 0) {
+            //                         messageDiv.textContent = lang.noCardsMessage(finalCardsToDraw - cardsDrawn);
+            //                         break;
+            //                     }
+            //                     faction.deck = faction.discardPile.slice();
+            //                     faction.discardPile = [];
+            //                     shuffle(faction.deck);
+            //                     messageDiv.textContent = lang.shuffleMessage;
+            //                     setTimeout(() => { messageDiv.textContent = ''; }, 5000);
+            //                     updateDiscardModal();
+            //                 }
+            //                 faction.hand.push(faction.deck.pop());
+            //                 cardsDrawn++;
+            //             }
+            //         }
+            //     }
+
+            //     passDisplay.textContent = `${lang.passDisplay}${faction.passes}`;
+            //     alliedUsePassButton.disabled = faction.passes === 0;
+            //     japaneseUsePassButton.disabled = faction.passes === 0;
+
+            //     updateHandDisplay();
+            //     updateDeckRemainingDisplay();
+            //     alliedDrawButton.disabled = faction.hand.length > 0 || (factionType === 'allied' && faction.currentTurn === 1);
+            //     japaneseDrawButton.disabled = (faction.hand.length > 0 && factionType === 'japanese') || 
+            //                                 (factionType === 'japanese' && faction.currentTurn === 1 && faction.cardsPlayedTurn1 && faction.cardsPlayedTurn1.length > 0);
+            //     checkNextTurn();
+            // }
+
+            // function calculateLogisticsScore(hand) {
+            //     let score = 0;
+            //     hand.forEach(card => {
+            //         console.log(`Calculating logistics for cardId=${card.id}, type=${card.type}, oc=${card.oc}, logistics=${card.logistics}, condition=${card.condition}`);
+            //         if (card.type !== 1) {
+            //             score += card.oc;
+            //         } else {
+            //             if (card.condition === 0) {
+            //                 score += card.logistics;
+            //             } else {
+            //                 const logisticsMinusOne = card.logistics - 1;
+            //                 score += logisticsMinusOne < card.oc ? card.oc : logisticsMinusOne;
+            //             }
+            //         }
+            //     });
+            //     console.log(`Logistics score: ${score}`);
+            //     return score;
+            // }
+
+
+            // function calculateLogisticsScore(factionType) {
+            //     const faction = factions[factionType];
+            //     let score = 0;
+            //     faction.hand.forEach(card => {
+            //         console.log(`Calculating logistics for ${factionType}: cardId=${card.id}, type=${card.type}, oc=${card.oc}, logistics=${card.logistics}, condition=${card.condition}`);
+            //         if (card.type !== 1) {
+            //             score += card.oc;
+            //         } else {
+            //             if (card.condition === 0) {
+            //                 score += card.logistics;
+            //             } else {
+            //                 const logisticsMinusOne = card.logistics - 1;
+            //                 score += logisticsMinusOne < card.oc ? card.oc : logisticsMinusOne;
+            //             }
+            //         }
+            //     });
+            //     faction.logisticsScore = score; // 진영별 점수 저장
+            //     console.log(`${factionType} logistics score: ${score}`);
+            //     return score;
+            // }
+
+            function calculateLogisticsScore(factionType) {
+                const faction = factions[factionType];
+                let score = 0;
+                faction.hand.forEach(card => {
+                    console.log(`Calculating logistics for ${factionType}: cardId=${card.id}, type=${card.type}, oc=${card.oc}, logistics=${card.logistics}, condition=${card.condition}`);
+                    if (card.type !== 1) {
+                        score += card.oc;
+                    } else {
+                        if (card.condition === 0) {
+                            score += card.logistics;
+                        } else {
+                            const logisticsMinusOne = card.logistics - 1;
+                            score += logisticsMinusOne < card.oc ? card.oc : logisticsMinusOne;
+                        }
+                    }
+                });
+                faction.logisticsScore = score;
+                console.log(`${factionType} logistics score: ${score}`);
+                return score;
+            }
+
+
+            function setLanguage(isEnglishMode) {
+                isEnglish = isEnglishMode;
+                const lang = isEnglish ? languageData.en : languageData.ko;
+                console.log(`setLanguage: isEnglish=${isEnglish}, lang.logisticsScore=${lang.logisticsScore}`);
+                
+                // 패스 및 병참 평가 UI 갱신
+                const faction = factions[currentFaction];
+                passDisplay.textContent = `${lang.passDisplay}${faction.passes || 0}`;
+                const logisticsScore = calculateLogisticsScore(faction.hand || []);
+                document.getElementById('logistics-score').textContent = `${lang.logisticsScore}${logisticsScore}`;
+                
+                // 손패 UI 갱신
+                updateHandDisplay();
+            }
+
+
+
+            // function drawCards(factionType) {
+            //     saveState();
+            //     const faction = factions[factionType];
+            //     const lang = isEnglish ? languageData.en : languageData.ko;
+            //     let baseCards = 0;
+            //     let finalCardsToDraw = 0;
+            //     let basePasses = 0;
+            //     let reductions = 0;
+            //     let additionalPasses = 0;
+
+            //     if (factionType === 'allied') {
+            //         if (faction.currentTurn === 1) {
+            //             baseCards = 0;
+            //             basePasses = 0;
+            //         } else if (faction.currentTurn === 2) {
+            //             baseCards = 5;
+            //             basePasses = 2;
+            //         } else if (faction.currentTurn === 3) {
+            //             baseCards = 6;
+            //             basePasses = 1;
+            //         } else {
+            //             baseCards = 7;
+            //             basePasses = 0;
+            //         }
+
+            //         const wieLevel = parseInt(document.getElementById('wie-level').value) || 0;
+            //         const chinaSurrender = document.getElementById('china-surrender').checked;
+            //         const indiaSurrender = document.getElementById('india-surrender').checked;
+            //         const australiaSurrender = document.getElementById('australia-surrender').checked;
+            //         reductions = (wieLevel === 4 ? 1 : 0) + (chinaSurrender ? 1 : 0) + (indiaSurrender ? 1 : 0) + (australiaSurrender ? 1 : 0);
+            //         finalCardsToDraw = Math.max(4, baseCards - reductions);
+            //         additionalPasses = reductions;
+            //         faction.passes = Math.min(2, basePasses + additionalPasses);
+
+            //         messageDiv.textContent = lang.alliedDrawMessage(finalCardsToDraw, faction.currentTurn, baseCards, wieLevel, chinaSurrender, indiaSurrender, australiaSurrender, reductions, faction.passes);
+            //         setTimeout(() => { messageDiv.textContent = ''; }, 5000);
+
+            //         let cardsDrawn = 0;
+            //         if (faction.currentTurn === 1) {
+            //             faction.hand = [];
+            //             cardsDrawn = 0;
+            //         } else {
+            //             if (faction.currentTurn === 2 && drawArcadia) {
+            //                 const arcadiaCard = faction.deck.find(card => card.id === 'AL Card 4');
+            //                 if (arcadiaCard) {
+            //                     faction.hand.push(arcadiaCard);
+            //                     faction.deck = faction.deck.filter(card => card.id !== 'AL Card 4');
+            //                     cardsDrawn++;
+            //                 }
+            //             }
+            //             while (cardsDrawn < finalCardsToDraw) {
+            //                 if (faction.deck.length === 0) {
+            //                     if (faction.discardPile.length === 0) {
+            //                         messageDiv.textContent = lang.noCardsMessage(finalCardsToDraw - cardsDrawn);
+            //                         break;
+            //                     }
+            //                     faction.deck = faction.discardPile.slice();
+            //                     faction.discardPile = [];
+            //                     shuffle(faction.deck);
+            //                     messageDiv.textContent = lang.shuffleMessage;
+            //                     setTimeout(() => { messageDiv.textContent = ''; }, 5000);
+            //                     updateDiscardModal();
+            //                 }
+            //                 faction.hand.push(faction.deck.pop());
+            //                 cardsDrawn++;
+            //             }
+            //             // 카드 종류 순서(1, 2, 5, 3)로 정렬
+            //             faction.hand.sort((a, b) => {
+            //                 const typeOrder = { '1': 1, '2': 2, '5': 3, '3': 4 };
+            //                 return typeOrder[a.type] - typeOrder[b.type];
+            //             });
+            //         }
+            //     } else {
+            //         const resourceHexes = Math.min(14, parseInt(document.getElementById('resource-hexes').value) || 0);
+            //         const submarineSuccess = document.getElementById('submarine-success').checked;
+            //         const bombingSuccesses = parseInt(document.getElementById('bombing-successes').value) || 0;
+            //         reductions = (submarineSuccess ? 1 : 0) + Math.min(2, bombingSuccesses);
+
+            //         if (faction.currentTurn === 1) {
+            //             baseCards = 2;
+            //             finalCardsToDraw = 2;
+            //         } else if (faction.currentTurn >= 2 && faction.currentTurn <= 4) {
+            //             baseCards = 7;
+            //             finalCardsToDraw = Math.max(4, baseCards - reductions);
+            //         } else {
+            //             baseCards = Math.max(4, Math.ceil(resourceHexes / 2));
+            //             finalCardsToDraw = Math.max(4, baseCards - reductions);
+            //         }
+
+            //         faction.passes = faction.currentTurn === 1 ? 0 : finalCardsToDraw === 6 ? 1 : finalCardsToDraw <= 5 ? 2 : 0;
+
+            //         messageDiv.textContent = lang.japaneseDrawMessage(finalCardsToDraw, faction.currentTurn, baseCards, submarineSuccess, bombingSuccesses, reductions, faction.passes);
+            //         setTimeout(() => { messageDiv.textContent = ''; }, 5000);
+
+            //         let cardsDrawn = 0;
+            //         if (faction.currentTurn === 1 && factionType === 'japanese') {
+            //             const prefix = 'JP Card';
+            //             faction.hand = faction.deck.filter(card => card.id === `${prefix} 1` || card.id === `${prefix} 2`);
+            //             faction.deck = faction.deck.filter(card => card.id !== `${prefix} 1` && card.id !== `${prefix} 2`);
+            //             cardsDrawn = faction.hand.length;
+            //         } else {
+            //             while (cardsDrawn < finalCardsToDraw) {
+            //                 if (faction.deck.length === 0) {
+            //                     if (faction.discardPile.length === 0) {
+            //                         messageDiv.textContent = lang.noCardsMessage(finalCardsToDraw - cardsDrawn);
+            //                         break;
+            //                     }
+            //                     faction.deck = faction.discardPile.slice();
+            //                     faction.discardPile = [];
+            //                     shuffle(faction.deck);
+            //                     messageDiv.textContent = lang.shuffleMessage;
+            //                     setTimeout(() => { messageDiv.textContent = ''; }, 5000);
+            //                     updateDiscardModal();
+            //                 }
+            //                 faction.hand.push(faction.deck.pop());
+            //                 cardsDrawn++;
+            //             }
+            //             // 카드 종류 순서(1, 2, 5, 3)로 정렬
+            //             faction.hand.sort((a, b) => {
+            //                 const typeOrder = { '1': 1, '2': 2, '5': 3, '3': 4 };
+            //                 return typeOrder[a.type] - typeOrder[b.type];
+            //             });
+            //         }
+            //     }
+
+            //     passDisplay.textContent = `${lang.passDisplay}${faction.passes}`;
+            //     alliedUsePassButton.disabled = faction.passes === 0;
+            //     japaneseUsePassButton.disabled = faction.passes === 0;
+
+            //     updateHandDisplay();
+            //     updateDeckRemainingDisplay();
+            //     alliedDrawButton.disabled = faction.hand.length > 0 || (factionType === 'allied' && faction.currentTurn === 1);
+            //     japaneseDrawButton.disabled = (faction.hand.length > 0 && factionType === 'japanese') || 
+            //                                 (factionType === 'japanese' && faction.currentTurn === 1 && faction.cardsPlayedTurn1 && faction.cardsPlayedTurn1.length > 0);
+            //     checkNextTurn();
+            // }
+
+
+
+            // function drawCards(factionType) {
+            //     saveState();
+            //     const faction = factions[factionType];
+            //     const lang = isEnglish ? languageData.en : languageData.ko;
+            //     let baseCards = 0;
+            //     let finalCardsToDraw = 0;
+            //     let basePasses = 0;
+            //     let reductions = 0;
+            //     let additionalPasses = 0;
+
+            //     if (factionType === 'allied') {
+            //         if (faction.currentTurn === 1) {
+            //             baseCards = 0;
+            //             basePasses = 0;
+            //         } else if (faction.currentTurn === 2) {
+            //             baseCards = 5;
+            //             basePasses = 2;
+            //         } else if (faction.currentTurn === 3) {
+            //             baseCards = 6;
+            //             basePasses = 1;
+            //         } else {
+            //             baseCards = 7;
+            //             basePasses = 0;
+            //         }
+
+            //         const wieLevel = parseInt(document.getElementById('wie-level').value) || 0;
+            //         const chinaSurrender = document.getElementById('china-surrender').checked;
+            //         const indiaSurrender = document.getElementById('india-surrender').checked;
+            //         const australiaSurrender = document.getElementById('australia-surrender').checked;
+            //         reductions = (wieLevel === 4 ? 1 : 0) + (chinaSurrender ? 1 : 0) + (indiaSurrender ? 1 : 0) + (australiaSurrender ? 1 : 0);
+            //         finalCardsToDraw = Math.max(4, baseCards - reductions);
+            //         additionalPasses = reductions;
+            //         faction.passes = Math.min(2, basePasses + additionalPasses);
+
+            //         messageDiv.textContent = lang.alliedDrawMessage(finalCardsToDraw, faction.currentTurn, baseCards, wieLevel, chinaSurrender, indiaSurrender, australiaSurrender, reductions, faction.passes);
+            //         setTimeout(() => { messageDiv.textContent = ''; }, 5000);
+
+            //         let cardsDrawn = 0;
+            //         if (faction.currentTurn === 1) {
+            //             faction.hand = [];
+            //             cardsDrawn = 0;
+            //         } else {
+            //             if (faction.currentTurn === 2 && drawArcadia) {
+            //                 const arcadiaCard = faction.deck.find(card => card.id === 'AL Card 4');
+            //                 if (arcadiaCard) {
+            //                     faction.hand.push(arcadiaCard);
+            //                     faction.deck = faction.deck.filter(card => card.id !== 'AL Card 4');
+            //                     cardsDrawn++;
+            //                 }
+            //             }
+            //             while (cardsDrawn < finalCardsToDraw) {
+            //                 if (faction.deck.length === 0) {
+            //                     if (faction.discardPile.length === 0) {
+            //                         messageDiv.textContent = lang.noCardsMessage(finalCardsToDraw - cardsDrawn);
+            //                         break;
+            //                     }
+            //                     faction.deck = faction.discardPile.slice();
+            //                     faction.discardPile = [];
+            //                     shuffle(faction.deck);
+            //                     messageDiv.textContent = lang.shuffleMessage;
+            //                     setTimeout(() => { messageDiv.textContent = ''; }, 5000);
+            //                     updateDiscardModal();
+            //                 }
+            //                 faction.hand.push(faction.deck.pop());
+            //                 cardsDrawn++;
+            //             }
+            //             // 카드 종류(1,2,5,3) 순, 같은 종류 내에서 OC 내림차순 정렬
+            //             faction.hand.sort((a, b) => {
+            //                 const typeOrder = { '1': 1, '2': 2, '5': 3, '3': 4 };
+            //                 if (typeOrder[a.type] !== typeOrder[b.type]) {
+            //                     return typeOrder[a.type] - typeOrder[b.type];
+            //                 }
+            //                 return b.oc - a.oc; // 같은 type이면 oc 내림차순
+            //             });
+            //         }
+            //     } else {
+            //         const resourceHexes = Math.min(14, parseInt(document.getElementById('resource-hexes').value) || 0);
+            //         const submarineSuccess = document.getElementById('submarine-success').checked;
+            //         const bombingSuccesses = parseInt(document.getElementById('bombing-successes').value) || 0;
+            //         reductions = (submarineSuccess ? 1 : 0) + Math.min(2, bombingSuccesses);
+
+            //         if (faction.currentTurn === 1) {
+            //             baseCards = 2;
+            //             finalCardsToDraw = 2;
+            //         } else if (faction.currentTurn >= 2 && faction.currentTurn <= 4) {
+            //             baseCards = 7;
+            //             finalCardsToDraw = Math.max(4, baseCards - reductions);
+            //         } else {
+            //             baseCards = Math.max(4, Math.ceil(resourceHexes / 2));
+            //             finalCardsToDraw = Math.max(4, baseCards - reductions);
+            //         }
+
+            //         faction.passes = faction.currentTurn === 1 ? 0 : finalCardsToDraw === 6 ? 1 : finalCardsToDraw <= 5 ? 2 : 0;
+
+            //         messageDiv.textContent = lang.japaneseDrawMessage(finalCardsToDraw, faction.currentTurn, baseCards, submarineSuccess, bombingSuccesses, reductions, faction.passes);
+            //         setTimeout(() => { messageDiv.textContent = ''; }, 5000);
+
+            //         let cardsDrawn = 0;
+            //         if (faction.currentTurn === 1 && factionType === 'japanese') {
+            //             const prefix = 'JP Card';
+            //             faction.hand = faction.deck.filter(card => card.id === `${prefix} 1` || card.id === `${prefix} 2`);
+            //             faction.deck = faction.deck.filter(card => card.id !== `${prefix} 1` && card.id !== `${prefix} 2`);
+            //             cardsDrawn = faction.hand.length;
+            //         } else {
+            //             while (cardsDrawn < finalCardsToDraw) {
+            //                 if (faction.deck.length === 0) {
+            //                     if (faction.discardPile.length === 0) {
+            //                         messageDiv.textContent = lang.noCardsMessage(finalCardsToDraw - cardsDrawn);
+            //                         break;
+            //                     }
+            //                     faction.deck = faction.discardPile.slice();
+            //                     faction.discardPile = [];
+            //                     shuffle(faction.deck);
+            //                     messageDiv.textContent = lang.shuffleMessage;
+            //                     setTimeout(() => { messageDiv.textContent = ''; }, 5000);
+            //                     updateDiscardModal();
+            //                 }
+            //                 faction.hand.push(faction.deck.pop());
+            //                 cardsDrawn++;
+            //             }
+            //             // 카드 종류(1,2,5,3) 순, 같은 종류 내에서 OC 내림차순 정렬
+            //             faction.hand.sort((a, b) => {
+            //                 const typeOrder = { '1': 1, '2': 2, '5': 3, '3': 4 };
+            //                 if (typeOrder[a.type] !== typeOrder[b.type]) {
+            //                     return typeOrder[a.type] - typeOrder[b.type];
+            //                 }
+            //                 return b.oc - a.oc; // 같은 type이면 oc 내림차순
+            //             });
+            //         }
+            //     }
+
+            //     passDisplay.textContent = `${lang.passDisplay}${faction.passes}`;
+            //     const logisticsScore = calculateLogisticsScore(faction.hand);
+            //     document.getElementById('logistics-score').textContent = `${lang.logisticsScore}${logisticsScore}`;
+            //     alliedUsePassButton.disabled = faction.passes === 0;
+            //     japaneseUsePassButton.disabled = faction.passes === 0;
+
+            //     updateHandDisplay();
+            //     updateDeckRemainingDisplay();
+            //     alliedDrawButton.disabled = faction.hand.length > 0 || (factionType === 'allied' && faction.currentTurn === 1);
+            //     japaneseDrawButton.disabled = (faction.hand.length > 0 && factionType === 'japanese') || 
+            //                                 (factionType === 'japanese' && faction.currentTurn === 1 && faction.cardsPlayedTurn1 && faction.cardsPlayedTurn1.length > 0);
+            //     checkNextTurn();
+            // }
+
+
+
+            // function drawCards(factionType) {
+            //     saveState();
+            //     const faction = factions[factionType];
+            //     const lang = isEnglish ? languageData.en : languageData.ko;
+            //     let baseCards = 0;
+            //     let finalCardsToDraw = 0;
+            //     let basePasses = 0;
+            //     let reductions = 0;
+            //     let additionalPasses = 0;
+
+            //     if (factionType === 'allied') {
+            //         if (faction.currentTurn === 1) {
+            //             baseCards = 0;
+            //             basePasses = 0;
+            //         } else if (faction.currentTurn === 2) {
+            //             baseCards = 5;
+            //             basePasses = 2;
+            //         } else if (faction.currentTurn === 3) {
+            //             baseCards = 6;
+            //             basePasses = 1;
+            //         } else {
+            //             baseCards = 7;
+            //             basePasses = 0;
+            //         }
+
+            //         const wieLevel = parseInt(document.getElementById('wie-level').value) || 0;
+            //         const chinaSurrender = document.getElementById('china-surrender').checked;
+            //         const indiaSurrender = document.getElementById('india-surrender').checked;
+            //         const australiaSurrender = document.getElementById('australia-surrender').checked;
+            //         reductions = (wieLevel === 4 ? 1 : 0) + (chinaSurrender ? 1 : 0) + (indiaSurrender ? 1 : 0) + (australiaSurrender ? 1 : 0);
+            //         finalCardsToDraw = Math.max(4, baseCards - reductions);
+            //         additionalPasses = reductions;
+            //         faction.passes = Math.min(2, basePasses + additionalPasses);
+
+            //         messageDiv.textContent = lang.alliedDrawMessage(finalCardsToDraw, faction.currentTurn, baseCards, wieLevel, chinaSurrender, indiaSurrender, australiaSurrender, reductions, faction.passes);
+            //         setTimeout(() => { messageDiv.textContent = ''; }, 5000);
+
+            //         let cardsDrawn = 0;
+            //         if (faction.currentTurn === 1) {
+            //             faction.hand = [];
+            //             cardsDrawn = 0;
+            //         } else {
+            //             if (faction.currentTurn === 2 && drawArcadia) {
+            //                 const arcadiaCard = faction.deck.find(card => card.id === 'AL Card 4');
+            //                 if (arcadiaCard) {
+            //                     faction.hand.push(arcadiaCard);
+            //                     faction.deck = faction.deck.filter(card => card.id !== 'AL Card 4');
+            //                     cardsDrawn++;
+            //                 }
+            //             }
+            //             while (cardsDrawn < finalCardsToDraw) {
+            //                 if (faction.deck.length === 0) {
+            //                     if (faction.discardPile.length === 0) {
+            //                         messageDiv.textContent = lang.noCardsMessage(finalCardsToDraw - cardsDrawn);
+            //                         break;
+            //                     }
+            //                     faction.deck = faction.discardPile.slice();
+            //                     faction.discardPile = [];
+            //                     shuffle(faction.deck);
+            //                     messageDiv.textContent = lang.shuffleMessage;
+            //                     setTimeout(() => { messageDiv.textContent = ''; }, 5000);
+            //                     updateDiscardModal();
+            //                 }
+            //                 faction.hand.push(faction.deck.pop());
+            //                 cardsDrawn++;
+            //             }
+            //             // 카드 종류(1,2,5,3) 순, 같은 종류 내에서 OC 내림차순 정렬
+            //             faction.hand.sort((a, b) => {
+            //                 const typeOrder = { '1': 1, '2': 2, '5': 3, '3': 4 };
+            //                 if (typeOrder[a.type] !== typeOrder[b.type]) {
+            //                     return typeOrder[a.type] - typeOrder[b.type];
+            //                 }
+            //                 return b.oc - a.oc; // 같은 type이면 oc 내림차순
+            //             });
+            //         }
+            //     } else {
+            //         const resourceHexes = Math.min(14, parseInt(document.getElementById('resource-hexes').value) || 0);
+            //         const submarineSuccess = document.getElementById('submarine-success').checked;
+            //         const bombingSuccesses = parseInt(document.getElementById('bombing-successes').value) || 0;
+            //         reductions = (submarineSuccess ? 1 : 0) + Math.min(2, bombingSuccesses);
+
+            //         if (faction.currentTurn === 1) {
+            //             baseCards = 2;
+            //             finalCardsToDraw = 2;
+            //         } else if (faction.currentTurn >= 2 && faction.currentTurn <= 4) {
+            //             baseCards = 7;
+            //             finalCardsToDraw = Math.max(4, baseCards - reductions);
+            //         } else {
+            //             baseCards = Math.max(4, Math.ceil(resourceHexes / 2));
+            //             finalCardsToDraw = Math.max(4, baseCards - reductions);
+            //         }
+
+            //         faction.passes = faction.currentTurn === 1 ? 0 : finalCardsToDraw === 6 ? 1 : finalCardsToDraw <= 5 ? 2 : 0;
+
+            //         messageDiv.textContent = lang.japaneseDrawMessage(finalCardsToDraw, faction.currentTurn, baseCards, submarineSuccess, bombingSuccesses, reductions, faction.passes);
+            //         setTimeout(() => { messageDiv.textContent = ''; }, 5000);
+
+            //         let cardsDrawn = 0;
+            //         if (faction.currentTurn === 1 && factionType === 'japanese') {
+            //             const prefix = 'JP Card';
+            //             faction.hand = faction.deck.filter(card => card.id === `${prefix} 1` || card.id === `${prefix} 2`);
+            //             faction.deck = faction.deck.filter(card => card.id !== `${prefix} 1` && card.id !== `${prefix} 2`);
+            //             cardsDrawn = faction.hand.length;
+            //         } else {
+            //             while (cardsDrawn < finalCardsToDraw) {
+            //                 if (faction.deck.length === 0) {
+            //                     if (faction.discardPile.length === 0) {
+            //                         messageDiv.textContent = lang.noCardsMessage(finalCardsToDraw - cardsDrawn);
+            //                         break;
+            //                     }
+            //                     faction.deck = faction.discardPile.slice();
+            //                     faction.discardPile = [];
+            //                     shuffle(faction.deck);
+            //                     messageDiv.textContent = lang.shuffleMessage;
+            //                     setTimeout(() => { messageDiv.textContent = ''; }, 5000);
+            //                     updateDiscardModal();
+            //                 }
+            //                 faction.hand.push(faction.deck.pop());
+            //                 cardsDrawn++;
+            //             }
+            //             // 카드 종류(1,2,5,3) 순, 같은 종류 내에서 OC 내림차순 정렬
+            //             faction.hand.sort((a, b) => {
+            //                 const typeOrder = { '1': 1, '2': 2, '5': 3, '3': 4 };
+            //                 if (typeOrder[a.type] !== typeOrder[b.type]) {
+            //                     return typeOrder[a.type] - typeOrder[b.type];
+            //                 }
+            //                 return b.oc - a.oc; // 같은 type이면 oc 내림차순
+            //             });
+            //         }
+            //     }
+
+            //     passDisplay.textContent = `${lang.passDisplay}${faction.passes}`;
+            //     const logisticsScore = calculateLogisticsScore(faction.hand);
+            //     console.log(`Setting logistics score: lang.logisticsScore=${lang.logisticsScore}, score=${logisticsScore}`);
+            //     document.getElementById('logistics-score').textContent = `${lang.logisticsScore}${logisticsScore}`;
+            //     alliedUsePassButton.disabled = faction.passes === 0;
+            //     japaneseUsePassButton.disabled = faction.passes === 0;
+
+            //     updateHandDisplay();
+            //     updateDeckRemainingDisplay();
+            //     alliedDrawButton.disabled = faction.hand.length > 0 || (factionType === 'allied' && faction.currentTurn === 1);
+            //     japaneseDrawButton.disabled = (faction.hand.length > 0 && factionType === 'japanese') || 
+            //                                 (factionType === 'japanese' && faction.currentTurn === 1 && faction.cardsPlayedTurn1 && faction.cardsPlayedTurn1.length > 0);
+            //     checkNextTurn();
+            // }
+
+
+
+            // function drawCards(factionType) {
+            //     saveState();
+            //     const faction = factions[factionType];
+            //     const lang = isEnglish ? languageData.en : languageData.ko;
+            //     console.log(`drawCards: factionType=${factionType}, isEnglish=${isEnglish}, lang.logisticsScore=${lang.logisticsScore}`);
+            //     let baseCards = 0;
+            //     let finalCardsToDraw = 0;
+            //     let basePasses = 0;
+            //     let reductions = 0;
+            //     let additionalPasses = 0;
+
+            //     if (factionType === 'allied') {
+            //         if (faction.currentTurn === 1) {
+            //             baseCards = 0;
+            //             basePasses = 0;
+            //         } else if (faction.currentTurn === 2) {
+            //             baseCards = 5;
+            //             basePasses = 2;
+            //         } else if (faction.currentTurn === 3) {
+            //             baseCards = 6;
+            //             basePasses = 1;
+            //         } else {
+            //             baseCards = 7;
+            //             basePasses = 0;
+            //         }
+
+            //         const wieLevel = parseInt(document.getElementById('wie-level').value) || 0;
+            //         const chinaSurrender = document.getElementById('china-surrender').checked;
+            //         const indiaSurrender = document.getElementById('india-surrender').checked;
+            //         const australiaSurrender = document.getElementById('australia-surrender').checked;
+            //         reductions = (wieLevel === 4 ? 1 : 0) + (chinaSurrender ? 1 : 0) + (indiaSurrender ? 1 : 0) + (australiaSurrender ? 1 : 0);
+            //         finalCardsToDraw = Math.max(4, baseCards - reductions);
+            //         additionalPasses = reductions;
+            //         faction.passes = Math.min(2, basePasses + additionalPasses);
+
+            //         messageDiv.textContent = lang.alliedDrawMessage(finalCardsToDraw, faction.currentTurn, baseCards, wieLevel, chinaSurrender, indiaSurrender, australiaSurrender, reductions, faction.passes);
+            //         setTimeout(() => { messageDiv.textContent = ''; }, 5000);
+
+            //         let cardsDrawn = 0;
+            //         if (faction.currentTurn === 1) {
+            //             faction.hand = [];
+            //             cardsDrawn = 0;
+            //         } else {
+            //             if (faction.currentTurn === 2 && drawArcadia) {
+            //                 const arcadiaCard = faction.deck.find(card => card.id === 'AL Card 4');
+            //                 if (arcadiaCard) {
+            //                     faction.hand.push(arcadiaCard);
+            //                     faction.deck = faction.deck.filter(card => card.id !== 'AL Card 4');
+            //                     cardsDrawn++;
+            //                 }
+            //             }
+            //             while (cardsDrawn < finalCardsToDraw) {
+            //                 if (faction.deck.length === 0) {
+            //                     if (faction.discardPile.length === 0) {
+            //                         messageDiv.textContent = lang.noCardsMessage(finalCardsToDraw - cardsDrawn);
+            //                         break;
+            //                     }
+            //                     faction.deck = faction.discardPile.slice();
+            //                     faction.discardPile = [];
+            //                     shuffle(faction.deck);
+            //                     messageDiv.textContent = lang.shuffleMessage;
+            //                     setTimeout(() => { messageDiv.textContent = ''; }, 5000);
+            //                     updateDiscardModal();
+            //                 }
+            //                 faction.hand.push(faction.deck.pop());
+            //                 cardsDrawn++;
+            //             }
+            //             // 카드 종류(1,2,5,3) 순, 같은 종류 내에서 OC 내림차순 정렬
+            //             faction.hand.sort((a, b) => {
+            //                 const typeOrder = { '1': 1, '2': 2, '5': 3, '3': 4 };
+            //                 if (typeOrder[a.type] !== typeOrder[b.type]) {
+            //                     return typeOrder[a.type] - typeOrder[b.type];
+            //                 }
+            //                 return b.oc - a.oc; // 같은 type이면 oc 내림차순
+            //             });
+            //         }
+            //     } else {
+            //         const resourceHexes = Math.min(14, parseInt(document.getElementById('resource-hexes').value) || 0);
+            //         const submarineSuccess = document.getElementById('submarine-success').checked;
+            //         const bombingSuccesses = parseInt(document.getElementById('bombing-successes').value) || 0;
+            //         reductions = (submarineSuccess ? 1 : 0) + Math.min(2, bombingSuccesses);
+
+            //         if (faction.currentTurn === 1) {
+            //             baseCards = 2;
+            //             finalCardsToDraw = 2;
+            //         } else if (faction.currentTurn >= 2 && faction.currentTurn <= 4) {
+            //             baseCards = 7;
+            //             finalCardsToDraw = Math.max(4, baseCards - reductions);
+            //         } else {
+            //             baseCards = Math.max(4, Math.ceil(resourceHexes / 2));
+            //             finalCardsToDraw = Math.max(4, baseCards - reductions);
+            //         }
+
+            //         faction.passes = faction.currentTurn === 1 ? 0 : finalCardsToDraw === 6 ? 1 : finalCardsToDraw <= 5 ? 2 : 0;
+
+            //         messageDiv.textContent = lang.japaneseDrawMessage(finalCardsToDraw, faction.currentTurn, baseCards, submarineSuccess, bombingSuccesses, reductions, faction.passes);
+            //         setTimeout(() => { messageDiv.textContent = ''; }, 5000);
+
+            //         let cardsDrawn = 0;
+            //         if (faction.currentTurn === 1 && factionType === 'japanese') {
+            //             const prefix = 'JP Card';
+            //             faction.hand = faction.deck.filter(card => card.id === `${prefix} 1` || card.id === `${prefix} 2`);
+            //             faction.deck = faction.deck.filter(card => card.id !== `${prefix} 1` && card.id !== `${prefix} 2`);
+            //             cardsDrawn = faction.hand.length;
+            //         } else {
+            //             while (cardsDrawn < finalCardsToDraw) {
+            //                 if (faction.deck.length === 0) {
+            //                     if (faction.discardPile.length === 0) {
+            //                         messageDiv.textContent = lang.noCardsMessage(finalCardsToDraw - cardsDrawn);
+            //                         break;
+            //                     }
+            //                     faction.deck = faction.discardPile.slice();
+            //                     faction.discardPile = [];
+            //                     shuffle(faction.deck);
+            //                     messageDiv.textContent = lang.shuffleMessage;
+            //                     setTimeout(() => { messageDiv.textContent = ''; }, 5000);
+            //                     updateDiscardModal();
+            //                 }
+            //                 faction.hand.push(faction.deck.pop());
+            //                 cardsDrawn++;
+            //             }
+            //             // 카드 종류(1,2,5,3) 순, 같은 종류 내에서 OC 내림차순 정렬
+            //             faction.hand.sort((a, b) => {
+            //                 const typeOrder = { '1': 1, '2': 2, '5': 3, '3': 4 };
+            //                 if (typeOrder[a.type] !== typeOrder[b.type]) {
+            //                     return typeOrder[a.type] - typeOrder[b.type];
+            //                 }
+            //                 return b.oc - a.oc; // 같은 type이면 oc 내림차순
+            //             });
+            //         }
+            //     }
+
+            //     passDisplay.textContent = `${lang.passDisplay}${faction.passes || 0}`;
+            //     const logisticsScore = calculateLogisticsScore(faction.hand || []);
+            //     console.log(`drawCards: setting logistics score, factionType=${factionType}, lang.logisticsScore=${lang.logisticsScore}, score=${logisticsScore}`);
+            //     document.getElementById('logistics-score').textContent = `${lang.logisticsScore}${logisticsScore}`;
+            //     alliedUsePassButton.disabled = faction.passes === 0;
+            //     japaneseUsePassButton.disabled = faction.passes === 0;
+
+            //     updateHandDisplay();
+            //     updateDeckRemainingDisplay();
+            //     alliedDrawButton.disabled = faction.hand.length > 0 || (factionType === 'allied' && faction.currentTurn === 1);
+            //     japaneseDrawButton.disabled = (faction.hand.length > 0 && factionType === 'japanese') || 
+            //                                 (factionType === 'japanese' && faction.currentTurn === 1 && faction.cardsPlayedTurn1 && faction.cardsPlayedTurn1.length > 0);
+            //     checkNextTurn();
+            // }
+
+
+
+            // function drawCards(factionType) {
+            //     saveState();
+            //     const faction = factions[factionType];
+            //     const lang = isEnglish ? languageData.en : languageData.ko; // 매번 재설정
+            //     console.log(`drawCards: faction=${factionType}, lang.logisticsScore=${lang.logisticsScore}`);
+            //     let baseCards = 0;
+            //     let finalCardsToDraw = 0;
+            //     let basePasses = 0;
+            //     let reductions = 0;
+            //     let additionalPasses = 0;
+
+            //     if (factionType === 'allied') {
+            //         if (faction.currentTurn === 1) {
+            //             baseCards = 0;
+            //             basePasses = 0;
+            //         } else if (faction.currentTurn === 2) {
+            //             baseCards = 5;
+            //             basePasses = 2;
+            //         } else if (faction.currentTurn === 3) {
+            //             baseCards = 6;
+            //             basePasses = 1;
+            //         } else {
+            //             baseCards = 7;
+            //             basePasses = 0;
+            //         }
+
+            //         const wieLevel = parseInt(document.getElementById('wie-level').value) || 0;
+            //         const chinaSurrender = document.getElementById('china-surrender').checked;
+            //         const indiaSurrender = document.getElementById('india-surrender').checked;
+            //         const australiaSurrender = document.getElementById('australia-surrender').checked;
+            //         reductions = (wieLevel === 4 ? 1 : 0) + (chinaSurrender ? 1 : 0) + (indiaSurrender ? 1 : 0) + (australiaSurrender ? 1 : 0);
+            //         finalCardsToDraw = Math.max(4, baseCards - reductions);
+            //         additionalPasses = reductions;
+            //         faction.passes = Math.min(2, basePasses + additionalPasses);
+
+            //         messageDiv.textContent = lang.alliedDrawMessage(finalCardsToDraw, faction.currentTurn, baseCards, wieLevel, chinaSurrender, indiaSurrender, australiaSurrender, reductions, faction.passes);
+            //         setTimeout(() => { messageDiv.textContent = ''; }, 5000);
+
+            //         let cardsDrawn = 0;
+            //         if (faction.currentTurn === 1) {
+            //             faction.hand = [];
+            //             cardsDrawn = 0;
+            //         } else {
+            //             if (faction.currentTurn === 2 && drawArcadia) {
+            //                 const arcadiaCard = faction.deck.find(card => card.id === 'AL Card 4');
+            //                 if (arcadiaCard) {
+            //                     faction.hand.push(arcadiaCard);
+            //                     faction.deck = faction.deck.filter(card => card.id !== 'AL Card 4');
+            //                     cardsDrawn++;
+            //                 }
+            //             }
+            //             while (cardsDrawn < finalCardsToDraw) {
+            //                 if (faction.deck.length === 0) {
+            //                     if (faction.discardPile.length === 0) {
+            //                         messageDiv.textContent = lang.noCardsMessage(finalCardsToDraw - cardsDrawn);
+            //                         break;
+            //                     }
+            //                     faction.deck = faction.discardPile.slice();
+            //                     faction.discardPile = [];
+            //                     shuffle(faction.deck);
+            //                     messageDiv.textContent = lang.shuffleMessage;
+            //                     setTimeout(() => { messageDiv.textContent = ''; }, 5000);
+            //                     updateDiscardModal();
+            //                 }
+            //                 faction.hand.push(faction.deck.pop());
+            //                 cardsDrawn++;
+            //             }
+            //             // 카드 종류(1,2,5,3) 순, 같은 종류 내에서 OC 내림차순 정렬
+            //             faction.hand.sort((a, b) => {
+            //                 const typeOrder = { '1': 1, '2': 2, '5': 3, '3': 4 };
+            //                 if (typeOrder[a.type] !== typeOrder[b.type]) {
+            //                     return typeOrder[a.type] - typeOrder[b.type];
+            //                 }
+            //                 return b.oc - a.oc; // 같은 type이면 oc 내림차순
+            //             });
+            //         }
+            //     } else {
+            //         const resourceHexes = Math.min(14, parseInt(document.getElementById('resource-hexes').value) || 0);
+            //         const submarineSuccess = document.getElementById('submarine-success').checked;
+            //         const bombingSuccesses = parseInt(document.getElementById('bombing-successes').value) || 0;
+            //         reductions = (submarineSuccess ? 1 : 0) + Math.min(2, bombingSuccesses);
+
+            //         if (faction.currentTurn === 1) {
+            //             baseCards = 2;
+            //             finalCardsToDraw = 2;
+            //         } else if (faction.currentTurn >= 2 && faction.currentTurn <= 4) {
+            //             baseCards = 7;
+            //             finalCardsToDraw = Math.max(4, baseCards - reductions);
+            //         } else {
+            //             baseCards = Math.max(4, Math.ceil(resourceHexes / 2));
+            //             finalCardsToDraw = Math.max(4, baseCards - reductions);
+            //         }
+
+            //         faction.passes = faction.currentTurn === 1 ? 0 : finalCardsToDraw === 6 ? 1 : finalCardsToDraw <= 5 ? 2 : 0;
+
+            //         messageDiv.textContent = lang.japaneseDrawMessage(finalCardsToDraw, faction.currentTurn, baseCards, submarineSuccess, bombingSuccesses, reductions, faction.passes);
+            //         setTimeout(() => { messageDiv.textContent = ''; }, 5000);
+
+            //         let cardsDrawn = 0;
+            //         if (faction.currentTurn === 1 && factionType === 'japanese') {
+            //             const prefix = 'JP Card';
+            //             faction.hand = faction.deck.filter(card => card.id === `${prefix} 1` || card.id === `${prefix} 2`);
+            //             faction.deck = faction.deck.filter(card => card.id !== `${prefix} 1` && card.id !== `${prefix} 2`);
+            //             cardsDrawn = faction.hand.length;
+            //         } else {
+            //             while (cardsDrawn < finalCardsToDraw) {
+            //                 if (faction.deck.length === 0) {
+            //                     if (faction.discardPile.length === 0) {
+            //                         messageDiv.textContent = lang.noCardsMessage(finalCardsToDraw - cardsDrawn);
+            //                         break;
+            //                     }
+            //                     faction.deck = faction.discardPile.slice();
+            //                     faction.discardPile = [];
+            //                     shuffle(faction.deck);
+            //                     messageDiv.textContent = lang.shuffleMessage;
+            //                     setTimeout(() => { messageDiv.textContent = ''; }, 5000);
+            //                     updateDiscardModal();
+            //                 }
+            //                 faction.hand.push(faction.deck.pop());
+            //                 cardsDrawn++;
+            //             }
+            //             // 카드 종류(1,2,5,3) 순, 같은 종류 내에서 OC 내림차순 정렬
+            //             faction.hand.sort((a, b) => {
+            //                 const typeOrder = { '1': 1, '2': 2, '5': 3, '3': 4 };
+            //                 if (typeOrder[a.type] !== typeOrder[b.type]) {
+            //                     return typeOrder[a.type] - typeOrder[b.type];
+            //                 }
+            //                 return b.oc - a.oc; // 같은 type이면 oc 내림차순
+            //             });
+            //         }
+            //     }
+
+            //     passDisplay.textContent = `${lang.passDisplay}${faction.passes}`;
+            //     const logisticsScore = calculateLogisticsScore(faction.hand);
+            //     const logisticsSpan = document.getElementById('logistics-score');
+            //     if (logisticsSpan) {
+            //         console.log(`Setting logistics score: lang.logisticsScore=${lang.logisticsScore}, score=${logisticsScore}`);
+            //         logisticsSpan.textContent = `${lang.logisticsScore}${logisticsScore}`;
+            //     } else {
+            //         console.error('logistics-score element not found in DOM');
+            //     }
+            //     alliedUsePassButton.disabled = faction.passes === 0;
+            //     japaneseUsePassButton.disabled = faction.passes === 0;
+
+            //     updateHandDisplay();
+            //     updateDeckRemainingDisplay();
+            //     alliedDrawButton.disabled = faction.hand.length > 0 || (factionType === 'allied' && faction.currentTurn === 1);
+            //     japaneseDrawButton.disabled = (faction.hand.length > 0 && factionType === 'japanese') || 
+            //                                 (factionType === 'japanese' && faction.currentTurn === 1 && faction.cardsPlayedTurn1 && faction.cardsPlayedTurn1.length > 0);
+            //     checkNextTurn();
+            // }
+
+
+
+            // function drawCards(factionType) {
+            //     saveState();
+            //     const faction = factions[factionType];
+            //     const lang = isEnglish ? languageData.en : languageData.ko;
+            //     let baseCards = 0;
+            //     let finalCardsToDraw = 0;
+            //     let basePasses = 0;
+            //     let reductions = 0;
+            //     let additionalPasses = 0;
+
+            //     if (factionType === 'allied') {
+            //         if (faction.currentTurn === 1) {
+            //             baseCards = 0;
+            //             basePasses = 0;
+            //         } else if (faction.currentTurn === 2) {
+            //             baseCards = 5;
+            //             basePasses = 2;
+            //         } else if (faction.currentTurn === 3) {
+            //             baseCards = 6;
+            //             basePasses = 1;
+            //         } else {
+            //             baseCards = 7;
+            //             basePasses = 0;
+            //         }
+
+            //         const wieLevel = parseInt(document.getElementById('wie-level').value) || 0;
+            //         const chinaSurrender = document.getElementById('china-surrender').checked;
+            //         const indiaSurrender = document.getElementById('india-surrender').checked;
+            //         const australiaSurrender = document.getElementById('australia-surrender').checked;
+            //         reductions = (wieLevel === 4 ? 1 : 0) + (chinaSurrender ? 1 : 0) + (indiaSurrender ? 1 : 0) + (australiaSurrender ? 1 : 0);
+            //         finalCardsToDraw = Math.max(4, baseCards - reductions);
+            //         additionalPasses = reductions;
+            //         faction.passes = Math.min(2, basePasses + additionalPasses);
+
+            //         messageDiv.textContent = lang.alliedDrawMessage(finalCardsToDraw, faction.currentTurn, baseCards, wieLevel, chinaSurrender, indiaSurrender, australiaSurrender, reductions, faction.passes);
+            //         setTimeout(() => { messageDiv.textContent = ''; }, 5000);
+
+            //         let cardsDrawn = 0;
+            //         if (faction.currentTurn === 1) {
+            //             faction.hand = [];
+            //             cardsDrawn = 0;
+            //         } else {
+            //             if (faction.currentTurn === 2 && drawArcadia) {
+            //                 const arcadiaCard = faction.deck.find(card => card.id === 'AL Card 4');
+            //                 if (arcadiaCard) {
+            //                     faction.hand.push(arcadiaCard);
+            //                     faction.deck = faction.deck.filter(card => card.id !== 'AL Card 4');
+            //                     cardsDrawn++;
+            //                 }
+            //             }
+            //             while (cardsDrawn < finalCardsToDraw) {
+            //                 if (faction.deck.length === 0) {
+            //                     if (faction.discardPile.length === 0) {
+            //                         messageDiv.textContent = lang.noCardsMessage(finalCardsToDraw - cardsDrawn);
+            //                         break;
+            //                     }
+            //                     faction.deck = faction.discardPile.slice();
+            //                     faction.discardPile = [];
+            //                     shuffle(faction.deck);
+            //                     messageDiv.textContent = lang.shuffleMessage;
+            //                     setTimeout(() => { messageDiv.textContent = ''; }, 5000);
+            //                     updateDiscardModal();
+            //                 }
+            //                 faction.hand.push(faction.deck.pop());
+            //                 cardsDrawn++;
+            //             }
+            //             // 카드 종류(1,2,5,3) 순, 같은 종류 내에서 OC 내림차순 정렬
+            //             faction.hand.sort((a, b) => {
+            //                 const typeOrder = { '1': 1, '2': 2, '5': 3, '3': 4 };
+            //                 if (typeOrder[a.type] !== typeOrder[b.type]) {
+            //                     return typeOrder[a.type] - typeOrder[b.type];
+            //                 }
+            //                 return b.oc - a.oc; // 같은 type이면 oc 내림차순
+            //             });
+            //         }
+            //     } else {
+            //         const resourceHexes = Math.min(14, parseInt(document.getElementById('resource-hexes').value) || 0);
+            //         const submarineSuccess = document.getElementById('submarine-success').checked;
+            //         const bombingSuccesses = parseInt(document.getElementById('bombing-successes').value) || 0;
+            //         reductions = (submarineSuccess ? 1 : 0) + Math.min(2, bombingSuccesses);
+
+            //         if (faction.currentTurn === 1) {
+            //             baseCards = 2;
+            //             finalCardsToDraw = 2;
+            //         } else if (faction.currentTurn >= 2 && faction.currentTurn <= 4) {
+            //             baseCards = 7;
+            //             finalCardsToDraw = Math.max(4, baseCards - reductions);
+            //         } else {
+            //             baseCards = Math.max(4, Math.ceil(resourceHexes / 2));
+            //             finalCardsToDraw = Math.max(4, baseCards - reductions);
+            //         }
+
+            //         faction.passes = faction.currentTurn === 1 ? 0 : finalCardsToDraw === 6 ? 1 : finalCardsToDraw <= 5 ? 2 : 0;
+
+            //         messageDiv.textContent = lang.japaneseDrawMessage(finalCardsToDraw, faction.currentTurn, baseCards, submarineSuccess, bombingSuccesses, reductions, faction.passes);
+            //         setTimeout(() => { messageDiv.textContent = ''; }, 5000);
+
+            //         let cardsDrawn = 0;
+            //         if (faction.currentTurn === 1 && factionType === 'japanese') {
+            //             const prefix = 'JP Card';
+            //             faction.hand = faction.deck.filter(card => card.id === `${prefix} 1` || card.id === `${prefix} 2`);
+            //             faction.deck = faction.deck.filter(card => card.id !== `${prefix} 1` && card.id !== `${prefix} 2`);
+            //             cardsDrawn = faction.hand.length;
+            //         } else {
+            //             while (cardsDrawn < finalCardsToDraw) {
+            //                 if (faction.deck.length === 0) {
+            //                     if (faction.discardPile.length === 0) {
+            //                         messageDiv.textContent = lang.noCardsMessage(finalCardsToDraw - cardsDrawn);
+            //                         break;
+            //                     }
+            //                     faction.deck = faction.discardPile.slice();
+            //                     faction.discardPile = [];
+            //                     shuffle(faction.deck);
+            //                     messageDiv.textContent = lang.shuffleMessage;
+            //                     setTimeout(() => { messageDiv.textContent = ''; }, 5000);
+            //                     updateDiscardModal();
+            //                 }
+            //                 faction.hand.push(faction.deck.pop());
+            //                 cardsDrawn++;
+            //             }
+            //             // 카드 종류(1,2,5,3) 순, 같은 종류 내에서 OC 내림차순 정렬
+            //             faction.hand.sort((a, b) => {
+            //                 const typeOrder = { '1': 1, '2': 2, '5': 3, '3': 4 };
+            //                 if (typeOrder[a.type] !== typeOrder[b.type]) {
+            //                     return typeOrder[a.type] - typeOrder[b.type];
+            //                 }
+            //                 return b.oc - a.oc; // 같은 type이면 oc 내림차순
+            //             });
+            //         }
+            //     }
+
+            //     passDisplay.textContent = `${lang.passDisplay}${faction.passes}`;
+            //     calculateLogisticsScore(factionType); // 진영별 점수 계산 및 저장
+            //     const logisticsSpan = document.getElementById('logistics-score');
+            //     if (logisticsSpan) {
+            //         console.log(`Setting ${factionType} logistics score: lang.logisticsScore=${lang.logisticsScore}, score=${faction.logisticsScore}`);
+            //         logisticsSpan.textContent = `${lang.logisticsScore}${faction.logisticsScore}`;
+            //     } else {
+            //         console.error('logistics-score element not found in DOM');
+            //     }
+            //     alliedUsePassButton.disabled = faction.passes === 0;
+            //     japaneseUsePassButton.disabled = faction.passes === 0;
+
+            //     updateHandDisplay();
+            //     updateDeckRemainingDisplay();
+            //     alliedDrawButton.disabled = faction.hand.length > 0 || (factionType === 'allied' && faction.currentTurn === 1);
+            //     japaneseDrawButton.disabled = (faction.hand.length > 0 && factionType === 'japanese') || 
+            //                                 (factionType === 'japanese' && faction.currentTurn === 1 && faction.cardsPlayedTurn1 && faction.cardsPlayedTurn1.length > 0);
+            //     checkNextTurn();
+            // }
+
+
+
+
             function drawCards(factionType) {
                 saveState();
                 const faction = factions[factionType];
@@ -1460,8 +2960,15 @@
                             faction.hand.push(faction.deck.pop());
                             cardsDrawn++;
                         }
+                        // 카드 종류(1,2,5,3) 순, 같은 종류 내에서 OC 내림차순 정렬
+                        faction.hand.sort((a, b) => {
+                            const typeOrder = { '1': 1, '2': 2, '5': 3, '3': 4 };
+                            if (typeOrder[a.type] !== typeOrder[b.type]) {
+                                return typeOrder[a.type] - typeOrder[b.type];
+                            }
+                            return b.oc - a.oc;
+                        });
                     }
-                    drawArcadia = false; // 리셋
                 } else {
                     const resourceHexes = Math.min(14, parseInt(document.getElementById('resource-hexes').value) || 0);
                     const submarineSuccess = document.getElementById('submarine-success').checked;
@@ -1507,10 +3014,26 @@
                             faction.hand.push(faction.deck.pop());
                             cardsDrawn++;
                         }
+                        // 카드 종류(1,2,5,3) 순, 같은 종류 내에서 OC 내림차순 정렬
+                        faction.hand.sort((a, b) => {
+                            const typeOrder = { '1': 1, '2': 2, '5': 3, '3': 4 };
+                            if (typeOrder[a.type] !== typeOrder[b.type]) {
+                                return typeOrder[a.type] - typeOrder[b.type];
+                            }
+                            return b.oc - a.oc;
+                        });
                     }
                 }
 
                 passDisplay.textContent = `${lang.passDisplay}${faction.passes}`;
+                calculateLogisticsScore(factionType);
+                const logisticsSpan = document.getElementById(`${factionType}-logistics-score`);
+                if (logisticsSpan) {
+                    console.log(`Setting ${factionType} logistics score: lang.logisticsScore=${lang.logisticsScore}, score=${faction.logisticsScore}`);
+                    logisticsSpan.textContent = `${lang.logisticsScore}${faction.logisticsScore}`;
+                } else {
+                    console.error(`${factionType}-logistics-score element not found in DOM`);
+                }
                 alliedUsePassButton.disabled = faction.passes === 0;
                 japaneseUsePassButton.disabled = faction.passes === 0;
 
@@ -1521,6 +3044,11 @@
                                             (factionType === 'japanese' && faction.currentTurn === 1 && faction.cardsPlayedTurn1 && faction.cardsPlayedTurn1.length > 0);
                 checkNextTurn();
             }
+
+
+
+
+
 
             function handleArcadiaModal(choice) {
                 const arcadiaModal = document.getElementById('arcadia-modal');
@@ -1698,13 +3226,239 @@
                 return cardElem;
             }
 
+            // function updateHandDisplay() {
+            //     handDiv.innerHTML = '';
+            //     factions[currentFaction].hand.forEach((card, index) => {
+            //         const cardElem = createCardElem(card, () => enlargeCard(index));
+            //         handDiv.appendChild(cardElem);
+            //     });
+            // }
+
+
+
+            // function updateHandDisplay() {
+            //     const faction = factions[currentFaction];
+            //     const lang = isEnglish ? languageData.en : languageData.ko;
+            //     handDiv.innerHTML = '';
+
+            //     const createCardElement = (card, index) => {
+            //         const cardDiv = document.createElement('div');
+            //         cardDiv.classList.add('card');
+            //         cardDiv.id = `card-${index}`;
+            //         const cardImg = document.createElement('img');
+            //         const factionPrefix = card.id.startsWith('AL') ? 'al' : 'jp';
+            //         cardImg.src = getValidImagePath(factionPrefix, card.id.split(' ')[2], false);
+            //         console.log(`updateHandDisplay: cardId=${card.id}, factionPrefix=${factionPrefix}, path=${cardImg.src}`);
+            //         cardImg.alt = card.id;
+            //         cardImg.addEventListener('click', () => {
+            //             enlargeCard(index);
+            //         });
+            //         cardImg.addEventListener('contextmenu', (e) => e.preventDefault());
+            //         cardDiv.appendChild(cardImg);
+            //         return cardDiv;
+            //     };
+
+            //     if (faction.hand.length > 0) {
+            //         faction.hand.forEach((card, index) => {
+            //             const cardDiv = createCardElement(card, index);
+            //             handDiv.appendChild(cardDiv);
+            //         });
+            //         const title = document.createElement('h2');
+            //         title.textContent = lang.hand;
+            //         handDiv.insertBefore(title, handDiv.firstChild);
+            //     }
+            // }
+
+
+
+            // function updateHandDisplay() {
+            //     const faction = factions[currentFaction];
+            //     const lang = isEnglish ? languageData.en : languageData.ko;
+            //     handDiv.innerHTML = '';
+
+            //     const createCardElement = (card, index) => {
+            //         const cardDiv = document.createElement('div');
+            //         cardDiv.classList.add('card');
+            //         cardDiv.id = `card-${index}`;
+            //         const cardImg = document.createElement('img');
+            //         const factionPrefix = card.id.startsWith('AL') ? 'al' : 'jp';
+            //         cardImg.src = getValidImagePath(factionPrefix, card.id.split(' ')[2], false);
+            //         console.log(`updateHandDisplay: cardId=${card.id}, factionPrefix=${factionPrefix}, path=${cardImg.src}`);
+            //         cardImg.alt = card.id;
+            //         cardImg.addEventListener('click', () => {
+            //             enlargeCard(index);
+            //         });
+            //         cardImg.addEventListener('contextmenu', (e) => e.preventDefault());
+            //         cardDiv.appendChild(cardImg);
+            //         return cardDiv;
+            //     };
+
+            //     if (faction.hand.length > 0) {
+            //         faction.hand.forEach((card, index) => {
+            //             const cardDiv = createCardElement(card, index);
+            //             handDiv.appendChild(cardDiv);
+            //         });
+            //         const title = document.createElement('h2');
+            //         title.textContent = lang.hand;
+            //         handDiv.insertBefore(title, handDiv.firstChild);
+            //     }
+
+            //     // 병참 평가 점수 업데이트
+            //     const logisticsScore = calculateLogisticsScore(faction.hand);
+            //     document.getElementById('logistics-score').textContent = `${lang.logisticsScore}${logisticsScore}`;
+            // }
+
+
+            // function updateHandDisplay() {
+            //     const faction = factions[currentFaction];
+            //     const lang = isEnglish ? languageData.en : languageData.ko;
+            //     console.log(`updateHandDisplay: currentFaction=${currentFaction}, isEnglish=${isEnglish}, lang.logisticsScore=${lang.logisticsScore}`);
+            //     handDiv.innerHTML = '';
+
+            //     const createCardElement = (card, index) => {
+            //         const cardDiv = document.createElement('div');
+            //         cardDiv.classList.add('card');
+            //         cardDiv.id = `card-${index}`;
+            //         const cardImg = document.createElement('img');
+            //         const factionPrefix = card.id.startsWith('AL') ? 'allied' : 'jp';
+            //         cardImg.src = getValidImagePath(factionPrefix, card.id.split(' ')[2], false);
+            //         console.log(`updateHandDisplay: cardId=${card.id}, factionPrefix=${factionPrefix}, path=${cardImg.src}`);
+            //         cardImg.alt = card.id;
+            //         cardImg.addEventListener('click', () => {
+            //             enlargeCard(index);
+            //         });
+            //         cardImg.addEventListener('contextmenu', (e) => e.preventDefault());
+            //         cardDiv.appendChild(cardImg);
+            //         return cardDiv;
+            //     };
+
+            //     if (faction.hand && faction.hand.length > 0) {
+            //         faction.hand.forEach((card, index) => {
+            //             const cardDiv = createCardElement(card, index);
+            //             handDiv.appendChild(cardDiv);
+            //         });
+            //         const title = document.createElement('h2');
+            //         title.textContent = lang.hand;
+            //         handDiv.insertBefore(title, handDiv.firstChild);
+            //     }
+
+            //     // 병참 평가 점수 업데이트
+            //     const logisticsScore = calculateLogisticsScore(faction.hand || []);
+            //     console.log(`updateHandDisplay: setting logistics score, currentFaction=${currentFaction}, lang.logisticsScore=${lang.logisticsScore}, score=${logisticsScore}`);
+            //     document.getElementById('logistics-score').textContent = `${lang.logisticsScore}${logisticsScore}`;
+            // }
+
+
+            // function updateHandDisplay() {
+            //     const faction = factions[currentFaction];
+            //     const lang = isEnglish ? languageData.en : languageData.ko;
+            //     handDiv.innerHTML = '';
+
+            //     const createCardElement = (card, index) => {
+            //         const cardDiv = document.createElement('div');
+            //         cardDiv.classList.add('card');
+            //         cardDiv.id = `card-${index}`;
+            //         const cardImg = document.createElement('img');
+            //         const factionPrefix = card.id.startsWith('AL') ? 'al' : 'jp';
+            //         cardImg.src = getValidImagePath(factionPrefix, card.id.split(' ')[2], false);
+            //         console.log(`updateHandDisplay: cardId=${card.id}, factionPrefix=${factionPrefix}, path=${cardImg.src}`);
+            //         cardImg.alt = card.id;
+            //         cardImg.addEventListener('click', () => {
+            //             enlargeCard(index);
+            //         });
+            //         cardImg.addEventListener('contextmenu', (e) => e.preventDefault());
+            //         cardDiv.appendChild(cardImg);
+            //         return cardDiv;
+            //     };
+
+            //     if (faction.hand.length > 0) {
+            //         faction.hand.forEach((card, index) => {
+            //             const cardDiv = createCardElement(card, index);
+            //             handDiv.appendChild(cardDiv);
+            //         });
+            //         const title = document.createElement('h2');
+            //         title.textContent = lang.hand;
+            //         handDiv.insertBefore(title, handDiv.firstChild);
+            //     }
+
+            //     // 진영별 병참 평가 점수 업데이트
+            //     calculateLogisticsScore(currentFaction);
+            //     const logisticsSpan = document.getElementById(`${currentFaction}-logistics-score`);
+            //     if (logisticsSpan) {
+            //         console.log(`Updating ${currentFaction} logistics score: lang.logisticsScore=${lang.logisticsScore}, score=${faction.logisticsScore}`);
+            //         logisticsSpan.textContent = `${lang.logisticsScore}${faction.logisticsScore}`;
+            //     } else {
+            //         console.error(`${currentFaction}-logistics-score element not found in DOM`);
+            //     }
+            //     // 상대 진영 점수 숨김
+            //     const otherFaction = currentFaction === 'allied' ? 'japanese' : 'allied';
+            //     const otherLogisticsSpan = document.getElementById(`${otherFaction}-logistics-score`);
+            //     if (otherLogisticsSpan) {
+            //         otherLogisticsSpan.style.display = 'none';
+            //     }
+            //     // 현재 진영 점수 표시
+            //     if (logisticsSpan) {
+            //         logisticsSpan.style.display = 'inline-block';
+            //     }
+            // }
+
+
+
             function updateHandDisplay() {
+                const faction = factions[currentFaction];
+                const lang = isEnglish ? languageData.en : languageData.ko;
                 handDiv.innerHTML = '';
-                factions[currentFaction].hand.forEach((card, index) => {
-                    const cardElem = createCardElem(card, () => enlargeCard(index));
-                    handDiv.appendChild(cardElem);
-                });
+
+                const createCardElement = (card, index) => {
+                    const cardDiv = document.createElement('div');
+                    cardDiv.classList.add('card');
+                    cardDiv.id = `card-${index}`;
+                    const cardImg = document.createElement('img');
+                    const factionPrefix = card.id.startsWith('AL') ? 'al' : 'jp';
+                    cardImg.src = getValidImagePath(factionPrefix, card.id.split(' ')[2], false);
+                    console.log(`updateHandDisplay: cardId=${card.id}, factionPrefix=${factionPrefix}, path=${cardImg.src}`);
+                    cardImg.alt = card.id;
+                    cardImg.addEventListener('click', () => {
+                        enlargeCard(index);
+                    });
+                    cardImg.addEventListener('contextmenu', (e) => e.preventDefault());
+                    cardDiv.appendChild(cardImg);
+                    return cardDiv;
+                };
+
+                if (faction.hand.length > 0) {
+                    faction.hand.forEach((card, index) => {
+                        const cardDiv = createCardElement(card, index);
+                        handDiv.appendChild(cardDiv);
+                    });
+                    const title = document.createElement('h2');
+                    title.textContent = lang.hand;
+                    handDiv.insertBefore(title, handDiv.firstChild);
+                }
+
+                // 진영별 병참 평가 점수 업데이트
+                calculateLogisticsScore(currentFaction);
+                const logisticsSpan = document.getElementById(`${currentFaction}-logistics-score`);
+                const otherFaction = currentFaction === 'allied' ? 'japanese' : 'allied';
+                const otherLogisticsSpan = document.getElementById(`${otherFaction}-logistics-score`);
+                if (logisticsSpan) {
+                    console.log(`Updating ${currentFaction} logistics score: lang.logisticsScore=${lang.logisticsScore}, score=${faction.logisticsScore}`);
+                    logisticsSpan.textContent = `${lang.logisticsScore}${faction.logisticsScore}`;
+                    logisticsSpan.className = ''; // 표시
+                    
+                } else {
+                    console.error(`${currentFaction}-logistics-score element not found in DOM`);
+                }
+                if (otherLogisticsSpan) {
+                    otherLogisticsSpan.className = 'hidden'; // 상대 진영 숨김
+                }
             }
+
+
+
+
+
+
 
             function updateFutureDisplay() {
                 futureHandDiv.innerHTML = '';
@@ -1736,6 +3490,223 @@
                 });
             }
 
+            // function enlargeCard(index) {
+            //     if (enlargedCard) return;
+
+            //     const faction = currentFaction;
+            //     if (!factions[faction]) {
+            //         console.error(`Invalid faction: ${faction}`);
+            //         return;
+            //     }
+            //     const lang = isEnglish ? languageData.en : languageData.ko;
+            //     const card = factions[faction].hand[index];
+            //     if (!card) {
+            //         console.warn(`Card at index ${index} not found in ${faction} hand`);
+            //         return;
+            //     }
+
+            //     console.log(`Enlarging card: faction=${faction}, card ID=${card.id}, index=${index}`);
+
+            //     enlargedCard = document.createElement('div');
+            //     enlargedCard.classList.add('enlarged');
+            //     const placeholder = document.createElement('div');
+            //     placeholder.classList.add('placeholder');
+            //     placeholder.textContent = isEnglish ? 'Loading enlarged image...' : '확대 이미지 로드 중...';
+            //     enlargedCard.appendChild(placeholder);
+
+            //     const img = document.createElement('img');
+            //     img.alt = card.id;
+            //     const cardNumber = parseInt(card.id.split(' ')[2]);
+            //     img.src = getValidImagePath(faction, cardNumber, true);
+            //     console.log(`확대 이미지 로드 시도: ${card.id}, 경로: ${img.src}`);
+
+            //     img.onerror = () => {
+            //         img.src = getValidImagePath(faction, cardNumber, false);
+            //         console.log(`확대 이미지 로드 실패, 원본 사용: ${card.id}, 경로: ${img.src}`);
+            //     };
+            //     img.onload = () => {
+            //         enlargedCard.removeChild(placeholder);
+            //         img.classList.add('loaded');
+            //         enlargedCard.appendChild(img);
+            //         document.body.appendChild(enlargedCard);
+            //     };
+            //     img.addEventListener('contextmenu', (e) => e.preventDefault());
+
+            //     const buttonDiv = document.createElement('div');
+            //     buttonDiv.classList.add('enlarged-buttons');
+
+            //     if (faction === 'japanese' && (card.id === 'JP Card 1' || card.id === 'JP Card 2')) {
+            //         const eventButton = document.createElement('button');
+            //         eventButton.textContent = lang.eventButton;
+            //         eventButton.addEventListener('click', () => {
+            //             saveState();
+            //             const property = card.property;
+            //             const drawAdditional = property.charAt(0) === '1';
+            //             const removeFromGame = property.charAt(1) === '1';
+            //             if (drawAdditional && factions[faction].eventCardsDrawnThisTurn < 3) {
+            //                 if (drawOneCard(faction)) {
+            //                     messageDiv.textContent = lang.eventDrawMessage(factions[faction].eventCardsDrawnThisTurn);
+            //                 } else {
+            //                     messageDiv.textContent = lang.eventDrawFailMessage(
+            //                         factions[faction].deck ? factions[faction].deck.length : 0,
+            //                         factions[faction].discardPile ? factions[faction].discardPile.length : 0,
+            //                         factions[faction].eventCardsDrawnThisTurn
+            //                     );
+            //                 }
+            //             } else if (drawAdditional) {
+            //                 messageDiv.textContent = lang.eventDrawLimitMessage(factions[faction].eventCardsDrawnThisTurn);
+            //             }
+            //             if (removeFromGame) {
+            //                 factions[faction].removedCards.push(factions[faction].hand.splice(index, 1)[0]);
+            //                 updateRemovedModal();
+            //                 messageDiv.textContent = messageDiv.textContent ? `${messageDiv.textContent} ${lang.removedMessage}` : lang.removedMessage;
+            //             } else {
+            //                 factions[faction].discardPile.push(factions[faction].hand.splice(index, 1)[0]);
+            //                 updateDiscardModal();
+            //                 messageDiv.textContent = messageDiv.textContent ? `${messageDiv.textContent} ${lang.discardMessage}` : lang.discardMessage;
+            //             }
+            //             if (faction === 'japanese' && factions[faction].currentTurn === 1) {
+            //                 factions[faction].cardsPlayedTurn1.push(card.id);
+            //             }
+            //             setTimeout(() => { messageDiv.textContent = ''; }, 3000);
+            //             closeEnlarged();
+            //             updateHandDisplay();
+            //             updateDeckRemainingDisplay();
+            //             checkNextTurn();
+            //         });
+            //         buttonDiv.appendChild(eventButton);
+
+            //         const handleKeyPress = (e) => {
+            //             if (e.key === '3') {
+            //                 eventButton.click();
+            //             }
+            //         };
+            //         document.addEventListener('keydown', handleKeyPress);
+
+            //         enlargedCard.close = () => {
+            //             document.removeEventListener('keydown', handleKeyPress);
+            //             document.removeEventListener('click', closeEnlargedOutside);
+            //             enlargedCard.remove();
+            //             enlargedCard = null;
+            //         };
+            //     } else {
+            //         const ocButton = document.createElement('button');
+            //         ocButton.textContent = lang.ocButton;
+            //         ocButton.addEventListener('click', () => {
+            //             saveState();
+            //             factions[faction].discardPile.push(factions[faction].hand.splice(index, 1)[0]);
+            //             updateDiscardModal();
+            //             closeEnlarged();
+            //             updateHandDisplay();
+            //             updateDeckRemainingDisplay();
+            //             checkNextTurn();
+            //             messageDiv.textContent = lang.discardMessage;
+            //             setTimeout(() => { messageDiv.textContent = ''; }, 3000);
+            //             const cardNumber = parseInt(card.id.split(' ')[2]);
+            //             if ((faction === 'allied' && cardNumber === 79) || (faction === 'japanese' && cardNumber === 43)) {
+            //                 factions[faction].needReshuffle = true;
+            //             }
+            //             if (faction === 'japanese' && factions[faction].currentTurn === 1) {
+            //                 factions[faction].cardsPlayedTurn1.push(card.id);
+            //             }
+            //         });
+
+            //         const eventButton = document.createElement('button');
+            //         eventButton.textContent = lang.eventButton;
+            //         eventButton.addEventListener('click', () => {
+            //             saveState();
+            //             const property = card.property;
+            //             const drawAdditional = property.charAt(0) === '1';
+            //             const removeFromGame = property.charAt(1) === '1';
+            //             if (drawAdditional && factions[faction].eventCardsDrawnThisTurn < 3) {
+            //                 if (drawOneCard(faction)) {
+            //                     messageDiv.textContent = lang.eventDrawMessage(factions[faction].eventCardsDrawnThisTurn);
+            //                 } else {
+            //                     messageDiv.textContent = lang.eventDrawFailMessage(
+            //                         factions[faction].deck ? factions[faction].deck.length : 0,
+            //                         factions[faction].discardPile ? factions[faction].discardPile.length : 0,
+            //                         factions[faction].eventCardsDrawnThisTurn
+            //                     );
+            //                 }
+            //             } else if (drawAdditional) {
+            //                 messageDiv.textContent = lang.eventDrawLimitMessage(factions[faction].eventCardsDrawnThisTurn);
+            //             }
+            //             if (removeFromGame) {
+            //                 factions[faction].removedCards.push(factions[faction].hand.splice(index, 1)[0]);
+            //                 updateRemovedModal();
+            //                 messageDiv.textContent = messageDiv.textContent ? `${messageDiv.textContent} ${lang.removedMessage}` : lang.removedMessage;
+            //             } else {
+            //                 factions[faction].discardPile.push(factions[faction].hand.splice(index, 1)[0]);
+            //                 updateDiscardModal();
+            //                 messageDiv.textContent = messageDiv.textContent ? `${messageDiv.textContent} ${lang.discardMessage}` : lang.discardMessage;
+            //             }
+            //             if (faction === 'japanese' && factions[faction].currentTurn === 1) {
+            //                 factions[faction].cardsPlayedTurn1.push(card.id);
+            //             }
+            //             setTimeout(() => { messageDiv.textContent = ''; }, 3000);
+            //             closeEnlarged();
+            //             updateHandDisplay();
+            //             updateDeckRemainingDisplay();
+            //             checkNextTurn();
+            //         });
+
+            //         const futureButton = document.createElement('button');
+            //         futureButton.textContent = lang.futureButton;
+            //         const cardNumber = parseInt(card.id.split(' ')[2]);
+            //         futureButton.disabled = !!factions[faction].futureOffensive || 
+            //             (faction === 'allied' && [79].includes(cardNumber)) || 
+            //             (faction === 'japanese' && [43].includes(cardNumber));
+            //         futureButton.addEventListener('click', () => {
+            //             if (!factions[faction].futureOffensive) {
+            //                 saveState();
+            //                 factions[faction].futureOffensive = factions[faction].hand.splice(index, 1)[0];
+            //                 updateFutureDisplay();
+            //                 closeEnlarged();
+            //                 updateHandDisplay();
+            //                 updateDeckRemainingDisplay();
+            //                 checkNextTurn();
+            //                 messageDiv.textContent = lang.futureMessage;
+            //                 setTimeout(() => { messageDiv.textContent = ''; }, 3000);
+            //                 if (faction === 'japanese' && factions[faction].currentTurn === 1) {
+            //                     factions[faction].cardsPlayedTurn1.push(card.id);
+            //                 }
+            //             }
+            //         });
+
+            //         buttonDiv.appendChild(ocButton);
+            //         buttonDiv.appendChild(futureButton);
+            //         buttonDiv.appendChild(eventButton);
+                    
+
+            //         const handleKeyPress = (e) => {
+            //             if (e.key === '1') {
+            //                 ocButton.click();
+            //             } else if (e.key === '3') {
+            //                 eventButton.click();
+            //             } else if (e.key === '2' && !futureButton.disabled) {
+            //                 futureButton.click();
+            //             }
+            //         };
+            //         document.addEventListener('keydown', handleKeyPress);
+
+            //         enlargedCard.close = () => {
+            //             document.removeEventListener('keydown', handleKeyPress);
+            //             document.removeEventListener('click', closeEnlargedOutside);
+            //             enlargedCard.remove();
+            //             enlargedCard = null;
+            //         };
+            //     }
+
+            //     enlargedCard.appendChild(buttonDiv);
+
+            //     setTimeout(() => {
+            //         document.addEventListener('click', closeEnlargedOutside);
+            //     }, 0);
+            // }
+
+
+
+
             function enlargeCard(index) {
                 if (enlargedCard) return;
 
@@ -1751,7 +3722,7 @@
                     return;
                 }
 
-                console.log(`Enlarging card: faction=${faction}, card ID=${card.id}, index=${index}`);
+                console.log(`Enlarging card: faction=${faction}, cardId=${card.id}, index=${index}, card=${JSON.stringify(card)}`);
 
                 enlargedCard = document.createElement('div');
                 enlargedCard.classList.add('enlarged');
@@ -1762,12 +3733,13 @@
 
                 const img = document.createElement('img');
                 img.alt = card.id;
-                const cardNumber = parseInt(card.id.split(' ')[2]);
-                img.src = getValidImagePath(faction, cardNumber, true);
+                const factionPrefix = card.id.startsWith('AL') ? 'allied' : 'jp';
+                const cardNumber = parseInt(card.id.split(' ')[2], 10);
+                img.src = getValidImagePath(factionPrefix, cardNumber, true);
                 console.log(`확대 이미지 로드 시도: ${card.id}, 경로: ${img.src}`);
 
                 img.onerror = () => {
-                    img.src = getValidImagePath(faction, cardNumber, false);
+                    img.src = getValidImagePath(factionPrefix, cardNumber, false);
                     console.log(`확대 이미지 로드 실패, 원본 사용: ${card.id}, 경로: ${img.src}`);
                 };
                 img.onload = () => {
@@ -1781,167 +3753,114 @@
                 const buttonDiv = document.createElement('div');
                 buttonDiv.classList.add('enlarged-buttons');
 
-                if (faction === 'japanese' && (card.id === 'JP Card 1' || card.id === 'JP Card 2')) {
-                    const eventButton = document.createElement('button');
-                    eventButton.textContent = lang.eventButton;
-                    eventButton.addEventListener('click', () => {
-                        saveState();
-                        const property = card.property;
-                        const drawAdditional = property.charAt(0) === '1';
-                        const removeFromGame = property.charAt(1) === '1';
-                        if (drawAdditional && factions[faction].eventCardsDrawnThisTurn < 3) {
-                            if (drawOneCard(faction)) {
-                                messageDiv.textContent = lang.eventDrawMessage(factions[faction].eventCardsDrawnThisTurn);
-                            } else {
-                                messageDiv.textContent = lang.eventDrawFailMessage(
-                                    factions[faction].deck ? factions[faction].deck.length : 0,
-                                    factions[faction].discardPile ? factions[faction].discardPile.length : 0,
-                                    factions[faction].eventCardsDrawnThisTurn
-                                );
-                            }
-                        } else if (drawAdditional) {
-                            messageDiv.textContent = lang.eventDrawLimitMessage(factions[faction].eventCardsDrawnThisTurn);
-                        }
-                        if (removeFromGame) {
-                            factions[faction].removedCards.push(factions[faction].hand.splice(index, 1)[0]);
-                            updateRemovedModal();
-                            messageDiv.textContent = messageDiv.textContent ? `${messageDiv.textContent} ${lang.removedMessage}` : lang.removedMessage;
+                const isSpecialJapaneseCard = faction === 'japanese' && (card.id === 'JP Card 1' || card.id === 'JP Card 2');
+
+                const ocButton = document.createElement('button');
+                ocButton.textContent = lang.ocButton;
+                ocButton.disabled = isSpecialJapaneseCard; // JP Card 1, 2에서는 OC 버튼 비활성화
+                ocButton.addEventListener('click', () => {
+                    saveState();
+                    factions[faction].discardPile.push(factions[faction].hand.splice(index, 1)[0]);
+                    updateDiscardModal();
+                    closeEnlarged();
+                    updateHandDisplay();
+                    updateDeckRemainingDisplay();
+                    checkNextTurn();
+                    messageDiv.textContent = lang.discardMessage;
+                    setTimeout(() => { messageDiv.textContent = ''; }, 3000);
+                    const cardNumber = parseInt(card.id.split(' ')[2], 10);
+                    if ((faction === 'allied' && cardNumber === 79) || (faction === 'japanese' && cardNumber === 43)) {
+                        factions[faction].needReshuffle = true;
+                    }
+                    if (faction === 'japanese' && factions[faction].currentTurn === 1) {
+                        factions[faction].cardsPlayedTurn1.push(card.id);
+                    }
+                });
+
+                const eventButton = document.createElement('button');
+                eventButton.textContent = lang.eventButton;
+                // 모든 카드에서 이벤트 버튼 활성화
+                console.log(`eventButton: cardId=${card.id}, condition=${card.condition}, drawStrategic=${card.drawStrategic}, removeOnEvent=${card.removeOnEvent}, isSpecialJapaneseCard=${isSpecialJapaneseCard}`);
+                eventButton.addEventListener('click', () => {
+                    console.log(`eventButton clicked: cardId=${card.id}, condition=${card.condition}, drawStrategic=${card.drawStrategic}, removeOnEvent=${card.removeOnEvent}`);
+                    saveState();
+                    const drawAdditional = card.drawStrategic === 1;
+                    const removeFromGame = card.removeOnEvent === 1;
+                    if (drawAdditional && factions[faction].eventCardsDrawnThisTurn < 3) {
+                        if (drawOneCard(faction)) {
+                            messageDiv.textContent = lang.eventDrawMessage(factions[faction].eventCardsDrawnThisTurn);
                         } else {
-                            factions[faction].discardPile.push(factions[faction].hand.splice(index, 1)[0]);
-                            updateDiscardModal();
-                            messageDiv.textContent = messageDiv.textContent ? `${messageDiv.textContent} ${lang.discardMessage}` : lang.discardMessage;
+                            messageDiv.textContent = lang.eventDrawFailMessage(
+                                factions[faction].deck ? factions[faction].deck.length : 0,
+                                factions[faction].discardPile ? factions[faction].discardPile.length : 0,
+                                factions[faction].eventCardsDrawnThisTurn
+                            );
                         }
-                        if (faction === 'japanese' && factions[faction].currentTurn === 1) {
-                            factions[faction].cardsPlayedTurn1.push(card.id);
-                        }
-                        setTimeout(() => { messageDiv.textContent = ''; }, 3000);
-                        closeEnlarged();
-                        updateHandDisplay();
-                        updateDeckRemainingDisplay();
-                        checkNextTurn();
-                    });
-                    buttonDiv.appendChild(eventButton);
-
-                    const handleKeyPress = (e) => {
-                        if (e.key === '3') {
-                            eventButton.click();
-                        }
-                    };
-                    document.addEventListener('keydown', handleKeyPress);
-
-                    enlargedCard.close = () => {
-                        document.removeEventListener('keydown', handleKeyPress);
-                        document.removeEventListener('click', closeEnlargedOutside);
-                        enlargedCard.remove();
-                        enlargedCard = null;
-                    };
-                } else {
-                    const ocButton = document.createElement('button');
-                    ocButton.textContent = lang.ocButton;
-                    ocButton.addEventListener('click', () => {
-                        saveState();
+                    } else if (drawAdditional) {
+                        messageDiv.textContent = lang.eventDrawLimitMessage(factions[faction].eventCardsDrawnThisTurn);
+                    }
+                    if (removeFromGame) {
+                        factions[faction].removedCards.push(factions[faction].hand.splice(index, 1)[0]);
+                        updateRemovedModal();
+                        messageDiv.textContent = messageDiv.textContent ? `${messageDiv.textContent} ${lang.removedMessage}` : lang.removedMessage;
+                    } else {
                         factions[faction].discardPile.push(factions[faction].hand.splice(index, 1)[0]);
                         updateDiscardModal();
-                        closeEnlarged();
-                        updateHandDisplay();
-                        updateDeckRemainingDisplay();
-                        checkNextTurn();
-                        messageDiv.textContent = lang.discardMessage;
-                        setTimeout(() => { messageDiv.textContent = ''; }, 3000);
-                        const cardNumber = parseInt(card.id.split(' ')[2]);
-                        if ((faction === 'allied' && cardNumber === 79) || (faction === 'japanese' && cardNumber === 43)) {
-                            factions[faction].needReshuffle = true;
-                        }
-                        if (faction === 'japanese' && factions[faction].currentTurn === 1) {
-                            factions[faction].cardsPlayedTurn1.push(card.id);
-                        }
-                    });
+                        messageDiv.textContent = messageDiv.textContent ? `${messageDiv.textContent} ${lang.discardMessage}` : lang.discardMessage;
+                    }
+                    if (faction === 'japanese' && factions[faction].currentTurn === 1) {
+                        factions[faction].cardsPlayedTurn1.push(card.id);
+                    }
+                    setTimeout(() => { messageDiv.textContent = ''; }, 3000);
+                    closeEnlarged();
+                    updateHandDisplay();
+                    updateDeckRemainingDisplay();
+                    checkNextTurn();
+                });
 
-                    const eventButton = document.createElement('button');
-                    eventButton.textContent = lang.eventButton;
-                    eventButton.addEventListener('click', () => {
+                const futureButton = document.createElement('button');
+                futureButton.textContent = lang.futureButton;
+                futureButton.disabled = isSpecialJapaneseCard || !!factions[faction].futureOffensive || 
+                    (faction === 'allied' && [79].includes(cardNumber)) || 
+                    (faction === 'japanese' && [43].includes(cardNumber));
+                futureButton.addEventListener('click', () => {
+                    if (!factions[faction].futureOffensive) {
                         saveState();
-                        const property = card.property;
-                        const drawAdditional = property.charAt(0) === '1';
-                        const removeFromGame = property.charAt(1) === '1';
-                        if (drawAdditional && factions[faction].eventCardsDrawnThisTurn < 3) {
-                            if (drawOneCard(faction)) {
-                                messageDiv.textContent = lang.eventDrawMessage(factions[faction].eventCardsDrawnThisTurn);
-                            } else {
-                                messageDiv.textContent = lang.eventDrawFailMessage(
-                                    factions[faction].deck ? factions[faction].deck.length : 0,
-                                    factions[faction].discardPile ? factions[faction].discardPile.length : 0,
-                                    factions[faction].eventCardsDrawnThisTurn
-                                );
-                            }
-                        } else if (drawAdditional) {
-                            messageDiv.textContent = lang.eventDrawLimitMessage(factions[faction].eventCardsDrawnThisTurn);
-                        }
-                        if (removeFromGame) {
-                            factions[faction].removedCards.push(factions[faction].hand.splice(index, 1)[0]);
-                            updateRemovedModal();
-                            messageDiv.textContent = messageDiv.textContent ? `${messageDiv.textContent} ${lang.removedMessage}` : lang.removedMessage;
-                        } else {
-                            factions[faction].discardPile.push(factions[faction].hand.splice(index, 1)[0]);
-                            updateDiscardModal();
-                            messageDiv.textContent = messageDiv.textContent ? `${messageDiv.textContent} ${lang.discardMessage}` : lang.discardMessage;
-                        }
-                        if (faction === 'japanese' && factions[faction].currentTurn === 1) {
-                            factions[faction].cardsPlayedTurn1.push(card.id);
-                        }
-                        setTimeout(() => { messageDiv.textContent = ''; }, 3000);
+                        factions[faction].futureOffensive = factions[faction].hand.splice(index, 1)[0];
+                        updateFutureDisplay();
                         closeEnlarged();
                         updateHandDisplay();
                         updateDeckRemainingDisplay();
                         checkNextTurn();
-                    });
-
-                    const futureButton = document.createElement('button');
-                    futureButton.textContent = lang.futureButton;
-                    const cardNumber = parseInt(card.id.split(' ')[2]);
-                    futureButton.disabled = !!factions[faction].futureOffensive || 
-                        (faction === 'allied' && [79].includes(cardNumber)) || 
-                        (faction === 'japanese' && [43].includes(cardNumber));
-                    futureButton.addEventListener('click', () => {
-                        if (!factions[faction].futureOffensive) {
-                            saveState();
-                            factions[faction].futureOffensive = factions[faction].hand.splice(index, 1)[0];
-                            updateFutureDisplay();
-                            closeEnlarged();
-                            updateHandDisplay();
-                            updateDeckRemainingDisplay();
-                            checkNextTurn();
-                            messageDiv.textContent = lang.futureMessage;
-                            setTimeout(() => { messageDiv.textContent = ''; }, 3000);
-                            if (faction === 'japanese' && factions[faction].currentTurn === 1) {
-                                factions[faction].cardsPlayedTurn1.push(card.id);
-                            }
+                        messageDiv.textContent = lang.futureMessage;
+                        setTimeout(() => { messageDiv.textContent = ''; }, 3000);
+                        if (faction === 'japanese' && factions[faction].currentTurn === 1) {
+                            factions[faction].cardsPlayedTurn1.push(card.id);
                         }
-                    });
+                    }
+                });
 
-                    buttonDiv.appendChild(ocButton);
-                    buttonDiv.appendChild(futureButton);
-                    buttonDiv.appendChild(eventButton);
-                    
+                buttonDiv.appendChild(ocButton);
+                buttonDiv.appendChild(futureButton);
+                buttonDiv.appendChild(eventButton);
 
-                    const handleKeyPress = (e) => {
-                        if (e.key === '1') {
-                            ocButton.click();
-                        } else if (e.key === '3') {
-                            eventButton.click();
-                        } else if (e.key === '2' && !futureButton.disabled) {
-                            futureButton.click();
-                        }
-                    };
-                    document.addEventListener('keydown', handleKeyPress);
+                const handleKeyPress = (e) => {
+                    if (e.key === '1' && !ocButton.disabled) {
+                        ocButton.click();
+                    } else if (e.key === '2' && !futureButton.disabled) {
+                        futureButton.click();
+                    } else if (e.key === '3') {
+                        eventButton.click();
+                    }
+                };
+                document.addEventListener('keydown', handleKeyPress);
 
-                    enlargedCard.close = () => {
-                        document.removeEventListener('keydown', handleKeyPress);
-                        document.removeEventListener('click', closeEnlargedOutside);
-                        enlargedCard.remove();
-                        enlargedCard = null;
-                    };
-                }
+                enlargedCard.close = () => {
+                    document.removeEventListener('keydown', handleKeyPress);
+                    document.removeEventListener('click', closeEnlargedOutside);
+                    enlargedCard.remove();
+                    enlargedCard = null;
+                };
 
                 enlargedCard.appendChild(buttonDiv);
 
@@ -1949,6 +3868,10 @@
                     document.addEventListener('click', closeEnlargedOutside);
                 }, 0);
             }
+
+
+
+
 
 
             function enlargeFutureCard() {
