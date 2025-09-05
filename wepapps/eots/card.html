@@ -552,7 +552,7 @@
                 max-width: 200px;
             }
         }
-        .arcadia-modal-buttons {
+        .arcadia-modal-buttons, .historical-modal-buttons {
             display: flex;
             gap: 10px;
             justify-content: center;
@@ -612,6 +612,38 @@
         }
         #allied-logistics-score.hidden, #japanese-logistics-score.hidden {
             display: none;
+        }
+        #historical-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+        #historical-modal-content {
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            max-width: 80%;
+            max-height: 80%;
+            overflow: auto;
+        }
+        #historical-modal-yes, #historical-modal-no {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 10px;
+            background: #3c3f41;
+            color: #d4c4a1;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            visibility: visible;
+            opacity: 1;
         }
         }
     </style>
@@ -702,6 +734,13 @@
                     <button id="arcadia-no">아니오</button>
                 </div>
             </div>
+            <div id="historical-modal" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0, 0, 0, 0.8); color: #d4c4a1; padding: 20px 40px; border-radius: 10px; font-size: 24px; z-index: 20; text-align: center;">
+                <div id="historical-modal-content"></div>
+                <div class="historical-modal-buttons">
+                    <button id="historical-modal-yes">예</button>
+                    <button id="historical-modal-no">아니오</button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -713,6 +752,7 @@
             const numCardsJapanese = 86;
             const placeholderImage = 'card_image/placeholder.png';
             let isEnglish = false;
+            let isHistoricalOpening = false;
 
             const languageData = {
             ko: {
@@ -763,7 +803,10 @@
                 arcadiaModalMessage: '아카디아 회담[4번] 카드를 뽑으시겠습니까?',
                 arcadiaYes: '예',
                 arcadiaNo: '아니오',
+                yes: "예",
+                no: '아니오',
                 logisticsScore: '병참 평가: ',
+                historicalModal: "역사적 변형 규칙을 적용하시겠습니까?(#3, #47, #59)",
                 alliedDrawMessage: (cards, turn, base, wie, china, india, australia, reductions, passes) =>
                     `연합군 - 뽑을 카드: ${cards} (턴: ${turn}, 기본: ${base}, WIE 레벨: ${wie}, 중국: ${china ? '항복' : '미항복'}, 인도: ${india ? '항복' : '미항복'}, 호주: ${australia ? '항복' : '미항복'}, 감소: ${reductions}, 패스: ${passes})`,
                 japaneseDrawMessage: (cards, turn, base, submarine, bombing, reductions, passes) =>
@@ -823,6 +866,9 @@
                 arcadiaModalMessage: 'Would you like to draw the Arcadia Conference [Card 4]?',
                 arcadiaYes: 'Yes',
                 arcadiaNo: 'No',
+                yes: "Yes",
+                no: 'No',
+                historicalModal: "Want to start with 'Historical Opening' setting?: start with cards #3, #47, #59",
                 logisticsScore: 'Logistics Score: ',
                 alliedDrawMessage: (cards, turn, base, wie, china, india, australia, reductions, passes) =>
                     `Allies - Cards to draw: ${cards} (Turn: ${turn}, Base: ${base}, WIE: ${wie}, China: ${china ? 'Surrendered' : 'Not Surrendered'}, India: ${india ? 'Surrendered' : 'Not Surrendered'}, Australia: ${australia ? 'Surrendered' : 'Not Surrendered'}, Reductions: ${reductions}, Passes: ${passes})`,
@@ -945,6 +991,10 @@
             const saveGameButton = document.getElementById('save-game');
             const loadGameButton = document.getElementById('load-game');
             const loadGameInput = document.getElementById('load-game-input');
+            const historicalModal = document.getElementById('historical-modal');
+            const historicalModalContent = document.getElementById('historical-modal-content');
+            const historicalModalYes = document.getElementById('historical-modal-yes');
+            const historicalModalNo = document.getElementById('historical-modal-no');
 
             updateLanguage();
 
@@ -1031,6 +1081,7 @@
 
             function updateLanguage() {
                 const lang = isEnglish ? languageData.en : languageData.ko;
+                console.log(`updateLanguage: isEnglish=${isEnglish}, lang.historicalModal=${lang.historicalModal}`);
 
                 // 초기 화면 요소
                 const mainTitle = document.getElementById('main-title');
@@ -1096,6 +1147,44 @@
                 
                 const removedModalClose = document.getElementById('removed-modal-close');
                 if (removedModalClose) removedModalClose.textContent = lang.removedModalClose;
+
+                const historicalModalContent = document.getElementById('historical-modal-content');
+                if (historicalModalContent) {
+                    historicalModalContent.textContent = lang.historicalModal;
+                    console.log('Set historicalModalContent:', historicalModalContent.textContent);
+                } else {
+                    console.warn('historical-modal-content not found in DOM');
+                }
+
+                const historicalModalYes = document.getElementById('historical-modal-yes');
+                if (historicalModalYes) {
+                    historicalModalYes.textContent = lang.yes;
+                    console.log('Set historicalModalYes:', historicalModalYes.textContent);
+                    // 덮어씯우기 방지: 지연 시간 증가 및 호출 스택 추적
+                    setTimeout(() => {
+                        if (historicalModalYes.textContent !== lang.yes) {
+                            console.warn('historicalModalYes text overwritten:', historicalModalYes.textContent, new Error().stack);
+                            historicalModalYes.textContent = lang.yes;
+                        }
+                    }, 200);
+                } else {
+                    console.warn('historical-modal-yes not found in DOM');
+                }
+
+                const historicalModalNo = document.getElementById('historical-modal-no');
+                if (historicalModalNo) {
+                    historicalModalNo.textContent = lang.no;
+                    console.log('Set historicalModalNo:', historicalModalNo.textContent);
+                    // 덮어씯우기 방지: 지연 시간 증가 및 호출 스택 추적
+                    setTimeout(() => {
+                        if (historicalModalNo.textContent !== lang.no) {
+                            console.warn('historicalModalNo text overwritten:', historicalModalNo.textContent, new Error().stack);
+                            historicalModalNo.textContent = lang.no;
+                        }
+                    }, 200);
+                } else {
+                    console.warn('historical-modal-no not found in DOM');
+                }
                 
                 const japaneseUsePass = document.getElementById('japanese-use-pass');
                 if (japaneseUsePass) japaneseUsePass.textContent = lang.japaneseUsePass;
@@ -1181,10 +1270,17 @@
             factions.japanese.deck = initializeDeck('japanese');
 
             function shuffle(array) {
-                for (let i = array.length - 1; i > 0; i--) {
-                    const j = Math.floor(Math.random() * (i + 1));
-                    [array[i], array[j]] = [array[j], array[i]];
+                if (!array || !Array.isArray(array)) {
+                    console.error('Shuffle received invalid array:', array);
+                    return [];
                 }
+                const shuffled = [...array];
+                for (let i = shuffled.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+                }
+                console.log('Shuffled deck:', shuffled.map(card => card.id));
+                return shuffled;
             }
 
             function saveState() {
@@ -1231,6 +1327,7 @@
                 factions.allied = { deck: initializeDeck('allied'), hand: [], futureOffensive: null, discardPile: [], removedCards: [], currentTurn: 1, passes: 0, stateHistory: [], needReshuffle: false, eventCardsDrawnThisTurn: 0 };
                 factions.japanese = { deck: initializeDeck('japanese'), hand: [], futureOffensive: null, discardPile: [], removedCards: [], currentTurn: 1, passes: 0, stateHistory: [], needReshuffle: false, cardsPlayedTurn1: [], eventCardsDrawnThisTurn: 0 };
                 isGameStarted = false; // 명시적으로 초기화
+                isHistoricalOpening = false; // 수정: 역사적 변형 초기화
                 currentFaction = 'japanese';
                 updateUI(); // UI 즉시 갱신
                 gameContainer.style.display = 'none';
@@ -1375,9 +1472,14 @@
                 const saveGameButton = document.getElementById('save-game');
                 const loadGameButton = document.getElementById('load-game');
                 const loadGameInput = document.getElementById('load-game-input');
+                const historicalModal = document.getElementById('historical-modal');
+
 
                 turnDisplay.textContent = `${lang.turnDisplay}${faction.currentTurn}`;
                 passDisplay.textContent = `${lang.passDisplay}${faction.passes}`;
+
+                const historicalModalYes = document.getElementById('historical-modal-yes');
+                const historicalModalNo = document.getElementById('historical-modal-no');
 
 
                 const alliedLogisticsSpan = document.getElementById('allied-logistics-score');
@@ -1460,6 +1562,26 @@
                     messageDiv.textContent = '';
                 }
 
+                const isHistoricalModalVisible = historicalModal && historicalModal.style.display === 'block';
+                console.log('Before updateHandDisplay:', historicalModalYes?.textContent, historicalModalNo?.textContent);
+                updateHandDisplay();
+                console.log('After updateHandDisplay:', historicalModalYes?.textContent, historicalModalNo?.textContent);
+                console.log('Before updateFutureDisplay:', historicalModalYes?.textContent, historicalModalNo?.textContent);
+                updateFutureDisplay();
+                console.log('After updateFutureDisplay:', historicalModalYes?.textContent, historicalModalNo?.textContent);
+
+                // 수정: historical-modal 표시 중에는 updateDiscardModal, updateRemovedModal 호출 제한
+                if (!isHistoricalModalVisible) {
+                    console.log('Before updateDiscardModal:', historicalModalYes?.textContent, historicalModalNo?.textContent);
+                    updateDiscardModal();
+                    console.log('After updateDiscardModal:', historicalModalYes?.textContent, historicalModalNo?.textContent);
+                    console.log('Before updateRemovedModal:', historicalModalYes?.textContent, historicalModalNo?.textContent);
+                    updateRemovedModal();
+                    console.log('After updateRemovedModal:', historicalModalYes?.textContent, historicalModalNo?.textContent);
+                } else {
+                    console.log('Skipped updateDiscardModal and updateRemovedModal due to historical-modal visibility');
+                }
+
                 updateHandDisplay();
                 updateFutureDisplay();
                 updateDiscardModal();
@@ -1467,6 +1589,14 @@
                 updateDeckRemainingDisplay();
                 discardModal.style.display = 'none';
                 removedModal.style.display = 'none';
+                if (historicalModalYes && historicalModalYes.textContent !== lang.yes) {
+                    console.warn('historicalModalYes text overwritten in updateUI:', historicalModalYes.textContent, new Error().stack);
+                    historicalModalYes.textContent = lang.yes;
+                }
+                if (historicalModalNo && historicalModalNo.textContent !== lang.no) {
+                    console.warn('historicalModalNo text overwritten in updateUI:', historicalModalNo.textContent, new Error().stack);
+                    historicalModalNo.textContent = lang.no;
+                }
             }
 
 
@@ -1822,7 +1952,36 @@
                             updateHandDisplay();
                             updateDeckRemainingDisplay();
 
-                            if (currentFaction === 'allied' && faction.currentTurn === 2) {
+                            if (currentFaction === 'japanese' && faction.currentTurn === 2 && !isHistoricalOpening) {
+                                const historicalModalYes = document.getElementById('historical-modal-yes');
+                                const historicalModalNo = document.getElementById('historical-modal-no');
+                                historicalModal.style.display = 'block';
+                                // 수정: 모달 표시 시 텍스트 즉시 설정
+                                historicalModalContent.textContent = lang.historicalModal;
+                                if (historicalModalYes) {
+                                    historicalModalYes.textContent = lang.yes;
+                                    console.log('Set historicalModalYes (nextTurn):', historicalModalYes.textContent);
+                                } else {
+                                    console.warn('historical-modal-yes not found in DOM (nextTurn)');
+                                }
+                                if (historicalModalNo) {
+                                    historicalModalNo.textContent = lang.no;
+                                    console.log('Set historicalModalNo (nextTurn):', historicalModalNo.textContent);
+                                } else {
+                                    console.warn('historical-modal-no not found in DOM (nextTurn)');
+                                }
+                                // 덮어씯우기 방지: 지연 텍스트 재설정
+                                setTimeout(() => {
+                                    if (historicalModalYes && historicalModalYes.textContent !== lang.yes) {
+                                        console.warn('historicalModalYes text overwritten (nextTurn):', historicalModalYes.textContent, new Error().stack);
+                                        historicalModalYes.textContent = lang.yes;
+                                    }
+                                    if (historicalModalNo && historicalModalNo.textContent !== lang.no) {
+                                        console.warn('historicalModalNo text overwritten (nextTurn):', historicalModalNo.textContent, new Error().stack);
+                                        historicalModalNo.textContent = lang.no;
+                                    }
+                                }, 200);
+                            } else if (currentFaction === 'allied' && faction.currentTurn === 2) {
                                 const arcadiaModal = document.getElementById('arcadia-modal');
                                 const arcadiaModalContent = document.getElementById('arcadia-modal-content');
                                 const arcadiaYes = document.getElementById('arcadia-yes');
@@ -1849,6 +2008,25 @@
                 });
             }
 
+            if (historicalModalYes) {
+                historicalModalYes.addEventListener('click', () => {
+                    isHistoricalOpening = true;
+                    historicalModal.style.display = 'none';
+                    drawHistoricalOpeningCards('japanese');
+                    updateHandDisplay();
+                    updateDeckRemainingDisplay();
+                });
+            }
+            if (historicalModalNo) {
+                historicalModalNo.addEventListener('click', () => {
+                    isHistoricalOpening = false;
+                    historicalModal.style.display = 'none';
+                    drawCards('japanese', 7);
+                    updateHandDisplay();
+                    updateDeckRemainingDisplay();
+                });
+            }
+
             if (undoButton) {
                 undoButton.addEventListener('click', () => {
                     undoButton.style.background = '#5b5e60';
@@ -1871,6 +2049,45 @@
                     }, 200);
                     resetGame();
                 });
+            }
+
+            function drawHistoricalOpeningCards(faction) {
+                const deck = factions[faction].deck;
+                const hand = [];
+                const historicalCards = ['JP Card 3', 'JP Card 47', 'JP Card 59']; // 카드 ID 수정
+
+                // 디버깅: 덱 상태 확인
+                console.log(`Deck for ${faction}:`, deck ? deck.map(card => card.id) : 'undefined');
+                
+                // 덱 유효성 확인
+                if (!deck || !Array.isArray(deck)) {
+                    console.error(`Deck for ${faction} is undefined or not an array`);
+                    return;
+                }
+
+                // #3, #47, #59 카드 선택
+                historicalCards.forEach(cardId => {
+                    const index = deck.findIndex(card => card.id === cardId);
+                    if (index !== -1) {
+                        hand.push(deck[index]);
+                        deck.splice(index, 1);
+                    } else {
+                        console.error(`Card ${cardId} not found in deck`);
+                    }
+                });
+
+                // 나머지 4장 랜덤 뽑기
+                const shuffledDeck = shuffle(deck);
+                if (shuffledDeck && Array.isArray(shuffledDeck)) {
+                    const remainingCards = shuffledDeck.slice(0, 4);
+                    factions[faction].hand = hand.concat(remainingCards);
+                    factions[faction].deck = deck.filter(card => !remainingCards.includes(card));
+                } else {
+                    console.error('Shuffled deck is undefined or not an array');
+                }
+
+                // 디버깅: 최종 손패 확인
+                console.log(`Japanese hand after draw:`, factions[faction].hand.map(card => card.id));
             }
 
             function drawOneCard(faction) {
@@ -2140,7 +2357,7 @@
                     updateDeckRemainingDisplay();
                     checkNextTurn();
                     messageDiv.textContent = lang.discardMessage;
-                    setTimeout(() => { messageDiv.textContent = ''; }, 3000);
+                    // setTimeout(() => { messageDiv.textContent = ''; }, 3000);
                     const cardNumber = parseInt(card.id.split(' ')[2], 10);
                     if ((faction === 'allied' && cardNumber === 79) || (faction === 'japanese' && cardNumber === 43)) {
                         factions[faction].needReshuffle = true;
@@ -2184,7 +2401,7 @@
                     if (faction === 'japanese' && factions[faction].currentTurn === 1) {
                         factions[faction].cardsPlayedTurn1.push(card.id);
                     }
-                    setTimeout(() => { messageDiv.textContent = ''; }, 3000);
+                    // setTimeout(() => { messageDiv.textContent = ''; }, 3000);
                     closeEnlarged();
                     updateHandDisplay();
                     updateDeckRemainingDisplay();
