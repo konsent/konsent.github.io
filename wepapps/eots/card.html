@@ -1897,6 +1897,34 @@
                 }
             }
 
+            // function createCardElem(card, clickHandler) {
+            //     const cardElem = document.createElement('div');
+            //     cardElem.classList.add('card');
+            //     const placeholder = document.createElement('div');
+            //     placeholder.classList.add('placeholder');
+            //     placeholder.textContent = isEnglish ? 'Loading image...' : '이미지 로드 중...';
+            //     cardElem.appendChild(placeholder);
+
+            //     const img = document.createElement('img');
+            //     img.alt = card.id;
+            //     img.src = card.image;
+            //     console.log(`이미지 로드 시도: ${card.id}, 경로: ${img.src}`);
+            //     img.onerror = () => {
+            //         img.src = placeholderImage;
+            //         console.log(`이미지 로드 실패, 플레이스홀더 사용: ${card.id}, 경로: ${img.src}`);
+            //     };
+            //     img.onload = () => {
+            //         cardElem.removeChild(placeholder);
+            //         img.classList.add('loaded');
+            //         cardElem.appendChild(img);
+            //     };
+            //     img.addEventListener('contextmenu', (e) => e.preventDefault());
+            //     if (clickHandler) {
+            //         cardElem.addEventListener('click', clickHandler);
+            //     }
+            //     return cardElem;
+            // }
+
             function createCardElem(card, clickHandler) {
                 const cardElem = document.createElement('div');
                 cardElem.classList.add('card');
@@ -1919,11 +1947,57 @@
                     cardElem.appendChild(img);
                 };
                 img.addEventListener('contextmenu', (e) => e.preventDefault());
+
+                let touchTimer;
+                let isDragging = false;
+                let startX, startY;
+
+                // 터치 시작: 500ms 타이머 설정
+                cardElem.addEventListener('touchstart', (e) => {
+                    startX = e.touches[0].clientX;
+                    startY = e.touches[0].clientY;
+                    touchTimer = setTimeout(() => {
+                        isDragging = true;
+                        console.log('Drag started:', card.id);
+                        // 드래그 로직 시작 (필요 시 별도 handleDrag 함수 호출)
+                        // 예: cardElem.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+                    }, 500); // 500ms 지연
+                });
+
+                // 터치 이동: 드래그 활성화 시 처리
+                cardElem.addEventListener('touchmove', (e) => {
+                    if (isDragging) {
+                        const deltaX = e.touches[0].clientX - startX;
+                        const deltaY = e.touches[0].clientY - startY;
+                        if (Math.abs(deltaX) > 10 || Math.abs(deltaY) > 10) { // 이동 거리 임계값
+                            console.log('Dragging:', card.id, `dx=${deltaX}, dy=${deltaY}`);
+                            // 드래그 로직 (기존 handleDrag가 있다면 호출)
+                            // 예: cardElem.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+                        }
+                    }
+                });
+
+                // 터치 종료: 클릭 또는 드래그 처리
+                cardElem.addEventListener('touchend', (e) => {
+                    clearTimeout(touchTimer);
+                    if (!isDragging) {
+                        console.log('Card clicked:', card.id);
+                        if (clickHandler) clickHandler(); // 짧은 터치 → 클릭
+                    }
+                    isDragging = false;
+                });
+
+                // 데스크톱 클릭 유지
                 if (clickHandler) {
-                    cardElem.addEventListener('click', clickHandler);
+                    cardElem.addEventListener('click', () => {
+                        console.log('Card clicked (desktop):', card.id);
+                        clickHandler();
+                    });
                 }
+
                 return cardElem;
             }
+
 
             function updateHandDisplay() {
                 const faction = factions[currentFaction];
