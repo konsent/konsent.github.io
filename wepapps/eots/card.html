@@ -2525,10 +2525,17 @@
                 if (faction === 'japanese' && !hasOffensiveCard && isCard47Available && card.id !== 'JP Card 1' && card.id !== 'JP Card 2') {
                     const props = japaneseCardProperties[card.id] || [0, 0, 0, 0];
                     console.log(`Card props for ${card.id}:`, props); // 디버깅 로그
-                    if (props[1] === 3 || (factions[faction].hand.every(c => {
-                        const p = japaneseCardProperties[c.id] || [0, 0, 0, 0];
-                        return p[1] < 3;
-                    }) && props[1] < 3)) {
+                    console.log(`japaneseCardProperties structure:`, japaneseCardProperties); // 구조 확인
+                    
+                    const hasOC3Card = factions[faction].hand.some(c => {
+                        const cn = parseInt(c.id.split(' ')[2], 10) - 1; // 1-based to 0-based
+                        const p = japaneseCardProperties[cn] || [0, 0, 0, 0];
+                        const oc = p[1];
+                        console.log(`Checking OC for ${c.id} (number ${cn + 1}): oc=${oc}, type=${typeof oc}`); // 디버깅 로그
+                        return oc == '3' || oc === 3; // 문자열 또는 숫자 비교
+                    });
+                    console.log(`hasOC3Card: ${hasOC3Card}`); // 디버깅 로그
+                    if (props[1] == '3' || props[1] === 3 || (!hasOC3Card && (props[1] == '1' || props[1] === 1 || props[1] == '2' || props[1] === 2))) { // OC 3 또는 (OC 3 없고 OC 1,2)
                         const replaceWith47Button = document.createElement('button');
                         replaceWith47Button.textContent = isEnglish ? 'Replace with #47' : '#47번으로 교체';
                         replaceWith47Button.addEventListener('click', () => {
@@ -2539,17 +2546,18 @@
                                 condition: japaneseCardProperties[46]?.condition || 0,
                                 drawStrategic: japaneseCardProperties[46]?.drawStrategic || 0,
                                 removeOnEvent: japaneseCardProperties[46]?.removeOnEvent || 0,
-                                image: getValidImagePath('jp', 47, false) // 명시적 이미지 경로
+                                image: getValidImagePath('jp', 47, false)
                             });
                             console.log(`Added JP Card 47 to hand, image path: ${getValidImagePath('jp', 47, false)}`);
                             closeEnlarged();
-                            updateHandDisplay();
+                            updateHandDisplay(); // 병참 수치 업데이트 포함
                             updateDeckRemainingDisplay();
                             checkNextTurn();
                             messageDiv.textContent = isEnglish ? 'Replaced with #47' : '#47번으로 교체 완료';
                             setTimeout(() => { messageDiv.textContent = ''; }, 3000);
+                            console.log(`Logistics score after replace: ${factions[faction].logisticsScore}`);
                         });
-                        buttonDiv.appendChild(replaceWith47Button); // 추가된 코드
+                        buttonDiv.appendChild(replaceWith47Button);
                     }
                 }
 
