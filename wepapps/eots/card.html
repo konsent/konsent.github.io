@@ -2498,13 +2498,13 @@
                 if (faction === 'japanese') {
                     try {
                         hasOffensiveCard = factions[faction].hand.some(c => {
-                            const cn = parseInt(c.id.split(' ')[2], 10) - 1; // 1-based to 0-based
+                            const cn = parseInt(c.id.split(' ')[2], 10) - 1;
                             const props = japaneseCardProperties[cn] || '0000000';
                             if (!props) {
                                 console.warn(`japaneseCardProperties missing for cardId: ${c.id}, index: ${cn}`);
                                 return false;
                             }
-                            console.log(`Checking offensive for ${c.id}: props=${props}`); // 디버깅
+                            console.log(`Checking offensive for ${c.id}: props=${props}`);
                             return props[0] == '1' && props[2] != '0' && props[3] != '0';
                         });
                         isCard47Available = !(
@@ -2528,15 +2528,23 @@
                 if (faction === 'japanese' && !hasOffensiveCard && isCard47Available && card.id !== 'JP Card 1' && card.id !== 'JP Card 2') {
                     const cardNumber = parseInt(card.id.split(' ')[2], 10);
                     const props = japaneseCardProperties[cardNumber - 1] || '0000000';
-                    console.log(`Card props for ${card.id} (number ${cardNumber}):`, props);
+                    console.log(`Card props for ${card.id} (number ${cardNumber}):`, props, `logistics=${parseInt(props[2] || 0) + parseInt(props[3] || 0)}`);
                     const hasOC3Card = factions[faction].hand.some(c => {
                         const cn = parseInt(c.id.split(' ')[2], 10) - 1;
                         const p = japaneseCardProperties[cn] || '0000000';
                         console.log(`Checking OC for ${c.id} (number ${cn + 1}): oc=${p[1]}, type=${typeof p[1]}`);
                         return p[1] == '3';
                     });
-                    console.log(`hasOC3Card: ${hasOC3Card}`);
-                    if (props[1] == '3' || (!hasOC3Card && (props[1] == '1' || props[1] == '2'))) {
+                    const hasOffensiveCardWithNonZeroLogistics = factions[faction].hand.some(c => {
+                        const cn = parseInt(c.id.split(' ')[2], 10) - 1;
+                        const p = japaneseCardProperties[cn] || '0000000';
+                        const logistics = parseInt(p[2] || 0) + parseInt(p[3] || 0);
+                        console.log(`Checking logistics for ${c.id}: props=${p}, logistics=${logistics}`);
+                        return p[0] == '1' && (p[2] != '0' || p[3] != '0');
+                    });
+                    const cardIsOffensiveWithNonZeroLogistics = props[0] == '1' && (props[2] != '0' || props[3] != '0');
+                    console.log(`hasOC3Card: ${hasOC3Card}, hasOffensiveCardWithNonZeroLogistics: ${hasOffensiveCardWithNonZeroLogistics}, cardIsOffensiveWithNonZeroLogistics: ${cardIsOffensiveWithNonZeroLogistics}`);
+                    if (!hasOffensiveCardWithNonZeroLogistics && !cardIsOffensiveWithNonZeroLogistics && (props[1] == '3' || (!hasOC3Card && (props[1] == '1' || props[1] == '2')))) {
                         const replaceWith47Button = document.createElement('button');
                         replaceWith47Button.textContent = isEnglish ? 'Replace with #47' : '#47번으로 교체';
                         replaceWith47Button.addEventListener('click', () => {
@@ -2544,11 +2552,12 @@
                             factions[faction].hand.splice(index, 1);
                             factions[faction].hand.push({
                                 id: 'JP Card 47',
-                                condition: 0, // 임시, 실제 데이터 필요
+                                condition: 0, // 임시
                                 drawStrategic: 0, // 임시
                                 removeOnEvent: 0, // 임시
                                 image: getValidImagePath('jp', 47, false)
                             });
+                            // 카드 정렬: 공세 카드 우선, 번호순
                             factions[faction].hand.sort((a, b) => {
                                 const aCn = parseInt(a.id.split(' ')[2], 10) - 1;
                                 const bCn = parseInt(b.id.split(' ')[2], 10) - 1;
@@ -2557,22 +2566,23 @@
                                 const aIsOffensive = aProps[0] == '1' ? 0 : 1;
                                 const bIsOffensive = bProps[0] == '1' ? 0 : 1;
                                 if (aIsOffensive !== bIsOffensive) {
-                                    return aIsOffensive - bIsOffensive; // 공세 카드 우선
+                                    return aIsOffensive - bIsOffensive;
                                 }
-                                return aCn - bCn; // 번호순
+                                return aCn - bCn;
                             });
                             console.log(`Hand after replace and sort:`, factions[faction].hand.map(c => ({
                                 id: c.id,
                                 isOffensive: (japaneseCardProperties[parseInt(c.id.split(' ')[2], 10) - 1] || '0000000')[0] == '1'
                             })));
-                            console.log(`Added JP Card 47 to hand, image path: ${getValidImagePath('jp', 47, false)}`);
+                            // 병참 평가 업데이트
+                            factions[faction].logisticsScore = calculateLogisticsScore(faction);
+                            console.log(`Logistics score after replace: ${factions[faction].logisticsScore}`);
                             closeEnlarged();
                             updateHandDisplay();
                             updateDeckRemainingDisplay();
                             checkNextTurn();
                             messageDiv.textContent = isEnglish ? 'Replaced with #47' : '#47번으로 교체 완료';
                             setTimeout(() => { messageDiv.textContent = ''; }, 3000);
-                            console.log(`Logistics score after replace: ${factions[faction].logisticsScore}`);
                         });
                         buttonDiv.appendChild(replaceWith47Button);
                     }
