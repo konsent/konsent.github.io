@@ -2549,6 +2549,22 @@
                                 removeOnEvent: 0, // 임시
                                 image: getValidImagePath('jp', 47, false)
                             });
+                            factions[faction].hand.sort((a, b) => {
+                                const aCn = parseInt(a.id.split(' ')[2], 10) - 1;
+                                const bCn = parseInt(b.id.split(' ')[2], 10) - 1;
+                                const aProps = japaneseCardProperties[aCn] || '0000000';
+                                const bProps = japaneseCardProperties[bCn] || '0000000';
+                                const aIsOffensive = aProps[0] == '1' ? 0 : 1;
+                                const bIsOffensive = bProps[0] == '1' ? 0 : 1;
+                                if (aIsOffensive !== bIsOffensive) {
+                                    return aIsOffensive - bIsOffensive; // 공세 카드 우선
+                                }
+                                return aCn - bCn; // 번호순
+                            });
+                            console.log(`Hand after replace and sort:`, factions[faction].hand.map(c => ({
+                                id: c.id,
+                                isOffensive: (japaneseCardProperties[parseInt(c.id.split(' ')[2], 10) - 1] || '0000000')[0] == '1'
+                            })));
                             console.log(`Added JP Card 47 to hand, image path: ${getValidImagePath('jp', 47, false)}`);
                             closeEnlarged();
                             updateHandDisplay();
