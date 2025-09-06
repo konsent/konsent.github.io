@@ -945,7 +945,8 @@
                                   '1201101','5200011','2200011',
                                   '3300000','1204000','2100010',
                                   '2203101','2100010'];
-                return patterns[i % patterns.length];
+                // return patterns[i % patterns.length];
+                return patterns[i] || '0000000'; // 문자열 유지
             });
             
             let factions = {
@@ -2497,19 +2498,21 @@
                 if (faction === 'japanese') {
                     try {
                         hasOffensiveCard = factions[faction].hand.some(c => {
-                            const props = japaneseCardProperties[c.id];
+                            const cn = parseInt(c.id.split(' ')[2], 10) - 1; // 1-based to 0-based
+                            const props = japaneseCardProperties[cn] || '0000000';
                             if (!props) {
-                                console.warn(`japaneseCardProperties missing for cardId: ${c.id}`);
+                                console.warn(`japaneseCardProperties missing for cardId: ${c.id}, index: ${cn}`);
                                 return false;
                             }
-                            return props[0] === 1 && props[2] !== 0 && props[3] !== 0;
+                            console.log(`Checking offensive for ${c.id}: props=${props}`); // 디버깅
+                            return props[0] == '1' && props[2] != '0' && props[3] != '0';
                         });
                         isCard47Available = !(
                             factions.japanese.hand.some(c => c.id === 'JP Card 47') ||
                             factions.japanese.discardPile.some(c => c.id === 'JP Card 47') ||
                             factions.japanese.removedCards.some(c => c.id === 'JP Card 47')
                         );
-                        console.log(`hasOffensiveCard: ${hasOffensiveCard}, isCard47Available: ${isCard47Available}`); // 디버깅 로그 추가
+                        console.log(`hasOffensiveCard: ${hasOffensiveCard}, isCard47Available: ${isCard47Available}`);
                     } catch (e) {
                         console.error(`Error in hasOffensiveCard: ${e.message}`, e.stack);
                         hasOffensiveCard = false;
@@ -2523,34 +2526,32 @@
 
                 
                 if (faction === 'japanese' && !hasOffensiveCard && isCard47Available && card.id !== 'JP Card 1' && card.id !== 'JP Card 2') {
-                    const props = japaneseCardProperties[card.id] || [0, 0, 0, 0];
-                    console.log(`Card props for ${card.id}:`, props); // 디버깅 로그
-                    console.log(`japaneseCardProperties structure:`, japaneseCardProperties); // 구조 확인
-                    
+                    const cardNumber = parseInt(card.id.split(' ')[2], 10);
+                    const props = japaneseCardProperties[cardNumber - 1] || '0000000';
+                    console.log(`Card props for ${card.id} (number ${cardNumber}):`, props);
                     const hasOC3Card = factions[faction].hand.some(c => {
-                        const cn = parseInt(c.id.split(' ')[2], 10) - 1; // 1-based to 0-based
-                        const p = japaneseCardProperties[cn] || [0, 0, 0, 0];
-                        const oc = p[1];
-                        console.log(`Checking OC for ${c.id} (number ${cn + 1}): oc=${oc}, type=${typeof oc}`); // 디버깅 로그
-                        return oc == '3' || oc === 3; // 문자열 또는 숫자 비교
+                        const cn = parseInt(c.id.split(' ')[2], 10) - 1;
+                        const p = japaneseCardProperties[cn] || '0000000';
+                        console.log(`Checking OC for ${c.id} (number ${cn + 1}): oc=${p[1]}, type=${typeof p[1]}`);
+                        return p[1] == '3';
                     });
-                    console.log(`hasOC3Card: ${hasOC3Card}`); // 디버깅 로그
-                    if (props[1] == '3' || props[1] === 3 || (!hasOC3Card && (props[1] == '1' || props[1] === 1 || props[1] == '2' || props[1] === 2))) { // OC 3 또는 (OC 3 없고 OC 1,2)
+                    console.log(`hasOC3Card: ${hasOC3Card}`);
+                    if (props[1] == '3' || (!hasOC3Card && (props[1] == '1' || props[1] == '2'))) {
                         const replaceWith47Button = document.createElement('button');
                         replaceWith47Button.textContent = isEnglish ? 'Replace with #47' : '#47번으로 교체';
                         replaceWith47Button.addEventListener('click', () => {
                             saveState();
-                            factions[faction].hand.splice(index, 1); // 카드 제거
+                            factions[faction].hand.splice(index, 1);
                             factions[faction].hand.push({
                                 id: 'JP Card 47',
-                                condition: japaneseCardProperties[46]?.condition || 0,
-                                drawStrategic: japaneseCardProperties[46]?.drawStrategic || 0,
-                                removeOnEvent: japaneseCardProperties[46]?.removeOnEvent || 0,
+                                condition: 0, // 임시, 실제 데이터 필요
+                                drawStrategic: 0, // 임시
+                                removeOnEvent: 0, // 임시
                                 image: getValidImagePath('jp', 47, false)
                             });
                             console.log(`Added JP Card 47 to hand, image path: ${getValidImagePath('jp', 47, false)}`);
                             closeEnlarged();
-                            updateHandDisplay(); // 병참 수치 업데이트 포함
+                            updateHandDisplay();
                             updateDeckRemainingDisplay();
                             checkNextTurn();
                             messageDiv.textContent = isEnglish ? 'Replaced with #47' : '#47번으로 교체 완료';
