@@ -746,6 +746,7 @@
 
     <script>
         let isGameStarted = false;
+        
 
         document.addEventListener('DOMContentLoaded', () => {
             const numCardsAllied = 84;
@@ -1773,6 +1774,7 @@
                                 cardsDrawn++;
                             }
                         }
+                        faction.deck = shuffle(faction.deck); // 추가된 코드: 랜덤성을 위해 덱 셔플
                         while (cardsDrawn < finalCardsToDraw) {
                             if (faction.deck.length === 0) {
                                 if (faction.discardPile.length === 0) {
@@ -1827,6 +1829,7 @@
                         faction.deck = faction.deck.filter(card => card.id !== `${prefix} 1` && card.id !== `${prefix} 2`);
                         cardsDrawn = faction.hand.length;
                     } else {
+                        faction.deck = shuffle(faction.deck); // 추가된 코드: 랜덤성을 위해 덱 셔플
                         while (cardsDrawn < finalCardsToDraw) {
                             if (faction.deck.length === 0) {
                                 if (faction.discardPile.length === 0) {
@@ -2091,27 +2094,77 @@
             }
 
             function drawOneCard(faction) {
-                if (!factions[faction]) {
-                    console.error(`Faction ${faction} not found`);
-                    return false;
-                }
                 if (!factions[faction].deck) {
-                    console.error(`Deck for ${faction} is undefined`);
-                    factions[faction].deck = []; // 안전하게 빈 배열로 초기화
-                }
-                if (factions[faction].deck.length > 0) {
-                    const card = factions[faction].deck.shift();
-                    factions[faction].hand.push({
-                        ...card,
-                        image: getValidImagePath(faction, parseInt(card.id.split(' ')[2]))
-                    });
-                    factions[faction].eventCardsDrawnThisTurn++;
-                    console.log(`Card drawn for ${faction}: ${card.id}, hand:`, factions[faction].hand);
-                    return true;
-                } else {
-                    console.log(`No cards to draw for ${faction}: deck empty`);
+                    console.error(`No deck for faction: ${faction}`);
                     return false;
                 }
+
+                // 덱이 비었을 때 discardPile을 셔플하여 덱으로 변환
+                if (factions[faction].deck.length === 0) {
+                    if (factions[faction].discardPile.length === 0) {
+                        console.warn(`No cards in deck or discard pile for ${faction}`);
+                        return false;
+                    }
+                    factions[faction].deck = [...factions[faction].discardPile];
+                    factions[faction].discardPile = [];
+                    // Fisher-Yates 셔플
+                    for (let i = factions[faction].deck.length - 1; i > 0; i--) {
+                        const j = Math.floor(Math.random() * (i + 1));
+                        [factions[faction].deck[i], factions[faction].deck[j]] = [factions[faction].deck[j], factions[faction].deck[i]];
+                    }
+                    console.log(`Deck reshuffled for ${faction}:`, factions[faction].deck); // 디버깅 로그
+                }
+
+                // 플래그 동적 설정
+                const isArcadiaModalActive = document.getElementById('arcadia-modal')?.style.display !== 'none'; // 아카디아 모달 표시 여부
+                const isHistoricalVariant = window.gameSettings?.historicalVariant || false; // 실제 구현에 따라 수정 필요
+                console.log(`isArcadiaModalActive: ${isArcadiaModalActive}, isHistoricalVariant: ${isHistoricalVariant}`); // 디버깅 로그
+                let drawnCard;
+
+                if (faction === 'allied' && isArcadiaModalActive) {
+                    // 아카디아 회담 선택 시 AL Card 80 + 81~84번 중 하나
+                    console.log(`Arcadia draw for allied`);
+                    const arcadiaCards = factions[faction].deck.filter(card => {
+                        const cardNumber = parseInt(card.id.split(' ')[2], 10);
+                        return cardNumber >= 80 && cardNumber <= 84;
+                    });
+                    if (arcadiaCards.length > 0) {
+                        const randomIndex = Math.floor(Math.random() * arcadiaCards.length);
+                        drawnCard = arcadiaCards[randomIndex];
+                        factions[faction].deck = factions[faction].deck.filter(c => c !== drawnCard);
+                    } else {
+                        // 아카디아 카드 없으면 랜덤 드로우
+                        const randomIndex = Math.floor(Math.random() * factions[faction].deck.length);
+                        drawnCard = factions[faction].deck.splice(randomIndex, 1)[0];
+                    }
+                } else if (faction === 'japanese' && isHistoricalVariant) {
+                    // 역사적 변형 규칙 선택 시 JP Card 80~86번 중 하나
+                    console.log(`Historical variant draw for japanese`);
+                    const variantCards = factions[faction].deck.filter(card => {
+                        const cardNumber = parseInt(card.id.split(' ')[2], 10);
+                        return cardNumber >= 80 && cardNumber <= 86;
+                    });
+                    if (variantCards.length > 0) {
+                        const randomIndex = Math.floor(Math.random() * variantCards.length);
+                        drawnCard = variantCards[randomIndex];
+                        factions[faction].deck = factions[faction].deck.filter(c => c !== drawnCard);
+                    } else {
+                        // 변형 카드 없으면 랜덤 드로우
+                        const randomIndex = Math.floor(Math.random() * factions[faction].deck.length);
+                        drawnCard = factions[faction].deck.splice(randomIndex, 1)[0];
+                    }
+                } else {
+                    // 그 외 완전 랜덤 드로우
+                    const randomIndex = Math.floor(Math.random() * factions[faction].deck.length);
+                    drawnCard = factions[faction].deck.splice(randomIndex, 1)[0];
+                    console.log(`Random card drawn for ${faction}:`, drawnCard); // 디버깅 로그
+                }
+
+                factions[faction].hand.push(drawnCard);
+                console.log(`Hand after draw for ${faction}:`, factions[faction].hand); // 디버깅 로그
+                updateHandDisplay();
+                updateDeckRemainingDisplay();
+                return true;
             }
 
             // function createCardElem(card, clickHandler) {
