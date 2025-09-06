@@ -2287,6 +2287,13 @@
                         enlargeCard(index);
                     });
                     cardImg.addEventListener('contextmenu', (e) => e.preventDefault());
+                    cardImg.onerror = () => {
+                        console.log(`Image load failure for ${card.id}, path: ${cardImg.src}`);
+                        // 플레이스홀더 대신 빈 이미지 또는 기본 카드 이미지
+                        cardImg.src = ''; // 빈 문자열로 설정해 에러 방지
+                        cardImg.onerror = null; // 무한 루프 방지
+                        console.warn(`Failed to load ${card.id}, check file: card_image/jp/47.png`);
+                    };
                     cardDiv.appendChild(cardImg);
                     return cardDiv;
                 };
@@ -2385,6 +2392,7 @@
                     img.src = getValidImagePath(factionPrefix, cardNumber, false);
                     console.log(`확대 이미지 로드 실패, 원본 사용: ${card.id}, 경로: ${img.src}`);
                 };
+                
                 img.onload = () => {
                     enlargedCard.removeChild(placeholder);
                     img.classList.add('loaded');
@@ -2489,20 +2497,19 @@
                 if (faction === 'japanese') {
                     try {
                         hasOffensiveCard = factions[faction].hand.some(c => {
-                            const cardNumber = parseInt(c.id.split(' ')[2], 10) - 1; // 1-based to 0-based
-                            const props = japaneseCardProperties[cardNumber];
+                            const props = japaneseCardProperties[c.id];
                             if (!props) {
-                                console.warn(`japaneseCardProperties missing for cardId: ${c.id}, index: ${cardNumber}`);
+                                console.warn(`japaneseCardProperties missing for cardId: ${c.id}`);
                                 return false;
                             }
-                            return props[0] === '1' && props[2] !== '0' && props[3] !== '0';
+                            return props[0] === 1 && props[2] !== 0 && props[3] !== 0;
                         });
                         isCard47Available = !(
                             factions.japanese.hand.some(c => c.id === 'JP Card 47') ||
                             factions.japanese.discardPile.some(c => c.id === 'JP Card 47') ||
                             factions.japanese.removedCards.some(c => c.id === 'JP Card 47')
                         );
-                        console.log(`hasOffensiveCard: ${hasOffensiveCard}, isCard47Available: ${isCard47Available}`); // 디버깅 로그
+                        console.log(`hasOffensiveCard: ${hasOffensiveCard}, isCard47Available: ${isCard47Available}`); // 디버깅 로그 추가
                     } catch (e) {
                         console.error(`Error in hasOffensiveCard: ${e.message}`, e.stack);
                         hasOffensiveCard = false;
@@ -2516,21 +2523,25 @@
 
                 
                 if (faction === 'japanese' && !hasOffensiveCard && isCard47Available && card.id !== 'JP Card 1' && card.id !== 'JP Card 2') {
-                    const cardNumber = parseInt(card.id.split(' ')[2], 10) - 1; // 1-based to 0-based
-                    const props = japaneseCardProperties[cardNumber] || '0000000'; // 기본값
-                    console.log(`Card props for ${card.id} (index ${cardNumber}):`, props); // 디버깅 로그
-                    if (props[1] === '3' || (factions[faction].hand.every(c => {
-                        const cn = parseInt(c.id.split(' ')[2], 10) - 1;
-                        const p = japaneseCardProperties[cn] || '0000000';
-                        return p[1] < '3';
-                    }) && props[1] < '3')) {
+                    const props = japaneseCardProperties[card.id] || [0, 0, 0, 0];
+                    console.log(`Card props for ${card.id}:`, props); // 디버깅 로그
+                    if (props[1] === 3 || (factions[faction].hand.every(c => {
+                        const p = japaneseCardProperties[c.id] || [0, 0, 0, 0];
+                        return p[1] < 3;
+                    }) && props[1] < 3)) {
                         const replaceWith47Button = document.createElement('button');
                         replaceWith47Button.textContent = isEnglish ? 'Replace with #47' : '#47번으로 교체';
                         replaceWith47Button.addEventListener('click', () => {
                             saveState();
                             factions[faction].hand.splice(index, 1); // 카드 제거
-                            factions[faction].hand.push({ id: 'JP Card 47' }); // JP Card 47 추가
-                            console.log(`Added JP Card 47 to hand, image path: ${getValidImagePath('jp', 47, false)}`); // 디버깅 로그
+                            factions[faction].hand.push({
+                                id: 'JP Card 47',
+                                condition: japaneseCardProperties[46]?.condition || 0,
+                                drawStrategic: japaneseCardProperties[46]?.drawStrategic || 0,
+                                removeOnEvent: japaneseCardProperties[46]?.removeOnEvent || 0,
+                                image: getValidImagePath('jp', 47, false) // 명시적 이미지 경로
+                            });
+                            console.log(`Added JP Card 47 to hand, image path: ${getValidImagePath('jp', 47, false)}`);
                             closeEnlarged();
                             updateHandDisplay();
                             updateDeckRemainingDisplay();
@@ -2538,7 +2549,7 @@
                             messageDiv.textContent = isEnglish ? 'Replaced with #47' : '#47번으로 교체 완료';
                             setTimeout(() => { messageDiv.textContent = ''; }, 3000);
                         });
-                        buttonDiv.appendChild(replaceWith47Button);
+                        buttonDiv.appendChild(replaceWith47Button); // 추가된 코드
                     }
                 }
 
