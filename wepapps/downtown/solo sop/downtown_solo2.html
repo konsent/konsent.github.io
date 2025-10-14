@@ -196,6 +196,13 @@
             height: 85vh; /* 높이 증가 */
         }
     </style>
+    <style>
+        /* 무작위 이벤트 모달 크기만 별도 조정 */
+        #refModal.modal-large {
+            max-width: 1000px; /* 너비 증가 */
+            max-height: 90vh; /* 높이 증가 */
+        }
+    </style>
 </head>
 <body>
 <main>
@@ -336,7 +343,7 @@
 <div class="section">
     <h2>5.1 무작위 사건</h2>
     <div class="subsection">
-        <p>아래에 명시되지 않는 한 각 무작위 사건을 정상적으로 실행합니다:</p>
+        <p>아래에 명시되지 않는 한 각 무작위 사건을 정상적으로 실행합니다: <span class="table-ref">무작위 이벤트</span></p>
         <ul>
             <li><strong>신속 대응 경보:</strong> 활성화된 MiG 비행대 수가 최대 실제 비행대와 같거나 지도 상 일반 비행대가 최대 일반 비행대와 같지 않는 한(<span class="table-ref">🅞 DRV 준비 표</span> 참조), 무작위 개방 비행장에 무작위 방향으로 일반 DRV 비행대를 배치합니다.</li>
             <li><strong>AAA 매복:</strong> MiG처럼 <span class="table-ref">🅜 표적 선택 표</span>를 사용하여 비행대를 선택합니다.</li>
@@ -523,6 +530,7 @@
     // downtown_bot_aid_KOR_Printversion_dice3.html의 내용을 담는 데이터 객체
     // 이 객체의 내용을 수정하여 모달에 표시될 정보를 관리할 수 있습니다.
     const refContentData = {
+        "무작위 이벤트": `<img src="random.png" alt="무작위 이벤트 표" style="width: 100%; height: auto;">`,
         "🅐 비행대 활성화 표": `<p>DRV 비행대는 활성화될 때까지 일반 비행대 마커를 사용합니다. 일반 DRV 비행대는 다음 상황에서 활성화를 확인합니다:</p><ul><li>육안으로 식별되었을 때 [10.4]</li><li>공대공 전투를 시도하거나 성공적으로 교전했을 때</li><li><span class="red-bold-text">🅓 비행대 행동 — 전투 행동</span>에서 교전 결과를 받았을 때</li></ul><div class="highlight"><strong>비행대 활성화 확인</strong> <span class="dice-formula">(1d10)</span>: <br>≤ 5 <span class="result">실제 비행대</span>; ≥ 6 <span class="result">더미</span></div><p><strong>실제 비행대인 경우:</strong> 비행대를 활성화. <span class="red-bold-text">🅝 DRV 비행대 선택 표</span>를 참조.</p><p><strong>더미인 경우:</strong> 일반 비행대 마커를 제거.</p>`,
         "🅑 이동 페이즈": `<p>무질서 상태가 아닌 DRV 비행대가 US 비행대로부터 5헥스 이내에 있다면, DRV가 먼저 이동합니다. 그렇지 않으면 US가 먼저 이동합니다.</p><div class="note">무질서 상태가 아닌 DRV 비행대(주간인 경우)가 3개 이상의 US CAP 비행대로부터 5헥스 이내에 있으면 방어 원형진에 진입합니다. 무질서 상태 비행대와 3개 이상의 US CAP 비행대로부터 5헥스 이내에 있지 않은 비행대는 방어 원형진에서 벗어납니다.</div><p><strong>DRV 비행대를 다음 순서로 이동:</strong></p><ol><li>활성화된 DRV 비행대, US 비행대에 가장 가까운 것부터</li><li>일반 DRV 비행대, ID 문자 순서로, 탐지된 것부터</li></ol>`,
         "🅒 비행대 행동 — 주요 행동": `<p>다음 조건 중 하나라도 적용되면(순서대로), 다음과 같이 이동합니다:</p><div class="highlight">빨간색: 지시사항을 수행한 후 멈춥니다. <br>검은색: 지시사항을 수행한 후 <span class="red-bold-text">🅓 비행대 행동 — 전투 행동</span>으로 이동합니다.</div><table class="table"><tbody><tr><th>조건</th><th>행동</th></tr><tr><td><span class="condition">기동 마커</span></td><td>전투 쓰로틀. MF의 ½을 소모하여 기동 마커를 제거.</td></tr><tr><td><span class="condition">BVR 회피 마커</span></td><td>전투 쓰로틀. 1 MP를 소모하여 BVR 회피 마커를 제거.</td></tr><tr><td><span class="condition2">손상된 항공기</span></td><td>비행대 내 모든 항공기가 손상된 경우: 비행대 작전 중지. 아래 비행대 작전 중지 지침을 따름.</td></tr><tr><td><span class="condition2">무력화된 항공기, 비행대 작전 중지, 또는 Winchester</span></td><td>전투 쓰로틀. 초저고도로 강하 [☾/⛅: 저고도]. 개방된 비행장 또는 중국 완충 지대(Chinese Buffer Zone) 중 더 가까운 곳을 향해 이동.</td></tr><tr><td><span class="condition2">무질서 상태</span></td><td>집결 지점에 인접하지 않은 경우: 대시 쓰로틀. 초저고도로 강하 [☾/⛅: 저고도]하고 가장 가까운 개방된 비행장 또는 공중 대기 지점(Orbit point)에 최대한 가깝게 이동.</td></tr><tr><td><span class="condition2">비행장에서 준비 완료</span></td><td>이륙. 다음 턴에 전진하며 초저고도에 남아 있음.</td></tr></tbody></table>`,
@@ -560,12 +568,19 @@
         const closeRefModal = refModal.querySelector('.close-button');
 
         function showRefModal(title) {
+            // 다른 모달에 적용되었을 수 있는 크기 조정 클래스를 먼저 제거합니다.
+            refModal.classList.remove('modal-large');
+
             refModalTitle.textContent = title;
             
             const content = refContentData[title.trim()];
 
             if (content) {
                 refModalContent.innerHTML = content;
+                // "무작위 이벤트" 모달인 경우에만 크기 조정 클래스를 추가합니다.
+                if (title.trim() === "무작위 이벤트") {
+                    refModal.classList.add('modal-large');
+                }
             } else {
                 refModalContent.innerHTML = '해당 내용을 찾을 수 없습니다.';
             }
