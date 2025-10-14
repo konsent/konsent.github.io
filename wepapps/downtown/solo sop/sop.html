@@ -105,8 +105,7 @@
         .tooltip {
             position: fixed; /* 화면에 고정 */
             right: 20px; /* 오른쪽 가장자리에서 20px */
-            top: 50%; /* 세로 중앙 정렬을 위한 기준 */
-            transform: translateY(-50%); /* 세로 중앙 정렬 */
+            bottom: 20px; /* 아래쪽 가장자리에서 20px */
             background-color: #f0f4f8;
             color: #1e2130;
             padding: 10px 15px;
@@ -118,6 +117,8 @@
             border: 1px solid #61dafb;
             max-width: 450px; /* 최대 너비 조정 */
             width: calc(100vw - 40px); /* 모바일 화면 대응 */
+            max-height: 90vh; /* 뷰포트 높이의 90%를 넘지 않도록 설정 */
+            overflow-y: auto; /* 내용이 넘칠 경우 스크롤 생성 */
         }
         .tooltip-title {
             font-weight: bold;
@@ -432,24 +433,6 @@
                 
                 document.body.appendChild(tooltip);
                 currentTooltip = tooltip;
-
-                // 툴팁 내용이 렌더링된 후 위치를 계산하도록 setTimeout 사용
-                setTimeout(() => {
-                    const rect = element.getBoundingClientRect();
-                    const tooltipRect = tooltip.getBoundingClientRect();
-                    
-                    // 화면 세로 중앙에 위치시키되, 너무 위나 아래로 가지 않도록 조정
-                    let top = (window.innerHeight / 2) - (tooltipRect.height / 2);
-
-                    // 툴팁이 화면 위/아래를 벗어나지 않도록 조정
-                    if (top < 10) {
-                        top = 10;
-                    } else if (top + tooltipRect.height > window.innerHeight - 10) {
-                        top = window.innerHeight - tooltipRect.height - 10;
-                    }
-
-                    tooltip.style.top = `${top}px`;
-                }, 0);
             }
 
             document.body.addEventListener('click', (e) => {
