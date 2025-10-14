@@ -5,32 +5,63 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DRV 봇 시스템 규칙</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
-        h1 { color: #2c3e50; border-bottom: 2px solid #3498db; }
-        h2 { color: #34495e; margin-top: 30px; }
-        h3 { color: #7f8c8d; }
-        .section { margin-bottom: 30px; }
-        .subsection { margin-left: 20px; margin-bottom: 20px; }
-        ul { margin-left: 20px; }
+        :root {
+            --primary-color: #3498db;
+            --primary-dark: #2980b9;
+            --text-color-dark: #2c3e50;
+            --text-color-medium: #34495e;
+            --text-color-light: #7f8c8d;
+            --danger-color: #e74c3c;
+            --note-bg: #f8f9fa;
+            --golden-rule-bg: #fff9e6;
+            --golden-rule-border: #ffeaa7;
+            --border-radius: 8px;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            line-height: 1.7;
+            margin: 0;
+            padding: 20px;
+            background-color: #fdfdfd;
+            color: var(--text-color-medium);
+        }
+        main { max-width: 800px; margin: 0 auto; }
+
+        h1 { color: var(--text-color-dark); border-bottom: 3px solid var(--primary-color); padding-bottom: 10px; }
+        h2 { color: var(--text-color-dark); margin-top: 40px; border-bottom: 1px solid #ecf0f1; padding-bottom: 8px; }
+        h3 { color: var(--text-color-light); }
+
+        .section { margin-bottom: 40px; }
+        .subsection { margin-left: 0; margin-bottom: 20px; }
+        ul, ol { padding-left: 20px; }
         li { margin-bottom: 8px; }
-        .note { background-color: #f8f9fa; padding: 10px; border-left: 4px solid #3498db; margin: 10px 0; }
-        .golden-rule { background-color: #fff3cd; padding: 15px; border: 1px solid #ffeaa7; border-radius: 5px; }
-        .table-ref { color: #e74c3c; font-weight: bold; }
-        .red { color: #e74c3c; }
+
+        .note { background-color: var(--note-bg); padding: 15px; border-left: 5px solid var(--primary-color); margin: 20px 0; border-radius: 0 var(--border-radius) var(--border-radius) 0; }
+        .golden-rule { background-color: var(--golden-rule-bg); padding: 20px; border: 1px solid var(--golden-rule-border); border-left: 5px solid #f1c40f; border-radius: var(--border-radius); }
+        .table-ref {
+            color: var(--danger-color);
+            font-weight: bold;
+            background-color: #fceded;
+            padding: 2px 6px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .red { color: var(--danger-color); }
 
         /* Floating Action Button and Modal Styles */
         .fab {
             position: fixed;
             bottom: 30px;
             right: 30px;
-            width: 60px;
-            height: 60px;
-            background-color: #3498db;
+            width: 56px;
+            height: 56px;
+            background-color: var(--primary-color);
             color: white;
             border-radius: 50%;
             text-align: center;
-            line-height: 60px;
-            font-size: 30px;
+            line-height: 56px;
+            font-size: 28px;
             cursor: pointer;
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
             z-index: 1000;
@@ -38,36 +69,40 @@
         }
 
         .fab:hover {
-            transform: scale(1.1);
+            transform: scale(1.05);
+            background-color: var(--primary-dark);
         }
 
         .modal {
             position: fixed;
             bottom: 30px;
             right: 30px;
-            width: 80vw;
-            max-width: 800px;
-            height: 80vh;
+            width: 90vw;
+            max-width: 650px; /* 최대 너비 축소 */
             max-height: 700px;
             background-color: #fff;
             border: 1px solid #ccc;
-            border-radius: 10px;
+            border-radius: var(--border-radius);
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
             z-index: 1001;
-            display: none; /* Initially hidden */
+            display: flex;
             flex-direction: column;
+            visibility: hidden; opacity: 0;
+            transform: scale(0.95) translateY(10px);
+            transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+            pointer-events: none;
         }
 
-        .modal-header {
+        .modal-dialog {
             padding: 10px 15px;
-            background-color: #3498db;
+            background-color: var(--primary-color);
             color: white;
             font-weight: bold;
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            border-top-left-radius: 10px;
-            border-top-right-radius: 10px;
+            align-items: center; 
+            border-top-left-radius: var(--border-radius);
+            border-top-right-radius: var(--border-radius);
             cursor: move;
         }
 
@@ -77,14 +112,86 @@
         }
 
         .modal-content {
-            flex-grow: 1;
-            padding: 0;
+            flex-grow: 1; 
+            padding: 15px; 
+            overflow-y: auto;
+            font-size: 16px; /* 기본 폰트 크기 증가 */
+        }
+
+        /* Modal content specific styles to match the source */
+        .modal-content p { margin: 8px 0; }
+        .modal-content ul, .modal-content ol { padding-left: 20px; margin: 8px 0; }
+        .modal-content li { margin-bottom: 5px; line-height: 1.5; }
+        .modal-content .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+            background: white;
+            border-radius: 4px;
             overflow: hidden;
+            font-size: 14px; /* 테이블 폰트 크기 증가 */
+        }
+        .modal-content .table th {
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+            color: white;
+            padding: 6px 8px;
+            text-align: left;
+            font-weight: bold;
+            font-size: 13px; /* 테이블 헤더 폰트 크기 증가 */
+        }
+        .modal-content .table td {
+            padding: 6px 8px;
+            border-bottom: 1px solid #ecf0f1;
+            vertical-align: top;
+            font-size: 14px; /* 테이블 셀 폰트 크기 증가 */
+            line-height: 1.4;
+        }
+        .modal-content .table tr:nth-child(even) { background: #f8f9fa; }
+        .modal-content .highlight {
+            background: #fff3cd;
+            padding: 10px;
+            border-radius: 3px;
+            border-left: 3px solid #ffc107;
+            margin: 8px 0;
+            font-size: 15px; /* 하이라이트 폰트 크기 증가 */
+        }
+        .modal-content .note {
+            background: #d1ecf1;
+            padding: 10px;
+            border-radius: 3px;
+            border-left: 3px solid #17a2b8;
+            margin: 8px 0;
+            font-style: italic;
+            font-size: 15px; /* 노트 폰트 크기 증가 */
+        }
+        .modal-content .dice-formula {
+            background: #fff3cd; color: #856404; padding: 2px 5px; border-radius: 3px;
+            font-weight: bold; font-family: monospace; font-size: 14px; /* 공식 폰트 크기 증가 */
+        }
+        .modal-content .result {
+            background: #d4edda; color: #155724; padding: 2px 5px; border-radius: 3px;
+            margin: 2px 0; display: inline-block; font-size: 14px; /* 결과 폰트 크기 증가 */
+        }
+        .modal-content .modifier {
+            background: #f8d7da; color: #721c24; padding: 2px 5px; border-radius: 3px;
+            margin: 2px 0; display: inline-block; font-size: 14px; /* 보정치 폰트 크기 증가 */
+        }
+        .modal-content .red-bold-text { color: red; font-weight: bold; }
+        .modal-content .aircraft-type {
+            font-weight: bold; color: #2c3e50; background: #ecf0f1; padding: 2px 4px;
+            border-radius: 3px; font-size: 13px; /* 항공기 타입 폰트 크기 증가 */
+        }
+
+        .modal.show { visibility: visible; opacity: 1; }
+        .modal.show {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+            pointer-events: auto;
         }
     </style>
 </head>
 <body>
-
+<main>
 <h1>1. 소개 & 구성요소</h1>
 
 <div class="section">
@@ -347,7 +454,7 @@
     <div class="subsection">
         <ul>
             <li>탄약이 없는 활성 SAM과 SAM 경고 마커는 레이더를 끕니다.</li>
-            <li>활성 MiG 비행대의 총 수가 최대 실제 비행대와 같거나 지도 상 일반 MiG 비행대의 총 수가 최대 일반 비행대와 같아질 때까지(<span class="table-ref">🅟 DRV 준비 표</span> 참조), 일반 DRV 비행대가 맵에 추가되는지 굴림합니다. <span class="table-ref">🅔 일반 비행대 생성</span>을 참조하세요.</li>
+            <li>활성 MiG 비행대의 총 수가 최대 실제 비행대와 같거나 지도 상 일반 MiG 비행대의 총 수가 최대 일반 비행대와 같아질 때까지(<span class="table-ref">🅞 DRV 준비 표</span> 참조), 일반 DRV 비행대가 맵에 추가되는지 굴림합니다. <span class="table-ref">🅔 일반 비행대 생성</span>을 참조하세요.</li>
         </ul>
     </div>
 </div>
@@ -381,36 +488,102 @@
     </div>
 </div>
 
+</main>
 <!-- Floating Action Button and Modal -->
 <div id="fab" class="fab">+</div>
-<div id="sopModal" class="modal">
-    <div class="modal-header">
-        <span>플레이 순서</span>
-        <span id="closeModal" class="close-button">&times;</span>
-    </div>
+<div id="sopModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-dialog">
+        <span id="modalTitle">플레이 순서</span>
+        <span id="closeModal" class="close-button" role="button" aria-label="Close">&times;</span>
+    </div> 
     <div class="modal-content">
         <iframe src="sop.html" frameborder="0" style="width: 100%; height: 100%;"></iframe>
     </div>
 </div>
 
+<!-- Generic Modal for Table References -->
+<div id="refModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="refModalTitle">
+    <div class="modal-dialog">
+        <span id="refModalTitle"></span>
+        <span class="close-button" role="button" aria-label="Close">&times;</span>
+    </div>
+    <div class="modal-content" id="refModalContent">
+        <!-- Content will be injected here -->
+    </div>
+</div>
+
 <script>
+    // downtown_bot_aid_KOR_Printversion_dice3.html의 내용을 담는 데이터 객체
+    // 이 객체의 내용을 수정하여 모달에 표시될 정보를 관리할 수 있습니다.
+    const refContentData = {
+        "🅐 비행대 활성화 표": `<p>DRV 비행대는 활성화될 때까지 일반 비행대 마커를 사용합니다. 일반 DRV 비행대는 다음 상황에서 활성화를 확인합니다:</p><ul><li>육안으로 식별되었을 때 [10.4]</li><li>공대공 전투를 시도하거나 성공적으로 교전했을 때</li><li><span class="red-bold-text">🅓 비행대 행동 — 전투 행동</span>에서 교전 결과를 받았을 때</li></ul><div class="highlight"><strong>비행대 활성화 확인</strong> <span class="dice-formula">(1d10)</span>: <br>≤ 5 <span class="result">실제 비행대</span>; ≥ 6 <span class="result">더미</span></div><p><strong>실제 비행대인 경우:</strong> 비행대를 활성화. <span class="red-bold-text">🅝 DRV 비행대 선택 표</span>를 참조.</p><p><strong>더미인 경우:</strong> 일반 비행대 마커를 제거.</p>`,
+        "🅑 이동 페이즈": `<p>무질서 상태가 아닌 DRV 비행대가 US 비행대로부터 5헥스 이내에 있다면, DRV가 먼저 이동합니다. 그렇지 않으면 US가 먼저 이동합니다.</p><div class="note">무질서 상태가 아닌 DRV 비행대(주간인 경우)가 3개 이상의 US CAP 비행대로부터 5헥스 이내에 있으면 방어 원형진에 진입합니다. 무질서 상태 비행대와 3개 이상의 US CAP 비행대로부터 5헥스 이내에 있지 않은 비행대는 방어 원형진에서 벗어납니다.</div><p><strong>DRV 비행대를 다음 순서로 이동:</strong></p><ol><li>활성화된 DRV 비행대, US 비행대에 가장 가까운 것부터</li><li>일반 DRV 비행대, ID 문자 순서로, 탐지된 것부터</li></ol>`,
+        "🅒 비행대 행동 — 주요 행동": `<p>다음 조건 중 하나라도 적용되면(순서대로), 다음과 같이 이동합니다:</p><div class="highlight">빨간색: 지시사항을 수행한 후 멈춥니다. <br>검은색: 지시사항을 수행한 후 <span class="red-bold-text">🅓 비행대 행동 — 전투 행동</span>으로 이동합니다.</div><table class="table"><tbody><tr><th>조건</th><th>행동</th></tr><tr><td><span class="condition">기동 마커</span></td><td>전투 쓰로틀. MF의 ½을 소모하여 기동 마커를 제거.</td></tr><tr><td><span class="condition">BVR 회피 마커</span></td><td>전투 쓰로틀. 1 MP를 소모하여 BVR 회피 마커를 제거.</td></tr><tr><td><span class="condition2">손상된 항공기</span></td><td>비행대 내 모든 항공기가 손상된 경우: 비행대 작전 중지. 아래 비행대 작전 중지 지침을 따름.</td></tr><tr><td><span class="condition2">무력화된 항공기, 비행대 작전 중지, 또는 Winchester</span></td><td>전투 쓰로틀. 초저고도로 강하 [☾/⛅: 저고도]. 개방된 비행장 또는 중국 완충 지대(Chinese Buffer Zone) 중 더 가까운 곳을 향해 이동.</td></tr><tr><td><span class="condition2">무질서 상태</span></td><td>집결 지점에 인접하지 않은 경우: 대시 쓰로틀. 초저고도로 강하 [☾/⛅: 저고도]하고 가장 가까운 개방된 비행장 또는 공중 대기 지점(Orbit point)에 최대한 가깝게 이동.</td></tr><tr><td><span class="condition2">비행장에서 준비 완료</span></td><td>이륙. 다음 턴에 전진하며 초저고도에 남아 있음.</td></tr></tbody></table>`,
+        "🅓 비행대 행동 — 전투 행동": `<p>이동하는 각 DRV 비행대에 대해 <span class="dice-formula">1d10</span>을 굴립니다:</p><div class="highlight">≤ 5이고 5헥스 이내에 탐지된 US 비행대가 있는 경우: <span class="result">교전</span>.<br>-<span class="red-bold-text">  🅕 교전 행동</span> 참조.<br><br>≥ 6이거나 5헥스 이내에 탐지된 US 비행대가 없는 경우: <span class="result">교전 없음</span>. <br>-<span class="red-bold-text">  🅖 비전투 행동</span> 참조.</div><p><strong>보정 수치 </strong><span class="modifier">DRV 비행대가 탐지되지 않은 경우: -2</span></p>`,
+        "🅔 일반 비행대 생성": `<p>각 관리 페이즈마다, 최대 실제 비행대 또는 최대 일반 비행대 중 하나가 충족될 때까지, <span class="dice-formula">1d10</span>을 굴립니다:</p><table class="table"><tbody><tr><th>주사위</th><th>결과</th></tr><tr><td>≤ 4 또는 지도에 일반 DRV가 없는 경우</td><td>US 비행대에 가장 가까운 DRV가 없는 개방된 비행장에 일반 비행대 1개를 배치.</td></tr><tr><td>5-7</td><td>US 비행대에 가장 가까운 기존의 탐지되지 않은 비행대와 함께 일반 비행대 1개를 배치(있는 경우).</td></tr><tr><td>≥ 8</td><td>이번 턴에는 일반 비행대를 배치하지 않음.</td></tr></tbody></table>`,
+        "🅕 비행대 행동 — 교전 행동": `<p><strong>공대공 전투 시도:</strong></p><ol><li>표적 선택: <span class="red-bold-text">🅜 표적 선택 표</span> 참조.</li><li>다음과 같이 이동:<ol><li>교전에 필요한 경우 대시 쓰로틀, 그렇지 않으면 전투 쓰로틀 사용. 가능하다면 같은 고도에서 후방 반구로 US 비행대 헥스에 진입하도록 이동. 교전 시도; 허용되면 슬래시 공격 수행</li><li>교전에 성공하면 공대공 전투를 해결. 가능한 모든 사격 수행: 기관포 먼저, 그 다음 IRM(사용 가능한 경우)</li><li>교전에 실패하면 남은 MP를 사용하여 초저고도로 강하 [☾/⛅: 저고도]하고 전진</li></ol></li></ol>`,
+        "🅖 비행대 행동 — 비전투 행동": `<p><span class="dice-formula">1d10</span>을 굴리고 다음과 같이 이동합니다:</p><table class="table"><tbody><tr><th>주사위</th><th>행동</th></tr><tr><td>≤ 4</td><td><strong>접근.</strong> 1) 전투 쓰로틀. 2) 표적 선택: <span class="red-bold-text">🅜 표적 선택 표</span> 참조. 3) 가능하다면 표적 고도에 맞춤. 4) 표적 비행대 방향으로 이동하되, 5헥스보다 가깝게 가지 않음. 최대한 전방 호 안에 있어야 함</td></tr><tr><td>5-8</td><td><strong>위치 유지.</strong> 1) 전투 쓰로틀. 2) 저고도로 이동. 3) 1MP 만큼 전진. 4) 1 MP 동안 좌측으로 60도 선회. 모든 MP를 사용할 때까지 반복.</td></tr><tr><td>≥ 9</td><td><strong>회피.</strong> 1) 전투 쓰로틀. 2) 가장 가까운 US 비행대로부터 멀어지며, 자유 강하로 초저고도로 강하 [☾/⛅: 저고도].</td></tr></tbody></table><p><strong>보정 수치 </strong><span class="modifier">DRV 비행대가 탐지되지 않은 경우: -2</span></p>`,
+        "🅗 일반 비행대 행동": `<ul><li>일반 비행대는 모든 고도에서 <strong>전투 쓰로틀 3</strong>, <strong>대시 쓰로틀 4</strong>를 사용합니다.</li><li>이탈하는 경우가 아니라면, DRV 비행대는 항상 플레이 구역을 벗어나지 않도록 선회합니다.</li><li>DRV 비행대는 초저고도에 있을 때 능선을 피하기 위해 상승합니다.</li><li>DRV 비행대는 마지막 연료 단위를 자발적으로 사용하지 않습니다.</li><li>DRV 비행대는 무질서 상태이거나 작전 중지된 경우 교전 해제를 시도합니다.</li><li>DRV 비행대는 선택할 수 있다면 방어자로서의 교전을 거부합니다.</li><li>착륙하는 경우가 아니라면, DRV 비행대는 야간이나 초저고도와 저고도 사이에 조밀한 구름층이 있을 때 초저고도로 하강하지 않습니다 [☾/⛅: 저고도].</li></ul>`,
+        "🅘 AAA & 파이어 캔 활성화 표": `<p>비활성 AAA 마커의 1헥스 이내로 이동하는 저고도 이상의 각 US 비행대에 대해 한 번 확인합니다.</p><div class="highlight"><strong>AAA 활성화 확인</strong> <span class="dice-formula">(1d10)</span>: ≤ 5 <span class="result">실제 AAA</span>; 6-8 <span class="result">효과 없음</span>; ≥ 9 <span class="result">더미</span></div><table class="table"><tbody><tr><th>결과</th><th></th></tr><tr><td>≤ 4</td><td><strong>실제 AAA: </strong> 1d10 굴림: ≤ 6 저강도; 7-9 중강도; 10 고강도</td></tr><tr><td>5-8</td><td><strong>효과 없음(NE): </strong>비활성 AAA 경고 마커를 유지합니다.</td></tr><tr><td>≥ 9</td><td><strong>더미 AAA: </strong> AAA 경고 마커를 제거합니다.</td></tr></tbody></table><p>파이어 캔이 없는 활성 AAA의 2헥스 이내로 이동하는 각 US 비행대에 대해 한 번 확인합니다.</p><div class="highlight"><strong>파이어 캔 활성화 확인</strong> <span class="dice-formula">(1d10)</span>: ≤ 3 <span class="result">파이어 캔</span>; ≥ 4 <span class="result">효과 없음</span></div><table class="table"><tbody><tr><th>결과</th><th></th></tr><tr><td>≤ 4</td><td><strong>실제 파이어 캔: </strong> 사용 가능한 파이어 캔을 배치하고 유발한 US 비행대에 사격합니다.</td></tr><tr><td>5-8</td><td><strong>효과 없음(NE): </strong>파이어 캔을 놓지 않습니다.</td></tr></tbody></table><p><strong>보정 수치 </strong><span class="modifier">5헥스 이내에 파이어 캔이 있는 경우: +1</span></p>`,
+        "🅙 AAA/파이어 캔 행동 표": `<ul><li>AAA는 이동 페이즈 중 가능한 한 빠른 시점에 사거리 내의 모든 US 비행대에 사격합니다.</li><li>파이어 캔은 이동 페이즈 중 가능한 한 빠른 시점에 사격합니다.</li><li>DRV 비행대는 무시합니다(모든 고도에서 충돌 회피[14.74]를 적용합니다).</li></ul>`,
+        "🅚 SAM 활성화 표": `<p>비활성 SAM은 활성화될 때까지 레이더 오프 SAM 경고 마커를 사용합니다. 비활성 SAM은 다음 상황에서 활성화를 확인합니다:</p><ul><li>어떤 수단으로든 위치가 파악되었을 때.</li><li>SAM 표적 획득 페이즈 중, US 비행대로부터 12헥스 이내에 있을 때.</li><li>[선택사항] 이동 페이즈 중: <span class="red-bold-text">🅩 발사 후 락온 표</span>를 참조하세요.</li></ul><div class="highlight"><strong>SAM 활성화 확인</strong> <span class="dice-formula">(1d10)</span>: ≤ 4 <span class="result">실제 SAM</span>; 5-8 <span class="result">효과 없음</span>; ≥ 9 <span class="result">더미 SAM</span></div><table class="table"><tbody><tr><th>결과</th><th></th></tr><tr><td>≤ 4</td><td><strong>실제 SAM: </strong> SAM 경고 마커를 뒤집어서 레이더 시작(Radar ON)면으로 놓습니다. 이제 레이더는 활성화 상태입니다.</td></tr><tr><td>5-8</td><td><strong>효과 없음(NE): </strong>비활성 SAM 경고 마커를 유지합니다. 이번 턴에는 SAM 활성화 확인을 하지 않습니다</td></tr><tr><td>≥ 9</td><td><strong>더미 SAM: </strong> SAM 경고 마커를 제거합니다.</td></tr></tbody></table>`,
+        "🅛 SAM 행동 표": `<p><strong>이동 페이즈:</strong> 탐지된 US 비행대가 자신을 표적 획득한 SAM의 8헥스* 이내에서 MP를 소모할 때마다 사격 확인을 합니다. 여러 SAM이 한 US 비행대의 표적을 획득한 경우, 가장 가까운 SAM만 확인(동률이면 ID 알파벳 순서로 결정)</p><div class="highlight"><strong>SAM 사격 확인</strong> <span class="dice-formula">(1d10)</span>: > US 비행대까지의 거리 <span class="result">사격</span>; ≤ US 비행대까지의 거리 <span class="result">사격 안 함</span></div><p><strong>보정 수치 </strong><span class="modifier">SAM이 완전 표적 획득을 한 경우: +2</span></p><p class="note">*표적까지의 거리를 계산할 때, 표적이 고고도에 있으면 거리에 1을 더합니다.</p><table class="table"><tbody><tr><th>결과</th><th></th></tr><tr><td><strong>사격 발생 O</strong></td><td> 표적 획득된 US 비행대에 SAM(지대공 미사일) 발사 공격을 수행. SAM 발사 확인 주사위 굴림이 짝수면: 가능하면 일제 사격(salvo)을 가합니다. SAM 발사 확인 주사위 굴림이 홀수면: 단일 미사일을 발사합니다.</td></tr><tr><td><strong>사격 발생 X</strong></td><td>SAM 사격을 수행하지 않습니다. 만약 US 항공기(동일한 항공기 포함)가 8 헥스 이내에서 다시 MP를 소모하면 SAM은 또 다른 시도를 할 수 있습니다.</td></tr></tbody></table><p><strong>ARM 사격: </strong> 탐지 상태 US 비행대가 ARM 사격을 하면, 모든 SAM은 레이더를 켠 상태를 유지하려고 합니다</p><p><strong>SAM 표적 획득 페이즈: </strong>US 비행대의 12 헥스 내에 있는 비활성 SAM의 활성화 여부를 확인: <span class="red-bold-text">🅚 SAM 활성화 테이블</span> 참조합니다. 그리고 모든 활성 SAM은 US 비행대 표적 획득을 시도합니다. 이번 턴에 활성화된 SAM도 탐지 상태 US 비행대를 대상으로 신속 표적 획득을 시도할 수 있습니다 [15.31] SAM들은 ID-문자 순서대로 탐지 시도를 합니다. <span class="red-bold-text">🅜 타겟 선택 테이블</span>을 참조하여 타겟을 선택하세요.</p>`,
+        "🅜 표적 선택 표": `<p>다음 조건의 US 비행대를 선택합니다:</p><table class="table"><tbody><tr><th>행동 유닛이 SAM인 경우</th><td>• 행동하는 SAM에게 표적 획득되었고 8헥스 이내에 있는 경우<br>• 탐지 상태 비행대<br>• 적재 상태(Laden)<br>• 표적 획득 마커가 가장 적은 비행대<br>• 가장 가까운 비행대<br>• MiG의 5헥스 이내에 있지 않은 비행대<br>• 손상되거나 무력화된 항공기가 있는 US 비행대<br>• 남은 US 비행대 중에서 무작위 선택</td></tr><tr><th>행동 유닛이 MiG인 경우</th><td>• 탐지 상태 비행대<br>• 가장 낮은 고도대역에 위치한 비행대<br>• 적재 상태(Laden)<br>• 표적 획득 마커가 가장 적은 비행대<br>• 가장 가까운 비행대<br>• 손상되거나 무력화된 항공기가 있는 US 비행대<br>• 남은 US 비행대 중에서 무작위 선택</td></tr></tbody></table>`,
+        "🅝 DRV 비행대 선택 표": `<p>일반 DRV 비행대 활성화 시 <span class="dice-formula">1d10</span>을 굴립니다. 모든 DRV 조종사는 베테랑입니다. 시나리오 종료 시, US VP를 추가합니다: <span class="red-bold-text">🅠 종료 시 MAP</span>를 참조.</p><table class="table"><tbody><tr><th>시나리오</th><th><span class="aircraft-type">MiG-17F</span></th><th><span class="aircraft-type">MiG-19S</span></th><th><span class="aircraft-type">MiG-21F-13</span></th><th><span class="aircraft-type">MiG-21PF</span></th><th><span class="aircraft-type">MiG-21PFM</span></th><th><span class="aircraft-type">MiG-21MF</span></th></tr><tr><td>D1</td><td>1-2 (x2), 3-4 (x3), 5-10 (x4)</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>D2</td><td>1-2 (x2), <span style="background-color: black; color: white;"><strong>3-10</strong></span> (x4)</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>D3</td><td>1 (x2), 2 (x3), 3-6 (x4)</td><td></td><td>7-8 (x2), 9 (x3), 10 (x4)</td><td></td><td></td><td></td></tr><tr><td>D4/D5</td><td>1 (x2), 2 (x3), 3-4 (x4)</td><td></td><td>5 (x2), 6 (x3), 7 (x4)</td><td>8 (x2), 9 (x3), 10 (x4)</td><td></td><td></td></tr><tr><td>D6</td><td>1-4 (x2), <span style="background-color: black; color: white;"><strong>5</strong></span> (x4)</td><td></td><td></td><td><span style="background-color: black; color: white;"><strong>6-10</strong></span> (x2)</td><td>5 (x2), 6 (x3), 7 (x4)</td><td>8 (x2), 9 (x3), 10 (x4)</td></tr><tr><td>D7/D8</td><td>1 (x2), 2 (x3), 3-4 (x4)</td><td></td><td></td><td>5-7 (x2), 8-9 (x3), 10 (x4)</td><td></td><td></td></tr><tr><td>D9</td><td>1 (x2), 2 (x3), 3-4 (x4)</td><td></td><td>5 (x2), 6 (x3)</td><td>7-8 (x2), 9 (x3), 10 (x4)</td><td></td><td></td></tr><tr><td>D10/D11</td><td>1 (x2), 2 (x3), 3 (x4)</td><td>4 (x3)</td><td></td><td></td><td>5 (x2), 6 (x3), 7 (x4)</td><td>8 (x2), 9 (x3), 10 (x4)</td></tr><tr><td>D12</td><td>1 (x2), <span style="background-color: black; color: white;"><strong>2-4</strong></span> (x4)</td><td><span style="background-color: black; color: white;"><strong>5</strong></span> (x2), <span style="background-color: black; color: white;"><strong>6</strong></span> (x3)</td><td></td><td></td><td><span style="background-color: black; color: white;"><strong>7-10</strong></span> (x2)</td><td></td></tr><tr><td>D13</td><td>1 (x2), 2 (x3), 3 (x4)</td><td>4 (x3)</td><td></td><td></td><td>5-6 (x2), 7 (x3)</td><td>8 (x2), 9 (x3), 10 (x4)</td></tr><tr><td>D14/D16</td><td></td><td></td><td></td><td></td><td></td><td>1-10 (x1 (야간))</td></tr><tr><td>D15</td><td></td><td></td><td></td><td></td><td></td><td>1-5 (x2), 6-8 (x3), 9-10 (x4)</td></tr></tbody></table><div class="note">1-2 : 주사위 굴림 범위 / x4 : 비행대 내 항공기 수 / <span style="background-color: black; color: white;"><strong>5-10</strong></span> : 이것 이후 더 이상 활성화 없음; 남은 모든 일반 비행대 제거</div>`,
+        "🅞 DRV 준비 표": `<table class="table"><tbody><tr><th>시나리오</th><th>SAM 경고 마커 준비</th><th>AAA 마커 준비</th><th>사용 가능한 파이어 캔</th><th>최대 일반 비행대</th><th>최대 실제 비행대</th></tr><tr><td>D1</td><td>11*</td><td>5</td><td>4</td><td>3</td><td>1</td></tr><tr><td>D2</td><td>—</td><td>3*</td><td>-</td><td>4</td><td>2</td></tr><tr><td>D3</td><td>22*</td><td>8</td><td>8</td><td>5</td><td>3</td></tr><tr><td>D4</td><td>26</td><td>5</td><td>8</td><td>5</td><td>2</td></tr><tr><td>D5</td><td>30</td><td>7</td><td>9</td><td>6</td><td>3</td></tr><tr><td>D6</td><td>6</td><td>4*</td><td>2</td><td>-</td><td>-</td></tr><tr><td>D7</td><td>30</td><td>8</td><td>10</td><td>5</td><td>2</td></tr><tr><td>D8</td><td>30</td><td>7</td><td>11</td><td>5</td><td>2</td></tr><tr><td>D9</td><td>15</td><td>2</td><td>4</td><td>5</td><td>2</td></tr><tr><td>D10</td><td>30*</td><td>9</td><td>11</td><td>6</td><td>3*</td></tr><tr><td>D11</td><td>30</td><td>9</td><td>12</td><td>9</td><td>5</td></tr><tr><td>D12</td><td>2*</td><td>2</td><td>0</td><td>3</td><td>2</td></tr><tr><td>D13</td><td>30</td><td>9</td><td>11</td><td>6</td><td>2</td></tr><tr><td>D14</td><td>18*</td><td>0</td><td>6</td><td>4</td><td>2</td></tr><tr><td>D15</td><td>-</td><td>5</td><td>6</td><td>5</td><td>2</td></tr><tr><td>D16</td><td>30*</td><td>2</td><td>8</td><td>5</td><td>2</td></tr></tbody></table><p class="note">*추가 지침은 DRV '봇 규칙을 참조하세요.</p>`,
+        "🅟 SAM & AAA 지도 상 마커 범례": `<div style="display: flex; flex-wrap: wrap; gap: 10px;"><div class="highlight" style="flex: 1; min-width: 250px;"><p><strong>SAM 상태:</strong></p><ul style="list-style: none; padding: 0;"><li style="display: flex; align-items: center; margin: 4px 0;"><img src="1.png" alt="marker" style="width:40px;height:40px;margin-right: 8px;"> 비활성 SAM (시나리오 시작 시 SAM 준비)</li><li style="display: flex; align-items: center; margin: 4px 0;"><img src="2.png" alt="marker" style="width:40px;height:40px;margin-right: 8px;"> 활성 SAM - 위치 불명 (3발 남음)</li><li style="display: flex; align-items: center; margin: 4px 0;"><img src="3.png" alt="marker" style="width:40px;height:40px;margin-right: 8px;"> 활성 SAM - 위치 불명 (레이더 종료, 탄약 고갈)</li><li style="display: flex; align-items: center; margin: 4px 0;"><img src="4.png" alt="marker" style="width:40px;height:40px;margin-right: 8px;"> 활성 SAM - 위치 확인 (3발 남음)</li><li style="display: flex; align-items: center; margin: 4px 0;"><img src="5.png" alt="marker" style="width:40px;height:40px;margin-right: 8px;"> 활성 SAM - 위치 확인 (레이더 종료, 탄약 고갈)</li><li style="display: flex; align-items: center; margin: 4px 0;"><img src="6.png" alt="marker" style="width:40px;height:40px;margin-right: 8px;"> 비활성 AAA (시나리오 시작 시 AAA 준비)</li></ul></div><div class="highlight" style="flex: 1; min-width: 250px;"><p><strong>카운터 방향으로 잔탄 표시</strong></p><ul style="list-style: none; padding: 0;"><li style="display: flex; align-items: center; margin: 4px 0;"><img src="11.png" alt="marker" style="width:40px;height:40px;margin-right: 8px;"> 2발 남음</li><li style="display: flex; align-items: center; margin: 4px 0;"><img src="22.png" alt="marker" style="width:40px;height:40px;margin-right: 8px;"> 1발 남음</li><li style="display: flex; align-items: center; margin: 4px 0;"><img src="33.png" alt="marker" style="width:40px;height:40px;margin-right: 8px;"> 탄약 고갈</li></ul></div></div><div class="note">[선택사항] — SAM 탄약을 추적하는 대신, 공대공 무기와 같이 {3}을 사용하여 탄약 고갈을 굴립니다. 일제 사격을 하는 경우 굴림에 -3을 보정합니다.</div>`,
+        "🅠 종료 시 MAP": `<p>시나리오 종료 시, 모든 실제 DRV 비행대의 총 MAP를 합산하고 시나리오 설정 지침과 비교합니다. 적절히 US VP를 부여합니다.</p><table class="table"><tbody><tr><th>항공기</th><th>MiG-17F</th><th>MiG-19S</th><th>MiG-21 F-13/PF/PFM</th><th>MiG-21MF</th></tr><tr><td>1x</td><td>—</td><td>—</td><td>—</td><td>9</td></tr><tr><td>2x</td><td>8</td><td>9</td><td>13</td><td>14</td></tr><tr><td>3x</td><td>10</td><td>12</td><td>18</td><td>19</td></tr><tr><td>4x</td><td>12</td><td>15</td><td>23</td><td>24</td></tr></tbody></table>`,
+        "🅡 준비 단계": `<ol><li>SAM 준비(setup) 마커를 배치합니다.</li><li>비활성 AAA 마커를 배치합니다.</li><li>파이어 캔 마커를 수집합니다.</li><li>US 비행대와 경로를 설정합니다.</li><li>SAM 경고 마커를 배치합니다.</li><li>조기 경보를 굴리고 일반 MiG를 배치합니다(있는 경우).</li></ol>`,
+        "🅩 발사 후 락온 표": `<p>[선택사항] 1967년 8월 이후인 경우, 탐지된 US 비행대가 비활성 SAM의 5헥스 이내로 이동할 때마다 LOAL 확인을 합니다.</p><div class="highlight"><strong>LOAL</strong> <span class="dice-formula">(1d10)</span>: ≤ 3 <span class="result">사격</span>; ≥ 4 <span class="result">사격 안 함</span></div><table class="table"><tbody><tr><th>결과</th><th></th></tr><tr><td><strong>사격 발생 O</strong></td><td>SAM을 활성화하고 사격을 유발한 US 비행대에 일제 사격을 시도합니다</td></tr><tr><td><strong>사격 발생 X</strong></td><td>SAM은 활성화되지 않습니다</td></tr></tbody></table>`
+    };
+
     document.addEventListener('DOMContentLoaded', () => {
+        // FAB and SOP Modal Logic
         const fab = document.getElementById('fab');
-        const modal = document.getElementById('sopModal');
-        const closeModal = document.getElementById('closeModal');
+        const sopModal = document.getElementById('sopModal');
+        const closeSopModal = document.getElementById('closeModal');
 
-        fab.addEventListener('click', () => {
-            modal.style.display = 'flex';
+        fab.addEventListener('click', () => sopModal.classList.add('show'));
+        closeSopModal.addEventListener('click', () => sopModal.classList.remove('show'));
+
+        // Table Reference Modal Logic
+        const refModal = document.getElementById('refModal');
+        const refModalTitle = document.getElementById('refModalTitle');
+        const refModalContent = document.getElementById('refModalContent');
+        const closeRefModal = refModal.querySelector('.close-button');
+
+        function showRefModal(title) {
+            refModalTitle.textContent = title;
+            
+            const content = refContentData[title.trim()];
+
+            if (content) {
+                refModalContent.innerHTML = content;
+            } else {
+                refModalContent.innerHTML = '해당 내용을 찾을 수 없습니다.';
+            }
+            refModal.classList.add('show');
+        }
+
+        document.querySelectorAll('.table-ref').forEach(el => {
+            el.addEventListener('click', (e) => {
+                const title = e.target.textContent;
+                showRefModal(title);
+            });
         });
 
-        closeModal.addEventListener('click', () => {
-            modal.style.display = 'none';
-        });
+        closeRefModal.addEventListener('click', () => refModal.classList.remove('show'));
 
-        // Close modal if clicked outside of it
+        // 모달 바깥 영역 클릭 시 닫기
         window.addEventListener('click', (event) => {
-            if (event.target === modal) {
-                modal.style.display = 'none';
+            // sopModal이 열려있고, 클릭된 곳이 모달 내부가 아닐 때
+            if (sopModal.classList.contains('show') && !event.target.closest('#sopModal .modal-dialog') && !event.target.closest('#sopModal .modal-content') && event.target !== fab) {
+                sopModal.classList.remove('show');
+            }
+
+            // refModal이 열려있고, 클릭된 곳이 모달 내부나 참조 링크가 아닐 때
+            if (refModal.classList.contains('show') && !event.target.closest('#refModal .modal-dialog') && !event.target.closest('#refModal .modal-content') && !event.target.closest('.table-ref')) {
+                refModal.classList.remove('show');
             }
         });
     });

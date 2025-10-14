@@ -13,9 +13,9 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.3;
-            margin: 0;
-            padding: 8px;
+            line-height: 1.6;
+            margin: 0 auto;
+            padding: 20px;
             background-color: #1e2130;
             color: #e8e9ec;
             box-sizing: border-box;
@@ -24,7 +24,7 @@
 
         h1 {
             text-align: center;
-            margin: 4px 0;
+            margin: 10px 0 20px;
             font-size: 28px;
         }
 
@@ -32,14 +32,14 @@
             display: flex;
             flex-direction: row;
             gap: 8px;
-            flex-direction: column;
+            flex-direction: column; 
         }
 
         .section {
             background-color: #2d3142;
             border-radius: 8px;
-            padding: 6px 10px;
-            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+            padding: 16px 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
 
         .section-title {
@@ -52,19 +52,27 @@
         }
 
         .phase {
-            margin-bottom: 4px;
+            margin-bottom: 16px;
         }
 
         .phase-title {
             font-weight: bold;
             color: #f8c291;
-            margin-bottom: 4px;
+            margin-bottom: 8px;
             font-size: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .phase-title::before {
+            content: '➤';
+            margin-right: 8px;
+            color: #f8c291;
         }
 
         ul {
-            margin: 2px 0;
-            padding-left: 18px;
+            margin: 4px 0;
+            padding-left: 22px;
         }
 
         li {
@@ -82,10 +90,10 @@
         }
 
         .sub-step {
-            padding-left: 10px;
+            padding-left: 20px;
             font-size: 15px;
             color: #c8cad6;
-            margin-top: 1px;
+            margin-top: 4px;
         }
 
         .reference {
@@ -95,17 +103,21 @@
 
         /* 툴팁 스타일 */
         .tooltip {
-            position: absolute;
+            position: fixed; /* 화면에 고정 */
+            right: 20px; /* 오른쪽 가장자리에서 20px */
+            top: 50%; /* 세로 중앙 정렬을 위한 기준 */
+            transform: translateY(-50%); /* 세로 중앙 정렬 */
             background-color: #f0f4f8;
             color: #1e2130;
             padding: 10px 15px;
             border-radius: 6px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.35);
             z-index: 1000;
-            max-width: max(500px, 50vw);
             font-size: 15px;
             line-height: 1.5;
             border: 1px solid #61dafb;
+            max-width: 450px; /* 최대 너비 조정 */
+            width: calc(100vw - 40px); /* 모바일 화면 대응 */
         }
         .tooltip-title {
             font-weight: bold;
@@ -131,8 +143,8 @@
             <div class="section">
                 <div class="section-title">3.1 공격대 투입 전 (Pre-Raid)</div>
 
-                <br><div class="phase">
-                    <div class="phase-title">▶ DRV 계획 페이즈 <span class="reference">[<a data-rule="27.33">27.33</a>]</span></div>
+                <div class="phase">
+                    <div class="phase-title">DRV 계획 페이즈 <span class="reference">[<a data-rule="27.33">27.33</a>]</span></div>
                     <ul>
                         <li>SAM 대대의 지도 위치 선택 </li>
                         <li>더미 SAM의 지도 위치 선택</li>
@@ -143,7 +155,7 @@
                 </div>
 
                 <div class="phase">
-                    <div class="phase-title">▶ DRV 지상 배치 페이즈 <span class="reference">[<a data-rule="27.61">27.61</a>, <a data-rule="27.62">27.62</a>, <a data-rule="solo-drv-setup">솔로 DRV 배치</a>]</span></div>
+                    <div class="phase-title">DRV 지상 배치 페이즈 <span class="reference">[<a data-rule="27.61">27.61</a>, <a data-rule="27.62">27.62</a>, <a data-rule="solo-drv-setup">솔로 DRV 배치</a>]</span></div>
                     <ul>
                         <li>비은폐 AAA 설치</li>
                         <li>위치가 파악된 SAM을 지도 상에 설치</li>
@@ -151,7 +163,7 @@
                 </div>
 
                 <div class="phase">
-                    <div class="phase-title">▶ 미국 계획 페이즈 <span class="reference">[<a data-rule="27.32">27.32</a>]</span></div>
+                    <div class="phase-title">미국 계획 페이즈 <span class="reference">[<a data-rule="27.32">27.32</a>]</span></div>
                     <ul>
                         <li>목표물 선택</li>
                         <li>공격대를 위한 비행 경로 계획</li>
@@ -159,7 +171,7 @@
                 </div>
 
                 <div class="phase">
-                    <div class="phase-title">▶ 조기 경보 페이즈</div>
+                    <div class="phase-title">조기 경보 페이즈</div>
                     <ul>
                         <li>날씨 주사위 굴림 <span class="reference">[<a data-rule="22.2">22.2</a>]</span></li>
                         <li>공격대의 조기 경보 수준 주사위 굴림 <span class="reference">[<a data-rule="27.5">27.5</a>]</span></li>
@@ -168,7 +180,7 @@
                 </div>
 
                 <div class="phase">
-                    <div class="phase-title">▶ DRV 공중 배치 페이즈</div>
+                    <div class="phase-title">DRV 공중 배치 페이즈</div>
                     <ul>
                         <li>DRV 플레이어가 비행대 구매 <span class="reference">[<a data-rule="27.21">27.21</a>]</span></li>
                         <li>DRV 비행대를 비행장에서 준비/격납고 상태 또는 공중에 배치 <span class="reference">[<a data-rule="27.63">27.63</a>]</span></li>
@@ -176,7 +188,7 @@
                 </div>
 
                 <div class="phase">
-                    <div class="phase-title">▶ 미국 배치 페이즈</div>
+                    <div class="phase-title">미국 배치 페이즈</div>
                     <ul>
                         <li>첫 게임 턴에 진입하는 미국 비행대는 진입 헥스 근처 맵 바깥에 배치 <span class="reference">[<a data-rule="27.64">27.64</a>]</span></li>
                         <li>비행대의 탐지 상태는 조기 경보 수준에 따라 설정 <span class="reference">[<a data-rule="27.66">27.66</a>]</span></li>
@@ -184,40 +196,40 @@
                 </div>
 
                 <div class="phase">
-                    <div class="phase-title">▶ DRV 레이더 페이즈 <span class="reference">[<a data-rule="27.65">27.65</a>]</span></div>
+                    <div class="phase-title">DRV 레이더 페이즈 <span class="reference">[<a data-rule="27.65">27.65</a>]</span></div>
                     <ul>
                         <li>DRV 플레이어는 파이어 캔/SAM/레이더를 켤 수 있음. AAA 활성화 가능</li>
                     </ul>
-                </div><br>
+                </div>
             </div>
 
         <!-- 주력 공격대 -->
             <div class="section">
                 <div class="section-title">3.2 주력 공격대 (Main Raid)</div>
 
-                <br><div class="phase">
-                    <div class="phase-title">▶ 무작위 이벤트 페이즈</div>
+                <div class="phase">
+                    <div class="phase-title">무작위 이벤트 페이즈</div>
                     <ul>
                         <li>무작위 이벤트 확인 <span class="reference">[<a data-rule="21">21</a>]</span> (첫 턴에는 제외)</li>
                     </ul>
                 </div>
 
                 <div class="phase">
-                    <div class="phase-title">▶ 전파 방해 페이즈</div>
+                    <div class="phase-title">전파 방해 페이즈</div>
                     <ul>
                         <li>미국은 스탠드오프 재밍 및 스팟 재밍 마커를 배치하거나 이동 <span class="reference">[<a data-rule="19.32">19.32</a>, <a data-rule="19.33">19.33</a>, <a data-rule="19.34">19.34</a>]</span></li>
                     </ul>
                 </div>
 
                 <div class="phase">
-                    <div class="phase-title">▶ 탐지 페이즈</div>
+                    <div class="phase-title">탐지 페이즈</div>
                     <ul>
                         <li>미탐지 비행대 탐지를 위한 주사위 굴림 <span class="reference">[<a data-rule="10.2">10.2</a>]</span></li>
                     </ul>
                 </div>
 
                 <div class="phase">
-                    <div class="phase-title">▶ 이동 페이즈</div>
+                    <div class="phase-title">이동 페이즈</div>
                     <ul>
                         <li>비행대가 방어 원형진에 진입/이탈 <span class="reference">[<a data-rule="7.11">7.11</a>, <a data-rule="7.13">7.13</a>]</span></li>
                         <li>주도권 칩 뽑기 <span class="reference">[<a data-rule="5.2">5.2</a>]</span></li>
@@ -233,7 +245,7 @@
                 </div>
 
                 <div class="phase">
-                    <div class="phase-title">▶ 연료 페이즈</div>
+                    <div class="phase-title">연료 페이즈</div>
                     <ul>
                         <li>대시 스로틀/공대공 전투 참여 비행대는 연료 사용량 기록 <span class="reference">[<a data-rule="20.1">20.1</a>]</span></li>
                         <li>항공기 회수(착륙 또는 지도 이탈) <span class="reference">[<a data-rule="20.2">20.2</a>]</span></li>
@@ -241,21 +253,21 @@
                 </div>
 
                 <div class="phase">
-                    <div class="phase-title">▶ SAM 위치 페이즈</div>
+                    <div class="phase-title">SAM 위치 페이즈</div>
                     <ul>
                         <li>미국 플레이어가 SAM 대대 위치 파악 <span class="reference">[<a data-rule="15.13">15.13</a>]</span></li>
                     </ul>
                 </div>
 
                 <div class="phase">
-                    <div class="phase-title">▶ 추적 페이즈</div>
+                    <div class="phase-title">추적 페이즈</div>
                     <ul>
                         <li>양 플레이어는 추적 테이블 주사위 굴림으로 미탐지 상태 결정 <span class="reference">[<a data-rule="10.3">10.3</a>]</span></li>
                     </ul>
                 </div>
 
                 <div class="phase">
-                    <div class="phase-title">▶ SAM 표적 획득 페이즈</div>
+                    <div class="phase-title">SAM 표적 획득 페이즈</div>
                     <ul>
                         <li>신속 표적 획득을 시도하는 SAM 레이더 켜기 <span class="reference">[<a data-rule="15.2">15.2</a>]</span></li>
                         <li>SAM 대대는 적 비행대에 표적 획득을 시도하거나 유지 <span class="reference">[<a data-rule="15.3">15.3</a>]</span></li>
@@ -264,7 +276,7 @@
                 </div>
 
                 <div class="phase">
-                    <div class="phase-title">▶ 관리 페이즈</div>
+                    <div class="phase-title">관리 페이즈</div>
                     <ul>
                         <li>비행대 무질서 상태 회복 주사위 굴림 <span class="reference">[<a data-rule="13.11">13.11</a>]</span></li>
                         <li>모든 스팟 재밍 마커 제거 <span class="reference">[<a data-rule="19.34">19.34</a>]</span></li>
@@ -277,32 +289,32 @@
                         <li>낙하산 승무원 관리 <span class="reference">[<a data-rule="26.1">26.1</a>-<a data-rule="26.44">26.44</a>]</span></li>
                         <li>다음 턴 진입 비행대 배치 <span class="reference">[<a data-rule="27.64">27.64</a>]</span></li>
                     </ul>
-                </div><br>
+                </div>
             </div>
 
         <!-- 공격대 투입 후 -->
             <div class="section">
                 <div class="section-title">3.3 공격대 투입 후 (Post-Raid) </div>
-                <br><div class="phase">
-                    <div class="phase-title">▶ 회수 페이즈</div>
+                <div class="phase">
+                    <div class="phase-title">회수 페이즈</div>
                     <ul>
                         <li>지도 상에 남아있는 비행대의 회수 주사위 굴림 <span class="reference">[<a data-rule="20.2">20.2</a>]</span></li>
                     </ul>
                 </div>
 
                 <div class="phase">
-                    <div class="phase-title">▶ 폭격 피해 평가 페이즈</div>
+                    <div class="phase-title">폭격 피해 평가 페이즈</div>
                     <ul>
                         <li>평가되지 않은 모든 공대지 피해 주사위 굴림 <span class="reference">[<a data-rule="18.1">18.1</a>, <a data-rule="24">24</a>]</span></li>
                     </ul>
                 </div>
 
                 <div class="phase">
-                    <div class="phase-title">▶ 승리 페이즈</div>
+                    <div class="phase-title">승리 페이즈</div>
                     <ul>
                         <li>플레이어들은 공격대에서의 승리 조건 확인 <span class="reference">[<a data-rule="27.8">27.8</a>]</span></li>
                     </ul>
-                </div><br>
+                </div>
             </div>
     </div>
 
@@ -425,29 +437,18 @@
                 setTimeout(() => {
                     const rect = element.getBoundingClientRect();
                     const tooltipRect = tooltip.getBoundingClientRect();
-
-                    let left = rect.right + window.scrollX + 10; // 참조 요소 오른쪽에 10px 간격
-                    let top = rect.top + window.scrollY + (rect.height / 2) - (tooltipRect.height / 2); // 세로 중앙 정렬
-
-                    // 툴팁이 화면 오른쪽을 벗어나면 참조 요소 왼쪽에 표시
-                    if (left + tooltipRect.width > document.documentElement.clientWidth) {
-                        left = rect.left + window.scrollX - tooltipRect.width - 10;
-                    }
-
-                    // 툴팁이 화면 왼쪽을 벗어나지 않도록 조정
-                    if (left < window.scrollX) {
-                        left = window.scrollX + 5;
-                    }
+                    
+                    // 화면 세로 중앙에 위치시키되, 너무 위나 아래로 가지 않도록 조정
+                    let top = (window.innerHeight / 2) - (tooltipRect.height / 2);
 
                     // 툴팁이 화면 위/아래를 벗어나지 않도록 조정
-                    if (top < window.scrollY) {
-                        top = window.scrollY + 5;
-                    } else if (top + tooltipRect.height > window.scrollY + document.documentElement.clientHeight) {
-                        top = window.scrollY + document.documentElement.clientHeight - tooltipRect.height - 5;
+                    if (top < 10) {
+                        top = 10;
+                    } else if (top + tooltipRect.height > window.innerHeight - 10) {
+                        top = window.innerHeight - tooltipRect.height - 10;
                     }
 
                     tooltip.style.top = `${top}px`;
-                    tooltip.style.left = `${left}px`;
                 }, 0);
             }
 
