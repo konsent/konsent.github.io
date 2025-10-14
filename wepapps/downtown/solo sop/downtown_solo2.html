@@ -16,6 +16,7 @@
         .note { background-color: #f8f9fa; padding: 10px; border-left: 4px solid #3498db; margin: 10px 0; }
         .golden-rule { background-color: #fff3cd; padding: 15px; border: 1px solid #ffeaa7; border-radius: 5px; }
         .table-ref { color: #e74c3c; font-weight: bold; }
+        .red { color: #e74c3c; }
 
         /* Floating Action Button and Modal Styles */
         .fab {
@@ -156,7 +157,7 @@
 <div class="section">
     <h2>4.2 DRV 방어 셋업</h2>
     <div class="note">
-        <strong>참고:</strong> DRV '봇'은 인간 상대와 다른 세팅 절차를 사용합니다. 일반적으로 '봇'은 맵에 위치가 확인된 SAM을 배치하지 않고(몇 가지 시나리오 제외; 아래 시나리오별 지침 참조), AAA 집중구역을 업그레이드하지 않으며, 시나리오 시작 시 MiG를 구매하지 않습니다.
+        <strong>참고:</strong> DRV '봇'은 인간 상대와 다른 세팅 절차를 사용합니다. 일반적으로 '봇'은 지도에 위치가 확인된 SAM을 배치하지 않고(몇 가지 시나리오 제외; 아래 시나리오별 지침 참조), AAA 집중구역을 업그레이드하지 않으며, 시나리오 시작 시 MiG를 구매하지 않습니다.
     </div>
     <div class="subsection">
         <ol>
@@ -171,18 +172,18 @@
             </li>
             <li><strong>AAA 마커 배치:</strong>
                 <ul>
-                    <li>대공포 비활성 면의 AAA 마커는 가능한 AAA 사이트를 나타냅니다(이를 위해 임의의 AAA 마커를 사용하세요; 활성화되면 적절한 AAA 마커로 교체됩니다). 셋업 시 배치되는 AAA 마커의 총 수는 <span class="table-ref">🅞 DRV 준비 표</span>에 표시됩니다. 잠재적 목표 헥스를 커버하도록 비활성 AAA 마커를 분배하되, 지도 상 AAA로 커버되지 않는 곳을 먼저, 그 다음 하노이나 하이퐁에 가장 가까운 곳을 우선합니다.</li>
-                    <li>'봇'은 지도 상 AAA 집중구역 업그레이드를 절대 구매하지 않습니다.</li>
+                    <li>비활성 AAA 마커는 가능한 AAA 사이트를 나타냅니다(이를 위해 임의의 AAA 마커를 사용하세요; 활성화되면 적절한 AAA 마커로 교체됩니다). 셋업 시 배치되는 AAA 마커의 총 수는 <span class="table-ref">🅞 DRV 준비 표</span>에 표시됩니다. 잠재적 목표 헥스를 커버하도록 비활성 AAA 마커를 분배하되, 지도 상 AAA로 커버되지 않는 곳을 먼저, 그 다음 하노이나 하이퐁에 가장 가까운 곳을 우선합니다.</li>
+                    <li><span class="red">'봇'은 지도 상 AAA 집중구역 업그레이드를 절대 구매하지 않습니다.</span></li>
                     <li><span class="table-ref">🅞 DRV 준비 표</span>에 표시된 대로 이용 가능한 파이어 캔 마커를 수집하고, 지금은 따로 둡니다.</li>
                 </ul>
-                <p class="note"><strong>참고:</strong> '봇'은 숨겨진 AAA 집중구역을 사용하지 않습니다. AAA 마커 배치에 관해 봇을 위해 합리적인 선택을 하도록 최선을 다하세요.</p>
+                <p class="note"><strong>참고:</strong> <span class="red">'봇'은 숨겨진 AAA 집중구역을 사용하지 않습니다.</span> AAA 마커 배치에 관해 봇을 위해 합리적인 선택을 하도록 최선을 다하세요.</p>
             </li>
-            <li><strong>공격대 목표와 미군 비행대 선택:</strong> 시나리오 지침에 따라. 모든 미군 경로와 침입/철수 헥스를 정상적으로 계획합니다.</li>
+            <li><strong>공격대 목표와 미군 비행대 선택:</strong> 시나리오 지침에 따라. 모든 미군 경로와 진입/이탈 헥스를 정상적으로 계획합니다.</li>
             <li><strong>SAM 경고 마커 배치:</strong>
                 <ul>
-                    <li>레이더 꺼짐 면의 SAM 경고 마커는 가능한 SAM 사이트를 나타냅니다. 셋업 시 배치되는 SAM 경고 마커의 총 수는 <span class="table-ref">🅞 DRV 준비 표</span>에 표시됩니다. 각 마커에 대해 1d10을 굴립니다; 굴린 SAM 셋업 마커의 2헥스 내에, 그리고 이미 맵에 있는 다른 SAM 경고 마커로부터 최소 1헥스 떨어진 곳에 마커를 배치합니다. 특정 SAM 셋업 마커에 대해 적법한 배치 헥스가 존재하지 않으면 재굴림합니다.</li>
+                    <li>레이더 꺼짐 면의 SAM 경고 마커는 가능한 SAM 사이트를 나타냅니다. 셋업 시 배치되는 SAM 경고 마커의 총 수는 <span class="table-ref">🅞 DRV 준비 표</span>에 표시됩니다. 각 마커마다 1d10을 굴립니다; 굴린 SAM 셋업 마커의 2헥스 내에, 그리고 이미 맵에 있는 다른 SAM 경고 마커로부터 최소 1헥스 떨어진 곳에 마커를 배치합니다. 특정 SAM 셋업 마커에 대해 적법한 배치 헥스가 존재하지 않으면 재굴림합니다.</li>
                 </ul>
-                <p class="note"><strong>참고:</strong> '봇'은 숨겨진 SAM을 사용하지 않습니다. 아래 특별 시나리오 셋업 지침에 표시되지 않는 한, 위치가 확인된 SAM은 맵에 배치되지 않습니다.</p>
+                <p class="note"><strong>참고:</strong> <span class="red">'봇'은 숨겨진 SAM을 사용하지 않습니다.</span> 아래 특별 시나리오 셋업 지침에 표시되지 않는 한, 위치가 확인된 SAM은 맵에 배치되지 않습니다.</p>
             </li>
             <li><strong>일반 MiG 비행대 배치:</strong>
                 <ul>
