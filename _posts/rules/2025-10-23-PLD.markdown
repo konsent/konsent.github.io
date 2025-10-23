@@ -1,0 +1,32 @@
+---
+layout: post3
+title: "Phantom Leader Deluxe"
+date: 2025-10-23 00:00:00
+preview: /photo/PLD/231023_pld_thumb.jpeg
+published: true
+rules: "on"
+short: null
+long: null
+---
+
+<img src="/photo/PLD/231023_pld_thumb.jpeg" width="1000">
+
+Phantom Leader Deluxe
+<br>
+1인용 워게임 팬텀 리더 디럭스 버전 규칙서 번역본입니다.
+<br>
+오역이나 빠진 부분 있으면 말씀주세요!!
+
+
+<br>
+-----
+<br>
+v1.0 - 최초 업로드본
+<br>
+-----
+
+
+- [한국어 규칙서 번역본](/photo/PLD/[KOR] Phantom Leader v1.0.pdf)
+
+
+
