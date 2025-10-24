@@ -27,6 +27,7 @@ v1.0 - 최초 업로드본
 
 
 - [한국어 규칙서 번역본](/photo/PLD/[KOR] Phantom Leader v1.0.pdf)
+- [플레이 순서 카드](https://konsent.github.io/phantomleader)
 
 
 
