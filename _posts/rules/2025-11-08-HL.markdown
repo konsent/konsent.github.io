@@ -1,0 +1,32 @@
+---
+layout: post3
+title: "Hornet Leader"
+date: 2025-11-08 00:00:00
+preview: /photo/HL/251108_HL_thumb.jpg
+published: true
+rules: "on"
+short: null
+long: null
+---
+
+<img src="/photo/HL/251108_HL_thumb.jpg" width="1000">
+
+Hornet Leader 
+<br>
+1인용 워게임 호넷 리더 규칙서 번역본입니다.
+<br>
+오역이나 빠진 부분 있으면 말씀주세요!!
+
+
+<br>
+-----
+<br>
+v1.0 - 최초 업로드본
+<br>
+-----
+
+
+- [한국어 규칙서 번역본](/photo/HL/[KOR] Hornet leader ver1.0.pdf)
+
+
+
