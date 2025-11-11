@@ -35,7 +35,11 @@
         .section {
             margin-bottom: 35px;
         }
-        ol { counter-reset: item; }
+        ol { 
+            counter-reset: item; 
+            list-style-type: none;
+            padding-left: 20px;
+        }
         ol > li { counter-increment: item; }
         ol > li:before {
             content: counter(item, upper-roman) ") ";
@@ -61,6 +65,9 @@
             margin-bottom: 8px;
         }
         .letter-list li:before {
+            content: none;
+        }
+        .letter-list li::before {
             color: #2c2c2c;
             font-weight: normal;
         }
@@ -99,21 +106,18 @@
             </ol>
             <div class="note">
                 <p><span class="bold">새로운 날씨 기간에 진입한 경우 (>#01 / >#31 / >#61)</span> → 현재 날씨에 맞춰 날씨 카드를 조정</p>
-                <ol type="i">
+                <ol>
                     <li>턴 마커 전진</li>
                     <li>현재 날씨에 맞춰 날씨 카드를 조정</li>
                     <li>행동 카드 확인: 이 턴에 들어올 카드가 있으면 카드 더미에 추가 &amp; 섞기</li>
                     <li>현재 턴의 증원을 → 대기 영역에 배치</li>
                     <li>전체 이벤트 버림 더미 섞기 <span class="red">(최상단 소비 이벤트 포함)</span> → 이벤트 추출 더미 하단에 배치</li>
-                </ol>
-                <p>소유자(들)는 초과 공군 유닛 제거 <span class="red">(더 이상 사용 불가인 경우)</span></p>
-                <ol type="i" start="6">
                     <li>공군 조정: 버림 더미의 공군 기호, 현재 &amp; 대기 이벤트에 따라 [10.3] <span class="red">(소련&gt;OKH&gt;OKW&gt;서부)</span></li>
-                </ol>
-                <p>소유자(들)는 공군 유닛 추가 [10.3] <span class="red">(새로 제공되는 경우)</span>: 포스 풀 → 지도 <span class="red">(사용 가능한 경우)</span></p>
-                <ol type="i" start="7">
+                    <ol>
+                        <p>소유자(들)는 초과 공군 유닛 제거 <span class="red">(더 이상 사용 불가인 경우)</span></p>
+                        <p>소유자(들)는 공군 유닛 추가 [10.3] <span class="red">(새로 제공되는 경우)</span>: 포스 풀 → 지도 <span class="red">(사용 가능한 경우)</span></p>
+                    </ol>
                     <li>모든 명령 배치: 명령 칸 → 추출 컵 <span class="red">(계획 칸 / 행동 트랙 명령은 그대로 유지)</span></li>
-                </ol>
             </div>
         </li>
 
