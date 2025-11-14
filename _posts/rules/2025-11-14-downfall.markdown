@@ -1,0 +1,32 @@
+---
+layout: post3
+title: "Downfall: Conquest of the Third Reich, 1942-1945"
+date: 2025-11-14 00:00:00
+preview: /photo/Downfall/251114_downfall_thumb.jpeg
+published: true
+rules: "on"
+short: null
+long: null
+---
+
+<img src="/photo/Downfall/251114_downfall_thumb.jpeg" width="1000">
+
+Downfall: Conquest of the Third Reich, 1942-1945
+<br>
+존 버터필드와 채드 젠슨의 몰락입니다.
+<br>
+오역이나 빠진 부분 있으면 말씀주세요!!
+
+
+<br>
+-----
+<br>
+v1.0 - 최초 업로드본
+<br>
+-----
+
+
+- [한국어 규칙서 번역본](/photo/Downfall/[KOR]Downfall_rule v1.0.pdf)
+
+
+
