@@ -28,5 +28,8 @@ v1.0 - 최초 업로드본
 
 - [한국어 규칙서 번역본](/photo/Downfall/[KOR]Downfall_rule v1.0.pdf)
 
+BGG에 있는 플레이 시퀀스를 번역했습니다.
+- [놓치기 쉬운 규칙](/wepapps/downtown/sop.html)
+
 
 
