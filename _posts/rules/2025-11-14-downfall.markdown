@@ -24,9 +24,13 @@ Downfall: Conquest of the Third Reich, 1942-1945
 v1.0 - 최초 업로드본
 <br>
 -----
+<br>
+v1.1 - 오타 수정(p.8 "항구은->항구는" / p.9 ",에"->", 턴 트랙에")
+<br>
+-----
 
 
-- [한국어 규칙서 번역본](/photo/Downfall/[KOR]Downfall_rule v1.0.pdf)
+- [한국어 규칙서 번역본](/photo/Downfall/[KOR]Downfall_rule v1.1.pdf)
 
 BGG에 있는 플레이 시퀀스를 번역했습니다.
 - [플레이 시퀀스](/wepapps/downfall/sop.html)
