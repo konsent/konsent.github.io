@@ -31,8 +31,8 @@ v1.1 - 오타 수정(p.8 "항구은->항구는" / p.9 ",에"->", 턴 트랙에")
 
 
 - [한국어 규칙서 번역본](/photo/Downfall/[KOR]Downfall_rule v1.1.pdf)
-- [카드 한글화(진영 카드)](/photo/Downfall/Downfall_Faction card.pdf)
-- [카드 한글화(이벤트 카드)](/photo/Downfall/Downfall_Event card.pdf)
+- [카드 한글화(진영 카드)](/photo/Downfall/Downfall_Faction card_v1.1.pdf)
+- [카드 한글화(이벤트 카드)](/photo/Downfall/Downfall_Event card_v1.1.pdf)
 
 BGG에 있는 플레이 시퀀스를 번역했습니다.
 - [플레이 시퀀스](/wepapps/downfall/sop.html)
