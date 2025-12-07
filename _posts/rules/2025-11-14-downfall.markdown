@@ -51,8 +51,8 @@ v1.3 - C.해역 - 문장 수정
 - [한국어 규칙서 번역본](/photo/Downfall/[KOR]Downfall_rule v1.3.pdf)
 
 
-- [카드 한글화(진영 카드)](/photo/Downfall/Downfall_Faction card_v1.1.pdf)
-- [카드 한글화(이벤트 카드)](/photo/Downfall/Downfall_Event card_v1.1.pdf)
+- [카드 한글화(진영 카드)](/photo/Downfall/Downfall_Faction card_v1.2.pdf)
+- [카드 한글화(이벤트 카드)](/photo/Downfall/Downfall_Event card_v1.2.pdf)
 
 
 
