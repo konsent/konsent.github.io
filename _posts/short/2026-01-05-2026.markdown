@@ -1,0 +1,25 @@
+---
+layout: post
+title: "새해가 되었으니 새 만화를 그려보자"
+date: 2026-01-05 00:00:00
+preview: /photo/260105_2026_thumb.jpg
+published: true
+short: "on"
+---
+
+
+
+<img src="/photo/260105_2026.jpg" width="1000">
+
+
+새로운 만화로 2026년을 시작해보자
+
+
+
+
+
+
+
+
+
+
