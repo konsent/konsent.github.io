@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "이상한 워게임 아저씨
+title: "이상한 워게임 아저씨"
 date: 2026-01-18 00:00:00
 preview: /photo/260118_weird_thumb.jpg
 published: true
