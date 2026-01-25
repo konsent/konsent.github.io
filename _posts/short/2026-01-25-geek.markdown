@@ -2,7 +2,7 @@
 layout: post
 title: "쉽게 대답하기 힘든 쉬운 질문"
 date: 2026-01-18 00:00:00
-preview: /photo/2260125_geek1.png
+preview: /photo/260125_geek_thumb.jpg
 published: true
 short: "on"
 ---
