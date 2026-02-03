@@ -1,0 +1,18 @@
+---
+layout: post
+title: "보기만 해도 기분이 좋음"
+date: 2026-02-04 00:00:00
+preview: /photo/260204_shelf_thumb.jpg
+published: true
+short: "on"
+---
+
+
+
+<img src="/photo/260204_shelf.PNG" width="1000">
+
+
+
+게임 꺼내서 괜히 열어보고 다시 넣고 테트리스하면 기분 좋음;
+
+
