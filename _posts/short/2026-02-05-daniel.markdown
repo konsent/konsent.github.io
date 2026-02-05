@@ -1,0 +1,21 @@
+---
+layout: post
+title: "왜 내가 대학생떄는 이런거 없었냐고 왜"
+date: 2026-02-05 00:00:00
+preview: /photo/260205_daniel_thumb.jpg
+published: true
+short: "on"
+---
+
+
+
+<img src="/photo/260205_daniel1.PNG" width="1000">
+<img src="/photo/260205_daniel2.PNG" width="1000">
+<img src="/photo/260205_daniel3.PNG" width="1000">
+<img src="/photo/260205_daniel4.PNG" width="1000">
+
+
+
+나도 대학생이고 싶다
+
+
