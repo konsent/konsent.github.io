@@ -24,4 +24,4 @@ ISS Vanguard는 우주 테마의 1~4인 협동 캠페인 보드게임입니다. 
 
 <img src="/photo/issvan1.png" width="800">
 
-- [자료 다운로드 링크](https://drive.google.com/file/d/1qQu4gLK4YsdcWPtlxQjmap2RRrk6bU6m/view?usp=sharing)
+- [한국어 규칙서 번역본](/photo/한글 규칙서(ISS VANGUARD) v1.0.pdf)
