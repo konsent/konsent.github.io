@@ -1,0 +1,16 @@
+---
+layout: post
+title: "관짝"
+date: 2026-02-10 00:00:00
+preview: /photo/260213_coffin_thumb.jpg
+published: true
+short: "on"
+---
+
+
+
+<img src="/photo/260213_coffin1.PNG" width="1000">
+<img src="/photo/260213_coffin2.PNG" width="1000">
+
+빅박스는 좋은 관짝입니다.
+
