@@ -31,7 +31,7 @@ v1.1 - 시나리오 준비 부분 내용 추가.
 - [자료 링크](/photo/[KOR]EOTS.pdf)
 
 카드 한글화 자료
-- [카드 한글화](/photo/eots/[KOR]eots_card.pdf)
+- [카드 한글화](/photo/eots/[KOR]eots_card_v2.pdf)
 
 일본군 에라스무스(오토마) 자료입니다. 틀린 부분 있어요!
 - [자료 다운로드 링크](https://drive.google.com/file/d/1zkBbiArIxtLtp5MZE-tE7ruYy3Mkngoj/view?usp=sharing)
