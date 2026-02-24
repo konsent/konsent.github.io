@@ -11,6 +11,11 @@ long: null
 
 <img src="/photo/sv/silent_victory_thumb.jpg" width="1000">
 
+<img src="/photo/sv/260225_sv_1.png" width="1000">
+<img src="/photo/sv/260225_sv_2.png" width="1000">
+
+
+
 Silent Victory: U.S. Submarines in the Pacific, 1941-45
 <br>
 헌터스 후속작 태평양 버전 잠수함 솔리테어 게임
