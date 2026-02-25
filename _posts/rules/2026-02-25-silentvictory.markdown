@@ -31,7 +31,7 @@ v1.0 - 최초 업로드본
 -----
 
 
-- [한국어 규칙서 번역본](/photo/sv/[KOR]silent-victory_ver1.pdf)
+- [한국어 규칙서 번역본](/photo/sv/[KOR]silent-victory_ver1.1.pdf)
 
 
 
