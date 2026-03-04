@@ -1,0 +1,18 @@
+---
+layout: post
+title: "우주게임 잡담"
+date: 2026-03-05 00:00:00
+preview: /photo/260305_space_thumb.jpg
+published: true
+short: "on"
+---
+
+
+
+<img src="/photo/260305_space1.PNG" width="1000">
+<img src="/photo/260305_space2.PNG" width="1000">
+<img src="/photo/260305_space3.PNG" width="1000">
+<img src="/photo/260305_space4.PNG" width="1000">
+
+
+세티로 시작해서 이상하게 끝나는 이상한 우주만화
