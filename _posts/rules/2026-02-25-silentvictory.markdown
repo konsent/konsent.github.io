@@ -32,6 +32,7 @@ v1.0 - 최초 업로드본
 
 
 - [한국어 규칙서 번역본](/photo/sv/[KOR]silent-victory_ver1.1.pdf)
+- [조우/명중 처리 Helper](https://script.google.com/macros/s/AKfycbyCJLSmaDGERtck32Bv2qVVIVfh3apVWn0Ftjfv3rYFgOvVuI4dTjVTI_0KEY6UOaUe8A/exec)
 
 
 
