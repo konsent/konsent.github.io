@@ -1,0 +1,20 @@
+---
+layout: post
+title: "서울 보드게임 페어에 당신들을 납치합니다"
+date: 2026-03-06 00:00:00
+preview: /photo/260306_SBGF_thumb.jpg
+published: true
+short: "on"
+---
+
+
+
+<img src="/photo/260306_SBGF1.PNG" width="1000">
+<img src="/photo/260306_SBGF2.PNG" width="1000">
+<img src="/photo/260306_SBGF3.PNG" width="1000">
+<img src="/photo/260306_SBGF4.PNG" width="1000">
+
+
+https://boardgamefair.vercel.app/index.html
+
+우리도 도쿄 게임마켓처럼 키워봅시다
