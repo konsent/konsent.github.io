@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DOWNTOWN — Order of Battle Generator</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Noto+Sans+KR:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --olive: #4a4a2a;
+    --khaki: #8b7d5a;
+    --tan: #c4a96b;
+    --cream: #e8dfc8;
+    --paper: #f2ead8;
+    --ink: #1a1a0e;
+    --red: #8b1a1a;
+    --green: #498d49;
+    --amber: #ff9100;
+    --fade: #9c9c5e;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background-color: #1c1c10;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 31px, rgba(74,74,42,0.15) 31px, rgba(74,74,42,0.15) 32px),
+      repeating-linear-gradient(90deg, transparent, transparent 31px, rgba(74,74,42,0.08) 31px, rgba(74,74,42,0.08) 32px);
+    min-height: 100vh;
+    font-family: 'Noto Sans KR', sans-serif;
+    color: var(--cream);
+    padding: 20px;
+  }
+
+  .page-header {
+    text-align: center;
+    padding: 30px 0 20px;
+    border-bottom: 2px solid var(--olive);
+    margin-bottom: 30px;
+    position: relative;
+  }
+  .page-header::before, .page-header::after {
+    content: '✈';
+    position: absolute;
+    top: 32px;
+    font-size: 20px;
+    color: var(--tan);
+    opacity: 0.6;
+  }
+  .page-header::before { left: 40px; }
+  .page-header::after { right: 40px; transform: scaleX(-1); }
+
+  .title-main {
+    font-family: 'Oswald', sans-serif;
+    font-size: clamp(42px, 8vw, 80px);
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: var(--tan);
+    text-shadow: 3px 3px 0 var(--olive), 0 0 40px rgba(196,169,107,0.3);
+    line-height: 1;
+  }
+  .title-sub {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.4em;
+    color: var(--fade);
+    margin-top: 6px;
+    text-transform: uppercase;
+  }
+  .title-line {
+    width: 200px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--tan), transparent);
+    margin: 10px auto;
+  }
+
+  .main-layout {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 360px 1fr;
+    gap: 24px;
+    align-items: start;
+  }
+
+  .panel {
+    background: rgba(30,28,15,0.9);
+    border: 1px solid var(--olive);
+    padding: 20px;
+  }
+  .panel-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    color: var(--tan);
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--olive);
+    padding-bottom: 8px;
+    margin-bottom: 16px;
+  }
+
+  .field-group { margin-bottom: 16px; }
+  .field-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--fade);
+    text-transform: uppercase;
+    margin-bottom: 5px;
+    display: block;
+  }
+
+  select, input[type="number"] {
+    width: 100%;
+    background: rgba(74,74,42,0.15);
+    border: 1px solid var(--olive);
+    color: var(--cream);
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 13px;
+    padding: 7px 10px;
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  select:focus, input[type="number"]:focus {
+    outline: none;
+    border-color: var(--tan);
+    background: rgba(74,74,42,0.25);
+  }
+  select option { background: #1c1c10; color: var(--cream); }
+
+  .date-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
+  .checkbox-group { display: flex; flex-direction: column; gap: 6px; }
+  .checkbox-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    cursor: pointer;
+    padding: 4px 0;
+  }
+  .checkbox-item input[type="checkbox"] {
+    width: auto;
+    margin-top: 2px;
+    accent-color: var(--tan);
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .checkbox-item span {
+    font-size: 13px;
+    color: var(--cream);
+    line-height: 1.4;
+  }
+
+  #usn-section, #variant-section { display: none; }
+  #usn-section.visible, #variant-section.visible { display: block; }
+
+  .generate-btn {
+    width: 100%;
+    padding: 14px;
+    background: var(--olive);
+    border: 1px solid var(--tan);
+    color: var(--tan);
+    font-family: 'Oswald', sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: 0.25em;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 8px;
+    position: relative;
+    overflow: hidden;
+  }
+  .generate-btn:hover {
+    background: var(--tan);
+    color: var(--ink);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 20px rgba(196,169,107,0.3);
+  }
+  .generate-btn:active { transform: translateY(0); }
+
+  /* Results */
+  .results-area {
+    min-height: 400px;
+  }
+
+  .result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  .result-timestamp {
+    font-size: 12px;
+    color: var(--fade);
+    letter-spacing: 0.1em;
+  }
+
+  .mission-block {
+    border: 1px solid var(--olive);
+    margin-bottom: 12px;
+    overflow: hidden;
+    animation: slideIn 0.3s ease forwards;
+    opacity: 0;
+  }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .mission-header {
+    background: rgba(74,74,42,0.3);
+    padding: 7px 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--olive);
+  }
+  .mission-name {
+    font-family: 'Oswald', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--tan);
+  }
+  .mission-phase {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--fade);
+    text-transform: uppercase;
+  }
+
+  .squadron-list { padding: 10px 12px; }
+  .squadron-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(74,74,42,0.2);
+    font-size: 13px;
+  }
+  .squadron-row:last-child { border-bottom: none; }
+  .sq-count {
+    color: var(--tan);
+    font-weight: 600;
+    min-width: 80px;
+    white-space: nowrap;
+  }
+  .sq-aircraft {
+    color: var(--cream);
+    font-weight: 600;
+    min-width: 80px;
+  }
+  .sq-task {
+    color: var(--fade);
+    font-size: 12px;
+    letter-spacing: 0.05em;
+  }
+  .sq-ammo {
+    margin-left: auto;
+    font-size: 11px;
+    color: var(--amber);
+    letter-spacing: 0.05em;
+  }
+  .dice-result {
+    font-size: 11px;
+    color: var(--green);
+    background: rgba(42,74,42,0.2);
+    border: 1px solid rgba(42,74,42,0.4);
+    padding: 1px 6px;
+    margin-left: 4px;
+    white-space: nowrap;
+  }
+  .dice-result::before { content: '🎲 '; }
+
+  .note-block {
+    background: rgba(139,122,90,0.08);
+    border-left: 2px solid var(--khaki);
+    padding: 8px 12px;
+    margin-bottom: 8px;
+    font-size: 12px;
+    color: var(--fade);
+    line-height: 1.7;
+  }
+  .note-block strong { color: var(--tan); }
+
+  .ammo-summary {
+    border: 1px solid rgba(196,122,26,0.4);
+    background: rgba(196,122,26,0.05);
+    padding: 10px 12px;
+    margin-top: 12px;
+  }
+  .ammo-title {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    color: var(--amber);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .ammo-row {
+    font-size: 13px;
+    color: var(--cream);
+    padding: 2px 0;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 80px 40px;
+    color: var(--fade);
+  }
+  .empty-state .icon { font-size: 48px; opacity: 0.3; margin-bottom: 16px; }
+  .empty-state p { font-size: 14px; letter-spacing: 0.1em; line-height: 1.8; }
+
+  .section-divider {
+    text-align: center;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    color: var(--fade);
+    padding: 8px 0;
+    text-transform: uppercase;
+  }
+
+  .tag {
+    display: inline-block;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    padding: 1px 6px;
+    border: 1px solid;
+    text-transform: uppercase;
+    margin-left: 4px;
+  }
+  .tag-variant { border-color: var(--red); color: var(--red); }
+  .tag-note { border-color: var(--khaki); color: var(--khaki); }
+
+  .rule-note {
+    font-size: 11px;
+    color: var(--fade);
+    padding: 3px 12px 6px;
+    font-style: italic;
+  }
+
+  @media (max-width: 800px) {
+    .main-layout { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="title-main">DOWNTOWN</div>
+  <div class="title-line"></div>
+  <div class="title-sub">GMT Games · Order of Battle Generator · Rolling Thunder / Linebacker</div>
+</div>
+
+<div class="main-layout">
+  <!-- Input Panel -->
+  <div class="panel">
+    <div class="panel-title">▸ 임무 파라미터</div>
+
+    <div class="field-group">
+      <label class="field-label">편제표 / 공격대 유형</label>
+      <select id="table-select" onchange="onTableChange()">
+        <option value="A">표 A — USAF 공격대 (롤링 선더 1965-68)</option>
+        <option value="B">표 B — USN 공격대 (롤링 선더 / 라인배커)</option>
+        <option value="C_NAIL">표 C — USAF 야간/악천후: 코만도 네일</option>
+        <option value="C_PAPA">표 C — USAF 야간/악천후: 코만도 네일 파파</option>
+        <option value="C_CLUB">표 C — USAF 야간/악천후: 코만도 클럽</option>
+        <option value="C_LORAN">표 C — USAF 야간/악천후: LORAN</option>
+        <option value="D">표 D — USAF 공격대 (라인배커 1972)</option>
+        <option value="E_USAF">표 E — USAF CSAR</option>
+        <option value="E_USN">표 E — USN CSAR</option>
+      </select>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">공격대 날짜</label>
+      <div class="date-row">
+        <div>
+          <label class="field-label">연도</label>
+          <select id="year-select" onchange="onDateChange()">
+            <option value="1964">1964</option>
+            <option value="1965">1965</option>
+            <option value="1966">1966</option>
+            <option value="1967" selected>1967</option>
+            <option value="1968">1968</option>
+            <option value="1969">1969</option>
+            <option value="1970">1970</option>
+            <option value="1971">1971</option>
+            <option value="1972">1972</option>
+            <option value="1973">1973</option>
+          </select>
+        </div>
+        <div>
+          <label class="field-label">월</label>
+          <select id="month-select" onchange="onDateChange()">
+            <option value="1">1월</option>
+            <option value="2">2월</option>
+            <option value="3">3월</option>
+            <option value="4" selected>4월</option>
+            <option value="5">5월</option>
+            <option value="6">6월</option>
+            <option value="7">7월</option>
+            <option value="8">8월</option>
+            <option value="9">9월</option>
+            <option value="10">10월</option>
+            <option value="11">11월</option>
+            <option value="12">12월</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- USN Carrier section -->
+    <div id="usn-section" class="field-group">
+      <label class="field-label">항공모함 ID</label>
+      <select id="carrier-select"></select>
+      <div style="margin-top:8px">
+        <label class="field-label">폭격 비행대 구성</label>
+        <select id="bombing-config">
+          <option value="single">단일 유형 (옵션 a)</option>
+          <option value="mixed">혼합 2유형 (옵션 b)</option>
+        </select>
+      </div>
+      <div style="margin-top:8px">
+        <label class="field-label">해병대 재밍 지원</label>
+        <select id="marine-jam">
+          <option value="auto">주사위 자동 결정</option>
+          <option value="none">없음</option>
+          <option value="1">1개 비행대</option>
+          <option value="2">2개 비행대</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Variants section -->
+    <div id="variant-section" class="field-group">
+      <label class="field-label">편제 변형 (SSR 지시 시)</label>
+      <div class="checkbox-group">
+        <label class="checkbox-item">
+          <input type="checkbox" id="var-standoff"> <span>스탠드오프 재밍 (맵 외부)</span>
+        </label>
+        <label class="checkbox-item" id="chk-phantom-wrap">
+          <input type="checkbox" id="var-phantom"> <span>팬텀 공격대 (F-4C 공격)</span>
+        </label>
+        <label class="checkbox-item" id="chk-joint-wrap">
+          <input type="checkbox" id="var-joint"> <span>연합 공격대 (F-4C Strike/CAP 추가)</span>
+        </label>
+        <label class="checkbox-item" id="chk-major-wrap">
+          <input type="checkbox" id="var-major"> <span>주요 공격대 (공격 비행대 증가)</span>
+        </label>
+        <label class="checkbox-item" id="chk-bolo-wrap">
+          <input type="checkbox" id="var-bolo"> <span>볼로 작전</span>
+        </label>
+        <label class="checkbox-item" id="chk-weasel-wrap">
+          <input type="checkbox" id="var-weasel"> <span>강화 위즐 (아이언 핸드 2배)</span>
+        </label>
+        <label class="checkbox-item" id="chk-weasel-short-wrap">
+          <input type="checkbox" id="var-weasel-short"> <span>위즐 부족 (슈라이크 절반)</span>
+        </label>
+        <label class="checkbox-item" id="chk-chaff-reinf-wrap">
+          <input type="checkbox" id="var-chaff-reinf"> <span>강화 채프 임무</span>
+        </label>
+        <label class="checkbox-item" id="chk-chaff-red-wrap">
+          <input type="checkbox" id="var-chaff-red"> <span>축소 채프 호위</span>
+        </label>
+        <label class="checkbox-item" id="chk-conventional-wrap">
+          <input type="checkbox" id="var-conventional"> <span>재래식 공격 (덤 폭탄)</span>
+        </label>
+        <label class="checkbox-item" id="chk-major-d-wrap">
+          <input type="checkbox" id="var-major-d"> <span>주요 공격대 (LGB 폭격기 증강)</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- C_NAIL options -->
+    <div id="nail-options" class="field-group" style="display:none">
+      <label class="field-label">코만도 네일 폭격기 유형</label>
+      <select id="nail-aircraft">
+        <option value="F-105F">F-105F 라이언의 레이더스</option>
+        <option value="F-4D">F-4D</option>
+      </select>
+    </div>
+
+    <button class="generate-btn" onclick="generate()">▸ 편제 생성</button>
+  </div>
+
+  <!-- Results Panel -->
+  <div class="panel results-area" id="results">
+    <div class="empty-state">
+      <div class="icon">✈</div>
+      <p>파라미터를 설정하고<br>편제 생성을 클릭하세요</p>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// DATA
+// ============================================================
+const CARRIERS = [
+  { ID:"A", LineDates:"5 Aug 64-21 Nov 64", Carrier:"Constellation", CAP:"F-4B", Bombing:["A-4C"], Jamming:null, SEAD:["A-4C"], Recon:"RF-8A" },
+  { ID:"B", LineDates:"18 Sep 64-12 Apr 65", Carrier:"Ranger", CAP:"F-4B", Bombing:["A-4C"], Jamming:null, SEAD:["A-4C"], Recon:"RA-5C" },
+  { ID:"C", LineDates:"28 Dec 64-2 May 65", Carrier:"Hancock", CAP:"F-8C/F-8E", Bombing:["A-4C*","A-4E*"], Jamming:null, SEAD:["A-4C","A-4E"], Recon:"RF-8A" },
+  { ID:"D", LineDates:"1 Feb 65-14 Oct 65", Carrier:"Coral Sea", CAP:"F-4B/F-8D", Bombing:["A-4C*","A-4E*"], Jamming:"EA-1F", SEAD:["A-4C","A-4E"], Recon:"RF-8A" },
+  { ID:"E", LineDates:"10 Apr 65-4 Nov 65", Carrier:"Midway", CAP:"F-4B/F-8D", Bombing:["A-4C*","A-4E*"], Jamming:"EA-1F", SEAD:["A-4C","A-4E"], Recon:"RF-8A" },
+  { ID:"F", LineDates:"8 May 65-25 Nov 65", Carrier:"Oriskany", CAP:"F-8D/F-8E", Bombing:["A-4E"], Jamming:"EA-1F/EF-10B", SEAD:["A-4E"], Recon:"RF-8A" },
+  { ID:"G", LineDates:"28 May 65-16 Dec 65", Carrier:"Bon Homme Richard", CAP:"F-8E", Bombing:["A-4C"], Jamming:"EA-1F", SEAD:["A-4C"], Recon:"RF-8A" },
+  { ID:"H", LineDates:"27 Jun 65-11 Nov 65", Carrier:"Independence", CAP:"F-4B", Bombing:["A-4E","A-6A*"], Jamming:"EA-1F", SEAD:["A-4E"], Recon:"RA-5C" },
+  { ID:"I", LineDates:"5 Nov 65-20 Apr 66", Carrier:"Ticonderoga", CAP:"F-8E", Bombing:["A-4C*","A-4E*"], Jamming:"EA-1F", SEAD:["A-4C","A-4E"], Recon:"RF-8A" },
+  { ID:"J", LineDates:"2 Dec 65-5 Jun 66", Carrier:"Enterprise", CAP:"F-4B", Bombing:["A-4C"], Jamming:"EA-1F", SEAD:["A-4C"], Recon:"RA-5C" },
+  { ID:"K", LineDates:"17 Dec 65-10 Jul 66", Carrier:"Hancock", CAP:"F-8C/F-8E", Bombing:["A-4C*","A-4E*"], Jamming:"EA-1F", SEAD:["A-4C","A-4E"], Recon:"RF-8A" },
+  { ID:"L", LineDates:"24 Dec 65-22 May 66", Carrier:"Kitty Hawk", CAP:"F-4B", Bombing:["A-4C*","A-6A*"], Jamming:"EA-1F", SEAD:["A-4C"], Recon:"RA-5C" },
+  { ID:"M", LineDates:"13 Jan 66-5 Aug 66", Carrier:"Ranger", CAP:"F-4B", Bombing:["A-4C*","A-4E*"], Jamming:"EA-1F", SEAD:["A-4C","A-4E"], Recon:"RA-5C" },
+  { ID:"N", LineDates:"14 Jun 66-9 Nov 66", Carrier:"Constellation", CAP:"F-4B", Bombing:["A-4C*","A-4E*","A-6A*"], Jamming:"EA-1F", SEAD:["A-4C","A-4E"], Recon:"RA-5C" },
+  { ID:"O", LineDates:"30 Jun 66-26 Oct 66", Carrier:"Oriskany", CAP:"F-8E", Bombing:["A-4E"], Jamming:"EA-1F", SEAD:["A-4E"], Recon:"RF-8G" },
+  { ID:"P", LineDates:"10 Aug 66-27 Dec 66", Carrier:"Franklin D. Roosevelt", CAP:"F-4B", Bombing:["A-4C*","A-4E"], Jamming:"EA-1F", SEAD:["A-4C","A-4E"], Recon:"RF-8G" },
+  { ID:"Q", LineDates:"12 Sep 66-31 Jan 67", Carrier:"Coral Sea", CAP:"F-4B", Bombing:["A-4C*","A-4E*"], Jamming:"EA-1F", SEAD:["A-4C","A-4E"], Recon:"RF-8G" },
+  { ID:"R", LineDates:"13 Nov 66-28 Apr 67", Carrier:"Ticonderoga", CAP:"F-8E", Bombing:["A-4C*","A-4E*"], Jamming:"EA-1F", SEAD:["A-4C","A-4E"], Recon:"RF-8G" },
+  { ID:"S", LineDates:"4 Dec 66-22 May 67", Carrier:"Kitty Hawk", CAP:"F-4B", Bombing:["A-4C","A-6A*"], Jamming:"EA-1F", SEAD:["A-4C"], Recon:"RA-5C" },
+  { ID:"T", LineDates:"18 Dec 66-20 Jun 67", Carrier:"Enterprise", CAP:"F-4B", Bombing:["A-4C","A-6A*"], Jamming:"EA-1F", SEAD:["A-4C"], Recon:"RA-5C" },
+  { ID:"U", LineDates:"5 Feb 67-27 Jun 67", Carrier:"Hancock", CAP:"F-8E", Bombing:["A-4C*","A-4E*"], Jamming:"EA-1F", SEAD:["A-4C","A-4E"], Recon:"RF-8G" },
+  { ID:"V", LineDates:"26 Feb 67-30 Jul 67", Carrier:"Bon Homme Richard", CAP:"F-8C/F-8E", Bombing:["A-4C*","A-4E*"], Jamming:"EA-1F", SEAD:["A-4C","A-4E"], Recon:"RF-8G" },
+  { ID:"W", LineDates:"28 May 67-11 Nov 67", Carrier:"Constellation", CAP:"F-4B", Bombing:["A-4C","A-6A*"], Jamming:"EA-1F", SEAD:["A-4C"], Recon:"RA-5C" },
+  { ID:"X", LineDates:"14 Jul 67-11 Jan 68", Carrier:"Oriskany", CAP:"F-8C/F-8E", Bombing:["A-4E"], Jamming:"EA-1F", SEAD:["A-4E"], Recon:"RF-8G" },
+  { ID:"Y", LineDates:"25 Jul 67-29 Jul 67", Carrier:"Forrestal", CAP:"F-4B", Bombing:["A-4E","A-6A*"], Jamming:"EA-1F", SEAD:["A-4E"], Recon:"RA-5C" },
+  { ID:"Z", LineDates:"28 Aug 67-20 Feb 68", Carrier:"Coral Sea", CAP:"F-4B", Bombing:["A-4E"], Jamming:"EA-1F", SEAD:["A-4E"], Recon:"RF-8G" },
+  { ID:"AA", LineDates:"3 Dec 67-9 May 68", Carrier:"Ranger", CAP:"F-4B", Bombing:["A-4C*","A-6A*","A-7A*"], Jamming:"EKA-3B", SEAD:["A-4C","A-7A"], Recon:"RA-5C" },
+  { ID:"BB", LineDates:"23 Dec 67-1 Jun 68", Carrier:"Kitty Hawk", CAP:"F-4B", Bombing:["A-4C*","A-4E*","A-6A*"], Jamming:"EA-1F", SEAD:["A-4C","A-6B"], Recon:"RA-5C" },
+  { ID:"CC", LineDates:"26 Jan 68-23 Jul 68", Carrier:"Ticonderoga", CAP:"F-8E", Bombing:["A-4C*","A-4F"], Jamming:"EA-1F", SEAD:["A-4C","A-4F"], Recon:"RF-8G" },
+  { ID:"DD", LineDates:"21 Feb 68-13 Sep 68", Carrier:"Bon Homme Richard", CAP:"F-8E/F-8H", Bombing:["A-4E*","A-4F"], Jamming:"EKA-3B", SEAD:["A-4E","A-4F"], Recon:"RF-8G" },
+  { ID:"EE", LineDates:"22 Feb 68-26 Jun 68", Carrier:"Enterprise", CAP:"F-4B", Bombing:["A-4E*","A-4F*","A-6A*"], Jamming:"EKA-3B", SEAD:["A-4F","A-6B"], Recon:"RA-5C" },
+  { ID:"FF", LineDates:"31 May 68-29 Oct 68", Carrier:"America", CAP:"F-4J", Bombing:["A-6A*","A-7A"], Jamming:"EKA-3B", SEAD:["A-6B","A-7A"], Recon:"RA-5C" },
+  { ID:"GG", LineDates:"28 Jun 68-7 Jan 69", Carrier:"Constellation", CAP:"F-4B", Bombing:["A-6A*","A-7A"], Jamming:"EKA-3B", SEAD:["A-6B","A-7A"], Recon:"RA-5C" },
+  { ID:"HH", LineDates:"23 Aug 68-9 Feb 69", Carrier:"Hancock", CAP:"F-8H", Bombing:["A-4E","A-4F*"], Jamming:"EKA-3B", SEAD:["A-4E","A-4F"], Recon:"RF-8G" },
+  { ID:"II", LineDates:"10 Oct 68-30 Mar 69", Carrier:"Coral Sea", CAP:"F-4B", Bombing:["A-4C*","A-4F*","A-6A*"], Jamming:"EKA-3B", SEAD:["A-4C","A-4F"], Recon:"RF-8G" },
+  { ID:"JJ", LineDates:"29 Nov 68-16 Apr 69", Carrier:"Ranger", CAP:"F-4J", Bombing:["A-4F*","A-6A*","A-7A*"], Jamming:"EKA-3B", SEAD:["A-4F","A-7A"], Recon:"RA-5C" },
+  { ID:"KK", LineDates:"28 Jan 69-16 Aug 69", Carrier:"Kitty Hawk", CAP:"F-4B", Bombing:["A-6A*","A-7A"], Jamming:"EKA-3B", SEAD:["A-6B","A-7A"], Recon:"RA-5C" },
+  { ID:"LL", LineDates:"4 Mar 69-1 Aug 69", Carrier:"Ticonderoga", CAP:"F-8H/F-8J", Bombing:["A-4C*","A-7B"], Jamming:"EKA-3B", SEAD:["A-4C","A-7B"], Recon:"RF-8G" },
+  { ID:"MM", LineDates:"31 Mar 69-16 Jun 69", Carrier:"Enterprise", CAP:"F-4J", Bombing:["A-6A*","A-7B"], Jamming:"EKA-3B", SEAD:["A-6B","A-7B"], Recon:"RA-5C" },
+  { ID:"NN", LineDates:"18 Apr 69-8 Oct 69", Carrier:"Bon Homme Richard", CAP:"F-8J", Bombing:["A-4E","A-4F*"], Jamming:"EKA-3B", SEAD:["A-4E","A-4F"], Recon:"RF-8G" },
+  { ID:"OO", LineDates:"15 May 69-31 Oct 69", Carrier:"Oriskany", CAP:"F-8J", Bombing:["A-4E*","A-4F"], Jamming:"EKA-3B", SEAD:["A-4E","A-4F"], Recon:"RF-8G" },
+  { ID:"PP", LineDates:"1 Sep 69-26 Mar 70", Carrier:"Hancock", CAP:"F-8H/F-8J", Bombing:["A-4F"], Jamming:null, SEAD:["A-4F"], Recon:"RF-8G" },
+  { ID:"QQ", LineDates:"12 Sep 69-17 Apr 70", Carrier:"Constellation", CAP:"F-4J", Bombing:["A-6A*","A-7A"], Jamming:"EKA-3B", SEAD:["A-6B","A-7A"], Recon:"RA-5C" },
+  { ID:"RR", LineDates:"27 Oct 69-1 Jun 70", Carrier:"Coral Sea", CAP:"F-4B", Bombing:["A-6A*","A-7A"], Jamming:"EKA-3B", SEAD:["A-7A"], Recon:"RF-8G" },
+  { ID:"SS", LineDates:"17 Nov 69-12 May 70", Carrier:"Ranger", CAP:"F-4J", Bombing:["A-6A*","A-7B"], Jamming:"EKA-3B", SEAD:["A-7B"], Recon:"RA-5C" },
+  { ID:"TT", LineDates:"12 Apr 70-5 Nov 70", Carrier:"Shangri-la", CAP:"F-8H", Bombing:["A-4C","A-4E*"], Jamming:null, SEAD:["A-4E"], Recon:"RF-8G" },
+  { ID:"UU", LineDates:"2 May 70-20 Oct 70", Carrier:"Bon Homme Richard", CAP:"F-8J", Bombing:["A-4E*","A-4F"], Jamming:"EKA-3B", SEAD:["A-4E","A-4F"], Recon:"RF-8G" },
+  { ID:"VV", LineDates:"26 May 70-8 Nov 70", Carrier:"America", CAP:"F-4J", Bombing:["A-6A/C*","A-7E"], Jamming:"EKA-3B", SEAD:["A-6B","A-7E"], Recon:"RA-5C" },
+  { ID:"WW", LineDates:"14 Jun 70-22 Nov 70", Carrier:"Oriskany", CAP:"F-8J", Bombing:["A-7A*","A-7B*"], Jamming:"EKA-3B", SEAD:["A-7A","A-7B"], Recon:"RF-8G" },
+  { ID:"XX", LineDates:"20 Nov 70-3 May 71", Carrier:"Hancock", CAP:"F-8J", Bombing:["A-4F"], Jamming:"EKA-3B", SEAD:["A-4F"], Recon:"RF-8G" },
+  { ID:"YY", LineDates:"8 Dec 70-23 Jun 71", Carrier:"Kitty Hawk", CAP:"F-4J", Bombing:["A-6A*","A-7E"], Jamming:"EKA-3B", SEAD:["A-6B","A-7E"], Recon:"RA-5C" },
+  { ID:"ZZ", LineDates:"28 Dec 70-9 Jun 71", Carrier:"Ranger", CAP:"F-4J", Bombing:["A-6A/C*","A-7E"], Jamming:"EKA-3B", SEAD:["A-7E"], Recon:"RA-5C" },
+  { ID:"aaa", LineDates:"18 May 71-10 Oct 71", Carrier:"Midway", CAP:"F-4B", Bombing:["A-6A*","A-7B"], Jamming:"EKA-3B", SEAD:["A-7B"], Recon:"RF-8G" },
+  { ID:"bbb", LineDates:"16 Jun 71-19 Nov 71", Carrier:"Oriskany", CAP:"F-8J", Bombing:["A-7A*","A-7B"], Jamming:"EKA-3B", SEAD:["A-7A","A-7B"], Recon:"RF-8G" },
+  { ID:"ccc", LineDates:"16 Jul 71-24 Jan 72", Carrier:"Enterprise", CAP:"F-4J", Bombing:["A-6A*","A-7E"], Jamming:"EKA-3B", SEAD:["A-6B","A-7E"], Recon:"RA-5C" },
+  { ID:"ddd", LineDates:"4 Nov 71-13 Jun 72", Carrier:"Constellation", CAP:"F-4J", Bombing:["A-6A*","A-7E"], Jamming:"EKA-3B", SEAD:["A-7E"], Recon:"RA-5C" },
+  { ID:"eee", LineDates:"14 Dec 71-30 Jun 72", Carrier:"Coral Sea", CAP:"F-4B", Bombing:["A-6A*","A-7E"], Jamming:"EKA-3B", SEAD:["A-7E"], Recon:"RF-8G" },
+  { ID:"fff", LineDates:"7 Feb 72-14 Sep 72", Carrier:"Hancock", CAP:"F-8J", Bombing:["A-4F"], Jamming:"EKA-3B", SEAD:["A-4F"], Recon:"RF-8G" },
+  { ID:"ggg", LineDates:"8 Mar 72-4 Nov 72", Carrier:"Kitty Hawk", CAP:"F-4J", Bombing:["A-6A*","A-7E"], Jamming:"EKA-3B", SEAD:["A-6B","A-7E"], Recon:"RA-5C" },
+  { ID:"hhh", LineDates:"30 Apr 72-12 Feb 73", Carrier:"Midway", CAP:"F-4B", Bombing:["A-6A*","A-7B"], Jamming:"EKA-3B", SEAD:["A-7B"], Recon:"RF-8G" },
+  { ID:"iii", LineDates:"18 May 72-8 Jan 73", Carrier:"Saratoga", CAP:"F-4J", Bombing:["A-6A*","A-7A"], Jamming:"EA-6A", SEAD:["A-6B","A-7A"], Recon:"RA-5C" },
+  { ID:"jjj", LineDates:"29 Jun 72-5 Mar 73", Carrier:"Oriskany", CAP:"F-8J", Bombing:["A-7A*","A-7B"], Jamming:"EKA-3B", SEAD:["A-7A","A-7B"], Recon:"RF-8G" },
+  { ID:"kkk", LineDates:"14 Jul 72-28 Feb 73", Carrier:"America", CAP:"F-4J", Bombing:["A-6A/C*","A-7C"], Jamming:"EA-6B", SEAD:["A-7C"], Recon:"RA-5C" },
+  { ID:"lll", LineDates:"3 Oct 72-28 May 73", Carrier:"Enterprise", CAP:"F-4J", Bombing:["A-6A*","A-7E"], Jamming:"EA-6B", SEAD:["A-6B","A-7E"], Recon:"RA-5C" },
+  { ID:"mmm", LineDates:"9 Dec 72-30 May 73", Carrier:"Ranger", CAP:"F-4J", Bombing:["A-6A*","A-7E"], Jamming:"EKA-3B", SEAD:["A-6B","A-7E"], Recon:"RA-5C" },
+];
+
+// ============================================================
+// UTILITY
+// ============================================================
+function d10() { return Math.floor(Math.random() * 10) + 1; }
+function ym(y, m) { return y * 100 + m; }
+function dateCode() {
+  return ym(parseInt(document.getElementById('year-select').value),
+             parseInt(document.getElementById('month-select').value));
+}
+
+function sq(count, aircraft, size, task, ammo, diceInfo) {
+  return { count, aircraft, size, task, ammo, diceInfo };
+}
+
+// ============================================================
+// Aircraft type resolvers
+// ============================================================
+function resolveJammingUSAF(dc) {
+  if (dc < ym(1965,10)) return [{ aircraft:"EB-66C", dice:null }];
+  // first sq always EB-66C, rest EB-66B (or EB-66E from 196708)
+  const rest = dc >= ym(1967,8) ? "EB-66E" : "EB-66B";
+  return [{ aircraft:"EB-66C", dice:null }, { aircraft: rest, dice:null }];
+}
+
+function resolveCAPUSAF(dc) {
+  let roll = d10();
+  let aircraft, table;
+  if (dc >= ym(1965,4) && dc <= ym(1965,12)) {
+    aircraft = roll <= 8 ? "F-4C" : "F-104C";
+    table = `1-8→F-4C, 9-10→F-104C`;
+  } else if (dc >= ym(1966,1) && dc <= ym(1966,5)) {
+    aircraft = "F-4C"; table = "고정 F-4C"; roll = null;
+  } else if (dc >= ym(1966,6) && dc <= ym(1967,7)) {
+    aircraft = roll <= 9 ? "F-4C" : "F-104C";
+    table = `1-9→F-4C, 10→F-104C`;
+  } else {
+    aircraft = roll <= 6 ? "F-4C" : "F-4D";
+    table = `1-6→F-4C, 7-10→F-4D`;
+  }
+  return { aircraft, dice: roll ? `${roll} [${table}]` : null };
+}
+
+function resolveReconUSAF(dc) {
+  let roll = d10();
+  let aircraft, table;
+  if (dc <= ym(1965,10)) {
+    aircraft = "RF-101C"; table = "고정"; roll = null;
+  } else if (dc <= ym(1966,9)) {
+    aircraft = roll <= 7 ? "RF-101C" : "RF-4C";
+    table = `1-7→RF-101C, 8-10→RF-4C`;
+  } else {
+    aircraft = roll <= 5 ? "RF-101C" : "RF-4C";
+    table = `1-5→RF-101C, 6-10→RF-4C`;
+  }
+  return { aircraft, dice: roll ? `${roll} [${table}]` : null };
+}
+
+function resolveBombingD(dc, pgm) {
+  let roll = d10();
+  let aircraft, table;
+  if (dc <= ym(1972,9)) {
+    aircraft = "F-4D"; table = "고정 F-4D"; roll = null;
+  } else {
+    if (!pgm) {
+      aircraft = roll <= 5 ? "A-7D" : "F-4D";
+      table = `1-5→A-7D, 6-10→F-4D`;
+    } else {
+      aircraft = "F-4D"; table = "PGM→F-4D"; roll = null;
+    }
+  }
+  return { aircraft, dice: roll ? `${roll} [${table}]` : null };
+}
+
+function resolveCAPD() {
+  let roll = d10();
+  const aircraft = roll <= 4 ? "F-4D" : "F-4E";
+  return { aircraft, dice: `${roll} [1-4→F-4D, 5-10→F-4E]` };
+}
+
+function resolveSEADD(dc) {
+  let roll = d10();
+  let aircraft, table;
+  if (dc <= ym(1972,9)) {
+    aircraft = "F-105G WW"; table = "고정"; roll = null;
+  } else {
+    aircraft = roll <= 8 ? "F-105G WW" : "F-4C WW";
+    table = `1-8→F-105G WW, 9-10→F-4C WW`;
+  }
+  return { aircraft, dice: roll ? `${roll} [${table}]` : null };
+}
+
+function resolveMarineJam(dc, override) {
+  if (override === 'none') return 0;
+  if (override === '1') return 1;
+  if (override === '2') return 2;
+  let roll = d10();
+  let result = 0;
+  if (roll >= 7 && roll <= 9) result = 1;
+  else if (roll === 10) result = 2;
+  window._marineRoll = roll;
+  return result;
+}
+
+function resolveMarineJamAircraft(dc) {
+  if (dc <= ym(1966,10)) return { aircraft:"EF-10B", dice:null };
+  let roll = d10();
+  if (dc <= ym(1969,11)) {
+    const a = roll <= 5 ? "EF-10B" : "EA-6A";
+    return { aircraft: a, dice: `${roll} [1-5→EF-10B, 6-10→EA-6A]` };
+  }
+  return { aircraft:"EA-6A", dice:null };
+}
+
+// ============================================================
+// UI init
+// ============================================================
+function populateCarriers() {
+  const sel = document.getElementById('carrier-select');
+  sel.innerHTML = '';
+  CARRIERS.forEach(c => {
+    const opt = document.createElement('option');
+    opt.value = c.ID;
+    opt.textContent = `${c.ID} — ${c.Carrier} (${c.LineDates})`;
+    sel.appendChild(opt);
+  });
+}
+
+function onTableChange() {
+  const t = document.getElementById('table-select').value;
+  const usnSec = document.getElementById('usn-section');
+  const varSec = document.getElementById('variant-section');
+  const nailOpt = document.getElementById('nail-options');
+
+  usnSec.classList.toggle('visible', t === 'B');
+  varSec.classList.toggle('visible', ['A','B','D'].includes(t));
+  nailOpt.style.display = t === 'C_NAIL' ? 'block' : 'none';
+
+  // Show/hide specific variants
+  const isA = t === 'A';
+  const isD = t === 'D';
+  ['chk-phantom-wrap','chk-joint-wrap','chk-major-wrap','chk-bolo-wrap',
+   'chk-weasel-wrap','chk-weasel-short-wrap'].forEach(id => {
+    const el = document.getElementById(id);
+    if(el) el.style.display = isA ? 'flex' : 'none';
+  });
+  ['chk-chaff-reinf-wrap','chk-chaff-red-wrap','chk-conventional-wrap','chk-major-d-wrap'].forEach(id => {
+    const el = document.getElementById(id);
+    if(el) el.style.display = isD ? 'flex' : 'none';
+  });
+}
+
+function onDateChange() {} // future: filter carriers by date
+
+populateCarriers();
+onTableChange();
+
+// ============================================================
+// Render helpers
+// ============================================================
+function renderMission(phase, name, squads, note) {
+  let html = `<div class="mission-block" style="animation-delay:${renderMission._idx++ * 0.06}s">
+    <div class="mission-header">
+      <span class="mission-name">${name}</span>
+      <span class="mission-phase">${phase}</span>
+    </div>
+    <div class="squadron-list">`;
+  squads.forEach(s => {
+    if (!s) return;
+    const diceSpan = s.diceInfo ? `<span class="dice-result">${s.diceInfo}</span>` : '';
+    html += `<div class="squadron-row">
+      <span class="sq-count">${s.count}× {${s.size}}</span>
+      <span class="sq-aircraft">${s.aircraft}${diceSpan}</span>
+      <span class="sq-task">${s.task}</span>
+      ${s.ammo ? `<span class="sq-ammo">${s.ammo}</span>` : ''}
+    </div>`;
+  });
+  html += `</div>`;
+  if (note) html += `<div class="rule-note">${note}</div>`;
+  html += `</div>`;
+  return html;
+}
+renderMission._idx = 0;
+
+function renderNote(txt) {
+  return `<div class="note-block">${txt}</div>`;
+}
+function renderDivider(txt) {
+  return `<div class="section-divider">── ${txt} ──</div>`;
+}
+function renderAmmo(rows) {
+  let html = `<div class="ammo-summary"><div class="ammo-title">▸ 탄약 적재</div>`;
+  rows.forEach(r => html += `<div class="ammo-row">• ${r}</div>`);
+  html += `</div>`;
+  return html;
+}
+
+// ============================================================
+// GENERATE TABLE A
+// ============================================================
+function generateA(dc, variants) {
+  let html = '';
+  renderMission._idx = 0;
+  const standoff = variants.standoff;
+  const phantom = variants.phantom;
+  const joint = variants.joint;
+  const major = variants.major;
+  const bolo = variants.bolo;
+  const weasel = variants.weasel;
+  const weaselShort = variants.weaselShort;
+
+  const notes = [];
+
+  // ── PRE-RAID ──────────────────────────────
+  html += renderDivider('공격대 사전 부대');
+
+  // Jamming mission 1
+  const jamTypes = resolveJammingUSAF(dc);
+  if (!standoff) {
+    // Jamming squads
+    const jamSqs = [];
+    if (dc < ym(1965,10)) {
+      jamSqs.push(sq(2, "EB-66C", 1, "Jamming", "전자전"));
+    } else {
+      jamSqs.push(sq(1, "EB-66C", 1, "Jamming", "전자전"));
+      const rest = dc >= ym(1967,8) ? "EB-66E" : "EB-66B";
+      jamSqs.push(sq(1, rest, 1, "Jamming", "전자전"));
+    }
+    // CAP for jam mission (deleted from 196710)
+    let capSqs = [];
+    if (dc < ym(1967,10)) {
+      const capR = resolveCAPUSAF(dc);
+      capSqs.push(sq(2, capR.aircraft, 2, "CAP", "방공", capR.dice));
+    } else {
+      notes.push("1967년 10월 이후: 재밍 임무 CAP 비행대 삭제됨");
+    }
+    html += renderMission('사전', '재밍 임무 (1차)', [...jamSqs, ...capSqs]);
+  } else {
+    html += renderNote("<strong>스탠드오프 재밍 선택:</strong> 재밍 비행대는 스탠드오프 재밍 카운터로 대체. CAP 비행대 맵 미진입.");
+  }
+
+  // Jamming mission 2 (from 196708)
+  if (dc >= ym(1967,8)) {
+    if (!standoff) {
+      html += renderMission('사전', '재밍 임무 (2차, 1967년 8월+)', [
+        sq(3, "EB-66B/E", 1, "Jamming", "전자전")
+      ], "2개 이상 비행대를 조기 경보 재밍에 할당해야 함 [27.5]");
+    }
+  }
+
+  // ── MAIN RAID ──────────────────────────────
+  html += renderDivider('주요 공격대 부대');
+
+  // Iron Hand
+  const ironHandAvail = (dc >= ym(1965,12) && dc <= ym(1966,4)) || dc >= ym(1966,6);
+  if (bolo) {
+    notes.push("볼로 작전: 아이언 핸드 임무 없음 (전 비행대 F-4C/CAP)");
+  } else if (ironHandAvail) {
+    let ihSqs = [];
+    if (dc >= ym(1965,12) && dc <= ym(1966,4)) {
+      ihSqs = [
+        sq(1, "F-100F", 1, "SEAD", "ARM"),
+        sq(1, "F-105D", 4, "SEAD", "폭탄+ARM"),
+      ];
+      notes.push("1965.12-1966.04 아이언 핸드: F-100F 1비행대 + F-105D 1비행대");
+    } else {
+      let count = weasel ? 4 : 2;
+      ihSqs = [sq(count, "F-105F WW", 2, "SEAD", dc >= ym(1966,6) ? "폭탄+ARM(+CBU 선택)" : "폭탄+ARM")];
+      if (weasel) notes.push("강화 위즐: 아이언 핸드 비행대 수 2배");
+      if (weaselShort) notes.push("위즐 부족: 각 비행대 슈라이크 발사 횟수 절반");
+    }
+    html += renderMission('주요', '아이언 핸드 임무', ihSqs);
+  } else {
+    notes.push("아이언 핸드 임무 미사용 기간 (1965.11 이전 또는 1966.05)");
+  }
+
+  // MiGCAP
+  if (bolo) {
+    // bolo: all non-jamming = F-4C/CAP
+    html += renderMission('주요', 'MiGCAP 임무 (볼로 작전)', [
+      sq(2, "F-4C", 4, "CAP", "—")
+    ], "볼로 작전: 모든 비재밍 비행대 → F-4C, CAP 태스크");
+  } else if (!phantom) {
+    const migCount = dc < ym(1967,5) ? 1 : 2;
+    const capR = resolveCAPUSAF(dc);
+    html += renderMission('주요', 'MiGCAP 임무', [
+      sq(migCount, capR.aircraft, 4, "CAP", "—", capR.dice)
+    ], dc < ym(1967,5) ? "1967년 5월 이전: 비행대 1개" : null);
+  } else {
+    notes.push("팬텀 공격대: MiGCAP 임무 삭제");
+  }
+
+  // Strike
+  if (bolo) {
+    html += renderMission('주요', '공격 임무 (볼로 작전)', [
+      sq(4, "F-4C", 4, "CAP", "—")
+    ]);
+  } else if (phantom) {
+    const strikeSqs = [sq(2, "F-4C", 4, "Strike/CAP", "폭탄")];
+    if (joint) strikeSqs.push(sq(2, "F-4C", 4, "Strike/CAP", "폭탄"));
+    html += renderMission('주요', '공격 임무 (팬텀 공격대)', strikeSqs,
+      joint ? "연합 공격대: F-4C Strike/CAP 2개 비행대 추가" : null);
+  } else {
+    let strikeCount = dc < ym(1967,1) ? 3 : 4;
+    if (major) strikeCount++;
+    const strikeSqs = [sq(strikeCount, "F-105D", 4, "Bombing", "폭탄")];
+    if (joint) strikeSqs.push(sq(2, "F-4C", 4, "Strike/CAP", "폭탄"));
+    html += renderMission('주요', '공격 임무', strikeSqs,
+      [dc < ym(1967,1) ? "1967년 1월 이전: 비행대 1개 감소" : null,
+       major ? "주요 공격대: F-105D 비행대 1개 추가" : null,
+       joint ? "연합 공격대: F-4C Strike/CAP 2개 비행대 추가" : null
+      ].filter(Boolean).join(' / ') || null);
+  }
+
+  // ── POST-RAID ──────────────────────────────
+  html += renderDivider('공격대 사후 부대');
+  const reconR = resolveReconUSAF(dc);
+  html += renderMission('사후', '정찰 임무', [
+    sq(1, reconR.aircraft, 2, "Recon", "—", reconR.dice)
+  ]);
+
+  // Ammo
+  html += renderAmmo([
+    "공격 임무 폭격/Strike/CAP 비행대: 폭탄 탄약",
+    "아이언 핸드 SEAD 비행대: 폭탄 + ARM (사용 가능 시)" + (dc >= ym(1966,6) ? " + CBU 선택 가능" : ""),
+  ]);
+
+  if (notes.length) {
+    html += renderNote("<strong>적용 규칙:</strong><br>" + notes.join('<br>'));
+  }
+
+  return html;
+}
+
+// ============================================================
+// GENERATE TABLE B
+// ============================================================
+function generateB(dc, variants) {
+  let html = '';
+  renderMission._idx = 0;
+  const carrierId = document.getElementById('carrier-select').value;
+  const carrier = CARRIERS.find(c => c.ID === carrierId);
+  const bombingConfig = document.getElementById('bombing-config').value;
+  const marineOverride = document.getElementById('marine-jam').value;
+  const standoff = variants.standoff;
+
+  if (!carrier) return '<div class="note-block">항공모함을 선택하세요.</div>';
+
+  html += renderNote(`<strong>항공모함:</strong> ${carrier.ID} — ${carrier.Carrier} (${carrier.LineDates})`);
+
+  // ── PRE-RAID ──────────────────────────────
+  html += renderDivider('공격대 사전 부대');
+
+  // Jamming
+  if (carrier.Jamming && !standoff) {
+    html += renderMission('사전', '재밍 임무', [
+      sq(2, carrier.Jamming, 1, "Jamming", "전자전")
+    ]);
+  } else if (standoff) {
+    html += renderNote("<strong>스탠드오프 재밍:</strong> 재밍 비행대 → 스탠드오프 재밍 카운터로 대체");
+  } else {
+    html += renderNote("이 항공모함은 재밍 항공기 없음 (해병대 지원 제외)");
+  }
+
+  // Marine Jamming
+  const marineCount = resolveMarineJam(dc, marineOverride);
+  if (marineCount > 0) {
+    const marineAC = resolveMarineJamAircraft(dc);
+    const rollInfo = window._marineRoll ? `주사위: ${window._marineRoll}` : null;
+    html += renderMission('사전', '해병대 재밍 지원', [
+      sq(marineCount, marineAC.aircraft, 1, "Jamming", "전자전", marineAC.dice)
+    ], rollInfo ? `해병대 재밍 주사위: ${rollInfo}` : null);
+  } else if (marineOverride === 'auto') {
+    html += renderNote(`해병대 재밍 지원 없음 (주사위: ${window._marineRoll ?? '?'})`);
+  }
+
+  // ── MAIN RAID ──────────────────────────────
+  html += renderDivider('주요 공격대 부대');
+
+  // Iron Hand
+  const sead = carrier.SEAD;
+  const seadAC = Array.isArray(sead) ? sead[0] : sead;
+  html += renderMission('주요', '아이언 핸드 임무', [
+    sq(2, seadAC, 2, "SEAD", "폭탄+ARM"),
+    sq(2, carrier.CAP.split('/')[0], 2, "Armed Escort", "폭탄" + (dc >= ym(1966,1) ? "+CBU 선택" : ""))
+  ]);
+
+  // MiGCAP
+  const capAC = carrier.CAP.split('/')[0];
+  html += renderMission('주요', 'MiGCAP 임무', [
+    sq(2, capAC, 2, "CAP", "—")
+  ]);
+
+  // Strike
+  let bombingACs = carrier.Bombing;
+  let bombingSqs = [];
+  const isF4 = (ac) => ac.startsWith('F-4');
+
+  if (bombingConfig === 'mixed' && bombingACs.length >= 2) {
+    const ac1 = bombingACs[0].replace('*','').replace('/C','');
+    const ac2 = bombingACs[1].replace('*','').replace('/C','');
+    bombingSqs = [
+      sq(2, ac1, 4, "Bombing", "폭탄"),
+      sq(2, ac2, 4, "Bombing", "폭탄"),
+    ];
+    // A-6A/C note
+    if (bombingACs.some(a => a.includes('A-6A/C'))) {
+      bombingSqs.push(null);
+    }
+  } else {
+    const ac = bombingACs[0].replace('*','').replace('/C','');
+    bombingSqs = [sq(4, ac, 4, "Bombing", "폭탄")];
+  }
+
+  const capForStrike = sq(2, capAC, 2, "CAP", "—");
+  const strikeNote = isF4(capAC) ? "공격 임무 CAP이 F-4인 경우 → Armed Escort 태스크로 처리" : null;
+  html += renderMission('주요', '공격 임무', [...bombingSqs, capForStrike], strikeNote);
+
+  // ── POST-RAID ──────────────────────────────
+  html += renderDivider('공격대 사후 부대');
+  html += renderMission('사후', '정찰 임무', [
+    sq(1, carrier.Recon, 2, "Recon", "—")
+  ]);
+
+  html += renderAmmo([
+    "공격 임무 폭격 비행대: 폭탄 탄약",
+    "Armed Escort: 폭탄 탄약 (F-8은 로켓 가능)",
+    "아이언 핸드 SEAD: 폭탄+ARM" + (dc >= ym(1966,1) ? " (+CBU 선택 가능)" : ""),
+  ]);
+
+  if (bombingACs.some(a => a.includes('*'))) {
+    html += renderNote("★ 표시 유형: 해당 유형은 최대 2개 비행대까지만 폭격 태스크 배정 가능");
+  }
+  if (bombingACs.some(a => a.includes('A-6A/C'))) {
+    html += renderNote("A-6A/C: A-6C는 최대 1개 비행대만 사용 가능, 나머지는 A-6A");
+  }
+
+  return html;
+}
+
+// ============================================================
+// GENERATE TABLE C
+// ============================================================
+function generateC(subType, dc) {
+  renderMission._idx = 0;
+  let html = '';
+
+  if (subType === 'C_NAIL') {
+    const acType = document.getElementById('nail-aircraft').value;
+    html += renderDivider('코만도 네일 편제');
+    html += renderMission('주요', '공격 임무', [
+      sq(1, acType, 2, "Bombing", "레이더 폭격")
+    ]);
+    html += renderMission('주요', '재밍 임무', [
+      sq(1, "EB-66C", 1, "Jamming", "전자전")
+    ]);
+    html += renderNote("<strong>시나리오 특별 규칙:</strong><br>1. 폭격 비행대는 레이더 폭격 능력 사용<br>2. 공격대 기간 동안 DRV 탐지 레벨 3칸 감소");
+
+  } else if (subType === 'C_PAPA') {
+    html += renderNote("코만도 네일 파파: 표 A 기준 주간 USAF 공격대를 먼저 생성하고, 아래 비행대를 추가합니다.");
+    html += generateA(dc, {});
+    html += renderDivider('추가 — 라이언의 레이더스');
+    html += renderMission('주요 추가', '공격 임무 (길잡이)', [
+      sq(1, "F-105F", 2, "Bombing", "레이더 폭격 / 길잡이")
+    ]);
+
+  } else if (subType === 'C_CLUB') {
+    html += renderNote("코만도 클럽: 표 A 기준 주간 USAF 공격대를 먼저 생성하고, 아래 비행대를 추가합니다.");
+    html += generateA(dc, {});
+    html += renderDivider('추가 — 컴뱃 스카이스팟 길잡이');
+    html += renderMission('주요 추가', '공격 임무 (길잡이)', [
+      sq(1, "F-105F", 2, "Bombing", "무선 항법 폭격 / 길잡이")
+    ]);
+
+  } else if (subType === 'C_LORAN') {
+    html += renderNote("LORAN (1972.08+): 표 D 기준 재래식 공격 변형 공격대를 생성 후 길잡이 추가.");
+    html += generateD(dc, { conventional: true });
+    html += renderDivider('추가 — LORAN 길잡이');
+    html += renderMission('주요 추가', '공격 임무 (LORAN 길잡이)', [
+      sq(1, "F-4D", 4, "Strike/CAP", "무선 항법 / 길잡이")
+    ]);
+    html += renderNote("모든 부대는 밀집 대형 진입 권장 [17.62]. 재래식 폭탄 탄약만 사용, PGM 불가");
+  }
+
+  return html;
+}
+
+// ============================================================
+// GENERATE TABLE D
+// ============================================================
+function generateD(dc, variants) {
+  renderMission._idx = 0;
+  let html = '';
+  const standoff = variants.standoff;
+  const conventional = variants.conventional;
+  const majorD = variants.majorD;
+  const weaselD = variants.weaselD;
+  const chaffReinf = variants.chaffReinf;
+  const chaffRed = variants.chaffRed;
+
+  const pgm = !conventional;
+
+  // ── PRE-RAID ──────────────────────────────
+  html += renderDivider('공격대 사전 부대');
+
+  if (!standoff) {
+    html += renderMission('사전', '재밍 임무', [
+      sq(2, "EB-66E", 1, "Jamming", "전자전")
+    ]);
+  } else {
+    html += renderNote("스탠드오프 재밍: 재밍 비행대 → 스탠드오프 재밍 카운터 대체");
+  }
+
+  // Chaff mission
+  let chaffCapSqs = [];
+  if (dc >= ym(1972,6)) {
+    const capR = resolveCAPD();
+    chaffCapSqs.push(sq(chaffRed ? 4 : 2, capR.aircraft, chaffRed ? 2 : 4, "CAP", "—", capR.dice));
+  }
+  let chaffSqs = [sq(chaffReinf ? 3 : 2, "F-4D", 4, "Chaff Laying", dc >= ym(1972,6) ? "채프 디스펜서" : "채프 폭탄")];
+  html += renderMission('사전', '채프 임무', [
+    ...chaffSqs,
+    ...chaffCapSqs
+  ], [
+    dc < ym(1972,6) ? "1972년 6월 이전: CAP 비행대 삭제" : null,
+    chaffReinf ? "강화 채프 임무: F-4D 채프 비행대 1개 추가" : null,
+    chaffRed ? "축소 채프 호위: CAP 2×{4} → 4×{2}" : null,
+  ].filter(Boolean).join(' / ') || null);
+
+  // ── MAIN RAID ──────────────────────────────
+  html += renderDivider('주요 공격대 부대');
+
+  // Iron Hand
+  const seadR = resolveSEADD(dc);
+  let ihCount = weaselD ? 4 : 2;
+  let ihSqs = [sq(ihCount, seadR.aircraft, 2, "SEAD", "ARM")];
+  if (dc >= ym(1972,9)) {
+    ihSqs.push(sq(2, "F-4E", 2, "SEAD", "폭탄/CBU"));
+  }
+  html += renderMission('주요', '아이언 핸드 임무', ihSqs,
+    [weaselD ? "강화 위즐: F-105G 비행대 수 2배" : null,
+     dc >= ym(1972,9) ? "1972.09+: F-4E 헌터-킬러 팀 추가" : null,
+     seadR.dice ? `SEAD 주사위: ${seadR.dice}` : null
+    ].filter(Boolean).join(' / ') || null);
+
+  // MiGCAP
+  const migCapR = resolveCAPD();
+  html += renderMission('주요', 'MiGCAP 임무', [
+    sq(2, migCapR.aircraft, 4, "CAP", "—", migCapR.dice)
+  ]);
+
+  // Strike
+  if (majorD) {
+    html += renderMission('주요', '공격 임무 (주요 공격대)', [
+      sq(3, "F-4D", 4, "Bombing", "LGB")
+    ], "주요 공격대: 표준 폭격 비행대 삭제 → F-4D 3비행대(LGB)");
+  } else if (conventional) {
+    const bombR = resolveBombingD(dc, false);
+    html += renderMission('주요', '공격 임무 (재래식 공격)', [
+      sq(4, bombR.aircraft, 4, "Bombing", "재래식 폭탄"),
+    ], `재래식 공격: 폭격 비행대 교체. 주사위: ${bombR.dice || '해당없음'}`);
+  } else {
+    const bombR = resolveBombingD(dc, true);
+    const strikeCapR = resolveCAPD();
+    html += renderMission('주요', '공격 임무 (LGB)', [
+      sq(2, bombR.aircraft, 4, "Bombing", "LGB"),
+      sq(2, strikeCapR.aircraft, 4, "CAP", "—", strikeCapR.dice),
+    ]);
+  }
+
+  // ── POST-RAID ──────────────────────────────
+  html += renderDivider('공격대 사후 부대');
+  const postCapR = resolveCAPD();
+  html += renderMission('사후', '정찰 임무', [
+    sq(1, "RF-4C", 2, "Recon", "—"),
+    sq(1, postCapR.aircraft, 2, "CAP", "—", postCapR.dice),
+  ]);
+
+  html += renderAmmo([
+    pgm ? "공격 임무 폭격 비행대: LGB" : "공격 임무 폭격 비행대: 재래식 폭탄",
+    "F-105G WW / F-4C WW: ARM만 탑재",
+    "F-4E (SEAD): 폭탄 또는 CBU만 탑재",
+    "채프 살포 비행대: " + (dc >= ym(1972,6) ? "채프 디스펜서" : "채프 폭탄"),
+  ]);
+
+  return html;
+}
+
+// ============================================================
+// GENERATE TABLE E
+// ============================================================
+function generateE(subType, dc) {
+  renderMission._idx = 0;
+  let html = '';
+
+  if (subType === 'E_USAF') {
+    html += renderDivider('USAF CSAR 임무');
+    const ac = dc >= ym(1972,11) ? "A-7D" : "A-1";
+    html += renderMission('CSAR', 'USAF CSAR', [
+      sq(2, ac, 2, "Rescue Support", "폭탄/CBU"),
+      sq(2, "Helicopter", 1, "Rescue Support", "—"),
+    ], dc >= ym(1972,11) ? "1972.11+: A-1 → A-7D 교체" : null);
+    html += renderNote("항공기 비행대: Sandy 01, Sandy 02 카운터<br>헬리콥터 비행대: Jolly 01, Jolly 02 카운터");
+
+  } else {
+    html += renderDivider('USN CSAR 임무');
+    html += renderMission('CSAR', 'USN CSAR', [
+      sq(1, "Helicopter", 1, "Rescue Support", "—")
+    ]);
+    html += renderNote("공격대 이전에 육지 헥스에서 8헥스 이상 떨어진 바다 헥스에 배치<br>헬리콥터 비행대: Angel 또는 Mother 카운터");
+  }
+
+  return html;
+}
+
+// ============================================================
+// MAIN GENERATE
+// ============================================================
+function generate() {
+  const table = document.getElementById('table-select').value;
+  const dc = dateCode();
+  const year = parseInt(document.getElementById('year-select').value);
+  const month = parseInt(document.getElementById('month-select').value);
+
+  const variants = {
+    standoff: document.getElementById('var-standoff').checked,
+    phantom: document.getElementById('var-phantom').checked,
+    joint: document.getElementById('var-joint').checked,
+    major: document.getElementById('var-major').checked,
+    bolo: document.getElementById('var-bolo').checked,
+    weasel: document.getElementById('var-weasel').checked,
+    weaselShort: document.getElementById('var-weasel-short').checked,
+    chaffReinf: document.getElementById('var-chaff-reinf').checked,
+    chaffRed: document.getElementById('var-chaff-red').checked,
+    conventional: document.getElementById('var-conventional').checked,
+    majorD: document.getElementById('var-major-d').checked,
+    weaselD: document.getElementById('var-weasel-wrap') ? document.getElementById('var-weasel').checked : false,
+  };
+
+  let content = '';
+  const tableLabels = {
+    A:'표 A — USAF 롤링 선더', B:'표 B — USN',
+    C_NAIL:'표 C — 코만도 네일', C_PAPA:'표 C — 코만도 네일 파파',
+    C_CLUB:'표 C — 코만도 클럽', C_LORAN:'표 C — LORAN',
+    D:'표 D — 라인배커 1972', E_USAF:'표 E — USAF CSAR', E_USN:'표 E — USN CSAR'
+  };
+
+  const headerHtml = `
+    <div class="result-header">
+      <div class="panel-title" style="margin:0">▸ 편제 결과</div>
+      <div class="result-timestamp">${year}년 ${month}월 · ${tableLabels[table]}</div>
+    </div>`;
+
+  if (table === 'A') content = generateA(dc, variants);
+  else if (table === 'B') content = generateB(dc, variants);
+  else if (table.startsWith('C')) content = generateC(table, dc);
+  else if (table === 'D') content = generateD(dc, { ...variants, weaselD: variants.weasel });
+  else if (table.startsWith('E')) content = generateE(table, dc);
+
+  document.getElementById('results').innerHTML = headerHtml + content;
+}
+</script>
+</body>
+</html>
