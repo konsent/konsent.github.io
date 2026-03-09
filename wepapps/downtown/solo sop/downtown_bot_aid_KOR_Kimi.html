@@ -379,6 +379,55 @@
             color: var(--text-secondary);
         }
 
+        /* Interactive Roller */
+        .interactive-roller {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 14px;
+            margin: 16px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .roll-btn {
+            flex-shrink: 0;
+            padding: 10px 20px;
+            background: var(--accent-orange);
+            color: white;
+            border: none;
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .roll-btn:hover {
+            background: #d86a3a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        .roll-result {
+            font-size: 1rem;
+            font-weight: 600;
+            text-align: right;
+            flex-grow: 1;
+        }
+
+        .roll-result .roll-value {
+            font-family: 'SF Mono', monospace;
+            background: var(--bg-secondary);
+            padding: 4px 8px;
+            border-radius: 4px;
+            border: 1px solid var(--border);
+            margin-right: 8px;
+        }
+
         /* Print Button */
         .print-btn {
             position: fixed;
@@ -518,7 +567,7 @@
         </button>
         <button class="nav-tab" data-section="sam">
             <span>SAM/AAA</span>
-            <span class="nav-tab-sub">I, K, L</span>
+            <span class="nav-tab-sub">I, K, L, Z</span>
         </button>
         <button class="nav-tab" data-section="target">
             <span>표적 선택</span>
@@ -558,6 +607,10 @@
                         <div class="highlight-box">
                             <strong>비행대 활성화 확인</strong> <span class="tag tag-dice">1d10</span>:<br>
                             ≤ 5 <span class="tag tag-result">실제 비행대</span> | ≥ 6 <span class="tag tag-result">더미</span>
+                        </div>
+                        <div class="interactive-roller">
+                            <button class="roll-btn" id="rollActivationBtn">활성화 확인 (1d10)</button>
+                            <div class="roll-result" id="activationResult"></div>
                         </div>
                         <p><strong>실제 비행대인 경우:</strong> 비행대를 활성화. <span class="text-red-bold">🅝 DRV 비행대 선택 표</span>를 참조.</p>
                         <p><strong>더미인 경우:</strong> 일반 비행대 마커를 제거.</p>
@@ -643,6 +696,18 @@
                             ≥ 6이거나 5헥스 이내에 탐지된 US 비행대가 없는 경우: <span class="tag tag-result">교전 없음</span><br>
                             → <span class="text-red-bold">🅖 비전투 행동</span> 참조
                         </div>
+                        <div class="interactive-roller" style="flex-direction: column; align-items: stretch;">
+                            <div style="margin-bottom: 12px;">
+                                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 0.9rem; color: var(--text-secondary);">
+                                    <input type="checkbox" id="undetectedModifier">
+                                    <span>DRV 비행대가 탐지되지 않음 (-2)</span>
+                                </label>
+                            </div>
+                            <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px;">
+                                <button class="roll-btn" id="rollCombatBtn">행동 확인 (1d10)</button>
+                                <div class="roll-result" id="combatResult"></div>
+                            </div>
+                        </div>
                         <p><strong>보정 수치</strong> <span class="tag tag-modifier">DRV 비행대가 탐지되지 않은 경우: -2</span></p>
                     </div>
                 </div>
@@ -654,6 +719,10 @@
                     </div>
                     <div class="card-body">
                         <p>각 관리 페이즈마다, 최대 실제 비행대 또는 최대 일반 비행대 중 하나가 충족될 때까지, <span class="tag tag-dice">1d10</span>을 굴립니다:</p>
+                        <div class="interactive-roller">
+                            <button class="roll-btn" id="rollGenFlightBtn">생성 확인 (1d10)</button>
+                            <div class="roll-result" id="genFlightResult"></div>
+                        </div>
                         <div class="table-container">
                             <table>
                                 <tr>
@@ -709,6 +778,18 @@
                     </div>
                     <div class="card-body">
                         <p><span class="tag tag-dice">1d10</span>을 굴리고 다음과 같이 이동합니다:</p>
+                        <div class="interactive-roller" style="flex-direction: column; align-items: stretch;">
+                            <div style="margin-bottom: 12px;">
+                                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 0.9rem; color: var(--text-secondary);">
+                                    <input type="checkbox" id="undetectedModifierG">
+                                    <span>DRV 비행대가 탐지되지 않음 (-2)</span>
+                                </label>
+                            </div>
+                            <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px;">
+                                <button class="roll-btn" id="rollNonCombatBtn">행동 확인 (1d10)</button>
+                                <div class="roll-result" id="nonCombatResult"></div>
+                            </div>
+                        </div>
                         <div class="table-container">
                             <table>
                                 <tr>
@@ -781,6 +862,10 @@
                             <strong>AAA 활성화 확인</strong> <span class="tag tag-dice">1d10</span>:<br>
                             ≤ 5 <span class="tag tag-result">실제 AAA</span> | 6-8 <span class="tag tag-result">효과 없음</span> | ≥ 9 <span class="tag tag-result">더미</span>
                         </div>
+                        <div class="interactive-roller">
+                            <button class="roll-btn" id="rollAAABtn">AAA 활성화 (1d10)</button>
+                            <div class="roll-result" id="aaaResult"></div>
+                        </div>
                         <div class="table-container">
                             <table>
                                 <tr>
@@ -806,6 +891,18 @@
                         <div class="highlight-box">
                             <strong>파이어 캔 활성화 확인</strong> <span class="tag tag-dice">1d10</span>:<br>
                             ≤ 3 <span class="tag tag-result">파이어 캔</span> | ≥ 4 <span class="tag tag-result">효과 없음</span>
+                        </div>
+                        <div class="interactive-roller" style="flex-direction: column; align-items: stretch;">
+                            <div style="margin-bottom: 12px;">
+                                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 0.9rem; color: var(--text-secondary);">
+                                    <input type="checkbox" id="fireCanModifier">
+                                    <span>5헥스 이내에 파이어 캔 있음 (+1)</span>
+                                </label>
+                            </div>
+                            <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px;">
+                                <button class="roll-btn" id="rollFireCanBtn">파이어 캔 활성화 (1d10)</button>
+                                <div class="roll-result" id="fireCanResult"></div>
+                            </div>
                         </div>
                         <div class="table-container">
                             <table>
@@ -843,6 +940,10 @@
                             <strong>SAM 활성화 확인</strong> <span class="tag tag-dice">1d10</span>:<br>
                             ≤ 4 <span class="tag tag-result">실제 SAM</span> | 5-8 <span class="tag tag-result">효과 없음</span> | ≥ 9 <span class="tag tag-result">더미 SAM</span>
                         </div>
+                        <div class="interactive-roller">
+                            <button class="roll-btn" id="rollSAMActBtn">SAM 활성화 (1d10)</button>
+                            <div class="roll-result" id="samActResult"></div>
+                        </div>
                         <div class="table-container">
                             <table>
                                 <tr>
@@ -878,6 +979,22 @@
                         <strong>SAM 사격 확인</strong> <span class="tag tag-dice">1d10</span>:<br>
                         > US 비행대까지의 거리 <span class="tag tag-result">사격</span> | ≤ US 비행대까지의 거리 <span class="tag tag-result">사격 안 함</span>
                     </div>
+                    <div class="interactive-roller" style="flex-direction: column; align-items: stretch;">
+                        <div style="margin-bottom: 12px; display: flex; flex-wrap: wrap; gap: 16px; align-items: center;">
+                            <label style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem; color: var(--text-secondary);">
+                                <span>거리:</span>
+                                <input type="number" id="samDistance" min="1" max="10" value="4" style="width: 50px; padding: 4px; border: 1px solid var(--border); border-radius: 4px;">
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 0.9rem; color: var(--text-secondary);">
+                                <input type="checkbox" id="samAcqModifier">
+                                <span>완전 표적 획득 (+2)</span>
+                            </label>
+                        </div>
+                        <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px;">
+                            <button class="roll-btn" id="rollSAMFireBtn">사격 확인 (1d10)</button>
+                            <div class="roll-result" id="samFireResult"></div>
+                        </div>
+                    </div>
                     <p><strong>보정 수치</strong> <span class="tag tag-modifier">SAM이 완전 표적 획득을 한 경우: +2</span></p>
                     <p class="note-box">*표적까지의 거리를 계산할 때, 표적이 고고도에 있으면 거리에 1을 더합니다.</p>
 
@@ -899,6 +1016,41 @@
                     </div>
                     <p style="margin-top: 12px;"><strong>ARM 사격:</strong> 탐지 상태 US 비행대가 ARM 사격을 하면, 모든 SAM은 레이더를 켠 상태를 유지하려고 합니다</p>
                     <p><strong>SAM 표적 획득 페이즈:</strong> US 비행대의 12 헥스 내에 있는 비활성 SAM의 활성화 여부를 확인: <span class="text-red-bold">🅚 SAM 활성화 테이블</span> 참조합니다. 그리고 모든 활성 SAM은 US 비행대 표적 획득을 시도합니다. 이번 턴에 활성화된 SAM도 탐지 상태 US 비행대를 대상으로 신속 표적 획득을 시도할 수 있습니다 [15.31] SAM들은 ID-문자 순서대로 탐지 시도를 합니다. <span class="text-red-bold">🅜 타겟 선택 테이블</span>을 참조하여 타겟을 선택하세요.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-header-icon">Z</div>
+                    <div class="card-title">발사 후 락온 표</div>
+                </div>
+                <div class="card-body">
+                    <p>[선택사항] 1967년 8월 이후인 경우, 탐지된 US 비행대가 비활성 SAM의 5헥스 이내로 이동할 때마다 LOAL 확인을 합니다.</p>
+                    <div class="highlight-box">
+                        <strong>LOAL</strong> <span class="tag tag-dice">1d10</span>:<br>
+                        ≤ 3 <span class="tag tag-result">사격</span> | ≥ 4 <span class="tag tag-result">사격 안 함</span>
+                    </div>
+                    <div class="interactive-roller">
+                        <button class="roll-btn" id="rollLOALBtn">LOAL 확인 (1d10)</button>
+                        <div class="roll-result" id="loalResult"></div>
+                    </div>
+
+                    <div class="table-container">
+                        <table>
+                            <tr>
+                                <th>결과</th>
+                                <th></th>
+                            </tr>
+                            <tr>
+                                <td><strong>사격 발생 O</strong></td>
+                                <td>SAM을 활성화하고 사격을 유발한 US 비행대에 일제 사격을 시도합니다</td>
+                            </tr>
+                            <tr>
+                                <td><strong>사격 발생 X</strong></td>
+                                <td>SAM은 활성화되지 않습니다</td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
             </div>
         </section>
@@ -1248,42 +1400,42 @@
                             <div>
                                 <p style="margin-bottom: 10px; font-weight: 500;">SAM 상태:</p>
                                 <div class="legend-item">
-                                    <div class="legend-marker">1</div>
+                                    <img src="1.png" alt="marker" style="width:40px;height:40px;">
                                     <div class="legend-text">비활성 SAM (시나리오 시작 시 SAM 준비)</div>
                                 </div>
                                 <div class="legend-item">
-                                    <div class="legend-marker">2</div>
+                                    <img src="2.png" alt="marker" style="width:40px;height:40px;">
                                     <div class="legend-text">활성 SAM - 위치 불명 (3발 남음)</div>
                                 </div>
                                 <div class="legend-item">
-                                    <div class="legend-marker">3</div>
+                                    <img src="3.png" alt="marker" style="width:40px;height:40px;">
                                     <div class="legend-text">활성 SAM - 위치 불명 (레이더 종료, 탄약 고갈)</div>
                                 </div>
                                 <div class="legend-item">
-                                    <div class="legend-marker">4</div>
+                                    <img src="4.png" alt="marker" style="width:40px;height:40px;">
                                     <div class="legend-text">활성 SAM - 위치 확인 (3발 남음)</div>
                                 </div>
                                 <div class="legend-item">
-                                    <div class="legend-marker">5</div>
+                                    <img src="5.png" alt="marker" style="width:40px;height:40px;">
                                     <div class="legend-text">활성 SAM - 위치 확인 (레이더 종료, 탄약 고갈)</div>
                                 </div>
                                 <div class="legend-item">
-                                    <div class="legend-marker">6</div>
+                                    <img src="6.png" alt="marker" style="width:40px;height:40px;">
                                     <div class="legend-text">비활성 AAA (시나리오 시작 시 AAA 준비)</div>
                                 </div>
                             </div>
                             <div>
                                 <p style="margin-bottom: 10px; font-weight: 500;">카운터 방향으로 잔탄 표시:</p>
                                 <div class="legend-item">
-                                    <div class="legend-marker">2</div>
+                                    <img src="11.png" alt="marker" style="width:40px;height:40px;">
                                     <div class="legend-text">2발 남음</div>
                                 </div>
                                 <div class="legend-item">
-                                    <div class="legend-marker">1</div>
+                                    <img src="22.png" alt="marker" style="width:40px;height:40px;">
                                     <div class="legend-text">1발 남음</div>
                                 </div>
                                 <div class="legend-item">
-                                    <div class="legend-marker">0</div>
+                                    <img src="33.png" alt="marker" style="width:40px;height:40px;">
                                     <div class="legend-text">탄약 고갈</div>
                                 </div>
                             </div>
@@ -1377,6 +1529,225 @@
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             });
         });
+
+        // Dice Roller - A. 비행대 활성화
+        const rollActivationBtn = document.getElementById('rollActivationBtn');
+        const activationResult = document.getElementById('activationResult');
+
+        if (rollActivationBtn) {
+            rollActivationBtn.addEventListener('click', () => {
+                const roll = Math.floor(Math.random() * 10) + 1;
+                let resultText = '';
+                let resultClass = '';
+
+                if (roll <= 5) {
+                    resultText = '실제 비행대';
+                    resultClass = 'tag-result'; // Green
+                } else {
+                    resultText = '더미';
+                    resultClass = 'tag-condition-red'; // Red
+                }
+                
+                activationResult.innerHTML = `
+                    <span class="roll-value">${roll}</span>
+                    <span class="tag ${resultClass}">${resultText}</span>
+                `;
+            });
+        }
+
+        // Dice Roller - D. 비행대 행동 - 전투 행동
+        const rollCombatBtn = document.getElementById('rollCombatBtn');
+        const combatResult = document.getElementById('combatResult');
+        const undetectedModifier = document.getElementById('undetectedModifier');
+
+        if (rollCombatBtn) {
+            rollCombatBtn.addEventListener('click', () => {
+                const roll = Math.floor(Math.random() * 10) + 1;
+                let modifier = 0;
+                if (undetectedModifier && undetectedModifier.checked) {
+                    modifier = -2;
+                }
+                
+                const finalValue = roll + modifier;
+                
+                let resultText = '';
+                let resultClass = '';
+                let subText = '';
+
+                if (finalValue <= 5) {
+                    resultText = '교전';
+                    resultClass = 'tag-result'; // Green
+                    subText = '(목표 있을 시)';
+                } else {
+                    resultText = '교전 없음';
+                    resultClass = 'tag-condition-red'; // Red
+                }
+                
+                let calcText = modifier !== 0 ? `${roll} ${modifier >= 0 ? '+' : ''}${modifier} = ${finalValue}` : `${roll}`;
+
+                combatResult.innerHTML = `
+                    <div style="display: flex; flex-direction: column; align-items: flex-end;">
+                        <div>
+                            <span class="roll-value" title="주사위: ${roll}, 보정: ${modifier}">${calcText}</span>
+                            <span class="tag ${resultClass}">${resultText}</span>
+                        </div>
+                        ${subText ? `<div style="font-size: 0.75rem; opacity: 0.8; margin-top: 4px;">${subText}</div>` : ''}
+                    </div>
+                `;
+            });
+        }
+
+        // E. 일반 비행대 생성
+        const rollGenFlightBtn = document.getElementById('rollGenFlightBtn');
+        const genFlightResult = document.getElementById('genFlightResult');
+        if (rollGenFlightBtn) {
+            rollGenFlightBtn.addEventListener('click', () => {
+                const roll = Math.floor(Math.random() * 10) + 1;
+                let text = '';
+                let cls = '';
+                if (roll <= 4) { text = '개방된 비행장에 배치'; cls = 'tag-result'; }
+                else if (roll <= 7) { text = '기존 비행대와 함께 배치'; cls = 'tag-result'; }
+                else { text = '배치 안 함'; cls = 'tag-condition-red'; }
+                genFlightResult.innerHTML = `<span class="roll-value">${roll}</span><span class="tag ${cls}">${text}</span>`;
+            });
+        }
+
+        // G. 비전투 행동
+        const rollNonCombatBtn = document.getElementById('rollNonCombatBtn');
+        const nonCombatResult = document.getElementById('nonCombatResult');
+        const undetectedModifierG = document.getElementById('undetectedModifierG');
+        if (rollNonCombatBtn) {
+            rollNonCombatBtn.addEventListener('click', () => {
+                const roll = Math.floor(Math.random() * 10) + 1;
+                let mod = undetectedModifierG && undetectedModifierG.checked ? -2 : 0;
+                const total = roll + mod;
+                let text = '';
+                let cls = '';
+                if (total <= 4) { text = '접근'; cls = 'tag-result'; }
+                else if (total <= 8) { text = '위치 유지'; cls = 'tag-condition'; }
+                else { text = '회피'; cls = 'tag-condition-red'; }
+                
+                let calcText = mod !== 0 ? `${roll} ${mod >= 0 ? '+' : ''}${mod} = ${total}` : `${roll}`;
+                nonCombatResult.innerHTML = `
+                    <div style="display: flex; flex-direction: column; align-items: flex-end;">
+                        <div>
+                            <span class="roll-value" title="주사위: ${roll}, 보정: ${mod}">${calcText}</span>
+                            <span class="tag ${cls}">${text}</span>
+                        </div>
+                    </div>`;
+            });
+        }
+
+        // I. AAA Activation
+        const rollAAABtn = document.getElementById('rollAAABtn');
+        const aaaResult = document.getElementById('aaaResult');
+        if (rollAAABtn) {
+            rollAAABtn.addEventListener('click', () => {
+                const roll = Math.floor(Math.random() * 10) + 1;
+                let text = '';
+                let cls = '';
+                if (roll <= 5) {
+                    // Nested roll for intensity
+                    const roll2 = Math.floor(Math.random() * 10) + 1;
+                    let intensity = '';
+                    if (roll2 <= 6) intensity = '저강도';
+                    else if (roll2 <= 9) intensity = '중강도';
+                    else intensity = '고강도';
+                    text = `실제 AAA (${intensity})`;
+                    cls = 'tag-result';
+                } else if (roll <= 8) {
+                    text = '효과 없음';
+                    cls = 'tag-condition';
+                } else {
+                    text = '더미';
+                    cls = 'tag-condition-red';
+                }
+                aaaResult.innerHTML = `<span class="roll-value">${roll}</span><span class="tag ${cls}">${text}</span>`;
+            });
+        }
+
+        // I. Fire Can Activation
+        const rollFireCanBtn = document.getElementById('rollFireCanBtn');
+        const fireCanResult = document.getElementById('fireCanResult');
+        const fireCanModifier = document.getElementById('fireCanModifier');
+        if (rollFireCanBtn) {
+            rollFireCanBtn.addEventListener('click', () => {
+                const roll = Math.floor(Math.random() * 10) + 1;
+                let mod = fireCanModifier && fireCanModifier.checked ? 1 : 0;
+                const total = roll + mod;
+                let text = '';
+                let cls = '';
+                if (total <= 3) { text = '파이어 캔'; cls = 'tag-result'; }
+                else { text = '효과 없음'; cls = 'tag-condition-red'; }
+                
+                let calcText = mod !== 0 ? `${roll} ${mod >= 0 ? '+' : ''}${mod} = ${total}` : `${roll}`;
+                fireCanResult.innerHTML = `
+                    <div style="display: flex; flex-direction: column; align-items: flex-end;">
+                        <div>
+                            <span class="roll-value" title="주사위: ${roll}, 보정: ${mod}">${calcText}</span>
+                            <span class="tag ${cls}">${text}</span>
+                        </div>
+                    </div>`;
+            });
+        }
+
+        // K. SAM Activation
+        const rollSAMActBtn = document.getElementById('rollSAMActBtn');
+        const samActResult = document.getElementById('samActResult');
+        if (rollSAMActBtn) {
+            rollSAMActBtn.addEventListener('click', () => {
+                const roll = Math.floor(Math.random() * 10) + 1;
+                let text = '';
+                let cls = '';
+                if (roll <= 4) { text = '실제 SAM'; cls = 'tag-result'; }
+                else if (roll <= 8) { text = '효과 없음'; cls = 'tag-condition'; }
+                else { text = '더미 SAM'; cls = 'tag-condition-red'; }
+                samActResult.innerHTML = `<span class="roll-value">${roll}</span><span class="tag ${cls}">${text}</span>`;
+            });
+        }
+
+        // L. SAM Action
+        const rollSAMFireBtn = document.getElementById('rollSAMFireBtn');
+        const samFireResult = document.getElementById('samFireResult');
+        const samDistance = document.getElementById('samDistance');
+        const samAcqModifier = document.getElementById('samAcqModifier');
+        if (rollSAMFireBtn) {
+            rollSAMFireBtn.addEventListener('click', () => {
+                const roll = Math.floor(Math.random() * 10) + 1;
+                let mod = samAcqModifier && samAcqModifier.checked ? 2 : 0;
+                const total = roll + mod;
+                const dist = parseInt(samDistance.value) || 0;
+                
+                let text = '';
+                let cls = '';
+                if (total > dist) { text = '사격'; cls = 'tag-result'; }
+                else { text = '사격 안 함'; cls = 'tag-condition-red'; }
+                
+                let calcText = mod !== 0 ? `${roll} ${mod >= 0 ? '+' : ''}${mod} = ${total}` : `${roll}`;
+                samFireResult.innerHTML = `
+                    <div style="display: flex; flex-direction: column; align-items: flex-end;">
+                        <div>
+                            <span class="roll-value" title="주사위: ${roll}, 보정: ${mod}, 거리: ${dist}">${calcText}</span>
+                            <span class="tag ${cls}">${text}</span>
+                        </div>
+                        <div style="font-size: 0.75rem; opacity: 0.8; margin-top: 4px;">거리 ${dist} vs 결과 ${total}</div>
+                    </div>`;
+            });
+        }
+
+        // Z. LOAL
+        const rollLOALBtn = document.getElementById('rollLOALBtn');
+        const loalResult = document.getElementById('loalResult');
+        if (rollLOALBtn) {
+            rollLOALBtn.addEventListener('click', () => {
+                const roll = Math.floor(Math.random() * 10) + 1;
+                let text = '';
+                let cls = '';
+                if (roll <= 3) { text = '사격'; cls = 'tag-result'; }
+                else { text = '사격 안 함'; cls = 'tag-condition-red'; }
+                loalResult.innerHTML = `<span class="roll-value">${roll}</span><span class="tag ${cls}">${text}</span>`;
+            });
+        }
     </script>
 </body>
 </html>
