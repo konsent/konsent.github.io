@@ -1651,6 +1651,26 @@
             });
         });
 
+        // 탭 이동을 위한 키보드 단축키 (1-7)
+        document.addEventListener('keydown', (e) => {
+            // 입력 필드에 포커스가 있을 때는 단축키를 실행하지 않습니다.
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') {
+                return;
+            }
+
+            const keyNumber = parseInt(e.key);
+            // 1부터 7까지의 숫자 키를 감지합니다.
+            if (!isNaN(keyNumber) && keyNumber >= 1 && keyNumber <= tabs.length) {
+                e.preventDefault(); // 브라우저의 기본 동작(예: 페이지 검색)을 막습니다.
+                
+                const targetTab = tabs[keyNumber - 1];
+                // 해당 탭이 존재하고 활성화 상태가 아닐 경우에만 클릭 이벤트를 실행합니다.
+                if (targetTab && !targetTab.classList.contains('active')) {
+                    targetTab.click();
+                }
+            }
+        });
+
         // Dice Roller - A. 비행대 활성화
         const rollActivationBtn = document.getElementById('rollActivationBtn');
         const activationResult = document.getElementById('activationResult');
