@@ -992,6 +992,105 @@
     </div>
 
     <script>
+        // 시나리오별 비행대 생성 데이터
+        const flightScenarioData = {
+            "D1": [
+                { min: 1, max: 2, type: "MiG-17F", count: "x2" },
+                { min: 3, max: 4, type: "MiG-17F", count: "x3" },
+                { min: 5, max: 10, type: "MiG-17F", count: "x4" }
+            ],
+            "D2": [
+                { min: 1, max: 2, type: "MiG-17F", count: "x2" },
+                { min: 3, max: 10, type: "MiG-17F", count: "x4", stop: true }
+            ],
+            "D3": [
+                { min: 1, max: 1, type: "MiG-17F", count: "x2" },
+                { min: 2, max: 2, type: "MiG-17F", count: "x3" },
+                { min: 3, max: 6, type: "MiG-17F", count: "x4" },
+                { min: 7, max: 8, type: "MiG-21F-13", count: "x2" },
+                { min: 9, max: 9, type: "MiG-21F-13", count: "x3" },
+                { min: 10, max: 10, type: "MiG-21F-13", count: "x4" }
+            ],
+            "D4/D5": [
+                { min: 1, max: 1, type: "MiG-17F", count: "x2" },
+                { min: 2, max: 2, type: "MiG-17F", count: "x3" },
+                { min: 3, max: 4, type: "MiG-17F", count: "x4" },
+                { min: 5, max: 5, type: "MiG-21F-13", count: "x2" },
+                { min: 6, max: 6, type: "MiG-21F-13", count: "x3" },
+                { min: 7, max: 7, type: "MiG-21F-13", count: "x4" },
+                { min: 8, max: 8, type: "MiG-21PF", count: "x2" },
+                { min: 9, max: 9, type: "MiG-21PF", count: "x3" },
+                { min: 10, max: 10, type: "MiG-21PF", count: "x4" }
+            ],
+            "D6": [
+                { min: 1, max: 4, type: "MiG-17F", count: "x2" },
+                { min: 5, max: 5, type: "MiG-17F", count: "x4", stop: true },
+                { min: 6, max: 10, type: "MiG-21PF", count: "x2", stop: true },
+                { min: 5, max: 5, type: "MiG-21PFM", count: "x2" },
+                { min: 6, max: 6, type: "MiG-21PFM", count: "x3" },
+                { min: 7, max: 7, type: "MiG-21PFM", count: "x4" },
+                { min: 8, max: 8, type: "MiG-21MF", count: "x2" },
+                { min: 9, max: 9, type: "MiG-21MF", count: "x3" },
+                { min: 10, max: 10, type: "MiG-21MF", count: "x4" }
+            ],
+            "D7/D8": [
+                { min: 1, max: 1, type: "MiG-17F", count: "x2" },
+                { min: 2, max: 2, type: "MiG-17F", count: "x3" },
+                { min: 3, max: 4, type: "MiG-17F", count: "x4" },
+                { min: 5, max: 7, type: "MiG-21PF", count: "x2" },
+                { min: 8, max: 9, type: "MiG-21PF", count: "x3" },
+                { min: 10, max: 10, type: "MiG-21PF", count: "x4" }
+            ],
+            "D9": [
+                { min: 1, max: 1, type: "MiG-17F", count: "x2" },
+                { min: 2, max: 2, type: "MiG-17F", count: "x3" },
+                { min: 3, max: 4, type: "MiG-17F", count: "x4" },
+                { min: 5, max: 5, type: "MiG-21F-13", count: "x2" },
+                { min: 6, max: 6, type: "MiG-21F-13", count: "x3" },
+                { min: 7, max: 8, type: "MiG-21PF", count: "x2" },
+                { min: 9, max: 9, type: "MiG-21PF", count: "x3" },
+                { min: 10, max: 10, type: "MiG-21PF", count: "x4" }
+            ],
+            "D10/D11": [
+                { min: 1, max: 1, type: "MiG-17F", count: "x2" },
+                { min: 2, max: 2, type: "MiG-17F", count: "x3" },
+                { min: 3, max: 3, type: "MiG-17F", count: "x4" },
+                { min: 4, max: 4, type: "MiG-19S", count: "x3" },
+                { min: 5, max: 5, type: "MiG-21PFM", count: "x2" },
+                { min: 6, max: 6, type: "MiG-21PFM", count: "x3" },
+                { min: 7, max: 7, type: "MiG-21PFM", count: "x4" },
+                { min: 8, max: 8, type: "MiG-21MF", count: "x2" },
+                { min: 9, max: 9, type: "MiG-21MF", count: "x3" },
+                { min: 10, max: 10, type: "MiG-21MF", count: "x4" }
+            ],
+            "D12": [
+                { min: 1, max: 1, type: "MiG-17F", count: "x2" },
+                { min: 2, max: 4, type: "MiG-17F", count: "x4", stop: true },
+                { min: 5, max: 5, type: "MiG-19S", count: "x2", stop: true },
+                { min: 6, max: 6, type: "MiG-19S", count: "x3", stop: true },
+                { min: 7, max: 10, type: "MiG-21PFM", count: "x2", stop: true }
+            ],
+            "D13": [
+                { min: 1, max: 1, type: "MiG-17F", count: "x2" },
+                { min: 2, max: 2, type: "MiG-17F", count: "x3" },
+                { min: 3, max: 3, type: "MiG-17F", count: "x4" },
+                { min: 4, max: 4, type: "MiG-19S", count: "x3" },
+                { min: 5, max: 6, type: "MiG-21PFM", count: "x2" },
+                { min: 7, max: 7, type: "MiG-21PFM", count: "x3" },
+                { min: 8, max: 8, type: "MiG-21MF", count: "x2" },
+                { min: 9, max: 9, type: "MiG-21MF", count: "x3" },
+                { min: 10, max: 10, type: "MiG-21MF", count: "x4" }
+            ],
+            "D14/D16": [
+                { min: 1, max: 10, type: "MiG-21MF", count: "x1 (야간)" }
+            ],
+            "D15": [
+                { min: 1, max: 5, type: "MiG-21MF", count: "x2" },
+                { min: 6, max: 8, type: "MiG-21MF", count: "x3" },
+                { min: 9, max: 10, type: "MiG-21MF", count: "x4" }
+            ]
+        };
+
         // downtown_bot_aid_KOR_Printversion_dice3.html의 내용을 담는 데이터 객체
         const refContentData = {
             "무작위 이벤트": `<img src="random.png" alt="무작위 이벤트 표" style="width: 100%; height: auto;">`,
@@ -1010,12 +1109,8 @@
             "🅚 SAM 활성화 표": `<p>비활성 SAM은 활성화될 때까지 레이더 오프 SAM 경고 마커를 사용합니다. 비활성 SAM은 다음 상황에서 활성화를 확인합니다:</p><ul><li>어떤 수단으로든 위치가 파악되었을 때.</li><li>SAM 표적 획득 페이즈 중, US 비행대로부터 12헥스 이내에 있을 때.</li><li>[선택사항] 이동 페이즈 중: <span class="red-bold-text">🅩 발사 후 락온 표</span>를 참조하세요.</li></ul><div class="highlight"><strong>SAM 활성화 확인</strong> <span class="dice-formula">(1d10)</span>: ≤ 4 <span class="result">실제 SAM</span>; 5-8 <span class="result">효과 없음</span>; ≥ 9 <span class="result">더미 SAM</span></div><div class="interactive-roller"><button class="roll-btn" id="rollSAMActBtn">SAM 활성화 (1d10)</button><div class="roll-result" id="samActResult"></div></div><table class="table"><tbody><tr><th>결과</th><th></th></tr><tr><td>≤ 4</td><td><strong>실제 SAM: </strong> SAM 경고 마커를 뒤집어서 레이더 시작(Radar ON)면으로 놓습니다. 이제 레이더는 활성화 상태입니다.</td></tr><tr><td>5-8</td><td><strong>효과 없음(NE): </strong>비활성 SAM 경고 마커를 유지합니다. 이번 턴에는 SAM 활성화 확인을 하지 않습니다</td></tr><tr><td>≥ 9</td><td><strong>더미 SAM: </strong> SAM 경고 마커를 제거합니다.</td></tr></tbody></table>`,
             "🅛 SAM 행동 표": `<p><strong>이동 페이즈:</strong> 탐지된 US 비행대가 자신을 표적 획득한 SAM의 8헥스* 이내에서 MP를 소모할 때마다 사격 확인을 합니다. 여러 SAM이 한 US 비행대의 표적을 획득한 경우, 가장 가까운 SAM만 확인(동률이면 ID 알파벳 순서로 결정)</p><div class="highlight"><strong>SAM 사격 확인</strong> <span class="dice-formula">(1d10)</span>: > US 비행대까지의 거리 <span class="result">사격</span>; ≤ US 비행대까지의 거리 <span class="result">사격 안 함</span></div><div class="interactive-roller" style="flex-direction: column; align-items: stretch;"><div style="margin-bottom: 12px; display: flex; flex-wrap: wrap; gap: 16px; align-items: center;"><label style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem; color: var(--text-secondary);"><span>거리:</span><input type="number" id="samDistance" min="1" max="10" value="4" style="width: 50px; padding: 4px; border: 1px solid var(--border-medium); border-radius: 4px;"></label><label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 0.9rem; color: var(--text-secondary);"><input type="checkbox" id="samAcqModifier"><span>완전 표적 획득 (+2)</span></label></div><div style="display: flex; align-items: center; justify-content: space-between; gap: 16px;"><button class="roll-btn" id="rollSAMFireBtn">사격 확인 (1d10)</button><div class="roll-result" id="samFireResult"></div></div></div><p><strong>보정 수치 </strong><span class="modifier">SAM이 완전 표적 획득을 한 경우: +2</span></p><p class="note">*표적까지의 거리를 계산할 때, 표적이 고고도에 있으면 거리에 1을 더합니다.</p><table class="table"><tbody><tr><th>결과</th><th></th></tr><tr><td><strong>사격 발생 O</strong></td><td> 표적 획득된 US 비행대에 SAM(지대공 미사일) 발사 공격을 수행. SAM 발사 확인 주사위 굴림이 짝수면: 가능하면 일제 사격(salvo)을 가합니다. SAM 발사 확인 주사위 굴림이 홀수면: 단일 미사일을 발사합니다.</td></tr><tr><td><strong>사격 발생 X</strong></td><td>SAM 사격을 수행하지 않습니다. 만약 US 항공기(동일한 항공기 포함)가 8 헥스 이내에서 다시 MP를 소모하면 SAM은 또 다른 시도를 할 수 있습니다.</td></tr></tbody></table><p><strong>ARM 사격: </strong> 탐지 상태 US 비행대가 ARM 사격을 하면, 모든 SAM은 레이더를 켠 상태를 유지하려고 합니다</p><p><strong>SAM 표적 획득 페이즈: </strong>US 비행대의 12 헥스 내에 있는 비활성 SAM의 활성화 여부를 확인: <span class="red-bold-text">🅚 SAM 활성화 테이블</span> 참조합니다. 그리고 모든 활성 SAM은 US 비행대 표적 획득을 시도합니다. 이번 턴에 활성화된 SAM도 탐지 상태 US 비행대를 대상으로 신속 표적 획득을 시도할 수 있습니다 [15.31] SAM들은 ID-문자 순서대로 탐지 시도를 합니다. <span class="red-bold-text">🅜 타겟 선택 테이블</span>을 참조하여 타겟을 선택하세요.</p>`,
             "🅜 표적 선택 표": `<p>다음 조건의 US 비행대를 선택합니다:</p><table class="table"><tbody><tr><th>행동 유닛이 SAM인 경우</th><td>• 행동하는 SAM에게 표적 획득되었고 8헥스 이내에 있는 경우<br>• 탐지 상태 비행대<br>• 적재 상태(Laden)<br>• 표적 획득 마커가 가장 적은 비행대<br>• 가장 가까운 비행대<br>• MiG의 5헥스 이내에 있지 않은 비행대<br>• 손상되거나 묠력화된 항공기가 있는 US 비행대<br>• 남은 US 비행대 중에서 무작위 선택</td></tr><tr><th>행동 유닛이 MiG인 경우</th><td>• 탐지 상태 비행대<br>• 가장 낮은 고도대역에 위치한 비행대<br>• 적재 상태(Laden)<br>• 표적 획득 마커가 가장 적은 비행대<br>• 가장 가까운 비행대<br>• 손상되거나 묠력화된 항공기가 있는 US 비행대<br>• 남은 US 비행대 중에서 무작위 선택</td></tr></tbody></table>`,
-            "🅝 DRV 비행대 선택 표": `<p>일반 DRV 비행대 활성화 시 <span class="dice-formula">1d10</span>을 굴립니다. 모든 DRV 조종사는 베테랑입니다. 시나리오 종료 시, US VP를 추가합니다: <span class="red-bold-text">🅠 종료 시 MAP</span>를 참조.</p><table class="table"><tbody><tr><th>시나리오</th><th>MiG-17F</th><th>MiG-19S</th><th>MiG-21F-13</th><th>MiG-21PF</th><th>MiG-21PFM</th><th>MiG-21MF</th></tr><tr><td>D1</td><td>1-2 (x2), 3-4 (x3), 5-10 (x4)</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>D2</td><td>1-2 (x2), <span style="background-color: black; color: white;"><strong>3-10</strong></span> (x4)</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>D3</td><td>1 (x2), 2 (x3), 3-6 (x4)</td><td></td><td>7-8 (x2), 9 (x3), 10 (x4)</td><td></td><td></td><td></td></tr><tr><td>D4/D5</td><td>1 (x2), 2 (x3), 3-4 (x4)</td><td></td><td>5 (x2), 6 (x3), 7 (x4)</td><td>8 (x2), 9 (x3), 10 (x4)</td><td></td><td></td></tr><tr><td>D6</td><td>1-4 (x2), <span style="background-color: black; color: white;"><strong>5</strong></span> (x4)</td><td></td><td></td><td><span style="background-color: black; color: white;"><strong>6-10</strong></span> (x2)</td><td>5 (x2), 6 (x3), 7 (x4)</td><td>8 (x2), 9 (x3), 10 (x4)</td></tr><tr><td>D7/D8</td><td>1 (x2), 2 (x3), 3-4 (x4)</td><td></td><td></td><td>5-7 (x2), 8-9 (x3), 10 (x4)</td><td></td><td></td></tr><tr><td>D9</td><td>1 (x2), 2 (x3), 3-4 (x4)</td><td></td><td>5 (x2), 6 (x3)</td><td>7-8 (x2), 9 (x3), 10 (x4)</td><td></td><td></td></tr><tr><td>D10/D11</td><td>1 (x2), 2 (x3), 3 (x4)</td><td>4 (x3)</td><td></td><td></td><td>5 (x2), 6 (x3), 7 (x4)</td><td>8 (x2), 9 (x3), 10 (x4)</td></tr><tr><td>D12</td><td>1 (x2), <span style="background-color: black; color: white;"><strong>2-4</strong></span> (x4)</td><td><span style="background-color: black; color: white;"><strong>5</strong></span> (x2)</td><td></td><td></td><td></td><td></td></tr><tr><td>D13</td><td>1 (x2), 2 (x3), 3 (x4)</td><td></td><td></td><td>4 (x2), 5 (x3), 6 (x4)</td><td>7 (x2), 8 (x3), 9 (x4)</td><td>10 (x2)</td></tr><tr><td>D14</td><td>1 (x2), 2 (x3), 3 (x4)</td><td></td><td></td><td>4 (x2), 5 (x3), 6 (x4)</td><td>7 (x2), 8 (x3), 9 (x4)</td><td>10 (x2)</td></tr><tr><td>D15</td><td>1 (x2), 2 (x3), 3 (x4)</td><td></td><td></td><td>4 (x2), 5 (x3), 6 (x4)</td><td>7 (x2), 8 (x3), 9 (x4)</td><td>10 (x2)</td></tr><tr><td>D16</td><td>1 (x2), 2 (x3), 3 (x4)</td><td></td><td></td><td>4 (x2), 5 (x3), 6 (x4)</td><td>7 (x2), 8 (x3), 9 (x4)</td><td>10 (x2)</td></tr></tbody></table><p class="note">
-1-2: 주사위 굴림 범위<br>
-x4: 비행대 내 항공기 수<br>
-<span style="background:black; color:white; padding:2px 4px;">5-10</span>: 이것 이후 더 이상 활성화 없음; 남은 모든 일반 비행대 제거
-</p>`,
-            "� DRV 준비 표": `<table class="table"><tbody><tr><th>시나리오</th><th>SAM 경고 마커 준비</th><th>AAA 마커 준비</th><th>사용 가능한 파이어 캔</th><th>최대 일반 비행대</th><th>최대 실제 비행대</th></tr><tr><td>D1</td><td>11*</td><td>5</td><td>4</td><td>3</td><td>1</td></tr><tr><td>D2</td><td>—</td><td>3*</td><td>-</td><td>4</td><td>2</td></tr><tr><td>D3</td><td>22*</td><td>8</td><td>8</td><td>5</td><td>3</td></tr><tr><td>D4</td><td>26</td><td>5</td><td>8</td><td>5</td><td>2</td></tr><tr><td>D5</td><td>30</td><td>7</td><td>9</td><td>6</td><td>3</td></tr><tr><td>D6</td><td>6</td><td>4*</td><td>2</td><td>-</td><td>-</td></tr><tr><td>D7</td><td>30</td><td>8</td><td>10</td><td>5</td><td>2</td></tr><tr><td>D8</td><td>30</td><td>7</td><td>11</td><td>5</td><td>2</td></tr><tr><td>D9</td><td>15</td><td>2</td><td>4</td><td>5</td><td>2</td></tr><tr><td>D10</td><td>30*</td><td>9</td><td>11</td><td>6</td><td>3*</td></tr><tr><td>D11</td><td>30</td><td>9</td><td>12</td><td>9</td><td>5</td></tr><tr><td>D12</td><td>2*</td><td>2</td><td>0</td><td>3</td><td>2</td></tr><tr><td>D13</td><td>30</td><td>9</td><td>11</td><td>6</td><td>2</td></tr><tr><td>D14</td><td>18*</td><td>0</td><td>6</td><td>4</td><td>2</td></tr><tr><td>D15</td><td>-</td><td>5</td><td>6</td><td>5</td><td>2</td></tr><tr><td>D16</td><td>30*</td><td>2</td><td>8</td><td>5</td><td>2</td></tr></tbody></table><p class="note">*추가 지침은 DRV '봇 규칙을 참조하세요.</p>`,
+            "🅝 DRV 비행대 선택 표": `<p>일반 DRV 비행대 활성화 시 <span class="dice-formula">1d10</span>을 굴립니다. 모든 DRV 조종사는 베테랑입니다. 시나리오 종료 시, US VP를 추가합니다: <span class="red-bold-text">🅠 종료 시 MAP</span>를 참조.</p><div class="interactive-roller" style="flex-direction: column; align-items: stretch;"><div style="margin-bottom: 12px; display: flex; gap: 12px; align-items: center;"><select id="flightScenarioSelect" style="padding: 8px; border-radius: 4px; border: 1px solid var(--border-medium); flex-grow: 1; font-family: 'Oswald', sans-serif;"><option value="" disabled selected>시나리오 선택</option><option value="D1">D1</option><option value="D2">D2</option><option value="D3">D3</option><option value="D4/D5">D4/D5</option><option value="D6">D6</option><option value="D7/D8">D7/D8</option><option value="D9">D9</option><option value="D10/D11">D10/D11</option><option value="D12">D12</option><option value="D13">D13</option><option value="D14/D16">D14/D16</option><option value="D15">D15</option></select></div><div style="display: flex; align-items: center; justify-content: space-between; gap: 16px;"><button class="roll-btn" id="rollFlightBtn">비행대 생성 (1d10)</button><div class="roll-result" id="flightResult"></div></div></div><table class="table"><tbody><tr><th>시나리오</th><th>MiG-17F</th><th>MiG-19S</th><th>MiG-21F-13</th><th>MiG-21PF</th><th>MiG-21PFM</th><th>MiG-21MF</th></tr><tr><td>D1</td><td>1-2 (x2), 3-4 (x3), 5-10 (x4)</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>D2</td><td>1-2 (x2), <span style="background-color: black; color: white;"><strong>3-10</strong></span> (x4)</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>D3</td><td>1 (x2), 2 (x3), 3-6 (x4)</td><td></td><td>7-8 (x2), 9 (x3), 10 (x4)</td><td></td><td></td><td></td></tr><tr><td>D4/D5</td><td>1 (x2), 2 (x3), 3-4 (x4)</td><td></td><td>5 (x2), 6 (x3), 7 (x4)</td><td>8 (x2), 9 (x3), 10 (x4)</td><td></td><td></td></tr><tr><td>D6</td><td>1-4 (x2), <span style="background-color: black; color: white;"><strong>5</strong></span> (x4)</td><td></td><td></td><td><span style="background-color: black; color: white;"><strong>6-10</strong></span> (x2)</td><td>5 (x2), 6 (x3), 7 (x4)</td><td>8 (x2), 9 (x3), 10 (x4)</td></tr><tr><td>D7/D8</td><td>1 (x2), 2 (x3), 3-4 (x4)</td><td></td><td></td><td>5-7 (x2), 8-9 (x3), 10 (x4)</td><td></td><td></td></tr><tr><td>D9</td><td>1 (x2), 2 (x3), 3-4 (x4)</td><td></td><td>5 (x2), 6 (x3)</td><td>7-8 (x2), 9 (x3), 10 (x4)</td><td></td><td></td></tr><tr><td>D10/D11</td><td>1 (x2), 2 (x3), 3 (x4)</td><td>4 (x3)</td><td></td><td></td><td>5 (x2), 6 (x3), 7 (x4)</td><td>8 (x2), 9 (x3), 10 (x4)</td></tr><tr><td>D12</td><td>1 (x2), <span style="background-color: black; color: white;"><strong>2-4</strong></span> (x4)</td><td><span style="background-color: black; color: white;"><strong>5</strong></span> (x2), <span style="background-color: black; color: white;"><strong>6</strong></span> (x3)</td><td></td><td></td><td><span style="background-color: black; color: white;"><strong>7-10</strong></span> (x2)</td><td></td></tr><tr><td>D13</td><td>1 (x2), 2 (x3), 3 (x4)</td><td>4 (x3)</td><td></td><td></td><td>5-6 (x2), 7 (x3)</td><td>8 (x2), 9 (x3), 10 (x4)</td></tr><tr><td>D14/D16</td><td></td><td></td><td></td><td></td><td></td><td>1-10 (x1 (야간))</td></tr><tr><td>D15</td><td></td><td></td><td></td><td></td><td></td><td>1-5 (x2), 6-8 (x3), 9-10 (x4)</td></tr></tbody></table><p class="note">1-2: 주사위 굴림 범위 / x4: 비행대 내 항공기 수 / <span style="background:black; color:white; padding:2px 4px;">5-10</span>: 이것 이후 더 이상 활성화 없음; 남은 모든 일반 비행대 제거</p>`,
+            "🅞 DRV 준비 표": `<table class="table"><tbody><tr><th>시나리오</th><th>SAM 경고 마커 준비</th><th>AAA 마커 준비</th><th>사용 가능한 파이어 캔</th><th>최대 일반 비행대</th><th>최대 실제 비행대</th></tr><tr><td>D1</td><td>11*</td><td>5</td><td>4</td><td>3</td><td>1</td></tr><tr><td>D2</td><td>—</td><td>3*</td><td>-</td><td>4</td><td>2</td></tr><tr><td>D3</td><td>22*</td><td>8</td><td>8</td><td>5</td><td>3</td></tr><tr><td>D4</td><td>26</td><td>5</td><td>8</td><td>5</td><td>2</td></tr><tr><td>D5</td><td>30</td><td>7</td><td>9</td><td>6</td><td>3</td></tr><tr><td>D6</td><td>6</td><td>4*</td><td>2</td><td>-</td><td>-</td></tr><tr><td>D7</td><td>30</td><td>8</td><td>10</td><td>5</td><td>2</td></tr><tr><td>D8</td><td>30</td><td>7</td><td>11</td><td>5</td><td>2</td></tr><tr><td>D9</td><td>15</td><td>2</td><td>4</td><td>5</td><td>2</td></tr><tr><td>D10</td><td>30*</td><td>9</td><td>11</td><td>6</td><td>3*</td></tr><tr><td>D11</td><td>30</td><td>9</td><td>12</td><td>9</td><td>5</td></tr><tr><td>D12</td><td>2*</td><td>2</td><td>0</td><td>3</td><td>2</td></tr><tr><td>D13</td><td>30</td><td>9</td><td>11</td><td>6</td><td>2</td></tr><tr><td>D14</td><td>18*</td><td>0</td><td>6</td><td>4</td><td>2</td></tr><tr><td>D15</td><td>-</td><td>5</td><td>6</td><td>5</td><td>2</td></tr><tr><td>D16</td><td>30*</td><td>2</td><td>8</td><td>5</td><td>2</td></tr></tbody></table><p class="note">*추가 지침은 DRV '봇 규칙을 참조하세요.</p>`,
             "🅟 SAM & AAA 지도 상 마커 범례": `<div style="display: flex; flex-wrap: wrap; gap: 10px;"><div class="highlight" style="flex: 1; min-width: 250px;"><p><strong>SAM 상태:</strong></p><ul style="list-style: none; padding: 0;"><li style="display: flex; align-items: center; margin: 4px 0;"><img src="1.png" alt="marker" style="width:40px;height:40px;margin-right: 8px;"> 비활성 SAM (시나리오 시작 시 SAM 준비)</li><li style="display: flex; align-items: center; margin: 4px 0;"><img src="2.png" alt="marker" style="width:40px;height:40px;margin-right: 8px;"> 활성 SAM - 위치 불명 (3발 남음)</li><li style="display: flex; align-items: center; margin: 4px 0;"><img src="3.png" alt="marker" style="width:40px;height:40px;margin-right: 8px;"> 활성 SAM - 위치 불명 (레이더 종료, 탄약 고갈)</li><li style="display: flex; align-items: center; margin: 4px 0;"><img src="4.png" alt="marker" style="width:40px;height:40px;margin-right: 8px;"> 활성 SAM - 위치 확인 (3발 남음)</li><li style="display: flex; align-items: center; margin: 4px 0;"><img src="5.png" alt="marker" style="width:40px;height:40px;margin-right: 8px;"> 활성 SAM - 위치 확인 (레이더 종료, 탄약 고갈)</li><li style="display: flex; align-items: center; margin: 4px 0;"><img src="6.png" alt="marker" style="width:40px;height:40px;margin-right: 8px;"> 비활성 AAA (시나리오 시작 시 AAA 준비)</li></ul></div><div class="highlight" style="flex: 1; min-width: 250px;"><p><strong>카운터 방향으로 잔탄 표시</strong></p><ul style="list-style: none; padding: 0;"><li style="display: flex; align-items: center; margin: 4px 0;"><img src="11.png" alt="marker" style="width:40px;height:40px;margin-right: 8px;"> 2발 남음</li><li style="display: flex; align-items: center; margin: 4px 0;"><img src="22.png" alt="marker" style="width:40px;height:40px;margin-right: 8px;"> 1발 남음</li><li style="display: flex; align-items: center; margin: 4px 0;"><img src="33.png" alt="marker" style="width:40px;height:40px;margin-right: 8px;"> 탄약 고갈</li></ul></div></div><div class="note">[선택사항] — SAM 탄약을 추적하는 대신, 공대공 무기와 같이 {3}을 사용하여 탄약 고갈을 굴립니다. 일제 사격을 하는 경우 굴림에 -3 보정을 적용합니다.</div>`,
             "🅠 종료 시 MAP": `<p>시나리오 종료 시, 모든 실제 DRV 비행대의 총 MAP를 합산하고 시나리오 설정 지침과 비교합니다. 적절히 US VP를 부여합니다.</p><table class="table"><tbody><tr><th>항공기</th><th>MiG-17F</th><th>MiG-19S</th><th>MiG-21 F-13/PF/PFM</th><th>MiG-21MF</th></tr><tr><td>1x</td><td>—</td><td>—</td><td>—</td><td>9</td></tr><tr><td>2x</td><td>8</td><td>9</td><td>13</td><td>14</td></tr><tr><td>3x</td><td>10</td><td>12</td><td>18</td><td>19</td></tr><tr><td>4x</td><td>12</td><td>15</td><td>23</td><td>24</td></tr></tbody></table>`,
             "🅡 준비 단계": `<ol><li>SAM 준비(setup) 마커를 배치합니다.</li><li>비활성 AAA 마커를 배치합니다.</li><li>파이어 캔 마커를 수집합니다.</li><li>US 비행대와 경로를 설정합니다.</li><li>SAM 경고 마커를 배치합니다.</li><li>조기 경보를 굴리고 일반 MiG를 배치합니다(있는 경우).</li></ol>`,
@@ -1195,6 +1290,38 @@ x4: 비행대 내 항공기 수<br>
                         let text = roll <= 3 ? '사격' : '사격 안 함';
                         let cls = roll <= 3 ? 'result' : 'tag-condition-red';
                         resultDiv.innerHTML = `<span class="roll-value">${roll}</span><span class="${cls}">${text}</span>`;
+                    }
+
+                    // N. DRV 비행대 선택
+                    else if (btnId === 'rollFlightBtn') {
+                        const resultDiv = document.getElementById('flightResult');
+                        const scenarioSelect = document.getElementById('flightScenarioSelect');
+                        const scenario = scenarioSelect ? scenarioSelect.value : '';
+                        
+                        if (!scenario) {
+                            resultDiv.innerHTML = `<span class="tag-condition-red">시나리오를 선택하세요</span>`;
+                            return;
+                        }
+
+                        const data = flightScenarioData[scenario];
+                        if (!data) {
+                            resultDiv.innerHTML = `<span class="tag-condition-red">데이터 없음</span>`;
+                            return;
+                        }
+
+                        const matches = data.filter(item => roll >= item.min && roll <= item.max);
+                        
+                        if (matches.length > 0) {
+                            const resultHtml = matches.map(m => {
+                                const stopBadge = m.stop ? `<span style="background:black; color:white; padding:1px 4px; border-radius:2px; font-size:0.7em; margin-left:4px;">STOP</span>` : '';
+                                return `<div><span class="result">${m.type} (${m.count})</span>${stopBadge}</div>`;
+                            }).join('');
+                            
+                            resultDiv.innerHTML = `<div style="display:flex; flex-direction:column; align-items:flex-end;"><span class="roll-value">${roll}</span>${resultHtml}</div>`;
+                        } else {
+                            // Should not happen if ranges cover 1-10
+                            resultDiv.innerHTML = `<span class="roll-value">${roll}</span><span class="tag-condition-red">결과 없음</span>`;
+                        }
                     }
                 }
             });

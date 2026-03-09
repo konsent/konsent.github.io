@@ -1106,6 +1106,29 @@
                 </div>
                 <div class="card-body">
                     <p>일반 DRV 비행대 활성화 시 <span class="tag tag-dice">1d10</span>을 굴립니다. 모든 DRV 조종사는 베테랑입니다. 시나리오 종료 시, US VP를 추가합니다: <span class="text-red-bold">🅠 종료 시 MAP</span>를 참조.</p>
+                    <div class="interactive-roller" style="flex-direction: column; align-items: stretch;">
+                        <div style="margin-bottom: 12px; display: flex; gap: 12px; align-items: center;">
+                            <select id="flightScenarioSelect" style="padding: 8px; border-radius: 4px; border: 1px solid var(--border); flex-grow: 1; background-color: white; font-family: inherit; font-size: 0.9rem;">
+                                <option value="" disabled="" selected="">시나리오 선택</option>
+                                <option value="D1">D1</option>
+                                <option value="D2">D2</option>
+                                <option value="D3">D3</option>
+                                <option value="D4/D5">D4/D5</option>
+                                <option value="D6">D6</option>
+                                <option value="D7/D8">D7/D8</option>
+                                <option value="D9">D9</option>
+                                <option value="D10/D11">D10/D11</option>
+                                <option value="D12">D12</option>
+                                <option value="D13">D13</option>
+                                <option value="D14/D16">D14/D16</option>
+                                <option value="D15">D15</option>
+                            </select>
+                        </div>
+                        <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px;">
+                            <button class="roll-btn" id="rollFlightBtn">비행대 생성 (1d10)</button>
+                            <div class="roll-result" id="flightResult"></div>
+                        </div>
+                    </div>
                     <div class="table-container">
                         <table>
                             <tr>
@@ -1505,6 +1528,104 @@
     </button> -->
 
     <script>
+        // 시나리오별 비행대 생성 데이터
+        const flightScenarioData = {
+            "D1": [
+                { min: 1, max: 2, type: "MiG-17F", count: "x2" },
+                { min: 3, max: 4, type: "MiG-17F", count: "x3" },
+                { min: 5, max: 10, type: "MiG-17F", count: "x4" }
+            ],
+            "D2": [
+                { min: 1, max: 2, type: "MiG-17F", count: "x2" },
+                { min: 3, max: 10, type: "MiG-17F", count: "x4", stop: true }
+            ],
+            "D3": [
+                { min: 1, max: 1, type: "MiG-17F", count: "x2" },
+                { min: 2, max: 2, type: "MiG-17F", count: "x3" },
+                { min: 3, max: 6, type: "MiG-17F", count: "x4" },
+                { min: 7, max: 8, type: "MiG-21F-13", count: "x2" },
+                { min: 9, max: 9, type: "MiG-21F-13", count: "x3" },
+                { min: 10, max: 10, type: "MiG-21F-13", count: "x4" }
+            ],
+            "D4/D5": [
+                { min: 1, max: 1, type: "MiG-17F", count: "x2" },
+                { min: 2, max: 2, type: "MiG-17F", count: "x3" },
+                { min: 3, max: 4, type: "MiG-17F", count: "x4" },
+                { min: 5, max: 5, type: "MiG-21F-13", count: "x2" },
+                { min: 6, max: 6, type: "MiG-21F-13", count: "x3" },
+                { min: 7, max: 7, type: "MiG-21F-13", count: "x4" },
+                { min: 8, max: 8, type: "MiG-21PF", count: "x2" },
+                { min: 9, max: 9, type: "MiG-21PF", count: "x3" },
+                { min: 10, max: 10, type: "MiG-21PF", count: "x4" }
+            ],
+            "D6": [
+                { min: 1, max: 4, type: "MiG-17F", count: "x2" },
+                { min: 5, max: 5, type: "MiG-17F", count: "x4", stop: true },
+                { min: 6, max: 10, type: "MiG-21PF", count: "x2", stop: true },
+                { min: 5, max: 5, type: "MiG-21PFM", count: "x2" },
+                { min: 6, max: 6, type: "MiG-21PFM", count: "x3" },
+                { min: 7, max: 7, type: "MiG-21PFM", count: "x4" },
+                { min: 8, max: 8, type: "MiG-21MF", count: "x2" },
+                { min: 9, max: 9, type: "MiG-21MF", count: "x3" },
+                { min: 10, max: 10, type: "MiG-21MF", count: "x4" }
+            ],
+            "D7/D8": [
+                { min: 1, max: 1, type: "MiG-17F", count: "x2" },
+                { min: 2, max: 2, type: "MiG-17F", count: "x3" },
+                { min: 3, max: 4, type: "MiG-17F", count: "x4" },
+                { min: 5, max: 7, type: "MiG-21PF", count: "x2" },
+                { min: 8, max: 9, type: "MiG-21PF", count: "x3" },
+                { min: 10, max: 10, type: "MiG-21PF", count: "x4" }
+            ],
+            "D9": [
+                { min: 1, max: 1, type: "MiG-17F", count: "x2" },
+                { min: 2, max: 2, type: "MiG-17F", count: "x3" },
+                { min: 3, max: 4, type: "MiG-17F", count: "x4" },
+                { min: 5, max: 5, type: "MiG-21F-13", count: "x2" },
+                { min: 6, max: 6, type: "MiG-21F-13", count: "x3" },
+                { min: 7, max: 8, type: "MiG-21PF", count: "x2" },
+                { min: 9, max: 9, type: "MiG-21PF", count: "x3" },
+                { min: 10, max: 10, type: "MiG-21PF", count: "x4" }
+            ],
+            "D10/D11": [
+                { min: 1, max: 1, type: "MiG-17F", count: "x2" },
+                { min: 2, max: 2, type: "MiG-17F", count: "x3" },
+                { min: 3, max: 3, type: "MiG-17F", count: "x4" },
+                { min: 4, max: 4, type: "MiG-19S", count: "x3" },
+                { min: 5, max: 5, type: "MiG-21PFM", count: "x2" },
+                { min: 6, max: 6, type: "MiG-21PFM", count: "x3" },
+                { min: 7, max: 7, type: "MiG-21PFM", count: "x4" },
+                { min: 8, max: 8, type: "MiG-21MF", count: "x2" },
+                { min: 9, max: 9, type: "MiG-21MF", count: "x3" },
+                { min: 10, max: 10, type: "MiG-21MF", count: "x4" }
+            ],
+            "D12": [
+                { min: 1, max: 1, type: "MiG-17F", count: "x2" },
+                { min: 2, max: 4, type: "MiG-17F", count: "x4", stop: true },
+                { min: 5, max: 5, type: "MiG-19S", count: "x2", stop: true },
+                { min: 6, max: 6, type: "MiG-19S", count: "x3", stop: true },
+                { min: 7, max: 10, type: "MiG-21PFM", count: "x2", stop: true }
+            ],
+            "D13": [
+                { min: 1, max: 1, type: "MiG-17F", count: "x2" },
+                { min: 2, max: 2, type: "MiG-17F", count: "x3" },
+                { min: 3, max: 3, type: "MiG-17F", count: "x4" },
+                { min: 4, max: 4, type: "MiG-19S", count: "x3" },
+                { min: 5, max: 6, type: "MiG-21PFM", count: "x2" },
+                { min: 7, max: 7, type: "MiG-21PFM", count: "x3" },
+                { min: 8, max: 8, type: "MiG-21MF", count: "x2" },
+                { min: 9, max: 9, type: "MiG-21MF", count: "x3" },
+                { min: 10, max: 10, type: "MiG-21MF", count: "x4" }
+            ],
+            "D14/D16": [
+                { min: 1, max: 10, type: "MiG-21MF", count: "x1 (야간)" }
+            ],
+            "D15": [
+                { min: 1, max: 5, type: "MiG-21MF", count: "x2" },
+                { min: 6, max: 8, type: "MiG-21MF", count: "x3" },
+                { min: 9, max: 10, type: "MiG-21MF", count: "x4" }
+            ]
+        };
         // Tab Navigation
         const tabs = document.querySelectorAll('.nav-tab');
         const sections = document.querySelectorAll('.section');
@@ -1746,6 +1867,45 @@
                 if (roll <= 3) { text = '사격'; cls = 'tag-result'; }
                 else { text = '사격 안 함'; cls = 'tag-condition-red'; }
                 loalResult.innerHTML = `<span class="roll-value">${roll}</span><span class="tag ${cls}">${text}</span>`;
+            });
+        }
+
+        // N. DRV 비행대 선택
+        const rollFlightBtn = document.getElementById('rollFlightBtn');
+        const flightResult = document.getElementById('flightResult');
+        if (rollFlightBtn) {
+            rollFlightBtn.addEventListener('click', () => {
+                const roll = Math.floor(Math.random() * 10) + 1;
+                const scenarioSelect = document.getElementById('flightScenarioSelect');
+                const scenario = scenarioSelect ? scenarioSelect.value : '';
+                
+                if (!scenario) {
+                    flightResult.innerHTML = `<span class="tag tag-condition-red">시나리오를 선택하세요</span>`;
+                    return;
+                }
+
+                const data = flightScenarioData[scenario];
+                if (!data) {
+                    flightResult.innerHTML = `<span class="tag tag-condition-red">데이터 없음</span>`;
+                    return;
+                }
+
+                const matches = data.filter(item => roll >= item.min && roll <= item.max);
+                
+                if (matches.length > 0) {
+                    const resultHtml = matches.map(m => {
+                        const stopBadge = m.stop ? ` <span class="black-highlight">STOP</span>` : '';
+                        return `<div><span class="tag tag-result">${m.type} (${m.count})</span>${stopBadge}</div>`;
+                    }).join('');
+                    
+                    flightResult.innerHTML = `
+                        <div style="display:flex; flex-direction:column; align-items:flex-end; gap: 4px;">
+                            <span class="roll-value">${roll}</span>
+                            ${resultHtml}
+                        </div>`;
+                } else {
+                    flightResult.innerHTML = `<span class="roll-value">${roll}</span><span class="tag tag-condition-red">결과 없음</span>`;
+                }
             });
         }
     </script>
