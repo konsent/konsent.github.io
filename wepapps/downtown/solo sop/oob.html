@@ -487,6 +487,7 @@
     </div>
 
     <button class="generate-btn" onclick="generate()">▸ 편제 생성</button>
+    <button id="send-to-adc-btn" class="generate-btn" onclick="sendToAdc()" style="display:none; margin-top: 10px; background: var(--tan); color: var(--ink);">ADC 생성기로 보내기</button>
   </div>
 
   <!-- Results Panel -->
@@ -577,7 +578,11 @@ function d10() { return Math.floor(Math.random() * 10) + 1; }
 function ym(y, m) { return y * 100 + m; }
 function dateCode() {
   return ym(parseInt(document.getElementById('year-select').value),
-             parseInt(document.getElementById('month-select').value));
+            parseInt(document.getElementById('month-select').value));
+}
+
+function sendToAdc() {
+  window.open('adc.html', '_blank');
 }
 
 function sq(count, aircraft, size, task, ammo, diceInfo) {
@@ -769,7 +774,7 @@ function renderAmmo(rows) {
 // ============================================================
 // GENERATE TABLE A
 // ============================================================
-function generateA(dc, variants) {
+function generateA(dc, variants, addSquadsToOob) {
   let html = '';
   renderMission._idx = 0;
   const standoff = variants.standoff;
@@ -805,7 +810,9 @@ function generateA(dc, variants) {
     } else {
       notes.push("1967년 10월 이후: 재밍 임무 CAP 비행대 삭제됨");
     }
-    html += renderMission('사전', '재밍 임무 (1차)', [...jamSqs, ...capSqs]);
+    const mission1Squads = [...jamSqs, ...capSqs];
+    html += renderMission('사전', '재밍 임무 (1차)', mission1Squads);
+    addSquadsToOob('사전', '재밍 임무 (1차)', mission1Squads);
   } else {
     html += renderNote("<strong>스탠드오프 재밍 선택:</strong> 재밍 비행대는 스탠드오프 재밍 카운터로 대체. CAP 비행대 맵 미진입.");
   }
@@ -813,9 +820,10 @@ function generateA(dc, variants) {
   // Jamming mission 2 (from 196708)
   if (dc >= ym(1967,8)) {
     if (!standoff) {
-      html += renderMission('사전', '재밍 임무 (2차, 1967년 8월+)', [
-        sq(3, "EB-66B/E", 1, "Jamming", "전자전")
-      ], "2개 이상 비행대를 조기 경보 재밍에 할당해야 함 [27.5]");
+      const mission2Squads = [sq(3, "EB-66B/E", 1, "Jamming", "전자전")];
+      html += renderMission('사전', '재밍 임무 (2차, 1967년 8월+)', mission2Squads, 
+        "2개 이상 비행대를 조기 경보 재밍에 할당해야 함 [27.5]");
+      addSquadsToOob('사전', '재밍 임무 (2차, 1967년 8월+)', mission2Squads);
     }
   }
 
@@ -841,6 +849,7 @@ function generateA(dc, variants) {
       if (weaselShort) notes.push("위즐 부족: 각 비행대 슈라이크 발사 횟수 절반");
     }
     html += renderMission('주요', '아이언 핸드 임무', ihSqs);
+    addSquadsToOob('주요', '아이언 핸드 임무', ihSqs);
   } else {
     notes.push("아이언 핸드 임무 미사용 기간 (1965.11 이전 또는 1966.05)");
   }
@@ -848,29 +857,31 @@ function generateA(dc, variants) {
   // MiGCAP
   if (bolo) {
     // bolo: all non-jamming = F-4C/CAP
-    html += renderMission('주요', 'MiGCAP 임무 (볼로 작전)', [
-      sq(2, "F-4C", 4, "CAP", "—")
-    ], "볼로 작전: 모든 비재밍 비행대 → F-4C, CAP 태스크");
+    const migcapBoloSqs = [sq(2, "F-4C", 4, "CAP", "—")];
+    html += renderMission('주요', 'MiGCAP 임무 (볼로 작전)', migcapBoloSqs, 
+      "볼로 작전: 모든 비재밍 비행대 → F-4C, CAP 태스크");
+    addSquadsToOob('주요', 'MiGCAP 임무 (볼로 작전)', migcapBoloSqs);
   } else if (!phantom) {
     const migCount = dc < ym(1967,5) ? 1 : 2;
     const capR = resolveCAPUSAF(dc);
-    html += renderMission('주요', 'MiGCAP 임무', [
-      sq(migCount, capR.aircraft, 4, "CAP", "—", capR.dice)
-    ], dc < ym(1967,5) ? "1967년 5월 이전: 비행대 1개" : null);
+    const migcapSqs = [sq(migCount, capR.aircraft, 4, "CAP", "—", capR.dice)];
+    html += renderMission('주요', 'MiGCAP 임무', migcapSqs, dc < ym(1967,5) ? "1967년 5월 이전: 비행대 1개" : null);
+    addSquadsToOob('주요', 'MiGCAP 임무', migcapSqs);
   } else {
     notes.push("팬텀 공격대: MiGCAP 임무 삭제");
   }
 
   // Strike
   if (bolo) {
-    html += renderMission('주요', '공격 임무 (볼로 작전)', [
-      sq(4, "F-4C", 4, "CAP", "—")
-    ]);
+    const strikeBoloSqs = [sq(4, "F-4C", 4, "CAP", "—")];
+    html += renderMission('주요', '공격 임무 (볼로 작전)', strikeBoloSqs);
+    addSquadsToOob('주요', '공격 임무 (볼로 작전)', strikeBoloSqs);
   } else if (phantom) {
     const strikeSqs = [sq(2, "F-4C", 4, "Strike/CAP", "폭탄")];
     if (joint) strikeSqs.push(sq(2, "F-4C", 4, "Strike/CAP", "폭탄"));
     html += renderMission('주요', '공격 임무 (팬텀 공격대)', strikeSqs,
       joint ? "연합 공격대: F-4C Strike/CAP 2개 비행대 추가" : null);
+    addSquadsToOob('주요', '공격 임무 (팬텀 공격대)', strikeSqs);
   } else {
     let strikeCount = dc < ym(1967,1) ? 3 : 4;
     if (major) strikeCount++;
@@ -881,14 +892,15 @@ function generateA(dc, variants) {
        major ? "주요 공격대: F-105D 비행대 1개 추가" : null,
        joint ? "연합 공격대: F-4C Strike/CAP 2개 비행대 추가" : null
       ].filter(Boolean).join(' / ') || null);
+    addSquadsToOob('주요', '공격 임무', strikeSqs);
   }
 
   // ── POST-RAID ──────────────────────────────
   html += renderDivider('공격대 사후 부대');
   const reconR = resolveReconUSAF(dc);
-  html += renderMission('사후', '정찰 임무', [
-    sq(1, reconR.aircraft, 2, "Recon", "—", reconR.dice)
-  ]);
+  const reconSqs = [sq(1, reconR.aircraft, 2, "Recon", "—", reconR.dice)];
+  html += renderMission('사후', '정찰 임무', reconSqs);
+  addSquadsToOob('사후', '정찰 임무', reconSqs);
 
   // Ammo
   html += renderAmmo([
@@ -906,7 +918,7 @@ function generateA(dc, variants) {
 // ============================================================
 // GENERATE TABLE B
 // ============================================================
-function generateB(dc, variants) {
+function generateB(dc, variants, addSquadsToOob) {
   let html = '';
   renderMission._idx = 0;
   const carrierId = document.getElementById('carrier-select').value;
@@ -924,9 +936,9 @@ function generateB(dc, variants) {
 
   // Jamming
   if (carrier.Jamming && !standoff) {
-    html += renderMission('사전', '재밍 임무', [
-      sq(2, carrier.Jamming, 1, "Jamming", "전자전")
-    ]);
+    const jammingSqs = [sq(2, carrier.Jamming, 1, "Jamming", "전자전")];
+    html += renderMission('사전', '재밍 임무', jammingSqs);
+    addSquadsToOob('사전', '재밍 임무', jammingSqs);
   } else if (standoff) {
     html += renderNote("<strong>스탠드오프 재밍:</strong> 재밍 비행대 → 스탠드오프 재밍 카운터로 대체");
   } else {
@@ -938,9 +950,9 @@ function generateB(dc, variants) {
   if (marineCount > 0) {
     const marineAC = resolveMarineJamAircraft(dc);
     const rollInfo = window._marineRoll ? `주사위: ${window._marineRoll}` : null;
-    html += renderMission('사전', '해병대 재밍 지원', [
-      sq(marineCount, marineAC.aircraft, 1, "Jamming", "전자전", marineAC.dice)
-    ], rollInfo ? `해병대 재밍 주사위: ${rollInfo}` : null);
+    const marineSqs = [sq(marineCount, marineAC.aircraft, 1, "Jamming", "전자전", marineAC.dice)];
+    html += renderMission('사전', '해병대 재밍 지원', marineSqs, rollInfo ? `해병대 재밍 주사위: ${rollInfo}` : null);
+    addSquadsToOob('사전', '해병대 재밍 지원', marineSqs);
   } else if (marineOverride === 'auto') {
     html += renderNote(`해병대 재밍 지원 없음 (주사위: ${window._marineRoll ?? '?'})`);
   }
@@ -951,16 +963,18 @@ function generateB(dc, variants) {
   // Iron Hand
   const sead = carrier.SEAD;
   const seadAC = Array.isArray(sead) ? sead[0] : sead;
-  html += renderMission('주요', '아이언 핸드 임무', [
+  const ihSqs = [
     sq(2, seadAC, 2, "SEAD", "폭탄+ARM"),
     sq(2, carrier.CAP.split('/')[0], 2, "Armed Escort", "폭탄" + (dc >= ym(1966,1) ? "+CBU 선택" : ""))
-  ]);
+  ];
+  html += renderMission('주요', '아이언 핸드 임무', ihSqs);
+  addSquadsToOob('주요', '아이언 핸드 임무', ihSqs);
 
   // MiGCAP
   const capAC = carrier.CAP.split('/')[0];
-  html += renderMission('주요', 'MiGCAP 임무', [
-    sq(2, capAC, 2, "CAP", "—")
-  ]);
+  const migcapSqs = [sq(2, capAC, 2, "CAP", "—")];
+  html += renderMission('주요', 'MiGCAP 임무', migcapSqs);
+  addSquadsToOob('주요', 'MiGCAP 임무', migcapSqs);
 
   // Strike
   let bombingACs = carrier.Bombing;
@@ -985,13 +999,15 @@ function generateB(dc, variants) {
 
   const capForStrike = sq(2, capAC, 2, "CAP", "—");
   const strikeNote = isF4(capAC) ? "공격 임무 CAP이 F-4인 경우 → Armed Escort 태스크로 처리" : null;
-  html += renderMission('주요', '공격 임무', [...bombingSqs, capForStrike], strikeNote);
+  const strikeSqs = [...bombingSqs, capForStrike];
+  html += renderMission('주요', '공격 임무', strikeSqs, strikeNote);
+  addSquadsToOob('주요', '공격 임무', strikeSqs);
 
   // ── POST-RAID ──────────────────────────────
   html += renderDivider('공격대 사후 부대');
-  html += renderMission('사후', '정찰 임무', [
-    sq(1, carrier.Recon, 2, "Recon", "—")
-  ]);
+  const reconSqs = [sq(1, carrier.Recon, 2, "Recon", "—")];
+  html += renderMission('사후', '정찰 임무', reconSqs);
+  addSquadsToOob('사후', '정찰 임무', reconSqs);
 
   html += renderAmmo([
     "공격 임무 폭격 비행대: 폭탄 탄약",
@@ -1012,44 +1028,46 @@ function generateB(dc, variants) {
 // ============================================================
 // GENERATE TABLE C
 // ============================================================
-function generateC(subType, dc) {
+function generateC(subType, dc, addSquadsToOob) {
   renderMission._idx = 0;
   let html = '';
 
   if (subType === 'C_NAIL') {
     const acType = document.getElementById('nail-aircraft').value;
     html += renderDivider('코만도 네일 편제');
-    html += renderMission('주요', '공격 임무', [
-      sq(1, acType, 2, "Bombing", "레이더 폭격")
-    ]);
-    html += renderMission('주요', '재밍 임무', [
-      sq(1, "EB-66C", 1, "Jamming", "전자전")
-    ]);
+    const strikeSqs = [sq(1, acType, 2, "Bombing", "레이더 폭격")];
+    html += renderMission('주요', '공격 임무', strikeSqs);
+    addSquadsToOob('주요', '공격 임무', strikeSqs);
+
+    const jammingSqs = [sq(1, "EB-66C", 1, "Jamming", "전자전")];
+    html += renderMission('주요', '재밍 임무', jammingSqs);
+    addSquadsToOob('주요', '재밍 임무', jammingSqs);
+
     html += renderNote("<strong>시나리오 특별 규칙:</strong><br>1. 폭격 비행대는 레이더 폭격 능력 사용<br>2. 공격대 기간 동안 DRV 탐지 레벨 3칸 감소");
 
   } else if (subType === 'C_PAPA') {
     html += renderNote("코만도 네일 파파: 표 A 기준 주간 USAF 공격대를 먼저 생성하고, 아래 비행대를 추가합니다.");
-    html += generateA(dc, {});
+    html += generateA(dc, {}, addSquadsToOob);
     html += renderDivider('추가 — 라이언의 레이더스');
-    html += renderMission('주요 추가', '공격 임무 (길잡이)', [
-      sq(1, "F-105F", 2, "Bombing", "레이더 폭격 / 길잡이")
-    ]);
+    const papaSqs = [sq(1, "F-105F", 2, "Bombing", "레이더 폭격 / 길잡이")];
+    html += renderMission('주요 추가', '공격 임무 (길잡이)', papaSqs);
+    addSquadsToOob('주요 추가', '공격 임무 (길잡이)', papaSqs);
 
   } else if (subType === 'C_CLUB') {
     html += renderNote("코만도 클럽: 표 A 기준 주간 USAF 공격대를 먼저 생성하고, 아래 비행대를 추가합니다.");
-    html += generateA(dc, {});
+    html += generateA(dc, {}, addSquadsToOob);
     html += renderDivider('추가 — 컴뱃 스카이스팟 길잡이');
-    html += renderMission('주요 추가', '공격 임무 (길잡이)', [
-      sq(1, "F-105F", 2, "Bombing", "무선 항법 폭격 / 길잡이")
-    ]);
+    const clubSqs = [sq(1, "F-105F", 2, "Bombing", "무선 항법 폭격 / 길잡이")];
+    html += renderMission('주요 추가', '공격 임무 (길잡이)', clubSqs);
+    addSquadsToOob('주요 추가', '공격 임무 (길잡이)', clubSqs);
 
   } else if (subType === 'C_LORAN') {
     html += renderNote("LORAN (1972.08+): 표 D 기준 재래식 공격 변형 공격대를 생성 후 길잡이 추가.");
-    html += generateD(dc, { conventional: true });
+    html += generateD(dc, { conventional: true }, addSquadsToOob);
     html += renderDivider('추가 — LORAN 길잡이');
-    html += renderMission('주요 추가', '공격 임무 (LORAN 길잡이)', [
-      sq(1, "F-4D", 4, "Strike/CAP", "무선 항법 / 길잡이")
-    ]);
+    const loranSqs = [sq(1, "F-4D", 4, "Strike/CAP", "무선 항법 / 길잡이")];
+    html += renderMission('주요 추가', '공격 임무 (LORAN 길잡이)', loranSqs);
+    addSquadsToOob('주요 추가', '공격 임무 (LORAN 길잡이)', loranSqs);
     html += renderNote("모든 부대는 밀집 대형 진입 권장 [17.62]. 재래식 폭탄 탄약만 사용, PGM 불가");
   }
 
@@ -1059,7 +1077,7 @@ function generateC(subType, dc) {
 // ============================================================
 // GENERATE TABLE D
 // ============================================================
-function generateD(dc, variants) {
+function generateD(dc, variants, addSquadsToOob) {
   renderMission._idx = 0;
   let html = '';
   const standoff = variants.standoff;
@@ -1075,9 +1093,9 @@ function generateD(dc, variants) {
   html += renderDivider('공격대 사전 부대');
 
   if (!standoff) {
-    html += renderMission('사전', '재밍 임무', [
-      sq(2, "EB-66E", 1, "Jamming", "전자전")
-    ]);
+    const jammingSqs = [sq(2, "EB-66E", 1, "Jamming", "전자전")];
+    html += renderMission('사전', '재밍 임무', jammingSqs);
+    addSquadsToOob('사전', '재밍 임무', jammingSqs);
   } else {
     html += renderNote("스탠드오프 재밍: 재밍 비행대 → 스탠드오프 재밍 카운터 대체");
   }
@@ -1089,14 +1107,13 @@ function generateD(dc, variants) {
     chaffCapSqs.push(sq(chaffRed ? 4 : 2, capR.aircraft, chaffRed ? 2 : 4, "CAP", "—", capR.dice));
   }
   let chaffSqs = [sq(chaffReinf ? 3 : 2, "F-4D", 4, "Chaff Laying", dc >= ym(1972,6) ? "채프 디스펜서" : "채프 폭탄")];
-  html += renderMission('사전', '채프 임무', [
-    ...chaffSqs,
-    ...chaffCapSqs
-  ], [
+  const chaffMissionSqs = [...chaffSqs, ...chaffCapSqs];
+  html += renderMission('사전', '채프 임무', chaffMissionSqs, [
     dc < ym(1972,6) ? "1972년 6월 이전: CAP 비행대 삭제" : null,
     chaffReinf ? "강화 채프 임무: F-4D 채프 비행대 1개 추가" : null,
     chaffRed ? "축소 채프 호위: CAP 2×{4} → 4×{2}" : null,
   ].filter(Boolean).join(' / ') || null);
+  addSquadsToOob('사전', '채프 임무', chaffMissionSqs);
 
   // ── MAIN RAID ──────────────────────────────
   html += renderDivider('주요 공격대 부대');
@@ -1108,44 +1125,51 @@ function generateD(dc, variants) {
   if (dc >= ym(1972,9)) {
     ihSqs.push(sq(2, "F-4E", 2, "SEAD", "폭탄/CBU"));
   }
-  html += renderMission('주요', '아이언 핸드 임무', ihSqs,
+  html += renderMission('주요', '아이언 핸드 임무', ihSqs, 
     [weaselD ? "강화 위즐: F-105G 비행대 수 2배" : null,
      dc >= ym(1972,9) ? "1972.09+: F-4E 헌터-킬러 팀 추가" : null,
      seadR.dice ? `SEAD 주사위: ${seadR.dice}` : null
     ].filter(Boolean).join(' / ') || null);
+  addSquadsToOob('주요', '아이언 핸드 임무', ihSqs);
 
   // MiGCAP
   const migCapR = resolveCAPD();
-  html += renderMission('주요', 'MiGCAP 임무', [
-    sq(2, migCapR.aircraft, 4, "CAP", "—", migCapR.dice)
-  ]);
+  const migcapSqs = [sq(2, migCapR.aircraft, 4, "CAP", "—", migCapR.dice)];
+  html += renderMission('주요', 'MiGCAP 임무', migcapSqs);
+  addSquadsToOob('주요', 'MiGCAP 임무', migcapSqs);
 
   // Strike
   if (majorD) {
-    html += renderMission('주요', '공격 임무 (주요 공격대)', [
-      sq(3, "F-4D", 4, "Bombing", "LGB")
-    ], "주요 공격대: 표준 폭격 비행대 삭제 → F-4D 3비행대(LGB)");
+    const strikeSqs = [sq(3, "F-4D", 4, "Bombing", "LGB")];
+    html += renderMission('주요', '공격 임무 (주요 공격대)', strikeSqs, 
+      "주요 공격대: 표준 폭격 비행대 삭제 → F-4D 3비행대(LGB)");
+    addSquadsToOob('주요', '공격 임무 (주요 공격대)', strikeSqs);
   } else if (conventional) {
     const bombR = resolveBombingD(dc, false);
-    html += renderMission('주요', '공격 임무 (재래식 공격)', [
-      sq(4, bombR.aircraft, 4, "Bombing", "재래식 폭탄"),
-    ], `재래식 공격: 폭격 비행대 교체. 주사위: ${bombR.dice || '해당없음'}`);
+    const strikeSqs = [sq(4, bombR.aircraft, 4, "Bombing", "재래식 폭탄")];
+    html += renderMission('주요', '공격 임무 (재래식 공격)', strikeSqs, 
+      `재래식 공격: 폭격 비행대 교체. 주사위: ${bombR.dice || '해당없음'}`);
+    addSquadsToOob('주요', '공격 임무 (재래식 공격)', strikeSqs);
   } else {
     const bombR = resolveBombingD(dc, true);
     const strikeCapR = resolveCAPD();
-    html += renderMission('주요', '공격 임무 (LGB)', [
+    const strikeSqs = [
       sq(2, bombR.aircraft, 4, "Bombing", "LGB"),
       sq(2, strikeCapR.aircraft, 4, "CAP", "—", strikeCapR.dice),
-    ]);
+    ];
+    html += renderMission('주요', '공격 임무 (LGB)', strikeSqs);
+    addSquadsToOob('주요', '공격 임무 (LGB)', strikeSqs);
   }
 
   // ── POST-RAID ──────────────────────────────
   html += renderDivider('공격대 사후 부대');
   const postCapR = resolveCAPD();
-  html += renderMission('사후', '정찰 임무', [
+  const reconSqs = [
     sq(1, "RF-4C", 2, "Recon", "—"),
     sq(1, postCapR.aircraft, 2, "CAP", "—", postCapR.dice),
-  ]);
+  ];
+  html += renderMission('사후', '정찰 임무', reconSqs);
+  addSquadsToOob('사후', '정찰 임무', reconSqs);
 
   html += renderAmmo([
     pgm ? "공격 임무 폭격 비행대: LGB" : "공격 임무 폭격 비행대: 재래식 폭탄",
@@ -1160,24 +1184,27 @@ function generateD(dc, variants) {
 // ============================================================
 // GENERATE TABLE E
 // ============================================================
-function generateE(subType, dc) {
+function generateE(subType, dc, addSquadsToOob) {
   renderMission._idx = 0;
   let html = '';
 
   if (subType === 'E_USAF') {
     html += renderDivider('USAF CSAR 임무');
     const ac = dc >= ym(1972,11) ? "A-7D" : "A-1";
-    html += renderMission('CSAR', 'USAF CSAR', [
+    const csarSqs = [
       sq(2, ac, 2, "Rescue Support", "폭탄/CBU"),
       sq(2, "Helicopter", 1, "Rescue Support", "—"),
-    ], dc >= ym(1972,11) ? "1972.11+: A-1 → A-7D 교체" : null);
+    ];
+    html += renderMission('CSAR', 'USAF CSAR', csarSqs, 
+      dc >= ym(1972,11) ? "1972.11+: A-1 → A-7D 교체" : null);
+    addSquadsToOob('CSAR', 'USAF CSAR', csarSqs);
     html += renderNote("항공기 비행대: Sandy 01, Sandy 02 카운터<br>헬리콥터 비행대: Jolly 01, Jolly 02 카운터");
 
   } else {
     html += renderDivider('USN CSAR 임무');
-    html += renderMission('CSAR', 'USN CSAR', [
-      sq(1, "Helicopter", 1, "Rescue Support", "—")
-    ]);
+    const csarSqs = [sq(1, "Helicopter", 1, "Rescue Support", "—")];
+    html += renderMission('CSAR', 'USN CSAR', csarSqs);
+    addSquadsToOob('CSAR', 'USN CSAR', csarSqs);
     html += renderNote("공격대 이전에 육지 헥스에서 8헥스 이상 떨어진 바다 헥스에 배치<br>헬리콥터 비행대: Angel 또는 Mother 카운터");
   }
 
@@ -1192,7 +1219,7 @@ function generate() {
   const dc = dateCode();
   const year = parseInt(document.getElementById('year-select').value);
   const month = parseInt(document.getElementById('month-select').value);
-
+  
   const variants = {
     standoff: document.getElementById('var-standoff').checked,
     phantom: document.getElementById('var-phantom').checked,
@@ -1206,6 +1233,21 @@ function generate() {
     conventional: document.getElementById('var-conventional').checked,
     majorD: document.getElementById('var-major-d').checked,
     weaselD: document.getElementById('var-weasel-wrap') ? document.getElementById('var-weasel').checked : false,
+  };
+
+  const oobForAdc = [];
+  const addSquadsToOob = (phase, missionName, squads) => {
+      if (!squads || squads.length === 0) return;
+      const phaseMap = { '사전': 'lead', '주요': 'main', '사후': 'trail', 'CSAR': 'main', '주요 추가': 'main', '주요 추가': 'main' };
+      squads.forEach(s => {
+          if (!s) return;
+          for (let i = 0; i < s.count; i++) {
+              oobForAdc.push({
+                  phase: phaseMap[phase] || 'main', mission: missionName, task: s.task,
+                  aircraft: s.aircraft, size: s.size
+              });
+          }
+      });
   };
 
   let content = '';
@@ -1222,13 +1264,16 @@ function generate() {
       <div class="result-timestamp">${year}년 ${month}월 · ${tableLabels[table]}</div>
     </div>`;
 
-  if (table === 'A') content = generateA(dc, variants);
-  else if (table === 'B') content = generateB(dc, variants);
-  else if (table.startsWith('C')) content = generateC(table, dc);
-  else if (table === 'D') content = generateD(dc, { ...variants, weaselD: variants.weasel });
-  else if (table.startsWith('E')) content = generateE(table, dc);
+  if (table === 'A') content = generateA(dc, variants, addSquadsToOob);
+  else if (table === 'B') content = generateB(dc, variants, addSquadsToOob);
+  else if (table.startsWith('C')) content = generateC(table, dc, addSquadsToOob);
+  else if (table === 'D') content = generateD(dc, { ...variants, weaselD: variants.weasel }, addSquadsToOob);
+  else if (table.startsWith('E')) content = generateE(table, dc, addSquadsToOob);
 
   document.getElementById('results').innerHTML = headerHtml + content;
+
+  localStorage.setItem('oobToAdcData', JSON.stringify(oobForAdc));
+  document.getElementById('send-to-adc-btn').style.display = 'block';
 }
 </script>
 </body>

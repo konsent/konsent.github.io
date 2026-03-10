@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DOWNTOWN — ADC Generator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Noto+Sans+KR:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --olive: #4a4a2a;
+      --khaki: #8b7d5a;
+      --tan: #c4a96b;
+      --cream: #e8dfc8;
+      --paper: #f2ead8;
+      --ink: #1a1a0e;
+      --red: #8b1a1a;
+      --red-bright: #c0392b;
+      --blue: #1a3a5a;
+      --blue-bright: #2e6da4;
+      --green: #2a4a2a;
+      --amber: #c47a1a;
+      --fade: #6b6b4a;
+      --fade2: #9b9b7a;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: #1c1c10;
+      background-image:
+        repeating-linear-gradient(0deg, transparent, transparent 31px, rgba(74,74,42,0.15) 31px, rgba(74,74,42,0.15) 32px),
+        repeating-linear-gradient(90deg, transparent, transparent 31px, rgba(74,74,42,0.08) 31px, rgba(74,74,42,0.08) 32px);
+      min-height: 100vh;
+      font-family: 'Noto Sans KR', sans-serif;
+      color: var(--cream);
+      padding: 20px;
+    }
+
+    /* ── HEADER ── */
+    .page-header {
+      text-align: center;
+      padding: 28px 0 18px;
+      border-bottom: 2px solid var(--olive);
+      margin-bottom: 24px;
+      position: relative;
+    }
+    .page-header::before, .page-header::after {
+      content: '✈';
+      position: absolute;
+      top: 30px;
+      font-size: 18px;
+      color: var(--tan);
+      opacity: 0.5;
+    }
+    .page-header::before { left: 40px; }
+    .page-header::after  { right: 40px; transform: scaleX(-1); }
+
+    .title-main {
+      font-family: 'Oswald', sans-serif;
+      font-size: clamp(36px, 6vw, 64px);
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      color: var(--tan);
+      text-shadow: 3px 3px 0 var(--olive), 0 0 40px rgba(196,169,107,0.3);
+      line-height: 1;
+    }
+    .title-line {
+      width: 200px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--tan), transparent);
+      margin: 8px auto;
+    }
+    .title-sub {
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      color: var(--fade);
+      text-transform: uppercase;
+    }
+
+    /* ── TAB BUTTONS ── */
+    .tab-bar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+      max-width: 1400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .tab-btn {
+      padding: 10px 32px;
+      border: 1px solid var(--olive);
+      background: rgba(30,28,15,0.8);
+      color: var(--fade2);
+      font-family: 'Oswald', sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .tab-btn:hover { border-color: var(--tan); color: var(--tan); }
+    .tab-btn.active.us-tab {
+      background: rgba(26,58,90,0.5);
+      border-color: #4a8ac4;
+      color: #a8c8e8;
+    }
+    .tab-btn.active.drv-tab {
+      background: rgba(90,26,26,0.5);
+      border-color: #c45a4a;
+      color: #e8a8a8;
+    }
+
+    /* ── CONTENT WRAPPER ── */
+    .content-area {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    /* ── SECTION PANEL ── */
+    .panel {
+      background: rgba(22,20,10,0.9);
+      border: 1px solid var(--olive);
+      padding: 18px 20px;
+      margin-bottom: 20px;
+    }
+    .panel-title {
+      font-family: 'Oswald', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      color: var(--tan);
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--olive);
+      padding-bottom: 8px;
+      margin-bottom: 14px;
+    }
+    .panel-title.us-color  { color: #7ab0d8; }
+    .panel-title.drv-color { color: #d87a7a; }
+
+    /* ── SCENARIO / INFO BAR ── */
+    .info-bar {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+    .scenario-display {
+      font-family: 'Oswald', sans-serif;
+      font-size: 20px;
+      font-weight: 500;
+      color: var(--tan);
+      cursor: pointer;
+      padding: 4px 8px;
+      border: 1px solid transparent;
+      letter-spacing: 0.05em;
+      transition: border-color 0.2s;
+      min-width: 140px;
+    }
+    .scenario-display:hover { border-color: var(--olive); }
+    .scenario-display.placeholder { color: var(--fade); font-style: italic; font-size: 14px; }
+    .scenario-input {
+      font-family: 'Oswald', sans-serif;
+      font-size: 20px;
+      font-weight: 500;
+      background: rgba(74,74,42,0.15);
+      border: 1px solid var(--tan);
+      color: var(--tan);
+      padding: 4px 8px;
+      letter-spacing: 0.05em;
+      min-width: 200px;
+    }
+    .scenario-input:focus { outline: none; }
+
+    .field-pair {
+      display: flex;
+      align-items: center;
+      gap: 0;
+    }
+    .field-pair label {
+      background: rgba(74,74,42,0.3);
+      border: 1px solid var(--olive);
+      padding: 5px 10px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      color: var(--fade2);
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .field-pair input {
+      background: rgba(74,74,42,0.1);
+      border: 1px solid var(--olive);
+      border-left: none;
+      color: var(--cream);
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 12px;
+      padding: 5px 8px;
+      width: 140px;
+    }
+    .field-pair input:focus { outline: none; border-color: var(--tan); }
+
+    /* ── TABLE ── */
+    .table-wrap {
+      overflow-x: auto;
+      margin-bottom: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      table-layout: auto;
+    }
+    thead tr:first-child th {
+      font-family: 'Oswald', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 8px 10px;
+      text-align: left;
+    }
+    thead tr:nth-child(2) th {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 5px 6px;
+      text-align: center;
+      color: rgba(255,255,255,0.7);
+      white-space: nowrap;
+    }
+
+    /* US table header colors */
+    #us-lead-table thead tr:first-child th  { background: rgba(26,58,90,0.8);  color: #a8c8e8; border-bottom: 1px solid #4a8ac4; }
+    #us-main-table thead tr:first-child th  { background: rgba(20,50,80,0.8);  color: #a8c8e8; border-bottom: 1px solid #3a7ab4; }
+    #us-trail-table thead tr:first-child th { background: rgba(16,42,68,0.7);  color: #a8c8e8; border-bottom: 1px solid #2a6aa4; }
+    #us-lead-table thead tr:nth-child(2) th,
+    #us-main-table thead tr:nth-child(2) th,
+    #us-trail-table thead tr:nth-child(2) th { background: rgba(26,58,90,0.4); border-bottom: 1px solid var(--olive); }
+
+    /* DRV table header colors */
+    #drv-table thead tr:first-child th  { background: rgba(90,26,26,0.8); color: #e8a8a8; border-bottom: 1px solid #c45a4a; }
+    #drv-table thead tr:nth-child(2) th { background: rgba(90,26,26,0.4); border-bottom: 1px solid var(--olive); }
+
+    tbody tr {
+      border-bottom: 1px solid rgba(74,74,42,0.25);
+      transition: background 0.15s;
+    }
+    tbody tr:hover:not(:last-child) { background: rgba(74,74,42,0.12); }
+    tbody tr:last-child { border-bottom: none; }
+
+    td {
+      padding: 5px 6px;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    /* ── FORM CONTROLS IN TABLE ── */
+    td select, td input[type="text"] {
+      background: rgba(74,74,42,0.12);
+      border: 1px solid rgba(74,74,42,0.5);
+      color: var(--cream);
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 11px;
+      padding: 3px 5px;
+      width: 100%;
+      transition: border-color 0.15s;
+    }
+    td select:focus, td input[type="text"]:focus {
+      outline: none;
+      border-color: var(--tan);
+      background: rgba(74,74,42,0.22);
+    }
+    td select option { background: #1c1c10; color: var(--cream); }
+    td select.fit-width { width: auto; min-width: 70px; }
+
+    /* narrow numeric inputs */
+    #us-lead-table  td:nth-child(n+8):nth-child(-n+12) input,
+    #us-main-table  td:nth-child(n+8):nth-child(-n+12) input,
+    #us-trail-table td:nth-child(n+8):nth-child(-n+12) input,
+    #drv-table      td:nth-child(n+6):nth-child(-n+10) input { width: 38px; }
+
+    #us-lead-table  td:nth-child(3) input,
+    #us-main-table  td:nth-child(3) input,
+    #us-trail-table td:nth-child(3) input { width: 70px; }
+
+    #us-lead-table  td:nth-child(13) input,
+    #us-main-table  td:nth-child(13) input,
+    #us-trail-table td:nth-child(13) input,
+    #drv-table      td:nth-child(1)  input,
+    #drv-table      td:nth-child(11) input { width: 70px; }
+
+    /* ── STATUS GRID ── */
+    .status-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      align-items: center;
+    }
+    .status-item { display: flex; flex-direction: column; }
+    .status-header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 3px;
+    }
+    .status-header label {
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      color: var(--fade2);
+      margin-bottom: -1px;
+    }
+    .status-control-btn {
+      font-weight: bold;
+      cursor: pointer;
+      border: 1px solid rgba(74,74,42,0.6);
+      background: rgba(74,74,42,0.2);
+      border-radius: 50%;
+      width: 14px;
+      height: 14px;
+      line-height: 12px;
+      padding: 0;
+      font-size: 9px;
+      color: var(--cream);
+      transition: background 0.15s;
+    }
+    .status-control-btn:hover { background: rgba(74,74,42,0.5); }
+    .status-control-btn.remove-status { color: #e88; }
+    .status-control-btn.add-status    { color: #8ae; }
+    .status-item select { width: 100%; font-size: 10px; }
+
+    /* status value coloring */
+    .status-item select option[value="D"] { color: #f0c060; }
+    .status-item select option[value="C"] { color: #f06060; }
+    .status-item select option[value="K"] { color: #a06060; }
+
+    /* ── AGGRESSIVENESS ── */
+    .aggress-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+    }
+    .aggress-value {
+      font-family: 'Oswald', sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--tan);
+      min-width: 20px;
+      text-align: center;
+    }
+    .aggress-controls { display: flex; gap: 3px; }
+    .aggress-btn {
+      border: 1px solid rgba(74,74,42,0.6);
+      background: rgba(74,74,42,0.2);
+      color: var(--cream);
+      cursor: pointer;
+      font-size: 8px;
+      padding: 1px 4px;
+      transition: background 0.15s;
+    }
+    .aggress-btn:hover { background: rgba(196,169,107,0.3); }
+
+    /* ── BUTTONS ── */
+    .add-row {
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--tan);
+      border: 1px solid var(--olive);
+      background: rgba(74,74,42,0.1);
+      padding: 4px 20px;
+      transition: all 0.15s;
+      letter-spacing: 0.1em;
+    }
+    .add-row:hover { background: rgba(196,169,107,0.15); border-color: var(--tan); }
+
+    .view-btn {
+      background: rgba(74,74,42,0.2);
+      border: 1px solid rgba(74,74,42,0.6);
+      color: var(--fade2);
+      padding: 2px 6px;
+      font-size: 10px;
+      cursor: pointer;
+      font-family: 'Noto Sans KR', sans-serif;
+      transition: all 0.15s;
+    }
+    .view-btn:hover { border-color: var(--tan); color: var(--tan); }
+
+    .delete-row {
+      cursor: pointer;
+      border: 1px solid rgba(139,26,26,0.5);
+      background: rgba(139,26,26,0.12);
+      color: #e88;
+      padding: 2px 7px;
+      font-size: 10px;
+      font-family: 'Noto Sans KR', sans-serif;
+      transition: all 0.15s;
+    }
+    .delete-row:hover { background: rgba(139,26,26,0.3); border-color: #e88; }
+
+    /* ── MODAL ── */
+    .modal {
+      display: none;
+      position: absolute;
+      z-index: 1000;
+      background: rgba(22,20,10,0.97);
+      border: 1px solid var(--olive);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.7);
+      padding: 16px;
+    }
+    .modal-content { position: relative; text-align: center; }
+    #modal-image { max-height: 90vh; }
+    .close-btn {
+      color: var(--fade);
+      position: absolute;
+      top: -8px;
+      right: 0;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+      line-height: 1;
+      transition: color 0.15s;
+    }
+    .close-btn:hover { color: var(--tan); }
+
+    .hidden { display: none; }
+
+    /* ── SECTION DIVIDER ── */
+    .section-divider {
+      text-align: center;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      color: var(--fade);
+      padding: 4px 0 10px;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page-header">
+    <div class="title-main">DOWNTOWN</div>
+    <div class="title-line"></div>
+    <div class="title-sub">GMT Games · Raid Generator</div>
+  </div>
+
+  <div class="tab-bar">
+    <button class="tab-btn us-tab"  id="us-btn">▸ US 비행대</button>
+    <button class="tab-btn drv-tab" id="drv-btn">▸ DRV 요격기</button>
+  </div>
+
+  <!-- ══════════════ US CONTENT ══════════════ -->
+  <div id="us-content" class="content-area" style="display:none;">
+
+    <div class="panel">
+      <div class="panel-title us-color">▸ 시나리오 정보</div>
+      <div class="info-bar">
+        <div id="scenario-container">
+          <h3 id="scenario-name-display" data-placeholder="시나리오 명을 입력하세요" class="scenario-display placeholder">시나리오 명을 입력하세요</h3>
+          <input type="text" id="scenario-name-input" class="scenario-input hidden" />
+        </div>
+        <div class="field-pair">
+          <label>날짜</label>
+          <input type="text" id="us-date" placeholder="YYYY-MM-DD" />
+        </div>
+        <div class="field-pair">
+          <label>표적</label>
+          <input type="text" id="us-target" placeholder="목표 지점" />
+        </div>
+      </div>
+    </div>
+
+    <!-- 선발 공격대 -->
+    <div class="panel">
+      <div class="panel-title us-color">▸ 선발 공격대</div>
+      <div class="table-wrap">
+        <table id="us-lead-table">
+          <thead>
+            <tr><th colspan="15">선발 공격대 (Pre-Raid)</th></tr>
+            <tr>
+              <th>임무</th><th>태스크</th><th>콜싸인</th><th>항공기 유형</th>
+              <th>수준</th><th>공격성</th><th>상태</th>
+              <th>기총</th><th>IRM</th><th>RHM</th><th>폭탄</th><th>연료</th>
+              <th>비고</th><th>ADC</th><th>삭제</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td colspan="15" style="text-align:center; padding:8px 0;"><button class="add-row" data-target="us-lead-table">+ 비행대 추가</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 주 공격대 -->
+    <div class="panel">
+      <div class="panel-title us-color">▸ 주 공격대(Main Raid)</div>
+      <div class="table-wrap">
+        <table id="us-main-table">
+          <thead>
+            <tr><th colspan="15">주 공격대 (MAIN)</th></tr>
+            <tr>
+              <th>임무</th><th>태스크</th><th>콜싸인</th><th>항공기 유형</th>
+              <th>수준</th><th>공격성</th><th>상태</th>
+              <th>기총</th><th>IRM</th><th>RHM</th><th>폭탄</th><th>연료</th>
+              <th>비고</th><th>ADC</th><th>삭제</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td colspan="15" style="text-align:center; padding:8px 0;"><button class="add-row" data-target="us-main-table">+ 비행대 추가</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 후발 공격대 -->
+    <div class="panel">
+      <div class="panel-title us-color">▸ 후발 공격대(Post Raid)</div>
+      <div class="table-wrap">
+        <table id="us-trail-table">
+          <thead>
+            <tr><th colspan="15">후발 공격대 (TRAIL)</th></tr>
+            <tr>
+              <th>임무</th><th>태스크</th><th>콜싸인</th><th>항공기 유형</th>
+              <th>수준</th><th>공격성</th><th>상태</th>
+              <th>기총</th><th>IRM</th><th>RHM</th><th>폭탄</th><th>연료</th>
+              <th>비고</th><th>ADC</th><th>삭제</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td colspan="15" style="text-align:center; padding:8px 0;"><button class="add-row" data-target="us-trail-table">+ 비행대 추가</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ DRV CONTENT ══════════════ -->
+  <div id="drv-content" class="content-area" style="display:none;">
+    <div class="panel">
+      <div class="panel-title drv-color">▸ DRV 요격기 편대</div>
+      <div class="table-wrap">
+        <table id="drv-table">
+          <thead>
+            <tr><th colspan="13">DRV 요격기 (INTERCEPTORS)</th></tr>
+            <tr>
+              <th>콜싸인</th><th>항공기 유형</th><th>수준</th><th>공격성</th><th>상태</th>
+              <th>기총</th><th>IRM</th><th>RHM</th><th>폭탄</th><th>연료</th>
+              <th>비고</th><th>ADC</th><th>삭제</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td colspan="13" style="text-align:center; padding:8px 0;"><button class="add-row" data-target="drv-table">+ 편대 추가</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div id="image-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn">&times;</span>
+      <img id="modal-image" src="" alt="Aircraft Image">
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const usBtn  = document.getElementById('us-btn');
+      const drvBtn = document.getElementById('drv-btn');
+      const usContent  = document.getElementById('us-content');
+      const drvContent = document.getElementById('drv-content');
+      const rowTemplates = {};
+      const scenarioDisplay = document.getElementById('scenario-name-display');
+      const scenarioInput   = document.getElementById('scenario-name-input');
+
+      const US_AIRCRAFT_OPTIONS = `<option>A-1H Skyraider [US]</option><option>A-4C Skyhawk [US]</option><option>A-4E_F Skyhawk [US]</option><option>A-6A Intruder [US]</option><option>A-6B Intruder [US]</option><option>A-6C Intruder [US]</option><option>A-7A_B Corsair 2 [US]</option><option>A-7C_E Corsair 2 [US]</option><option>A-7D Corsair 2 [US]</option><option>B-52D Stratofortress [US]</option><option>B-52G Stratofortress [US]</option><option>Canberra MK.20 [AUS]</option><option>EA-1F Electric SPAD [US]</option><option>EA-6A Intruder [US]</option><option>EA-6B Prowler [US]</option><option>EB-66B [US]</option><option>EB-66C [US]</option><option>EB-66E [US]</option><option>EF-10B Skynight [US]</option><option>EKA-3B Skywarrior [US]</option><option>F-100D Super Sabre [US]</option><option>F-100F Wild Weasel 1 [US]</option><option>F-104C Starfighter [US]</option><option>F-105D ThunderChief [US]</option><option>F-105F ThunderChief(2) [US]</option><option>F-105F Thunderchief [US]</option><option>F-105F Wild Weasel 3 [US]</option><option>F-105G Wild Weasel [US]</option><option>F-105G Wild Weasel(2) [US]</option><option>F-111A Aardvark [US]</option><option>F-14A Tomcat [US]</option><option>F-4B Phantom 2 [US]</option><option>F-4C Phantom 2 [US]</option><option>F-4C Wild Weasel 4 [US]</option><option>F-4D Phantom 2 [US]</option><option>F-4E Phantom 2 [US]</option><option>F-4J Phantom 2 [US]</option><option>F-4N Phantom 2 [US]</option><option>F-8C_D Crusader [US]</option><option>F-8E_H_J Crusader [US]</option><option>Mirage IIIO(F) [AUS]</option><option>RA-5C Vigilante [US]</option><option>RF-4B Phantom 2 [US]</option><option>RF-4C Phantom 2 [US]</option><option>RF-8A_G Crusader [US]</option><option>RF1-1C Voodoo [US]</option>`;
+
+      const STATUS_GRID = `<div class="status-grid">
+        <div class="status-item" data-status="1"><div class="status-header"><label>#1</label></div><select><option selected></option><option>D</option><option>C</option><option>K</option></select></div>
+        <div class="status-item" data-status="2"><div class="status-header"><label>#2</label><button class="status-control-btn remove-status">X</button><button class="status-control-btn add-status" style="display:none">+</button></div><select><option selected></option><option>D</option><option>C</option><option>K</option></select></div>
+        <div class="status-item" data-status="3"><div class="status-header"><label>#3</label><button class="status-control-btn remove-status">X</button><button class="status-control-btn add-status" style="display:none">+</button></div><select><option selected></option><option>D</option><option>C</option><option>K</option></select></div>
+        <div class="status-item" data-status="4"><div class="status-header"><label>#4</label><button class="status-control-btn remove-status">X</button><button class="status-control-btn add-status" style="display:none">+</button></div><select><option selected></option><option>D</option><option>C</option><option>K</option></select></div>
+      </div>`;
+
+      const AGGRESS = `<div class="aggress-container"><span class="aggress-value">0</span><div class="aggress-controls"><button type="button" class="aggress-btn up">▲</button><button type="button" class="aggress-btn down">▼</button></div></div>`;
+
+      const SKILL_OPTIONS = `<option>신병</option><option>훈련됨</option><option>정규군</option><option>베테랑</option><option>탑건</option>`;
+
+      const rowTemplateHTML = {
+        'us-lead-table':  makeUsRowHTML(),
+        'us-main-table':  makeUsRowHTML(),
+        'us-trail-table': makeUsRowHTML(),
+        'drv-table':      makeDrvRowHTML()
+      };
+
+      function makeUsRowHTML() {
+        return `<td><select class="fit-width"><option>타격</option><option>아이언 핸드</option><option>채프</option><option>재밍</option><option>CSAR</option><option>정찰</option><option>MiGCAP</option></select></td>` +
+          `<td><select class="fit-width"><option>폭격</option><option>SEAD</option><option>CAP</option><option>무장 호위</option><option>구조 지원</option><option>정찰</option><option>재밍</option><option>채프 살포</option><option>타격</option></select></td>` +
+          `<td><input type="text" value=""></td>` +
+          `<td><select>${US_AIRCRAFT_OPTIONS}</select></td>` +
+          `<td><select>${SKILL_OPTIONS}</select></td>` +
+          `<td>${AGGRESS}</td>` +
+          `<td>${STATUS_GRID}</td>` +
+          `<td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td>` +
+          `<td><input type="text" value=""></td>` +
+          `<td><button class="view-btn">보기</button></td><td></td>`;
+      }
+
+      function makeDrvRowHTML() {
+        return `<td><input type="text" value=""></td>` +
+          `<td><select><option>MiG-17F Fresco C [DRV]</option><option>MiG-17PF Fresco D [DRV]</option><option>MiG-19S Farmer C [DRV]</option><option>MiG-21F-13 Fishbed C [DRV]</option><option>MiG-21MF Fishbed J [DRV]</option><option>MiG-21PF Fishbed D [DRV]</option><option>MiG-21PFM Fishbed F [DRV]</option></select></td>` +
+          `<td><select>${SKILL_OPTIONS}</select></td>` +
+          `<td>${AGGRESS}</td>` +
+          `<td>${STATUS_GRID}</td>` +
+          `<td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td>` +
+          `<td><input type="text" value=""></td>` +
+          `<td><button class="view-btn">보기</button></td><td></td>`;
+      }
+
+      const modal = document.getElementById('image-modal');
+      const modalImage = document.getElementById('modal-image');
+      const closeModalBtn = document.querySelector('.close-btn');
+      let activeModalButton = null;
+
+      function showContent(type) {
+        if (type === 'us') {
+          usContent.style.display = 'block';
+          drvContent.style.display = 'none';
+          usBtn.classList.add('active');
+          drvBtn.classList.remove('active');
+          location.hash = 'us';
+        } else {
+          usContent.style.display = 'none';
+          drvContent.style.display = 'block';
+          drvBtn.classList.add('active');
+          usBtn.classList.remove('active');
+          location.hash = 'drv';
+        }
+        saveToLocalStorage();
+      }
+
+      usBtn.addEventListener('click',  () => showContent('us'));
+      drvBtn.addEventListener('click', () => showContent('drv'));
+
+      function addDeleteButton(row) {
+        const deleteCell = row.querySelector('td:last-child');
+        if (deleteCell && !deleteCell.querySelector('.delete-row')) {
+          const btn = document.createElement('button');
+          btn.textContent = '삭제';
+          btn.className = 'delete-row';
+          btn.onclick = () => { row.remove(); saveToLocalStorage(); };
+          deleteCell.appendChild(btn);
+        }
+      }
+
+      function adjustSelectWidth(sel) {
+        const tmp = document.createElement('span');
+        tmp.style.cssText = 'visibility:hidden;position:absolute';
+        tmp.style.fontSize = getComputedStyle(sel).fontSize;
+        tmp.style.fontFamily = getComputedStyle(sel).fontFamily;
+        document.body.appendChild(tmp);
+        tmp.textContent = sel.options[sel.selectedIndex].text;
+        sel.style.width = `${tmp.offsetWidth + 30}px`;
+        document.body.removeChild(tmp);
+      }
+
+      function calculateAggressiveness(skillLevel) {
+        const roll = Math.floor(Math.random() * 19) + 2;
+        const m = {
+          "신병":  {2:-3,3:-3,4:-3,5:-3,6:-2,7:-2,8:-2,9:-2,10:-1,11:-1,12:-1,13:-1,14:-1,15:0,16:0,17:0,18:0,19:1,20:2},
+          "훈련됨":{2:-3,3:-3,4:-2,5:-2,6:-2,7:-2,8:-1,9:-1,10:-1,11:-1,12:-1,13:0,14:0,15:0,16:0,17:1,18:1,19:1,20:2},
+          "정규군":{2:-3,3:-2,4:-2,5:-2,6:-1,7:-1,8:-1,9:-1,10:0,11:0,12:0,13:0,14:0,15:1,16:1,17:1,18:1,19:2,20:2},
+          "베테랑":{2:-2,3:-1,4:-1,5:-1,6:0,7:0,8:0,9:0,10:1,11:1,12:1,13:1,14:1,15:2,16:2,17:2,18:2,19:3,20:3},
+          "탑건":  {2:-1,3:0,4:0,5:0,6:1,7:1,8:1,9:1,10:2,11:2,12:2,13:2,14:2,15:2,16:2,17:3,18:3,19:3,20:3}
+        };
+        return m[skillLevel]?.[roll] ?? 0;
+      }
+
+      function addSkillChangeListener(row) {
+        const tid = row.closest('table').id;
+        const isDrv = tid === 'drv-table';
+        const skillSel = row.querySelector(isDrv ? 'td:nth-child(3) select' : 'td:nth-child(5) select');
+        const agVal    = row.querySelector(isDrv ? 'td:nth-child(4) .aggress-value' : 'td:nth-child(6) .aggress-value');
+        if (skillSel && agVal) {
+          skillSel.addEventListener('change', () => {
+            if (skillSel.value) { agVal.textContent = calculateAggressiveness(skillSel.value); saveToLocalStorage(); }
+          });
+        }
+      }
+
+      function addAggressivenessControls(row) {
+        const container = row.querySelector('.aggress-container');
+        if (!container) return;
+        const val = container.querySelector('.aggress-value');
+        container.querySelector('.aggress-btn.up').addEventListener('click', () => {
+          let v = parseInt(val.textContent,10); if (v < 3) { val.textContent = v+1; saveToLocalStorage(); }
+        });
+        container.querySelector('.aggress-btn.down').addEventListener('click', () => {
+          let v = parseInt(val.textContent,10); if (v > -3) { val.textContent = v-1; saveToLocalStorage(); }
+        });
+      }
+
+      function addStatusGridControls(grid) {
+        grid.addEventListener('click', e => {
+          const t = e.target;
+          if (!t.classList.contains('status-control-btn')) return;
+          const item = t.closest('.status-item');
+          if (!item) return;
+          const sel = item.querySelector('select');
+          const rem = item.querySelector('.remove-status');
+          const add = item.querySelector('.add-status');
+          if (t.classList.contains('remove-status')) {
+            sel.style.display = 'none'; rem.style.display = 'none'; add.style.display = 'inline-block';
+          } else if (t.classList.contains('add-status')) {
+            sel.style.display = 'block'; rem.style.display = 'inline-block'; add.style.display = 'none'; sel.selectedIndex = 0;
+          }
+          saveToLocalStorage();
+        });
+        grid.querySelectorAll('.status-item select').forEach(s => s.addEventListener('change', saveToLocalStorage));
+      }
+
+      function addRowListeners(row) {
+        row.querySelectorAll('select.fit-width').forEach(s => {
+          adjustSelectWidth(s);
+          s.addEventListener('change', () => { adjustSelectWidth(s); saveToLocalStorage(); });
+        });
+        row.querySelectorAll('select:not(.fit-width)').forEach(s => s.addEventListener('change', saveToLocalStorage));
+        row.querySelectorAll('input[type="text"]').forEach(i => i.addEventListener('input', saveToLocalStorage));
+        addSkillChangeListener(row);
+        addAggressivenessControls(row);
+        const vb = row.querySelector('.view-btn');
+        if (vb) addViewButtonListener(vb);
+        row.querySelectorAll('.status-grid').forEach(addStatusGridControls);
+      }
+
+      document.querySelectorAll('.add-row').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const targetId = btn.getAttribute('data-target');
+          const table = document.getElementById(targetId);
+          const tbody = table.querySelector('tbody');
+          const templateRow = rowTemplates[targetId];
+          if (!templateRow) return;
+          const clone = templateRow.cloneNode(true);
+          clone.querySelectorAll('td:not(:last-child)').forEach(cell => {
+            const sels = cell.querySelectorAll('select');
+            const inp  = cell.querySelector('input[type="text"]');
+            sels.forEach(s => s.selectedIndex = 0);
+            if (inp) inp.value = '';
+            if (cell.querySelector('.aggress-value')) cell.querySelector('.aggress-value').textContent = '0';
+          });
+          clone.querySelectorAll('.status-item').forEach(item => {
+            const s = item.querySelector('select'); const r = item.querySelector('.remove-status'); const a = item.querySelector('.add-status');
+            s.style.display = 'block'; s.selectedIndex = 0;
+            if (r) r.style.display = 'inline-block'; if (a) a.style.display = 'none';
+          });
+          const dc = clone.querySelector('td:last-child'); if (dc) dc.innerHTML = '';
+          tbody.insertBefore(clone, tbody.lastElementChild);
+          addDeleteButton(clone); addRowListeners(clone);
+          const isDrv = targetId === 'drv-table';
+          const skillSel = clone.querySelector(isDrv ? 'td:nth-child(3) select' : 'td:nth-child(5) select');
+          const agVal    = clone.querySelector(isDrv ? 'td:nth-child(4) .aggress-value' : 'td:nth-child(6) .aggress-value');
+          if (skillSel && agVal && skillSel.value) agVal.textContent = calculateAggressiveness(skillSel.value);
+          saveToLocalStorage();
+        });
+      });
+
+      function addViewButtonListener(button) {
+        button.addEventListener('click', () => {
+          if (activeModalButton === button && modal.style.display === 'block') {
+            modal.style.display = 'none'; activeModalButton = null; return;
+          }
+          const row = button.closest('tr');
+          const isDrv = row.closest('table').id === 'drv-table';
+          const acSel = isDrv ? row.querySelector('td:nth-child(2) select') : row.querySelector('td:nth-child(4) select');
+          if (acSel) {
+            const name = acSel.value;
+            const path = isDrv ? `assets/dt/drv/${name}.jpg` : `assets/dt/us/${name}.jpg`;
+            modalImage.onload = () => {
+              modal.style.display = 'block';
+              const rect = button.getBoundingClientRect();
+              modal.style.top  = `${window.scrollY + rect.bottom + 5}px`;
+              modal.style.left = `${window.scrollX + rect.right - modal.offsetWidth}px`;
+              activeModalButton = button; modalImage.onload = null;
+            };
+            modalImage.src = path;
+          }
+        });
+      }
+
+      closeModalBtn.onclick   = () => { modal.style.display = 'none'; activeModalButton = null; };
+      modalImage.onclick      = () => { modal.style.display = 'none'; activeModalButton = null; };
+
+      // Scenario name logic
+      function updateScenarioDisplay(text) {
+        const ph = scenarioDisplay.getAttribute('data-placeholder');
+        if (text) { scenarioDisplay.textContent = text; scenarioDisplay.classList.remove('placeholder'); }
+        else { scenarioDisplay.textContent = ph; scenarioDisplay.classList.add('placeholder'); }
+      }
+      scenarioDisplay.addEventListener('click', () => {
+        scenarioDisplay.classList.add('hidden'); scenarioInput.classList.remove('hidden');
+        scenarioInput.value = scenarioDisplay.classList.contains('placeholder') ? '' : scenarioDisplay.textContent;
+        scenarioInput.focus();
+      });
+      scenarioInput.addEventListener('keydown', e => { if (e.key === 'Enter') scenarioInput.blur(); });
+      scenarioInput.addEventListener('blur', () => {
+        scenarioDisplay.classList.remove('hidden'); scenarioInput.classList.add('hidden');
+        updateScenarioDisplay(scenarioInput.value); saveToLocalStorage();
+      });
+
+      function initializeTemplates() {
+        Object.keys(rowTemplateHTML).forEach(id => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = rowTemplateHTML[id];
+          rowTemplates[id] = tr;
+        });
+      }
+
+      function saveToLocalStorage() {
+        const data = {
+          us: {
+            scenario: scenarioInput.value || '',
+            date:   document.getElementById('us-date')?.value || '',
+            target: document.getElementById('us-target')?.value || '',
+            lead:  getTableData('us-lead-table'),
+            main:  getTableData('us-main-table'),
+            trail: getTableData('us-trail-table')
+          },
+          drv: { table: getTableData('drv-table') },
+          activeTab: usContent.style.display === 'block' ? 'us' : 'drv'
+        };
+        try { localStorage.setItem('downtownGeneratorData', JSON.stringify(data)); } catch(e) {}
+      }
+
+      function getTableData(tableId) {
+        const table = document.getElementById(tableId);
+        const rows = table.querySelectorAll('tbody tr:not(:last-child)');
+        const data = [];
+        rows.forEach(row => {
+          const rowData = { cells: [], status: [] };
+          row.querySelectorAll('td:not(:last-child)').forEach(cell => {
+            const sel = cell.querySelector('select');
+            const inp = cell.querySelector('input[type="text"]');
+            const btn = cell.querySelector('button.view-btn');
+            if (sel) rowData.cells.push({ type:'select', value: sel.value });
+            else if (inp) rowData.cells.push({ type:'input', value: inp.value });
+            else if (btn) rowData.cells.push({ type:'button', value:'보기' });
+            else if (cell.querySelector('.status-grid')) {
+              cell.querySelectorAll('.status-item').forEach(item => {
+                const s = item.querySelector('select');
+                rowData.status.push({ value: s.value, display: s.style.display || 'block' });
+              });
+            } else if (cell.querySelector('.aggress-container')) {
+              rowData.cells.push({ type:'aggress', value: cell.querySelector('.aggress-value').textContent.trim() });
+            } else {
+              rowData.cells.push({ type:'text', value: cell.textContent.trim() });
+            }
+          });
+          data.push(rowData);
+        });
+        return data;
+      }
+
+      function loadFromLocalStorage() {
+        try {
+          const saved = localStorage.getItem('downtownGeneratorData');
+          if (!saved) {
+            document.querySelectorAll('table[id] tbody').forEach(tbody => {
+              const addTr = tbody.querySelector('tr:has(.add-row)');
+              tbody.innerHTML = '';
+              if (addTr) tbody.appendChild(addTr);
+            });
+            updateScenarioDisplay(''); return;
+          }
+          const data = JSON.parse(saved);
+          if (data.us) {
+            updateScenarioDisplay(data.us.scenario || '');
+            const di = document.getElementById('us-date'); const ti = document.getElementById('us-target');
+            if (di) di.value = data.us.date || ''; if (ti) ti.value = data.us.target || '';
+            restoreTable('us-lead-table',  data.us.lead);
+            restoreTable('us-main-table',  data.us.main);
+            restoreTable('us-trail-table', data.us.trail);
+          }
+          if (data.drv) restoreTable('drv-table', data.drv.table);
+          if (data.activeTab) showContent(data.activeTab);
+        } catch(e) {}
+      }
+
+      function restoreTable(tableId, tableData) {
+        if (!tableData || tableData.length === 0) return;
+        const table = document.getElementById(tableId);
+        const tbody = table.querySelector('tbody');
+        tbody.querySelectorAll('tr:not(:last-child)').forEach(r => r.remove());
+        const addRowBtnRow = tbody.lastElementChild;
+        tableData.forEach(rowData => {
+          const tr = rowTemplates[tableId];
+          if (!tr) return;
+          const clone = tr.cloneNode(true);
+          let ci = 0, si = 0;
+          clone.querySelectorAll('td:not(:last-child)').forEach(cell => {
+            if (ci < rowData.cells.length) {
+              const sc = rowData.cells[ci];
+              const sel = cell.querySelector('select'); const inp = cell.querySelector('input[type="text"]');
+              if (sel && sc.type === 'select') { sel.value = sc.value; if (sel.classList.contains('fit-width')) adjustSelectWidth(sel); }
+              else if (inp && sc.type === 'input') { inp.value = sc.value; }
+              else if (cell.querySelector('.status-grid')) {
+                cell.querySelectorAll('.status-item').forEach(item => {
+                  if (si < rowData.status.length) {
+                    const ss = rowData.status[si]; const s = item.querySelector('select');
+                    const rem = item.querySelector('.remove-status'); const add = item.querySelector('.add-status');
+                    s.value = ss.value; s.style.display = ss.display || 'block';
+                    if (rem) rem.style.display = s.style.display === 'block' ? 'inline-block' : 'none';
+                    if (add) add.style.display = s.style.display === 'none'  ? 'inline-block' : 'none';
+                    si++;
+                  }
+                });
+              } else if (cell.querySelector('.aggress-container') && sc.type === 'aggress') {
+                cell.querySelector('.aggress-value').textContent = sc.value || '0';
+              } else { cell.textContent = sc.value || ''; }
+              ci++;
+            }
+          });
+          const dc = clone.querySelector('td:last-child'); dc.innerHTML = '';
+          tbody.insertBefore(clone, addRowBtnRow);
+          addDeleteButton(clone); addRowListeners(clone);
+        });
+      }
+
+      // OOB → ADC import
+      function loadFromOob() {
+        const oobJSON = localStorage.getItem('oobToAdcData');
+        if (!oobJSON) return;
+        document.querySelectorAll('#us-content table[id] tbody').forEach(tbody => {
+          const addTr = tbody.lastElementChild; tbody.innerHTML = ''; if (addTr) tbody.appendChild(addTr);
+        });
+        updateScenarioDisplay('');
+        const di = document.getElementById('us-date'); const ti = document.getElementById('us-target');
+        if (di) di.value = ''; if (ti) ti.value = '';
+        const oobData = JSON.parse(oobJSON);
+        if (!oobData || oobData.length === 0) { localStorage.removeItem('oobToAdcData'); return; }
+        const missionMap = {
+          '재밍 임무':'재밍','재밍 임무 (1차)':'재밍','재밍 임무 (2차, 1967년 8월+)':'재밍','해병대 재밍 지원':'재밍',
+          '아이언 핸드 임무':'아이언 핸드','MiGCAP 임무':'MiGCAP','공격 임무':'타격',
+          '공격 임무 (볼로 작전)':'MiGCAP','공격 임무 (팬텀 공격대)':'타격','공격 임무 (길잡이)':'타격',
+          '공격 임무 (LORAN 길잡이)':'타격','공격 임무 (주요 공격대)':'타격','공격 임무 (재래식 공격)':'타격',
+          '공격 임무 (LGB)':'타격','정찰 임무':'정찰','채프 임무':'채프','USAF CSAR':'CSAR','USN CSAR':'CSAR',
+        };
+        const taskMap = {
+          'Jamming':'재밍','CAP':'CAP','SEAD':'SEAD','Armed Escort':'무장 호위','Bombing':'폭격',
+          'Strike/CAP':'타격','Recon':'정찰','Chaff Laying':'채프 살포','Rescue Support':'구조 지원',
+        };
+        const acMap = {
+          'EB-66C':'EB-66C [US]','EB-66B':'EB-66B [US]','EB-66E':'EB-66E [US]','F-4C':'F-4C Phantom 2 [US]',
+          'F-104C':'F-104C Starfighter [US]','F-4D':'F-4D Phantom 2 [US]','F-100F':'F-100F Wild Weasel 1 [US]',
+          'F-105D':'F-105D ThunderChief [US]','F-105F WW':'F-105F Wild Weasel 3 [US]','F-105F':'F-105F Thunderchief [US]',
+          'RF-101C':'RF1-1C Voodoo [US]','RF-4C':'RF-4C Phantom 2 [US]','F-4E':'F-4E Phantom 2 [US]',
+          'A-7D':'A-7D Corsair 2 [US]','F-105G WW':'F-105G Wild Weasel [US]','F-4C WW':'F-4C Wild Weasel 4 [US]',
+          'A-1':'A-1H Skyraider [US]','F-4B':'F-4B Phantom 2 [US]','A-4C':'A-4C Skyhawk [US]',
+          'F-8C/F-8E':'F-8E_H_J Crusader [US]','F-8E':'F-8E_H_J Crusader [US]','F-8D':'F-8C_D Crusader [US]',
+          'A-4E':'A-4E_F Skyhawk [US]','A-6A':'A-6A Intruder [US]','EA-1F':'EA-1F Electric SPAD [US]',
+          'EF-10B':'EF-10B Skynight [US]','RA-5C':'RA-5C Vigilante [US]','RF-8A':'RF-8A_G Crusader [US]',
+          'RF-8G':'RF-8A_G Crusader [US]','EKA-3B':'EKA-3B Skywarrior [US]','A-7A':'A-7A_B Corsair 2 [US]',
+          'A-6B':'A-6B Intruder [US]','F-8H':'F-8E_H_J Crusader [US]','A-4F':'A-4E_F Skyhawk [US]',
+          'F-4J':'F-4J Phantom 2 [US]','F-8J':'F-8E_H_J Crusader [US]','A-7B':'A-7A_B Corsair 2 [US]',
+          'A-6A/C':'A-6A Intruder [US]','A-7E':'A-7C_E Corsair 2 [US]','A-7C':'A-7C_E Corsair 2 [US]',
+          'EA-6A':'EA-6A Intruder [US]','EA-6B':'EA-6B Prowler [US]',
+        };
+        const tableIdMap = { 'lead':'us-lead-table', 'main':'us-main-table', 'trail':'us-trail-table' };
+        oobData.forEach(sd => {
+          const tid = tableIdMap[sd.phase]; if (!tid) return;
+          const table = document.getElementById(tid);
+          const tbody = table.querySelector('tbody');
+          const tr = rowTemplates[tid]; if (!tr) return;
+          const clone = tr.cloneNode(true);
+          const mSel = clone.querySelector('td:nth-child(1) select');
+          const tSel = clone.querySelector('td:nth-child(2) select');
+          const aSel = clone.querySelector('td:nth-child(4) select');
+          const rInp = clone.querySelector('td:nth-child(13) input');
+          if (mSel) { mSel.value = missionMap[sd.mission] || ''; if (mSel.classList.contains('fit-width')) adjustSelectWidth(mSel); }
+          if (tSel) { tSel.value = taskMap[sd.task] || ''; if (tSel.classList.contains('fit-width')) adjustSelectWidth(tSel); }
+          if (aSel) {
+            let ac = acMap[sd.aircraft] || '';
+            if (sd.aircraft === 'Helicopter') { ac = 'A-1H Skyraider [US]'; if (rInp) rInp.value = '헬리콥터'; }
+            else if (sd.aircraft === 'A-6A/C') { if (rInp) rInp.value = (rInp.value ? rInp.value+' ' : '')+'A-6C 가능'; }
+            aSel.value = ac;
+          }
+          clone.querySelectorAll('.status-item').forEach((item, idx) => {
+            if (idx + 1 > sd.size) {
+              const s = item.querySelector('select'); const r = item.querySelector('.remove-status'); const a = item.querySelector('.add-status');
+              if (s) s.style.display = 'none'; if (r) r.style.display = 'none'; if (a) a.style.display = 'inline-block';
+            }
+          });
+          tbody.insertBefore(clone, tbody.lastElementChild);
+          addDeleteButton(clone); addRowListeners(clone);
+        });
+        saveToLocalStorage(); localStorage.removeItem('oobToAdcData');
+        alert(`${oobData.length}개의 편대가 ADC 생성기에 추가되었습니다.`);
+      }
+
+      initializeTemplates();
+      document.querySelectorAll('table tbody tr:not(:last-child)').forEach(addRowListeners);
+      const di2 = document.getElementById('us-date'); const ti2 = document.getElementById('us-target');
+      if (di2) di2.addEventListener('input', saveToLocalStorage);
+      if (ti2) ti2.addEventListener('input', saveToLocalStorage);
+
+      loadFromLocalStorage();
+      loadFromOob();
+
+      if (usContent.style.display !== 'block' && drvContent.style.display !== 'block') {
+        const hash = location.hash.substring(1);
+        showContent(hash === 'us' || hash === 'drv' ? hash : 'us');
+      }
+    });
+  </script>
+</body>
+</html>
