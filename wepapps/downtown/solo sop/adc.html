@@ -729,6 +729,137 @@
       const scenarioDisplay = document.getElementById('scenario-name-display');
       const scenarioInput   = document.getElementById('scenario-name-input');
 
+      const AIRCRAFT_DATA = {
+        // US Aircraft
+        "A-1H Skyraider [US]": ["2{2}", "", "", "2", "U"],
+        "A-4C Skyhawk [US]": ["2{5}", "", "", "2/0", "10"],
+        "A-4E_F Skyhawk [US]": ["2{5}", "", "", "3/1/0", "10"],
+        "A-6A Intruder [US]": ["", "", "", "4/2/0", "10"],
+        "A-6B Intruder [US]": ["", "", "", "4/2/0", "10"],
+        "A-6C Intruder [US]": ["", "", "", "4/2/0", "10"],
+        "A-7A_B Corsair 2 [US]": ["2{3}", "3{6}/4{6}", "", "3/2/0", "12"],
+        "A-7C_E Corsair 2 [US]": ["2{3}", "4{6}", "", "3/2/0", "8"],
+        "A-7D Corsair 2 [US]": ["2{3}", "2{6}", "", "3/0", "8"],
+        "B-52D Stratofortress [US]": ["", "", "", "30/0", "U"],
+        "B-52G Stratofortress [US]": ["", "", "", "7/0", "U"],
+        "Canberra MK.20 [AUS]": ["", "", "", "2.5/0", "U"],
+        "EA-1F Electric SPAD [US]": ["", "", "", "", "U"],
+        "EA-6A Intruder [US]": ["", "", "", "", "10"],
+        "EA-6B Prowler [US]": ["", "", "", "", "10"],
+        "EB-66B [US]": ["", "", "", "", "U"],
+        "EB-66C [US]": ["", "", "", "", "U"],
+        "EB-66E [US]": ["", "", "", "", "U"],
+        "EF-10B Skynight [US]": ["", "", "", "", "10"],
+        "EKA-3B Skywarrior [US]": ["", "", "", "", "U"],
+        "F-100D Super Sabre [US]": ["2{3}", "2{6}", "", "2/0", "5"],
+        "F-100F Wild Weasel 1 [US]": ["2{3}", "", "", "1/0", "5"],
+        "F-104C Starfighter [US]": ["2{3}", "2{6}", "", "", "5"],
+        "F-105D ThunderChief [US]": ["2{3}", "2{6}", "", "3/2/0", "5"],
+        "F-105F ThunderChief(2) [US]": ["2{3}", "2{6}", "", "3/2/0", "5"],
+        "F-105F Thunderchief [US]": ["2{3}", "2{6}", "", "2/0", "5"],
+        "F-105F Wild Weasel 3 [US]": ["2{3}", "", "", "1.5/0", "5"],
+        "F-105G Wild Weasel [US]": ["2{3}", "", "", "", "5"],
+        "F-105G Wild Weasel(2) [US]": ["2{3}", "", "", "", "5"],
+        "F-111A Aardvark [US]": ["", "", "", "", "15"],
+        "F-14A Tomcat [US]": ["2{3}", "4{6}", "2{4}/0{6}/2{1}", "", "7"],
+        "F-4B Phantom 2 [US]": ["", "2{3}/3{3}/4{3}", "1{3}/2{3}/1{5}/2{5}", "1/0", "5"],
+        "F-4C Phantom 2 [US]": ["2{3}", "2{3}", "1{3}/2{3}/1{5}/2{5}", "3", "5"],
+        "F-4C Wild Weasel 4 [US]": ["", "", "", "", "5"],
+        "F-4D Phantom 2 [US]": ["2{3}", "1{4}/2{3}", "1{3}/2{3}/1{5}/2{5}", "3", "5"],
+        "F-4E Phantom 2 [US]": ["2{3}", "2{3}", "2{3}", "3", "5"],
+        "F-4J Phantom 2 [US]": ["", "3{3}/4{3}", "1{3}/2{3}/1{5}/2{5}", "1", "5"],
+        "F-4N Phantom 2 [US]": ["", "4{3}", "2{3}", "1/0", "5"],
+        "F-8C_D Crusader [US]": ["2{5}", "2{6}/3{6}", "", "1/0", "5"],
+        "F-8E_H_J Crusader [US]": ["2{5}", "2{6}/3{6}/4{6}/2{3}/3{3}/4{3}", "1{6}", "2/1/0", "5"],
+        "Mirage IIIO(F) [AUS]": ["2{3}", "2{6}", "", "", "5"],
+        "RA-5C Vigilante [US]": ["", "", "", "", "15"],
+        "RF-4B Phantom 2 [US]": ["", "", "", "", "5"],
+        "RF-4C Phantom 2 [US]": ["", "", "", "", "5"],
+        "RF-8A_G Crusader [US]": ["", "", "", "", "5"],
+        "RF1-1C Voodoo [US]": ["", "", "", "", "10"],
+
+        // DRV Aircraft
+        "MiG-17F Fresco C [DRV]": ["2{5}", "", "", "", "12"],
+        "MiG-17PF Fresco D [DRV]": ["2{5}", "", "", "", "12"],
+        "MiG-19S Farmer C [DRV]": ["2{4}", "2{6}", "", "", "7"],
+        "MiG-21F-13 Fishbed C [DRV]": ["2{5}", "2{6}", "", "", "7"],
+        "MiG-21MF Fishbed J [DRV]": ["2{3}", "2{6}", "", "", "7"],
+        "MiG-21PF Fishbed D [DRV]": ["", "2{6}", "", "", "8"],
+        "MiG-21PFM Fishbed F [DRV]": ["", "2{6}", "", "", "7"],
+      };
+
+      function updateWeaponData(row) {
+          const isLoading = row.dataset.isLoading === 'true';
+          const isDrv = row.closest('table').id === 'drv-table';
+          const acSel = row.querySelector(isDrv ? 'td:nth-child(2) select' : 'td:nth-child(4) select');
+          if (!acSel) return;
+          const aircraftName = acSel.value;
+          const data = AIRCRAFT_DATA[aircraftName];
+          if (data) {
+              const weaponCells = isDrv 
+                  ? Array.from(row.querySelectorAll('td')).slice(5, 10)
+                  : Array.from(row.querySelectorAll('td')).slice(7, 12);
+
+              if (weaponCells.length === 5) {
+                  data.forEach((valueFromData, i) => {
+                      const cell = weaponCells[i];
+                      const hasOptions = valueFromData && valueFromData.includes('/');
+                      let element = cell.querySelector('input, select');
+                      const oldValue = element ? element.value : undefined;
+
+                      if (hasOptions) {
+                          if (!element || element.tagName !== 'SELECT') {
+                              cell.innerHTML = '';
+                              element = document.createElement('select');
+                              cell.appendChild(element);
+                              element.addEventListener('change', saveToLocalStorage);
+                          }
+                          const options = valueFromData.split('/');
+                          element.innerHTML = options.map(opt => `<option value="${opt}">${opt}</option>`).join('');
+                          
+                          if (isLoading && oldValue && options.includes(oldValue)) {
+                              element.value = oldValue;
+                          } else {
+                              element.selectedIndex = 0;
+                          }
+                      } else {
+                          if (!element || element.tagName !== 'INPUT') {
+                              cell.innerHTML = '';
+                              element = document.createElement('input');
+                              element.type = 'text';
+                              cell.appendChild(element);
+                              element.addEventListener('input', saveToLocalStorage);
+                          }
+                          if (!isLoading) {
+                              element.value = valueFromData || '';
+                          }
+                      }
+                  });
+              }
+          }
+
+          // If task is CAP, override bomb value to 0 for US aircraft
+          const isDrvTable = row.closest('table').id === 'drv-table';
+          if (!isDrvTable) {
+              const taskSelect = row.querySelector('td:nth-child(2) select');
+              if (taskSelect && taskSelect.value === 'CAP') {
+                  const bombCell = row.querySelector('td:nth-child(11)');
+                  if (bombCell) {
+                      // If it's a select, we need to change it to an input.
+                      if (bombCell.querySelector('select')) {
+                          bombCell.innerHTML = '';
+                          const input = document.createElement('input');
+                          input.type = 'text';
+                          bombCell.appendChild(input);
+                          input.addEventListener('input', saveToLocalStorage);
+                      }
+                      const bombInput = bombCell.querySelector('input');
+                      if (bombInput) bombInput.value = '0';
+                  }
+              }
+          }
+      }
+
       const US_AIRCRAFT_OPTIONS = `<option>A-1H Skyraider [US]</option><option>A-4C Skyhawk [US]</option><option>A-4E_F Skyhawk [US]</option><option>A-6A Intruder [US]</option><option>A-6B Intruder [US]</option><option>A-6C Intruder [US]</option><option>A-7A_B Corsair 2 [US]</option><option>A-7C_E Corsair 2 [US]</option><option>A-7D Corsair 2 [US]</option><option>B-52D Stratofortress [US]</option><option>B-52G Stratofortress [US]</option><option>Canberra MK.20 [AUS]</option><option>EA-1F Electric SPAD [US]</option><option>EA-6A Intruder [US]</option><option>EA-6B Prowler [US]</option><option>EB-66B [US]</option><option>EB-66C [US]</option><option>EB-66E [US]</option><option>EF-10B Skynight [US]</option><option>EKA-3B Skywarrior [US]</option><option>F-100D Super Sabre [US]</option><option>F-100F Wild Weasel 1 [US]</option><option>F-104C Starfighter [US]</option><option>F-105D ThunderChief [US]</option><option>F-105F ThunderChief(2) [US]</option><option>F-105F Thunderchief [US]</option><option>F-105F Wild Weasel 3 [US]</option><option>F-105G Wild Weasel [US]</option><option>F-105G Wild Weasel(2) [US]</option><option>F-111A Aardvark [US]</option><option>F-14A Tomcat [US]</option><option>F-4B Phantom 2 [US]</option><option>F-4C Phantom 2 [US]</option><option>F-4C Wild Weasel 4 [US]</option><option>F-4D Phantom 2 [US]</option><option>F-4E Phantom 2 [US]</option><option>F-4J Phantom 2 [US]</option><option>F-4N Phantom 2 [US]</option><option>F-8C_D Crusader [US]</option><option>F-8E_H_J Crusader [US]</option><option>Mirage IIIO(F) [AUS]</option><option>RA-5C Vigilante [US]</option><option>RF-4B Phantom 2 [US]</option><option>RF-4C Phantom 2 [US]</option><option>RF-8A_G Crusader [US]</option><option>RF1-1C Voodoo [US]</option>`;
 
       const STATUS_GRID = `<div class="status-grid">
@@ -877,10 +1008,26 @@
 
       function addRowListeners(row) {
         row.querySelectorAll('select.fit-width').forEach(s => {
-          adjustSelectWidth(s);
-          s.addEventListener('change', () => { adjustSelectWidth(s); saveToLocalStorage(); });
+          adjustSelectWidth(s); // Adjust on initial load
+          s.addEventListener('change', () => {
+            adjustSelectWidth(s); // Adjust on change
+            const isUsTable = !row.closest('table').id.startsWith('drv');
+            if (isUsTable && s.closest('td').cellIndex === 1) { // Task dropdown
+                updateWeaponData(row);
+            }
+            saveToLocalStorage();
+          });
         });
-        row.querySelectorAll('select:not(.fit-width)').forEach(s => s.addEventListener('change', saveToLocalStorage));
+        row.querySelectorAll('select:not(.fit-width)').forEach(s => {
+          s.addEventListener('change', () => {
+            const isDrv = row.closest('table').id === 'drv-table';
+            const isAircraftSelect = s.closest('td').cellIndex === (isDrv ? 1 : 3);
+            if (isAircraftSelect) {
+                updateWeaponData(row);
+            }
+            saveToLocalStorage();
+          });
+        });
         row.querySelectorAll('input[type="text"]').forEach(i => i.addEventListener('input', saveToLocalStorage));
         addSkillChangeListener(row);
         addAggressivenessControls(row);
@@ -1084,6 +1231,9 @@
           const dc = clone.querySelector('td:last-child'); dc.innerHTML = '';
           tbody.insertBefore(clone, addRowBtnRow);
           addDeleteButton(clone); addRowListeners(clone);
+          clone.dataset.isLoading = 'true';
+          updateWeaponData(clone);
+          delete clone.dataset.isLoading;
         });
       }
 
@@ -1159,6 +1309,7 @@
           });
           tbody.insertBefore(clone, tbody.lastElementChild);
           addDeleteButton(clone); addRowListeners(clone);
+          updateWeaponData(clone);
         });
         saveToLocalStorage(); localStorage.removeItem('oobToAdcData');
         alert(`${oobData.length}개의 편대가 ADC 생성기에 추가되었습니다.`);
