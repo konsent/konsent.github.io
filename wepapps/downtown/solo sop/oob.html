@@ -347,6 +347,49 @@
   @media (max-width: 800px) {
     .main-layout { grid-template-columns: 1fr; }
   }
+
+  @media print {
+    body {
+      background: none;
+      padding: 20px;
+      color: black;
+    }
+
+    /* Hide non-essential elements */
+    .page-header,
+    .main-layout > .panel:first-child {
+      display: none;
+    }
+
+    /* Adjust layout for printing */
+    .main-layout {
+      display: block;
+    }
+
+    .panel.results-area, .mission-block {
+      animation: none;
+    }
+
+    .panel.results-area {
+      border: none;
+      box-shadow: none;
+      padding: 0;
+      min-height: auto;
+    }
+    
+    .mission-block {
+      page-break-inside: avoid;
+      opacity: 1; /* 인쇄 시 내용이 보이도록 수정 */
+    }
+
+    /* Adjust colors for printing */
+    .mission-header { background: #f0f0f0; border-bottom: 1px solid #ccc; }
+    .result-header { border-bottom: 1px solid #ccc; padding-bottom: 10px; }
+    .squadron-row { border-bottom-color: #eee; }
+    .dice-result { border: 1px solid #aaa; background: #f0f0f0; color: black; }
+    .ammo-summary { border: 1px solid #ccc; background: #f9f9f9; }
+    .mission-name, .mission-phase, .sq-count, .sq-aircraft, .sq-task, .sq-ammo, .result-timestamp, .note-block, .ammo-title, .ammo-row, .rule-note, .note-block strong, .section-divider { color: black !important; }
+  }
 </style>
 </head>
 <body>
@@ -488,6 +531,7 @@
 
     <button class="generate-btn" onclick="generate()">▸ 편제 생성</button>
     <button id="send-to-adc-btn" class="generate-btn" onclick="sendToAdc()" style="display:none; margin-top: 10px; background: var(--tan); color: var(--ink);">ADC 생성기로 보내기</button>
+    <button id="print-btn" class="generate-btn" onclick="printResults()" style="display:none; margin-top: 10px; background: var(--green); color: var(--paper);">편제 인쇄</button>
   </div>
 
   <!-- Results Panel -->
@@ -583,6 +627,10 @@ function dateCode() {
 
 function sendToAdc() {
   window.open('adc.html', '_blank');
+}
+
+function printResults() {
+  window.print();
 }
 
 function sq(count, aircraft, size, task, ammo, diceInfo) {
@@ -1274,6 +1322,7 @@ function generate() {
 
   localStorage.setItem('oobToAdcData', JSON.stringify(oobForAdc));
   document.getElementById('send-to-adc-btn').style.display = 'block';
+  document.getElementById('print-btn').style.display = 'block';
 }
 </script>
 </body>
