@@ -751,7 +751,13 @@
           clone.querySelectorAll('td:not(:last-child)').forEach(cell => {
             const sels = cell.querySelectorAll('select');
             const inp  = cell.querySelector('input[type="text"]');
-            sels.forEach(s => s.selectedIndex = 0);
+            sels.forEach(s => {
+              if (s.options.length > 0 && s.options[0].text === '신병') {
+                s.value = '정규군';
+              } else {
+                s.selectedIndex = 0;
+              }
+            });
             if (inp) inp.value = '';
             if (cell.querySelector('.aggress-value')) cell.querySelector('.aggress-value').textContent = '0';
           });
@@ -981,6 +987,8 @@
           const mSel = clone.querySelector('td:nth-child(1) select');
           const tSel = clone.querySelector('td:nth-child(2) select');
           const aSel = clone.querySelector('td:nth-child(4) select');
+          const skillSel = clone.querySelector('td:nth-child(5) select');
+          const agVal = clone.querySelector('td:nth-child(6) .aggress-value');
           const rInp = clone.querySelector('td:nth-child(13) input');
           if (mSel) { mSel.value = missionMap[sd.mission] || ''; if (mSel.classList.contains('fit-width')) adjustSelectWidth(mSel); }
           if (tSel) { tSel.value = taskMap[sd.task] || ''; if (tSel.classList.contains('fit-width')) adjustSelectWidth(tSel); }
@@ -989,6 +997,10 @@
             if (sd.aircraft === 'Helicopter') { ac = 'A-1H Skyraider [US]'; if (rInp) rInp.value = '헬리콥터'; }
             else if (sd.aircraft === 'A-6A/C') { if (rInp) rInp.value = (rInp.value ? rInp.value+' ' : '')+'A-6C 가능'; }
             aSel.value = ac;
+          }
+          if (skillSel) {
+            skillSel.value = '정규군';
+            if (agVal) agVal.textContent = calculateAggressiveness('정규군');
           }
           clone.querySelectorAll('.status-item').forEach((item, idx) => {
             if (idx + 1 > sd.size) {
