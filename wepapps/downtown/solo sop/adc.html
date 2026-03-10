@@ -440,6 +440,142 @@
       padding: 4px 0 10px;
       text-transform: uppercase;
     }
+
+    @media print {
+      body {
+        background: white;
+        color: black;
+        padding: 10px;
+        font-size: 10px;
+      }
+      .page-header, .tab-bar, .add-row, .delete-row, .view-btn, .aggress-controls, .status-control-btn, .close-btn, .modal {
+        display: none;
+      }
+      .panel {
+        border: 1px solid #ccc;
+        box-shadow: none;
+        padding: 10px;
+        page-break-inside: avoid;
+        background: white;
+      }
+      .panel-title {
+        background: #eee;
+        color: black !important;
+        border-bottom: 1px solid #ccc;
+      }
+      .scenario-display, .field-pair label, .field-pair input {
+        color: black;
+      }
+      .field-pair input {
+        border-color: #ccc;
+        background: white;
+      }
+      table {
+        font-size: 9px;
+      }
+      thead tr:first-child th {
+        background: #ddd !important;
+        color: black !important;
+        border-bottom-color: #bbb !important;
+      }
+      thead tr:nth-child(2) th {
+        background: #eee !important;
+        color: #333 !important;
+        border-bottom-color: #bbb !important;
+      }
+      tbody tr { border-bottom-color: #ddd; }
+      td { padding: 2px 3px; }
+      td select, td input[type="text"] { border: 1px solid #ddd; background: white; color: black; }
+      .aggress-value { color: black; }
+    }
+
+    #view-all-adc-fab {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      background: var(--tan);
+      color: var(--ink);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      cursor: pointer;
+      z-index: 1001;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+      transition: all 0.2s ease-in-out;
+    }
+    #view-all-adc-fab:hover {
+      transform: scale(1.1);
+      background: var(--cream);
+    }
+
+    #adc-viewer-panel {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 520px;
+      background: rgba(22,20,10,0.97);
+      border-top: 2px solid var(--tan);
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.5);
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #adc-viewer-panel.hidden {
+      display: none !important;
+    }
+
+    .adc-viewer-header {
+      padding: 8px 15px;
+      background: var(--olive);
+      color: var(--tan);
+      font-family: 'Oswald', sans-serif;
+      letter-spacing: 0.1em;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .adc-viewer-header .close-btn {
+        position: static;
+        font-size: 24px;
+    }
+
+    #adc-viewer-content {
+      display: flex;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 15px;
+      gap: 15px;
+      flex-grow: 1;
+    }
+    #adc-viewer-content::-webkit-scrollbar { height: 8px; }
+    #adc-viewer-content::-webkit-scrollbar-track { background: var(--olive); }
+    #adc-viewer-content::-webkit-scrollbar-thumb { background: var(--tan); border-radius: 4px; }
+
+    #adc-viewer-content img {
+      height: 100%;
+      width: auto;
+      border-radius: 5px;
+      border: 2px solid var(--olive);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      object-fit: contain;
+      background: var(--ink);
+    }
+    #adc-viewer-content .placeholder {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        color: var(--fade);
+        font-size: 14px;
+    }
   </style>
 </head>
 <body>
@@ -453,6 +589,7 @@
   <div class="tab-bar">
     <button class="tab-btn us-tab"  id="us-btn">▸ US 비행대</button>
     <button class="tab-btn drv-tab" id="drv-btn">▸ DRV 요격기</button>
+    <button id="print-btn" class="tab-btn" style="margin-left: auto; border-color: var(--green); color: var(--green);">🖨️ 인쇄</button>
   </div>
 
   <!-- ══════════════ US CONTENT ══════════════ -->
@@ -567,6 +704,18 @@
     <div class="modal-content">
       <span class="close-btn">&times;</span>
       <img id="modal-image" src="" alt="Aircraft Image">
+    </div>
+  </div>
+
+  <!-- ADC Viewer -->
+  <div id="view-all-adc-fab" title="모든 ADC 보기">🖼️</div>
+  <div id="adc-viewer-panel" class="hidden">
+    <div class="adc-viewer-header">
+      <span>선택된 항공기 ADC</span>
+      <span id="adc-viewer-close" class="close-btn">&times;</span>
+    </div>
+    <div id="adc-viewer-content">
+      <!-- Images will be populated here -->
     </div>
   </div>
 
@@ -1028,6 +1177,46 @@
         const hash = location.hash.substring(1);
         showContent(hash === 'us' || hash === 'drv' ? hash : 'us');
       }
+
+      document.getElementById('print-btn').addEventListener('click', () => window.print());
+
+      // ADC Viewer Logic
+      const fab = document.getElementById('view-all-adc-fab');
+      const viewerPanel = document.getElementById('adc-viewer-panel');
+      const viewerContent = document.getElementById('adc-viewer-content');
+      const closeViewerBtn = document.getElementById('adc-viewer-close');
+
+      fab.addEventListener('click', () => {
+        viewerContent.innerHTML = ''; // Clear previous content
+        const aircraftNames = new Set(); // Use a Set to avoid duplicates
+
+        document.querySelectorAll('table[id] tbody tr:not(:last-child)').forEach(row => {
+            const isDrv = row.closest('table').id === 'drv-table';
+            const acSel = isDrv ? row.querySelector('td:nth-child(2) select') : row.querySelector('td:nth-child(4) select');
+            if (acSel && acSel.value) {
+                aircraftNames.add(acSel.value);
+            }
+        });
+
+        if (aircraftNames.size === 0) {
+            viewerContent.innerHTML = '<div class="placeholder">표에 추가된 항공기가 없습니다.</div>';
+        } else {
+            aircraftNames.forEach(name => {
+                const isDrv = name.includes('[DRV]');
+                const path = isDrv ? `assets/dt/drv/${name}.jpg` : `assets/dt/us/${name}.jpg`;
+                const img = document.createElement('img');
+                img.src = path;
+                img.alt = name;
+                img.onerror = () => { img.style.display = 'none'; };
+                viewerContent.appendChild(img);
+            });
+        }
+        viewerPanel.classList.remove('hidden');
+      });
+
+      closeViewerBtn.addEventListener('click', () => {
+        viewerPanel.classList.add('hidden');
+      });
     });
   </script>
 </body>
