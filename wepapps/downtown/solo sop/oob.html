@@ -514,7 +514,7 @@
           <input type="checkbox" id="var-chaff-red"> <span>축소 채프 호위</span>
         </label>
         <label class="checkbox-item" id="chk-conventional-wrap">
-          <input type="checkbox" id="var-conventional"> <span>재래식 공격 (덤 폭탄)</span>
+          <input type="checkbox" id="var-conventional"> <span>재래식 공격 (멍텅구리 폭탄)</span>
         </label>
         <label class="checkbox-item" id="chk-major-d-wrap">
           <input type="checkbox" id="var-major-d"> <span>주요 공격대 (LGB 폭격기 증강)</span>
@@ -838,7 +838,7 @@ function generateA(dc, variants, addSquadsToOob) {
   const notes = [];
 
   // ── PRE-RAID ──────────────────────────────
-  html += renderDivider('공격대 사전 부대');
+  html += renderDivider('사전 공격대(Pre-Raid)');
 
   // Jamming mission 1
   const jamTypes = resolveJammingUSAF(dc);
@@ -878,7 +878,7 @@ function generateA(dc, variants, addSquadsToOob) {
   }
 
   // ── MAIN RAID ──────────────────────────────
-  html += renderDivider('주요 공격대 부대');
+  html += renderDivider('주요 공격대(Main Raid)');
 
   // Iron Hand
   const ironHandAvail = (dc >= ym(1965,12) && dc <= ym(1966,4)) || dc >= ym(1966,6);
@@ -927,16 +927,16 @@ function generateA(dc, variants, addSquadsToOob) {
     html += renderMission('주요', '공격 임무 (볼로 작전)', strikeBoloSqs);
     addSquadsToOob('주요', '공격 임무 (볼로 작전)', strikeBoloSqs);
   } else if (phantom) {
-    const strikeSqs = [sq(2, "F-4C", 4, "Strike/CAP", "폭탄")];
-    if (joint) strikeSqs.push(sq(2, "F-4C", 4, "Strike/CAP", "폭탄"));
+    const strikeSqs = [sq(2, "F-4C", 4, "Strike/CAP", "폭격")];
+    if (joint) strikeSqs.push(sq(2, "F-4C", 4, "Strike/CAP", "폭격"));
     html += renderMission('주요', '공격 임무 (팬텀 공격대)', strikeSqs,
       joint ? "합동 공격대: F-4C Strike/CAP 2개 비행대 추가" : null);
     addSquadsToOob('주요', '공격 임무 (팬텀 공격대)', strikeSqs);
   } else {
     let strikeCount = dc < ym(1967,1) ? 3 : 4;
     if (major) strikeCount++;
-    const strikeSqs = [sq(strikeCount, "F-105D", 4, "Bombing", "폭탄")];
-    if (joint) strikeSqs.push(sq(2, "F-4C", 4, "Strike/CAP", "폭탄"));
+    const strikeSqs = [sq(strikeCount, "F-105D", 4, "Bombing", "폭격")];
+    if (joint) strikeSqs.push(sq(2, "F-4C", 4, "Strike/CAP", "폭격"));
     html += renderMission('주요', '공격 임무', strikeSqs,
       [dc < ym(1967,1) ? "1967년 1월 이전: 비행대 1개 감소" : null,
        major ? "주요 공격대: F-105D 비행대 1개 추가" : null,
@@ -946,7 +946,7 @@ function generateA(dc, variants, addSquadsToOob) {
   }
 
   // ── POST-RAID ──────────────────────────────
-  html += renderDivider('공격대 사후 부대');
+  html += renderDivider('사후 공격대(Post-Raid)');
   const reconR = resolveReconUSAF(dc);
   const reconSqs = [sq(1, reconR.aircraft, 2, "Recon", "—", reconR.dice)];
   html += renderMission('사후', '정찰 임무', reconSqs);
@@ -982,7 +982,7 @@ function generateB(dc, variants, addSquadsToOob) {
   html += renderNote(`<strong>항공모함:</strong> ${carrier.ID} — ${carrier.Carrier} (${carrier.LineDates})`);
 
   // ── PRE-RAID ──────────────────────────────
-  html += renderDivider('공격대 사전 부대');
+  html += renderDivider('사전 공격대 (Pre-Raid)');
 
   // Jamming
   if (carrier.Jamming && !standoff) {
@@ -1008,14 +1008,14 @@ function generateB(dc, variants, addSquadsToOob) {
   }
 
   // ── MAIN RAID ──────────────────────────────
-  html += renderDivider('주요 공격대 부대');
+  html += renderDivider('주요 공격대(Main Raid)');
 
   // Iron Hand
   const sead = carrier.SEAD;
   const seadAC = Array.isArray(sead) ? sead[0] : sead;
   const ihSqs = [
     sq(2, seadAC, 2, "SEAD", "폭탄+ARM"),
-    sq(2, carrier.CAP.split('/')[0], 2, "Armed Escort", "폭탄" + (dc >= ym(1966,1) ? "+CBU 선택" : ""))
+    sq(2, carrier.CAP.split('/')[0], 2, "Armed Escort", "폭격" + (dc >= ym(1966,1) ? "+CBU 선택" : ""))
   ];
   html += renderMission('주요', '아이언 핸드 임무', ihSqs);
   addSquadsToOob('주요', '아이언 핸드 임무', ihSqs);
@@ -1035,8 +1035,8 @@ function generateB(dc, variants, addSquadsToOob) {
     const ac1 = bombingACs[0].replace('*','').replace('/C','');
     const ac2 = bombingACs[1].replace('*','').replace('/C','');
     bombingSqs = [
-      sq(2, ac1, 4, "Bombing", "폭탄"),
-      sq(2, ac2, 4, "Bombing", "폭탄"),
+      sq(2, ac1, 4, "Bombing", "폭격"),
+      sq(2, ac2, 4, "Bombing", "폭격"),
     ];
     // A-6A/C note
     if (bombingACs.some(a => a.includes('A-6A/C'))) {
@@ -1044,7 +1044,7 @@ function generateB(dc, variants, addSquadsToOob) {
     }
   } else {
     const ac = bombingACs[0].replace('*','').replace('/C','');
-    bombingSqs = [sq(4, ac, 4, "Bombing", "폭탄")];
+    bombingSqs = [sq(4, ac, 4, "Bombing", "폭격")];
   }
 
   const capForStrike = sq(2, capAC, 2, "CAP", "—");
@@ -1054,7 +1054,7 @@ function generateB(dc, variants, addSquadsToOob) {
   addSquadsToOob('주요', '공격 임무', strikeSqs);
 
   // ── POST-RAID ──────────────────────────────
-  html += renderDivider('공격대 사후 부대');
+  html += renderDivider('사후 공격대(Post-Raid)');
   const reconSqs = [sq(1, carrier.Recon, 2, "Recon", "—")];
   html += renderMission('사후', '정찰 임무', reconSqs);
   addSquadsToOob('사후', '정찰 임무', reconSqs);
@@ -1140,7 +1140,7 @@ function generateD(dc, variants, addSquadsToOob) {
   const pgm = !conventional;
 
   // ── PRE-RAID ──────────────────────────────
-  html += renderDivider('공격대 사전 부대');
+  html += renderDivider('사전 공격대(Pre-Raid)');
 
   if (!standoff) {
     const jammingSqs = [sq(2, "EB-66E", 1, "Jamming", "재밍")];
@@ -1166,7 +1166,7 @@ function generateD(dc, variants, addSquadsToOob) {
   addSquadsToOob('사전', '채프 임무', chaffMissionSqs);
 
   // ── MAIN RAID ──────────────────────────────
-  html += renderDivider('주요 공격대 부대');
+  html += renderDivider('주요 공격대(Main Raid)');
 
   // Iron Hand
   const seadR = resolveSEADD(dc);
