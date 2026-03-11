@@ -465,6 +465,8 @@
       <label class="field-label">시나리오 (SSR 자동 적용)</label>
       <select id="scenario-select" onchange="onScenarioChange()">
         <option value="">— 시나리오 선택 안 함 (수동 설정) —</option>
+        <option value="D1">D1: Here, There and Everywhere (1965.07)</option>
+        <option value="D2">D2: Beginnings (1965.10)</option>
         <option value="D3">D3: You Keep Me Hanginʼ On (1966.07)</option>
         <option value="D4">D4: The Wheel of Hurt (1966.11-12)</option>
         <option value="D5">D5: Spirit in the Sky (1967.04)</option>
@@ -579,6 +581,37 @@
 // SSR DATA
 // ============================================================
 const SSR_DATA = {
+  D1: {
+    name: "D1: Here, There and Everywhere",
+    date: "1965년 7월",
+    raids: [
+      { label: "일반 목표 — 표 A 표준 USAF 공격대", id: "normal" },
+      { label: "SAM 사이트 목표 — 공격 임무 특수 구성", id: "sam" },
+    ],
+    autoSet: (raid) => ({
+      table: 'A', year: 1965, month: 7,
+      variants: { d1sam: raid === 'sam' },
+    }),
+    rules: [
+      { text: "표 A 기준 USAF 공격대 사용", raids: ['normal', 'sam'] },
+      { text: "SAM 사이트 목표 시: 공격 임무를 아래 특수 편제로 교체", raids: ['sam'] },
+      { text: "SAM 목표 공격 임무: 1×{1} F-100F (SEAD/선도) + 3×{4} F-105D (Bombing) + 1×{4} F-105D (Strike/CAP)", raids: ['sam'] },
+    ],
+  },
+  D2: {
+    name: "D2: Beginnings",
+    date: "1965년 10월",
+    raids: null,
+    rules: [
+      "USN 단독 시나리오 — 편제표 미사용, 아래 고정 편제만 사용",
+      "공격 임무: 5×{4} A-4C (Bombing)",
+      "CAP: 2×{2} F-8D + 2×{2} F-4B",
+    ],
+    autoSet: () => ({
+      table: 'A', year: 1965, month: 10,
+      variants: { d2fixed: true },
+    }),
+  },
   D3: {
     name: "D3: You Keep Me Hanginʼ On",
     date: "1966년 7월",
@@ -1226,6 +1259,7 @@ function generateA(dc, variants, addSquadsToOob) {
   const weasel = variants.weasel;
   const weaselShort = variants.weaselShort;
   const deleteMigcap = variants.deleteMigcap;
+  const d1sam = variants.d1sam;
 
   const notes = [];
 
@@ -1315,7 +1349,16 @@ function generateA(dc, variants, addSquadsToOob) {
   }
 
   // Strike
-  if (bolo) {
+  if (d1sam) {
+    const samSqs = [
+      sq(1, "F-100F", 1, "SEAD", "선도/ARM"),
+      sq(3, "F-105D", 4, "Bombing", "폭탄"),
+      sq(1, "F-105D", 4, "Strike/CAP", "폭탄"),
+    ];
+    html += renderMission('주요', '공격 임무 (SAM 사이트 목표)', samSqs,
+      "D1 SSR: SAM 사이트 목표 시 특수 공격 임무 편제");
+    addSquadsToOob('주요', '공격 임무', samSqs);
+  } else if (bolo) {
     const strikeBoloSqs = [sq(4, "F-4C", 4, "CAP", "—")];
     html += renderMission('주요', '공격 임무 (볼로 작전)', strikeBoloSqs);
     addSquadsToOob('주요', '공격 임무 (볼로 작전)', strikeBoloSqs);
@@ -1688,6 +1731,30 @@ function generateE(subType, dc, addSquadsToOob) {
 }
 
 // ============================================================
+// D2 FIXED OOB (Beginnings)
+// ============================================================
+function generateD2Fixed(addSquadsToOob) {
+  renderMission._idx = 0;
+  let html = renderDivider('USN 고정 편제 (D2: Beginnings)');
+  html += renderNote("편제표 미사용 — 아래 고정 비행대만 사용합니다.");
+
+  html += renderDivider('주요 공격대(Main Raid)');
+  const strikeSqs = [sq(5, "A-4C", 4, "Bombing", "폭탄")];
+  html += renderMission('주요', '공격 임무', strikeSqs);
+  addSquadsToOob('주요', '공격 임무', strikeSqs);
+
+  const capSqs = [
+    sq(2, "F-8D", 2, "CAP", "—"),
+    sq(2, "F-4B", 2, "CAP", "—"),
+  ];
+  html += renderMission('주요', 'CAP 임무', capSqs);
+  addSquadsToOob('주요', 'CAP 임무', capSqs);
+
+  html += renderAmmo(["A-4C: 폭탄 탄약", "F-8D / F-4B: CAP"]);
+  return html;
+}
+
+// ============================================================
 // D11 FIXED OOB (Superfly)
 // ============================================================
 function generateD11Fixed(addSquadsToOob) {
@@ -1914,12 +1981,14 @@ function generate() {
       <div class="result-timestamp">${year}년 ${month}월 · ${tableLabels[table]}${scenLabel}</div>
     </div>`;
   const isFixed = ssrSettings && ssrSettings.variants &&
-    (ssrSettings.variants.d11fixed || ssrSettings.variants.d14fixed ||
+    (ssrSettings.variants.d2fixed ||
+     ssrSettings.variants.d11fixed || ssrSettings.variants.d14fixed ||
      ssrSettings.variants.d15fixed || ssrSettings.variants.d16fixed);
 
   if (isFixed) {
     const v = ssrSettings.variants;
-    if (v.d11fixed) content = generateD11Fixed(addSquadsToOob);
+    if (v.d2fixed)  content = generateD2Fixed(addSquadsToOob);
+    else if (v.d11fixed) content = generateD11Fixed(addSquadsToOob);
     else if (v.d14fixed) content = generateD14Fixed(addSquadsToOob);
     else if (v.d15fixed) content = generateD15Fixed(addSquadsToOob);
     else if (v.d16fixed) content = generateD16Fixed(addSquadsToOob);
