@@ -925,8 +925,8 @@
         if (isDrv) return; // Only for US tables
 
         const acSel = row.querySelector('td:nth-child(4) select');
-        const callsignSel = row.querySelector('td:nth-child(3) select');
-        if (!acSel || !callsignSel) return;
+        const callsignCell = row.querySelector('td:nth-child(3)');
+        if (!acSel || !callsignCell) return;
 
         const acName = acSel.value || "";
         let dbKey = null;
@@ -948,19 +948,46 @@
             if (entry) options = entry.callsigns;
         }
 
-        // Populate select
-        callsignSel.innerHTML = options.length > 0 
-            ? options.map(c => `<option value="${c}">${c}</option>`).join('') 
-            : `<option value="">-</option>`;
+        const currentElement = callsignCell.querySelector('select, input[type="text"]');
+        const currentValue = currentElement ? currentElement.value : '';
 
-        // Handle selection logic
-        if (isLoading && row.dataset.savedCallsign) {
-            // Try to restore saved value
-            callsignSel.value = row.dataset.savedCallsign;
-        } else if (!isLoading && options.length > 0) {
-            // Randomize for new rows or change
-            const randomIndex = Math.floor(Math.random() * options.length);
-            callsignSel.selectedIndex = randomIndex;
+        if (options.length > 0) {
+            // Ensure we have a select element
+            let callsignSel = callsignCell.querySelector('select');
+            if (!callsignSel) {
+                callsignCell.innerHTML = '<select class="callsign-select"></select>';
+                callsignSel = callsignCell.querySelector('select');
+                callsignSel.addEventListener('change', saveToLocalStorage);
+            }
+            
+            callsignSel.innerHTML = options.map(c => `<option value="${c}">${c}</option>`).join('');
+
+            // Restore or set value
+            if (isLoading && row.dataset.savedCallsign && options.includes(row.dataset.savedCallsign)) {
+                callsignSel.value = row.dataset.savedCallsign;
+            } else if (options.includes(currentValue)) {
+                callsignSel.value = currentValue;
+            } else if (!isLoading) {
+                const randomIndex = Math.floor(Math.random() * options.length);
+                callsignSel.selectedIndex = randomIndex;
+            }
+        } else {
+            // Ensure we have a text input element
+            let callsignInput = callsignCell.querySelector('input[type="text"]');
+            if (!callsignInput) {
+                callsignCell.innerHTML = '<input type="text">';
+                callsignInput = callsignCell.querySelector('input[type="text"]');
+                callsignInput.addEventListener('input', saveToLocalStorage);
+                // If we switched from a select, try to preserve the value if it wasn't the placeholder
+                if (currentValue && currentValue !== '-') {
+                    callsignInput.value = currentValue;
+                }
+            }
+            
+            // Restore value if loading
+            if (isLoading && row.dataset.savedCallsign) {
+                callsignInput.value = row.dataset.savedCallsign;
+            }
         }
       }
 
@@ -987,7 +1014,7 @@
       function makeUsRowHTML() {
         return `<td><select class="fit-width"><option>타격</option><option>아이언 핸드</option><option>채프</option><option>재밍</option><option>CSAR</option><option>정찰</option><option>MiGCAP</option></select></td>` +
           `<td><select class="fit-width"><option>폭격</option><option>SEAD</option><option>CAP</option><option>무장 호위</option><option>구조 지원</option><option>정찰</option><option>재밍</option><option>채프 살포</option><option>타격</option></select></td>` +
-          `<td><select class="callsign-select" style="width:100%"></select></td>` +
+          `<td><select class="callsign-select"></select></td>` +
           `<td><select>${US_AIRCRAFT_OPTIONS}</select></td>` +
           `<td><select>${SKILL_OPTIONS}</select></td>` +
           `<td>${AGGRESS}</td>` +
@@ -1174,6 +1201,8 @@
           const skillSel = clone.querySelector(isDrv ? 'td:nth-child(3) select' : 'td:nth-child(5) select');
           const agVal    = clone.querySelector(isDrv ? 'td:nth-child(4) .aggress-value' : 'td:nth-child(6) .aggress-value');
           if (skillSel && agVal && skillSel.value) agVal.textContent = calculateAggressiveness(skillSel.value);
+          updateWeaponData(clone);
+          updateCallsign(clone);
           saveToLocalStorage();
         });
       });
