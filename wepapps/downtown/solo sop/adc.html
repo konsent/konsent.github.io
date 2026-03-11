@@ -729,64 +729,7 @@
       const scenarioDisplay = document.getElementById('scenario-name-display');
       const scenarioInput   = document.getElementById('scenario-name-input');
 
-      const US_CALLSIGNS_DB = [
-        {
-          "aircraft": "F-4 Phantom II",
-          "callsigns": [
-            "Buick", "Cactus", "Chevy", "Denver", "Dingus", "Dodge", "Fletch", 
-            "Gambit", "Icebag", "Locust", "Nomad", "Oyster", "Olds", "Rambler", 
-            "Tampa", "Vegas", "Waco", "Zinc"
-          ]
-        },
-        {
-          "aircraft": "F-100 Super Sabre",
-          "callsigns": ["Apple", "Spruce"]
-        },
-        {
-          "aircraft": "F-104 Starfighter",
-          "callsigns": ["Falstaff", "Goose", "Leopard", "Lincoln", "Zebra"]
-        },
-        {
-          "aircraft": "F-105 Thunderchief",
-          "callsigns": [
-            "Basco", "Bison", "Brass", "Carbine", "Dallas", "Eagle", 
-            "Kite", "Laredo", "Magnum", "Pistol"
-          ]
-        },
-        {
-          "aircraft": "F-111 Aardvark",
-          "callsigns": [
-            "Condor", "Crow", "Hammer", "Jackal", "Pontiac", 
-            "Raccoon", "Slam", "Snug", "Suntan", "Tonto"
-          ]
-        },
-        {
-          "aircraft": "A-7 Corsair II",
-          "callsigns": [
-            "DeSoto", "Highball", "Hornet", "Pepper", "Pluto", 
-            "Sapphire", "Skipjack", "Sunglass", "Termite", "Vandal"
-          ]
-        },
-        {
-          "aircraft": "B-52",
-          "callsigns": [
-            "Aqua", "Ash", "Azure", "Black", "Blue", "Brick", "Bronze", "Brown", 
-            "Charcoal", "Cobalt", "Copper", "Cream", "Ebony", "Ginger", "Green", 
-            "Hazel", "Ivory", "Garnet", "Gold", "Gray", "Lilac", "Magnolia", 
-            "Olive", "Opal", "Orange", "Peach", "Purple", "Quartz", "Quilt", 
-            "Rainbow", "Red", "Rose", "Ruby", "Scarlet", "Snow", "Stone", 
-            "Straw", "Tan", "Walnut", "White"
-          ]
-        },
-        {
-          "aircraft": "RF-101 Voodoo",
-          "callsigns": ["Buckshot", "Canyon"]
-        },
-        {
-          "aircraft": "EB-66 Destroyer",
-          "callsigns": ["Cardinal", "Merco", "Teak", "Valent", "Wandes"]
-        }
-      ];
+      const CALLSIGN_DATA = { "GMT_Downtown_Callsigns": { "USAF": [ { "aircraft": "F-4 Phantom II", "callsigns": ["Buick", "Cactus", "Chevy", "Denver", "Dingus", "Dodge", "Fletch", "Gambit", "Icebag", "Locust", "Nomad", "Oyster", "Olds", "Rambler", "Tampa", "Vegas", "Waco", "Zinc"] }, { "aircraft": "F-100 Super Sabre", "callsigns": ["Apple", "Spruce"] }, { "aircraft": "F-104 Starfighter", "callsigns": ["Falstaff", "Goose", "Leopard", "Lincoln", "Zebra"] }, { "aircraft": "F-105 Thunderchief", "callsigns": ["Basco", "Bison", "Brass", "Carbine", "Dallas", "Eagle", "Kite", "Laredo", "Magnum", "Pistol"] }, { "aircraft": "F-111 Aardvark", "callsigns": ["Condor", "Crow", "Hammer", "Jackal", "Pontiac", "Raccoon", "Slam", "Snug", "Suntan", "Tonto"] }, { "aircraft": "A-7 Corsair II", "callsigns": ["DeSoto", "Highball", "Hornet", "Pepper", "Pluto", "Sapphire", "Skipjack", "Sunglass", "Termite", "Vandal"] }, { "aircraft": "B-52", "callsigns": ["Aqua", "Ash", "Azure", "Black", "Blue", "Brick", "Bronze", "Brown", "Charcoal", "Cobalt", "Copper", "Cream", "Ebony", "Ginger", "Green", "Hazel", "Ivory", "Garnet", "Gold", "Gray", "Lilac", "Magnolia", "Olive", "Opal", "Orange", "Peach", "Purple", "Quartz", "Quilt", "Rainbow", "Red", "Rose", "Ruby", "Scarlet", "Snow", "Stone", "Straw", "Tan", "Walnut", "White"] }, { "aircraft": "RF-101 Voodoo", "callsigns": ["Buckshot", "Canyon"] }, { "aircraft": "EB-66 Destroyer", "callsigns": ["Cardinal", "Merco", "Teak", "Valent", "Wandes"] } ], "USN_USMC": [ { "aircraft": "F-4 Phantom II", "callsigns": ["Bandwagon", "Black Lion", "Clubleaf", "Dakota", "Harlow", "Jingle", "Killer", "Kingfish", "Linfield", "Old Nick", "Rock River", "Rootbeer", "Shamrock", "Showtime", "Silverkite"] }, { "aircraft": "F-8 Crusader", "callsigns": ["Bobbin", "Corktip", "Falcon", "Feedbag", "Firefighter", "Milkvine", "Nickel", "Page Boy", "Sheepdog", "Superheat"] }, { "aircraft": "A-4 Skyhawk", "callsigns": ["Bronco", "Bulldog", "Clansman", "Diamond", "Dogear", "Raider", "Redcock", "Saint", "Silverfox", "Stinger", "Ubangi", "Warhorse"] }, { "aircraft": "A-6 Intruder", "callsigns": ["Arab", "Bengal", "Boomer", "Chicago", "Ghost", "Knight", "Panther", "Phoenix", "Sword", "Viceroy"] }, { "aircraft": "A-7 Corsair II", "callsigns": ["Beefeater", "Busybee", "Champ", "Chippie", "Jason", "Jury", "Mace", "Royal", "Streetcar", "Warhawk"] }, { "aircraft": "RA-5 Vigilante", "callsigns": ["Giant", "Glenrock"] }, { "aircraft": "EF-10 Skynight", "callsigns": ["Cottonpicker", "Pigment"] }, { "aircraft": "EA-1 Skyraider", "callsigns": ["Knighthawk", "Zapper"] }, { "aircraft": "EA-6 Prowler", "callsigns": ["Battery", "Lancer", "Lizard", "Scorpion"] }, { "aircraft": "EKA-3 Skywarrior", "callsigns": ["Deep Sea", "Gunpowder"] } ], "CSAR": [ { "aircraft": "A-1 Skyraider (Sandy)", "callsigns": ["Sandy"] }, { "aircraft": "HC-130 Hercules (King)", "callsigns": ["King"] }, { "aircraft": "HH-3/HH-53 (Jolly Green)", "callsigns": ["Jolly Green"] }, { "aircraft": "HH-2/SH-3 (Big Mother)", "callsigns": ["Big Mother", "Clementine", "Priscilla"] } ] } };
 
       const AIRCRAFT_DATA = {
         // US Aircraft
@@ -929,22 +872,56 @@
         if (!acSel || !callsignCell) return;
 
         const acName = acSel.value || "";
+
+        // 1. Select the correct callsign database based on OOB type
+        const oobType = document.body.dataset.oobType || 'A'; // Default to USAF
+        let callsignDb;
+        if (oobType.startsWith('E')) {
+          callsignDb = CALLSIGN_DATA.GMT_Downtown_Callsigns.CSAR;
+        } else if (oobType === 'B') {
+          callsignDb = CALLSIGN_DATA.GMT_Downtown_Callsigns.USN_USMC;
+        } else { // Default to USAF for A, C, D
+          callsignDb = CALLSIGN_DATA.GMT_Downtown_Callsigns.USAF;
+        }
+
         let dbKey = null;
+        let options = [];
+
+        // Special case for helicopters in CSAR missions
+        const remarksInput = row.querySelector('td:nth-child(13) input');
+        const isHeli = remarksInput && remarksInput.value.includes('헬리콥터');
+
+        if (oobType.startsWith('E') && isHeli) {
+            const jg = callsignDb.find(e => e.aircraft.includes('Jolly Green'))?.callsigns || [];
+            const bm = callsignDb.find(e => e.aircraft.includes('Big Mother'))?.callsigns || [];
+            options = [...new Set([...jg, ...bm])];
+            dbKey = 'Helicopter'; // Special key to prevent other matches
+        }
 
         // Map aircraft name to JSON key
-        if (acName.includes('F-4') || acName.includes('RF-4')) dbKey = "F-4 Phantom II";
-        else if (acName.includes('F-100')) dbKey = "F-100 Super Sabre";
-        else if (acName.includes('F-104')) dbKey = "F-104 Starfighter";
-        else if (acName.includes('F-105')) dbKey = "F-105 Thunderchief";
-        else if (acName.includes('F-111')) dbKey = "F-111 Aardvark";
-        else if (acName.includes('A-7')) dbKey = "A-7 Corsair II";
-        else if (acName.includes('B-52')) dbKey = "B-52";
-        else if (acName.includes('RF-101')) dbKey = "RF-101 Voodoo";
-        else if (acName.includes('EB-66')) dbKey = "EB-66 Destroyer";
+        if (!dbKey) {
+            if (acName.includes('F-4') || acName.includes('RF-4')) dbKey = "F-4 Phantom II";
+            else if (acName.includes('F-100')) dbKey = "F-100 Super Sabre";
+            else if (acName.includes('F-104')) dbKey = "F-104 Starfighter";
+            else if (acName.includes('F-105')) dbKey = "F-105 Thunderchief";
+            else if (acName.includes('F-111')) dbKey = "F-111 Aardvark";
+            else if (acName.includes('A-7')) dbKey = "A-7 Corsair II";
+            else if (acName.includes('B-52')) dbKey = "B-52";
+            else if (acName.includes('RF-101') || acName.includes('RF1-1C')) dbKey = "RF-101 Voodoo";
+            else if (acName.includes('EB-66')) dbKey = "EB-66 Destroyer";
+            else if (acName.includes('F-8') || acName.includes('RF-8')) dbKey = "F-8 Crusader";
+            else if (acName.includes('A-4')) dbKey = "A-4 Skyhawk";
+            else if (acName.includes('A-6') || acName.includes('EA-6A')) dbKey = "A-6 Intruder";
+            else if (acName.includes('RA-5')) dbKey = "RA-5 Vigilante";
+            else if (acName.includes('EF-10')) dbKey = "EF-10 Skynight";
+            else if (acName.includes('EA-1')) dbKey = "EA-1 Skyraider";
+            else if (acName.includes('EA-6B')) dbKey = "EA-6 Prowler";
+            else if (acName.includes('EKA-3')) dbKey = "EKA-3 Skywarrior";
+            else if (acName.includes('A-1')) dbKey = "A-1 Skyraider (Sandy)";
+        }
 
-        let options = [];
-        if (dbKey) {
-            const entry = US_CALLSIGNS_DB.find(e => e.aircraft === dbKey);
+        if (dbKey && dbKey !== 'Helicopter') {
+            const entry = callsignDb.find(e => e.aircraft === dbKey);
             if (entry) options = entry.callsigns;
         }
 
@@ -1391,7 +1368,12 @@
         const di = document.getElementById('us-date'); const ti = document.getElementById('us-target');
         if (di) di.value = ''; if (ti) ti.value = '';
         const oobData = JSON.parse(oobJSON);
-        if (!oobData || oobData.length === 0) { localStorage.removeItem('oobToAdcData'); return; }
+        if (!oobData || !oobData.squads || oobData.squads.length === 0) {
+          localStorage.removeItem('oobToAdcData');
+          return;
+        }
+        document.body.dataset.oobType = oobData.type || 'A'; // Store OOB type
+        const squads = oobData.squads;
         const missionMap = {
           '재밍 임무':'재밍','재밍 임무 (1차)':'재밍','재밍 임무 (2차, 1967년 8월+)':'재밍','해병대 재밍 지원':'재밍',
           '아이언 핸드 임무':'아이언 핸드','MiGCAP 임무':'MiGCAP','공격 임무':'타격',
@@ -1420,7 +1402,7 @@
           'EA-6A':'EA-6A Intruder [US]','EA-6B':'EA-6B Prowler [US]',
         };
         const tableIdMap = { 'lead':'us-lead-table', 'main':'us-main-table', 'trail':'us-trail-table' };
-        oobData.forEach(sd => {
+        squads.forEach(sd => {
           const tid = tableIdMap[sd.phase]; if (!tid) return;
           const table = document.getElementById(tid);
           const tbody = table.querySelector('tbody');
@@ -1455,8 +1437,9 @@
           updateWeaponData(clone);
           updateCallsign(clone);
         });
-        saveToLocalStorage(); localStorage.removeItem('oobToAdcData');
-        alert(`${oobData.length}개의 편대가 ADC 생성기에 추가되었습니다.`);
+        saveToLocalStorage();
+        localStorage.removeItem('oobToAdcData');
+        alert(`${squads.length}개의 편대가 ADC 생성기에 추가되었습니다.`);
       }
 
       initializeTemplates();
