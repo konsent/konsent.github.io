@@ -70,8 +70,7 @@
             border-radius: 5px;
             margin: 15px 0;
         }
-    </style>
-    <script src="https://cdn.jsdelivr.net/npm/page-agent@1.5.6/dist/iife/page-agent.demo.js" crossorigin="true"></script>
+    </style>    
 </head>
 <body>
     <h1>Stellar Horizons</h1>
@@ -1770,24 +1769,31 @@
         </div>
     </div>
     <div id="page-agent-root"></div>
+    <script src="https://cdn.jsdelivr.net/npm/page-agent@1.5.6/dist/iife/page-agent.demo.js" crossorigin="true"></script>
     <script>
-        // 'Shift + A' 키를 누르면 AI 패널이 나타나게 설정
-        // 2. 단축키 설정
-        window.addEventListener('keydown', (e) => {
-            // 테스트하기 편하게 Ctrl + M (Menu)으로 바꿔보겠습니다. 
-            // Ctrl + 1은 브라우저 탭 이동 단축키라 가끔 씹힐 때가 있어요.
-            if (e.ctrlKey && e.key.toLowerCase() === 'm') {
-            e.preventDefault(); 
-            console.log("단축키 신호 감지됨!");
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. 초기화 (import 없이 바로 PageAgent 사용)
+            // 주의: 클래스 이름이 PageAgent 또는 pageAgent일 수 있습니다.
+            const agent = new PageAgent({
+                model: 'qwen3.5-plus', // 데모 버전은 보통 이 모델을 씁니다
+                baseURL: 'https://page-ag-testing-ohftxirgbn.cn-shanghai.fcapp.run',
+                apiKey: 'NA',
+                language: 'ko-KR'
+            });
 
-            if (window.PageAgent && PageAgent.panel) {
-                PageAgent.panel.show();
-                console.log("패널 오픈 성공");
-            } else {
-                console.error("PageAgent 객체를 찾을 수 없습니다.");
-            }
-            }
-        });
-    </script>
+                // 2. 단축키 설정 (Ctrl + M)
+            window.addEventListener('keydown', async (e) => {
+                if (e.ctrlKey && e.key.toLowerCase() === 'm') {
+                    e.preventDefault();
+                    
+                    // 방법 A: 직접 명령을 내리고 싶을 때 (예: 로그인 버튼 클릭)
+                    // const result = await agent.execute('로그인 버튼 클릭해줘');
+                    
+                    // 방법 B: 대화창(패널)을 띄우고 싶을 때 (이걸 더 추천!)
+                    agent.panel.show();
+                }
+                });
+            });
+        </script>
 </body>
 </html>
