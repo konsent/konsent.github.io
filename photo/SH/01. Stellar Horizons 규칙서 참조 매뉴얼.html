@@ -71,6 +71,7 @@
             margin: 15px 0;
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/page-agent@1.5.6/dist/iife/page-agent.demo.js" crossorigin="true"></script>
 </head>
 <body>
     <h1>Stellar Horizons</h1>
@@ -1768,5 +1769,14 @@
             </table>
         </div>
     </div>
+    <script>
+        // 'Shift + A' 키를 누르면 AI 패널이 나타나게 설정
+        window.addEventListener('keydown', (e) => {
+          if (e.key.toLowerCase() === 'a' && e.shiftKey) {
+            e.preventDefault(); // 브라우저 기본 동작(대문자 'A' 입력) 방지
+            PageAgent.panel.show();
+          }
+        });
+    </script>
 </body>
 </html>
