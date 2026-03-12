@@ -1402,10 +1402,31 @@
         const squads = oobData.squads;
         const missionMap = {
           '재밍 임무':'재밍','재밍 임무 (1차)':'재밍','재밍 임무 (2차, 1967년 8월+)':'재밍','해병대 재밍 지원':'재밍',
-          '아이언 핸드 임무':'아이언 핸드','MiGCAP 임무':'MiGCAP','공격 임무':'타격',
+          '재밍 임무 1 (USAF)':'재밍','재밍 임무 2 (USN)':'재밍','재밍1':'재밍','재밍2':'재밍','재밍':'재밍',
+          '아이언 핸드 임무':'아이언 핸드','아이언 핸드':'아이언 핸드',
+          '아이언 핸드 임무 A':'아이언 핸드','아이언 핸드 임무 B':'아이언 핸드',
+          '아이언 핸드 A':'아이언 핸드','아이언 핸드 B':'아이언 핸드',
+          '아이언 핸드 임무 1':'아이언 핸드','아이언 핸드 임무 2':'아이언 핸드','아이언 핸드 임무 3 (F-111)':'아이언 핸드',
+          '아이언핸드1':'아이언 핸드','아이언핸드2':'아이언 핸드','아이언핸드':'아이언 핸드',
+          'IH1':'아이언 핸드','IH2':'아이언 핸드','IH3':'아이언 핸드',
+          'MiGCAP 임무':'MiGCAP','MiGCAP':'MiGCAP',
+          'MiGCAP 임무 1':'MiGCAP','MiGCAP 임무 2':'MiGCAP','MiGCAP1':'MiGCAP','MiGCAP2':'MiGCAP',
+          '공격 임무':'타격',
+          '공격 임무 A':'타격','공격 임무 B':'타격','공격 임무 C':'타격','공격 임무 D':'타격',
+          '공격 임무 E (Strike/CAP)':'타격','공격 임무 F (Strike/CAP)':'타격',
+          '공격A':'타격','공격B':'타격','공격C':'타격','공격D':'타격','공격E':'타격','공격F':'타격',
+          '공격 임무 A (주요A)':'타격','공격 임무 B (주요B)':'타격',
+          'F-111 폭격 임무':'타격','F-111':'타격',
+          'B-52D 폭격 임무':'타격','B-52D 폭격 임무 1':'타격','B-52D 폭격 임무 2':'타격','B-52D-1':'타격','B-52D-2':'타격','B-52D':'타격',
+          'B-52G 폭격 임무':'타격','B-52G':'타격',
+          'B-52 공격 임무':'타격','공격 임무 (B-52)':'타격',
+          '기뢰 부설 임무':'타격',
+          'CAP 임무':'MiGCAP','CAP 임무 (D12 추가)':'MiGCAP',
           '공격 임무 (볼로 작전)':'MiGCAP','공격 임무 (팬텀 공격대)':'타격','공격 임무 (길잡이)':'타격',
           '공격 임무 (LORAN 길잡이)':'타격','공격 임무 (주요 공격대)':'타격','공격 임무 (재래식 공격)':'타격',
-          '공격 임무 (LGB)':'타격','정찰 임무':'정찰','채프 임무':'채프','USAF CSAR':'CSAR','USN CSAR':'CSAR',
+          '공격 임무 (LGB)':'타격','정찰 임무':'정찰','채프 임무':'채프','채프':'채프',
+          '채프 임무 (B-52 전용)':'채프',
+          'USAF CSAR':'CSAR','USN CSAR':'CSAR',
         };
         const taskMap = {
           'Jamming':'재밍','CAP':'CAP','SEAD':'SEAD','Armed Escort':'무장 호위','Bombing':'폭격',
@@ -1426,6 +1447,10 @@
           'F-4J':'F-4J Phantom 2 [US]','F-8J':'F-8E_H_J Crusader [US]','A-7B':'A-7A_B Corsair 2 [US]',
           'A-6A/C':'A-6A Intruder [US]','A-7E':'A-7C_E Corsair 2 [US]','A-7C':'A-7C_E Corsair 2 [US]',
           'EA-6A':'EA-6A Intruder [US]','EA-6B':'EA-6B Prowler [US]',
+          'EB-66B/E':'EB-66E [US]',
+          'F-111A':'F-111A Aardvark [US]',
+          'B-52D':'B-52D Stratofortress [US]','B-52G':'B-52G Stratofortress [US]',
+          'B-52':'B-52D Stratofortress [US]',
         };
         const tableIdMap = { 'lead':'us-lead-table', 'main':'us-main-table', 'trail':'us-trail-table' };
         squads.forEach(sd => {
@@ -1442,6 +1467,16 @@
           const rInp = clone.querySelector('td:nth-child(13) input');
           if (mSel) { mSel.value = missionMap[sd.mission] || ''; if (mSel.classList.contains('fit-width')) adjustSelectWidth(mSel); }
           if (tSel) { tSel.value = taskMap[sd.task] || ''; if (tSel.classList.contains('fit-width')) adjustSelectWidth(tSel); }
+          // 임무 구분 레이블(A/B/C... 또는 1/2/3...) 비고란 자동 입력
+          if (rInp) {
+            // 공격 임무 A-F / 아이언 핸드 A-B 등 알파벳 구분 그룹 → 비고에 '공격대 A/B' 표기
+            const subGroupMatch = sd.mission.match(/(?:^|[\s가-힣])([A-F])(?:\s*[\(\s]|$)/);
+            if (subGroupMatch) {
+              const label = subGroupMatch[1];
+              const existing = rInp.value ? rInp.value + ' ' : '';
+              rInp.value = existing + '공격대 ' + label;
+            }
+          }
           if (aSel) {
             let ac = acMap[sd.aircraft] || '';
             if (sd.aircraft === 'Helicopter') { ac = 'A-1H Skyraider [US]'; if (rInp) rInp.value = '헬리콥터'; }
