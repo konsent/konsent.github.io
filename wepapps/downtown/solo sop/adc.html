@@ -729,7 +729,7 @@
       const scenarioDisplay = document.getElementById('scenario-name-display');
       const scenarioInput   = document.getElementById('scenario-name-input');
 
-      const CALLSIGN_DATA = { "GMT_Downtown_Callsigns": { "USAF": [ { "aircraft": "F-4 Phantom II", "callsigns": ["Buick", "Cactus", "Chevy", "Denver", "Dingus", "Dodge", "Fletch", "Gambit", "Icebag", "Locust", "Nomad", "Oyster", "Olds", "Rambler", "Tampa", "Vegas", "Waco", "Zinc"] }, { "aircraft": "F-100 Super Sabre", "callsigns": ["Apple", "Spruce"] }, { "aircraft": "F-104 Starfighter", "callsigns": ["Falstaff", "Goose", "Leopard", "Lincoln", "Zebra"] }, { "aircraft": "F-105 Thunderchief", "callsigns": ["Basco", "Bison", "Brass", "Carbine", "Dallas", "Eagle", "Kite", "Laredo", "Magnum", "Pistol"] }, { "aircraft": "F-111 Aardvark", "callsigns": ["Condor", "Crow", "Hammer", "Jackal", "Pontiac", "Raccoon", "Slam", "Snug", "Suntan", "Tonto"] }, { "aircraft": "A-7 Corsair II", "callsigns": ["DeSoto", "Highball", "Hornet", "Pepper", "Pluto", "Sapphire", "Skipjack", "Sunglass", "Termite", "Vandal"] }, { "aircraft": "B-52", "callsigns": ["Aqua", "Ash", "Azure", "Black", "Blue", "Brick", "Bronze", "Brown", "Charcoal", "Cobalt", "Copper", "Cream", "Ebony", "Ginger", "Green", "Hazel", "Ivory", "Garnet", "Gold", "Gray", "Lilac", "Magnolia", "Olive", "Opal", "Orange", "Peach", "Purple", "Quartz", "Quilt", "Rainbow", "Red", "Rose", "Ruby", "Scarlet", "Snow", "Stone", "Straw", "Tan", "Walnut", "White"] }, { "aircraft": "RF-101 Voodoo", "callsigns": ["Buckshot", "Canyon"] }, { "aircraft": "EB-66 Destroyer", "callsigns": ["Cardinal", "Merco", "Teak", "Valent", "Wandes"] } ], "USN_USMC": [ { "aircraft": "F-4 Phantom II", "callsigns": ["Bandwagon", "Black Lion", "Clubleaf", "Dakota", "Harlow", "Jingle", "Killer", "Kingfish", "Linfield", "Old Nick", "Rock River", "Rootbeer", "Shamrock", "Showtime", "Silverkite"] }, { "aircraft": "F-8 Crusader", "callsigns": ["Bobbin", "Corktip", "Falcon", "Feedbag", "Firefighter", "Milkvine", "Nickel", "Page Boy", "Sheepdog", "Superheat"] }, { "aircraft": "A-4 Skyhawk", "callsigns": ["Bronco", "Bulldog", "Clansman", "Diamond", "Dogear", "Raider", "Redcock", "Saint", "Silverfox", "Stinger", "Ubangi", "Warhorse"] }, { "aircraft": "A-6 Intruder", "callsigns": ["Arab", "Bengal", "Boomer", "Chicago", "Ghost", "Knight", "Panther", "Phoenix", "Sword", "Viceroy"] }, { "aircraft": "A-7 Corsair II", "callsigns": ["Beefeater", "Busybee", "Champ", "Chippie", "Jason", "Jury", "Mace", "Royal", "Streetcar", "Warhawk"] }, { "aircraft": "RA-5 Vigilante", "callsigns": ["Giant", "Glenrock"] }, { "aircraft": "EF-10 Skynight", "callsigns": ["Cottonpicker", "Pigment"] }, { "aircraft": "EA-1 Skyraider", "callsigns": ["Knighthawk", "Zapper"] }, { "aircraft": "EA-6 Prowler", "callsigns": ["Battery", "Lancer", "Lizard", "Scorpion"] }, { "aircraft": "EKA-3 Skywarrior", "callsigns": ["Deep Sea", "Gunpowder"] } ], "CSAR": [ { "aircraft": "A-1 Skyraider (Sandy)", "callsigns": ["Sandy"] }, { "aircraft": "HC-130 Hercules (King)", "callsigns": ["King"] }, { "aircraft": "HH-3/HH-53 (Jolly Green)", "callsigns": ["Jolly Green"] }, { "aircraft": "HH-2/SH-3 (Big Mother)", "callsigns": ["Big Mother", "Clementine", "Priscilla"] } ] } };
+      const CALLSIGN_DATA = { "GMT_Downtown_Callsigns": { "USAF": [ { "aircraft": "F-4 Phantom II", "callsigns": ["Buick", "Cactus", "Chevy", "Denver", "Dingus", "Dodge", "Fletch", "Gambit", "Icebag", "Locust", "Nomad", "Oyster", "Olds", "Rambler", "Tampa", "Vegas", "Waco", "Zinc"] }, { "aircraft": "F-100 Super Sabre", "callsigns": ["Apple", "Spruce"] }, { "aircraft": "F-104 Starfighter", "callsigns": ["Falstaff", "Goose", "Leopard", "Lincoln", "Zebra"] }, { "aircraft": "F-105 Thunderchief", "callsigns": ["Basco", "Bison", "Brass", "Carbine", "Dallas", "Eagle", "Kite", "Laredo", "Magnum", "Pistol"] }, { "aircraft": "F-111 Aardvark", "callsigns": ["Condor", "Crow", "Hammer", "Jackal", "Pontiac", "Raccoon", "Slam", "Snug", "Suntan", "Tonto"] }, { "aircraft": "A-7 Corsair II", "callsigns": ["DeSoto", "Highball", "Hornet", "Pepper", "Pluto", "Sapphire", "Skipjack", "Sunglass", "Termite", "Vandal"] }, { "aircraft": "B-52", "callsigns": ["Aqua", "Ash", "Azure", "Black", "Blue", "Brick", "Bronze", "Brown", "Charcoal", "Cobalt", "Copper", "Cream", "Ebony", "Ginger", "Green", "Hazel", "Ivory", "Garnet", "Gold", "Gray", "Lilac", "Magnolia", "Olive", "Opal", "Orange", "Peach", "Purple", "Quartz", "Quilt", "Rainbow", "Red", "Rose", "Ruby", "Scarlet", "Snow", "Stone", "Straw", "Tan", "Walnut", "White"] }, { "aircraft": "RF-101 Voodoo", "callsigns": ["Buckshot", "Canyon"] }, { "aircraft": "EB-66 Destroyer", "callsigns": ["Cardinal", "Merco", "Teak", "Valent", "Wandes"] } ], "USN_USMC": [ { "aircraft": "F-4 Phantom II", "callsigns": ["Bandwagon", "Black Lion", "Clubleaf", "Dakota", "Harlow", "Jingle", "Killer", "Kingfish", "Linfield", "Old Nick", "Rock River", "Rootbeer", "Shamrock", "Showtime", "Silverkite"] }, { "aircraft": "F-8 Crusader", "callsigns": ["Bobbin", "Corktip", "Falcon", "Feedbag", "Firefighter", "Milkvine", "Nickel", "Page Boy", "Sheepdog", "Superheat"] }, { "aircraft": "A-4 Skyhawk", "callsigns": ["Bronco", "Bulldog", "Clansman", "Diamond", "Dogear", "Raider", "Redcock", "Saint", "Silverfox", "Stinger", "Ubangi", "Warhorse"] }, { "aircraft": "A-6 Intruder", "callsigns": ["Arab", "Bengal", "Boomer", "Chicago", "Ghost", "Knight", "Panther", "Phoenix", "Sword", "Viceroy"] }, { "aircraft": "A-7 Corsair II", "callsigns": ["Beefeater", "Busybee", "Champ", "Chippie", "Jason", "Jury", "Mace", "Royal", "Streetcar", "Warhawk"] }, { "aircraft": "RA-5 Vigilante", "callsigns": ["Giant", "Glenrock"] }, { "aircraft": "EF-10 Skynight", "callsigns": ["Cottonpicker", "Pigment"] }, { "aircraft": "EA-1 Skyraider", "callsigns": ["Knighthawk", "Zapper"] }, { "aircraft": "EA-6 Prowler", "callsigns": ["Battery", "Lancer", "Lizard", "Scorpion"] }, { "aircraft": "EKA-3 Skywarrior", "callsigns": ["Deep Sea", "Gunpowder"] } ], "CSAR": [ { "aircraft": "A-1 Skyraider (Sandy)", "callsigns": ["Sandy-1", "Sandy-2"] }, { "aircraft": "HC-130 Hercules (King)", "callsigns": ["King"] }, { "aircraft": "HH-3/HH-53 (Jolly Green)", "callsigns": ["Jolly Green"] }, { "aircraft": "HH-2/SH-3 (Big Mother)", "callsigns": ["Big Mother", "Clementine", "Priscilla"] } ] } };
 
       const AIRCRAFT_DATA = {
         // US Aircraft
@@ -862,6 +862,22 @@
           }
       }
 
+      function getUsedCallsigns(currentRow) {
+        const used = new Set();
+        document.querySelectorAll('#us-lead-table tbody tr, #us-main-table tbody tr, #us-trail-table tbody tr').forEach(r => {
+            // Skip the row being updated and any non-data rows (like the 'add' button row)
+            if (r === currentRow || !r.querySelector('td:nth-child(3)')) return; 
+            const callsignCell = r.querySelector('td:nth-child(3)');
+            if (callsignCell) {
+                const element = callsignCell.querySelector('select, input');
+                if (element && element.value) {
+                    used.add(element.value);
+                }
+            }
+        });
+        return used;
+      }
+
       function updateCallsign(row) {
         const isLoading = row.dataset.isLoading === 'true';
         const isDrv = row.closest('table').id === 'drv-table';
@@ -945,8 +961,18 @@
             } else if (options.includes(currentValue)) {
                 callsignSel.value = currentValue;
             } else if (!isLoading) {
-                const randomIndex = Math.floor(Math.random() * options.length);
-                callsignSel.selectedIndex = randomIndex;
+                const usedCallsigns = getUsedCallsigns(row);
+                let availableOptions = options.filter(c => !usedCallsigns.has(c));
+
+                // If all are used, fallback to the full list to allow duplicates
+                if (availableOptions.length === 0 && options.length > 0) {
+                    availableOptions = options;
+                }
+
+                if (availableOptions.length > 0) {
+                  const randomIndex = Math.floor(Math.random() * availableOptions.length);
+                  callsignSel.value = availableOptions[randomIndex];
+                }
             }
         } else {
             // Ensure we have a text input element

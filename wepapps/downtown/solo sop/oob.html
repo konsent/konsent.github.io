@@ -2034,7 +2034,11 @@ function generate() {
 
   document.getElementById('results').innerHTML = headerHtml + ssrNoteHtml + content;
 
-  localStorage.setItem('oobToAdcData', JSON.stringify(oobForAdc));
+  const dataForAdc = {
+    type: table,
+    squads: oobForAdc
+  };
+  localStorage.setItem('oobToAdcData', JSON.stringify(dataForAdc));
   document.getElementById('send-to-adc-btn').style.display = 'block';
   document.getElementById('print-btn').style.display = 'block';
 }
