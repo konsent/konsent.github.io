@@ -410,13 +410,13 @@
     <div class="field-group">
       <label class="field-label">편제표 / 공격대 유형</label>
       <select id="table-select" onchange="onTableChange()">
-        <option value="A">표 A — USAF 공격대 (롤링 선더 1965-68)</option>
-        <option value="B">표 B — USN 공격대 (롤링 선더 / 라인배커)</option>
+        <option value="A">표 A — USAF 공격대 (Rolling Thunder 1965-68)</option>
+        <option value="B">표 B — USN 공격대 (Rolling Thunder / Linebacker)</option>
         <option value="C_NAIL">표 C — USAF 야간/악천후: 코만도 네일</option>
         <option value="C_PAPA">표 C — USAF 야간/악천후: 코만도 네일 파파</option>
         <option value="C_CLUB">표 C — USAF 야간/악천후: 코만도 클럽</option>
         <option value="C_LORAN">표 C — USAF 야간/악천후: LORAN</option>
-        <option value="D">표 D — USAF 공격대 (라인배커 1972)</option>
+        <option value="D">표 D — USAF 공격대 (Linebacker 1972)</option>
         <option value="E_USAF">표 E — USAF CSAR</option>
         <option value="E_USN">표 E — USN CSAR</option>
       </select>
@@ -799,7 +799,7 @@ const SSR_DATA = {
       return { table: 'D', year: 1972, month: 5, variants: { d11fixed: true } };
     },
     rules: [
-      "USAF: 표준 라인배커 편제 불사용 — 사전/주요A/주요B/사후 고정 편제 사용",
+      "USAF: 표준 Linebacker 편제 불사용 — 사전/주요A/주요B/사후 고정 편제 사용",
       "사전: EB-66E×4(재밍) + F-4E×2(채프) + F-105G×4(SEAD) + F-4D×8(CAP)",
       "주요A·B: F-4D×4(폭격) + F-4E×1(CAP) + F-105G×4(SEAD) 각각",
       "사후: RF-4C×1(정찰) + F-4E×1(CAP)",
@@ -1957,10 +1957,10 @@ function generate() {
 
   let content = '';
   const tableLabels = {
-    A:'표 A — USAF 롤링 선더', B:'표 B — USN',
+    A:'표 A — USAF Rolling Thunder', B:'표 B — USN',
     C_NAIL:'표 C — 코만도 네일', C_PAPA:'표 C — 코만도 네일 파파',
     C_CLUB:'표 C — 코만도 클럽', C_LORAN:'표 C — LORAN',
-    D:'표 D — 라인배커 1972', E_USAF:'표 E — USAF CSAR', E_USN:'표 E — USN CSAR'
+    D:'표 D — Linebacker 1972', E_USAF:'표 E — USAF CSAR', E_USN:'표 E — USN CSAR'
   };
 
   // SSR
