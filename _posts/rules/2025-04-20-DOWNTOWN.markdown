@@ -25,6 +25,7 @@ Downtown: Air War Over Hanoi, 1965-1972
 - [솔로 규칙서 출처: BGG 포럼](/wepapps/downtown/solo sop/downtown_solo3_Kimi.html)
 - [솔로 규칙서 참조표 출처: BGG 포럼](/wepapps/downtown/solo sop/downtown_bot_aid_KOR_Kimi.html)
 - [전투 편제표 앱](/wepapps/downtown/solo sop/oob.html)
+- [공중전 참조표 앱](/wepapps/downtown/solo sop/aid.html)
 
 
 
