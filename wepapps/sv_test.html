@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f6f8;
+      color: #2c3e50;
+    }
+
+    .header {
+      background: #ffffff;
+      padding: 20px 30px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      display: flex;
+      justify-content: center;
+    }
+
+    .timeline-container {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      background: #fdfdfd;
+      padding: 10px 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+
+    .arrow {
+      background: #e9ecef;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: 0.2s;
+    }
+
+    .arrow:hover {
+      background: #d6d9dd;
+    }
+
+    select {
+      padding: 8px 14px;
+      border-radius: 8px;
+      border: 1px solid #d0d5da;
+      background: #ffffff;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    .content {
+      padding: 40px;
+      text-align: center;
+      font-size: 18px;
+      opacity: 0.7;
+    }
+    .base-btn, .btn {
+      background: #e9ecef;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 15px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .base-btn:hover, .btn:hover {
+      background: #d6d9dd;
+    }
+
+    .base-btn.active {
+      background: #2c3e50;
+      color: white;
+    }
+
+    #resultArea {
+      margin-top: 40px;
+      text-align: center;
+    }
+
+    .dice-result {
+      font-size: 20px;
+      margin-bottom: 10px;
+      opacity: 0.8;
+    }
+
+    .recon-result {
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+    /* 결과 fade-in */
+    .fade-in {
+      animation: fadeIn 0.4s ease forwards;
+      opacity: 0;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+    
+    @keyframes roll {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    /* 주사위 애니메이션 */
+    .dice-roll {
+      display: inline-block;
+      animation: roll 0.8s linear infinite;
+    }
+
+    @keyframes roll {
+      0% { transform: rotate(0deg) scale(1); }
+      50% { transform: rotate(180deg) scale(1.3); }
+      100% { transform: rotate(360deg) scale(1); }
+    }
+
+    /* 결과 스타일 */
+    .dice-result {
+      font-size: 20px;
+      margin-bottom: 10px;
+      opacity: 0.8;
+    }
+
+    .recon-result {
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    /* 로그 영역 */
+    #logArea {
+      margin-top: 30px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+      font-size: 14px;
+      opacity: 0.75;
+    }
+
+    .log-entry {
+      padding: 8px 0;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    .tab-container {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .tab-btn {
+      padding: 8px 16px;
+      border: none;
+      background: #e9ecef;
+      margin: 0 5px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .tab-btn.active {
+      background: #2c3e50;
+      color: white;
+    }
+
+    .tab-content {
+      display: none;
+      margin-top: 30px;
+      text-align: center;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .action-button {
+      background-color: #e9ecef;
+      color: black;
+      border: none;
+      padding: 10px 18px;
+      font-size: 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .action-button:hover {
+      background-color: #34495e;
+      color: white;
+    }
+
+    .action-button:active {
+      transform: scale(0.96);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.25) inset;
+    }
+
+    @keyframes softShake {
+      0%   { transform: translateX(0) rotate(0deg); }
+      25%  { transform: translateX(-2px) rotate(-1deg); }
+      50%  { transform: translateX(2px) rotate(1deg); }
+      75%  { transform: translateX(-1px) rotate(-0.5deg); }
+      100% { transform: translateX(0) rotate(0deg); }
+    }
+
+    .shake-loading {
+      display: inline-block;
+      animation: softShake 0.6s ease-in-out infinite;
+    }
+
+    /* 트랙 그리드 & 셀 */
+    .track-grid {
+      display: grid;
+      grid-template-columns: repeat(9, 1fr);
+      gap: 6px;
+      margin-top: 15px;
+    }
+
+    .track-cell {
+      background: #f4f6f8;
+      padding: 10px 4px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      text-align: center;
+      cursor: default;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+    }
+
+    .track-cell.active {
+      background: linear-gradient(135deg, #2c3e50, #34495e);
+      color: white !important;
+      transform: scale(1.08);
+      box-shadow: 0 4px 12px rgba(44, 62, 80, 0.4);
+      border-color: #3498db;
+      animation: pulse 0.6s ease-in-out;
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 4px 12px rgba(44, 62, 80, 0.4); }
+      50% { box-shadow: 0 6px 20px rgba(52, 73, 94, 0.6); }
+      100% { box-shadow: 0 4px 12px rgba(44, 62, 80, 0.4); }
+    }
+
+    /* 정찰 박스 */
+    .recon-box {
+      background: #ffffff;
+      padding: 18px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      margin-bottom: 20px;
+    }
+
+    /* 모달 */
+    .completion-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-content {
+      background: linear-gradient(135deg, #ffffff, #f8f9fa);
+      padding: 40px;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      max-width: 400px;
+      animation: modalPop 0.4s ease-out;
+    }
+
+    @keyframes modalPop {
+      from { transform: scale(0.7) rotate(-5deg); opacity: 0; }
+      to { transform: scale(1) rotate(0deg); opacity: 1; }
+    }
+
+    .modal-content h2 {
+      margin: 0 0 15px 0;
+      color: #2c3e50;
+      font-size: 28px;
+    }
+
+    .modal-content p {
+      margin: 0 0 30px 0;
+      font-size: 16px;
+      color: #5a6c7d;
+      line-height: 1.5;
+    }
+
+    /* 완료된 트랙 셀 */
+    .track-cell.completed {
+      background: linear-gradient(135deg, #27ae60, #2ecc71);
+      color: white !important;
+      border-color: #27ae60;
+      transform: scale(1.02);
+    }
+
+    .track-cell.active {
+      z-index: 2; /* active 우선 */
+    }
+
+    /* active + completed (발생 안 함, but 대비) */
+    .track-cell.active.completed {
+      background: linear-gradient(135deg, #2c3e50, #34495e);
+      border-color: #3498db;
+    }
+
+    /* 게임오버 모달 */
+    .gameover-modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.7);
+      z-index: 10000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .gameover-content {
+      background: #2c3e50;
+      color: white;
+      padding: 40px 50px;
+      border-radius: 16px;
+      text-align: center;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+      max-width: 420px;
+    }
+
+    .gameover-content h2 {
+      margin: 0 0 20px;
+      font-size: 32px;
+      color: #e74c3c;
+    }
+
+    .gameover-content p {
+      margin: 0 0 30px;
+      font-size: 18px;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="header">
+    <div class="timeline-container">
+      <button class="arrow" onclick="prevMonth()">◀</button>
+      <select id="monthSelect"></select>
+      <button class="arrow" onclick="nextMonth()">▶</button>
+    </div>
+  </div>
+
+  <!-- <div class="content" id="contentArea">
+    선택된 월의 데이터를 여기에 표시합니다.
+  </div> -->
+
+  <!-- 기지 선택 -->
+  <div class="header">
+    <div class="timeline-container">
+      <div style="font-weight:600; font-size:15px; color:#2c3e50;">기지 선택</div>
+      <button class="base-btn" onclick="selectBase('호주')">호주</button>
+      <button class="base-btn" onclick="selectBase('필리핀')">필리핀</button>
+      <button class="base-btn" onclick="selectBase('진주만')">진주만</button>
+    </div>
+  </div>
+
+  <!-- 작전 실행 -->
+  <div class="header">
+    <div class="timeline-container">
+      <button id="reconStartBtn" class="action-button" onclick="checkRecon()">정찰 구역 확인</button>
+      <div style="display:flex; align-items:center; margin-left:12px;">
+        <input type="checkbox" id="manualReconToggle" onchange="toggleManualRecon()" style="cursor:pointer; width:16px; height:16px;">
+        <label for="manualReconToggle" style="margin-left:6px; cursor:pointer; font-size:14px; user-select:none;">구역 직접 선택</label>
+      </div>
+      <select id="reconZoneSelect" style="display:none; margin-left:10px; padding:6px; border-radius:6px; min-width:150px;"></select>
+      <button id="missionBtn" class="action-button" onclick="startOrNextMission()" style="display:none;">정찰 시작</button>
+      <label id="sjToggleContainer" style="display:none; margin-left:10px;">
+        <input type="checkbox" id="sjToggle">
+        SJ 레이더 사용 가능
+      </label>
+      <button id="extraBattleBtn" class="action-button"
+              onclick="startExtraBattle()"
+              style="display:none; background:#8e44ad; color:white;">
+        추가 전투 라운드
+      </button>
+      <button id="sinkBtn" class="action-button" onclick="showGameOverModal()" style="background:#c0392b; color:white; display:none;">
+        침몰/자침/포로
+      </button>
+      <button id="damageBtn" class="action-button" onclick="checkDamage()" style="background:#e67e22; color:white; display:none; margin-left:5px;">
+        피해 범위 확인
+      </button>
+    </div>
+  </div>
+  
+
+  <!-- 탭 버튼 -->
+  <!-- <div class="tab-container">
+    <button class="tab-btn active" onclick="switchTab('recon')">정찰 구역</button>
+    <button class="tab-btn" onclick="switchTab('encounter')">조우 결과</button>
+  </div>
+
+  <div id="reconTab" class="tab-content active"></div>
+  <div id="encounterTab" class="tab-content"></div>
+
+  <div id="logArea"></div> -->
+  <!-- 결과 통합 영역 -->
+  <div id="resultArea" style="margin-top:40px; text-align:center;"></div>
+  <div id="logArea"></div>
+
+<!-- 결과 표시 -->
+<!-- <div class="content" id="resultArea"></div> -->
+<div id="resultArea"></div>
+<div id="logArea"></div>
+
+<script>
+
+  const startDate = new Date(1941, 11); // 1941 Dec
+  const endDate = new Date(1945, 5);    // 1945 Ju
+  const trackPositions = [0, 1, 2, 3, 4, 4, 5, 6, 7, 8];
+  const months = [];
+  // 버튼 요소들 캐싱
+  const reconBtn = document.getElementById('reconStartBtn');
+  const missionBtn = document.getElementById('missionBtn');
+  const sinkBtn    = document.getElementById('sinkBtn');
+  const damageBtn  = document.getElementById('damageBtn');
+
+  let randomEventTriggeredZones = {};
+  let currentTrack = [];
+  let currentActiveCellIdx = -1;
+  let currentEncounterIndex = 0;
+  let isMissionStarted = false;
+  let currentActiveCell = -1;   // 현재 강조(선택)된 칸 인덱스 (-1 = 없음)
+  let currentIndex = 0;
+  let lastReconZone = null;
+  let encounterHistoryByCell = {}; // 🔥 각 트랙 칸별 조우 기록 저장
+  let extraBattleHistoryByCell = {}; // 🔥 추가 전투 누적 저장
+
+  // 🔥 공통 에러 핸들러
+  function handleServerError(error) {
+    console.error(error);
+    alert("서버 통신 중 오류가 발생했습니다: " + error.message);
+    // 버튼 로딩 상태 해제 등의 로직이 필요할 수 있음
+    document.querySelectorAll('.action-button').forEach(btn => btn.disabled = false);
+  }
+  
+
+  // 🔥 현재 트랙 칸 인덱스
+  function getCurrentTrackCell() {
+    if (currentEncounterIndex >= 10) return -1;
+    return trackPositions[currentEncounterIndex];
+  }
+
+  // 🔥 트랙 그리드 렌더 (activeIdx: 현재 active 칸)
+  function renderTrackGrid(activeIdx = -1) {
+
+    let trackHTML = '<div class="track-grid">';
+
+    currentTrack.forEach((cell, idx) => {
+
+      const required = (idx === 4) ? 2 : 1;
+      const completedCount = trackPositions
+        .slice(0, currentEncounterIndex)
+        .filter(p => p === idx).length;
+
+      const isCompleted = completedCount >= required;
+      const isActive = (idx === activeIdx);
+
+      let className = 'track-cell';
+      if (isActive) className += ' active';
+      if (isCompleted) className += ' completed';
+
+      let displayText = isCompleted ? `✓ ${cell}` : cell;
+
+      trackHTML += `
+        <div class="${className}">
+          ${displayText}
+        </div>
+      `;
+    });
+
+    trackHTML += '</div>';
+
+    // 🔥 ===== 조우 로그 행 추가 =====
+    trackHTML += '<div class="track-grid">';
+
+    currentTrack.forEach((cell, idx) => {
+      let encounter = encounterHistoryByCell[idx] || '';let baseEncounter = encounterHistoryByCell[idx] || '';
+      let extraEncounter = extraBattleHistoryByCell[idx] || [];
+
+      let htmlContent = '';
+
+      if (Array.isArray(baseEncounter)) {
+        htmlContent += baseEncounter.join('<br>');
+      } else if (baseEncounter) {
+        htmlContent += baseEncounter;
+      }
+
+      if (extraEncounter.length > 0) {
+        if (htmlContent !== '') htmlContent += '<br>';
+        htmlContent += extraEncounter.join('<br>');
+      }
+
+      if (Array.isArray(encounter)) {
+        encounter = encounter.join('<br>');
+      }
+      trackHTML += `
+        <div class="track-cell" style="background:#ffffff; font-size:12px; font-weight:500; min-height:38px;">
+          ${htmlContent}
+        </div>
+      `;
+    });
+
+    trackHTML += '</div>';
+
+    return trackHTML;
+  }
+  // 🔥 정찰 영역 전체 렌더 (activeIdx 받음)
+  function renderReconArea(activeIdx = -1) {
+    const trackHTML = renderTrackGrid(activeIdx);
+    return `
+      <div class="recon-box">
+        <div style="font-size:15px; opacity:0.7; margin-bottom:8px;">
+          현재 정찰 구역
+        </div>
+        <div style="font-size:24px; font-weight:700; margin-bottom:12px;">
+          ${lastReconZone}
+        </div>
+        ${trackHTML}
+      </div>
+    `;
+  }
+
+  // 🔥 모달 함수들
+  function showCompletionModal() {
+    document.getElementById('completionModal').style.display = 'flex';
+  }
+
+  // 🔥 모달 close: UI 클리어
+  function closeCompletionModal() {
+    // 모달 닫기
+    document.getElementById('completionModal').style.display = 'none';
+
+    // ===== 게임 상태 완전 초기화 =====
+    currentTrack = [];
+    currentEncounterIndex = 0;
+    lastReconZone = null;
+    isMissionStarted = false;
+    currentActiveCell = -1;
+    randomEventTriggeredZones = {};
+
+    // ===== 버튼 상태 초기화 =====
+    reconBtn.style.display = 'inline-block';   // 정찰 구역 확인 버튼 다시 표시
+    missionBtn.style.display = 'none';         // 다음 구역 버튼 숨김
+    extraBattleBtn.style.display = 'none';
+    missionBtn.innerText = '정찰 시작';
+    missionBtn.disabled = false;
+    sinkBtn.style.display = 'none';            // 침몰 버튼 숨김
+    damageBtn.style.display = 'none';          // 피해 버튼 숨김
+
+    // ===== UI 영역 초기화 =====
+    document.getElementById('resultArea').innerHTML = '';
+    document.getElementById('logArea').innerHTML = '';
+  }
+
+  function generateMonths() {
+    let date = new Date(startDate);
+
+    while (date <= endDate) {
+      const label = `${date.getFullYear()}년 ${date.getMonth() + 1}월`;
+      months.push(label);
+      date.setMonth(date.getMonth() + 1);
+    }
+  }
+
+  function populateDropdown() {
+    const select = document.getElementById('monthSelect');
+
+    months.forEach((m, i) => {
+      const option = document.createElement('option');
+      option.value = i;
+      option.text = m;
+      select.appendChild(option);
+    });
+
+    select.addEventListener('change', function() {
+      currentIndex = parseInt(this.value);
+      updateDisplay();
+    });
+  }
+
+  function updateDisplay() {
+    document.getElementById('monthSelect').value = currentIndex;
+    // 수동 모드 활성화 시 목록 갱신
+    if (document.getElementById('manualReconToggle') && document.getElementById('manualReconToggle').checked) {
+      loadManualZones();
+    }
+  }
+
+  function prevMonth() {
+    if (currentIndex > 0) {
+      currentIndex--;
+      updateDisplay();
+    }
+  }
+
+  function rollD6(){
+    return Math.floor(Math.random()*6) + 1;
+  }
+
+  function nextMonth() {
+    if (currentIndex < months.length - 1) {
+      currentIndex++;
+      updateDisplay();
+    }
+  }
+
+  generateMonths();
+  populateDropdown();
+  updateDisplay();
+
+  let selectedBase = null;
+
+  function selectBase(base){
+    selectedBase = base;
+    document.querySelectorAll('.base-btn').forEach(b=>b.classList.remove('active'));
+    event.target.classList.add('active');
+    // 수동 모드 활성화 시 목록 갱신
+    if (document.getElementById('manualReconToggle') && document.getElementById('manualReconToggle').checked) {
+      loadManualZones();
+    }
+  }
+
+  // 정찰 구역 확인 (기존 checkRecon 수정)
+  function checkRecon() {
+    const resultArea = document.getElementById('resultArea');
+    resultArea.innerHTML = "";
+
+    if (!selectedBase) {
+      resultArea.innerHTML = `<div style="color:#c0392b; font-weight:600;">기지를 먼저 선택하세요.</div>`;
+      return;
+    }
+
+    randomEventTriggeredZones = {};
+    currentEncounterIndex = 0;
+    currentTrack = [];
+    isMissionStarted = false;
+    currentActiveCell = -1;
+    encounterHistoryByCell = {}; // 🔥 추가
+    extraBattleHistoryByCell = {}; // 🔥 추가
+
+    const displayMonth = months[currentIndex];
+    const chartMonth = convertToChartHeader(displayMonth);
+
+    // 공통 처리 함수 (트랙 수신 후)
+    const handleTrackResult = (track, rollVal, zoneName) => {
+      currentTrack = track;
+
+      // 정찰 완료 → mission 버튼 보이기
+      missionBtn.style.display = 'inline-block';
+      missionBtn.innerText = '정찰 시작';
+      missionBtn.disabled = false;
+      updateSJToggleVisibility();
+
+      // recon 버튼 숨기기
+      reconBtn.style.display = 'none';
+      // 수동 선택 UI 숨기기 (깔끔하게)
+      document.getElementById('manualReconToggle').parentElement.style.display = 'none';
+      document.getElementById('reconZoneSelect').style.display = 'none';
+
+      resultArea.innerHTML = renderReconArea(-1) + '<div id="encounterContainer"></div>';
+      addLog(displayMonth, selectedBase, rollVal, zoneName, true);
+    };
+
+    // 🔥 수동 선택 모드인지 확인
+    const isManual = document.getElementById('manualReconToggle').checked;
+
+    if (isManual) {
+      const selectedZone = document.getElementById('reconZoneSelect').value;
+      if (!selectedZone || selectedZone === "로딩중...") {
+        alert("구역을 선택해주세요.");
+        return;
+      }
+      lastReconZone = selectedZone;
+      
+      // 로딩 표시
+      resultArea.innerHTML = `<div class="shake-loading" style="font-size:24px;">⏳</div>`;
+
+      google.script.run.withFailureHandler(handleServerError).withSuccessHandler(track => {
+        handleTrackResult(track, "-", selectedZone + " (수동 선택)");
+      }).getTransitTrack(selectedZone);
+
+    } else {
+      // 기존 랜덤 로직
+      resultArea.innerHTML = `<div class="dice-result dice-roll">🎲</div>`;
+
+      setTimeout(() => {
+        google.script.run.withFailureHandler(handleServerError).withSuccessHandler(roll => {
+          google.script.run.withFailureHandler(handleServerError).withSuccessHandler(result => {
+            lastReconZone = result;
+            google.script.run.withFailureHandler(handleServerError).withSuccessHandler(track => {
+              handleTrackResult(track, roll, result);
+            }).getTransitTrack(result);
+          }).getReconResult(selectedBase, chartMonth, roll);
+        }).rollDice();
+      }, 300);
+    }
+  }
+
+  function renderEncounterResult(roll, result, displayMonth, currentCellName, currentCellIdx, shouldAdvance = true) {
+
+    document.getElementById("encounterContainer").innerHTML = `
+      <div style="background:#fdfdfd; padding:18px; border-radius:12px; 
+                  box-shadow:0 4px 12px rgba(0,0,0,0.06); margin-top:10px;">
+        <div class="dice-result">🎲 ${roll}</div>
+        <div class="recon-result">${result}</div>
+      </div>
+    `;
+
+    addLog(displayMonth, selectedBase, roll, result, false, currentCellName);
+
+    // ★ 5번째 칸 누적
+    if (currentCellIdx === 4) {
+      if (!encounterHistoryByCell[4]) {
+        encounterHistoryByCell[4] = [];
+      }
+      encounterHistoryByCell[4].push(result);
+    } else {
+      encounterHistoryByCell[currentCellIdx] = result;
+    }
+
+    if (shouldAdvance) {
+      currentEncounterIndex++;
+      finishMissionStep();
+    }
+  }
+
+
+  function startOrNextMission() {
+
+    if (currentEncounterIndex >= 10) {
+      showCompletionModal();
+      return;
+    }
+
+    if (!lastReconZone || currentTrack.length === 0) {
+      document.getElementById('resultArea').innerHTML =
+        `<div style="color:#c0392b; font-weight:600; font-size:16px;">
+          먼저 정찰 구역을 확인하세요.
+        </div>`;
+      return;
+    }
+
+    const btn = missionBtn;
+
+    if (!isMissionStarted) {
+      isMissionStarted = true;
+      btn.innerText = '다음 구역으로 이동';
+      sinkBtn.style.display = 'inline-block';
+      damageBtn.style.display = 'inline-block';
+      document.getElementById('extraBattleBtn').style.display = 'inline-block';
+    }
+
+    btn.disabled = true;
+    btn.innerHTML = '<span class="shake-loading">⏳</span>';
+
+    const currentCellIdx = trackPositions[currentEncounterIndex];
+    const currentCellName = currentTrack[currentCellIdx];
+    const displayMonth = months[currentIndex];
+
+    const originalZone = lastReconZone || '';
+    const cleanZone = originalZone.replace(/\s-\s[A-Z]$/, '').trim();
+    const hasSpecialSuffix = /\s-\s[A-Z]$/.test(originalZone);
+
+    currentActiveCell = currentCellIdx;
+
+    document.getElementById('resultArea').innerHTML =
+      renderReconArea(currentActiveCell) +
+      `
+      <div id="encounterContainer">
+        <div class="fade-in">
+          <div class="dice-result dice-roll">🎲</div>
+        </div>
+      </div>
+    `;
+
+    google.script.run.withFailureHandler(handleServerError).withSuccessHandler(function(firstRoll) {
+
+      const useSpecial = hasSpecialSuffix && currentCellIdx === 2;
+      const isBasicEncounter = !useSpecial;
+
+      function processRoll(roll, isSecondRoll) {
+
+        const sjToggle = document.getElementById('sjToggle');
+        const sjOn = sjToggle && sjToggle.checked;
+
+        const allowExtraRoll =
+          !isSecondRoll &&
+          Number(roll) === 5 &&
+          isSJAvailable() &&
+          sjOn;
+
+        function renderAndMaybeFinish(resultText) {
+
+          // 🔥 SJ 추가 굴림(allowExtraRoll)이 예정되어 있다면 트랙을 전진시키지 않음
+          const shouldAdvance = !allowExtraRoll;
+
+          renderEncounterResult(
+            roll,
+            resultText,
+            displayMonth,
+            currentCellName,
+            currentCellIdx,
+            shouldAdvance
+          );
+
+          // 🔥 두 번째 굴림이면 절대 이동 안 함
+          if (isSecondRoll) return;
+
+          if (allowExtraRoll) {
+            // 🔥 [수정] SJ 레이더 발동 시각적 피드백 추가
+            const container = document.getElementById("encounterContainer");
+            container.innerHTML += `
+              <div class="fade-in" style="margin-top:12px; color:#2980b9; font-weight:700; font-size:18px;">
+                📡 SJ 레이더 가동!
+              </div>
+            `;
+            setTimeout(() => {
+              google.script.run.withFailureHandler(handleServerError).withSuccessHandler(function(secondRoll) {
+                processRoll(secondRoll, true);
+              }).rollDice();
+            }, 1200);
+            return;
+          }
+        }
+
+        if (isBasicEncounter &&
+            Number(roll) === 12 &&
+            !randomEventTriggeredZones[cleanZone]) {
+
+          randomEventTriggeredZones[cleanZone] = true;
+
+          google.script.run.withFailureHandler(handleServerError).withSuccessHandler(function(randomRoll) {
+            google.script.run.withFailureHandler(handleServerError).withSuccessHandler(function(randomResult) {
+              const parts = randomResult.split("\n");
+              const eventName = parts[0];
+              const eventDesc = parts.slice(1).join("<br>");
+
+              let extraResultHTML = "";
+              let extraLogText = "";
+
+              if (Number(randomRoll) === 2) {
+                const extraRoll = Math.floor(Math.random() * 6) + 1;
+                let crewResult = (extraRoll === 1) ? "함장 실종 (게임 종료)" : (extraRoll === 2) ? "부함장 실종" : (extraRoll === 3) ? "기관장 실종" : "3등 항해사";
+                extraResultHTML = `<div class="dice-result" style="margin-top:10px;">🎲 추가 ${extraRoll}</div><div style="margin-top:6px;">→ ${crewResult}</div>`;
+                extraLogText = ` | ${crewResult}`;
+              }
+              if (Number(randomRoll) === 6) {
+                const extraRoll = Math.floor(Math.random() * 6) + 1;
+                let medicalResult = (extraRoll <= 3) ? "환자가 생존함 (의무병이 전문가가 됨)" : (extraRoll <= 5) ? "환자가 생존함" : "환자 사망";
+                extraResultHTML = `<div class="dice-result" style="margin-top:10px;">🎲 추가 ${extraRoll}</div><div style="margin-top:6px;">→ ${medicalResult}</div>`;
+                extraLogText = ` | ${medicalResult}`;
+              }
+
+              document.getElementById("encounterContainer").innerHTML = `
+                <div style="background:#fdfdfd; padding:18px; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.06); margin-top:10px;">
+                  <div class="dice-result">🎲 ${roll}</div>
+                  <div class="recon-result">Random Event</div>
+                </div>
+                <div style="background:#fff8f6; padding:18px; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.06); margin-top:15px;">
+                  <div style="color:#c0392b; font-weight:700; font-size:18px;">⚠ 랜덤 이벤트 발생!</div>
+                  <div class="dice-result">🎲 ${randomRoll}</div>
+                  <div style="font-weight:700; font-size:20px; margin-top:10px;">${eventName}</div>
+                  <div style="margin-top:8px; font-size:15px; font-weight:400; line-height:1.5;">${eventDesc}</div>
+                  ${extraResultHTML}
+                </div>
+              `;
+
+              addLog(displayMonth, selectedBase, roll, `Random Event | ${eventName}${extraLogText}`, false, currentCellName);
+              
+              if (currentCellIdx === 4) {
+                if (!encounterHistoryByCell[4]) encounterHistoryByCell[4] = [];
+                encounterHistoryByCell[4].push("Random Event");
+              } else {
+                encounterHistoryByCell[currentCellIdx] = "Random Event";
+              }
+              
+              currentEncounterIndex++;
+              finishMissionStep();
+
+            }).getRandomEvent(randomRoll);
+          }).rollDice();
+
+          return;
+        }
+
+        if (useSpecial) {
+
+          google.script.run.withFailureHandler(handleServerError).withSuccessHandler(function(result) {
+
+            if (isEarlyWar() && result.includes("— (SJ)")) {
+              result = "—";
+            }
+
+            // 1945년 예외 처리: *로 끝나는 경우 조우 없음 처리
+            if (displayMonth.includes("1945") && result.trim().endsWith("*")) {
+              result = "—";
+            }
+
+            // renderEncounterResult(
+            //   roll,
+            //   result,
+            //   displayMonth,
+            //   currentCellName,
+            //   currentCellIdx
+            // );
+
+            // finalizeStep();
+
+            renderAndMaybeFinish(result);
+
+          }).getSpecialEncounterResult(roll);
+
+        } else {
+
+          google.script.run.withFailureHandler(handleServerError).withSuccessHandler(function(result) {
+
+            if (isEarlyWar() && result.includes("— (SJ)")) {
+              result = "—";
+            }
+
+            // 1945년 예외 처리: *로 끝나는 경우 조우 없음 처리
+            if (displayMonth.includes("1945") && result.trim().endsWith("*")) {
+              result = "—";
+            }
+
+            renderAndMaybeFinish(result);
+
+            // renderEncounterResult(
+            //   roll,
+            //   result,
+            //   displayMonth,
+            //   currentCellName,
+            //   currentCellIdx
+            // );
+
+            // finalizeStep();
+
+          }).getEncounterResult(cleanZone, roll);
+        }
+      }
+
+      processRoll(firstRoll, false);
+
+    }).rollDice();
+  }
+
+  // finishMissionStep() 전체 교체 (결과 후 active 유지, 초록은 다음 버튼에서)
+  function finishMissionStep() {
+    const encounterHTML = document.getElementById('encounterContainer').outerHTML;
+
+    // ★★★ 결과 후: active (남색) 유지, 초록은 버튼 누를 때 반영
+    document.getElementById('resultArea').innerHTML = renderReconArea(currentActiveCell) + encounterHTML;
+
+    if (currentEncounterIndex >= 10) {
+
+      // 마지막 조우 완료 → active 제거
+      currentActiveCell = -1;
+      document.getElementById('resultArea').innerHTML =
+        renderReconArea(-1) + encounterHTML;
+
+      // 🔥 버튼을 "정찰 완료"로 변경
+      missionBtn.innerText = '정찰 완료';
+      missionBtn.disabled = false;
+      missionBtn.innerHTML = '정찰 완료';
+
+      return; // 자동 모달 제거
+    }
+
+    setTimeout(() => {
+      missionBtn.disabled = false;
+      missionBtn.innerHTML = isMissionStarted ? '다음 구역으로 이동' : '정찰 시작';
+    }, 1200);
+  }
+
+
+  // 게임 오버 모달
+  function showGameOverModal() {
+    const modal = document.createElement('div');
+    modal.className = 'gameover-modal';
+    modal.innerHTML = `
+      <div class="gameover-content">
+        <h2>GAME OVER</h2>
+        <p>잠수함이 침몰/자침/포로가 되었습니다...<br>이번 작전은 실패입니다.</p>
+        <button class="action-button" onclick="resetAndReload()" style="background:#e74c3c; color:white; padding:14px 32px; font-size:18px;">
+          새 작전 시작
+        </button>
+      </div>
+    `;
+    document.body.appendChild(modal);
+    modal.style.display = 'flex';
+  }
+
+  // 새로 추가: 확실한 리셋 + reload
+  function resetAndReload() {
+
+    // ===== 상태 초기화 =====
+    currentTrack = [];
+    currentEncounterIndex = 0;
+    lastReconZone = null;
+    isMissionStarted = false;
+    currentActiveCell = -1;
+    randomEventTriggeredZones = {};
+    selectedBase = null;
+
+    // ===== 버튼 초기화 =====
+    reconBtn.style.display = 'inline-block';
+    missionBtn.style.display = 'none';
+    extraBattleBtn.style.display = 'none';
+    // 수동 선택 UI 다시 보이기
+    document.getElementById('manualReconToggle').parentElement.style.display = 'flex';
+    if(document.getElementById('manualReconToggle').checked) document.getElementById('reconZoneSelect').style.display = 'inline-block';
+    
+    missionBtn.innerText = '정찰 시작';
+    missionBtn.disabled = false;
+    sinkBtn.style.display = 'none';
+    damageBtn.style.display = 'none';
+
+    // ===== 기지 버튼 active 제거 =====
+    document.querySelectorAll('.base-btn')
+      .forEach(b => b.classList.remove('active'));
+
+    // ===== UI 초기화 =====
+    document.getElementById('resultArea').innerHTML = '';
+    document.getElementById('logArea').innerHTML = '';
+
+    // ===== 게임오버 모달 제거 =====
+    const modal = document.querySelector('.gameover-modal');
+    if (modal) modal.remove();
+  }
+
+  function isSJAvailable() {
+    const displayMonth = months[currentIndex];
+    const [yearStr, monthStr] = displayMonth.replace("년","").replace("월","").split(" ");
+    const year = parseInt(yearStr);
+    const month = parseInt(monthStr);
+
+    return (year > 1942) || (year === 1942 && month >= 7);
+  }
+
+  function isEarlyWar() {
+    const displayMonth = months[currentIndex];
+    const [yearStr, monthStr] = displayMonth.replace("년","").replace("월","").split(" ");
+    const year = parseInt(yearStr);
+    const month = parseInt(monthStr);
+
+    return (year === 1941 && month === 12) ||
+          (year === 1942 && month <= 6);
+  }
+
+  function updateSJToggleVisibility() {
+    const toggle = document.getElementById('sjToggleContainer');
+
+    if (isSJAvailable()) {
+      toggle.style.display = 'inline-block';
+    } else {
+      toggle.style.display = 'none';
+      document.getElementById('sjToggle').checked = false;
+    }
+  }
+
+  function convertToChartHeader(displayMonth){
+    const [year, month] = displayMonth.replace("년","").replace("월","").split(" ");
+    const m = parseInt(month);
+
+    if(year == 1941) return "1941 Dec";
+    if(year == 1942 && m <= 6) return "1942 Jan - Jun";
+    if(year == 1942) return "1942 Jul - Dec";
+    if(year == 1943 && m <= 6) return "1943 Jan - Jun";
+    if(year == 1943) return "1943 Jul - Dec";
+    if(year == 1944 && m <= 6) return "1944 Jan - Jun";
+    if(year == 1944) return "1944 Jul - Dec";
+    if(year == 1945) return "1945 Jan - Jun";
+  }
+
+  // 🔥 로그 업그레이드 (isRecon=true: Transit | , 조우: cell(Mission) | )
+  function addLog(month, base, roll, result, isRecon = false, trackCell = null) {
+    const logArea = document.getElementById('logArea');
+    let prefix = '';
+    if (isRecon) {
+      prefix = 'Transit | ';
+    } else if (trackCell !== null) {
+      prefix = `${trackCell} | `;
+    }
+    const entry = document.createElement('div');
+    entry.className = 'log-entry';
+    entry.innerText = `${month} | ${base} | ${prefix}🎲 ${roll} → ${result}`;
+    logArea.prepend(entry);
+  }
+
+
+  function switchTab(tab){
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+
+    if(tab === 'recon'){
+      document.querySelectorAll('.tab-btn')[0].classList.add('active');
+      document.getElementById('reconTab').classList.add('active');
+    } else {
+      document.querySelectorAll('.tab-btn')[1].classList.add('active');
+      document.getElementById('encounterTab').classList.add('active');
+    }
+  }
+
+  function startExtraBattle() {
+
+    if (currentEncounterIndex >= 10) return;
+    if (!lastReconZone || currentTrack.length === 0) return;
+
+    const currentCellIdx = trackPositions[currentEncounterIndex - 1];
+
+    if (currentCellIdx === undefined) return;
+
+    const displayMonth = months[currentIndex];
+    const cleanZone = (lastReconZone || '').replace(/\s-\s[A-Z]$/, '').trim();
+
+    const btn = document.getElementById('extraBattleBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="shake-loading">⏳</span>';
+
+    google.script.run.withFailureHandler(handleServerError).withSuccessHandler(function(data) {
+
+      const roll = data.roll;
+      const result = data.result;
+
+      if (!extraBattleHistoryByCell[currentCellIdx]) {
+        extraBattleHistoryByCell[currentCellIdx] = [];
+      }
+
+      extraBattleHistoryByCell[currentCellIdx].push(result);
+
+      addLog(displayMonth, selectedBase, roll, result + " (추가 전투)", false, currentTrack[currentCellIdx]);
+
+      document.getElementById('resultArea').innerHTML =
+        renderReconArea(currentActiveCell);
+
+      btn.disabled = false;
+      btn.innerText = '추가 전투 라운드';
+
+    }).getExtraEncounterResult();
+  }
+
+  // 🔥 피해 범위 확인 함수
+  function checkDamage() {
+    const btn = document.getElementById('damageBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="shake-loading">⏳</span>';
+
+    google.script.run.withFailureHandler(handleServerError).withSuccessHandler(function(data) {
+      const roll = data.roll;
+      const result = data.result;
+      const details = data.details;
+
+      // 결과 HTML 생성
+      let detailHtml = '';
+      if (details && details.length > 0) {
+        detailHtml = `<div style="margin-top:8px; font-size:15px; color:#c0392b;">${details.join('<br>')}</div>`;
+      }
+
+      const resultHtml = `
+        <div style="background:#fff3cd; padding:18px; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.06); margin-top:15px; border:1px solid #ffeeba;">
+          <div style="color:#d35400; font-weight:700; font-size:18px;">💥 피해 발생 확인</div>
+          <div class="dice-result">🎲 ${roll}</div>
+          <div class="recon-result">${result}</div>
+          ${detailHtml}
+        </div>
+      `;
+
+      document.getElementById('resultArea').insertAdjacentHTML('beforeend', resultHtml);
+      
+      // 로그 기록 (상세 내용이 있으면 괄호 안에 포함)
+      const logText = details.length > 0 ? `${result} (${details.join(', ')})` : result;
+      addLog(months[currentIndex], selectedBase, roll, logText + " [Damage]", false, "피해 판정");
+
+      btn.disabled = false;
+      btn.innerText = '피해 범위 확인';
+    }).checkDamageResult();
+  }
+
+  // 🔥 수동 선택 토글 및 목록 로드
+  function toggleManualRecon() {
+    const isChecked = document.getElementById('manualReconToggle').checked;
+    const select = document.getElementById('reconZoneSelect');
+    
+    if (isChecked) {
+      if (!selectedBase) {
+        alert("기지를 먼저 선택해주세요.");
+        document.getElementById('manualReconToggle').checked = false;
+        return;
+      }
+      select.style.display = 'inline-block';
+      loadManualZones();
+    } else {
+      select.style.display = 'none';
+    }
+  }
+
+  function loadManualZones() {
+    if (!selectedBase) return;
+    const displayMonth = months[currentIndex];
+    const chartMonth = convertToChartHeader(displayMonth);
+    const select = document.getElementById('reconZoneSelect');
+    
+    select.innerHTML = '<option>로딩중...</option>';
+    select.disabled = true;
+
+    google.script.run.withSuccessHandler(zones => {
+      select.innerHTML = '';
+      zones.forEach(z => {
+        const opt = document.createElement('option');
+        opt.value = z;
+        opt.text = z;
+        select.appendChild(opt);
+      });
+      select.disabled = false;
+    }).getAvailableReconZones(selectedBase, chartMonth);
+  }
+</script>
+<!-- 정찰 완료 모달 -->
+<div id="completionModal" class="completion-modal">
+  <div class="modal-content">
+    <h2>정찰 작전을 완수했습니다.</h2>
+    <p>모든 구역을 무사히 통과했습니다.<br>다음 작전을 준비하세요</p>
+    <button class="action-button" onclick="closeCompletionModal()" style="font-size: 16px; padding: 12px 28px; min-width: 160px;">작전 종료 & 준비</button>
+  </div>
+</div>
+</body>
+</html>
