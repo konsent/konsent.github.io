@@ -2034,9 +2034,26 @@ function generate() {
 
   document.getElementById('results').innerHTML = headerHtml + ssrNoteHtml + content;
 
+  let day = null;
+  if (ssrData && ssrData.raids && raidId) {
+    const raidInfo = ssrData.raids.find(r => r.id === raidId);
+    if (raidInfo && raidInfo.label) {
+      const match = raidInfo.label.match(/^(\d+)\s/);
+      if (match) {
+        day = parseInt(match[1], 10);
+      }
+    }
+  }
+
+  const dateString = day
+    ? `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`
+    : `${year}-${String(month).padStart(2, '0')}`;
+
   const dataForAdc = {
     type: table,
-    squads: oobForAdc
+    squads: oobForAdc,
+    scenarioName: ssrData ? ssrData.name : null,
+    date: dateString
   };
   localStorage.setItem('oobToAdcData', JSON.stringify(dataForAdc));
   document.getElementById('send-to-adc-btn').style.display = 'block';

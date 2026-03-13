@@ -19,7 +19,7 @@
       --blue-bright: #2e6da4;
       --green: #2a4a2a;
       --amber: #c47a1a;
-      --fade: #6b6b4a;
+      --fade: #9c9c5e;
       --fade2: #9b9b7a;
     }
 
@@ -57,7 +57,7 @@
 
     .title-main {
       font-family: 'Oswald', sans-serif;
-      font-size: clamp(36px, 6vw, 64px);
+      font-size: clamp(42px, 8vw, 80px);
       font-weight: 700;
       letter-spacing: 0.15em;
       color: var(--tan);
@@ -70,12 +70,12 @@
       background: linear-gradient(90deg, transparent, var(--tan), transparent);
       margin: 8px auto;
     }
-    .title-sub {
-      font-family: 'Noto Sans KR', sans-serif;
+      .title-sub {
+      font-family: 'Share Tech Mono', monospace;
       font-size: 11px;
-      font-weight: 400;
-      letter-spacing: 0.2em;
+      letter-spacing: 0.4em;
       color: var(--fade);
+      margin-top: 6px;
       text-transform: uppercase;
     }
 
@@ -391,6 +391,27 @@
     }
     .view-btn:hover { border-color: var(--tan); color: var(--tan); }
 
+    .abort-btn {
+      cursor: pointer;
+      border: 1px solid var(--red);
+      background: rgba(139,26,26,0.2);
+      color: #f99;
+      padding: 2px 7px;
+      font-size: 10px;
+      font-family: 'Noto Sans KR', sans-serif;
+      transition: all 0.15s;
+      margin-right: 4px;
+    }
+    .abort-btn:hover { background: rgba(139,26,26,0.4); border-color: #f99; }
+    tr.aborted {
+      background-color: rgba(139, 26, 26, 0.35) !important;
+      text-decoration: line-through;
+      opacity: 0.7;
+    }
+    tr.aborted:hover {
+      background-color: rgba(139, 26, 26, 0.45) !important;
+    }
+
     .delete-row {
       cursor: pointer;
       border: 1px solid rgba(139,26,26,0.5);
@@ -619,12 +640,12 @@
       <div class="table-wrap">
         <table id="us-lead-table">
           <thead>
-            <tr><th colspan="15">선발 공격대 (Pre-Raid)</th></tr>
+            <tr><th colspan="16">선발 공격대 (Pre-Raid)</th></tr>
             <tr>
               <th>임무</th><th>태스크</th><th>콜싸인</th><th>항공기 유형</th>
               <th>수준</th><th>공격성</th><th>상태</th>
               <th>기총</th><th>IRM</th><th>RHM</th><th>폭탄</th><th>연료</th>
-              <th>비고</th><th>ADC</th><th>삭제</th>
+              <th>비고</th><th></th><th>ADC</th><th>삭제</th>
             </tr>
           </thead>
           <tbody>
@@ -640,12 +661,12 @@
       <div class="table-wrap">
         <table id="us-main-table">
           <thead>
-            <tr><th colspan="15">주 공격대 (MAIN)</th></tr>
+            <tr><th colspan="16">주 공격대 (MAIN)</th></tr>
             <tr>
               <th>임무</th><th>태스크</th><th>콜싸인</th><th>항공기 유형</th>
               <th>수준</th><th>공격성</th><th>상태</th>
               <th>기총</th><th>IRM</th><th>RHM</th><th>폭탄</th><th>연료</th>
-              <th>비고</th><th>ADC</th><th>삭제</th>
+              <th>비고</th><th></th><th>ADC</th><th>삭제</th>
             </tr>
           </thead>
           <tbody>
@@ -661,12 +682,12 @@
       <div class="table-wrap">
         <table id="us-trail-table">
           <thead>
-            <tr><th colspan="15">후발 공격대 (TRAIL)</th></tr>
+            <tr><th colspan="16">후발 공격대 (TRAIL)</th></tr>
             <tr>
               <th>임무</th><th>태스크</th><th>콜싸인</th><th>항공기 유형</th>
               <th>수준</th><th>공격성</th><th>상태</th>
               <th>기총</th><th>IRM</th><th>RHM</th><th>폭탄</th><th>연료</th>
-              <th>비고</th><th>ADC</th><th>삭제</th>
+              <th>비고</th><th></th><th>ADC</th><th>삭제</th>
             </tr>
           </thead>
           <tbody>
@@ -684,11 +705,11 @@
       <div class="table-wrap">
         <table id="drv-table">
           <thead>
-            <tr><th colspan="13">DRV 요격기 (INTERCEPTORS)</th></tr>
+            <tr><th colspan="14">DRV 요격기 (INTERCEPTORS)</th></tr>
             <tr>
               <th>콜싸인</th><th>항공기 유형</th><th>수준</th><th>공격성</th><th>상태</th>
               <th>기총</th><th>IRM</th><th>RHM</th><th>폭탄</th><th>연료</th>
-              <th>비고</th><th>ADC</th><th>삭제</th>
+              <th>비고</th><th></th><th>ADC</th><th>삭제</th>
             </tr>
           </thead>
           <tbody>
@@ -997,10 +1018,10 @@
       const US_AIRCRAFT_OPTIONS = `<option>A-1H Skyraider [US]</option><option>A-4C Skyhawk [US]</option><option>A-4E_F Skyhawk [US]</option><option>A-6A Intruder [US]</option><option>A-6B Intruder [US]</option><option>A-6C Intruder [US]</option><option>A-7A_B Corsair 2 [US]</option><option>A-7C_E Corsair 2 [US]</option><option>A-7D Corsair 2 [US]</option><option>B-52D Stratofortress [US]</option><option>B-52G Stratofortress [US]</option><option>Canberra MK.20 [AUS]</option><option>EA-1F Electric SPAD [US]</option><option>EA-6A Intruder [US]</option><option>EA-6B Prowler [US]</option><option>EB-66B [US]</option><option>EB-66C [US]</option><option>EB-66E [US]</option><option>EF-10B Skynight [US]</option><option>EKA-3B Skywarrior [US]</option><option>F-100D Super Sabre [US]</option><option>F-100F Wild Weasel 1 [US]</option><option>F-104C Starfighter [US]</option><option>F-105D Thunderchief [US]</option><option>F-105F Thunderchief(2) [US]</option><option>F-105F Thunderchief [US]</option><option>F-105F Wild Weasel 3 [US]</option><option>F-105G Wild Weasel [US]</option><option>F-105G Wild Weasel(2) [US]</option><option>F-111A Aardvark [US]</option><option>F-14A Tomcat [US]</option><option>F-4B Phantom 2 [US]</option><option>F-4C Phantom 2 [US]</option><option>F-4C Wild Weasel 4 [US]</option><option>F-4D Phantom 2 [US]</option><option>F-4E Phantom 2 [US]</option><option>F-4J Phantom 2 [US]</option><option>F-4N Phantom 2 [US]</option><option>F-8C_D Crusader [US]</option><option>F-8E_H_J Crusader [US]</option><option>Mirage IIIO(F) [AUS]</option><option>RA-5C Vigilante [US]</option><option>RF-4B Phantom 2 [US]</option><option>RF-4C Phantom 2 [US]</option><option>RF-8A_G Crusader [US]</option><option>RF1-1C Voodoo [US]</option>`;
 
       const STATUS_GRID = `<div class="status-grid">
-        <div class="status-item" data-status="1"><div class="status-header"><label>#1</label></div><select><option selected></option><option>D</option><option>C</option><option>K</option></select></div>
-        <div class="status-item" data-status="2"><div class="status-header"><label>#2</label><button class="status-control-btn remove-status">X</button><button class="status-control-btn add-status" style="display:none">+</button></div><select><option selected></option><option>D</option><option>C</option><option>K</option></select></div>
-        <div class="status-item" data-status="3"><div class="status-header"><label>#3</label><button class="status-control-btn remove-status">X</button><button class="status-control-btn add-status" style="display:none">+</button></div><select><option selected></option><option>D</option><option>C</option><option>K</option></select></div>
-        <div class="status-item" data-status="4"><div class="status-header"><label>#4</label><button class="status-control-btn remove-status">X</button><button class="status-control-btn add-status" style="display:none">+</button></div><select><option selected></option><option>D</option><option>C</option><option>K</option></select></div>
+        <div class="status-item" data-status="1"><div class="status-header"><label>#1</label></div><select><option selected></option><option>손상</option><option>무력화</option><option>격추</option></select></div>
+        <div class="status-item" data-status="2"><div class="status-header"><label>#2</label><button class="status-control-btn remove-status">X</button><button class="status-control-btn add-status" style="display:none">+</button></div><select><option selected></option><option>손상</option><option>무력화</option><option>격추</option></select></div>
+        <div class="status-item" data-status="3"><div class="status-header"><label>#3</label><button class="status-control-btn remove-status">X</button><button class="status-control-btn add-status" style="display:none">+</button></div><select><option selected></option><option>손상</option><option>무력화</option><option>격추</option></select></div>
+        <div class="status-item" data-status="4"><div class="status-header"><label>#4</label><button class="status-control-btn remove-status">X</button><button class="status-control-btn add-status" style="display:none">+</button></div><select><option selected></option><option>손상</option><option>무력화</option><option>격추</option></select></div>
       </div>`;
 
       const AGGRESS = `<div class="aggress-container"><span class="aggress-value">0</span><div class="aggress-controls"><button type="button" class="aggress-btn up">▲</button><button type="button" class="aggress-btn down">▼</button></div></div>`;
@@ -1024,7 +1045,7 @@
           `<td>${STATUS_GRID}</td>` +
           `<td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td>` +
           `<td><input type="text" value=""></td>` +
-          `<td><button class="view-btn">보기</button></td><td></td>`;
+          `<td><button class="abort-btn">중단</button></td><td><button class="view-btn">보기</button></td><td></td>`;
       }
 
       function makeDrvRowHTML() {
@@ -1035,7 +1056,7 @@
           `<td>${STATUS_GRID}</td>` +
           `<td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td>` +
           `<td><input type="text" value=""></td>` +
-          `<td><button class="view-btn">보기</button></td><td></td>`;
+          `<td><button class="abort-btn">중단</button></td><td><button class="view-btn">보기</button></td><td></td>`;
       }
 
       const modal = document.getElementById('image-modal');
@@ -1166,6 +1187,13 @@
         row.querySelectorAll('input[type="text"]').forEach(i => i.addEventListener('input', saveToLocalStorage));
         addSkillChangeListener(row);
         addAggressivenessControls(row);
+        const abortBtn = row.querySelector('.abort-btn');
+        if (abortBtn) {
+            abortBtn.addEventListener('click', () => {
+                row.classList.toggle('aborted');
+                saveToLocalStorage();
+            });
+        }
         const vb = row.querySelector('.view-btn');
         if (vb) addViewButtonListener(vb);
         row.querySelectorAll('.status-grid').forEach(addStatusGridControls);
@@ -1184,7 +1212,11 @@
             const inp  = cell.querySelector('input[type="text"]');
             sels.forEach(s => {
               if (s.options.length > 0 && s.options[0].text === '신병') {
-                s.value = '정규군';
+                if (targetId === 'drv-table') {
+                  s.value = '베테랑';
+                } else {
+                  s.value = '정규군';
+                }
               } else {
                 s.selectedIndex = 0;
               }
@@ -1282,14 +1314,16 @@
         const rows = table.querySelectorAll('tbody tr:not(:last-child)');
         const data = [];
         rows.forEach(row => {
-          const rowData = { cells: [], status: [] };
+          const rowData = { cells: [], status: [], aborted: row.classList.contains('aborted') };
           row.querySelectorAll('td:not(:last-child)').forEach(cell => {
             const sel = cell.querySelector('select');
             const inp = cell.querySelector('input');
-            const btn = cell.querySelector('button.view-btn');
+            const viewBtn = cell.querySelector('button.view-btn');
+            const abortBtn = cell.querySelector('button.abort-btn');
             if (sel) rowData.cells.push({ type:'select', value: sel.value });
             else if (inp) rowData.cells.push({ type:'input', value: inp.value });
-            else if (btn) rowData.cells.push({ type:'button', value:'보기' });
+            else if (viewBtn) rowData.cells.push({ type:'button', value:'보기' });
+            else if (abortBtn) rowData.cells.push({ type:'button', value:'중단' });
             else if (cell.querySelector('.status-grid')) {
               cell.querySelectorAll('.status-item').forEach(item => {
                 const s = item.querySelector('select');
@@ -1341,13 +1375,18 @@
           const tr = rowTemplates[tableId];
           if (!tr) return;
           const clone = tr.cloneNode(true);
+          if (rowData.aborted) {
+            clone.classList.add('aborted');
+          }
           let ci = 0, si = 0;
           clone.querySelectorAll('td:not(:last-child)').forEach(cell => {
             if (ci < rowData.cells.length) {
               const sc = rowData.cells[ci];
               const sel = cell.querySelector('select'); const inp = cell.querySelector('input[type="text"]');
               
-              if (sel && (sc.type === 'select' || sc.type === 'input')) { 
+              if (sc.type === 'button') {
+                // Do nothing, button is in template
+              } else if (sel && (sc.type === 'select' || sc.type === 'input')) { 
                   // Migration handling: If cell is now a select but saved data was input (e.g. callsign), 
                   // we store value to restore later after options population.
                   if(cell.querySelector('.callsign-select')) {
@@ -1369,7 +1408,9 @@
                 });
               } else if (cell.querySelector('.aggress-container') && sc.type === 'aggress') {
                 cell.querySelector('.aggress-value').textContent = sc.value || '0';
-              } else { cell.textContent = sc.value || ''; }
+              } else if (sc.type === 'text') { 
+                  cell.textContent = sc.value || ''; 
+              }
               ci++;
             }
           });
@@ -1387,15 +1428,27 @@
       function loadFromOob() {
         const oobJSON = localStorage.getItem('oobToAdcData');
         if (!oobJSON) return;
+
         document.querySelectorAll('#us-content table[id] tbody').forEach(tbody => {
           const addTr = tbody.lastElementChild; tbody.innerHTML = ''; if (addTr) tbody.appendChild(addTr);
         });
-        updateScenarioDisplay('');
-        const di = document.getElementById('us-date'); const ti = document.getElementById('us-target');
-        if (di) di.value = ''; if (ti) ti.value = '';
+
         const oobData = JSON.parse(oobJSON);
-        if (!oobData || !oobData.squads || oobData.squads.length === 0) {
+
+        // 시나리오 정보 설정
+        updateScenarioDisplay(oobData.scenarioName || '');
+        scenarioInput.value = oobData.scenarioName || '';
+        const dateInput = document.getElementById('us-date');
+        if (dateInput) dateInput.value = oobData.date || '';
+        const targetInput = document.getElementById('us-target');
+        if (targetInput) targetInput.value = ''; // 목표는 항상 비움
+
+        if (!oobData.squads || oobData.squads.length === 0) {
+          saveToLocalStorage();
           localStorage.removeItem('oobToAdcData');
+          if (oobData.scenarioName) {
+            alert('시나리오 정보가 업데이트되었습니다. 편대 정보는 없습니다.');
+          }
           return;
         }
         document.body.dataset.oobType = oobData.type || 'A'; // Store OOB type
@@ -1551,10 +1604,12 @@
             });
         }
         viewerPanel.classList.remove('hidden');
+        document.body.style.paddingBottom = '540px';
       });
 
       closeViewerBtn.addEventListener('click', () => {
         viewerPanel.classList.add('hidden');
+        document.body.style.paddingBottom = '';
       });
     });
   </script>
