@@ -232,20 +232,55 @@ input[type=number]{width:70px}
       <div class="step-badge info">선택적</div>
     </div>
     <div class="step-body">
-      <div class="info-box">RHM 보유 F-4만 해당 · 2–5헥스 거리 · BVR 열 사용 · CV=0 · 추가 보정 없음</div>
-      <div class="mods" style="grid-template-columns:1fr;margin-bottom:12px">
-        <label class="mod"><input type="checkbox" data-v="-1"><span>슬래시 어택 + 기습 미달성 (사격 기회 –1)</span><span class="mv n">–1</span></label>
+      <div class="info-box">RHM 보유 F-4만 해당. BVR 공격 시 CV=0. 아래 보정을 적용하여 사격 처리 테이블 [11.32]을 사용합니다.</div>
+      <div id="bvr-calculator">
+        <div class="two">
+          <div>
+            <div class="field-row"><span class="field-lbl">공격 AV</span>
+              <div class="av-wrap">
+                <button class="av-btn" onclick="stepAV('bvr-av',-1)">−</button>
+                <div class="av-disp" id="bvr-av-disp">+0</div>
+                <input type="hidden" id="bvr-av" value="0">
+                <button class="av-btn" onclick="stepAV('bvr-av',1)">+</button>
+              </div>
+            </div>
+            <div class="sec-lbl" style="margin-top:10px">사격 보정</div>
+            <div class="mods" id="bvr-mods" style="grid-template-columns:1fr">
+              <label class="mod"><input type="checkbox" data-v="2" onchange="recalcBVRShot()"><span>방어자 전방호</span><span class="mv p">+2</span></label>
+              <label class="mod"><input type="checkbox" data-v="-2" onchange="recalcBVRShot()"><span>방어자 빔호/방어원형진</span><span class="mv n">-2</span></label>
+              <label class="mod"><input type="checkbox" data-v="-4" id="bvr-low-alt-def" onchange="recalcBVRShot()"><span>방어자 저고도/초저고도</span><span class="mv n">-4</span></label>
+            </div>
+            <div class="field-row" style="margin-top:8px">
+              <span class="field-lbl">고도 차</span>
+              <input type="number" id="bvr-alt-diff" value="0" min="0" oninput="recalcBVRShot()">
+              <span class="av-hint">밴드 수 (-1/밴드)</span>
+            </div>
+            <div class="warn-box" style="font-size:11px; padding: 5px 8px; margin-top: 5px;">
+              ※ 공격자가 방어자보다 낮은 고도에 있을 경우 고도차 및 저고도/초저고도 보정 없음.
+            </div>
+            <div class="total-row"><span class="total-lbl">총 보정</span><span class="total-n" id="bvr-shot-total">+0</span></div>
+          </div>
+          <div>
+            <div class="sec-lbl">사격 결과 테이블 [11.32]</div>
+            <table class="reftbl" id="bvr-shot-tbl">
+              <thead><tr><th>합계</th><th>결과</th></tr></thead>
+              <tbody>
+                <tr data-lo="-99" data-hi="13"><td>13 이하</td><td>효과 없음</td></tr>
+                <tr data-lo="14" data-hi="14"><td>14</td><td>피해 (Damaged)</td></tr>
+                <tr data-lo="15" data-hi="15"><td>15</td><td>무력화 (Crippled)</td></tr>
+                <tr data-lo="16" data-hi="19"><td>16–19</td><td>격추 (Shot down)</td></tr>
+                <tr data-lo="20" data-hi="21"><td>20–21</td><td>피해 (Damaged)</td></tr>
+                <tr data-lo="22" data-hi="99"><td>22 이상</td><td>효과 없음</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <button class="btn" onclick="rollBVRShot()">▸ BVR 사격 주사위 (2d10)</button>
+        <div class="result" id="bvr-shot-result">
+          <div class="dice-big" id="bvr-shot-dice"></div>
+          <div class="res-line" id="bvr-shot-res"></div>
+        </div>
       </div>
-      <table class="reftbl" style="margin-bottom:12px">
-        <thead><tr><th>주사위</th><th>BVR 사격 기회</th></tr></thead>
-        <tbody>
-          <tr><td>10 이하</td><td>없음</td></tr>
-          <tr><td>11–16</td><td>1회</td></tr>
-          <tr><td>17 이상</td><td>1회</td></tr>
-        </tbody>
-      </table>
-      <button class="btn" onclick="rollBVR()">▸ BVR 기동 주사위 (2d10)</button>
-      <div class="result" id="bvr-result"><div class="dice-big" id="bvr-dice"></div><div class="res-line" id="bvr-res"></div></div>
     </div>
   </div>
 
@@ -1039,6 +1074,7 @@ function stepAV(id,delta){
   else if(id==='shot-av')recalcShot();
   else if(id==='mor-av')recalcMor();
   else if(id==='rec-av')recalcRec();
+  else if(id==='bvr-av')recalcBVRShot();
   else if(id==='mig-av')recalcMig();
 }
 function getAV(id){return parseInt(document.getElementById(id).value)||0;}
@@ -1118,7 +1154,24 @@ function rollMan(){
     document.getElementById('mor-cas').value=0;recalcMor();unlock('s4');setBadge('s4-badge','활성화','success');
   }
 }
-function rollBVR(){var d=r2();document.getElementById('bvr-dice').textContent=d;document.getElementById('bvr-res').innerHTML='BVR 사격 기회: <b>'+(d>=11?'1':'0')+'회</b>';document.getElementById('bvr-result').style.display='block';}
+function recalcBVRShot() {
+  var av = getAV('bvr-av');
+  var altDiff = parseInt(document.getElementById('bvr-alt-diff').value) || 0;
+  var cMods = getCheckMods(document.getElementById('bvr-mods'));
+  var totalMod = av + cMods - altDiff;
+  document.getElementById('bvr-shot-total').textContent = sign(totalMod);
+}
+function rollBVRShot() {
+  recalcBVRShot();
+  var mod = parseInt(document.getElementById('bvr-shot-total').textContent) || 0;
+  var d = r2();
+  var total = d + mod;
+  var res = getShotResult(total);
+  document.getElementById('bvr-shot-dice').textContent = d + ' + (' + sign(mod) + ') = ' + total;
+  document.getElementById('bvr-shot-res').innerHTML = '결과: <b>' + res + '</b>';
+  document.getElementById('bvr-shot-result').style.display = 'block';
+  highlightRow('bvr-shot-tbl', total);
+}
 function recalcShot(){var cv=parseInt(document.getElementById('shot-cv').value)||0,av=getAV('shot-av'),cMods=getCheckMods(document.getElementById('s3'));document.getElementById('shot-total').textContent=sign(cv+av+cMods);}
 function getShotResult(t){if(t<=13)return'효과 없음';if(t===14)return'피해 (Damaged)';if(t===15)return'무력화 (Crippled)';if(t<=19)return'격추 (Shot down)';if(t<=21)return'피해 (Damaged)';return'효과 없음';}
 function rollShot(){
@@ -1203,7 +1256,7 @@ function rollMig(){
   document.getElementById('mig-res').innerHTML=res.ok?'<span class="ok">▸ '+res.txt+'</span>':'<span class="bad">▸ '+res.txt+'</span>';
   document.getElementById('mig-result').style.display='block';highlightRow('mig-tbl',total);
 }
-recalcEng();updateAAABase();recalcARM();recalcRec();recalcMig();
+recalcEng();updateAAABase();recalcARM();recalcRec();recalcMig();recalcBVRShot();
 
 // ============================================================
 // 공대지 공격 [17.4]

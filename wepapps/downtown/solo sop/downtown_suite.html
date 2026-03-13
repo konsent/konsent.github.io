@@ -853,7 +853,7 @@
   }
 
   /* --- Styles from aid.html --- */
-  #aid-page .tabs{display:flex;gap:4px;margin-bottom:20px;flex-wrap:wrap;max-width:960px;margin-left:auto;margin-right:auto}
+  #aid-page .tabs{display:flex;gap:4px;margin-bottom:20px;flex-wrap:wrap;max-width:960px;margin-left:auto;margin-right:auto;justify-content:center}
   #aid-page button.tab{font-family:'Oswald',sans-serif;font-size:13px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;padding:8px 20px;border:1px solid var(--olive);background:rgba(30,28,15,.9);color:var(--fade);cursor:pointer;transition:all .2s}
   #aid-page button.tab:hover{border-color:var(--khaki);color:var(--cream)}
   #aid-page button.tab.on{background:var(--olive);border-color:var(--tan);color:var(--tan)}
@@ -1312,11 +1312,11 @@
 <div id="aid-page" class="main-page">
   <!-- Content from aid.html -->
   <div class="tabs">
-    <button class="tab on" onclick="showAidPage('air',this)">공중전</button>
+    <button class="tab on" onclick="showAidPage('air',this)">Dogfight</button>
+    <button class="tab" onclick="showAidPage('atg',this)">Air-to-Ground</button>
+    <button class="tab" onclick="showAidPage('samref',this)">SAM</button>
     <button class="tab" onclick="showAidPage('aaa',this)">AAA</button>
-    <button class="tab" onclick="showAidPage('sam',this)">SAM / ARM</button>
-    <button class="tab" onclick="showAidPage('atg',this)">공대지 공격</button>
-    <button class="tab" onclick="showAidPage('samref',this)">SAM 참조표</button>
+    
   </div>
 
   <!-- ======================== 공중전 ======================== -->
@@ -1356,11 +1356,11 @@
             <div class="sec-lbl">보정 수치</div>
             <div class="mods" id="eng-mods" style="grid-template-columns:1fr">
               <label class="mod"><input type="checkbox" data-v="-1" onchange="recalcEng()"><span>무질서 / 채프 / 밀집대형</span><span class="mv n">-1</span></label>
-              <label class="mod"><input type="checkbox" data-v="-1" onchange="recalcEng()"><span>다른 고도 밴드</span><span class="mv n">-1</span></label>
-              <label class="mod"><input type="checkbox" data-v="-1" onchange="recalcEng()"><span>슬래시 어택 중</span><span class="mv n">-1</span></label>
-              <label class="mod"><input type="checkbox" data-v="-1" onchange="recalcEng()"><span>후방 반구</span><span class="mv n">-1</span></label>
-              <label class="mod"><input type="checkbox" data-v="-1" onchange="recalcEng()"><span>연무</span><span class="mv n">-1</span></label>
-              <label class="mod"><input type="checkbox" data-v="-2" onchange="recalcEng()"><span>안개</span><span class="mv n">-2</span></label>
+              <label class="mod"><input type="checkbox" data-v="-1" onchange="recalcEng()"><span>표적이 다른 고도 대역에 있는 경우</span><span class="mv n">-1</span></label>
+              <label class="mod"><input type="checkbox" data-v="-1" onchange="recalcEng()"><span>표적이 슬래시 공격 중인 경우</span><span class="mv n">-1</span></label>
+              <label class="mod"><input type="checkbox" data-v="-1" onchange="recalcEng()"><span>표적이 후방 반구에 위치</span><span class="mv n">-1</span></label>
+              <label class="mod"><input type="checkbox" data-v="-1" onchange="recalcEng()"><span>표적이 연무 속에 위치</span><span class="mv n">-1</span></label>
+              <label class="mod"><input type="checkbox" data-v="-2" onchange="recalcEng()"><span>표적이 안개 속에 위치</span><span class="mv n">-2</span></label>
               <label class="mod"><input type="checkbox" data-v="-2" onchange="recalcEng()"><span>야간 / 달 없음</span><span class="mv n">-2</span></label>
             </div>
           </div>
@@ -1449,18 +1449,61 @@
         <div class="step-badge info">선택적</div>
       </div>
       <div class="step-body">
-        <div class="info-box">RHM 보유 F-4만 해당 · 2-5헥스 거리 · BVR 열 사용 · CV=0 · 추가 보정 없음</div>
-        <div class="mods" style="grid-template-columns:1fr;margin-bottom:12px">
-          <label class="mod"><input type="checkbox" data-v="-1"><span>슬래시 어택 + 기습 미달성 (사격 기회 -1)</span><span class="mv n">-1</span></label>
+        <div class="info-box">RHM 보유 F-4만 해당 · 2–5헥스 거리 · 기동 표 BVR 열 사용</div>
+        <div class="two">
+          <div>
+            <div class="field-row"><span class="field-lbl">아군 AV (공격성 지수)</span>
+              <div class="av-wrap">
+                <button class="av-btn" onclick="stepAV('bvr-av',-1)">−</button>
+                <div class="av-disp" id="bvr-av-disp">+2</div>
+                <input type="hidden" id="bvr-av" value="2">
+                <button class="av-btn" onclick="stepAV('bvr-av',1)">+</button>
+              </div>
+            </div>
+            <div class="field-row"><span class="field-lbl">항공기 수</span>
+              <select id="bvr-col" onchange="recalcBVR()">
+                <option value="0">1기 (Fluid Four/무질서)</option>
+                <option value="1">2기</option>
+                <option value="2">3기</option>
+                <option value="3">4기</option>
+              </select>
+            </div>
+            <div class="base-box" style="margin-top:8px">기동 합계: <b id="bvr-base">—</b> &nbsp;→&nbsp; BVR 사격 기회: <b id="bvr-shots-pre">—</b>회</div>
+          </div>
+          <div>
+            <div class="sec-lbl">보정 수치</div>
+            <div class="mods" id="bvr-mods" style="grid-template-columns:1fr">
+              <div class="mod" style="align-items:center">
+                <span style="flex:1">고도대역 차이</span>
+                <div class="av-wrap" style="margin-right:4px">
+                  <button class="av-btn" onclick="stepBvrAlt(-1)">−</button>
+                  <div class="av-disp" id="bvr-alt-disp">0</div>
+                  <input type="hidden" id="bvr-alt" value="0">
+                  <button class="av-btn" onclick="stepBvrAlt(1)">+</button>
+                </div>
+                <span class="mv n" id="bvr-alt-mod">+0</span>
+              </div>
+              <label class="mod"><input type="checkbox" data-v="-4" onchange="recalcBVR()"><span>방어자가 저고도/초저고도</span><span class="mv n">-4</span></label>
+              <label class="mod"><input type="checkbox" data-v="-2" onchange="recalcBVR()"><span>방어자가 빔 호에서 공격받거나 방어 원형진</span><span class="mv n">-2</span></label>
+              <label class="mod"><input type="checkbox" data-v="2" onchange="recalcBVR()"><span>방어자가 전방 호에서 공격받음</span><span class="mv p">+2</span></label>
+            </div>
+            <div class="total-row"><span class="total-lbl">총 보정</span><span class="total-n" id="bvr-total">+0</span></div>
+          </div>
         </div>
-        <table class="reftbl" style="margin-bottom:12px">
-          <thead><tr><th>주사위</th><th>BVR 사격 기회</th></tr></thead>
-          <tbody>
-            <tr><td>10 이하</td><td>없음</td></tr>
-            <tr><td>11-16</td><td>1회</td></tr>
-            <tr><td>17 이상</td><td>1회</td></tr>
-          </tbody>
-        </table>
+        <div class="divider"></div>
+        <div class="sec-lbl">기동 테이블 — BVR 열 사격 기회</div>
+        <div style="overflow-x:auto">
+          <table class="reftbl" id="bvr-tbl">
+            <thead><tr><th>주사위 합계</th><th>1기</th><th>2기</th><th>3기</th><th>4기</th></tr></thead>
+            <tbody>
+              <tr data-lo="-99" data-hi="9"><td>9 이하</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              <tr data-lo="10" data-hi="10"><td>10</td><td>0</td><td>1</td><td>1</td><td>1</td></tr>
+              <tr data-lo="11" data-hi="16"><td>11–16</td><td>1</td><td>2</td><td>2</td><td>2</td></tr>
+              <tr data-lo="17" data-hi="99"><td>17 이상</td><td>2</td><td>3</td><td>3</td><td>3</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div style="font-size:11px;color:var(--fade);margin-top:4px;margin-bottom:10px">※ BVR 사격 시 CV = 0 적용</div>
         <button class="btn" onclick="rollBVR()">▸ BVR 기동 주사위 (2d10)</button>
         <div class="result" id="bvr-result"><div class="dice-big" id="bvr-dice"></div><div class="res-line" id="bvr-res"></div></div>
       </div>
@@ -1528,6 +1571,11 @@
         <div class="result" id="shot-result">
           <div class="dice-big" id="shot-dice"></div>
           <div class="res-line" id="shot-res"></div>
+          <div id="shot-alloc" style="display:none;margin-top:10px;padding:10px 12px;background:rgba(74,74,42,.18);border:1px solid var(--olive);border-radius:3px">
+            <div style="font-size:11px;color:var(--fade);margin-bottom:6px;letter-spacing:.08em;text-transform:uppercase">피해 배분 [12.1]</div>
+            <div id="shot-alloc-dice" style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--fade);margin-bottom:6px"></div>
+            <div id="shot-alloc-result" style="font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.8"></div>
+          </div>
           <div style="margin-top:6px;font-size:12px;text-align:center;color:var(--fade);font-family:'JetBrains Mono',monospace" id="shot-remain"></div>
         </div>
       </div>
@@ -1767,31 +1815,6 @@
     </div>
   </div>
 
-  <!-- ======================== SAM ======================== -->
-  <div id="page-sam" class="page">
-    <div class="step" id="sam2">
-      <div class="step-head">
-        <div class="step-num">1</div>
-        <div class="step-title">ARM 사기 점검 &nbsp;[17.53]</div>
-        <div class="step-badge info">독립 판정</div>
-      </div>
-      <div class="step-body">
-        <div class="info-box">ARM 발사 시마다 판정. 결과 5 이하 → 레이더 종료. Admin 페이즈 8 이상 → 재가동.</div>
-        <div class="mods" style="grid-template-columns:1fr;margin-bottom:8px">
-          <label class="mod"><input type="checkbox" id="arm-undetected" onchange="recalcARM()"><span>발사 비행대 미탐지 상태</span><span class="mv p">+3</span></label>
-        </div>
-        <div class="total-row" style="margin-bottom:10px"><span class="total-lbl">보정 합계 (5+보정 이하 → 레이더 종료)</span><span class="total-n" id="arm-total">+0</span></div>
-        <button class="btn" onclick="rollARM()">▸ ARM 사기 판정 (1d10)</button>
-        <div class="result" id="arm-result"><div class="dice-big" id="arm-dice"></div><div class="res-line" id="arm-res"></div></div>
-        <div class="divider"></div>
-        <div class="sec-lbl">레이더 재가동 판정 (Admin 페이즈)</div>
-        <div style="font-size:12px;color:var(--fade);margin-bottom:10px">1d10 굴림 · 8 이상이면 재가동</div>
-        <button class="btn secondary" onclick="rollRadarRestart()">▸ 재가동 판정 (1d10)</button>
-        <div class="result" id="radar-restart-result"><div class="dice-big" id="radar-restart-dice"></div><div class="res-line" id="radar-restart-res"></div></div>
-      </div>
-    </div>
-
-  </div>
 
   <!-- ======================== 공대지 공격 ======================== -->
   <div id="page-atg" class="page">
@@ -2244,6 +2267,33 @@
         </div>
       </div>
     </div>
+
+
+    <div class="step" id="sr6">
+      <div class="step-head">
+        <div class="step-num">1</div>
+        <div class="step-title">ARM 사기 점검 &nbsp;[17.53]</div>
+        <div class="step-badge info">독립 판정</div>
+      </div>
+      <div class="step-body">
+        <div class="info-box">ARM 발사 시마다 판정. 결과 5 이하 → 레이더 종료. Admin 페이즈 8 이상 → 재가동.</div>
+        <div class="mods" style="grid-template-columns:1fr;margin-bottom:8px">
+          <label class="mod"><input type="checkbox" id="arm-undetected" onchange="recalcARM()"><span>발사 비행대 미탐지 상태</span><span class="mv p">+3</span></label>
+        </div>
+        <div class="total-row" style="margin-bottom:10px"><span class="total-lbl">보정 합계 (5+보정 이하 → 레이더 종료)</span><span class="total-n" id="arm-total">+0</span></div>
+        <button class="btn" onclick="rollARM()">▸ ARM 사기 판정 (1d10)</button>
+        <div class="result" id="arm-result"><div class="dice-big" id="arm-dice"></div><div class="res-line" id="arm-res"></div></div>
+        <div class="divider"></div>
+        <div class="sec-lbl">레이더 재가동 판정 (Admin 페이즈)</div>
+        <div style="font-size:12px;color:var(--fade);margin-bottom:10px">1d10 굴림 · 8 이상이면 재가동</div>
+        <button class="btn secondary" onclick="rollRadarRestart()">▸ 재가동 판정 (1d10)</button>
+        <div class="result" id="radar-restart-result"><div class="dice-big" id="radar-restart-dice"></div><div class="res-line" id="radar-restart-res"></div></div>
+      </div>
+    </div>
+
+
+
+    
 
   </div>
 </div>
@@ -4350,6 +4400,7 @@ document.addEventListener('DOMContentLoaded', () => {
     else if(id==='mor-av')recalcMor();
     else if(id==='rec-av')recalcRec();
     else if(id==='mig-av')recalcMig();
+    else if(id==='bvr-av')recalcBVR();
   }
   function getAV(id){return parseInt(document.getElementById(id).value)||0;}
   function sign(n){return(n>=0?'+':'')+n;}
@@ -4428,16 +4479,118 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('mor-cas').value=0;recalcMor();unlock('s4');setBadge('s4-badge','활성화','success');
     }
   }
-  function rollBVR(){var d=r2();document.getElementById('bvr-dice').textContent=d;document.getElementById('bvr-res').innerHTML='BVR 사격 기회: <b>'+(d>=11?'1':'0')+'회</b>';document.getElementById('bvr-result').style.display='block';}
+  function stepBvrAlt(delta){
+    var cur=parseInt(document.getElementById('bvr-alt').value)||0;
+    var nv=Math.max(0,Math.min(3,cur+delta));
+    document.getElementById('bvr-alt').value=nv;
+    document.getElementById('bvr-alt-disp').textContent=nv;
+    document.getElementById('bvr-alt-mod').textContent=(nv>0?'-'+nv:'+0');
+    document.getElementById('bvr-alt-mod').className='mv'+(nv>0?' n':' p');
+    recalcBVR();
+  }
+  function getBvrAltMod(){return -(parseInt(document.getElementById('bvr-alt').value)||0);}
+  function recalcBVR(){
+    var cMods=getCheckMods(document.getElementById('s2b'))+getBvrAltMod();
+    document.getElementById('bvr-total').textContent=sign(cMods);
+  }
+  function getBvrShots(total){
+    var colIdx=parseInt(document.getElementById('bvr-col').value)||0;
+    var tbl=[[0,0,0,0],[0,1,1,1],[1,2,2,2],[2,3,3,3]];
+    var row;
+    if(total<=9) row=0;
+    else if(total===10) row=1;
+    else if(total<=16) row=2;
+    else row=3;
+    return tbl[row][colIdx];
+  }
+  function rollBVR(){
+    recalcBVR();
+    var av=getAV('bvr-av');
+    var cMods=getCheckMods(document.getElementById('s2b'))+getBvrAltMod();
+    var d=r2(), total=d+av+cMods;
+    var shots=getBvrShots(total);
+    document.getElementById('bvr-base').textContent=total;
+    document.getElementById('bvr-shots-pre').textContent=shots;
+    document.getElementById('bvr-dice').textContent=d+' + AV('+sign(av)+') + 보정('+sign(cMods)+') = '+total;
+    document.getElementById('bvr-res').innerHTML='BVR 사격 기회: <b>'+shots+'회</b>';
+    document.getElementById('bvr-result').style.display='block';
+    highlightRow('bvr-tbl',total);
+  }
   function recalcShot(){var cv=parseInt(document.getElementById('shot-cv').value)||0,av=getAV('shot-av'),cMods=getCheckMods(document.getElementById('s3'));document.getElementById('shot-total').textContent=sign(cv+av+cMods);}
   function getShotResult(t){if(t<=13)return'효과 없음';if(t===14)return'피해 (Damaged)';if(t===15)return'무력화 (Crippled)';if(t<=19)return'격추 (Shot down)';if(t<=21)return'피해 (Damaged)';return'효과 없음';}
+  // 피해 배분 테이블 [12.1]: [주사위1~10][항공기수1~4] → {기번호, C여부}
+  // C = 해당 기번호 무력화기에 배분
+  var ALLOC_TBL = [
+    // 1기열,  2기열,  3기열,  4기열
+    [{n:1,c:false},{n:1,c:false},{n:1,c:false},{n:1,c:false}], // 1
+    [{n:1,c:false},{n:1,c:false},{n:1,c:true },{n:1,c:true }], // 2
+    [{n:1,c:false},{n:1,c:true },{n:2,c:false},{n:2,c:false}], // 3
+    [{n:1,c:false},{n:1,c:true },{n:2,c:true },{n:2,c:true }], // 4
+    [{n:1,c:false},{n:2,c:false},{n:2,c:true },{n:3,c:false}], // 5
+    [{n:1,c:false},{n:2,c:false},{n:3,c:false},{n:3,c:true }], // 6
+    [{n:1,c:false},{n:2,c:false},{n:3,c:false},{n:3,c:true }], // 7
+    [{n:1,c:false},{n:2,c:true },{n:3,c:false},{n:4,c:false}], // 8
+    [{n:1,c:false},{n:2,c:true },{n:3,c:true },{n:4,c:false}], // 9
+    [{n:1,c:false},{n:2,c:true },{n:3,c:true },{n:4,c:true }], // 10
+  ];
+  function getShotResultType(t){
+    if(t<=13)return'none';
+    if(t===14)return'damaged';
+    if(t===15)return'crippled';
+    if(t<=19)return'shotdown';
+    if(t<=21)return'damaged';
+    return'none';
+  }
+  function rollAlloc(numAC, resultType){
+    // resultType: 'damaged'|'crippled'|'shotdown'
+    var diceVal = Math.floor(Math.random()*10)+1;
+    var colIdx = Math.min(numAC-1, 3);
+    var entry = ALLOC_TBL[diceVal-1][colIdx];
+    var acNum = entry.n;
+    var isCrippled = entry.c;
+    var resultLabel, color;
+    if(resultType==='shotdown'){
+      resultLabel='격추';color='var(--danger,#e05555)';
+    } else if(resultType==='crippled'){
+      resultLabel='무력화';color='var(--amber,#ff9100)';
+    } else {
+      resultLabel='피해';color='var(--tan)';
+    }
+    var cNote = isCrippled ? ' <span style="color:var(--fade);font-size:11px">(무력화기에 배분)</span>' : '';
+    return {
+      diceVal: diceVal,
+      html: '배분 주사위: <b style="color:var(--tan)">'+diceVal+'</b> &nbsp;→&nbsp; '
+           +'<b style="color:'+color+'">'+acNum+'번기 '+resultLabel+'</b>'+cNote
+    };
+  }
   function rollShot(){
-    recalcShot();var mod=parseInt(document.getElementById('shot-total').textContent)||0,d=r2(),total=d+mod;
-    var res=getShotResult(total);if(total>=14&&total<=21)G.shotDamage++;G.shotRemain--;
+    recalcShot();
+    var mod=parseInt(document.getElementById('shot-total').textContent)||0,d=r2(),total=d+mod;
+    var res=getShotResult(total);
+    var rtype=getShotResultType(total);
+    var hasDamage=(rtype!=='none');
+    if(hasDamage)G.shotDamage++;
+    G.shotRemain--;
     document.getElementById('shot-dice').textContent=d+' + ('+sign(mod)+') = '+total;
     document.getElementById('shot-res').innerHTML='결과: <b>'+res+'</b>';
+
+    // 피해 배분 자동 굴림
+    var allocEl=document.getElementById('shot-alloc');
+    var allocDiceEl=document.getElementById('shot-alloc-dice');
+    var allocResEl=document.getElementById('shot-alloc-result');
+    if(hasDamage){
+      var numAC=parseInt(document.getElementById('man-col').value)+1; // 0-indexed → 1~4
+      var alloc=rollAlloc(numAC, rtype);
+      allocDiceEl.textContent='';
+      allocResEl.innerHTML=alloc.html;
+      allocEl.style.display='block';
+    } else {
+      allocEl.style.display='none';
+    }
+
     document.getElementById('shot-remain').textContent='남은 사격: '+G.shotRemain+'회  ·  누적 피해기체: '+G.shotDamage+'기';
-    document.getElementById('shot-result').style.display='block';highlightRow('shot-tbl',total);
+    document.getElementById('shot-result').style.display='block';
+    highlightRow('shot-tbl',total);
     if(G.shotRemain>0){setBadge('s3-badge',G.shotRemain+'회 남음','info');}
     else{
       setNum('s3-num','done');setBadge('s3-badge','완료','success');unlock('s4');setBadge('s4-badge','활성화','success');
@@ -4989,7 +5142,9 @@ document.addEventListener('DOMContentLoaded', () => {
   window.rollEng = rollEng;
   window.recalcMan = recalcMan;
   window.rollMan = rollMan;
+  window.recalcBVR = recalcBVR;
   window.rollBVR = rollBVR;
+  window.stepBvrAlt = stepBvrAlt;
   window.recalcShot = recalcShot;
   window.rollShot = rollShot;
   window.recalcMor = recalcMor;
