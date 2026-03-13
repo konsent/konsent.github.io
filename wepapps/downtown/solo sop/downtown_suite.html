@@ -1,0 +1,1828 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DOWNTOWN — Solo Tools</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Noto+Sans+KR:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  /* --- Main Tab --- */
+  .main-tab-bar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+    border-bottom: 2px solid var(--olive);
+    padding-bottom: 8px;
+    flex-wrap: wrap;
+  }
+  .main-tab-btn {
+    padding: 12px 24px;
+    border: 1px solid var(--olive);
+    background: rgba(30,28,15,0.8);
+    color: var(--fade);
+    font-family: 'Oswald', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+  }
+  .main-tab-btn:hover {
+    border-color: var(--tan);
+    color: var(--tan);
+  }
+  .main-tab-btn.active {
+    background: var(--olive);
+    border-color: var(--tan);
+    color: var(--tan);
+  }
+  .main-page { display: none; }
+  .main-page.active { display: block; }
+
+  /* --- Merged Styles --- */
+  :root {
+    --olive: #4a4a2a;
+    --khaki: #8b7d5a;
+    --tan: #c4a96b;
+    --cream: #e8dfc8;
+    --paper: #f2ead8;
+    --ink: #1a1a0e;
+    --red: #8b1a1a;
+    --red-bright: #c0392b;
+    --blue: #1a3a5a;
+    --blue-bright: #2e6da4;
+    --green: #498d49; /* from aid/oob */
+    --dark-green: #2a4a2a; /* from adc */
+    --amber: #ff9100; /* from oob/aid */
+    --adc-amber: #c47a1a; /* from adc */
+    --fade: #9c9c5e;
+    --fade2: #9b9b7a;
+    --blue-dim:#2a4a6a;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background-color: #1c1c10;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 31px, rgba(74,74,42,0.15) 31px, rgba(74,74,42,0.15) 32px),
+      repeating-linear-gradient(90deg, transparent, transparent 31px, rgba(74,74,42,0.08) 31px, rgba(74,74,42,0.08) 32px);
+    min-height: 100vh;
+    font-family: 'Noto Sans KR', sans-serif;
+    color: var(--cream);
+    padding: 20px;
+  }
+
+  /* ── HEADER (from adc.html) ── */
+  .page-header {
+    text-align: center;
+    padding: 28px 0 18px;
+    border-bottom: 2px solid var(--olive);
+    margin-bottom: 24px;
+    position: relative;
+  }
+  .page-header::before, .page-header::after {
+    content: '✈';
+    position: absolute;
+    top: 30px;
+    font-size: 18px;
+    color: var(--tan);
+    opacity: 0.5;
+  }
+  .page-header::before { left: 40px; }
+  .page-header::after  { right: 40px; transform: scaleX(-1); }
+
+  .title-main {
+    font-family: 'Oswald', sans-serif;
+    font-size: clamp(42px, 8vw, 80px);
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: var(--tan);
+    text-shadow: 3px 3px 0 var(--olive), 0 0 40px rgba(196,169,107,0.3);
+    line-height: 1;
+  }
+  .title-line {
+    width: 200px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--tan), transparent);
+    margin: 8px auto;
+  }
+  .title-sub {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.4em;
+    color: var(--fade);
+    margin-top: 6px;
+    text-transform: uppercase;
+  }
+
+  /* --- Styles from adc.html --- */
+  .tab-bar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .tab-btn {
+    padding: 10px 32px;
+    border: 1px solid var(--olive);
+    background: rgba(30,28,15,0.8);
+    color: var(--fade2);
+    font-family: 'Oswald', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .tab-btn:hover { border-color: var(--tan); color: var(--tan); }
+  .tab-btn.active.us-tab {
+    background: rgba(26,58,90,0.5);
+    border-color: #4a8ac4;
+    color: #a8c8e8;
+  }
+  .tab-btn.active.drv-tab {
+    background: rgba(90,26,26,0.5);
+    border-color: #c45a4a;
+    color: #e8a8a8;
+  }
+
+  .content-area {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  #adc-page .panel {
+    background: rgba(22,20,10,0.9);
+    border: 1px solid var(--olive);
+    padding: 18px 20px;
+    margin-bottom: 20px;
+  }
+  #adc-page .panel-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    color: var(--tan);
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--olive);
+    padding-bottom: 8px;
+    margin-bottom: 14px;
+  }
+  #adc-page .panel-title.us-color  { color: #7ab0d8; }
+  #adc-page .panel-title.drv-color { color: #d87a7a; }
+
+  .info-bar {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+  .scenario-display {
+    font-family: 'Oswald', sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--tan);
+    cursor: pointer;
+    padding: 4px 8px;
+    border: 1px solid transparent;
+    letter-spacing: 0.05em;
+    transition: border-color 0.2s;
+    min-width: 140px;
+  }
+  .scenario-display:hover { border-color: var(--olive); }
+  .scenario-display.placeholder { color: var(--fade); font-style: italic; font-size: 14px; }
+  .scenario-input {
+    font-family: 'Oswald', sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    background: rgba(74,74,42,0.15);
+    border: 1px solid var(--tan);
+    color: var(--tan);
+    padding: 4px 8px;
+    letter-spacing: 0.05em;
+    min-width: 200px;
+  }
+  .scenario-input:focus { outline: none; }
+
+  .field-pair {
+    display: flex;
+    align-items: center;
+    gap: 0;
+  }
+  .field-pair label {
+    background: rgba(74,74,42,0.3);
+    border: 1px solid var(--olive);
+    padding: 5px 10px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--fade2);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .field-pair input {
+    background: rgba(74,74,42,0.1);
+    border: 1px solid var(--olive);
+    border-left: none;
+    color: var(--cream);
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 12px;
+    padding: 5px 8px;
+    width: 140px;
+  }
+  .field-pair input:focus { outline: none; border-color: var(--tan); }
+
+  .table-wrap {
+    overflow-x: auto;
+    margin-bottom: 20px;
+  }
+  #adc-page table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    table-layout: auto;
+  }
+  #adc-page thead tr:first-child th {
+    font-family: 'Oswald', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 8px 10px;
+    text-align: left;
+  }
+  #adc-page thead tr:nth-child(2) th {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 5px 6px;
+    text-align: center;
+    color: rgba(255,255,255,0.7);
+    white-space: nowrap;
+  }
+
+  #us-lead-table thead tr:first-child th  { background: rgba(26,58,90,0.8);  color: #a8c8e8; border-bottom: 1px solid #4a8ac4; }
+  #us-main-table thead tr:first-child th  { background: rgba(20,50,80,0.8);  color: #a8c8e8; border-bottom: 1px solid #3a7ab4; }
+  #us-trail-table thead tr:first-child th { background: rgba(16,42,68,0.7);  color: #a8c8e8; border-bottom: 1px solid #2a6aa4; }
+  #us-lead-table thead tr:nth-child(2) th,
+  #us-main-table thead tr:nth-child(2) th,
+  #us-trail-table thead tr:nth-child(2) th { background: rgba(26,58,90,0.4); border-bottom: 1px solid var(--olive); }
+
+  #drv-table thead tr:first-child th  { background: rgba(90,26,26,0.8); color: #e8a8a8; border-bottom: 1px solid #c45a4a; }
+  #drv-table thead tr:nth-child(2) th { background: rgba(90,26,26,0.4); border-bottom: 1px solid var(--olive); }
+
+  #adc-page tbody tr {
+    border-bottom: 1px solid rgba(74,74,42,0.25);
+    transition: background 0.15s;
+  }
+  #adc-page tbody tr:hover:not(:last-child) { background: rgba(74,74,42,0.12); }
+  #adc-page tbody tr:last-child { border-bottom: none; }
+
+  #adc-page td {
+    padding: 5px 6px;
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  #adc-page td select, #adc-page td input[type="text"] {
+    background: rgba(74,74,42,0.12);
+    border: 1px solid rgba(74,74,42,0.5);
+    color: var(--cream);
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 11px;
+    padding: 3px 5px;
+    width: 100%;
+    transition: border-color 0.15s;
+  }
+  #adc-page td select:focus, #adc-page td input[type="text"]:focus {
+    outline: none;
+    border-color: var(--tan);
+    background: rgba(74,74,42,0.22);
+  }
+  #adc-page td select option { background: #1c1c10; color: var(--cream); }
+  #adc-page td select.fit-width { width: auto; min-width: 70px; }
+
+  #us-lead-table  td:nth-child(n+8):nth-child(-n+12) input,
+  #us-main-table  td:nth-child(n+8):nth-child(-n+12) input,
+  #us-trail-table td:nth-child(n+8):nth-child(-n+12) input,
+  #drv-table      td:nth-child(n+6):nth-child(-n+10) input { width: 38px; }
+
+  #us-lead-table  td:nth-child(3) input,
+  #us-main-table  td:nth-child(3) input,
+  #us-trail-table td:nth-child(3) input { width: 70px; }
+
+  #us-lead-table  td:nth-child(13) input,
+  #us-main-table  td:nth-child(13) input,
+  #us-trail-table td:nth-child(13) input,
+  #drv-table      td:nth-child(1)  input,
+  #drv-table      td:nth-child(11) input { width: 70px; }
+
+  .status-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    align-items: center;
+  }
+  .status-item { display: flex; flex-direction: column; }
+  .status-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3px;
+  }
+  .status-header label {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: var(--fade2);
+    margin-bottom: -1px;
+  }
+  .status-control-btn {
+    font-weight: bold;
+    cursor: pointer;
+    border: 1px solid rgba(74,74,42,0.6);
+    background: rgba(74,74,42,0.2);
+    border-radius: 50%;
+    width: 14px;
+    height: 14px;
+    line-height: 12px;
+    padding: 0;
+    font-size: 9px;
+    color: var(--cream);
+    transition: background 0.15s;
+  }
+  .status-control-btn:hover { background: rgba(74,74,42,0.5); }
+  .status-control-btn.remove-status { color: #e88; }
+  .status-control-btn.add-status    { color: #8ae; }
+  .status-item select { width: 100%; font-size: 10px; }
+
+  .status-item select option[value="D"] { color: #f0c060; }
+  .status-item select option[value="C"] { color: #f06060; }
+  .status-item select option[value="K"] { color: #a06060; }
+
+  .aggress-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+  }
+  .aggress-value {
+    font-family: 'Oswald', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--tan);
+    min-width: 20px;
+    text-align: center;
+  }
+  .aggress-controls { display: flex; gap: 3px; }
+  .aggress-btn {
+    border: 1px solid rgba(74,74,42,0.6);
+    background: rgba(74,74,42,0.2);
+    color: var(--cream);
+    cursor: pointer;
+    font-size: 8px;
+    padding: 1px 4px;
+    transition: background 0.15s;
+  }
+  .aggress-btn:hover { background: rgba(196,169,107,0.3); }
+
+  .add-row {
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--tan);
+    border: 1px solid var(--olive);
+    background: rgba(74,74,42,0.1);
+    padding: 4px 20px;
+    transition: all 0.15s;
+    letter-spacing: 0.1em;
+  }
+  .add-row:hover { background: rgba(196,169,107,0.15); border-color: var(--tan); }
+
+  .view-btn {
+    background: rgba(74,74,42,0.2);
+    border: 1px solid rgba(74,74,42,0.6);
+    color: var(--fade2);
+    padding: 2px 6px;
+    font-size: 10px;
+    cursor: pointer;
+    font-family: 'Noto Sans KR', sans-serif;
+    transition: all 0.15s;
+  }
+  .view-btn:hover { border-color: var(--tan); color: var(--tan); }
+
+  .abort-btn {
+    cursor: pointer;
+    border: 1px solid var(--red);
+    background: rgba(139,26,26,0.2);
+    color: #f99;
+    padding: 2px 7px;
+    font-size: 10px;
+    font-family: 'Noto Sans KR', sans-serif;
+    transition: all 0.15s;
+    margin-right: 4px;
+  }
+  .abort-btn:hover { background: rgba(139,26,26,0.4); border-color: #f99; }
+  tr.aborted {
+    background-color: rgba(139, 26, 26, 0.35) !important;
+    text-decoration: line-through;
+    opacity: 0.7;
+  }
+  tr.aborted:hover {
+    background-color: rgba(139, 26, 26, 0.45) !important;
+  }
+
+  .delete-row {
+    cursor: pointer;
+    border: 1px solid rgba(139,26,26,0.5);
+    background: rgba(139,26,26,0.12);
+    color: #e88;
+    padding: 2px 7px;
+    font-size: 10px;
+    font-family: 'Noto Sans KR', sans-serif;
+    transition: all 0.15s;
+  }
+  .delete-row:hover { background: rgba(139,26,26,0.3); border-color: #e88; }
+
+  .modal {
+    display: none;
+    position: absolute;
+    z-index: 1000;
+    background: rgba(22,20,10,0.97);
+    border: 1px solid var(--olive);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.7);
+    padding: 16px;
+  }
+  .modal-content { position: relative; text-align: center; }
+  #modal-image { max-height: 90vh; }
+  .close-btn {
+    color: var(--fade);
+    position: absolute;
+    top: -8px;
+    right: 0;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.15s;
+  }
+  .close-btn:hover { color: var(--tan); }
+
+  .hidden { display: none; }
+
+  #adc-page .section-divider {
+    text-align: center;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    color: var(--fade);
+    padding: 4px 0 10px;
+    text-transform: uppercase;
+  }
+
+  #view-all-adc-fab {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    background: var(--tan);
+    color: var(--ink);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 1001;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    transition: all 0.2s ease-in-out;
+  }
+  #view-all-adc-fab:hover {
+    transform: scale(1.1);
+    background: var(--cream);
+  }
+
+  #adc-viewer-panel {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 520px;
+    background: rgba(22,20,10,0.97);
+    border-top: 2px solid var(--tan);
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.5);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+  }
+
+  #adc-viewer-panel.hidden {
+    display: none !important;
+  }
+
+  .adc-viewer-header {
+    padding: 8px 15px;
+    background: var(--olive);
+    color: var(--tan);
+    font-family: 'Oswald', sans-serif;
+    letter-spacing: 0.1em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  .adc-viewer-header .close-btn {
+      position: static;
+      font-size: 24px;
+  }
+
+  #adc-viewer-content {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 15px;
+    gap: 15px;
+    flex-grow: 1;
+  }
+  #adc-viewer-content::-webkit-scrollbar { height: 8px; }
+  #adc-viewer-content::-webkit-scrollbar-track { background: var(--olive); }
+  #adc-viewer-content::-webkit-scrollbar-thumb { background: var(--tan); border-radius: 4px; }
+
+  #adc-viewer-content img {
+    height: 100%;
+    width: auto;
+    border-radius: 5px;
+    border: 2px solid var(--olive);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    object-fit: contain;
+    background: var(--ink);
+  }
+  #adc-viewer-content .placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      color: var(--fade);
+      font-size: 14px;
+  }
+
+  /* --- Styles from oob.html --- */
+  .main-layout {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 360px 1fr;
+    gap: 24px;
+    align-items: start;
+  }
+
+  #oob-page .panel {
+    background: rgba(30,28,15,0.9);
+    border: 1px solid var(--olive);
+    padding: 20px;
+  }
+  #oob-page .panel-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    color: var(--tan);
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--olive);
+    padding-bottom: 8px;
+    margin-bottom: 16px;
+  }
+
+  .field-group { margin-bottom: 16px; }
+  .field-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--fade);
+    text-transform: uppercase;
+    margin-bottom: 5px;
+    display: block;
+  }
+
+  #oob-page select, #oob-page input[type="number"] {
+    width: 100%;
+    background: rgba(74,74,42,0.15);
+    border: 1px solid var(--olive);
+    color: var(--cream);
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 13px;
+    padding: 7px 10px;
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  #oob-page select:focus, #oob-page input[type="number"]:focus {
+    outline: none;
+    border-color: var(--tan);
+    background: rgba(74,74,42,0.25);
+  }
+  #oob-page select option { background: #1c1c10; color: var(--cream); }
+
+  .date-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
+  .checkbox-group { display: flex; flex-direction: column; gap: 6px; }
+  .checkbox-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    cursor: pointer;
+    padding: 4px 0;
+  }
+  .checkbox-item input[type="checkbox"] {
+    width: auto;
+    margin-top: 2px;
+    accent-color: var(--tan);
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .checkbox-item span {
+    font-size: 13px;
+    color: var(--cream);
+    line-height: 1.4;
+  }
+
+  #usn-section, #variant-section { display: none; }
+  #usn-section.visible, #variant-section.visible { display: block; }
+
+  .generate-btn {
+    width: 100%;
+    padding: 14px;
+    background: var(--olive);
+    border: 1px solid var(--tan);
+    color: var(--tan);
+    font-family: 'Oswald', sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: 0.25em;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 8px;
+    position: relative;
+    overflow: hidden;
+  }
+  .generate-btn:hover {
+    background: var(--tan);
+    color: var(--ink);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 20px rgba(196,169,107,0.3);
+  }
+  .generate-btn:active { transform: translateY(0); }
+
+  .results-area {
+    min-height: 400px;
+  }
+
+  .result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  .result-timestamp {
+    font-size: 12px;
+    color: var(--fade);
+    letter-spacing: 0.1em;
+  }
+
+  .mission-block {
+    border: 1px solid var(--olive);
+    margin-bottom: 12px;
+    overflow: hidden;
+    animation: slideIn 0.3s ease forwards;
+    opacity: 0;
+  }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .mission-header {
+    background: rgba(74,74,42,0.3);
+    padding: 7px 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--olive);
+  }
+  .mission-name {
+    font-family: 'Oswald', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--tan);
+  }
+  .mission-phase {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--fade);
+    text-transform: uppercase;
+  }
+
+  .squadron-list { padding: 10px 12px; }
+  .squadron-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(74,74,42,0.2);
+    font-size: 13px;
+  }
+  .squadron-row:last-child { border-bottom: none; }
+  .sq-count {
+    color: var(--tan);
+    font-weight: 600;
+    min-width: 80px;
+    white-space: nowrap;
+  }
+  .sq-aircraft {
+    color: var(--cream);
+    font-weight: 600;
+    min-width: 80px;
+  }
+  .sq-task {
+    color: var(--fade);
+    font-size: 12px;
+    letter-spacing: 0.05em;
+  }
+  .sq-ammo {
+    margin-left: auto;
+    font-size: 11px;
+    color: var(--amber);
+    letter-spacing: 0.05em;
+  }
+  .dice-result {
+    font-size: 11px;
+    color: var(--green);
+    background: rgba(73,141,73,0.2);
+    border: 1px solid rgba(73,141,73,0.4);
+    padding: 1px 6px;
+    margin-left: 4px;
+    white-space: nowrap;
+  }
+  .dice-result::before { content: '🎲 '; }
+
+  .note-block {
+    background: rgba(139,122,90,0.08);
+    border-left: 2px solid var(--khaki);
+    padding: 8px 12px;
+    margin-bottom: 8px;
+    font-size: 12px;
+    color: var(--fade);
+    line-height: 1.7;
+  }
+  .note-block strong { color: var(--tan); }
+
+  .ammo-summary {
+    border: 1px solid rgba(196,122,26,0.4);
+    background: rgba(196,122,26,0.05);
+    padding: 10px 12px;
+    margin-top: 12px;
+  }
+  .ammo-title {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    color: var(--amber);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .ammo-row {
+    font-size: 13px;
+    color: var(--cream);
+    padding: 2px 0;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 80px 40px;
+    color: var(--fade);
+  }
+  .empty-state .icon { font-size: 48px; opacity: 0.3; margin-bottom: 16px; }
+  .empty-state p { font-size: 14px; letter-spacing: 0.1em; line-height: 1.8; }
+
+  #oob-page .section-divider {
+    text-align: center;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    color: var(--fade);
+    padding: 8px 0;
+    text-transform: uppercase;
+  }
+
+  .tag {
+    display: inline-block;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    padding: 1px 6px;
+    border: 1px solid;
+    text-transform: uppercase;
+    margin-left: 4px;
+  }
+  .tag-variant { border-color: var(--red); color: var(--red); }
+  .tag-note { border-color: var(--khaki); color: var(--khaki); }
+
+  .rule-note {
+    font-size: 11px;
+    color: var(--fade);
+    padding: 3px 12px 6px;
+    font-style: italic;
+  }
+
+  @media (max-width: 800px) {
+    .main-layout { grid-template-columns: 1fr; }
+  }
+
+  /* --- Styles from aid.html --- */
+  #aid-page .tabs{display:flex;gap:4px;margin-bottom:20px;flex-wrap:wrap;max-width:960px;margin-left:auto;margin-right:auto}
+  #aid-page button.tab{font-family:'Oswald',sans-serif;font-size:13px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;padding:8px 20px;border:1px solid var(--olive);background:rgba(30,28,15,.9);color:var(--fade);cursor:pointer;transition:all .2s}
+  #aid-page button.tab:hover{border-color:var(--khaki);color:var(--cream)}
+  #aid-page button.tab.on{background:var(--olive);border-color:var(--tan);color:var(--tan)}
+  #aid-page .page{display:none;max-width:960px;margin:0 auto}
+  #aid-page .page.on{display:block}
+  .step{background:rgba(30,28,15,.9);border:1px solid var(--olive);margin-bottom:10px;overflow:hidden;transition:opacity .2s}
+  .step.locked{opacity:.3;pointer-events:none}
+  .step-head{display:flex;align-items:center;gap:10px;padding:8px 14px;background:rgba(74,74,42,.2);border-bottom:1px solid var(--olive)}
+  .step-num{width:22px;height:22px;border:1px solid var(--olive);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;flex-shrink:0;color:var(--fade);background:rgba(74,74,42,.2)}
+  .step-num.done{background:rgba(73,141,73,.2);border-color:var(--green);color:var(--green)}
+  .step-title{font-family:'Oswald',sans-serif;font-size:13px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--tan);flex:1}
+  .step-badge{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;padding:2px 8px;border:1px solid var(--olive);color:var(--fade);text-transform:uppercase}
+  .step-badge.success{border-color:var(--green);color:var(--green)}
+  .step-badge.danger{border-color:var(--red);color:var(--red)}
+  .step-badge.info{border-color:var(--khaki);color:var(--khaki)}
+  .step-body{padding:14px 16px}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .field-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap}
+  .field-lbl{font-size:11px;font-weight:600;letter-spacing:.1em;color:var(--fade);text-transform:uppercase;min-width:110px;flex-shrink:0}
+  #aid-page select,#aid-page input[type=number]{background:rgba(74,74,42,.15);border:1px solid var(--olive);color:var(--cream);font-family:'Noto Sans KR',sans-serif;font-size:13px;padding:6px 10px;cursor:pointer;transition:border-color .2s,background .2s;appearance:none;-webkit-appearance:none}
+  #aid-page select:focus,#aid-page input[type=number]:focus{outline:none;border-color:var(--tan);background:rgba(74,74,42,.25)}
+  #aid-page select option{background:#1c1c10;color:var(--cream)}
+  #aid-page input[type=number]{width:70px}
+  .av-wrap{display:flex;align-items:center;gap:4px}
+  .av-btn{width:26px;height:26px;border:1px solid var(--olive);background:rgba(74,74,42,.2);color:var(--tan);font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;font-family:inherit;transition:background .15s;padding:0}
+  .av-btn:hover{background:rgba(74,74,42,.45)}
+  .av-disp{width:44px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:600;color:var(--tan)}
+  .av-hint{font-size:11px;color:var(--fade);letter-spacing:.05em}
+  .sec-lbl{font-size:11px;font-weight:600;letter-spacing:.15em;color:var(--fade);text-transform:uppercase;margin-bottom:6px;margin-top:2px}
+  .mods{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin:6px 0}
+  .mod{display:flex;align-items:center;gap:7px;padding:5px 8px;border:1px solid rgba(74,74,42,.4);cursor:pointer;font-size:12px;color:var(--cream);transition:background .1s}
+  .mod:hover{background:rgba(74,74,42,.25)}
+  .mod input[type=checkbox]{width:13px;height:13px;accent-color:var(--tan);flex-shrink:0;cursor:pointer}
+  .mv{font-weight:600;margin-left:auto;font-size:12px;flex-shrink:0;font-family:'JetBrains Mono',monospace}
+  .mv.p{color:var(--green)}.mv.n{color:var(--red)}
+  .total-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-top:1px solid var(--olive);margin-top:8px}
+  .total-lbl{font-size:11px;letter-spacing:.1em;color:var(--fade);text-transform:uppercase}
+  .total-n{font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:600;color:var(--tan)}
+  .btn{width:100%;padding:10px 16px;font-family:'Oswald',sans-serif;font-size:16px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;border:1px solid var(--tan);background:var(--olive);color:var(--tan);cursor:pointer;transition:all .2s;margin-top:10px}
+  .btn:hover{background:var(--tan);color:var(--ink);transform:translateY(-1px)}
+  .btn:active{transform:translateY(0)}
+  .btn.secondary{background:transparent;border-color:var(--olive);color:var(--fade);font-size:13px;margin-top:6px}
+  .btn.secondary:hover{border-color:var(--khaki);color:var(--cream);background:transparent;transform:none}
+  .result{display:none;margin-top:10px;padding:12px;background:rgba(74,74,42,.12);border:1px solid var(--olive);border-left:3px solid var(--tan)}
+  .dice-big{font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:600;text-align:center;color:var(--tan);margin-bottom:4px;letter-spacing:.05em}
+  .res-line{font-size:13px;text-align:center;color:var(--fade);line-height:1.6}
+  .res-line b{color:var(--cream)}
+  .res-line .ok{color:var(--green);font-weight:600}
+  .res-line .bad{color:var(--red);font-weight:600}
+  .info-box{padding:7px 11px;background:rgba(42,74,106,.2);border-left:2px solid var(--blue-dim);font-size:12px;color:var(--fade);margin-bottom:10px;line-height:1.5;letter-spacing:.02em}
+  .warn-box{padding:7px 11px;background:rgba(139,90,26,.15);border-left:2px solid var(--khaki);font-size:12px;color:var(--fade);margin-bottom:10px;line-height:1.5}
+  .base-box{padding:7px 11px;background:rgba(74,74,42,.2);border:1px solid var(--olive);font-size:12px;color:var(--fade);margin-bottom:10px;letter-spacing:.05em}
+  .base-box b{color:var(--tan);font-family:'JetBrains Mono',monospace}
+  .reftbl{width:100%;border-collapse:collapse;font-size:12px;margin-top:6px}
+  .reftbl th{text-align:left;padding:4px 8px;font-family:'Oswald',sans-serif;font-size:11px;font-weight:500;letter-spacing:.15em;color:var(--fade);text-transform:uppercase;border-bottom:1px solid var(--olive);background:rgba(74,74,42,.15)}
+  .reftbl td{padding:4px 8px;border-bottom:1px solid rgba(74,74,42,.2);color:var(--cream)}
+  .reftbl tr:last-child td{border-bottom:none}
+  .reftbl tr.hl td{background:rgba(196,169,107,.12);color:var(--tan);font-weight:600}
+  .divider{height:1px;background:var(--olive);margin:12px 0}
+  @media(max-width:600px){.two{grid-template-columns:1fr}.mods{grid-template-columns:1fr}}
+
+  /* --- Print Styles --- */
+  @media print {
+    body {
+      background: white;
+      color: black;
+      padding: 10px;
+      font-size: 10px;
+    }
+    .page-header, .main-tab-bar, .tab-bar, .add-row, .delete-row, .view-btn, .aggress-controls, .status-control-btn, .close-btn, .modal, .generate-btn, #send-to-adc-btn, #oob-print-btn, #adc-print-btn, #view-all-adc-fab, #adc-viewer-panel, .av-btn, .btn, .fab {
+      display: none !important;
+    }
+    .panel, .step {
+      border: 1px solid #ccc;
+      box-shadow: none;
+      padding: 10px;
+      page-break-inside: avoid;
+      background: white;
+    }
+    .panel-title, .step-title {
+      background: #eee;
+      color: black !important;
+      border-bottom: 1px solid #ccc;
+    }
+    .scenario-display, .field-pair label, .field-pair input {
+      color: black;
+    }
+    .field-pair input {
+      border-color: #ccc;
+      background: white;
+    }
+    table {
+      font-size: 9px;
+    }
+    thead tr:first-child th {
+      background: #ddd !important;
+      color: black !important;
+      border-bottom-color: #bbb !important;
+    }
+    thead tr:nth-child(2) th {
+      background: #eee !important;
+      color: #333 !important;
+      border-bottom-color: #bbb !important;
+    }
+    tbody tr { border-bottom-color: #ddd; }
+    td { padding: 2px 3px; }
+    td select, td input[type="text"] { border: 1px solid #ddd; background: white; color: black; }
+    .aggress-value { color: black; }
+
+    /* OOB Print */
+    .main-layout { display: block; }
+    .results-area { border: none; box-shadow: none; padding: 0; min-height: auto; background: transparent; }
+    .mission-block { page-break-inside: avoid; opacity: 1; }
+    .mission-header { background: #f0f0f0; border-bottom: 1px solid #ccc; }
+    .result-header { border-bottom: 1px solid #ccc; padding-bottom: 10px; }
+    .squadron-row { border-bottom-color: #eee; }
+    .dice-result { border: 1px solid #aaa; background: #f0f0f0; color: black; }
+    .ammo-summary { border: 1px solid #ccc; background: #f9f9f9; }
+    .mission-name, .mission-phase, .sq-count, .sq-aircraft, .sq-task, .sq-ammo, .result-timestamp, .note-block, .ammo-title, .ammo-row, .rule-note, .note-block strong, .section-divider { color: black !important; }
+    .note-block { background: transparent; border-color: #ccc; }
+
+    /* AID Print */
+    #aid-page .page.on { display: block; }
+    #aid-page .tabs { display: none; }
+    .result { display: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="title-main">DOWNTOWN</div>
+  <div class="title-line"></div>
+  <div class="title-sub">GMT Games · Solo Tools</div>
+</div>
+
+<div class="main-tab-bar">
+  <button class="main-tab-btn active" data-target="oob-page">OOB Generator</button>
+  <button class="main-tab-btn" data-target="adc-page">ADC Generator</button>
+  <button class="main-tab-btn" data-target="aid-page">Player Aid</button>
+</div>
+
+<div id="oob-page" class="main-page active">
+  <!-- Content from oob.html -->
+  <div class="main-layout">
+    <!-- Input Panel -->
+    <div class="panel">
+      <div class="panel-title">▸ 임무 파라미터</div>
+
+      <div class="field-group">
+        <label class="field-label">편제표 / 공격대 유형</label>
+        <select id="table-select" onchange="onTableChange()">
+          <option value="A">표 A — USAF 공격대 (Rolling Thunder 1965-68)</option>
+          <option value="B">표 B — USN 공격대 (Rolling Thunder / Linebacker)</option>
+          <option value="C_NAIL">표 C — USAF 야간/악천후: 코만도 네일</option>
+          <option value="C_PAPA">표 C — USAF 야간/악천후: 코만도 네일 파파</option>
+          <option value="C_CLUB">표 C — USAF 야간/악천후: 코만도 클럽</option>
+          <option value="C_LORAN">표 C — USAF 야간/악천후: LORAN</option>
+          <option value="D">표 D — USAF 공격대 (Linebacker 1972)</option>
+          <option value="E_USAF">표 E — USAF CSAR</option>
+          <option value="E_USN">표 E — USN CSAR</option>
+        </select>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">공격대 날짜</label>
+        <div class="date-row">
+          <div>
+            <label class="field-label">연도</label>
+            <select id="year-select" onchange="onDateChange()">
+              <option value="1964">1964</option>
+              <option value="1965">1965</option>
+              <option value="1966">1966</option>
+              <option value="1967" selected>1967</option>
+              <option value="1968">1968</option>
+              <option value="1969">1969</option>
+              <option value="1970">1970</option>
+              <option value="1971">1971</option>
+              <option value="1972">1972</option>
+              <option value="1973">1973</option>
+            </select>
+          </div>
+          <div>
+            <label class="field-label">월</label>
+            <select id="month-select" onchange="onDateChange()">
+              <option value="1">1월</option>
+              <option value="2">2월</option>
+              <option value="3">3월</option>
+              <option value="4" selected>4월</option>
+              <option value="5">5월</option>
+              <option value="6">6월</option>
+              <option value="7">7월</option>
+              <option value="8">8월</option>
+              <option value="9">9월</option>
+              <option value="10">10월</option>
+              <option value="11">11월</option>
+              <option value="12">12월</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scenario section -->
+      <div class="field-group">
+        <label class="field-label">시나리오 (SSR 자동 적용)</label>
+        <select id="scenario-select" onchange="onScenarioChange()">
+          <option value="">— 시나리오 선택 안 함 (수동 설정) —</option>
+          <option value="D1">D1: Here, There and Everywhere (1965.07)</option>
+          <option value="D2">D2: Beginnings (1965.10)</option>
+          <option value="D3">D3: You Keep Me Hanginʼ On (1966.07)</option>
+          <option value="D4">D4: The Wheel of Hurt (1966.11-12)</option>
+          <option value="D5">D5: Spirit in the Sky (1967.04)</option>
+          <option value="D6">D6: Respect (1967.08)</option>
+          <option value="D7">D7: Thick as a Brick (1967.08)</option>
+          <option value="D8">D8: All Tomorrowʼs Parties (1967.10)</option>
+          <option value="D9">D9: I Wish It Would Rain (1967.11)</option>
+          <option value="D10">D10: Smoke on the Water (1972.04/05)</option>
+          <option value="D11">D11: Superfly (1972.05.10)</option>
+          <option value="D12">D12: Whatʼs Going On (1972.06.01)</option>
+          <option value="D13">D13: Will the Circle Be Unbroken (1972.06)</option>
+          <option value="D14">D14: Walk on the Wild Side (1972.12.18)</option>
+          <option value="D15">D15: Graveyard Train (1972.12.21)</option>
+          <option value="D16">D16: Where Are You Now, My Son? (1972.12.26)</option>
+        </select>
+      </div>
+      <!-- SSR raid date selector (for multi-date scenarios) -->
+      <div id="ssr-raid-section" class="field-group" style="display:none">
+        <label class="field-label">공격 날짜 선택</label>
+        <select id="ssr-raid-select" onchange="onSsrRaidChange()"></select>
+      </div>
+      <!-- SSR info display -->
+      <div id="ssr-info" class="note-block" style="display:none; border-left-color: var(--amber); color: var(--amber);"></div>
+
+      <!-- USN Carrier section -->
+      <div id="usn-section" class="field-group">
+        <label class="field-label">항공모함 ID</label>
+        <select id="carrier-select"></select>
+        <div style="margin-top:8px">
+          <label class="field-label">폭격 비행대 구성</label>
+          <select id="bombing-config">
+            <option value="single">단일 유형 (옵션 a)</option>
+            <option value="mixed">혼합 2유형 (옵션 b)</option>
+          </select>
+        </div>
+        <div style="margin-top:8px">
+          <label class="field-label">해병대 재밍 지원</label>
+          <select id="marine-jam">
+            <option value="auto">주사위 자동 결정</option>
+            <option value="none">없음</option>
+            <option value="1">1개 비행대</option>
+            <option value="2">2개 비행대</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Variants section -->
+      <div id="variant-section" class="field-group">
+        <label class="field-label">편제 변형 (SSR 지시 시)</label>
+        <div class="checkbox-group">
+          <label class="checkbox-item">
+            <input type="checkbox" id="var-standoff"> <span>스탠드오프 재밍 (맵 외부)</span>
+          </label>
+          <label class="checkbox-item" id="chk-phantom-wrap">
+            <input type="checkbox" id="var-phantom"> <span>팬텀 공격대 (F-4C Strike/CAP 추가)</span>
+          </label>
+          <label class="checkbox-item" id="chk-joint-wrap">
+            <input type="checkbox" id="var-joint"> <span>합동 공격대 (F-4C Strike/CAP 추가)</span>
+          </label>
+          <label class="checkbox-item" id="chk-major-wrap">
+            <input type="checkbox" id="var-major"> <span>주요 공격대 (F-105D 비행대 추가)</span>
+          </label>
+          <label class="checkbox-item" id="chk-bolo-wrap">
+            <input type="checkbox" id="var-bolo"> <span>볼로 작전 (모든 비재밍 비행대 F-4C/CAP)</span>
+          </label>
+          <label class="checkbox-item" id="chk-weasel-wrap">
+            <input type="checkbox" id="var-weasel"> <span>강화 위즐 (아이언 핸드 2배)</span>
+          </label>
+          <label class="checkbox-item" id="chk-weasel-short-wrap">
+            <input type="checkbox" id="var-weasel-short"> <span>위즐 부족 (슈라이크 절반)</span>
+          </label>
+          <label class="checkbox-item" id="chk-chaff-reinf-wrap">
+            <input type="checkbox" id="var-chaff-reinf"> <span>강화 채프 임무</span>
+          </label>
+          <label class="checkbox-item" id="chk-chaff-red-wrap">
+            <input type="checkbox" id="var-chaff-red"> <span>축소 채프 호위</span>
+          </label>
+          <label class="checkbox-item" id="chk-conventional-wrap">
+            <input type="checkbox" id="var-conventional"> <span>재래식 공격 (멍텅구리 폭탄)</span>
+          </label>
+          <label class="checkbox-item" id="chk-major-d-wrap">
+            <input type="checkbox" id="var-major-d"> <span>주요 공격대 (LGB 폭격기 증강)</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- C_NAIL options -->
+      <div id="nail-options" class="field-group" style="display:none">
+        <label class="field-label">코만도 네일 폭격기 유형</label>
+        <select id="nail-aircraft">
+          <option value="F-105F">F-105F 라이언의 레이더스</option>
+          <option value="F-4D">F-4D</option>
+        </select>
+      </div>
+
+      <button class="generate-btn" onclick="generate()">▸ 편제 생성</button>
+      <button id="send-to-adc-btn" class="generate-btn" onclick="sendToAdc()" style="display:none; margin-top: 10px; background: var(--tan); color: var(--ink);">ADC 생성기로 보내기</button>
+      <button id="oob-print-btn" class="generate-btn" onclick="printResults()" style="display:none; margin-top: 10px; background: var(--dark-green); color: var(--paper);">편제 인쇄</button>
+    </div>
+
+    <!-- Results Panel -->
+    <div class="panel results-area" id="results">
+      <div class="empty-state">
+        <div class="icon">✈</div>
+        <p>파라미터를 설정하고<br>편제 생성을 클릭하세요</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="adc-page" class="main-page">
+  <!-- Content from adc.html -->
+  <div class="tab-bar">
+    <button class="tab-btn us-tab"  id="us-btn">▸ US 비행대</button>
+    <button class="tab-btn drv-tab" id="drv-btn">▸ DRV 요격기</button>
+    <button id="adc-print-btn" class="tab-btn" style="margin-left: auto; border-color: var(--dark-green); color: var(--dark-green);">🖨️ 인쇄</button>
+  </div>
+
+  <!-- ══════════════ US CONTENT ══════════════ -->
+  <div id="us-content" class="content-area" style="display:none;">
+
+    <div class="panel">
+      <div class="panel-title us-color">▸ 시나리오 정보</div>
+      <div class="info-bar">
+        <div id="scenario-container">
+          <h3 id="scenario-name-display" data-placeholder="시나리오 명을 입력하세요" class="scenario-display placeholder">시나리오 명을 입력하세요</h3>
+          <input type="text" id="scenario-name-input" class="scenario-input hidden" />
+        </div>
+        <div class="field-pair">
+          <label>날짜</label>
+          <input type="text" id="us-date" placeholder="YYYY-MM-DD" />
+        </div>
+        <div class="field-pair">
+          <label>표적</label>
+          <input type="text" id="us-target" placeholder="목표 지점" />
+        </div>
+      </div>
+    </div>
+
+    <!-- 선발 공격대 -->
+    <div class="panel">
+      <div class="panel-title us-color">▸ 선발 공격대</div>
+      <div class="table-wrap">
+        <table id="us-lead-table">
+          <thead>
+            <tr><th colspan="16">선발 공격대 (Pre-Raid)</th></tr>
+            <tr>
+              <th>임무</th><th>태스크</th><th>콜싸인</th><th>항공기 유형</th>
+              <th>수준</th><th>공격성</th><th>상태</th>
+              <th>기총</th><th>IRM</th><th>RHM</th><th>폭탄</th><th>연료</th>
+              <th>비고</th><th></th><th>ADC</th><th>삭제</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td colspan="15" style="text-align:center; padding:8px 0;"><button class="add-row" data-target="us-lead-table">+ 비행대 추가</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 주 공격대 -->
+    <div class="panel">
+      <div class="panel-title us-color">▸ 주 공격대(Main Raid)</div>
+      <div class="table-wrap">
+        <table id="us-main-table">
+          <thead>
+            <tr><th colspan="16">주 공격대 (MAIN)</th></tr>
+            <tr>
+              <th>임무</th><th>태스크</th><th>콜싸인</th><th>항공기 유형</th>
+              <th>수준</th><th>공격성</th><th>상태</th>
+              <th>기총</th><th>IRM</th><th>RHM</th><th>폭탄</th><th>연료</th>
+              <th>비고</th><th></th><th>ADC</th><th>삭제</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td colspan="15" style="text-align:center; padding:8px 0;"><button class="add-row" data-target="us-main-table">+ 비행대 추가</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 후발 공격대 -->
+    <div class="panel">
+      <div class="panel-title us-color">▸ 후발 공격대(Post Raid)</div>
+      <div class="table-wrap">
+        <table id="us-trail-table">
+          <thead>
+            <tr><th colspan="16">후발 공격대 (TRAIL)</th></tr>
+            <tr>
+              <th>임무</th><th>태스크</th><th>콜싸인</th><th>항공기 유형</th>
+              <th>수준</th><th>공격성</th><th>상태</th>
+              <th>기총</th><th>IRM</th><th>RHM</th><th>폭탄</th><th>연료</th>
+              <th>비고</th><th></th><th>ADC</th><th>삭제</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td colspan="15" style="text-align:center; padding:8px 0;"><button class="add-row" data-target="us-trail-table">+ 비행대 추가</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ DRV CONTENT ══════════════ -->
+  <div id="drv-content" class="content-area" style="display:none;">
+    <div class="panel">
+      <div class="panel-title drv-color">▸ DRV 요격기 편대</div>
+      <div class="table-wrap">
+        <table id="drv-table">
+          <thead>
+            <tr><th colspan="14">DRV 요격기 (INTERCEPTORS)</th></tr>
+            <tr>
+              <th>콜싸인</th><th>항공기 유형</th><th>수준</th><th>공격성</th><th>상태</th>
+              <th>기총</th><th>IRM</th><th>RHM</th><th>폭탄</th><th>연료</th>
+              <th>비고</th><th></th><th>ADC</th><th>삭제</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td colspan="13" style="text-align:center; padding:8px 0;"><button class="add-row" data-target="drv-table">+ 편대 추가</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div id="image-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn">&times;</span>
+      <img id="modal-image" src="" alt="Aircraft Image">
+    </div>
+  </div>
+
+  <!-- ADC Viewer -->
+  <div id="view-all-adc-fab" title="모든 ADC 보기">🖼️</div>
+  <div id="adc-viewer-panel" class="hidden">
+    <div class="adc-viewer-header">
+      <span>선택된 항공기 ADC</span>
+      <span id="adc-viewer-close" class="close-btn">&times;</span>
+    </div>
+    <div id="adc-viewer-content">
+      <!-- Images will be populated here -->
+    </div>
+  </div>
+</div>
+
+<div id="aid-page" class="main-page">
+  <!-- Content from aid.html -->
+  <div class="tabs">
+    <button class="tab on" onclick="showAidPage('air',this)">공중전</button>
+    <button class="tab" onclick="showAidPage('aaa',this)">AAA</button>
+    <button class="tab" onclick="showAidPage('sam',this)">SAM / ARM</button>
+  </div>
+
+  <!-- ======================== 공중전 ======================== -->
+  <div id="page-air" class="page on">
+
+    <div class="step" id="s1">
+      <div class="step-head">
+        <div class="step-num" id="s1-num">1</div>
+        <div class="step-title">교전 판정 &nbsp;[11.22]</div>
+        <div class="step-badge" id="s1-badge">대기</div>
+      </div>
+      <div class="step-body">
+        <div class="two">
+          <div>
+            <div class="field-row"><span class="field-lbl">탐지 상태</span>
+              <select id="eng-detect" onchange="recalcEng()">
+                <option value="detected">탐지됨</option><option value="undetected">미탐지</option>
+              </select>
+            </div>
+            <div class="field-row"><span class="field-lbl">시간대</span>
+              <select id="eng-time" onchange="recalcEng()">
+                <option value="day">주간</option><option value="night">야간 / 시야 없음</option>
+              </select>
+            </div>
+            <div class="field-row"><span class="field-lbl">공격성 지수 (AV)</span>
+              <div class="av-wrap">
+                <button class="av-btn" onclick="stepAV('eng-av',-1)">−</button>
+                <div class="av-disp" id="eng-av-disp">+2</div>
+                <input type="hidden" id="eng-av" value="2">
+                <button class="av-btn" onclick="stepAV('eng-av',1)">+</button>
+              </div>
+              <span class="av-hint">–3 ~ +3</span>
+            </div>
+            <div class="base-box">교전 기준 수치: <b id="eng-base">9</b> &nbsp;·&nbsp; 이상이면 교전 성공</div>
+          </div>
+          <div>
+            <div class="sec-lbl">보정 수치</div>
+            <div class="mods" id="eng-mods" style="grid-template-columns:1fr">
+              <label class="mod"><input type="checkbox" data-v="-1" onchange="recalcEng()"><span>무질서 / 채프 / 밀집대형</span><span class="mv n">–1</span></label>
+              <label class="mod"><input type="checkbox" data-v="-1" onchange="recalcEng()"><span>다른 고도 밴드</span><span class="mv n">–1</span></label>
+              <label class="mod"><input type="checkbox" data-v="-1" onchange="recalcEng()"><span>슬래시 어택 중</span><span class="mv n">–1</span></label>
+              <label class="mod"><input type="checkbox" data-v="-1" onchange="recalcEng()"><span>후방 반구</span><span class="mv n">–1</span></label>
+              <label class="mod"><input type="checkbox" data-v="-1" onchange="recalcEng()"><span>연무</span><span class="mv n">–1</span></label>
+              <label class="mod"><input type="checkbox" data-v="-2" onchange="recalcEng()"><span>안개</span><span class="mv n">–2</span></label>
+              <label class="mod"><input type="checkbox" data-v="-2" onchange="recalcEng()"><span>야간 / 달 없음</span><span class="mv n">–2</span></label>
+            </div>
+          </div>
+        </div>
+        <div class="total-row"><span class="total-lbl">AV + 보정 합계</span><span class="total-n" id="eng-total">+2</span></div>
+        <button class="btn" onclick="rollEng()">▸ 교전 판정 주사위 굴리기 (2d10)</button>
+        <div class="result" id="eng-result"><div class="dice-big" id="eng-dice"></div><div class="res-line" id="eng-res"></div></div>
+      </div>
+    </div>
+
+    <div class="step locked" id="s2">
+      <div class="step-head">
+        <div class="step-num" id="s2-num">2</div>
+        <div class="step-title">기동 판정 &nbsp;[11.31] — 사격 기회 결정</div>
+        <div class="step-badge" id="s2-badge">교전 성공 후 활성화</div>
+      </div>
+      <div class="step-body">
+        <div class="info-box" id="man-inherited">교전 판정에서 AV·야간 여부가 자동 반영됩니다.</div>
+        <div class="two">
+          <div>
+            <div class="field-row"><span class="field-lbl">아군 기동력</span><input type="number" id="man-my" value="8" min="0" max="15" oninput="recalcMan()"></div>
+            <div class="field-row"><span class="field-lbl">적 기동력</span><input type="number" id="man-en" value="7" min="0" max="15" oninput="recalcMan()"></div>
+            <div class="field-row"><span class="field-lbl">아군 AV</span>
+              <div class="av-wrap"><button class="av-btn" onclick="stepAV('man-av',-1)">−</button><div class="av-disp" id="man-av-disp">+2</div><input type="hidden" id="man-av" value="2"><button class="av-btn" onclick="stepAV('man-av',1)">+</button></div>
+            </div>
+            <div class="field-row"><span class="field-lbl">적 AV</span>
+              <div class="av-wrap"><button class="av-btn" onclick="stepAV('man-enav',-1)">−</button><div class="av-disp" id="man-enav-disp">+2</div><input type="hidden" id="man-enav" value="2"><button class="av-btn" onclick="stepAV('man-enav',1)">+</button></div>
+            </div>
+            <div class="field-row"><span class="field-lbl">항공기 수</span>
+              <select id="man-col" onchange="recalcMan()">
+                <option value="0">1기 (Fluid Four/방어원형/무질서)</option>
+                <option value="1">2기</option><option value="2">3기</option><option value="3">4기</option>
+              </select>
+            </div>
+            <div style="font-size:11px;color:var(--fade);margin-top:4px;letter-spacing:.05em">
+              기동력 차: <span style="color:var(--tan);font-family:'JetBrains Mono',monospace" id="man-mdiff">+1</span>
+              &nbsp;·&nbsp; AV 차: <span style="color:var(--tan);font-family:'JetBrains Mono',monospace" id="man-adiff">+0</span>
+            </div>
+          </div>
+          <div>
+            <div class="sec-lbl">보정 수치</div>
+            <div class="mods" style="grid-template-columns:1fr">
+              <label class="mod"><input type="checkbox" data-v="3" onchange="recalcMan()"><span>기습 성공</span><span class="mv p">+3</span></label>
+              <label class="mod"><input type="checkbox" data-v="-1" onchange="recalcMan()"><span>아군 불리한 위치</span><span class="mv n">–1</span></label>
+              <label class="mod"><input type="checkbox" data-v="1" onchange="recalcMan()"><span>적 무질서 상태</span><span class="mv p">+1</span></label>
+              <label class="mod"><input type="checkbox" data-v="1" onchange="recalcMan()"><span>적 밀집 대형</span><span class="mv p">+1</span></label>
+              <label class="mod"><input type="checkbox" data-v="-2" onchange="recalcMan()"><span>적 교전 해제 중</span><span class="mv n">–2</span></label>
+              <label class="mod"><input type="checkbox" data-v="-1" onchange="recalcMan()"><span>아군 상승 후</span><span class="mv n">–1</span></label>
+              <label class="mod"><input type="checkbox" data-v="-2" onchange="recalcMan()"><span>아군 급상승 후</span><span class="mv n">–2</span></label>
+              <label class="mod"><input type="checkbox" data-v="-2" onchange="recalcMan()"><span>기동 마커 보유</span><span class="mv n">–2</span></label>
+              <label class="mod"><input type="checkbox" data-v="-3" id="man-night" onchange="recalcMan()"><span>야간 전투</span><span class="mv n">–3</span></label>
+            </div>
+            <div class="total-row"><span class="total-lbl">총 보정</span><span class="total-n" id="man-total">+0</span></div>
+          </div>
+        </div>
+        <button class="btn" onclick="rollMan()">▸ 기동 주사위 굴리기 (2d10)</button>
+        <div class="result" id="man-result"><div class="dice-big" id="man-dice"></div><div class="res-line" id="man-res"></div></div>
+        <div class="divider"></div>
+        <div class="sec-lbl">기동 테이블 — 사격 기회 수</div>
+        <div style="overflow-x:auto">
+          <table class="reftbl" id="man-tbl">
+            <thead><tr><th>주사위 합계</th><th>1기열</th><th>2기열</th><th>3기열</th><th>4기열</th></tr></thead>
+            <tbody>
+              <tr data-lo="-99" data-hi="9"><td>9 이하</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              <tr data-lo="10" data-hi="10"><td>10</td><td>0</td><td>0</td><td>1</td><td>1</td></tr>
+              <tr data-lo="11" data-hi="11"><td>11</td><td>0</td><td>1</td><td>1</td><td>1</td></tr>
+              <tr data-lo="12" data-hi="12"><td>12</td><td>1</td><td>1</td><td>1</td><td>2</td></tr>
+              <tr data-lo="13" data-hi="14"><td>13–14</td><td>1</td><td>2</td><td>2</td><td>2</td></tr>
+              <tr data-lo="15" data-hi="16"><td>15–16</td><td>2</td><td>2</td><td>2</td><td>3</td></tr>
+              <tr data-lo="17" data-hi="17"><td>17</td><td>2</td><td>3</td><td>3</td><td>3</td></tr>
+              <tr data-lo="18" data-hi="19"><td>18–19</td><td>2</td><td>3</td><td>3</td><td>4</td></tr>
+              <tr data-lo="20" data-hi="21"><td>20–21</td><td>2</td><td>3</td><td>4</td><td>5</td></tr>
+              <tr data-lo="22" data-hi="22"><td>22</td><td>2</td><td>4</td><td>5</td><td>6</td></tr>
+              <tr data-lo="23" data-hi="99"><td>23 이상</td><td>2</td><td>4</td><td>6</td><td>8</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div style="font-size:11px;color:var(--fade);margin-top:6px">슬래시 어택 + 기습 미달성 시 사격 기회 –1</div>
+      </div>
+    </div>
+
+    <div class="step locked" id="s2b">
+      <div class="step-head">
+        <div class="step-num">2b</div>
+        <div class="step-title">BVR 미사일 사격 &nbsp;[11.53]</div>
+        <div class="step-badge info">선택적</div>
+      </div>
+      <div class="step-body">
+        <div class="info-box">RHM 보유 F-4만 해당 · 2–5헥스 거리 · BVR 열 사용 · CV=0 · 추가 보정 없음</div>
+        <div class="mods" style="grid-template-columns:1fr;margin-bottom:12px">
+          <label class="mod"><input type="checkbox" data-v="-1"><span>슬래시 어택 + 기습 미달성 (사격 기회 –1)</span><span class="mv n">–1</span></label>
+        </div>
+        <table class="reftbl" style="margin-bottom:12px">
+          <thead><tr><th>주사위</th><th>BVR 사격 기회</th></tr></thead>
+          <tbody>
+            <tr><td>10 이하</td><td>없음</td></tr>
+            <tr><td>11–16</td><td>1회</td></tr>
+            <tr><td>17 이상</td><td>1회</td></tr>
+          </tbody>
+        </table>
+        <button class="btn" onclick="rollBVR()">▸ BVR 기동 주사위 (2d10)</button>
+        <div class="result" id="bvr-result"><div class="dice-big" id="bvr-dice"></div><div class="res-line" id="bvr-res"></div></div>
+      </div>
+    </div>
+
+    <div class="step locked" id="s3">
+      <div class="step-head">
+        <div class="step-num" id="s3-num">3</div>
+        <div class="step-title">사격 처리 &nbsp;[11.32]</div>
+        <div class="step-badge" id="s3-badge">기동 판정 후 활성화</div>
+      </div>
+      <div class="step-body">
+        <div class="info-box" id="shot-shots-info">사격 기회: — 회</div>
+        <div class="two">
+          <div>
+            <div class="field-row"><span class="field-lbl">무기 전투값 (CV)</span><input type="number" id="shot-cv" value="3" min="0" max="6" oninput="recalcShot()"></div>
+            <div style="font-size:11px;color:var(--fade);margin-bottom:10px">※ BVR / 초저고도 IRM·RHM → CV = 0</div>
+            <div class="field-row"><span class="field-lbl">공격 AV</span>
+              <div class="av-wrap"><button class="av-btn" onclick="stepAV('shot-av',-1)">−</button><div class="av-disp" id="shot-av-disp">+2</div><input type="hidden" id="shot-av" value="2"><button class="av-btn" onclick="stepAV('shot-av',1)">+</button></div>
+            </div>
+            <div class="sec-lbl" style="margin-top:10px">사격 보정</div>
+            <div class="mods" style="grid-template-columns:1fr">
+              <label class="mod"><input type="checkbox" data-v="1" onchange="recalcShot()"><span>추가 미사용 무기 보유</span><span class="mv p">+1</span></label>
+              <label class="mod"><input type="checkbox" data-v="2" onchange="recalcShot()"><span>전방호 공격</span><span class="mv p">+2</span></label>
+              <label class="mod"><input type="checkbox" data-v="-2" onchange="recalcShot()"><span>빔호 공격 / 방어원형진</span><span class="mv n">–2</span></label>
+              <label class="mod"><input type="checkbox" data-v="-4" onchange="recalcShot()"><span>수비자 저고도/초저고도</span><span class="mv n">–4</span></label>
+              <label class="mod"><input type="checkbox" data-v="-1" onchange="recalcShot()"><span>고도 차 1밴드당</span><span class="mv n">–1</span></label>
+            </div>
+            <div class="total-row"><span class="total-lbl">총 보정</span><span class="total-n" id="shot-total">+5</span></div>
+          </div>
+          <div>
+            <div class="sec-lbl">사격 결과 테이블</div>
+            <table class="reftbl" id="shot-tbl">
+              <thead><tr><th>합계</th><th>결과</th></tr></thead>
+              <tbody>
+                <tr data-lo="-99" data-hi="13"><td>13 이하</td><td>효과 없음</td></tr>
+                <tr data-lo="14" data-hi="14"><td>14</td><td>피해 (Damaged)</td></tr>
+                <tr data-lo="15" data-hi="15"><td>15</td><td>무력화 (Crippled)</td></tr>
+                <tr data-lo="16" data-hi="19"><td>16–19</td><td>격추 (Shot down)</td></tr>
+                <tr data-lo="20" data-hi="21"><td>20–21</td><td>피해 (Damaged)</td></tr>
+                <tr data-lo="22" data-hi="99"><td>22 이상</td><td>효과 없음</td></tr>
+              </tbody>
+            </table>
+            <div class="divider"></div>
+            <div class="sec-lbl">피해 배분 [12.1]</div>
+            <table class="reftbl">
+              <thead><tr><th>주사위</th><th>1기</th><th>2기</th><th>3기</th><th>4기</th></tr></thead>
+              <tbody>
+                <tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+                <tr><td>2</td><td>1</td><td>1</td><td>C1</td><td>C1</td></tr>
+                <tr><td>3</td><td>1</td><td>C1</td><td>2</td><td>2</td></tr>
+                <tr><td>4</td><td>1</td><td>C1</td><td>C2</td><td>C2</td></tr>
+                <tr><td>5</td><td>1</td><td>2</td><td>C2</td><td>3</td></tr>
+                <tr><td>6</td><td>1</td><td>2</td><td>3</td><td>C3</td></tr>
+                <tr><td>7</td><td>1</td><td>2</td><td>3</td><td>C3</td></tr>
+                <tr><td>8</td><td>1</td><td>C2</td><td>3</td><td>4</td></tr>
+                <tr><td>9</td><td>1</td><td>C2</td><td>C3</td><td>4</td></tr>
+                <tr><td>10</td><td>1</td><td>C2</td><td>C3</td><td>C4</td></tr>
+              </tbody>
+            </table>
+            <div style="font-size:11px;color:var(--fade);margin-top:4px">C = 무력화 기체에 배분</div>
+          </div>
+        </div>
+        <button class="btn" onclick="rollShot()">▸ 사격 주사위 굴리기 (2d10)</button>
+        <div class="result" id="shot-result">
+          <div class="dice-big" id="shot-dice"></div>
+          <div class="res-line" id="shot-res"></div>
+          <div style="margin-top:6px;font-size:12px;text-align:center;color:var(--fade);font-family:'JetBrains Mono',monospace" id="shot-remain"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step locked" id="s4">
+      <div class="step-head">
+        <div class="step-num" id="s4-num">4</div>
+        <div class="step-title">사기 점검 &nbsp;[13.1]</div>
+        <div class="step-badge" id="s4-badge">사격 후 활성화</div>
+      </div>
+      <div class="step-body">
+        <div class="info-box" id="mor-info">사격 결과에서 피해 기체 수가 자동 반영됩니다.</div>
+        <div class="two">
+          <div>
+            <div class="field-row"><span class="field-lbl">비행대 AV</span>
+              <div class="av-wrap"><button class="av-btn" onclick="stepAV('mor-av',-1)">−</button><div class="av-disp" id="mor-av-disp">+2</div><input type="hidden" id="mor-av" value="2"><button class="av-btn" onclick="stepAV('mor-av',1)">+</button></div>
+            </div>
+            <div class="field-row"><span class="field-lbl">아군 피해 기체</span><input type="number" id="mor-cas" value="0" min="0" oninput="recalcMor()"><span style="font-size:11px;color:var(--fade)">기</span></div>
+            <div class="mods" style="grid-template-columns:1fr">
+              <label class="mod"><input type="checkbox" data-v="1" onchange="recalcMor()"><span>기습 성공</span><span class="mv p">+1</span></label>
+              <label class="mod"><input type="checkbox" data-v="-1" onchange="recalcMor()"><span>불리한 위치</span><span class="mv n">–1</span></label>
+              <label class="mod"><input type="checkbox" data-v="-2" onchange="recalcMor()"><span>교전 해제</span><span class="mv n">–2</span></label>
+            </div>
+            <div class="total-row"><span class="total-lbl">총 보정</span><span class="total-n" id="mor-total">+2</span></div>
+          </div>
+          <div>
+            <div class="sec-lbl">사기 결과 테이블</div>
+            <table class="reftbl" id="mor-tbl">
+              <thead><tr><th>합계</th><th>결과</th></tr></thead>
+              <tbody>
+                <tr data-lo="17" data-hi="99"><td>17 이상</td><td>효과 없음</td></tr>
+                <tr data-lo="15" data-hi="16"><td>15–16</td><td>비상 투하 (AV +0)</td></tr>
+                <tr data-lo="9"  data-hi="14"><td>9–14</td><td>비상 투하 (AV –1)</td></tr>
+                <tr data-lo="6"  data-hi="8" ><td>6–8</td><td>무질서 상태 (AV –2)</td></tr>
+                <tr data-lo="-99" data-hi="5"><td>5 이하</td><td>작전 중지 (AV –3)</td></tr>
+              </tbody>
+            </table>
+            <div class="warn-box" style="margin-top:10px">
+              <b style="color:var(--tan)">비상 투하</b>: 폭장 즉시 투하, 밀집대형 해제<br>
+              <b style="color:var(--tan)">무질서</b>: 비상투하 + 방어원형 해산 + 산개<br>
+              <b style="color:var(--tan)">작전 중지</b>: 무질서 + 즉시 임무 중지
+            </div>
+          </div>
+        </div>
+        <button class="btn" onclick="rollMor()">▸ 사기 판정 주사위 (2d10)</button>
+        <div class="result" id="mor-result"><div class="dice-big" id="mor-dice"></div><div class="res-line" id="mor-res"></div></div>
+      </div>
+    </div>
+
+    <div class="step locked" id="s5">
+      <div class="step-head">
+        <div class="step-num" id="s5-num">5</div>
+        <div class="step-title">산개 &nbsp;[13.2]</div>
+        <div class="step-badge" id="s5-badge">사기 판정 후 활성화</div>
+      </div>
+      <div class="step-body">
+        <div class="warn-box">슬래시 어택 / BVR / 방어원형진은 산개 없음. 1d6 굴림 → 지정 방향으로 이동.</div>
+        <button class="btn" onclick="rollScatter()">▸ 산개 주사위 (1d6)</button>
+        <div class="result" id="scatter-result"><div class="dice-big" id="scatter-dice"></div><div class="res-line" id="scatter-res"></div></div>
+        <button class="btn secondary" onclick="resetAir()">⟳ 공중전 처음부터 다시</button>
+      </div>
+    </div>
+
+    <div class="step" id="s6">
+      <div class="step-head">
+        <div class="step-num">6</div>
+        <div class="step-title">무질서 회복 &nbsp;[13.11]</div>
+        <div class="step-badge info">독립 판정</div>
+      </div>
+      <div class="step-body">
+        <div class="info-box">무질서 상태 비행대는 매 페이즈 시작 시 회복 판정. 2d10 + AV + 보정 ≥ 20이면 회복.</div>
+        <div class="two">
+          <div>
+            <div class="field-row"><span class="field-lbl">비행대 AV</span>
+              <div class="av-wrap"><button class="av-btn" onclick="stepAV('rec-av',-1)">−</button><div class="av-disp" id="rec-av-disp">+2</div><input type="hidden" id="rec-av" value="2"><button class="av-btn" onclick="stepAV('rec-av',1)">+</button></div>
+            </div>
+            <div class="mods" style="grid-template-columns:1fr;margin-bottom:8px">
+              <label class="mod"><input type="checkbox" data-v="8" onchange="recalcRec()"><span>집결 지점 (Rally Point)</span><span class="mv p">+8</span></label>
+            </div>
+            <div class="total-row" style="margin-bottom:10px"><span class="total-lbl">AV + 보정 (20 이상이면 회복)</span><span class="total-n" id="rec-total">+2</span></div>
+            <button class="btn" onclick="rollRecovery()">▸ 회복 판정 (2d10)</button>
+            <div class="result" id="rec-result"><div class="dice-big" id="rec-dice"></div><div class="res-line" id="rec-res"></div></div>
+          </div>
+          <div>
+            <div class="sec-lbl">회복 결과 테이블</div>
+            <table class="reftbl">
+              <thead><tr><th>2d10 + AV + 보정</th><th>결과</th></tr></thead>
+              <tbody>
+                <tr><td>20 이상</td><td>무질서 해제 — 정상 작전 복귀</td></tr>
+                <tr><td>19 이하</td><td>무질서 유지 — 다음 페이즈 재시도</td></tr>
+              </tbody>
+            </table>
+            <div class="warn-box" style="margin-top:10px">
+              무질서 상태에서는 교전 판정 불가, 편대 이탈 상태로 이동.<br>
+              집결 지점이 있을 경우 <b style="color:var(--tan)">+8</b> 보정 적용.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step" id="s7">
+      <div class="step-head">
+        <div class="step-num">7</div>
+        <div class="step-title">MiG 패닉 &nbsp;[13.12]</div>
+        <div class="step-badge info">독립 판정</div>
+      </div>
+      <div class="step-body">
+        <div class="info-box">폭격 임무 비행대마다 1d10을 굴립니다. 1 이하가 나오면 폭장을 비상 투하합니다.</div>
+        <div class="two">
+          <div>
+            <div class="sec-lbl">보정 수치</div>
+            <div class="mods" style="grid-template-columns:1fr">
+              <label class="mod"><input type="checkbox" data-v="-1" onchange="recalcMig()"><span>근접 대형 (Close Formation)</span><span class="mv n">–1</span></label>
+            </div>
+            <div class="total-row" style="margin-bottom:10px"><span class="total-lbl">보정 합계 (1 이하이면 비상 투하)</span><span class="total-n" id="mig-total">+0</span></div>
+            <button class="btn" onclick="rollMig()">▸ MiG 패닉 판정 (1d10)</button>
+            <div class="result" id="mig-result"><div class="dice-big" id="mig-dice"></div><div class="res-line" id="mig-res"></div></div>
+          </div>
+          <div>
+            <div class="sec-lbl">MiG 패닉 결과 테이블</div>
+            <table class="reftbl" id="mig-tbl">
+              <thead><tr><th>1d10 + 보정</th><th>결과</th></tr></thead>
+              <tbody>
+                <tr data-lo="2" data-hi="99"><td>2 이상</td><td>효과 없음</td></tr>
+                <tr data-lo="-99" data-hi="1"><td>1 이하</td><td>폭장 비상 투하</td></tr>
+              </tbody>
+            </table>
+            <div class="warn-box" style="margin-top:10px">
+              <b style="color:var(--tan)">비상 투하</b>: 폭장을 즉시 투하합니다.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== AAA ======================== -->
+  <div id="page-aaa" class="page">
+    <div class="step" id="a1">
+      <div class="step-head">
+        <div class="step-num" id="a1-num">1</div>
+        <div class="step-title">AAA 명중 판정 &nbsp;[14.31]</div>
+        <div class="step-badge" id="a1-badge">대기</div>
+      </div>
+      <div class="step-body">
+        <div class="two">
+          <div>
+            <div class="field-row"><span class="field-lbl">고도</span>
+              <select id="aaa-alt" onchange="updateAAABase()">
+                <option value="deck">초저고도 (Deck)</option><option value="low">저고도 (Low)</option>
+                <option value="med" selected>중고도 (Med)</option><option value="high">고고도 (High)</option>
+              </select>
+            </div>
+            <div class="field-row"><span class="field-lbl">AAA 유형</span>
+              <select id="aaa-type" onchange="updateAAABase()">
+                <option value="small">소형화기</option><option value="light">저강도</option>
+                <option value="medium" selected>중강도</option><option value="heavy">고강도</option><option value="firecan">파이어 캔</option>
+              </select>
+            </div>
+            <div class="base-box">명중 기준: <b id="aaa-base">17</b> 이상 &nbsp;·&nbsp; 플랙 보정: <b id="aaa-flakmod">–1</b></div>
+            <div class="sec-lbl">공격 방식</div>
+            <div class="mods" style="grid-template-columns:1fr">
+              <label class="mod"><input type="checkbox" id="aaa-barrage" onchange="recalcAAA()"><span>일제 사격 (Barrage) 보정</span></label>
+              <label class="mod"><input type="checkbox" id="aaa-firecan-mode" onchange="recalcAAA()"><span>파이어 캔 (Fire Can) 보정</span></label>
+            </div>
+            <div class="total-row"><span class="total-lbl">보정 합계</span><span class="total-n" id="aaa-total">+0</span></div>
+          </div>
+          <div>
+            <div id="aaa-barrage-mods" style="display:none">
+              <div class="sec-lbl">일제 사격 보정</div>
+              <div class="mods" style="grid-template-columns:1fr">
+                <label class="mod"><input type="checkbox" data-v="1" onchange="recalcAAA()"><span>폭탄 투하구간 비행 중</span><span class="mv p">+1</span></label>
+                <label class="mod"><input type="checkbox" data-v="1" onchange="recalcAAA()"><span>속도 2 이하</span><span class="mv p">+1</span></label>
+                <label class="mod"><input type="checkbox" data-v="-1" onchange="recalcAAA()"><span>속도 4</span><span class="mv n">–1</span></label>
+                <label class="mod"><input type="checkbox" data-v="-2" onchange="recalcAAA()"><span>속도 5 이상</span><span class="mv n">–2</span></label>
+                <label class="mod"><input type="checkbox" data-v="-2" onchange="recalcAAA()"><span>AAA 압제 1레벨당</span><span class="mv n">–2</span></label>
+                <label class="mod"><input type="checkbox" data-v="-4" onchange="recalcAAA()"><span>시야 없음 / 야간</span><span class="mv n">–4</span></label>
+              </div>
+            </div>
+            <div id="aaa-firecan-mods" style="display:none">
+              <div class="sec-lbl">파이어 캔 보정</div>
+              <div class="mods" style="grid-template-columns:1fr">
+                <label class="mod"><input type="checkbox" data-v="-1" onchange="recalcAAA()"><span>속도 4</span><span class="mv n">–1</span></label>
+                <label class="mod"><input type="checkbox" data-v="-2" onchange="recalcAAA()"><span>속도 5 이상</span><span class="mv n">–2</span></label>
+                <label class="mod"><input type="checkbox" data-v="-3" onchange="recalcAAA()"><span>채프 코리더 내</span><span class="mv n">–3</span></label>
+              </div>
+              <div class="field-row" style="margin-top:8px"><span class="field-lbl">방어 재밍 강도</span><input type="number" id="aaa-def-jam" value="0" min="0" oninput="recalcAAA()"></div>
+              <div class="field-row"><span class="field-lbl">스탠드오프 재밍</span><input type="number" id="aaa-stand-jam" value="0" min="0" oninput="recalcAAA()"></div>
+            </div>
+            <div id="aaa-no-mods" style="font-size:12px;color:var(--fade);padding:24px 0;text-align:center;letter-spacing:.1em">공격 방식을 선택하면<br>보정 항목이 표시됩니다</div>
+          </div>
+        </div>
+        <button class="btn" onclick="rollAAA()">▸ AAA 명중 판정 (2d10)</button>
+        <div class="result" id="aaa-result"><div class="dice-big" id="aaa-dice"></div><div class="res-line" id="aaa-res"></div></div>
+      </div>
+    </div>
+
+    <div class="step locked" id="a2">
+      <div class="step-head">
+        <div class="step-num" id="a2-num">2</div>
+        <div class="step-title">대공포 피해 테이블 &nbsp;[14.31]</div>
+        <div class="step-badge" id="a2-badge">명중 시 활성화</div>
+      </div>
+      <div class="step-body">
+        <div class="two">
+          <div>
+            <div class="info-box" id="flak-type-info">유형: —</div>
+            <button class="btn" onclick="rollFlak()">▸ 피해 주사위 (2d10)</button>
+            <div class="result" id="flak-result"><div class="dice-big" id="flak-dice"></div><div class="res-line" id="flak-res"></div></div>
+            <button class="btn secondary" onclick="resetAAA()">⟳ AAA 처음부터 다시</button>
+          </div>
+          <div>
+            <div class="sec-lbl">피해 테이블</div>
+            <table class="reftbl" id="flak-tbl">
+              <thead><tr><th>주사위</th><th>일제 사격</th><th>파이어 캔</th></tr></thead>
+              <tbody>
+                <tr data-lo="-99" data-hi="10"><td>10 이하</td><td>NE</td><td>NE</td></tr>
+                <tr data-lo="11" data-hi="11"><td>11</td><td>NE</td><td>D (피해)</td></tr>
+                <tr data-lo="12" data-hi="12"><td>12</td><td>NE</td><td>C (무력화)</td></tr>
+                <tr data-lo="13" data-hi="13"><td>13</td><td>D (피해)</td><td>K (격추)</td></tr>
+                <tr data-lo="14" data-hi="14"><td>14</td><td>C (무력화)</td><td>D, D</td></tr>
+                <tr data-lo="15" data-hi="15"><td>15</td><td>K (격추)</td><td>K</td></tr>
+                <tr data-lo="16" data-hi="16"><td>16</td><td>D</td><td>K</td></tr>
+                <tr data-lo="17" data-hi="17"><td>17</td><td>K</td><td>C, D</td></tr>
+                <tr data-lo="18" data-hi="18"><td>18</td><td>D, D</td><td>K, D</td></tr>
+                <tr data-lo="19" data-hi="19"><td>19</td><td>C, D</td><td>K, C</td></tr>
+                <tr data-lo="20" data-hi="20"><td>20</td><td>K</td><td>K, C, D</td></tr>
+                <tr data-lo="21" data-hi="21"><td>21</td><td>K, D</td><td>–</td></tr>
+                <tr data-lo="22" data-hi="99"><td>22 이상</td><td>K, C</td><td>–</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== SAM ======================== -->
+  <div id="page-sam" class="page">
+    <div class="step" id="sam2">
+      <div class="step-head">
+        <div class="step-num">1</div>
+        <div class="step-title">ARM 사기 점검 &nbsp;[17.53]</div>
+        <div class="step-badge info">독립 판정</div>
+      </div>
+      <div class="step-body">
+        <div class="info-box">ARM 발사 시마다 판정. 결과 5 이하 → 레이더 종료. Admin 페이즈 8 이상 → 재가동.</div>
+        <div class="mods" style="grid-template-columns:1fr;margin-bottom:8px">
+          <label class="mod"><input type="checkbox" id="arm-undetected" onchange="recalcARM()"><span>발사 비행대 미탐지 상태</span><span class="mv p">+3</span></label>
+        </div>
+        <div class="total-row" style="margin-bottom:10px"><span class="total-lbl">보정 합계 (5+보정 이하 → 레이더 종료)</span><span class="total-n" id="arm-total">+0</span></div>
+        <button class="btn" onclick="rollARM()">▸ ARM 사기 판정 (1d10)</button>
+        <div class="result" id="arm-result"><div class="dice-big" id="arm-dice"></div><div class="res-line" id="arm-res"></div></div>
+        <div class="divider"></div>
+        <div class="sec-lbl">레이더 재가동 판정 (Admin 페이즈)</div>
+        <div style="font-size:12px;color:var(--fade);margin-bottom:10px">1d10 굴림 · 8 이상이면 재가동</div>
+        <button class="btn secondary" onclick="rollRadarRestart()">▸ 재가동 판정 (1d10)</button>
+        <div class="result" id="radar-restart-result"><div class="dice-big" id="radar-restart-dice"></div><div class="res-line" id="radar-restart-res"></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // Main tab switching logic
+  const mainTabs = document.querySelectorAll('.main-tab-btn');
+  const mainPages = document.querySelectorAll('.main-page');
+
+  function showMainPage(targetId) {
+    mainPages.forEach(page => {
+      page.classList.toggle('active', page.id === targetId);
+    });
+    mainTabs.forEach(tab => {
+      tab.classList.toggle('active', tab.dataset.target === targetId);
+    });
+  }
+
+  mainTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      showMainPage(tab.dataset.target);
+    });
+  });
+
+  // --- Merged JS from oob.html ---
+  // ... (OOB JS will be here)
+
+  // --- Merged JS from adc.html ---
+  // ... (ADC JS will be here)
+
+  // --- Merged JS from aid.html ---
+  // ... (AID JS will be here)
+
+  // --- Initialization calls ---
+  // ... (Init calls from all scripts)
+});
+</script>
+</body>
+</html>
