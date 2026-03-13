@@ -98,6 +98,8 @@ input[type=number]{width:70px}
   <button class="tab on" onclick="showPage('air',this)">공중전</button>
   <button class="tab" onclick="showPage('aaa',this)">AAA</button>
   <button class="tab" onclick="showPage('sam',this)">SAM / ARM</button>
+  <button class="tab" onclick="showPage('atg',this)">공대지 공격</button>
+  <button class="tab" onclick="showPage('samref',this)">SAM 참조표</button>
 </div>
 
 <!-- ======================== 공중전 ======================== -->
@@ -574,6 +576,456 @@ input[type=number]{width:70px}
 
 </div>
 
+<!-- ======================== 공대지 공격 ======================== -->
+<div id="page-atg" class="page">
+
+  <!-- STEP 1: 공격 방식 & 보정 -->
+  <div class="step" id="atg1">
+    <div class="step-head">
+      <div class="step-num" id="atg1-num">1</div>
+      <div class="step-title">공격 설정 &nbsp;[17.4]</div>
+      <div class="step-badge" id="atg1-badge">대기</div>
+    </div>
+    <div class="step-body">
+      <div class="two">
+        <div>
+          <!-- 무기 종류 -->
+          <div class="field-row">
+            <span class="field-lbl">무기 종류</span>
+            <select id="atg-weapon" onchange="recalcAtg()">
+              <option value="std">일반 폭탄 (급강하/수평 등)</option>
+              <option value="lgb">LGB (레이저 유도)</option>
+              <option value="eogb">EOGB (Walleye 등)</option>
+              <option value="arm">ARM (Shrike / Standard)</option>
+            </select>
+          </div>
+          <!-- 공격 수치 -->
+          <div class="field-row">
+            <span class="field-lbl">공격 수치</span>
+            <select id="atg-av">
+              <option value="0.5">0.5</option>
+              <option value="2">2</option>
+              <option value="4">4</option>
+              <option value="6" selected>6</option>
+              <option value="8">8</option>
+              <option value="12">12</option>
+              <option value="16">16</option>
+              <option value="20">20</option>
+              <option value="30">30</option>
+              <option value="60">60</option>
+              <option value="90">90+</option>
+              <option value="pgm">PGM</option>
+              <option value="arm_col">ARM</option>
+            </select>
+          </div>
+          <!-- 폭격 조준기 -->
+          <div class="field-row" id="atg-bombsight-row">
+            <span class="field-lbl">폭격 조준기</span>
+            <input type="number" id="atg-bombsight" value="0" min="-9" max="9" oninput="recalcAtg()">
+          </div>
+          <!-- 고도 (일반/LGB) -->
+          <div class="field-row" id="atg-alt-row">
+            <span class="field-lbl">공격 고도</span>
+            <select id="atg-alt" onchange="recalcAtg()">
+              <option value="0">초저고도 (±0)</option>
+              <option value="-1">저고도 (–1)</option>
+              <option value="-3" selected>중고도 (–3)</option>
+              <option value="-5">고고도 (–5)</option>
+            </select>
+          </div>
+          <!-- 표적 프로필 -->
+          <div class="field-row" id="atg-profile-row">
+            <span class="field-lbl">표적 프로필</span>
+            <select id="atg-profile" onchange="recalcAtg()">
+              <option value="-3">A (–3)</option>
+              <option value="-1">B (–1)</option>
+              <option value="0" selected>C (±0)</option>
+              <option value="1">D (+1)</option>
+            </select>
+          </div>
+          <!-- 대공포 보정 -->
+          <div class="field-row">
+            <span class="field-lbl">대공포 보정</span>
+            <input type="number" id="atg-aaa" value="0" min="-9" max="0" oninput="recalcAtg()">
+            <span class="av-hint">음수 입력</span>
+          </div>
+        </div>
+        <div>
+          <!-- 일반 폭탄 전용 체크박스 -->
+          <div id="atg-std-mods">
+            <div class="sec-lbl">일반 폭탄 보정</div>
+            <div class="mods" style="grid-template-columns:1fr">
+              <label class="mod"><input type="checkbox" data-v="1" onchange="recalcAtg()"><span>비행대가 공격 강행</span><span class="mv p">+1</span></label>
+              <label class="mod"><input type="checkbox" data-v="-7" onchange="recalcAtg()"><span>라디오 네비게이션 폭격</span><span class="mv n">–7</span></label>
+              <label class="mod"><input type="checkbox" data-v="4" onchange="recalcAtg()"><span>레이더 폭격</span><span class="mv p">+4</span></label>
+              <label class="mod"><input type="checkbox" data-v="-6" onchange="recalcAtg()"><span>토스 폭격</span><span class="mv n">–6</span></label>
+              <label class="mod"><input type="checkbox" data-v="-2" onchange="recalcAtg()"><span>수평 폭격</span><span class="mv n">–2</span></label>
+              <label class="mod"><input type="checkbox" data-v="-2" onchange="recalcAtg()"><span>목표물이 안개 속 (육안만)</span><span class="mv n">–2</span></label>
+              <label class="mod"><input type="checkbox" data-v="-2" onchange="recalcAtg()"><span>부서진 구름층 위 육안 공격</span><span class="mv n">–2</span></label>
+            </div>
+          </div>
+          <!-- LGB 전용 -->
+          <div id="atg-lgb-mods" style="display:none">
+            <div class="sec-lbl">LGB 보정</div>
+            <div class="mods" style="grid-template-columns:1fr">
+              <label class="mod"><input type="checkbox" data-v="-3" onchange="recalcAtg()"><span>연무 조건</span><span class="mv n">–3</span></label>
+              <label class="mod"><input type="checkbox" data-v="-2" onchange="recalcAtg()"><span>초저고도 공격</span><span class="mv n">–2</span></label>
+              <label class="mod"><input type="checkbox" data-v="-3" onchange="recalcAtg()"><span>이전 턴에 이미 공격한 표적</span><span class="mv n">–3</span></label>
+            </div>
+          </div>
+          <!-- EOGB 전용 -->
+          <div id="atg-eogb-mods" style="display:none">
+            <div class="sec-lbl">EOGB 보정</div>
+            <div class="mods" style="grid-template-columns:1fr">
+              <label class="mod"><input type="checkbox" data-v="-3" onchange="recalcAtg()"><span>연무(Haze) 상태</span><span class="mv n">–3</span></label>
+              <label class="mod"><input type="checkbox" data-v="-2" onchange="recalcAtg()"><span>중고도 공격</span><span class="mv n">–2</span></label>
+              <label class="mod"><input type="checkbox" data-v="-3" onchange="recalcAtg()"><span>이전 턴에 이미 공격한 표적</span><span class="mv n">–3</span></label>
+              <label class="mod"><input type="checkbox" data-v="2" onchange="recalcAtg()"><span>표적 위 하늘이 맑지 않음</span><span class="mv p">+2</span></label>
+              <label class="mod"><input type="checkbox" data-v="1" onchange="recalcAtg()"><span>양호한 시계 조건</span><span class="mv p">+1</span></label>
+              <label class="mod"><input type="checkbox" data-v="-5" onchange="recalcAtg()"><span>Walleye I 무기</span><span class="mv n">–5</span></label>
+              <label class="mod"><input type="checkbox" data-v="-4" onchange="recalcAtg()"><span>Walleye II 무기</span><span class="mv n">–4</span></label>
+              <label class="mod"><input type="checkbox" data-v="-2" onchange="recalcAtg()"><span>표적 프로필 A (Walleye I만)</span><span class="mv n">–2</span></label>
+            </div>
+          </div>
+          <!-- ARM 전용 -->
+          <div id="atg-arm-mods" style="display:none">
+            <div class="sec-lbl">ARM 보정</div>
+            <div class="mods" style="grid-template-columns:1fr">
+              <label class="mod"><input type="checkbox" data-v="-2" onchange="recalcAtg()"><span>Standard B 미사일</span><span class="mv n">–2</span></label>
+              <label class="mod"><input type="checkbox" data-v="1" onchange="recalcAtg()"><span>PAT-ARM</span><span class="mv p">+1</span></label>
+              <label class="mod"><input type="checkbox" data-v="-2" onchange="recalcAtg()"><span>위치 미파악 SAM 또는 선제 공격</span><span class="mv n">–2</span></label>
+              <label class="mod"><input type="checkbox" data-v="-4" onchange="recalcAtg()"><span>고각 사격(loft)</span><span class="mv n">–4</span></label>
+              <label class="mod"><input type="checkbox" data-v="-6" onchange="recalcAtg()"><span>발사 시 표적 레이더 종료 (Std B만)</span><span class="mv n">–6</span></label>
+            </div>
+          </div>
+
+          <div class="total-row">
+            <span class="total-lbl">총 보정 합계</span>
+            <span class="total-n" id="atg-total">+0</span>
+          </div>
+        </div>
+      </div>
+      <button class="btn" onclick="rollAtg()">▸ 공대지 공격 주사위 굴리기 (2d10)</button>
+      <div class="result" id="atg-result">
+        <div class="dice-big" id="atg-dice"></div>
+        <div class="res-line" id="atg-res"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 2: 피해 표 -->
+  <div class="step locked" id="atg2">
+    <div class="step-head">
+      <div class="step-num" id="atg2-num">2</div>
+      <div class="step-title">피해 판정 &nbsp;[18.2]</div>
+      <div class="step-badge" id="atg2-badge">공격 성공 후 활성화</div>
+    </div>
+    <div class="step-body">
+      <div class="two">
+        <div>
+          <div class="base-box">성공 등급: <b id="atg-success-grade">—</b></div>
+          <div class="warn-box">
+            <b style="color:var(--tan)">NE</b> — 효과 없음 (* / ** 부수적 피해 [18.3])<br>
+            <b style="color:var(--tan)">S</b> — 경미. AAA 제압1; Fire Can/SAM 피해; NVA 제압<br>
+            <b style="color:var(--tan)">H</b> — 심각. AAA 제압2; Fire Can/SAM 피해; NVA 하나 파괴<br>
+            <b style="color:var(--tan)">T</b> — 파괴. AAA 제압3; Fire Can/SAM 파괴; 모든 NVA 파괴
+          </div>
+          <div class="info-box">슈라이크 ARM: 피해 수준 1 감소</div>
+          <button class="btn" onclick="rollAtgDamage()">▸ 피해 주사위 굴리기 (2d10)</button>
+          <div class="result" id="atg-dmg-result">
+            <div class="dice-big" id="atg-dmg-dice"></div>
+            <div class="res-line" id="atg-dmg-res"></div>
+          </div>
+          <button class="btn secondary" onclick="resetAtg()">⟳ 공대지 공격 처음부터</button>
+        </div>
+        <div>
+          <div class="sec-lbl">피해 표 [18.2]</div>
+          <div style="overflow-x:auto">
+            <table class="reftbl" id="atg-dmg-tbl">
+              <thead>
+                <tr><th>주사위</th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th></tr>
+              </thead>
+              <tbody>
+                <tr data-lo="2" data-hi="2"><td>2</td><td>NE**</td><td>NE**</td><td>NE**</td><td>NE**</td><td>NE**</td></tr>
+                <tr data-lo="3" data-hi="4"><td>3–4</td><td>NE**</td><td>NE**</td><td>NE*</td><td>NE</td><td>S</td></tr>
+                <tr data-lo="5" data-hi="5"><td>5</td><td>NE</td><td>NE</td><td>NE</td><td>S</td><td>S</td></tr>
+                <tr data-lo="6" data-hi="6"><td>6</td><td>NE*</td><td>NE*</td><td>NE</td><td>S</td><td>H</td></tr>
+                <tr data-lo="7" data-hi="9"><td>7–9</td><td>NE</td><td>NE</td><td>NE</td><td>S</td><td>H</td></tr>
+                <tr data-lo="10" data-hi="10"><td>10</td><td>NE**</td><td>NE</td><td>S</td><td>H</td><td>H</td></tr>
+                <tr data-lo="11" data-hi="12"><td>11–12</td><td>NE</td><td>NE</td><td>S</td><td>H</td><td>T</td></tr>
+                <tr data-lo="13" data-hi="14"><td>13–14</td><td>NE</td><td>NE</td><td>H</td><td>H</td><td>T</td></tr>
+                <tr data-lo="15" data-hi="15"><td>15</td><td>NE</td><td>S</td><td>H</td><td>H</td><td>T</td></tr>
+                <tr data-lo="16" data-hi="16"><td>16</td><td>NE</td><td>S</td><td>H</td><td>T</td><td>T</td></tr>
+                <tr data-lo="17" data-hi="17"><td>17</td><td>NE</td><td>S</td><td>T</td><td>T</td><td>T</td></tr>
+                <tr data-lo="18" data-hi="19"><td>18–19</td><td>NE</td><td>H</td><td>T</td><td>T</td><td>T</td></tr>
+                <tr data-lo="20" data-hi="99"><td>20</td><td>NE</td><td>T</td><td>T</td><td>T</td><td>T</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ======================== SAM 판정 ======================== -->
+<div id="page-samref" class="page">
+
+  <!-- STEP 1: 표적 상태 -->
+  <div class="step" id="sr1">
+    <div class="step-head">
+      <div class="step-num" id="sr1-num">1</div>
+      <div class="step-title">SAM 표적 획득 &nbsp;[15.32]</div>
+      <div class="step-badge" id="sr1-badge">대기</div>
+    </div>
+    <div class="step-body">
+      <div class="two">
+        <div>
+          <div class="field-row">
+            <span class="field-lbl">표적 상태</span>
+            <select id="sr-target-state" onchange="recalcSR1()">
+              <option value="undet">미탐지</option>
+              <option value="det" selected>탐지됨</option>
+              <option value="acq">표적 획득됨</option>
+            </select>
+          </div>
+          <div class="field-row">
+            <span class="field-lbl">방어 재밍 강도</span>
+            <input type="number" id="sr-def-jam" value="0" min="0" max="9" oninput="recalcSR1()">
+          </div>
+          <div class="field-row">
+            <span class="field-lbl">스탠드오프 재밍</span>
+            <input type="number" id="sr-soj" value="0" min="0" max="9" oninput="recalcSR1()">
+          </div>
+          <div class="sec-lbl" style="margin-top:6px">보정 수치</div>
+          <div class="mods" style="grid-template-columns:1fr">
+            <label class="mod"><input type="checkbox" data-v="-3" onchange="recalcSR1()"><span>초저고도 표적</span><span class="mv n">–3</span></label>
+            <label class="mod"><input type="checkbox" data-v="-6" onchange="recalcSR1()"><span>채프 회랑 내 표적</span><span class="mv n">–6</span></label>
+            <label class="mod"><input type="checkbox" data-v="-5" onchange="recalcSR1()"><span>발사 후 표적 포착 (1967년~ 탐지된 표적) [15.51]</span><span class="mv n">–5</span></label>
+            <label class="mod"><input type="checkbox" data-v="-3" onchange="recalcSR1()"><span>대레이더 전술 [15.35]</span><span class="mv n">–3</span></label>
+            <label class="mod"><input type="checkbox" data-v="-3" onchange="recalcSR1()"><span>신속 표적 획득 (탐지된 표적만)</span><span class="mv n">–3</span></label>
+            <label class="mod"><input type="checkbox" data-v="-1" onchange="recalcSR1()"><span>1965년 1월 ~ 1966년 6월</span><span class="mv n">–1</span></label>
+            <label class="mod"><input type="checkbox" data-v="1" onchange="recalcSR1()"><span>대형 항공기 표적</span><span class="mv p">+1</span></label>
+          </div>
+          <div class="total-row"><span class="total-lbl">총 보정</span><span class="total-n" id="sr1-total">+0</span></div>
+        </div>
+        <div>
+          <div class="sec-lbl">표적 획득 결과표</div>
+          <table class="reftbl" id="sr1-tbl">
+            <thead><tr><th>상태</th><th>실패</th><th>부분 획득</th><th>완전 획득</th></tr></thead>
+            <tbody>
+              <tr><td>미탐지</td><td>≤ 9</td><td>10–14</td><td>≥ 15</td></tr>
+              <tr><td>탐지됨</td><td>≤ 2</td><td>3–10</td><td>≥ 11</td></tr>
+              <tr><td>획득됨</td><td>≤ 1</td><td>2–7</td><td>≥ 8</td></tr>
+            </tbody>
+          </table>
+          <div class="info-box" style="margin-top:10px">
+            방어 재밍 및 스탠드오프 재밍 강도는 음수 보정으로 자동 적용됩니다.<br>
+            대레이더 전술 사용 시 방어 재밍 보정은 해당 없음.
+          </div>
+        </div>
+      </div>
+      <button class="btn" onclick="rollSR1()">▸ 표적 획득 주사위 굴리기 (2d10)</button>
+      <div class="result" id="sr1-result">
+        <div class="dice-big" id="sr1-dice"></div>
+        <div class="res-line" id="sr1-res"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 2: SAM 공격 -->
+  <div class="step locked" id="sr2">
+    <div class="step-head">
+      <div class="step-num" id="sr2-num">2</div>
+      <div class="step-title">SAM 공격 판정 &nbsp;[15.42]</div>
+      <div class="step-badge" id="sr2-badge">표적 획득 후 활성화</div>
+    </div>
+    <div class="step-body">
+      <div class="two">
+        <div>
+          <div class="base-box">획득 결과: <b id="sr2-acq-info">—</b></div>
+          <div class="field-row">
+            <span class="field-lbl">SAM 사거리 (헥스)</span>
+            <input type="number" id="sr-range" value="4" min="2" max="8" oninput="recalcSR2()">
+          </div>
+          <div class="mods" style="grid-template-columns:1fr">
+            <label class="mod"><input type="checkbox" data-v="-2" id="sr-acq-partial" onchange="recalcSR2()" disabled><span>부분 표적 획득 (자동 반영)</span><span class="mv n">–1</span></label>
+            <label class="mod"><input type="checkbox" data-v="-2" onchange="recalcSR2()"><span>초저고도 표적</span><span class="mv n">–2</span></label>
+            <label class="mod"><input type="checkbox" data-v="2" onchange="recalcSR2()"><span>일제 사격 SAM</span><span class="mv p">+2</span></label>
+          </div>
+          <div class="total-row"><span class="total-lbl">총 보정 (14 이상이면 명중)</span><span class="total-n" id="sr2-total">+0</span></div>
+        </div>
+        <div>
+          <div class="sec-lbl">SAM 공격 결과표</div>
+          <table class="reftbl">
+            <thead><tr><th>2d10 + 보정</th><th>결과</th></tr></thead>
+            <tbody>
+              <tr><td>13 이하</td><td style="color:var(--red)">실패 — 효과 없음</td></tr>
+              <tr><td>14 이상</td><td style="color:var(--green)">명중 → 피해 판정</td></tr>
+            </tbody>
+          </table>
+          <div class="info-box" style="margin-top:10px">
+            사거리 5 헥스 이상부터 초과 헥스마다 –1 자동 적용됩니다.
+          </div>
+        </div>
+      </div>
+      <button class="btn" onclick="rollSR2()">▸ SAM 공격 주사위 (2d10)</button>
+      <div class="result" id="sr2-result">
+        <div class="dice-big" id="sr2-dice"></div>
+        <div class="res-line" id="sr2-res"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 3: SAM 방어 -->
+  <div class="step locked" id="sr3">
+    <div class="step-head">
+      <div class="step-num" id="sr3-num">3</div>
+      <div class="step-title">SAM 방어 판정 &nbsp;[15.42]</div>
+      <div class="step-badge" id="sr3-badge">명중 후 활성화</div>
+    </div>
+    <div class="step-body">
+      <div class="two">
+        <div>
+          <div class="field-row">
+            <span class="field-lbl">재밍 상황</span>
+            <select id="sr-jam-mode" onchange="recalcSR3()">
+              <option value="none">방어 재밍 없음</option>
+              <option value="def">방어 재밍 있음</option>
+              <option value="cell">재밍 셀 내</option>
+              <option value="chaff">채프 회랑 내</option>
+            </select>
+          </div>
+          <div class="field-row">
+            <span class="field-lbl">스탠드오프 재밍</span>
+            <input type="number" id="sr-def-soj" value="0" min="0" max="9" oninput="recalcSR3()">
+          </div>
+          <div class="mods" style="grid-template-columns:1fr">
+            <label class="mod"><input type="checkbox" data-v="-1" onchange="recalcSR3()"><span>표적의 SAM 방어가 취약함</span><span class="mv n">–1</span></label>
+            <label class="mod"><input type="checkbox" data-v="-1" onchange="recalcSR3()"><span>표적에서 SAM으로 시야 없음</span><span class="mv n">–1</span></label>
+            <label class="mod"><input type="checkbox" data-v="-2" onchange="recalcSR3()"><span>표적에 RWR 능력 없음</span><span class="mv n">–2</span></label>
+            <label class="mod"><input type="checkbox" data-v="2" onchange="recalcSR3()"><span>비콘 재밍</span><span class="mv p">+2</span></label>
+          </div>
+          <div class="total-row"><span class="total-lbl">총 보정</span><span class="total-n" id="sr3-total">+0</span></div>
+        </div>
+        <div>
+          <div class="sec-lbl">SAM 방어 결과표</div>
+          <table class="reftbl">
+            <thead><tr><th>재밍 상황</th><th>회피 성공 기준</th></tr></thead>
+            <tbody>
+              <tr><td>방어 재밍 없음</td><td>10 이상 → 회피</td></tr>
+              <tr><td>방어 재밍 있음</td><td>8 이상 → 회피</td></tr>
+              <tr><td>재밍 셀 내</td><td>6 이상 → 회피</td></tr>
+              <tr><td>채프 회랑 내</td><td>5 이상 → 회피</td></tr>
+            </tbody>
+          </table>
+          <div class="warn-box" style="margin-top:8px">
+            <b style="color:var(--tan)">회피 성공</b> — SAM 피해 없음<br>
+            <b style="color:var(--red)">회피 실패</b> — SAM 피해 표 굴림
+          </div>
+        </div>
+      </div>
+      <button class="btn" onclick="rollSR3()">▸ SAM 방어 주사위 (2d10)</button>
+      <div class="result" id="sr3-result">
+        <div class="dice-big" id="sr3-dice"></div>
+        <div class="res-line" id="sr3-res"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 4: SAM 피해 -->
+  <div class="step locked" id="sr4">
+    <div class="step-head">
+      <div class="step-num" id="sr4-num">4</div>
+      <div class="step-title">SAM 피해 &nbsp;[15.42]</div>
+      <div class="step-badge" id="sr4-badge">방어 실패 후 활성화</div>
+    </div>
+    <div class="step-body">
+      <div class="two">
+        <div>
+          <div class="base-box">획득 수준: <b id="sr4-acq-info">—</b></div>
+          <button class="btn" onclick="rollSR4()">▸ 피해 주사위 (1d10)</button>
+          <div class="result" id="sr4-result">
+            <div class="dice-big" id="sr4-dice"></div>
+            <div class="res-line" id="sr4-res"></div>
+          </div>
+          <button class="btn secondary" onclick="resetSR()">⟳ SAM 판정 처음부터</button>
+        </div>
+        <div>
+          <div class="sec-lbl">SAM 피해표</div>
+          <table class="reftbl" id="sr4-tbl">
+            <thead><tr><th>1d10</th><th>완전 획득</th><th>부분 획득</th></tr></thead>
+            <tbody>
+              <tr data-lo="1" data-hi="1"><td>1</td><td>D</td><td>NE</td></tr>
+              <tr data-lo="2" data-hi="2"><td>2</td><td>D</td><td>NE</td></tr>
+              <tr data-lo="3" data-hi="3"><td>3</td><td>D, D</td><td>D</td></tr>
+              <tr data-lo="4" data-hi="4"><td>4</td><td>C</td><td>D, D</td></tr>
+              <tr data-lo="5" data-hi="5"><td>5</td><td>K</td><td>D</td></tr>
+              <tr data-lo="6" data-hi="6"><td>6</td><td>K</td><td>D</td></tr>
+              <tr data-lo="7" data-hi="7"><td>7</td><td>K</td><td>C</td></tr>
+              <tr data-lo="8" data-hi="8"><td>8</td><td>K</td><td>K</td></tr>
+              <tr data-lo="9" data-hi="9"><td>9</td><td>K</td><td>K</td></tr>
+              <tr data-lo="10" data-hi="10"><td>10</td><td>K</td><td>K</td></tr>
+            </tbody>
+          </table>
+          <div class="warn-box" style="margin-top:8px">
+            <b style="color:var(--tan)">NE</b> 효과 없음 &nbsp;
+            <b style="color:var(--tan)">D</b> 피해 &nbsp;
+            <b style="color:var(--tan)">C</b> 무력화 &nbsp;
+            <b style="color:var(--tan)">K</b> 격추
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SAM 위치 판정 (독립) -->
+  <div class="step" id="sr5">
+    <div class="step-head">
+      <div class="step-num">5</div>
+      <div class="step-title">SAM 위치 확인 &nbsp;[15.13]</div>
+      <div class="step-badge info">독립 판정</div>
+    </div>
+    <div class="step-body">
+      <div class="two">
+        <div>
+          <div class="info-box">대대와 시야 확보 시. 1d10 굴림, 10 이상이면 위치 확인. 최대 3헥스 (발사 위치 탐색 시 8헥스).</div>
+          <div class="mods" style="grid-template-columns:1fr">
+            <label class="mod"><input type="checkbox" data-v="-1" onchange="recalcSR5()"><span>야간</span><span class="mv n">–1</span></label>
+            <label class="mod"><input type="checkbox" data-v="1" onchange="recalcSR5()"><span>비행대에 RWR A 탑재</span><span class="mv p">+1</span></label>
+            <label class="mod"><input type="checkbox" data-v="3" onchange="recalcSR5()"><span>비행대에 RWR B 탑재</span><span class="mv p">+3</span></label>
+            <label class="mod"><input type="checkbox" data-v="5" onchange="recalcSR5()"><span>표적이 SAM 발사 카운터로 표시됨</span><span class="mv p">+5</span></label>
+          </div>
+          <div class="total-row"><span class="total-lbl">보정 (10 이상이면 위치 확인)</span><span class="total-n" id="sr5-total">+0</span></div>
+          <button class="btn" onclick="rollSR5()">▸ SAM 위치 판정 (1d10)</button>
+          <div class="result" id="sr5-result">
+            <div class="dice-big" id="sr5-dice"></div>
+            <div class="res-line" id="sr5-res"></div>
+          </div>
+        </div>
+        <div>
+          <div class="sec-lbl">SAM 사거리 규칙</div>
+          <div class="info-box">
+            최대 표적 획득 사거리: <b style="color:var(--tan)">12 헥스</b><br>
+            최대 공격 사거리: <b style="color:var(--tan)">8 헥스</b><br>
+            0–1 헥스에서는 공격 불가<br>
+            고고도 표적: 거리 +1 [15.52]<br>
+            MiG 5헥스 내 공격 불가 (1972년부터 3헥스)
+          </div>
+          <div class="sec-lbl" style="margin-top:8px">번스루 [19.22]</div>
+          <div class="info-box">
+            대형 항공기: 0–4 헥스 / 기타: 0–2 헥스<br>
+            재밍 셀 내: 사거리 1 헥스 감소<br>
+            최대 관통 사거리에서 1d10, 1–5 재밍 유지, 6–10 재밍 상실
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
 <script>
 var G={engBase:9,engMod:0,engSuccess:false,manShots:0,shotRemain:0,shotDamage:0,aaaFireCan:false,aaaHit:false};
 function clampAV(v){return Math.max(-3,Math.min(3,v));}
@@ -753,6 +1205,305 @@ function rollMig(){
 }
 recalcEng();updateAAABase();recalcARM();recalcRec();recalcMig();
 
+// ============================================================
+// 공대지 공격 [17.4]
+// ============================================================
+var ATG = {successGrade: 0, isArm: false};
+
+// 공대지 공격 수치 표 lookup
+var ATG_TABLE = {
+  '0.5': [0,0,0,0,1,1,1,2,2,2,2,3,3,3,3,3,4],
+  '2':   [0,0,0,0,1,1,1,1,2,2,2,3,3,3,4,4,4],
+  '4':   [0,0,0,1,1,1,1,2,2,2,3,3,3,4,4,4,4],
+  '6':   [0,0,1,1,1,2,2,2,2,3,3,4,4,4,4,4,4],
+  '8':   [0,0,1,1,2,2,2,2,3,3,3,4,4,4,4,4,4],
+  '12':  [0,1,1,1,2,2,2,2,3,3,4,4,4,4,4,4,4],
+  '16':  [0,1,1,1,2,2,2,3,3,3,4,4,4,4,4,4,4],
+  '20':  [1,1,2,2,2,2,3,3,3,3,4,4,4,4,4,4,4],
+  '30':  [1,2,2,2,3,3,3,3,3,4,4,4,4,4,4,4,4],
+  '60':  [2,2,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4],
+  '90':  [2,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,4],
+  'pgm': [0,0,0,0,0,0,1,2,3,4,4,4,4,4,4,4,4],
+  'arm_col': [0,0,0,1,1,1,1,1,2,2,2,2,2,3,3,3,4]
+};
+// index: dice 2→row0, 3→row1, 4→row2, ... 18+→row16
+function atgTableLookup(dice, col) {
+  var idx = Math.min(Math.max(dice - 2, 0), 16);
+  var tbl = ATG_TABLE[col];
+  return tbl ? tbl[idx] : 0;
+}
+
+function recalcAtg() {
+  var weapon = document.getElementById('atg-weapon').value;
+  ATG.isArm = (weapon === 'arm');
+  // show/hide weapon-specific mods
+  document.getElementById('atg-std-mods').style.display  = (weapon==='std')  ? 'block':'none';
+  document.getElementById('atg-lgb-mods').style.display  = (weapon==='lgb')  ? 'block':'none';
+  document.getElementById('atg-eogb-mods').style.display = (weapon==='eogb') ? 'block':'none';
+  document.getElementById('atg-arm-mods').style.display  = (weapon==='arm')  ? 'block':'none';
+  // show/hide altitude & profile (not relevant for ARM)
+  var showAlt = (weapon === 'std' || weapon === 'lgb');
+  document.getElementById('atg-alt-row').style.display     = showAlt ? 'flex':'none';
+  document.getElementById('atg-profile-row').style.display = (weapon !== 'arm') ? 'flex':'none';
+  document.getElementById('atg-bombsight-row').style.display = (weapon === 'std') ? 'flex':'none';
+  // force correct av column for PGM/ARM weapons
+  if (weapon === 'lgb' || weapon === 'eogb') {
+    document.getElementById('atg-av').value = 'pgm';
+  } else if (weapon === 'arm') {
+    document.getElementById('atg-av').value = 'arm_col';
+  }
+  // sum mods
+  var mods = 0;
+  if (weapon === 'std') {
+    mods += parseInt(document.getElementById('atg-bombsight').value) || 0;
+    mods += parseInt(document.getElementById('atg-alt').value) || 0;
+    mods += parseInt(document.getElementById('atg-profile').value) || 0;
+    document.querySelectorAll('#atg-std-mods input[type=checkbox]:checked').forEach(function(cb){mods+=parseInt(cb.dataset.v)||0;});
+  } else if (weapon === 'lgb') {
+    mods += parseInt(document.getElementById('atg-profile').value) || 0;
+    document.querySelectorAll('#atg-lgb-mods input[type=checkbox]:checked').forEach(function(cb){mods+=parseInt(cb.dataset.v)||0;});
+  } else if (weapon === 'eogb') {
+    mods += parseInt(document.getElementById('atg-profile').value) || 0;
+    document.querySelectorAll('#atg-eogb-mods input[type=checkbox]:checked').forEach(function(cb){mods+=parseInt(cb.dataset.v)||0;});
+  } else if (weapon === 'arm') {
+    document.querySelectorAll('#atg-arm-mods input[type=checkbox]:checked').forEach(function(cb){mods+=parseInt(cb.dataset.v)||0;});
+  }
+  mods += parseInt(document.getElementById('atg-aaa').value) || 0;
+  document.getElementById('atg-total').textContent = sign(mods);
+}
+
+function rollAtg() {
+  recalcAtg();
+  var mod = parseInt(document.getElementById('atg-total').textContent) || 0;
+  var d = r2(), total = d + mod;
+  var col = document.getElementById('atg-av').value;
+  var grade = atgTableLookup(total, col);
+  ATG.successGrade = grade;
+  document.getElementById('atg-dice').textContent = d + ' + (' + sign(mod) + ') = ' + total;
+  var gradeLabel = ['실패','1등급','2등급','3등급','4등급'][grade];
+  var gradeColor = grade === 0 ? 'bad' : 'ok';
+  document.getElementById('atg-res').innerHTML =
+    '성공 등급: <span class="' + gradeColor + '">▸ ' + gradeLabel + '</span>' +
+    (grade === 0 ? '  →  즉시 부수적 피해 [18.3] 판정' : '  →  피해 판정으로 진행');
+  document.getElementById('atg-result').style.display = 'block';
+  setNum('atg1-num','done'); setBadge('atg1-badge', gradeLabel, grade>0?'success':'danger');
+  unlock('atg2'); setBadge('atg2-badge','활성화','success');
+  document.getElementById('atg-success-grade').textContent = grade + '등급 (주사위 합: ' + total + ')';
+  document.getElementById('atg2-num').className = 'step-num';
+}
+
+// 피해 표 lookup
+var ATG_DMG = [
+  ['NE**','NE**','NE**','NE**','NE**'], // 2
+  ['NE**','NE**','NE*', 'NE',  'S'  ], // 3
+  ['NE**','NE**','NE*', 'NE',  'S'  ], // 4
+  ['NE',  'NE',  'NE',  'S',   'S'  ], // 5
+  ['NE*', 'NE*', 'NE',  'S',   'H'  ], // 6
+  ['NE',  'NE',  'NE',  'S',   'H'  ], // 7
+  ['NE',  'NE',  'NE',  'S',   'H'  ], // 8
+  ['NE',  'NE',  'NE',  'S',   'H'  ], // 9
+  ['NE**','NE',  'S',   'H',   'H'  ], // 10
+  ['NE',  'NE',  'S',   'H',   'T'  ], // 11
+  ['NE',  'NE',  'S',   'H',   'T'  ], // 12
+  ['NE',  'NE',  'H',   'H',   'T'  ], // 13
+  ['NE',  'NE',  'H',   'H',   'T'  ], // 14
+  ['NE',  'S',   'H',   'H',   'T'  ], // 15
+  ['NE',  'S',   'H',   'T',   'T'  ], // 16
+  ['NE',  'S',   'T',   'T',   'T'  ], // 17
+  ['NE',  'H',   'T',   'T',   'T'  ], // 18
+  ['NE',  'H',   'T',   'T',   'T'  ], // 19
+  ['NE',  'T',   'T',   'T',   'T'  ]  // 20
+];
+var ATG_DMG_DESC = {
+  'NE':'효과 없음', 'NE*':'효과 없음 (부수적 피해 [18.3])',
+  'NE**':'효과 없음 (부수적 피해 [18.3] x2)',
+  'S':'경미 — AAA 제압1 / Fire Can·SAM 피해 / NVA 제압',
+  'H':'심각 — AAA 제압2 / Fire Can·SAM 피해 / NVA 하나 파괴',
+  'T':'파괴 — AAA 제압3 / Fire Can·SAM 파괴 / 모든 NVA 파괴'
+};
+function rollAtgDamage() {
+  var d = r2(), idx = Math.min(Math.max(d-2, 0), 18), g = Math.min(ATG.successGrade, 4);
+  // ARM reduces by 1 level
+  var raw = ATG_DMG[idx][g];
+  var result = raw;
+  if (ATG.isArm && g > 0) {
+    var levels = ['NE','S','H','T'];
+    var base = raw.startsWith('NE') ? 'NE' : raw;
+    var li = levels.indexOf(base);
+    result = li > 0 ? levels[li-1] : 'NE';
+  }
+  var cls = (result.startsWith('NE')) ? 'bad' : 'ok';
+  document.getElementById('atg-dmg-dice').textContent = d;
+  document.getElementById('atg-dmg-res').innerHTML =
+    '결과: <span class="' + cls + '">▸ ' + result + '</span> — ' + (ATG_DMG_DESC[result]||ATG_DMG_DESC[raw]||'');
+  document.getElementById('atg-dmg-result').style.display = 'block';
+  highlightRow('atg-dmg-tbl', d);
+  setNum('atg2-num','done'); setBadge('atg2-badge','완료','success');
+}
+function resetAtg() {
+  lock('atg2');
+  ['atg-result','atg-dmg-result'].forEach(function(id){document.getElementById(id).style.display='none';});
+  document.querySelectorAll('#atg1 input[type=checkbox], #atg2 input[type=checkbox]').forEach(function(cb){cb.checked=false;});
+  setBadge('atg1-badge','대기',''); setNum('atg1-num','');
+  setBadge('atg2-badge','공격 성공 후 활성화',''); setNum('atg2-num','');
+  document.getElementById('atg-success-grade').textContent = '—';
+  recalcAtg();
+}
+
+// ============================================================
+// SAM 판정 [15.32 / 15.42]
+// ============================================================
+var SR = {acqLevel: 0}; // 0=fail, 1=partial, 2=full
+
+function recalcSR1() {
+  var defJam = parseInt(document.getElementById('sr-def-jam').value) || 0;
+  var soj    = parseInt(document.getElementById('sr-soj').value)     || 0;
+  var cbMods = 0;
+  document.querySelectorAll('#sr1 input[type=checkbox]:checked').forEach(function(cb){cbMods+=parseInt(cb.dataset.v)||0;});
+  var total = -defJam - soj + cbMods;
+  document.getElementById('sr1-total').textContent = sign(total);
+}
+
+function getSR1Result(total, state) {
+  if (state === 'undet') {
+    if (total >= 15) return 2; if (total >= 10) return 1; return 0;
+  } else if (state === 'det') {
+    if (total >= 11) return 2; if (total >= 3) return 1; return 0;
+  } else { // acq
+    if (total >= 8) return 2; if (total >= 2) return 1; return 0;
+  }
+}
+
+function rollSR1() {
+  recalcSR1();
+  var mod = parseInt(document.getElementById('sr1-total').textContent) || 0;
+  var state = document.getElementById('sr-target-state').value;
+  var d = r2(), total = d + mod;
+  SR.acqLevel = getSR1Result(total, state);
+  var labels = ['표적 획득 실패','부분 표적 획득','완전 표적 획득'];
+  var clss = ['bad','','ok'];
+  var cls2 = ['danger','info','success'];
+  document.getElementById('sr1-dice').textContent = d + ' + (' + sign(mod) + ') = ' + total;
+  document.getElementById('sr1-res').innerHTML = '<span class="' + clss[SR.acqLevel] + '">▸ ' + labels[SR.acqLevel] + '</span>';
+  document.getElementById('sr1-result').style.display = 'block';
+  setNum('sr1-num','done'); setBadge('sr1-badge', labels[SR.acqLevel], cls2[SR.acqLevel]);
+  if (SR.acqLevel > 0) {
+    unlock('sr2'); setBadge('sr2-badge','활성화','success');
+    document.getElementById('sr2-acq-info').textContent = labels[SR.acqLevel];
+    // auto-set partial mod
+    var partCb = document.getElementById('sr-acq-partial');
+    partCb.checked = (SR.acqLevel === 1);
+    partCb.disabled = true;
+    recalcSR2();
+  } else {
+    lock('sr2'); lock('sr3'); lock('sr4');
+    setBadge('sr2-badge','획득 실패 — 공격 불가','danger');
+  }
+}
+
+function recalcSR2() {
+  var range = parseInt(document.getElementById('sr-range').value) || 4;
+  var rangeMod = range >= 5 ? -(range - 4) : 0;
+  var cbMods = 0;
+  document.querySelectorAll('#sr2 input[type=checkbox]:checked').forEach(function(cb){
+    if(!cb.disabled) cbMods += parseInt(cb.dataset.v)||0;
+  });
+  // partial acq is -1
+  var partMod = SR.acqLevel === 1 ? -1 : 0;
+  document.getElementById('sr2-total').textContent = sign(rangeMod + cbMods + partMod);
+}
+
+function rollSR2() {
+  recalcSR2();
+  var mod = parseInt(document.getElementById('sr2-total').textContent) || 0;
+  var d = r2(), total = d + mod;
+  var hit = total >= 14;
+  document.getElementById('sr2-dice').textContent = d + ' + (' + sign(mod) + ') = ' + total;
+  document.getElementById('sr2-res').innerHTML = hit
+    ? '<span class="ok">▸ 명중!</span> &nbsp;(' + total + ' ≥ 14)  →  방어 판정으로 진행'
+    : '<span class="bad">▸ 실패</span> &nbsp;(' + total + ' < 14)  —  효과 없음';
+  document.getElementById('sr2-result').style.display = 'block';
+  setNum('sr2-num','done'); setBadge('sr2-badge', hit?'명중':'실패', hit?'success':'danger');
+  if (hit) { unlock('sr3'); setBadge('sr3-badge','활성화','success'); }
+}
+
+function recalcSR3() {
+  var soj = parseInt(document.getElementById('sr-def-soj').value) || 0;
+  var cbMods = 0;
+  document.querySelectorAll('#sr3 input[type=checkbox]:checked').forEach(function(cb){cbMods+=parseInt(cb.dataset.v)||0;});
+  document.getElementById('sr3-total').textContent = sign(soj + cbMods);
+}
+
+function rollSR3() {
+  recalcSR3();
+  var mod = parseInt(document.getElementById('sr3-total').textContent) || 0;
+  var mode = document.getElementById('sr-jam-mode').value;
+  var thresholds = {none:10, def:8, cell:6, chaff:5};
+  var thresh = thresholds[mode];
+  var d = r2(), total = d + mod;
+  var evaded = total >= thresh;
+  document.getElementById('sr3-dice').textContent = d + ' + (' + sign(mod) + ') = ' + total;
+  document.getElementById('sr3-res').innerHTML = evaded
+    ? '<span class="ok">▸ 회피 성공!</span> &nbsp;(' + total + ' ≥ ' + thresh + ')  —  SAM 피해 없음'
+    : '<span class="bad">▸ 회피 실패</span> &nbsp;(' + total + ' < ' + thresh + ')  →  피해 판정';
+  document.getElementById('sr3-result').style.display = 'block';
+  setNum('sr3-num','done'); setBadge('sr3-badge', evaded?'회피 성공':'회피 실패', evaded?'success':'danger');
+  if (!evaded) {
+    unlock('sr4'); setBadge('sr4-badge','활성화','success');
+    var labels = ['—','부분 표적 획득','완전 표적 획득'];
+    document.getElementById('sr4-acq-info').textContent = labels[SR.acqLevel] || '—';
+  }
+}
+
+function rollSR4() {
+  var d = r1(), col = SR.acqLevel; // 1=partial, 2=full
+  var fullTbl  = ['D','D','D, D','C','K','K','K','K','K','K'];
+  var partTbl  = ['NE','NE','D','D, D','D','D','C','K','K','K'];
+  var result = col >= 2 ? fullTbl[d-1] : partTbl[d-1];
+  var dmgCls = result === 'NE' ? 'bad' : 'ok';
+  var dmgDesc = {NE:'효과 없음', D:'항공기 1대 피해', 'D, D':'항공기 2대 피해', C:'항공기 무력화', K:'항공기 격추'};
+  document.getElementById('sr4-dice').textContent = d;
+  document.getElementById('sr4-res').innerHTML = '<span class="' + dmgCls + '">▸ ' + result + '</span> — ' + (dmgDesc[result]||'');
+  document.getElementById('sr4-result').style.display = 'block';
+  highlightRow('sr4-tbl', d);
+  setNum('sr4-num','done'); setBadge('sr4-badge','완료','success');
+}
+
+function resetSR() {
+  SR.acqLevel = 0;
+  ['sr2','sr3','sr4'].forEach(lock);
+  ['sr1-result','sr2-result','sr3-result','sr4-result','sr5-result'].forEach(function(id){
+    var el = document.getElementById(id); if(el) el.style.display='none';
+  });
+  document.querySelectorAll('#sr1 input[type=checkbox],#sr2 input[type=checkbox],#sr3 input[type=checkbox]').forEach(function(cb){cb.checked=false;cb.disabled=false;});
+  setBadge('sr1-badge','대기',''); setNum('sr1-num','');
+  setBadge('sr2-badge','표적 획득 후 활성화',''); setNum('sr2-num','');
+  setBadge('sr3-badge','명중 후 활성화',''); setNum('sr3-num','');
+  setBadge('sr4-badge','방어 실패 후 활성화',''); setNum('sr4-num','');
+  document.getElementById('sr2-acq-info').textContent = '—';
+  document.getElementById('sr4-acq-info').textContent = '—';
+  recalcSR1(); recalcSR2(); recalcSR3();
+}
+
+function recalcSR5() {
+  var mods = 0;
+  document.querySelectorAll('#sr5 input[type=checkbox]:checked').forEach(function(cb){mods+=parseInt(cb.dataset.v)||0;});
+  document.getElementById('sr5-total').textContent = sign(mods);
+}
+
+function rollSR5() {
+  recalcSR5();
+  var mod = parseInt(document.getElementById('sr5-total').textContent)||0;
+  var d = r1(), total = d + mod;
+  document.getElementById('sr5-dice').textContent = d + ' + (' + sign(mod) + ') = ' + total;
+  document.getElementById('sr5-res').innerHTML = total >= 10
+    ? '<span class="ok">▸ SAM 위치 확인!</span> &nbsp;(' + total + ' ≥ 10)'
+    : '<span class="bad">▸ 위치 미확인</span> &nbsp;(' + total + ' < 10)';
+  document.getElementById('sr5-result').style.display = 'block';
+}
+
+recalcAtg(); recalcSR1(); recalcSR2(); recalcSR3(); recalcSR5();
+
 document.addEventListener('keydown', function(event) {
     // 입력 필드에 포커스가 있을 때는 단축키를 실행하지 않습니다.
     if (event.target.tagName === 'INPUT' || event.target.tagName === 'SELECT') {
@@ -765,6 +1516,10 @@ document.addEventListener('keydown', function(event) {
         tabs[1].click();
     } else if (event.key === '3' && tabs[2]) {
         tabs[2].click();
+    } else if (event.key === '4' && tabs[3]) {
+        tabs[3].click();
+    } else if (event.key === '5' && tabs[4]) {
+        tabs[4].click();
     }
 });
 </script>
