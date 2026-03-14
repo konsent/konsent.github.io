@@ -1351,8 +1351,8 @@
             <div class="field-row"><span class="field-lbl">AV</span>
               <div class="av-wrap">
                 <button class="av-btn" onclick="stepAV('eng-av',-1)">−</button>
-                <div class="av-disp" id="eng-av-disp">+2</div>
-                <input type="hidden" id="eng-av" value="2">
+                <div class="av-disp" id="eng-av-disp">0</div>
+                <input type="hidden" id="eng-av" value="0">
                 <button class="av-btn" onclick="stepAV('eng-av',1)">+</button>
               </div>
             </div>
@@ -1394,8 +1394,8 @@
             <div class="field-row"><span class="field-lbl">AV</span>
               <div class="av-wrap">
                 <button class="av-btn" onclick="stepAV('eng-def-av',-1)">−</button>
-                <div class="av-disp" id="eng-def-av-disp">+2</div>
-                <input type="hidden" id="eng-def-av" value="2">
+                <div class="av-disp" id="eng-def-av-disp">0</div>
+                <input type="hidden" id="eng-def-av" value="0">
                 <button class="av-btn" onclick="stepAV('eng-def-av',1)">+</button>
               </div>
             </div>
@@ -1454,8 +1454,8 @@
         <!-- 공통 정보 -->
         <div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:12px;padding:10px 12px;border:1px solid var(--olive);border-radius:4px;background:rgba(74,74,42,.08)">
           <div style="flex:1;min-width:180px">
-            <div class="field-row" style="margin-bottom:6px"><span class="field-lbl" style="color:var(--tan)">공격측 기동력</span><input type="number" id="man-att-my" value="8" min="0" max="15" oninput="recalcMan('att');recalcMan('def')"></div>
-            <div class="field-row" style="margin-bottom:0"><span class="field-lbl" style="color:#ff9100">방어측 기동력</span><input type="number" id="man-def-my" value="7" min="0" max="15" oninput="recalcMan('att');recalcMan('def')"></div>
+            <div class="field-row" style="margin-bottom:6px"><span class="field-lbl" style="color:var(--tan)">공격측 기동력</span><input type="number" id="man-att-my" value="6" min="0" max="9" oninput="recalcMan('att');recalcMan('def')"></div>
+            <div class="field-row" style="margin-bottom:0"><span class="field-lbl" style="color:#ff9100">방어측 기동력</span><input type="number" id="man-def-my" value="6" min="0" max="9" oninput="recalcMan('att');recalcMan('def')"></div>
           </div>
           <div style="flex:1;min-width:180px">
             <div class="field-row" style="margin-bottom:6px"><span class="field-lbl" style="color:var(--tan)">공격측 AV</span>
@@ -1472,8 +1472,8 @@
             <div class="sec-lbl" style="margin-top:0;color:var(--tan)">공격측</div>
             <div class="field-row"><span class="field-lbl">항공기 수</span>
               <select id="man-att-col" onchange="recalcMan('att')">
-                <option value="0">1기 (Fluid Four/방어원형/무질서)</option>
-                <option value="1">2기</option><option value="2">3기</option><option value="3" selected>4기</option>
+                <option value="0" selected>1기 (Fluid Four/방어원형/무질서)</option>
+                <option value="1">2기</option><option value="2">3기</option><option value="3">4기</option>
               </select>
             </div>
             <div style="font-size:11px;color:var(--fade);margin:4px 0">
@@ -1504,7 +1504,7 @@
             <div class="field-row"><span class="field-lbl">항공기 수</span>
               <select id="man-def-col" onchange="recalcMan('def')">
                 <option value="0">1기 (Fluid Four/방어원형/무질서)</option>
-                <option value="1">2기</option><option value="2">3기</option><option value="3" selected>4기</option>
+                <option value="1">2기</option><option value="2" selected>3기</option><option value="3">4기</option>
               </select>
             </div>
             <div style="font-size:11px;color:var(--fade);margin:4px 0">
@@ -1633,7 +1633,7 @@
           <div style="border:1px solid var(--tan);border-radius:4px;padding:10px 12px">
             <div class="sec-lbl" style="margin-top:0;color:var(--tan)">공격측 사격</div>
             <div class="info-box" id="shot-att-info" style="margin-bottom:8px">사격 기회: —회</div>
-            <div class="field-row"><span class="field-lbl">무기 전투값 (CV)</span><input type="number" id="shot-att-cv" value="3" min="0" max="6" oninput="recalcShot('att')"></div>
+            <div class="field-row"><span class="field-lbl">무기 전투값 (CV)</span><input type="number" id="shot-att-cv" value="2" min="0" max="6" oninput="recalcShot('att')"></div>
             <div style="font-size:11px;color:var(--fade);margin-bottom:6px">※ BVR / 초저고도 IRM·RHM → CV = 0</div>
             <div class="mods" id="shot-att-mods" style="grid-template-columns:1fr">
               <label class="mod"><input type="checkbox" data-v="1" onchange="recalcShot('att')"><span>추가 미사용 무기 보유</span><span class="mv p">+1</span></label>
@@ -1753,7 +1753,7 @@
         </table>
         <div class="warn-box" style="margin-top:8px">
           <b style="color:var(--tan)">비상 투하</b>: 폭장 즉시 투하, 밀집대형 해제<br>
-          <b style="color:var(--tan)">무질서</b>: 비상투하 + 방어원형 해산 + 산개<br>
+          <b style="color:var(--tan)">무질서</b>: 비상투하 + 방어 원형진 해산 + 산개<br>
           <b style="color:var(--tan)">작전 중지</b>: 무질서 + 즉시 임무 중지
         </div>
       </div>
@@ -2098,9 +2098,9 @@
               <div class="mods" style="grid-template-columns:1fr">
                 <label class="mod"><input type="checkbox" data-v="-2" onchange="recalcAtg()"><span>Standard B 미사일</span><span class="mv n">-2</span></label>
                 <label class="mod"><input type="checkbox" data-v="1" onchange="recalcAtg()"><span>PAT-ARM</span><span class="mv p">+1</span></label>
-                <label class="mod"><input type="checkbox" data-v="-2" onchange="recalcAtg()"><span>위치 미파악 SAM 또는 선제 공격</span><span class="mv n">-2</span></label>
+                <label class="mod"><input type="checkbox" data-v="-2" onchange="recalcAtg()"><span>위치 미파악 SAM 또는 선제 공격(PAT-ARM 사격에는 미적용)</span><span class="mv n">-2</span></label>
                 <label class="mod"><input type="checkbox" data-v="-4" onchange="recalcAtg()"><span>고각 사격(loft)</span><span class="mv n">-4</span></label>
-                <label class="mod"><input type="checkbox" data-v="-6" onchange="recalcAtg()"><span>발사 시 표적 레이더 종료 (Std B만)</span><span class="mv n">-6</span></label>
+                <label class="mod"><input type="checkbox" data-v="-6" onchange="recalcAtg()"><span>발사 시 표적 레이더 종료 (Standard B만)</span><span class="mv n">-6</span></label>
               </div>
             </div>
 
@@ -4927,7 +4927,7 @@ document.addEventListener('DOMContentLoaded', () => {
       var ftypes=['none','damaged','crippled','shotdown'];
       var finalType=ftypes[next],finalLabel=labels[next],escalated=(cur>0&&rtype!=='none');
       var rc=finalType==='shotdown'?'var(--danger,#e05555)':finalType==='crippled'?'var(--amber,#ff9100)':'var(--tan)';
-      var cNote=ae.c?' <span style="color:var(--fade);font-size:11px">(무력화기에 배분)</span>':'';
+      var cNote=ae.c?' <span style="color:var(--fade);font-size:11px">(무력화된 기체에 배분)</span>':'';
       var escNote=escalated?' <span style="color:var(--fade);font-size:11px">(악화)</span>':'';
       document.getElementById(pfx+'alloc-result').innerHTML='배분 주사위: <b style="color:var(--tan)">'+allocDice+'</b> &nbsp;→&nbsp; <b style="color:'+rc+'">'+ae.n+'번기 '+finalLabel.split(' ')[0]+'</b>'+cNote+escNote;
       document.getElementById(pfx+'alloc').style.display='block';
@@ -4957,7 +4957,7 @@ document.addEventListener('DOMContentLoaded', () => {
     var av=getAV(pfx+'av'),cas=parseInt(document.getElementById(pfx+'cas').value)||0,cMods=getCheckMods(document.getElementById(pfx+'mods'));
     document.getElementById(pfx+'total').textContent=sign(av-cas+cMods);
   }
-  function getMorResult(t){if(t>=17)return{txt:'효과 없음',ok:true};if(t>=15)return{txt:'비상 투하 — AV 보정 없음',ok:false};if(t>=9)return{txt:'비상 투하 — AV –1',ok:false};if(t>=6)return{txt:'무질서 상태 — AV –2  ·  방어원형 해산',ok:false};return{txt:'작전 중지 — AV –3  ·  즉시 임무 중지',ok:false};}
+  function getMorResult(t){if(t>=17)return{txt:'효과 없음',ok:true};if(t>=15)return{txt:'비상 투하 — AV 보정 없음',ok:false};if(t>=9)return{txt:'비상 투하 — AV –1',ok:false};if(t>=6)return{txt:'무질서 상태 — AV –2  ·  방어 원형진 해산',ok:false};return{txt:'작전 중지 — AV –3  ·  즉시 임무 중지',ok:false};}
   function rollMor(side){
     side=side||'att';recalcMor(side);var pfx='mor-'+side+'-';
     var mod=parseInt(document.getElementById(pfx+'total').textContent)||0,d=r2(),total=d+mod,res=getMorResult(total);
