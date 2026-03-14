@@ -296,18 +296,11 @@ input[type=number]{width:70px}
         <div>
           <div class="field-row"><span class="field-lbl">무기 전투값 (CV)</span><input type="number" id="shot-cv" value="3" min="0" max="6" oninput="recalcShot()"></div>
           <div style="font-size:11px;color:var(--fade);margin-bottom:10px">※ BVR / 초저고도 IRM·RHM → CV = 0</div>
-          <div class="field-row"><span class="field-lbl">공격 AV</span>
-            <div class="av-wrap"><button class="av-btn" onclick="stepAV('shot-av',-1)">−</button><div class="av-disp" id="shot-av-disp">+2</div><input type="hidden" id="shot-av" value="2"><button class="av-btn" onclick="stepAV('shot-av',1)">+</button></div>
-          </div>
           <div class="sec-lbl" style="margin-top:10px">사격 보정</div>
           <div class="mods" style="grid-template-columns:1fr">
             <label class="mod"><input type="checkbox" data-v="1" onchange="recalcShot()"><span>추가 미사용 무기 보유</span><span class="mv p">+1</span></label>
-            <label class="mod"><input type="checkbox" data-v="2" onchange="recalcShot()"><span>전방호 공격</span><span class="mv p">+2</span></label>
-            <label class="mod"><input type="checkbox" data-v="-2" onchange="recalcShot()"><span>빔호 공격 / 방어원형진</span><span class="mv n">–2</span></label>
-            <label class="mod"><input type="checkbox" data-v="-4" onchange="recalcShot()"><span>수비자 저고도/초저고도</span><span class="mv n">–4</span></label>
-            <label class="mod"><input type="checkbox" data-v="-1" onchange="recalcShot()"><span>고도 차 1밴드당</span><span class="mv n">–1</span></label>
           </div>
-          <div class="total-row"><span class="total-lbl">총 보정</span><span class="total-n" id="shot-total">+5</span></div>
+          <div class="total-row"><span class="total-lbl">총 보정</span><span class="total-n" id="shot-total">+3</span></div>
         </div>
         <div>
           <div class="sec-lbl">사격 결과 테이블</div>
@@ -1127,7 +1120,14 @@ function rollEng(){
 function recalcMan(){
   var myM=parseInt(document.getElementById('man-my').value)||0,enM=parseInt(document.getElementById('man-en').value)||0;
   var myA=getAV('man-av'),enA=getAV('man-enav'),mdiff=myM-enM,adiff=myA-enA;
-  document.getElementById('man-mdiff').textContent=sign(mdiff);document.getElementById('man-adiff').textContent=sign(adiff);
+  var isNight = document.getElementById('man-night').checked;
+  if(isNight){
+    document.getElementById('man-mdiff').textContent=sign(mdiff) + " (야간 미적용)";
+    mdiff = 0;
+  } else {
+    document.getElementById('man-mdiff').textContent=sign(mdiff);
+  }
+  document.getElementById('man-adiff').textContent=sign(adiff);
   var cMods=getCheckMods(document.getElementById('s2'));
   document.getElementById('man-total').textContent=sign(mdiff+adiff+cMods);
 }
@@ -1147,7 +1147,7 @@ function rollMan(){
   if(shots>0){
     unlock('s3');setBadge('s3-badge',shots+'회 남음','info');
     document.getElementById('shot-shots-info').textContent='사격 기회: '+shots+'회';
-    document.getElementById('shot-av').value=getAV('man-av');document.getElementById('shot-av-disp').textContent=sign(getAV('man-av'));recalcShot();
+    recalcShot();
   } else {
     setBadge('s3-badge','사격 기회 없음','danger');
     document.getElementById('mor-av').value=getAV('man-av');document.getElementById('mor-av-disp').textContent=sign(getAV('man-av'));
@@ -1172,7 +1172,7 @@ function rollBVRShot() {
   document.getElementById('bvr-shot-result').style.display = 'block';
   highlightRow('bvr-shot-tbl', total);
 }
-function recalcShot(){var cv=parseInt(document.getElementById('shot-cv').value)||0,av=getAV('shot-av'),cMods=getCheckMods(document.getElementById('s3'));document.getElementById('shot-total').textContent=sign(cv+av+cMods);}
+function recalcShot(){var cv=parseInt(document.getElementById('shot-cv').value)||0,cMods=getCheckMods(document.getElementById('s3'));document.getElementById('shot-total').textContent=sign(cv+cMods);}
 function getShotResult(t){if(t<=13)return'효과 없음';if(t===14)return'피해 (Damaged)';if(t===15)return'무력화 (Crippled)';if(t<=19)return'격추 (Shot down)';if(t<=21)return'피해 (Damaged)';return'효과 없음';}
 function rollShot(){
   recalcShot();var mod=parseInt(document.getElementById('shot-total').textContent)||0,d=r2(),total=d+mod;
@@ -1185,7 +1185,7 @@ function rollShot(){
   else{
     setNum('s3-num','done');setBadge('s3-badge','완료','success');unlock('s4');setBadge('s4-badge','활성화','success');
     document.getElementById('mor-cas').value=G.shotDamage;
-    document.getElementById('mor-av').value=getAV('shot-av');document.getElementById('mor-av-disp').textContent=sign(getAV('shot-av'));
+    document.getElementById('mor-av').value=getAV('man-av');document.getElementById('mor-av-disp').textContent=sign(getAV('man-av'));
     document.getElementById('mor-info').textContent='피해 기체 '+G.shotDamage+'기 자동 반영됨';recalcMor();
   }
 }
