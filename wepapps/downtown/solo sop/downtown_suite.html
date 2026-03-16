@@ -2726,8 +2726,8 @@
         <div class="step-badge info">독립 판정</div>
       </div>
       <div class="step-body">
-        <div class="warn-box">1d6 굴림 → 지정 방향으로 이동. 항공기는 <strong>반드시 고도를 한 단계 낮춰야</strong> 하며, ARM이 아닌 모든 무장을 버립니다. SAM 방어력이 낮은 항공기는 이 기동을 수행할 수 없습니다.</div>
-        <button class="btn" onclick="rollSamEvasion()">▸ SAM 회피 주사위 (1d6)</button>
+        <div class="warn-box">1d10 굴림 → 지정 방향으로 이동. 항공기는 <strong>반드시 고도를 한 단계 낮춰야</strong> 하며, ARM이 아닌 모든 무장을 버립니다. SAM 방어력이 낮은 항공기는 이 기동을 수행할 수 없습니다.</div>
+        <button class="btn" onclick="rollSamEvasion()">▸ SAM 회피 주사위 (1d10)</button>
         <div class="result" id="sam-evasion-result">
           <div class="dice-big" id="sam-evasion-dice"></div>
           <div class="res-line" id="sam-evasion-res"></div>
@@ -4138,6 +4138,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const rowTemplates = {};
   const scenarioDisplay = document.getElementById('scenario-name-display');
   const scenarioInput   = document.getElementById('scenario-name-input');
+  const DRV_CALLSIGN_DATA = {
+    "MiG-17": ["Van Lich","Van Man","Tran Hanh","Van Bay","Nhu Can","Ba Dich","Than Trung","Le Hai"],
+    "MiG-19": ["Vinh Tuong","Hung Son","Manh Tung","Ngoc Tiep"],
+    "MiG-21": ["Van Cuong","Van Coc","Thanh Dao","Thanh Ngan","Ngoc Ngu","Hong Nhi"]
+  };
   const CALLSIGN_DATA = { "GMT_Downtown_Callsigns": { "USAF": [ { "aircraft": "F-4 Phantom II", "callsigns": ["Buick", "Cactus", "Chevy", "Denver", "Dingus", "Dodge", "Fletch", "Gambit", "Icebag", "Locust", "Nomad", "Oyster", "Olds", "Rambler", "Tampa", "Vegas", "Waco", "Zinc"] }, { "aircraft": "F-100 Super Sabre", "callsigns": ["Apple", "Spruce"] }, { "aircraft": "F-104 Starfighter", "callsigns": ["Falstaff", "Goose", "Leopard", "Lincoln", "Zebra"] }, { "aircraft": "F-105 Thunderchief", "callsigns": ["Basco", "Bison", "Brass", "Carbine", "Dallas", "Eagle", "Kite", "Laredo", "Magnum", "Pistol"] }, { "aircraft": "F-111 Aardvark", "callsigns": ["Condor", "Crow", "Hammer", "Jackal", "Pontiac", "Raccoon", "Slam", "Snug", "Suntan", "Tonto"] }, { "aircraft": "A-7 Corsair II", "callsigns": ["DeSoto", "Highball", "Hornet", "Pepper", "Pluto", "Sapphire", "Skipjack", "Sunglass", "Termite", "Vandal"] }, { "aircraft": "B-52", "callsigns": ["Aqua", "Ash", "Azure", "Black", "Blue", "Brick", "Bronze", "Brown", "Charcoal", "Cobalt", "Copper", "Cream", "Ebony", "Ginger", "Green", "Hazel", "Ivory", "Garnet", "Gold", "Gray", "Lilac", "Magnolia", "Olive", "Opal", "Orange", "Peach", "Purple", "Quartz", "Quilt", "Rainbow", "Red", "Rose", "Ruby", "Scarlet", "Snow", "Stone", "Straw", "Tan", "Walnut", "White"] }, { "aircraft": "RF-101 Voodoo", "callsigns": ["Buckshot", "Canyon"] }, { "aircraft": "EB-66 Destroyer", "callsigns": ["Cardinal", "Merco", "Teak", "Valent", "Wandes"] } ], "USN_USMC": [ { "aircraft": "F-4 Phantom II", "callsigns": ["Bandwagon", "Black Lion", "Clubleaf", "Dakota", "Harlow", "Jingle", "Killer", "Kingfish", "Linfield", "Old Nick", "Rock River", "Rootbeer", "Shamrock", "Showtime", "Silverkite"] }, { "aircraft": "F-8 Crusader", "callsigns": ["Bobbin", "Corktip", "Falcon", "Feedbag", "Firefighter", "Milkvine", "Nickel", "Page Boy", "Sheepdog", "Superheat"] }, { "aircraft": "A-4 Skyhawk", "callsigns": ["Bronco", "Bulldog", "Clansman", "Diamond", "Dogear", "Raider", "Redcock", "Saint", "Silverfox", "Stinger", "Ubangi", "Warhorse"] }, { "aircraft": "A-6 Intruder", "callsigns": ["Arab", "Bengal", "Boomer", "Chicago", "Ghost", "Knight", "Panther", "Phoenix", "Sword", "Viceroy"] }, { "aircraft": "A-7 Corsair II", "callsigns": ["Beefeater", "Busybee", "Champ", "Chippie", "Jason", "Jury", "Mace", "Royal", "Streetcar", "Warhawk"] }, { "aircraft": "RA-5 Vigilante", "callsigns": ["Giant", "Glenrock"] }, { "aircraft": "EF-10 Skynight", "callsigns": ["Cottonpicker", "Pigment"] }, { "aircraft": "EA-1 Skyraider", "callsigns": ["Knighthawk", "Zapper"] }, { "aircraft": "EA-6 Prowler", "callsigns": ["Battery", "Lancer", "Lizard", "Scorpion"] }, { "aircraft": "EKA-3 Skywarrior", "callsigns": ["Deep Sea", "Gunpowder"] } ], "CSAR": [ { "aircraft": "A-1 Skyraider (Sandy)", "callsigns": ["Sandy-1", "Sandy-2"] }, { "aircraft": "HC-130 Hercules (King)", "callsigns": ["King"] }, { "aircraft": "HH-3/HH-53 (Jolly Green)", "callsigns": ["Jolly Green"] }, { "aircraft": "HH-2/SH-3 (Big Mother)", "callsigns": ["Big Mother", "Clementine", "Priscilla"] } ] } };
   const AIRCRAFT_DATA = {
     "A-1H Skyraider [US]": ["2{2}", "", "", "2", "U"],
@@ -4277,10 +4282,65 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     return used;
   }
+  function getUsedDrvCallsigns(currentRow) {
+    const used = new Set();
+    document.querySelectorAll('#drv-table tbody tr').forEach(r => {
+      if (r === currentRow) return;
+      const sel = r.querySelector('td:nth-child(1) select.callsign-select');
+      if (sel && sel.value) used.add(sel.value);
+    });
+    return used;
+  }
+  function updateDrvCallsign(row) {
+    const isLoading = row.dataset.isLoading === 'true';
+    const acSel = row.querySelector('td:nth-child(2) select');
+    const callsignCell = row.querySelector('td:nth-child(1)');
+    if (!acSel || !callsignCell) return;
+
+    const acName = acSel.value || "";
+    let drvKey = null;
+    if (acName.includes('MiG-17')) drvKey = 'MiG-17';
+    else if (acName.includes('MiG-19')) drvKey = 'MiG-19';
+    else if (acName.includes('MiG-21')) drvKey = 'MiG-21';
+
+    const options = drvKey ? DRV_CALLSIGN_DATA[drvKey] : [];
+    const currentElement = callsignCell.querySelector('select.callsign-select, input[type="text"]');
+    const currentValue = currentElement ? currentElement.value : '';
+
+    if (options.length > 0) {
+      let callsignSel = callsignCell.querySelector('select.callsign-select');
+      if (!callsignSel) {
+        callsignCell.innerHTML = '<select class="callsign-select"></select>';
+        callsignSel = callsignCell.querySelector('select.callsign-select');
+        callsignSel.addEventListener('change', saveToLocalStorage);
+      }
+      callsignSel.innerHTML = options.map(c => `<option value="${c}">${c}</option>`).join('');
+
+      if (isLoading && row.dataset.savedCallsign && options.includes(row.dataset.savedCallsign)) {
+        callsignSel.value = row.dataset.savedCallsign;
+      } else if (options.includes(currentValue)) {
+        callsignSel.value = currentValue;
+      } else if (!isLoading) {
+        const used = getUsedDrvCallsigns(row);
+        let available = options.filter(c => !used.has(c));
+        if (available.length === 0) available = options;
+        callsignSel.value = available[Math.floor(Math.random() * available.length)];
+      }
+    } else {
+      let callsignInput = callsignCell.querySelector('input[type="text"]');
+      if (!callsignInput) {
+        callsignCell.innerHTML = '<input type="text">';
+        callsignInput = callsignCell.querySelector('input[type="text"]');
+        callsignInput.addEventListener('input', saveToLocalStorage);
+        if (currentValue) callsignInput.value = currentValue;
+      }
+      if (isLoading && row.dataset.savedCallsign) callsignInput.value = row.dataset.savedCallsign;
+    }
+  }
   function updateCallsign(row) {
     const isLoading = row.dataset.isLoading === 'true';
     const isDrv = row.closest('table').id === 'drv-table';
-    if (isDrv) return;
+    if (isDrv) { updateDrvCallsign(row); return; }
 
     const acSel = row.querySelector('td:nth-child(4) select');
     const callsignCell = row.querySelector('td:nth-child(3)');
@@ -4412,7 +4472,7 @@ document.addEventListener('DOMContentLoaded', () => {
      `<td><button class="abort-btn">중단</button></td><td><button class="view-btn">보기</button></td><td></td>`;
   }
   function makeDrvRowHTML() {
-    return `<td><input type="text" value=""></td>` +
+    return `<td><select class="callsign-select"></select></td>` +
       `<td><select><option>MiG-17F Fresco C [DRV]</option><option>MiG-17PF Fresco D [DRV]</option><option>MiG-19S Farmer C [DRV]</option><option>MiG-21F-13 Fishbed C [DRV]</option><option>MiG-21MF Fishbed J [DRV]</option><option>MiG-21PF Fishbed D [DRV]</option><option>MiG-21PFM Fishbed F [DRV]</option></select></td>` +
       `<td><select>${SKILL_OPTIONS}</select></td>` +
       `<td>${AGGRESS}</td>` +
@@ -4898,7 +4958,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function sign(n){return(n>=0?'+':'')+n;}
   function r2(){return Math.floor(Math.random()*10)+1+Math.floor(Math.random()*10)+1;}
   function r1(){return Math.floor(Math.random()*10)+1;}
-  function r1d6(){return Math.floor(Math.random()*6)+1;}
+  function r1d6(){return Math.floor(Math.random()*10)+1;}
   function showAidPage(id,el){ // Renamed from showPage and scoped
     document.querySelectorAll('#aid-page .page').forEach(function(p){p.classList.remove('on');});
     document.querySelectorAll('#aid-page .tabs .tab').forEach(function(t){t.classList.remove('on');});
@@ -6273,6 +6333,8 @@ document.addEventListener('DOMContentLoaded', () => {
   function getRowCallsign(row) {
     const isDrv = row.closest('table').id === 'drv-table';
     if (isDrv) {
+      const sel = row.querySelector('td:nth-child(1) select');
+      if (sel) return sel.value || '—';
       const inp = row.querySelector('td:nth-child(1) input');
       return inp ? (inp.value || '—') : '—';
     } else {
