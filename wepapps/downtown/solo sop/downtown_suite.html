@@ -421,6 +421,60 @@
   }
   .view-btn:hover { border-color: var(--tan); color: var(--tan); }
 
+  /* --- Attacker/Defender role buttons --- */
+  .role-btn {
+    cursor: pointer;
+    border: 1px solid var(--olive);
+    background: rgba(30,28,15,0.6);
+    color: var(--fade);
+    padding: 2px 6px;
+    font-size: 10px;
+    font-family: 'Oswald', sans-serif;
+    letter-spacing: 0.05em;
+    transition: all 0.15s;
+    display: block;
+    width: 100%;
+    margin-bottom: 2px;
+    text-align: center;
+  }
+  .role-btn:last-child { margin-bottom: 0; }
+  .role-btn:hover { border-color: var(--khaki); color: var(--cream); }
+  .role-btn.attacker-active {
+    background: rgba(26,58,90,0.6);
+    border-color: #4a8ac4;
+    color: #a8c8e8;
+    font-weight: 600;
+  }
+  .role-btn.defender-active {
+    background: rgba(139,80,20,0.6);
+    border-color: var(--tan);
+    color: var(--tan);
+    font-weight: 600;
+  }
+  .role-btn-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 42px;
+  }
+  /* Raid sync indicator in Player Aid */
+  .raid-sync-info {
+    font-size: 10px;
+    color: var(--fade);
+    font-family: 'JetBrains Mono', monospace;
+    padding: 3px 7px;
+    background: rgba(74,74,42,0.15);
+    border: 1px solid rgba(74,74,42,0.4);
+    border-radius: 3px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .raid-sync-info .sync-att { color: #a8c8e8; }
+  .raid-sync-info .sync-def { color: var(--tan); }
+
   .abort-btn {
     cursor: pointer;
     border: 1px solid var(--red);
@@ -923,7 +977,7 @@
       padding: 10px;
       font-size: 10px;
     }
-    .page-header, .main-tab-bar, .tab-bar, .add-row, .delete-row, .view-btn, .aggress-controls, .status-control-btn, .close-btn, .modal, .generate-btn, #send-to-adc-btn, #oob-print-btn, #adc-print-btn, #view-all-adc-fab, #adc-viewer-panel, .av-btn, .btn, .fab {
+    .page-header, .main-tab-bar, .tab-bar, .add-row, .delete-row, .view-btn, .aggress-controls, .status-control-btn, .close-btn, .modal, .generate-btn, #send-to-adc-btn, #oob-print-btn, #adc-print-btn, #adc-reset-btn, #view-all-adc-fab, #adc-viewer-panel, .av-btn, .btn, .fab {
       display: none !important;
     }
     .panel, .step {
@@ -1002,6 +1056,36 @@
     border-color: #f99;
     color: #f99;
   }
+  #adc-reset-btn {
+    margin-left: 8px;
+    padding: 8px 18px;
+    border: 1px solid var(--red);
+    background: rgba(139,26,26,0.18);
+    color: #e88;
+    font-family: 'Oswald', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+    align-self: center;
+  }
+  #adc-reset-btn:hover {
+    background: rgba(139,26,26,0.38);
+    border-color: #f99;
+    color: #f99;
+  }
+  #adc-reset-confirm {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  #adc-reset-confirm.hidden { display: none; }
   #aid-reset-confirm {
     position: fixed;
     inset: 0;
@@ -1291,6 +1375,7 @@
     <button class="tab-btn us-tab"  id="us-btn">▸ US 비행대</button>
     <button class="tab-btn drv-tab" id="drv-btn">▸ DRV 요격기</button>
     <button id="adc-print-btn" class="tab-btn" style="margin-left: auto; border-color: var(--dark-green); color: var(--dark-green);">🖨️ 인쇄</button>
+    <button id="adc-reset-btn" onclick="resetAllRaid()" title="RAID 전체 초기화">↺ 초기화</button>
   </div>
 
   <!-- ══════════════ US CONTENT ══════════════ -->
@@ -1320,12 +1405,12 @@
       <div class="table-wrap">
         <table id="us-lead-table">
           <thead>
-            <tr><th colspan="16">선발 공격대 (Pre-Raid)</th></tr>
+            <tr><th colspan="17">선발 공격대 (Pre-Raid)</th></tr>
             <tr>
               <th>임무</th><th>태스크</th><th>콜싸인</th><th>항공기 유형</th>
               <th>수준</th><th>공격성</th><th>상태</th>
               <th>기총</th><th>IRM</th><th>RHM</th><th>폭탄</th><th>연료</th>
-              <th>비고</th><th></th><th>ADC</th><th>삭제</th>
+              <th>비고</th><th>역할</th><th></th><th>ADC</th><th>삭제</th>
             </tr>
           </thead>
           <tbody>
@@ -1341,12 +1426,12 @@
       <div class="table-wrap">
         <table id="us-main-table">
           <thead>
-            <tr><th colspan="16">주 공격대 (MAIN)</th></tr>
+            <tr><th colspan="17">주 공격대 (MAIN)</th></tr>
             <tr>
               <th>임무</th><th>태스크</th><th>콜싸인</th><th>항공기 유형</th>
               <th>수준</th><th>공격성</th><th>상태</th>
               <th>기총</th><th>IRM</th><th>RHM</th><th>폭탄</th><th>연료</th>
-              <th>비고</th><th></th><th>ADC</th><th>삭제</th>
+              <th>비고</th><th>역할</th><th></th><th>ADC</th><th>삭제</th>
             </tr>
           </thead>
           <tbody>
@@ -1362,12 +1447,12 @@
       <div class="table-wrap">
         <table id="us-trail-table">
           <thead>
-            <tr><th colspan="16">후발 공격대 (TRAIL)</th></tr>
+            <tr><th colspan="17">후발 공격대 (TRAIL)</th></tr>
             <tr>
               <th>임무</th><th>태스크</th><th>콜싸인</th><th>항공기 유형</th>
               <th>수준</th><th>공격성</th><th>상태</th>
               <th>기총</th><th>IRM</th><th>RHM</th><th>폭탄</th><th>연료</th>
-              <th>비고</th><th></th><th>ADC</th><th>삭제</th>
+              <th>비고</th><th>역할</th><th></th><th>ADC</th><th>삭제</th>
             </tr>
           </thead>
           <tbody>
@@ -1385,11 +1470,11 @@
       <div class="table-wrap">
         <table id="drv-table">
           <thead>
-            <tr><th colspan="14">DRV 요격기 (INTERCEPTORS)</th></tr>
+            <tr><th colspan="15">DRV 요격기 (INTERCEPTORS)</th></tr>
             <tr>
               <th>콜싸인</th><th>항공기 유형</th><th>수준</th><th>공격성</th><th>상태</th>
               <th>기총</th><th>IRM</th><th>RHM</th><th>폭탄</th><th>연료</th>
-              <th>비고</th><th></th><th>ADC</th><th>삭제</th>
+              <th>비고</th><th>역할</th><th></th><th>ADC</th><th>삭제</th>
             </tr>
           </thead>
           <tbody>
@@ -1451,6 +1536,12 @@
           </div>
         </div>
         <!-- 양측 입력 -->
+        <div id="raid-sync-bar" class="raid-sync-info" style="display:none">
+          <span style="color:var(--fade2);font-size:10px;letter-spacing:.05em">⚡ RAID 연동 <span style="color:var(--fade);font-size:9px">(교전 시작 시 AV 기준)</span>:</span>
+          <span class="sync-att">공격측 — <span id="sync-att-name">—</span> &nbsp;AV:<b id="sync-att-av">—</b> &nbsp;기체:<b id="sync-att-ac">—</b></span>
+          <span style="color:var(--olive)">|</span>
+          <span class="sync-def">방어측 — <span id="sync-def-name">—</span> &nbsp;AV:<b id="sync-def-av">—</b> &nbsp;기체:<b id="sync-def-ac">—</b></span>
+        </div>
         <div class="two">
           <!-- 공격측 -->
           <div style="border:1px solid var(--olive);border-radius:4px;padding:10px 12px">
@@ -1567,8 +1658,8 @@
         <!-- 공통 정보 -->
         <div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:12px;padding:10px 12px;border:1px solid var(--olive);border-radius:4px;background:rgba(74,74,42,.08)">
           <div style="flex:1;min-width:180px">
-            <div class="field-row" style="margin-bottom:6px"><span class="field-lbl" style="color:var(--tan)">공격측 기동력</span><input type="number" id="man-att-my" value="6" min="0" max="9" oninput="recalcMan('att');recalcMan('def')"></div>
-            <div class="field-row" style="margin-bottom:0"><span class="field-lbl" style="color:#ff9100">방어측 기동력</span><input type="number" id="man-def-my" value="6" min="0" max="9" oninput="recalcMan('att');recalcMan('def')"></div>
+            <div class="field-row" style="margin-bottom:6px"><span class="field-lbl" style="color:var(--tan)">공격측 기동력</span><input type="number" id="man-att-my" value="5" min="0" max="9" oninput="recalcMan('att');recalcMan('def')"></div>
+            <div class="field-row" style="margin-bottom:0"><span class="field-lbl" style="color:#ff9100">방어측 기동력</span><input type="number" id="man-def-my" value="5" min="0" max="9" oninput="recalcMan('att');recalcMan('def')"></div>
           </div>
           <div style="flex:1;min-width:180px">
             <div class="field-row" style="margin-bottom:6px"><span class="field-lbl" style="color:var(--tan)">공격측 AV</span>
@@ -1748,6 +1839,12 @@
             <div class="info-box" id="shot-att-info" style="margin-bottom:8px">사격 기회: —회</div>
             <div class="field-row"><span class="field-lbl">무기 전투값 (CV)</span><input type="number" id="shot-att-cv" value="2" min="0" max="6" oninput="recalcShot('att')"></div>
             <div style="font-size:11px;color:var(--fade);margin-bottom:6px">※ BVR / 초저고도 IRM·RHM → CV = 0</div>
+            <div class="field-row" style="margin-bottom:6px">
+              <span class="field-lbl">무기 고갈 수치</span>
+              <input type="number" id="shot-att-dep" value="" min="0" max="20" style="width:60px" placeholder="필수">
+              <span style="font-size:11px;color:var(--fade);margin-left:6px">최고값 적용</span>
+              <span id="shot-att-dep-warn" style="display:none;font-size:11px;color:var(--red-bright,#c0392b);margin-left:6px">⚠ 입력 필요</span>
+            </div>
             <div class="mods" id="shot-att-mods" style="grid-template-columns:1fr">
               <label class="mod"><input type="checkbox" data-v="1" onchange="recalcShot('att')"><span>추가 미사용 무기 보유</span><span class="mv p">+1</span></label>
             </div>
@@ -1763,13 +1860,21 @@
               <div style="margin-top:4px;font-size:12px;color:var(--fade);font-family:'JetBrains Mono',monospace" id="shot-att-remain"></div>
             </div>
             <div id="shot-att-log" style="margin-top:10px;padding-top:10px;border-top:1px solid var(--olive);font-size:12px;line-height:1.6"></div>
+            <!-- 무기 고갈 판정 결과 -->
+            <div id="shot-att-dep-result" style="display:none;margin-top:10px;padding:8px 10px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.7"></div>
           </div>
           <!-- 방어측 사격 -->
           <div style="border:1px solid #ff9100;border-radius:4px;padding:10px 12px">
             <div class="sec-lbl" style="margin-top:0;color:#ff9100">방어측 사격</div>
             <div class="info-box" id="shot-def-info" style="margin-bottom:8px">사격 기회: —회</div>
-            <div class="field-row"><span class="field-lbl">무기 전투값 (CV)</span><input type="number" id="shot-def-cv" value="3" min="0" max="6" oninput="recalcShot('def')"></div>
+            <div class="field-row"><span class="field-lbl">무기 전투값 (CV)</span><input type="number" id="shot-def-cv" value="2" min="0" max="6" oninput="recalcShot('def')"></div>
             <div style="font-size:11px;color:var(--fade);margin-bottom:6px">※ BVR / 초저고도 IRM·RHM → CV = 0</div>
+            <div class="field-row" style="margin-bottom:6px">
+              <span class="field-lbl">무기 고갈 수치</span>
+              <input type="number" id="shot-def-dep" value="" min="0" max="20" style="width:60px" placeholder="필수">
+              <span style="font-size:11px;color:var(--fade);margin-left:6px">최고값 적용</span>
+              <span id="shot-def-dep-warn" style="display:none;font-size:11px;color:var(--red-bright,#c0392b);margin-left:6px">⚠ 입력 필요</span>
+            </div>
             <div class="mods" id="shot-def-mods" style="grid-template-columns:1fr">
               <label class="mod"><input type="checkbox" data-v="1" onchange="recalcShot('def')"><span>추가 미사용 무기 보유</span><span class="mv p">+1</span></label>
             </div>
@@ -1785,6 +1890,8 @@
               <div style="margin-top:4px;font-size:12px;color:var(--fade);font-family:'JetBrains Mono',monospace" id="shot-def-remain"></div>
             </div>
             <div id="shot-def-log" style="margin-top:10px;padding-top:10px;border-top:1px solid var(--olive);font-size:12px;line-height:1.6"></div>
+            <!-- 무기 고갈 판정 결과 -->
+            <div id="shot-def-dep-result" style="display:none;margin-top:10px;padding:8px 10px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.7"></div>
           </div>
         </div>
         <div class="divider"></div>
@@ -1880,8 +1987,27 @@
       </div>
       <div class="step-body">
         <div class="warn-box">슬래시 공격 / BVR / 방어원형진은 산개 없음. 1d6 굴림 → 지정 방향으로 이동.</div>
-        <button class="btn" onclick="rollScatter()">▸ 산개 주사위 (1d6)</button>
-        <div class="result" id="scatter-result"><div class="dice-big" id="scatter-dice"></div><div class="res-line" id="scatter-res"></div></div>
+        <button class="btn" onclick="rollScatter()">▸ 산개 주사위 굴리기 (각 1d6)</button>
+        <div class="result" id="scatter-result" style="display:none">
+          <!-- 공격측 / 방어측 결과 -->
+          <div class="two" style="margin-bottom:12px">
+            <div style="border:1px solid var(--olive);border-radius:4px;padding:10px 12px">
+              <div class="sec-lbl" style="margin-top:0;color:var(--tan)">공격측</div>
+              <div class="dice-big" id="scatter-att-dice" style="font-size:22px;margin:4px 0"></div>
+              <div class="res-line" id="scatter-att-res"></div>
+            </div>
+            <div style="border:1px solid var(--olive);border-radius:4px;padding:10px 12px">
+              <div class="sec-lbl" style="margin-top:0;color:#ff9100">방어측</div>
+              <div class="dice-big" id="scatter-def-dice" style="font-size:22px;margin:4px 0"></div>
+              <div class="res-line" id="scatter-def-res"></div>
+            </div>
+          </div>
+          <!-- 산개 방향 그림 (공통) -->
+          <div id="scatter-imgs" style="margin-top:6px;display:flex;flex-wrap:wrap;gap:10px;justify-content:center">
+            <img src="scatter1.png" style="max-width:100%;width:400px;border:1px solid var(--olive);">
+            <img src="scatter2.png" style="max-width:100%;width:400px;border:1px solid var(--olive);">
+          </div>
+        </div>
         <button class="btn secondary" onclick="resetAir()">⟳ 공중전 처음부터 다시</button>
       </div>
     </div>
@@ -4282,6 +4408,7 @@ document.addEventListener('DOMContentLoaded', () => {
       `<td>${STATUS_GRID}</td>` +
       `<td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td>` +
       `<td><input type="text" value=""></td>` +
+      `<td><div class="role-btn-wrap"><button type="button" class="role-btn us-attacker-btn" data-role="attacker" data-side="us">공격</button><button type="button" class="role-btn us-defender-btn" data-role="defender" data-side="us">방어</button></div></td>` +
      `<td><button class="abort-btn">중단</button></td><td><button class="view-btn">보기</button></td><td></td>`;
   }
   function makeDrvRowHTML() {
@@ -4292,6 +4419,7 @@ document.addEventListener('DOMContentLoaded', () => {
       `<td>${STATUS_GRID}</td>` +
       `<td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td>` +
       `<td><input type="text" value=""></td>` +
+      `<td><div class="role-btn-wrap"><button type="button" class="role-btn drv-attacker-btn" data-role="attacker" data-side="drv">공격</button><button type="button" class="role-btn drv-defender-btn" data-role="defender" data-side="drv">방어</button></div></td>` +
      `<td><button class="abort-btn">중단</button></td><td><button class="view-btn">보기</button></td><td></td>`;
   }
   const modal = document.getElementById('image-modal');
@@ -4410,7 +4538,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     row.querySelectorAll('input[type="text"]').forEach(i => i.addEventListener('input', saveToLocalStorage));
     addSkillChangeListener(row);
-    addAggressivenessControls(row);
+    // AV 변경 시 DOGFIGHT 자동 동기화 (up/down 버튼은 addAggressivenessControls에서 처리)
+    addAggressivenessControlsWithSync(row);
     const abortBtn = row.querySelector('.abort-btn');
     if (abortBtn) {
         abortBtn.addEventListener('click', () => {
@@ -4421,6 +4550,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const vb = row.querySelector('.view-btn');
     if (vb) addViewButtonListener(vb);
     row.querySelectorAll('.status-grid').forEach(addStatusGridControls);
+    // 역할 버튼 이벤트
+    row.querySelectorAll('.role-btn').forEach(btn => {
+      btn.addEventListener('click', () => handleRoleButtonClick(btn));
+    });
+  }
+  function addAggressivenessControlsWithSync(row) {
+    const container = row.querySelector('.aggress-container');
+    if (!container) return;
+    const val = container.querySelector('.aggress-value');
+    container.querySelector('.aggress-btn.up').addEventListener('click', () => {
+      let v = parseInt(val.textContent,10); if (v < 3) { val.textContent = v+1; saveToLocalStorage(); onRaidAVChange(); }
+    });
+    container.querySelector('.aggress-btn.down').addEventListener('click', () => {
+      let v = parseInt(val.textContent,10); if (v > -3) { val.textContent = v-1; saveToLocalStorage(); onRaidAVChange(); }
+    });
   }
   function addViewButtonListener(button) {
     button.addEventListener('click', () => {
@@ -4482,8 +4626,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const inp = cell.querySelector('input');
         const viewBtn = cell.querySelector('button.view-btn');
         const abortBtn = cell.querySelector('button.abort-btn');
+        const roleWrap = cell.querySelector('.role-btn-wrap');
         if (sel) rowData.cells.push({ type:'select', value: sel.value });
         else if (inp) rowData.cells.push({ type:'input', value: inp.value });
+        else if (roleWrap) {
+          const attBtn = roleWrap.querySelector('[data-role="attacker"]');
+          const defBtn = roleWrap.querySelector('[data-role="defender"]');
+          const role = attBtn && attBtn.classList.contains('attacker-active') ? 'attacker'
+                     : defBtn && defBtn.classList.contains('defender-active') ? 'defender' : 'none';
+          rowData.cells.push({ type:'role', value: role });
+        }
         else if (viewBtn) rowData.cells.push({ type:'button', value:'보기' });
         else if (abortBtn) rowData.cells.push({ type:'button', value:'중단' });
         else if (cell.querySelector('.status-grid')) {
@@ -4563,6 +4715,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 si++;
               }
             });
+          } else if (cell.querySelector('.role-btn-wrap') && sc.type === 'role') {
+            if (sc.value !== 'none') {
+              const btn = cell.querySelector(`[data-role="${sc.value}"]`);
+              if (btn) {
+                const role = sc.value; // 'attacker' | 'defender'
+                btn.classList.add(role === 'attacker' ? 'attacker-active' : 'defender-active');
+                if (raidRoles) raidRoles[role] = clone;
+              }
+            }
           } else if (cell.querySelector('.aggress-container') && sc.type === 'aggress') {
             cell.querySelector('.aggress-value').textContent = sc.value || '0';
           } else if (sc.type === 'text') {
@@ -4835,6 +4996,8 @@ document.addEventListener('DOMContentLoaded', () => {
       outcomeEl.innerHTML='<span class="bad">▸ 교전 없음</span> — 양측 모두 실패. 공중전이 발생하지 않습니다.';
     }
     setBadge('s1-badge',G.engSuccess?'성공':'교전 없음',G.engSuccess?'success':'danger');setNum('s1-num','done');
+    // sync 바 스냅샷 고정 — 교전 판정 후부터 AV 변경이 sync 바에 반영되지 않음
+    if(typeof lockSyncBar === 'function') lockSyncBar();
     if(G.engSuccess){
       unlock('s2');unlock('s2b');setBadge('s2-badge','활성화','success');
       var attAV=getAV('eng-av'),defAV=getAV('eng-def-av');
@@ -4947,6 +5110,55 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('mor-def-surprise').checked=defSurp;
     document.getElementById('mor-def-disadv').checked=attSurp;
     recalcMor('att');recalcMor('def');
+    // 무기 고갈 판정 [11.21]
+    rollDepletionCheck('att');
+    rollDepletionCheck('def');
+  }
+
+  function rollDepletionCheck(side) {
+    var shots = side === 'att' ? G.attShots : G.defShots;
+    if (shots <= 0) return; // 사격 없으면 판정 없음
+    var depVal = parseInt(document.getElementById('shot-'+side+'-dep').value) || 0;
+    if (depVal <= 0) {
+      // 고갈 수치 0이면 판정 표시만
+      var el = document.getElementById('shot-'+side+'-dep-result');
+      el.style.display = 'block';
+      el.style.background = 'rgba(74,74,42,0.18)';
+      el.style.border = '1px solid var(--olive)';
+      el.innerHTML = '<span style="color:var(--fade);font-size:11px;letter-spacing:.08em;text-transform:uppercase">무기 고갈 판정 [11.21]</span><br>'
+        + '고갈 수치 미입력 — 판정 생략';
+      return;
+    }
+    var d = r1d6();
+    // 2번째 사격부터 각 사격마다 -1
+    var penalty = Math.max(0, shots - 1);
+    var adjusted = d - penalty;
+    var depleted1 = adjusted <= depVal;   // 주무기 고갈
+    var depleted2 = adjusted <= 1;        // 2번째 무기도 고갈
+
+    var color = side === 'att' ? 'var(--tan)' : '#ff9100';
+    var html = '<div style="font-size:11px;color:'+color+';letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px;border-bottom:1px solid rgba(74,74,42,.4);padding-bottom:4px">무기 고갈 판정 [11.21]</div>';
+    html += '1d6: <b style="color:var(--cream)">'+d+'</b>';
+    if (penalty > 0) html += ' − <span style="color:var(--fade)">'+penalty+' (추가사격 패널티)</span>';
+    html += ' = <b style="color:var(--cream)">'+adjusted+'</b>';
+    html += ' &nbsp;/&nbsp; 고갈 수치: <b>'+depVal+'</b><br>';
+
+    if (depleted2) {
+      html += '<b style="color:var(--danger,#e05555)">▸ 1차·2차 무기 모두 고갈!</b>'
+        + ' <span style="color:var(--fade);font-size:11px">(결과값 1 이하)</span>';
+    } else if (depleted1) {
+      html += '<b style="color:var(--amber,#ff9100)">▸ 주무기 고갈</b>'
+        + ' <span style="color:var(--fade);font-size:11px">(결과값 ≤ 고갈 수치)</span>';
+    } else {
+      html += '<b style="color:var(--ok,#6fbf6f)">▸ 고갈 없음</b>'
+        + ' <span style="color:var(--fade);font-size:11px">(결과값 > 고갈 수치)</span>';
+    }
+
+    var el = document.getElementById('shot-'+side+'-dep-result');
+    el.style.display = 'block';
+    el.style.background = depleted1 ? 'rgba(139,26,26,0.15)' : 'rgba(74,74,42,0.18)';
+    el.style.border = depleted1 ? '1px solid rgba(139,26,26,0.5)' : '1px solid var(--olive)';
+    el.innerHTML = html;
   }
   function recalcShot(side){
     side=side||'att';var pfx='shot-'+side+'-';
@@ -5027,7 +5239,26 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function rollShot(side){
-    side=side||'att';recalcShot(side);
+    side=side||'att';
+    // 무기 고갈 수치 미입력 시 차단
+    var depInput=document.getElementById('shot-'+side+'-dep');
+    if(!depInput || depInput.value==='' || depInput.value===null){
+      depInput.style.outline='2px solid var(--red-bright,#c0392b)';
+      depInput.focus();
+      var warn=document.getElementById('shot-'+side+'-dep-warn');
+      if(warn) warn.style.display='inline';
+      return;
+    }
+    var depNum=parseInt(depInput.value);
+    if(isNaN(depNum)){
+      depInput.style.outline='2px solid var(--red-bright,#c0392b)';
+      depInput.focus();
+      return;
+    }
+    depInput.style.outline='';
+    var warn2=document.getElementById('shot-'+side+'-dep-warn');
+    if(warn2) warn2.style.display='none';
+    recalcShot(side);
     var pfx='shot-'+side+'-';
     var mod=parseInt(document.getElementById(pfx+'total').textContent)||0,d=r2(),total=d+mod;
     var res=getShotResult(total),rtype=getShotResultType(total),hasDamage=(rtype!=='none');
@@ -5056,6 +5287,11 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById(pfx+'alloc-result').innerHTML='배분 주사위: <b style="color:var(--tan)">'+allocDice+'</b> &nbsp;→&nbsp; <b style="color:'+rc+'">'+ae.n+'번기 '+finalLabel.split(' ')[0]+'</b>'+cNote+escNote;
       document.getElementById(pfx+'alloc').style.display='block';
       log.push({shotNum:log.length+1,dice:d,modStr:sign(mod),total:total,finalType:finalType,finalLabel:finalLabel,escalated:escalated,acNum:ae.n});
+      // RAID 상태 반영 — 사격하는 쪽의 반대편 비행대에 피해 적용
+      var targetSide = side==='att' ? 'def' : 'att';
+      var statusMap = {'damaged':'손상','crippled':'무력화','shotdown':'격추'};
+      var statusVal = statusMap[finalType];
+      if(statusVal) setRaidAcStatus(targetSide, ae.n, statusVal);
     } else {
       document.getElementById(pfx+'alloc').style.display='none';
       log.push({shotNum:log.length+1,dice:d,modStr:sign(mod),total:total,finalType:'none',finalLabel:'효과 없음',escalated:false,acNum:null});
@@ -5086,17 +5322,112 @@ document.addEventListener('DOMContentLoaded', () => {
     side=side||'att';recalcMor(side);var pfx='mor-'+side+'-';
     var mod=parseInt(document.getElementById(pfx+'total').textContent)||0,d=r2(),total=d+mod,res=getMorResult(total);
     document.getElementById(pfx+'dice').textContent=d+' + ('+sign(mod)+') = '+total;
-    document.getElementById(pfx+'res').innerHTML=res.ok?'<span class="ok">'+res.txt+'</span>':'<span class="bad">'+res.txt+'</span>';
+    // 결과 분류
+    var isBomb   = (total>=9  && total<=16);  // 비상 투하 (AV+0 또는 AV-1)
+    var isAbort  = (total<=5);                // 작전 중지
+    var extraNote = '';
+    if(isBomb){
+      setRaidBombZero(side);
+      extraNote = ' &nbsp;<span style="font-size:11px;color:var(--fade)">(RAID 폭탄→0 자동 적용)</span>';
+    }
+    if(isAbort){
+      setRaidBombZero(side);
+      setRaidAborted(side);
+      extraNote = ' &nbsp;<span style="font-size:11px;color:var(--fade)">(RAID 폭탄→0·작전중지 자동 적용)</span>';
+    }
+    document.getElementById(pfx+'res').innerHTML=(res.ok?'<span class="ok">'+res.txt+'</span>':'<span class="bad">'+res.txt+'</span>')+extraNote;
     document.getElementById(pfx+'result').style.display='block';highlightRow('mor-tbl',total);
     if(side==='att')G.attMorDone=true;else G.defMorDone=true;
     if(G.attMorDone&&G.defMorDone){setNum('s4-num','done');setBadge('s4-badge','완료','success');unlock('s5');setBadge('s5-badge','활성화','success');}
+    // 사기 판정 AV 변화 → RAID 탭 역방향 반영
+    applyMoraleToRaidAV(side, total);
   }
+  // ── RAID 행 직접 수정 헬퍼 ─────────────────────────────────
+  function getRaidRow(side) {
+    return side === 'att' ? raidRoles.attacker : raidRoles.defender;
+  }
+
+  // 폭탄(bomb) 셀 → 0으로 세팅
+  function setRaidBombZero(side) {
+    var row = getRaidRow(side);
+    if (!row) return;
+    var isDrv = row.closest('table').id === 'drv-table';
+    // US: td:nth-child(11)=폭탄, DRV: td:nth-child(9)=폭탄
+    var bombCell = row.querySelector(isDrv ? 'td:nth-child(9)' : 'td:nth-child(11)');
+    if (!bombCell) return;
+    var inp = bombCell.querySelector('input');
+    if (inp) { inp.value = '0'; saveToLocalStorage(); }
+  }
+
+  // 연료 셀 -1
+  function decreaseRaidFuel(side) {
+    var row = getRaidRow(side);
+    if (!row) return;
+    var isDrv = row.closest('table').id === 'drv-table';
+    // US: td:nth-child(12)=연료, DRV: td:nth-child(10)=연료
+    var fuelCell = row.querySelector(isDrv ? 'td:nth-child(10)' : 'td:nth-child(12)');
+    if (!fuelCell) return;
+    var inp = fuelCell.querySelector('input');
+    if (inp) {
+      var cur = parseInt(inp.value) || 0;
+      inp.value = Math.max(0, cur - 1);
+      saveToLocalStorage();
+    }
+  }
+
+  // 비행대 작전 중지 처리 (중단 버튼 토글)
+  function setRaidAborted(side) {
+    var row = getRaidRow(side);
+    if (!row) return;
+    if (!row.classList.contains('aborted')) {
+      row.classList.add('aborted');
+      saveToLocalStorage();
+    }
+  }
+
+  // 상태(status-grid) 항목 업데이트 — acNum(1~4), statusVal('손상'|'무력화'|'격추')
+  function setRaidAcStatus(side, acNum, statusVal) {
+    var row = getRaidRow(side);
+    if (!row) return;
+    var items = row.querySelectorAll('.status-item');
+    // acNum은 1-based
+    var item = null;
+    items.forEach(function(it) {
+      if (parseInt(it.dataset.status) === acNum) item = it;
+    });
+    if (!item) return;
+    var sel = item.querySelector('select');
+    if (!sel) return;
+    // 더 심한 상태만 적용 (손상<무력화<격추)
+    var rank = {'':0,'손상':1,'무력화':2,'격추':3};
+    var cur = rank[sel.value] || 0;
+    var nxt = rank[statusVal] || 0;
+    if (nxt > cur) {
+      sel.value = statusVal;
+      // 숨겨진 슬롯이면 표시
+      if (sel.style.display === 'none') {
+        sel.style.display = 'block';
+        var rem = item.querySelector('.remove-status');
+        var add = item.querySelector('.add-status');
+        if (rem) rem.style.display = 'inline-block';
+        if (add) add.style.display = 'none';
+      }
+      saveToLocalStorage();
+    }
+  }
+  // ─────────────────────────────────────────────────────────────
   function rollScatter(){
-    var d=r1d6();
-    var alt=d%2===0?'고도 변화 없음':'고도 1밴드 하강';
-    document.getElementById('scatter-dice').textContent=d;
-    document.getElementById('scatter-res').innerHTML='방향: <b>'+d+'</b>  ·  '+alt + '<div style="margin-top: 10px; display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;"><img src="scatter1.png" style="max-width: 100%; width: 400px; border: 1px solid var(--olive);"><img src="scatter2.png" style="max-width: 100%; width: 400px; border: 1px solid var(--olive);"></div>';
-    document.getElementById('scatter-result').style.display='block';setNum('s5-num','done');setBadge('s5-badge','완료','success');
+    function scatterAlt(d){ return d%2===0?'고도 변화 없음':'고도 1밴드 하강'; }
+    var dAtt=r1d6(), dDef=r1d6();
+    document.getElementById('scatter-att-dice').textContent=dAtt;
+    document.getElementById('scatter-att-res').innerHTML='방향: <b>'+dAtt+'</b> &nbsp;·&nbsp; '+scatterAlt(dAtt);
+    document.getElementById('scatter-def-dice').textContent=dDef;
+    document.getElementById('scatter-def-res').innerHTML='방향: <b>'+dDef+'</b> &nbsp;·&nbsp; '+scatterAlt(dDef);
+    // 공중전 정상 종료 → 각 비행대 연료 -1
+    if(raidRoles.attacker){ decreaseRaidFuel('att'); document.getElementById('scatter-att-res').innerHTML += ' &nbsp;<span style="font-size:10px;color:var(--fade)">(연료 −1 적용)</span>'; }
+    if(raidRoles.defender){ decreaseRaidFuel('def'); document.getElementById('scatter-def-res').innerHTML += ' &nbsp;<span style="font-size:10px;color:var(--fade)">(연료 −1 적용)</span>'; }
+    document.getElementById('scatter-result').style.display='block';
+    setNum('s5-num','done');setBadge('s5-badge','완료','success');
   }
   function rollSamEvasion(){
     var d=r1d6();
@@ -5115,6 +5446,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.G_attShotLog=[];window.G_defShotLog=[];
     window.G_attAcDamage={};window.G_defAcDamage={};
     ['shot-att-log','shot-def-log'].forEach(function(id){var el=document.getElementById(id);if(el)el.innerHTML='';});
+    ['shot-att-dep-result','shot-def-dep-result'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='none';});
     ['s2','s2b','s3','s4','s5'].forEach(function(id){lock(id);document.getElementById(id).querySelectorAll('.result').forEach(function(r){r.style.display='none';});document.getElementById(id).querySelectorAll('input[type=checkbox]').forEach(function(cb){cb.checked=false;});});
     document.getElementById('eng-result').style.display='none';document.querySelectorAll('#s1 input[type=checkbox]').forEach(function(cb){cb.checked=false;});
     setBadge('s1-badge','대기','');setNum('s1-num','');setBadge('s2-badge','교전 성공 후 활성화','');setNum('s2-num','');
@@ -5122,6 +5454,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setBadge('s5-badge','사기 판정 후 활성화','');setNum('s5-num','');
     ['man-att-surprise','man-att-disadv','man-def-surprise','man-def-disadv'].forEach(function(id){var el=document.getElementById(id);if(el)el.disabled=false;});
     var ab=document.getElementById('shot-att-btn'),db=document.getElementById('shot-def-btn');if(ab)ab.disabled=false;if(db)db.disabled=false;
+    if(typeof unlockSyncBar === 'function') unlockSyncBar();
     recalcEng();recalcMan('att');recalcMan('def');
   }
   var aaaTbl={deck:{small:17,light:15,medium:14,heavy:13,firecan:null},low:{small:null,light:16,medium:15,heavy:14,firecan:11},med:{small:null,light:18,medium:17,heavy:16,firecan:12},high:{small:null,light:null,medium:19,heavy:18,firecan:14}};
@@ -5597,6 +5930,39 @@ document.addEventListener('DOMContentLoaded', () => {
   recalcAtg(); recalcSR1(); recalcSR2(); recalcSR3(); recalcSR5();
 
   // ============================================================
+  // RAID 전체 초기화
+  // ============================================================
+  function resetAllRaid() {
+    document.getElementById('adc-reset-confirm').classList.remove('hidden');
+  }
+
+  function doResetAllRaid() {
+    document.getElementById('adc-reset-confirm').classList.add('hidden');
+    // 모든 US/DRV 테이블 행 삭제 (마지막 '+추가' 행 유지)
+    ['us-lead-table','us-main-table','us-trail-table','drv-table'].forEach(function(tableId) {
+      var table = document.getElementById(tableId);
+      if (!table) return;
+      var tbody = table.querySelector('tbody');
+      if (!tbody) return;
+      tbody.querySelectorAll('tr:not(:last-child)').forEach(function(r) { r.remove(); });
+    });
+    // 시나리오·날짜·타겟 초기화
+    var scenInput = document.getElementById('scenario-name-input');
+    if (scenInput) { scenInput.value = ''; updateScenarioDisplay(''); }
+    var dateEl = document.getElementById('us-date');
+    if (dateEl) dateEl.value = '';
+    var targetEl = document.getElementById('us-target');
+    if (targetEl) targetEl.value = '';
+    // raidRoles 초기화
+    raidRoles.attacker = null;
+    raidRoles.defender = null;
+    if (typeof unlockSyncBar === 'function') unlockSyncBar();
+    var syncBar = document.getElementById('raid-sync-bar');
+    if (syncBar) syncBar.style.display = 'none';
+    saveToLocalStorage();
+  }
+
+  // ============================================================
   // Player Aid 전체 초기화
   // ============================================================
   function resetAllAid() {
@@ -5879,6 +6245,216 @@ document.addEventListener('DOMContentLoaded', () => {
   window.sendToAdc = sendToAdc;
   window.printResults = printResults;
 
+  // ============================================================
+  // RAID 역할(공격/방어) 관리 & DOGFIGHT 동기화
+  // ============================================================
+
+  // 현재 선택된 역할 행 추적
+  var raidRoles = { attacker: null, defender: null };
+
+  function getRowAV(row) {
+    const avEl = row.querySelector('.aggress-value');
+    return avEl ? (parseInt(avEl.textContent, 10) || 0) : 0;
+  }
+
+  function getRowActiveAC(row) {
+    // 격추되지 않은 기체 수 (상태 select가 '격추'가 아닌 것)
+    let count = 0;
+    row.querySelectorAll('.status-item').forEach(item => {
+      const sel = item.querySelector('select');
+      // 표시 중인 (추가된) 슬롯만 카운트
+      if (sel && sel.style.display !== 'none') {
+        if (sel.value !== '격추') count++;
+      }
+    });
+    return Math.max(1, count);
+  }
+
+  function getRowCallsign(row) {
+    const isDrv = row.closest('table').id === 'drv-table';
+    if (isDrv) {
+      const inp = row.querySelector('td:nth-child(1) input');
+      return inp ? (inp.value || '—') : '—';
+    } else {
+      const sel = row.querySelector('td:nth-child(3) select');
+      if (sel) return sel.value || '—';
+      const inp = row.querySelector('td:nth-child(3) input');
+      return inp ? (inp.value || '—') : '—';
+    }
+  }
+
+  // DOGFIGHT AV 업데이트 (교전판정 + 기동판정 + 사기판정 모두 동기화)
+  // sync 바는 역할 지정 시 스냅샷으로 고정, 사기 판정 후엔 갱신 안 함
+  var raidSyncLocked = false;
+
+  function syncDogfightFromRaid() {
+    const attRow = raidRoles.attacker;
+    const defRow = raidRoles.defender;
+
+    const syncBar = document.getElementById('raid-sync-bar');
+
+    if (!attRow && !defRow) {
+      if (syncBar) syncBar.style.display = 'none';
+      raidSyncLocked = false;
+      return;
+    }
+
+    if (syncBar) syncBar.style.display = 'flex';
+
+    // 공격측 반영
+    if (attRow) {
+      const av = getRowAV(attRow);
+      const ac = getRowActiveAC(attRow);
+      const name = getRowCallsign(attRow);
+      // 교전 판정 AV
+      document.getElementById('eng-av').value = av;
+      document.getElementById('eng-av-disp').textContent = (av >= 0 ? '+' : '') + av;
+      // 기동 판정 AV
+      document.getElementById('man-att-av').value = av;
+      document.getElementById('man-att-av-disp').textContent = (av >= 0 ? '+' : '') + av;
+      // 사기 판정 AV
+      document.getElementById('mor-att-av').value = av;
+      document.getElementById('mor-att-av-disp').textContent = (av >= 0 ? '+' : '') + av;
+      // 기동 판정 col (기체 수)
+      const colIdx = Math.min(Math.max(ac - 1, 0), 3);
+      const attCol = document.getElementById('man-att-col');
+      if (attCol) attCol.value = colIdx;
+      // sync 바 — 잠기지 않은 경우에만 갱신 (스냅샷 고정)
+      if (!raidSyncLocked) {
+        const nameEl = document.getElementById('sync-att-name');
+        const avEl   = document.getElementById('sync-att-av');
+        const acEl   = document.getElementById('sync-att-ac');
+        if (nameEl) nameEl.textContent = name;
+        if (avEl)   avEl.textContent   = (av >= 0 ? '+' : '') + av;
+        if (acEl)   acEl.textContent   = ac + '기';
+      }
+    } else {
+      if (!raidSyncLocked) {
+        const nameEl = document.getElementById('sync-att-name');
+        if (nameEl) { nameEl.textContent = '—'; document.getElementById('sync-att-av').textContent = '—'; document.getElementById('sync-att-ac').textContent = '—'; }
+      }
+    }
+
+    // 방어측 반영
+    if (defRow) {
+      const av = getRowAV(defRow);
+      const ac = getRowActiveAC(defRow);
+      const name = getRowCallsign(defRow);
+      // 교전 판정 AV
+      document.getElementById('eng-def-av').value = av;
+      document.getElementById('eng-def-av-disp').textContent = (av >= 0 ? '+' : '') + av;
+      // 기동 판정 AV
+      document.getElementById('man-def-av').value = av;
+      document.getElementById('man-def-av-disp').textContent = (av >= 0 ? '+' : '') + av;
+      // 사기 판정 AV
+      document.getElementById('mor-def-av').value = av;
+      document.getElementById('mor-def-av-disp').textContent = (av >= 0 ? '+' : '') + av;
+      // 기동 판정 col
+      const colIdx = Math.min(Math.max(ac - 1, 0), 3);
+      const defCol = document.getElementById('man-def-col');
+      if (defCol) defCol.value = colIdx;
+      // sync 바 — 잠기지 않은 경우에만 갱신
+      if (!raidSyncLocked) {
+        const nameEl = document.getElementById('sync-def-name');
+        const avEl   = document.getElementById('sync-def-av');
+        const acEl   = document.getElementById('sync-def-ac');
+        if (nameEl) nameEl.textContent = name;
+        if (avEl)   avEl.textContent   = (av >= 0 ? '+' : '') + av;
+        if (acEl)   acEl.textContent   = ac + '기';
+      }
+    } else {
+      if (!raidSyncLocked) {
+        const nameEl = document.getElementById('sync-def-name');
+        if (nameEl) { nameEl.textContent = '—'; document.getElementById('sync-def-av').textContent = '—'; document.getElementById('sync-def-ac').textContent = '—'; }
+      }
+    }
+
+    recalcEng();
+    recalcMan('att');
+    recalcMan('def');
+    recalcMor('att');
+    recalcMor('def');
+  }
+
+  // sync 바 잠금 — 교전 판정 굴린 후 호출 (스냅샷 고정)
+  function lockSyncBar() { raidSyncLocked = true; }
+  // sync 바 잠금 해제 — 역할 재지정 시 또는 전투 리셋 시
+  function unlockSyncBar() { raidSyncLocked = false; }
+
+  // 사기 판정 결과 → RAID 탭 AV 역방향 반영
+  function getMorAVDelta(total) {
+    if (total >= 17) return 0;
+    if (total >= 15) return 0;   // 비상투하 AV +0
+    if (total >= 9)  return -1;  // 비상투하 AV -1
+    if (total >= 6)  return -2;  // 무질서 AV -2
+    return -3;                   // 작전중지 AV -3
+  }
+
+  function applyMoraleToRaidAV(side, total) {
+    const delta = getMorAVDelta(total);
+    if (delta === 0) return;
+    const roleKey = side === 'att' ? 'attacker' : 'defender';
+    const row = raidRoles[roleKey];
+    if (!row) return;
+    const avEl = row.querySelector('.aggress-value');
+    if (!avEl) return;
+    let cur = parseInt(avEl.textContent, 10) || 0;
+    const newVal = Math.max(-3, Math.min(3, cur + delta));
+    avEl.textContent = newVal;
+    saveToLocalStorage();
+    // sync 바는 건드리지 않음 (스냅샷 유지) — RAID 탭 AV만 변경
+    // DOGFIGHT 내 사기 판정 AV는 이미 rollMor가 직접 처리하므로 재동기화 불필요
+  }
+
+  // 역할 버튼 클릭 처리 — 전체에서 공격 1개·방어 1개만 허용
+  function handleRoleButtonClick(btn) {
+    const role = btn.dataset.role;   // 'attacker' | 'defender'
+    const side = btn.dataset.side;   // 'us' | 'drv'
+    const row  = btn.closest('tr');
+
+    // 전역 역할 키: 'attacker' | 'defender' (US/DRV 통합)
+    const globalKey = role;  // raidRoles.attacker / raidRoles.defender
+    const otherRole = role === 'attacker' ? 'defender' : 'attacker';
+
+    if (raidRoles[globalKey] === row) {
+      // 이미 선택된 버튼 → 해제
+      raidRoles[globalKey] = null;
+      btn.classList.remove('attacker-active', 'defender-active');
+    } else {
+      // 기존 같은 역할(다른 행) 해제
+      if (raidRoles[globalKey]) {
+        const oldRow = raidRoles[globalKey];
+        oldRow.querySelectorAll('[data-role="' + role + '"]').forEach(function(b) {
+          b.classList.remove('attacker-active', 'defender-active');
+        });
+      }
+      // 같은 행에서 다른 역할 해제
+      row.querySelectorAll('[data-role="' + otherRole + '"]').forEach(function(b) {
+        b.classList.remove('attacker-active', 'defender-active');
+      });
+      if (raidRoles[otherRole] === row) raidRoles[otherRole] = null;
+
+      raidRoles[globalKey] = row;
+      btn.classList.add(role === 'attacker' ? 'attacker-active' : 'defender-active');
+    }
+    syncDogfightFromRaid();
+    saveToLocalStorage();
+  }
+
+  // 비행대 행 AV 변경 시 DOGFIGHT 자동 업데이트 (RAID ▲▼ 버튼)
+  function onRaidAVChange() {
+    // 현재 선택된 행이 있다면 동기화
+    const hasAnyRole = Object.values(raidRoles).some(r => r !== null);
+    if (hasAnyRole) syncDogfightFromRaid();
+  }
+
+  // addRowListeners에 역할 버튼 이벤트 추가
+  // (기존 addRowListeners 함수를 확장)
+
+  // ============================================================
+  // END: RAID 역할 관리 & DOGFIGHT 동기화
+  // ============================================================
+
   window.showAidPage = showAidPage;
   window.stepAV = stepAV;
   window.syncEngCb = syncEngCb;
@@ -5929,6 +6505,14 @@ document.addEventListener('DOMContentLoaded', () => {
   window.recalcSR5 = recalcSR5; window.rollSR5 = rollSR5;
   window.resetAllAid = resetAllAid;
   window.doResetAllAid = doResetAllAid;
+  window.resetAllRaid = resetAllRaid;
+  window.doResetAllRaid = doResetAllRaid;
+  window.handleRoleButtonClick = handleRoleButtonClick;
+  window.syncDogfightFromRaid = syncDogfightFromRaid;
+  window.applyMoraleToRaidAV = applyMoraleToRaidAV;
+  window.onRaidAVChange = onRaidAVChange;
+  window.lockSyncBar = lockSyncBar;
+  window.unlockSyncBar = unlockSyncBar;
 });
 </script>
 
@@ -5940,6 +6524,18 @@ document.addEventListener('DOMContentLoaded', () => {
     <div class="aid-reset-btns">
       <button class="aid-reset-confirm-yes" onclick="doResetAllAid()">초기화</button>
       <button class="aid-reset-confirm-no" onclick="document.getElementById('aid-reset-confirm').classList.add('hidden')">취소</button>
+    </div>
+  </div>
+</div>
+
+<!-- RAID 전체 초기화 확인 다이얼로그 -->
+<div id="adc-reset-confirm" class="hidden">
+  <div class="aid-reset-dialog">
+    <p>RAID를 초기화할까요?</p>
+    <small>US 비행대 · DRV 요격기<br>모든 비행대 데이터가 삭제됩니다.</small>
+    <div class="aid-reset-btns">
+      <button class="aid-reset-confirm-yes" onclick="doResetAllRaid()">초기화</button>
+      <button class="aid-reset-confirm-no" onclick="document.getElementById('adc-reset-confirm').classList.add('hidden')">취소</button>
     </div>
   </div>
 </div>
