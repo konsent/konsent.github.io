@@ -848,6 +848,25 @@
     font-style: italic;
   }
 
+  .role-btn {
+    cursor: pointer;
+    border: 1px solid var(--olive);
+    background: rgba(74,74,42,0.2);
+    color: var(--fade2);
+    padding: 2px 7px;
+    font-size: 10px;
+    font-family: 'Noto Sans KR', sans-serif;
+    transition: all 0.15s;
+    width: 40px; /* Fixed width */
+  }
+  .role-btn:hover { border-color: var(--tan); color: var(--tan); }
+  .role-btn[data-role="attacker"] { background-color: var(--red); border-color: var(--red-bright); color: white; }
+  .role-btn[data-role="defender"] { background-color: var(--blue); border-color: var(--blue-bright); color: white; }
+
+  #aid-page .page.on {
+    animation: fadeIn 0.3s ease-in-out;
+  }
+
   @media (max-width: 800px) {
     .main-layout { grid-template-columns: 1fr; }
   }
@@ -1058,40 +1077,6 @@
     transition: all 0.15s;
   }
   .aid-reset-confirm-no:hover { border-color: var(--tan); color: var(--tan); }
-
-  /* --- Combat Role Button --- */
-  .combat-role-btn {
-    display: inline-block;
-    padding: 2px 8px;
-    font-family: 'Oswald', sans-serif;
-    font-size: 10px;
-    font-weight: 500;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    cursor: pointer;
-    border-radius: 2px;
-    transition: all 0.15s;
-    white-space: nowrap;
-    border: 1px solid rgba(74,74,42,0.5);
-    background: rgba(74,74,42,0.1);
-    color: var(--fade2);
-    min-width: 44px;
-    text-align: center;
-  }
-  .combat-role-btn:hover {
-    border-color: var(--tan);
-    color: var(--tan);
-  }
-  .combat-role-btn.role-att {
-    border-color: #4a8ac4;
-    background: rgba(26,58,90,0.35);
-    color: #a8d0f0;
-  }
-  .combat-role-btn.role-def {
-    border-color: #c45a4a;
-    background: rgba(90,26,26,0.35);
-    color: #f0a8a8;
-  }
 </style>
 </head>
 <body>
@@ -1320,12 +1305,12 @@
       <div class="table-wrap">
         <table id="us-lead-table">
           <thead>
-            <tr><th colspan="16">선발 공격대 (Pre-Raid)</th></tr>
+            <tr><th colspan="17">선발 공격대 (Pre-Raid)</th></tr>
             <tr>
               <th>임무</th><th>태스크</th><th>콜싸인</th><th>항공기 유형</th>
               <th>수준</th><th>공격성</th><th>상태</th>
-              <th>기총</th><th>IRM</th><th>RHM</th><th>폭탄</th><th>연료</th>
-              <th>비고</th><th></th><th>역할</th><th>ADC</th><th>삭제</th>
+              <th>기총</th><th>IRM</th><th>RHM</th><th>폭탄</th><th>연료</th><th>비고</th>
+              <th>교전</th><th></th><th>ADC</th><th>삭제</th>
             </tr>
           </thead>
           <tbody>
@@ -1341,12 +1326,12 @@
       <div class="table-wrap">
         <table id="us-main-table">
           <thead>
-            <tr><th colspan="16">주 공격대 (MAIN)</th></tr>
+            <tr><th colspan="17">주 공격대 (MAIN)</th></tr>
             <tr>
               <th>임무</th><th>태스크</th><th>콜싸인</th><th>항공기 유형</th>
               <th>수준</th><th>공격성</th><th>상태</th>
-              <th>기총</th><th>IRM</th><th>RHM</th><th>폭탄</th><th>연료</th>
-              <th>비고</th><th></th><th>역할</th><th>ADC</th><th>삭제</th>
+              <th>기총</th><th>IRM</th><th>RHM</th><th>폭탄</th><th>연료</th><th>비고</th>
+              <th>교전</th><th></th><th>ADC</th><th>삭제</th>
             </tr>
           </thead>
           <tbody>
@@ -1362,12 +1347,12 @@
       <div class="table-wrap">
         <table id="us-trail-table">
           <thead>
-            <tr><th colspan="16">후발 공격대 (TRAIL)</th></tr>
+            <tr><th colspan="17">후발 공격대 (TRAIL)</th></tr>
             <tr>
               <th>임무</th><th>태스크</th><th>콜싸인</th><th>항공기 유형</th>
               <th>수준</th><th>공격성</th><th>상태</th>
-              <th>기총</th><th>IRM</th><th>RHM</th><th>폭탄</th><th>연료</th>
-              <th>비고</th><th></th><th>역할</th><th>ADC</th><th>삭제</th>
+              <th>기총</th><th>IRM</th><th>RHM</th><th>폭탄</th><th>연료</th><th>비고</th>
+              <th>교전</th><th></th><th>ADC</th><th>삭제</th>
             </tr>
           </thead>
           <tbody>
@@ -1386,10 +1371,13 @@
         <table id="drv-table">
           <thead>
             <tr><th colspan="14">DRV 요격기 (INTERCEPTORS)</th></tr>
+            <tr><th colspan="15">DRV 요격기 (INTERCEPTORS)</th></tr>
             <tr>
               <th>콜싸인</th><th>항공기 유형</th><th>수준</th><th>공격성</th><th>상태</th>
               <th>기총</th><th>IRM</th><th>RHM</th><th>폭탄</th><th>연료</th>
-              <th>비고</th><th></th><th>역할</th><th>ADC</th><th>삭제</th>
+              <th>비고</th><th></th><th>ADC</th><th>삭제</th>
+              <th>기총</th><th>IRM</th><th>RHM</th><th>폭탄</th><th>연료</th><th>비고</th>
+              <th>교전</th><th></th><th>ADC</th><th>삭제</th>
             </tr>
           </thead>
           <tbody>
@@ -3997,6 +3985,75 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('send-to-adc-btn').style.display = 'block';
     document.getElementById('oob-print-btn').style.display = 'block';
   }
+
+  function setButtonState(btn, state) {
+      btn.dataset.role = state;
+      if (state === 'attacker') {
+          btn.textContent = '공격';
+      } else if (state === 'defender') {
+          btn.textContent = '방어';
+      } else { // neutral
+          btn.textContent = '지정';
+      }
+  }
+
+  function updateDogfightTab() {
+      const attackerBtn = document.querySelector('.role-btn[data-role="attacker"]');
+      const defenderBtn = document.querySelector('.role-btn[data-role="defender"]');
+
+      const updateSide = (btn, side) => {
+          if (btn) {
+              const row = btn.closest('tr');
+              const isDrv = row.closest('table').id === 'drv-table';
+
+              const avEl = row.querySelector(isDrv ? 'td:nth-child(4) .aggress-value' : 'td:nth-child(6) .aggress-value');
+              const av = avEl ? parseInt(avEl.textContent, 10) : 0;
+
+              const statusGrid = row.querySelector(isDrv ? 'td:nth-child(5)' : 'td:nth-child(7)');
+              let aircraftCount = 0;
+              if (statusGrid) {
+                  statusGrid.querySelectorAll('.status-item select').forEach(sel => {
+                      if (sel.style.display !== 'none') {
+                          aircraftCount++;
+                      }
+                  });
+              }
+
+              const manAvEl = document.getElementById(`man-${side}-av`);
+              if (manAvEl) {
+                  manAvEl.value = av;
+                  stepAV(`man-${side}-av`, 0);
+              }
+              const manColEl = document.getElementById(`man-${side}-col`);
+              if (manColEl) {
+                  manColEl.value = Math.max(0, aircraftCount - 1);
+              }
+          }
+      };
+
+      updateSide(attackerBtn, 'att');
+      updateSide(defenderBtn, 'def');
+
+      if (typeof recalcMan === 'function') {
+          recalcMan('att');
+          recalcMan('def');
+      }
+  }
+
+  function handleRoleButtonClick(clickedBtn) {
+      const currentState = clickedBtn.dataset.role || 'neutral';
+      const nextState = currentState === 'neutral' ? 'attacker' : (currentState === 'attacker' ? 'defender' : 'neutral');
+
+      if (nextState === 'attacker' || nextState === 'defender') {
+          document.querySelectorAll(`.role-btn[data-role="${nextState}"]`).forEach(btn => {
+              if (btn !== clickedBtn) setButtonState(btn, 'neutral');
+          });
+      }
+
+      setButtonState(clickedBtn, nextState);
+      updateDogfightTab();
+      saveToLocalStorage();
+  }
   // ============================================================
   // END: JS from oob.html
   // ============================================================
@@ -4275,14 +4332,15 @@ document.addEventListener('DOMContentLoaded', () => {
   function makeUsRowHTML() {
     return `<td><select class="fit-width"><option>타격</option><option>아이언 핸드</option><option>채프</option><option>재밍</option><option>CSAR</option><option>정찰</option><option>MiGCAP</option></select></td>` +
       `<td><select class="fit-width"><option>폭격</option><option>SEAD</option><option>CAP</option><option>무장 호위</option><option>구조 지원</option><option>정찰</option><option>재밍</option><option>채프 살포</option><option>타격</option></select></td>` +
-      `<td><select class="callsign-select"></select></td>` +
+      `<td><input type="text"></td>` +
       `<td><select>${US_AIRCRAFT_OPTIONS}</select></td>` +
       `<td><select>${SKILL_OPTIONS}</select></td>` +
       `<td>${AGGRESS}</td>` +
       `<td>${STATUS_GRID}</td>` +
       `<td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td>` +
       `<td><input type="text" value=""></td>` +
-      `<td><button class="abort-btn">중단</button></td><td><button class="combat-role-btn" data-role="">역할</button></td><td><button class="view-btn">보기</button></td><td></td>`;
+      `<td><button class="role-btn">지정</button></td>` +
+      `<td><button class="abort-btn">중단</button></td><td><button class="view-btn">보기</button></td><td></td>`;
   }
   function makeDrvRowHTML() {
     return `<td><input type="text" value=""></td>` +
@@ -4292,7 +4350,8 @@ document.addEventListener('DOMContentLoaded', () => {
       `<td>${STATUS_GRID}</td>` +
       `<td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td>` +
       `<td><input type="text" value=""></td>` +
-      `<td><button class="abort-btn">중단</button></td><td><button class="combat-role-btn" data-role="">역할</button></td><td><button class="view-btn">보기</button></td><td></td>`;
+      `<td><button class="role-btn">지정</button></td>` +
+      `<td><button class="abort-btn">중단</button></td><td><button class="view-btn">보기</button></td><td></td>`;
   }
   const modal = document.getElementById('image-modal');
   const modalImage = document.getElementById('modal-image');
@@ -4410,6 +4469,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     row.querySelectorAll('input[type="text"]').forEach(i => i.addEventListener('input', saveToLocalStorage));
     addSkillChangeListener(row);
+        addAggressivenessControls(row);
+        const roleBtn = row.querySelector('.role-btn');
+        if (roleBtn) {
+            roleBtn.addEventListener('click', () => handleRoleButtonClick(roleBtn));
+        }
+
     addAggressivenessControls(row);
     const abortBtn = row.querySelector('.abort-btn');
     if (abortBtn) {
@@ -4476,13 +4541,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const rows = table.querySelectorAll('tbody tr:not(:last-child)');
     const data = [];
     rows.forEach(row => {
+        rows.forEach((row, rowIndex) => {
       const rowData = { cells: [], status: [], aborted: row.classList.contains('aborted') };
       row.querySelectorAll('td:not(:last-child)').forEach(cell => {
+          row.querySelectorAll('td:not(:last-child)').forEach((cell, cellIndex) => {
         const sel = cell.querySelector('select');
         const inp = cell.querySelector('input');
         const viewBtn = cell.querySelector('button.view-btn');
         const abortBtn = cell.querySelector('button.abort-btn');
         if (sel) rowData.cells.push({ type:'select', value: sel.value });
+            const roleBtn = cell.querySelector('.role-btn');
+
+            if (roleBtn) rowData.cells.push({ type: 'role', value: roleBtn.dataset.role || 'neutral' });
+            else if (sel) rowData.cells.push({ type:'select', value: sel.value });
         else if (inp) rowData.cells.push({ type:'input', value: inp.value });
         else if (viewBtn) rowData.cells.push({ type:'button', value:'보기' });
         else if (abortBtn) rowData.cells.push({ type:'button', value:'중단' });
@@ -4521,6 +4592,7 @@ document.addEventListener('DOMContentLoaded', () => {
         restoreTable('us-main-table',  data.us.main);
         restoreTable('us-trail-table', data.us.trail);
       }
+          updateDogfightTab();
       if (data.drv) restoreTable('drv-table', data.drv.table);
       if (data.activeTab) showContent(data.activeTab);
     } catch(e) {}
@@ -4542,9 +4614,14 @@ document.addEventListener('DOMContentLoaded', () => {
       clone.querySelectorAll('td:not(:last-child)').forEach(cell => {
         if (ci < rowData.cells.length) {
           const sc = rowData.cells[ci];
-          const sel = cell.querySelector('select'); const inp = cell.querySelector('input[type="text"]');
+          const sel = cell.querySelector('select');
+          const inp = cell.querySelector('input[type="text"]');
+          const roleBtn = cell.querySelector('.role-btn');
 
-          if (sc.type === 'button') {
+          if (roleBtn && sc.type === 'role') {
+              // Will be set after listeners are added
+              clone.dataset.initialRole = sc.value;
+          } else if (sc.type === 'button') {
           } else if (sel && (sc.type === 'select' || sc.type === 'input')) {
               if(cell.querySelector('.callsign-select')) {
                   clone.dataset.savedCallsign = sc.value;
@@ -4574,6 +4651,11 @@ document.addEventListener('DOMContentLoaded', () => {
       const dc = clone.querySelector('td:last-child'); dc.innerHTML = '';
       tbody.insertBefore(clone, addRowBtnRow);
       addDeleteButton(clone); addRowListeners(clone);
+          const initialRole = clone.dataset.initialRole;
+          if (initialRole) {
+              const roleBtn = clone.querySelector('.role-btn');
+              if (roleBtn) setButtonState(roleBtn, initialRole);
+          }
       clone.dataset.isLoading = 'true';
       updateWeaponData(clone);
       updateCallsign(clone);
@@ -4844,6 +4926,25 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('man-def-av').value=defAV;document.getElementById('man-def-av-disp').textContent=sign(defAV);
       document.getElementById('man-att-night').checked=isNight;
       document.getElementById('man-def-night').checked=isNight;
+    const manAttAvEl = document.getElementById('man-att-av');
+    if (manAttAvEl) {
+        manAttAvEl.value = attAV;
+        document.getElementById('man-att-av-disp').textContent = sign(attAV);
+    }
+    const manDefAvEl = document.getElementById('man-def-av');
+    if (manDefAvEl) {
+        manDefAvEl.value = defAV;
+        document.getElementById('man-def-av-disp').textContent = sign(defAV);
+    }
+    const manAttNightEl = document.getElementById('man-att-night');
+    if (manAttNightEl) {
+        manAttNightEl.checked = isNight;
+    }
+    const manDefNightEl = document.getElementById('man-def-night');
+    if (manDefNightEl) {
+        manDefNightEl.checked = isNight;
+    }
+
       // 기습/불리 자동 적용 + 수동 변경 비활성화
       var attSurp=G.engOutcome==='att_surprise',defSurp=G.engOutcome==='def_surprise';
       document.getElementById('man-att-surprise').checked=attSurp;document.getElementById('man-att-surprise').disabled=true;
@@ -5082,12 +5183,36 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById(pfx+'total').textContent=sign(av-cas+cMods);
   }
   function getMorResult(t){if(t>=17)return{txt:'효과 없음',ok:true};if(t>=15)return{txt:'비상 투하 — AV 보정 없음',ok:false};if(t>=9)return{txt:'비상 투하 — AV –1',ok:false};if(t>=6)return{txt:'무질서 상태 — AV –2  ·  방어 원형진 해산',ok:false};return{txt:'작전 중지 — AV –3  ·  즉시 임무 중지',ok:false};}
+  function getMorResult(t){
+    if(t>=17)return{txt:'효과 없음',ok:true, avChange: 0};
+    if(t>=15)return{txt:'비상 투하 (AV +0)',ok:false, avChange: 0};
+    if(t>=9)return{txt:'비상 투하 (AV –1)',ok:false, avChange: -1};
+    if(t>=6)return{txt:'무질서 상태 (AV –2)',ok:false, avChange: -2};
+    return{txt:'작전 중지 (AV –3)',ok:false, avChange: -3};
+  }
   function rollMor(side){
     side=side||'att';recalcMor(side);var pfx='mor-'+side+'-';
     var mod=parseInt(document.getElementById(pfx+'total').textContent)||0,d=r2(),total=d+mod,res=getMorResult(total);
     document.getElementById(pfx+'dice').textContent=d+' + ('+sign(mod)+') = '+total;
     document.getElementById(pfx+'res').innerHTML=res.ok?'<span class="ok">'+res.txt+'</span>':'<span class="bad">'+res.txt+'</span>';
     document.getElementById(pfx+'result').style.display='block';highlightRow('mor-tbl',total);
+
+    if (res.avChange !== 0) {
+        const role = (side === 'att') ? 'attacker' : 'defender';
+        const roleBtn = document.querySelector(`.role-btn[data-role="${role}"]`);
+        if (roleBtn) {
+            const row = roleBtn.closest('tr');
+            const isDrv = row.closest('table').id === 'drv-table';
+            const avValueEl = row.querySelector(isDrv ? 'td:nth-child(4) .aggress-value' : 'td:nth-child(6) .aggress-value');
+            if (avValueEl) {
+                let currentAV = parseInt(avValueEl.textContent, 10);
+                let newAV = clampAV(currentAV + res.avChange);
+                avValueEl.textContent = newAV;
+                saveToLocalStorage();
+            }
+        }
+    }
+
     if(side==='att')G.attMorDone=true;else G.defMorDone=true;
     if(G.attMorDone&&G.defMorDone){setNum('s4-num','done');setBadge('s4-badge','완료','success');unlock('s5');setBadge('s5-badge','활성화','success');}
   }
@@ -5719,170 +5844,6 @@ document.addEventListener('DOMContentLoaded', () => {
     updateAAABase(); recalcFlak();
   }
 
-
-  // ============================================================
-  // Combat Role Button — 공격/방어 역할 지정 & Player Aid 연동
-  // ============================================================
-
-  // 현재 지정된 공격/방어 행을 추적
-  var combatRoleRows = { att: null, def: null };
-
-  // 행에서 공격성 AV 추출
-  function getRowAV(row) {
-    var avEl = row.querySelector('.aggress-value');
-    return avEl ? (parseInt(avEl.textContent, 10) || 0) : 0;
-  }
-
-  // 행에서 활성 기체 수(상태가 숨겨지지 않은 것) 추출
-  function getRowAcCount(row) {
-    var count = 0;
-    row.querySelectorAll('.status-item').forEach(function(item) {
-      var sel = item.querySelector('select');
-      if (sel && sel.style.display !== 'none') count++;
-    });
-    return Math.max(1, count);
-  }
-
-  // Player Aid의 특정 사이드 AV 및 기체 수 갱신
-  function syncRoleToAid(side) {
-    var row = combatRoleRows[side];
-    if (!row) return;
-
-    var av = getRowAV(row);
-    var acCount = getRowAcCount(row);
-
-    // AV 반영
-    var avId = side === 'att' ? 'man-att-av' : 'man-def-av';
-    var avDispId = avId + '-disp';
-    var avEl = document.getElementById(avId);
-    var avDispEl = document.getElementById(avDispId);
-    if (avEl) { avEl.value = av; }
-    if (avDispEl) { avDispEl.textContent = (av >= 0 ? '+' : '') + av; }
-
-    // 기체 수 반영 (기동 판정 col 선택 = acCount - 1)
-    var colId = side === 'att' ? 'man-att-col' : 'man-def-col';
-    var colEl = document.getElementById(colId);
-    if (colEl) {
-      // option value는 0~3 (1기~4기), 실제 acCount를 index로 변환
-      var colVal = Math.min(3, Math.max(0, acCount - 1));
-      colEl.value = String(colVal);
-    }
-
-    if (typeof recalcMan === 'function') {
-      recalcMan('att'); recalcMan('def');
-    }
-    if (typeof recalcEng === 'function') recalcEng();
-  }
-
-  // 버튼 외관 갱신
-  function updateRoleBtn(btn, role) {
-    btn.dataset.role = role;
-    if (role === 'att') {
-      btn.textContent = '공격';
-      btn.className = 'combat-role-btn role-att';
-    } else if (role === 'def') {
-      btn.textContent = '방어';
-      btn.className = 'combat-role-btn role-def';
-    } else {
-      btn.textContent = '역할';
-      btn.className = 'combat-role-btn';
-    }
-  }
-
-  // 역할 버튼 클릭 처리
-  function handleRoleBtnClick(btn) {
-    var row = btn.closest('tr');
-    var curRole = btn.dataset.role || '';
-    var nextRole = curRole === '' ? 'att' : curRole === 'att' ? 'def' : '';
-
-    // 기존 역할 해제
-    if (curRole && combatRoleRows[curRole] === row) {
-      combatRoleRows[curRole] = null;
-    }
-
-    // 새 역할에 이미 다른 행이 있으면 해제
-    if (nextRole && combatRoleRows[nextRole] && combatRoleRows[nextRole] !== row) {
-      var oldBtn = combatRoleRows[nextRole].querySelector('.combat-role-btn');
-      if (oldBtn) updateRoleBtn(oldBtn, '');
-      combatRoleRows[nextRole] = null;
-    }
-
-    // 새 역할 지정
-    if (nextRole) combatRoleRows[nextRole] = row;
-    updateRoleBtn(btn, nextRole);
-
-    // Player Aid 반영
-    if (nextRole) {
-      syncRoleToAid(nextRole);
-    } else {
-      // 역할 해제: 해당 사이드 AV/col 초기화
-      var side = curRole;
-      var avId = side === 'att' ? 'man-att-av' : 'man-def-av';
-      var avDispId = avId + '-disp';
-      var avEl = document.getElementById(avId);
-      var avDispEl = document.getElementById(avDispId);
-      if (avEl) { avEl.value = 0; }
-      if (avDispEl) { avDispEl.textContent = '+0'; }
-      if (typeof recalcMan === 'function') { recalcMan('att'); recalcMan('def'); }
-    }
-  }
-
-  // addRowListeners에 역할 버튼 리스너 추가 (패치)
-  var _origAddRowListeners = addRowListeners;
-  addRowListeners = function(row) {
-    _origAddRowListeners(row);
-    var roleBtn = row.querySelector('.combat-role-btn');
-    if (roleBtn) {
-      roleBtn.addEventListener('click', function() { handleRoleBtnClick(roleBtn); });
-    }
-    // aggress-value 변경 감지 → Player Aid 동기화
-    var agVal = row.querySelector('.aggress-value');
-    if (agVal) {
-      var observer = new MutationObserver(function() {
-        var role = row.querySelector('.combat-role-btn') && row.querySelector('.combat-role-btn').dataset.role;
-        if (role === 'att' || role === 'def') syncRoleToAid(role);
-      });
-      observer.observe(agVal, { childList: true, characterData: true, subtree: true });
-    }
-  };
-
-  // ── rollMor 패치: 사기 결과 AV 변동을 RAID 탭 행에 역전파 ──
-  var _origRollMor = rollMor;
-  rollMor = function(side) {
-    _origRollMor(side);
-    // 사기 판정 결과 텍스트에서 AV 변동 추출
-    var pfx = 'mor-' + side + '-';
-    var resEl = document.getElementById(pfx + 'res');
-    if (!resEl) return;
-    var txt = resEl.textContent;
-    var avDelta = 0;
-    if      (txt.indexOf('AV –3') >= 0) avDelta = -3;
-    else if (txt.indexOf('AV –2') >= 0) avDelta = -2;
-    else if (txt.indexOf('AV –1') >= 0) avDelta = -1;
-    if (avDelta === 0) return;
-
-    var row = combatRoleRows[side];
-    if (!row) return;
-
-    var agEl = row.querySelector('.aggress-value');
-    if (!agEl) return;
-    var cur = parseInt(agEl.textContent, 10) || 0;
-    var nv = Math.max(-3, Math.min(3, cur + avDelta));
-    agEl.textContent = nv;
-
-    // Player Aid AV도 즉시 반영
-    var avId = side === 'att' ? 'man-att-av' : 'man-def-av';
-    var avDispId = avId + '-disp';
-    var avHidden = document.getElementById(avId);
-    var avDisp = document.getElementById(avDispId);
-    if (avHidden) avHidden.value = nv;
-    if (avDisp) avDisp.textContent = (nv >= 0 ? '+' : '') + nv;
-
-    if (typeof recalcMor === 'function') recalcMor(side);
-    saveToLocalStorage();
-  };
-  window.rollMor = rollMor;
-
   // ============================================================
   // END: JS from aid.html
   // ============================================================
@@ -6091,6 +6052,10 @@ document.addEventListener('DOMContentLoaded', () => {
   window.recalcSR5 = recalcSR5; window.rollSR5 = rollSR5;
   window.resetAllAid = resetAllAid;
   window.doResetAllAid = doResetAllAid;
+  window.handleRoleButtonClick = handleRoleButtonClick;
+  window.setButtonState = setButtonState;
+  window.updateDogfightTab = updateDogfightTab;
+
 });
 </script>
 
