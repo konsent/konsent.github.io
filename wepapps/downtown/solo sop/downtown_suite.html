@@ -1325,7 +1325,7 @@
               <th>임무</th><th>태스크</th><th>콜싸인</th><th>항공기 유형</th>
               <th>수준</th><th>공격성</th><th>상태</th>
               <th>기총</th><th>IRM</th><th>RHM</th><th>폭탄</th><th>연료</th>
-              <th>비고</th><th></th><th>역할</th><th>ADC</th><th>삭제</th>
+              <th>비고</th><th></th><th>ADC</th><th>삭제</th>
             </tr>
           </thead>
           <tbody>
@@ -1346,7 +1346,7 @@
               <th>임무</th><th>태스크</th><th>콜싸인</th><th>항공기 유형</th>
               <th>수준</th><th>공격성</th><th>상태</th>
               <th>기총</th><th>IRM</th><th>RHM</th><th>폭탄</th><th>연료</th>
-              <th>비고</th><th></th><th>역할</th><th>ADC</th><th>삭제</th>
+              <th>비고</th><th></th><th>ADC</th><th>삭제</th>
             </tr>
           </thead>
           <tbody>
@@ -1367,7 +1367,7 @@
               <th>임무</th><th>태스크</th><th>콜싸인</th><th>항공기 유형</th>
               <th>수준</th><th>공격성</th><th>상태</th>
               <th>기총</th><th>IRM</th><th>RHM</th><th>폭탄</th><th>연료</th>
-              <th>비고</th><th></th><th>역할</th><th>ADC</th><th>삭제</th>
+              <th>비고</th><th></th><th>ADC</th><th>삭제</th>
             </tr>
           </thead>
           <tbody>
@@ -1389,7 +1389,7 @@
             <tr>
               <th>콜싸인</th><th>항공기 유형</th><th>수준</th><th>공격성</th><th>상태</th>
               <th>기총</th><th>IRM</th><th>RHM</th><th>폭탄</th><th>연료</th>
-              <th>비고</th><th></th><th>역할</th><th>ADC</th><th>삭제</th>
+              <th>비고</th><th></th><th>ADC</th><th>삭제</th>
             </tr>
           </thead>
           <tbody>
@@ -4282,7 +4282,7 @@ document.addEventListener('DOMContentLoaded', () => {
       `<td>${STATUS_GRID}</td>` +
       `<td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td>` +
       `<td><input type="text" value=""></td>` +
-      `<td><button class="abort-btn">중단</button></td><td><button class="combat-role-btn" data-role="">역할</button></td><td><button class="view-btn">보기</button></td><td></td>`;
+     `<td><button class="abort-btn">중단</button></td><td><button class="view-btn">보기</button></td><td></td>`;
   }
   function makeDrvRowHTML() {
     return `<td><input type="text" value=""></td>` +
@@ -4292,7 +4292,7 @@ document.addEventListener('DOMContentLoaded', () => {
       `<td>${STATUS_GRID}</td>` +
       `<td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td>` +
       `<td><input type="text" value=""></td>` +
-      `<td><button class="abort-btn">중단</button></td><td><button class="combat-role-btn" data-role="">역할</button></td><td><button class="view-btn">보기</button></td><td></td>`;
+     `<td><button class="abort-btn">중단</button></td><td><button class="view-btn">보기</button></td><td></td>`;
   }
   const modal = document.getElementById('image-modal');
   const modalImage = document.getElementById('modal-image');
@@ -5720,168 +5720,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 
-  // ============================================================
-  // Combat Role Button — 공격/방어 역할 지정 & Player Aid 연동
-  // ============================================================
-
-  // 현재 지정된 공격/방어 행을 추적
-  var combatRoleRows = { att: null, def: null };
-
-  // 행에서 공격성 AV 추출
-  function getRowAV(row) {
-    var avEl = row.querySelector('.aggress-value');
-    return avEl ? (parseInt(avEl.textContent, 10) || 0) : 0;
-  }
-
-  // 행에서 활성 기체 수(상태가 숨겨지지 않은 것) 추출
-  function getRowAcCount(row) {
-    var count = 0;
-    row.querySelectorAll('.status-item').forEach(function(item) {
-      var sel = item.querySelector('select');
-      if (sel && sel.style.display !== 'none') count++;
-    });
-    return Math.max(1, count);
-  }
-
-  // Player Aid의 특정 사이드 AV 및 기체 수 갱신
-  function syncRoleToAid(side) {
-    var row = combatRoleRows[side];
-    if (!row) return;
-
-    var av = getRowAV(row);
-    var acCount = getRowAcCount(row);
-
-    // AV 반영
-    var avId = side === 'att' ? 'man-att-av' : 'man-def-av';
-    var avDispId = avId + '-disp';
-    var avEl = document.getElementById(avId);
-    var avDispEl = document.getElementById(avDispId);
-    if (avEl) { avEl.value = av; }
-    if (avDispEl) { avDispEl.textContent = (av >= 0 ? '+' : '') + av; }
-
-    // 기체 수 반영 (기동 판정 col 선택 = acCount - 1)
-    var colId = side === 'att' ? 'man-att-col' : 'man-def-col';
-    var colEl = document.getElementById(colId);
-    if (colEl) {
-      // option value는 0~3 (1기~4기), 실제 acCount를 index로 변환
-      var colVal = Math.min(3, Math.max(0, acCount - 1));
-      colEl.value = String(colVal);
-    }
-
-    if (typeof recalcMan === 'function') {
-      recalcMan('att'); recalcMan('def');
-    }
-    if (typeof recalcEng === 'function') recalcEng();
-  }
-
-  // 버튼 외관 갱신
-  function updateRoleBtn(btn, role) {
-    btn.dataset.role = role;
-    if (role === 'att') {
-      btn.textContent = '공격';
-      btn.className = 'combat-role-btn role-att';
-    } else if (role === 'def') {
-      btn.textContent = '방어';
-      btn.className = 'combat-role-btn role-def';
-    } else {
-      btn.textContent = '역할';
-      btn.className = 'combat-role-btn';
-    }
-  }
-
-  // 역할 버튼 클릭 처리
-  function handleRoleBtnClick(btn) {
-    var row = btn.closest('tr');
-    var curRole = btn.dataset.role || '';
-    var nextRole = curRole === '' ? 'att' : curRole === 'att' ? 'def' : '';
-
-    // 기존 역할 해제
-    if (curRole && combatRoleRows[curRole] === row) {
-      combatRoleRows[curRole] = null;
-    }
-
-    // 새 역할에 이미 다른 행이 있으면 해제
-    if (nextRole && combatRoleRows[nextRole] && combatRoleRows[nextRole] !== row) {
-      var oldBtn = combatRoleRows[nextRole].querySelector('.combat-role-btn');
-      if (oldBtn) updateRoleBtn(oldBtn, '');
-      combatRoleRows[nextRole] = null;
-    }
-
-    // 새 역할 지정
-    if (nextRole) combatRoleRows[nextRole] = row;
-    updateRoleBtn(btn, nextRole);
-
-    // Player Aid 반영
-    if (nextRole) {
-      syncRoleToAid(nextRole);
-    } else {
-      // 역할 해제: 해당 사이드 AV/col 초기화
-      var side = curRole;
-      var avId = side === 'att' ? 'man-att-av' : 'man-def-av';
-      var avDispId = avId + '-disp';
-      var avEl = document.getElementById(avId);
-      var avDispEl = document.getElementById(avDispId);
-      if (avEl) { avEl.value = 0; }
-      if (avDispEl) { avDispEl.textContent = '+0'; }
-      if (typeof recalcMan === 'function') { recalcMan('att'); recalcMan('def'); }
-    }
-  }
-
-  // addRowListeners에 역할 버튼 리스너 추가 (패치)
-  var _origAddRowListeners = addRowListeners;
-  addRowListeners = function(row) {
-    _origAddRowListeners(row);
-    var roleBtn = row.querySelector('.combat-role-btn');
-    if (roleBtn) {
-      roleBtn.addEventListener('click', function() { handleRoleBtnClick(roleBtn); });
-    }
-    // aggress-value 변경 감지 → Player Aid 동기화
-    var agVal = row.querySelector('.aggress-value');
-    if (agVal) {
-      var observer = new MutationObserver(function() {
-        var role = row.querySelector('.combat-role-btn') && row.querySelector('.combat-role-btn').dataset.role;
-        if (role === 'att' || role === 'def') syncRoleToAid(role);
-      });
-      observer.observe(agVal, { childList: true, characterData: true, subtree: true });
-    }
-  };
-
-  // ── rollMor 패치: 사기 결과 AV 변동을 RAID 탭 행에 역전파 ──
-  var _origRollMor = rollMor;
-  rollMor = function(side) {
-    _origRollMor(side);
-    // 사기 판정 결과 텍스트에서 AV 변동 추출
-    var pfx = 'mor-' + side + '-';
-    var resEl = document.getElementById(pfx + 'res');
-    if (!resEl) return;
-    var txt = resEl.textContent;
-    var avDelta = 0;
-    if      (txt.indexOf('AV –3') >= 0) avDelta = -3;
-    else if (txt.indexOf('AV –2') >= 0) avDelta = -2;
-    else if (txt.indexOf('AV –1') >= 0) avDelta = -1;
-    if (avDelta === 0) return;
-
-    var row = combatRoleRows[side];
-    if (!row) return;
-
-    var agEl = row.querySelector('.aggress-value');
-    if (!agEl) return;
-    var cur = parseInt(agEl.textContent, 10) || 0;
-    var nv = Math.max(-3, Math.min(3, cur + avDelta));
-    agEl.textContent = nv;
-
-    // Player Aid AV도 즉시 반영
-    var avId = side === 'att' ? 'man-att-av' : 'man-def-av';
-    var avDispId = avId + '-disp';
-    var avHidden = document.getElementById(avId);
-    var avDisp = document.getElementById(avDispId);
-    if (avHidden) avHidden.value = nv;
-    if (avDisp) avDisp.textContent = (nv >= 0 ? '+' : '') + nv;
-
-    if (typeof recalcMor === 'function') recalcMor(side);
-    saveToLocalStorage();
-  };
-  window.rollMor = rollMor;
 
   // ============================================================
   // END: JS from aid.html
