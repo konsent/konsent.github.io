@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DOWNTOWN — Solo Tools</title>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Noto+Sans+KR:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
 <style>
   /* --- Main Tab --- */
   .main-tab-bar {
@@ -1176,6 +1177,81 @@
     background: rgba(90,26,26,0.35);
     color: #f0a8a8;
   }
+
+  /* ── Share Modal ── */
+  #share-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.75);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  #share-modal.hidden { display: none; }
+  .share-modal-inner {
+    background: #1c1c10;
+    border: 1px solid var(--tan);
+    padding: 28px 24px;
+    max-width: 540px;
+    width: 100%;
+  }
+  .share-modal-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 18px;
+    color: var(--tan);
+    letter-spacing: 0.12em;
+    margin-bottom: 10px;
+  }
+  .share-modal-desc {
+    font-size: 13px;
+    color: var(--fade2);
+    margin-bottom: 14px;
+    line-height: 1.65;
+  }
+  .share-url-input {
+    width: 100%;
+    background: rgba(30,28,15,0.9);
+    border: 1px solid var(--olive);
+    color: var(--cream);
+    padding: 8px 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    margin-bottom: 16px;
+    cursor: pointer;
+    box-sizing: border-box;
+  }
+  .share-modal-btns {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .share-modal-btns button {
+    padding: 9px 18px;
+    border: none;
+    cursor: pointer;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .share-btn-kakao {
+    background: #FEE500;
+    color: #1A1A1A;
+  }
+  .share-btn-copy {
+    background: var(--blue-dim);
+    color: var(--cream);
+    border: 1px solid var(--blue-bright) !important;
+  }
+  .share-btn-close {
+    background: rgba(74,74,42,0.3);
+    color: var(--fade);
+    border: 1px solid var(--olive) !important;
+  }
 </style>
 </head>
 <body>
@@ -1357,6 +1433,7 @@
       <button class="generate-btn" onclick="generate()">▸ 편제 생성</button>
       <button id="send-to-adc-btn" class="generate-btn" onclick="sendToAdc()" style="display:none; margin-top: 10px; background: var(--tan); color: var(--ink);">ADC 생성기로 보내기</button>
       <button id="oob-print-btn" class="generate-btn" onclick="printResults()" style="display:none; margin-top: 10px; background: var(--dark-green); color: var(--paper);">편제 인쇄</button>
+      <button id="oob-share-btn" class="generate-btn" onclick="openShareModal()" style="margin-top: 10px; background: var(--blue-dim); color: var(--cream); border: 1px solid var(--blue-bright);">📤 공유</button>
     </div>
 
     <!-- Results Panel -->
@@ -1374,8 +1451,9 @@
   <div class="tab-bar">
     <button class="tab-btn us-tab"  id="us-btn">▸ US 비행대</button>
     <button class="tab-btn drv-tab" id="drv-btn">▸ DRV 요격기</button>
-    <button id="adc-print-btn" class="tab-btn" style="margin-left: auto; border-color: var(--dark-green); color: var(--dark-green);">🖨️ 인쇄</button>
-    <button id="adc-reset-btn" onclick="resetAllRaid()" title="RAID 전체 초기화">↺ 초기화</button>
+    <button id="adc-reset-btn" class="tab-btn" onclick="resetAllRaid()" title="RAID 전체 초기화" style="margin-left: auto; border-color: var(--red-bright); color: var(--red-bright);">↺ 초기화</button>
+    <button id="adc-print-btn" class="tab-btn" style="border-color: var(--dark-green); color: var(--dark-green);">🖨️ 인쇄</button>
+    <button id="adc-share-btn" class="tab-btn" onclick="openShareModal()" style="border-color: var(--blue-bright); color: var(--blue-bright);">📤 공유</button>
   </div>
 
   <!-- ══════════════ US CONTENT ══════════════ -->
@@ -6161,6 +6239,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const di2 = document.getElementById('us-date'); const ti2 = document.getElementById('us-target');
   if (di2) di2.addEventListener('input', saveToLocalStorage);
   if (ti2) ti2.addEventListener('input', saveToLocalStorage);
+  loadFromShareUrl();
   loadFromLocalStorage();
   if (usContent.style.display !== 'block' && drvContent.style.display !== 'block') {
     const hash = location.hash.substring(1);
@@ -6575,6 +6654,125 @@ document.addEventListener('DOMContentLoaded', () => {
   window.onRaidAVChange = onRaidAVChange;
   window.lockSyncBar = lockSyncBar;
   window.unlockSyncBar = unlockSyncBar;
+
+  // ============================================================
+  // 공유 기능 (KakaoTalk Share)
+  // ============================================================
+  // 카카오 JavaScript 앱 키: https://developers.kakao.com 에서 발급 후 아래에 입력
+  const KAKAO_APP_KEY = 'e3038b6ecbc46b9c0aa7b9ce9a096a5e';
+
+  function initKakao() {
+    if (typeof Kakao !== 'undefined' && KAKAO_APP_KEY !== 'YOUR_KAKAO_APP_KEY') {
+      if (!Kakao.isInitialized()) Kakao.init(KAKAO_APP_KEY);
+    }
+  }
+
+  function encodeShareData() {
+    try {
+      const oobRaw  = localStorage.getItem('oobToAdcData');
+      const raidRaw = localStorage.getItem('downtownGeneratorData');
+      if (!oobRaw && !raidRaw) return null;
+      const combined = {
+        oob:  oobRaw  ? JSON.parse(oobRaw)  : null,
+        raid: raidRaw ? JSON.parse(raidRaw) : null
+      };
+      return btoa(unescape(encodeURIComponent(JSON.stringify(combined))));
+    } catch(e) { return null; }
+  }
+
+  function getShareUrl() {
+    const encoded = encodeShareData();
+    if (!encoded) return null;
+    const base = window.location.href.split('?')[0].split('#')[0];
+    return base + '?share=' + encoded;
+  }
+
+  function openShareModal() {
+    const url = getShareUrl();
+    if (!url) {
+      alert('공유할 데이터가 없습니다.Order of Battle 편제를 생성하거나 Raid 데이터를 먼저 입력하세요.');
+      return;
+    }
+    document.getElementById('share-url-input').value = url;
+    document.getElementById('share-modal').classList.remove('hidden');
+  }
+
+  function closeShareModal() {
+    document.getElementById('share-modal').classList.add('hidden');
+  }
+
+  function copyShareLink() {
+    const url = document.getElementById('share-url-input').value;
+    const btn = document.getElementById('copy-link-btn');
+    const orig = btn.textContent;
+    navigator.clipboard.writeText(url).then(() => {
+      btn.textContent = '✓ 복사 완료!';
+      setTimeout(() => { btn.textContent = orig; }, 2000);
+    }).catch(() => {
+      const inp = document.getElementById('share-url-input');
+      inp.select(); document.execCommand('copy');
+      btn.textContent = '✓ 복사 완료!';
+      setTimeout(() => { btn.textContent = orig; }, 2000);
+    });
+  }
+
+  function shareViaKakao() {
+    const url = document.getElementById('share-url-input').value;
+    if (typeof Kakao !== 'undefined' && Kakao.isInitialized()) {
+      const oobRaw = localStorage.getItem('oobToAdcData');
+      const oobData = oobRaw ? JSON.parse(oobRaw) : null;
+      const scenarioName = (oobData && oobData.scenarioName) ? oobData.scenarioName : 'DOWNTOWN';
+      const date = (oobData && oobData.date) ? ' · ' + oobData.date : '';
+      Kakao.Share.sendDefault({
+        objectType: 'feed',
+        content: {
+          title: 'DOWNTOWN — ' + scenarioName + date,
+          description: 'Order of Battle · Raid 데이터를 공유합니다. 링크를 열어 불러오세요.',
+          imageUrl: 'https://konsent.github.io/assets/dt/share_thumb.jpg',
+          link: { mobileWebUrl: url, webUrl: url }
+        },
+        buttons: [{ title: '데이터 불러오기', link: { mobileWebUrl: url, webUrl: url } }]
+      });
+      return;
+    }
+    // SDK 미초기화 시 URI 스킴 시도 (모바일) 또는 클립보드 복사
+    if (/Android|iPhone|iPad/i.test(navigator.userAgent)) {
+      window.location.href = 'kakaotalk://msg/send?text=' + encodeURIComponent('DOWNTOWN 게임 데이터 공유' + url);
+    } else {
+      navigator.clipboard.writeText(url).then(() => {
+        alert('카카오 SDK가 초기화되지 않았습니다.링크가 클립보드에 복사되었습니다.카카오톡에서 직접 붙여넣기 하세요.');
+      }).catch(() => { alert('링크를 복사해서 카카오톡에 붙여넣기 하세요:' + url); });
+    }
+  }
+
+  function loadFromShareUrl() {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const shareParam = params.get('share');
+      if (!shareParam) return false;
+      const json = decodeURIComponent(escape(atob(shareParam)));
+      const data = JSON.parse(json);
+      let loaded = false;
+      if (data.oob)  { localStorage.setItem('oobToAdcData', JSON.stringify(data.oob));  loaded = true; }
+      if (data.raid) { localStorage.setItem('downtownGeneratorData', JSON.stringify(data.raid)); loaded = true; }
+      window.history.replaceState({}, '', window.location.pathname);
+      if (loaded) {
+        const banner = document.createElement('div');
+        banner.style.cssText = 'position:fixed;top:0;left:0;right:0;background:#2a4a2a;color:#c4ffc4;text-align:center;padding:10px;font-family:Noto Sans KR,sans-serif;font-size:13px;z-index:10000;border-bottom:1px solid #498d49;';
+        banner.textContent = '✓ 공유 데이터를 불러왔습니다. Order of Battle · Raid 탭에서 확인하세요.';
+        document.body.prepend(banner);
+        setTimeout(() => banner.remove(), 5000);
+      }
+      return loaded;
+    } catch(e) { return false; }
+  }
+
+  window.openShareModal  = openShareModal;
+  window.closeShareModal = closeShareModal;
+  window.copyShareLink   = copyShareLink;
+  window.shareViaKakao  = shareViaKakao;
+
+  initKakao();
 });
 </script>
 
@@ -6598,6 +6796,23 @@ document.addEventListener('DOMContentLoaded', () => {
     <div class="aid-reset-btns">
       <button class="aid-reset-confirm-yes" onclick="doResetAllRaid()">초기화</button>
       <button class="aid-reset-confirm-no" onclick="document.getElementById('adc-reset-confirm').classList.add('hidden')">취소</button>
+    </div>
+  </div>
+</div>
+
+<!-- 공유 모달 -->
+<div id="share-modal" class="hidden" onclick="if(event.target===this)closeShareModal()">
+  <div class="share-modal-inner">
+    <div class="share-modal-title">📤 데이터 공유</div>
+    <p class="share-modal-desc">아래 링크를 카카오톡으로 공유하거나 복사하세요.<br>받는 분이 링크를 열면 Order of Battle · Raid 데이터가 자동으로 불러와집니다.</p>
+    <input type="text" id="share-url-input" class="share-url-input" readonly onclick="this.select()">
+    <div class="share-modal-btns">
+      <button id="copy-link-btn" class="share-btn-copy" onclick="copyShareLink()">🔗 링크 복사</button>
+      <button class="share-btn-kakao" onclick="shareViaKakao()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="#1A1A1A"><path d="M12 3C6.48 3 2 6.67 2 11.25c0 2.83 1.63 5.33 4.12 6.9-.16.59-.54 2.08-.62 2.4-.1.4.15.4.31.28.13-.09 1.97-1.34 2.77-1.88.46.06.93.1 1.42.1 5.52 0 10-3.67 10-8.25S17.52 3 12 3z"/></svg>
+        카카오톡으로 공유
+      </button>
+      <button class="share-btn-close" onclick="closeShareModal()">✕ 닫기</button>
     </div>
   </div>
 </div>
