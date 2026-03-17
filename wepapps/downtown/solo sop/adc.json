@@ -1,0 +1,2482 @@
+{
+    "USN": {
+        "aircraft": [
+            {
+                "name": "F-4B Phantom II",
+                "crew": 2,
+                "fuel": 5,
+                "bomb": 1,
+                "sight": "+0",
+                "rwr": "A",
+                "jam": "3d",
+                "performance": {
+                    "combat": {
+                        "clean": {
+                            "low": "4",
+                            "med": "4",
+                            "high": "4"
+                        },
+                        "laden": {
+                            "low": "3",
+                            "med": "3",
+                            "high": "3"
+                        }
+                    },
+                    "dash": {
+                        "clean": {
+                            "low": "5",
+                            "med": "6",
+                            "high": "7"
+                        },
+                        "laden": {
+                            "low": "4",
+                            "med": "5",
+                            "high": "5"
+                        }
+                    },
+                    "maneuver": {
+                        "clean": {
+                            "low": "5",
+                            "med": "6",
+                            "high": "7"
+                        },
+                        "laden": {
+                            "low": "2",
+                            "med": "3",
+                            "high": "3"
+                        }
+                    }
+                },
+                "ordnance": "-",
+                "capabilities": "Night",
+                "air_to_air": {
+                    "AIM-9B": 3,
+                    "AIM-9D": 3,
+                    "AIM-9G": 3,
+                    "AIM-7E": 3,
+                    "AIM-7E-2": 3
+                },
+                "notes": [
+                    "If Armed Escort, AIM-7E/E-2 is 5, otherwise 3"
+                ]
+            },
+            {
+                "name": "F-4J Phantom II",
+                "crew": 2,
+                "fuel": 5,
+                "bomb": 1,
+                "sight": "+1",
+                "rwr": "A",
+                "jam": "3d",
+                "performance": {
+                    "combat": {
+                        "clean": {
+                            "low": "4",
+                            "med": "4",
+                            "high": "4"
+                        },
+                        "laden": {
+                            "low": "3",
+                            "med": "3",
+                            "high": "3"
+                        }
+                    },
+                    "dash": {
+                        "clean": {
+                            "low": "5",
+                            "med": "6",
+                            "high": "7"
+                        },
+                        "laden": {
+                            "low": "4",
+                            "med": "5",
+                            "high": "5"
+                        }
+                    },
+                    "maneuver": {
+                        "clean": {
+                            "low": "5",
+                            "med": "6",
+                            "high": "7"
+                        },
+                        "laden": {
+                            "low": "2",
+                            "med": "3",
+                            "high": "3"
+                        }
+                    }
+                },
+                "ordnance": "-",
+                "capabilities": "Night",
+                "air_to_air": {
+                    "AIM-9D": 3,
+                    "AIM-9G": 3,
+                    "AIM-9H": 3,
+                    "AIM-7E": 3,
+                    "AIM-7E-2": 3
+                },
+                "notes": [
+                    "If Armed Escort, AIM-7E/E-2 is 5, otherwise 3"
+                ]
+            },
+            {
+                "name": "F-4N Phantom II",
+                "crew": 2,
+                "fuel": 5,
+                "bomb": 1,
+                "sight": "+1",
+                "rwr": "A",
+                "jam": "3d",
+                "performance": {
+                    "combat": {
+                        "clean": {
+                            "low": "4",
+                            "med": "4",
+                            "high": "4"
+                        },
+                        "laden": {
+                            "low": "3",
+                            "med": "3",
+                            "high": "3"
+                        }
+                    },
+                    "dash": {
+                        "clean": {
+                            "low": "5",
+                            "med": "6",
+                            "high": "7"
+                        },
+                        "laden": {
+                            "low": "4",
+                            "med": "5",
+                            "high": "5"
+                        }
+                    },
+                    "maneuver": {
+                        "clean": {
+                            "low": "5",
+                            "med": "6",
+                            "high": "7"
+                        },
+                        "laden": {
+                            "low": "2",
+                            "med": "3",
+                            "high": "3"
+                        }
+                    }
+                },
+                "ordnance": "-",
+                "capabilities": "Night",
+                "air_to_air": {
+                    "AIM-9G": 3,
+                    "AIM-9H": 3,
+                    "AIM-7E-2": 3
+                },
+                "notes": [
+                    "If Armed Escort, AIM-7E-2 is 5, otherwise 3"
+                ]
+            },
+            {
+                "name": "RF-8A/G Crusader",
+                "crew": 1,
+                "fuel": 5,
+                "bomb": "-",
+                "sight": "-",
+                "rwr": "A",
+                "jam": "3d",
+                "performance": {
+                    "combat": {
+                        "clean": {
+                            "low": "3",
+                            "med": "4",
+                            "high": "4"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    },
+                    "dash": {
+                        "clean": {
+                            "low": "4",
+                            "med": "6",
+                            "high": "6"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    },
+                    "maneuver": {
+                        "clean": {
+                            "low": "6",
+                            "med": "7",
+                            "high": "7"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    }
+                },
+                "ordnance": "-",
+                "capabilities": [
+                    "Recon",
+                    "Night"
+                ],
+                "air_to_air": "-",
+                "notes": "-"
+            },
+            {
+                "name": "F-8C/D Crusader",
+                "crew": 1,
+                "fuel": 5,
+                "bomb": 1,
+                "sight": "+0",
+                "rwr": "A",
+                "jam": "3d",
+                "performance": {
+                    "combat": {
+                        "clean": {
+                            "low": "3",
+                            "med": "4",
+                            "high": "4"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    },
+                    "dash": {
+                        "clean": {
+                            "low": "4",
+                            "med": "6",
+                            "high": "6"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    },
+                    "maneuver": {
+                        "clean": {
+                            "low": "6",
+                            "med": "7",
+                            "high": "7"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    }
+                },
+                "ordnance": "-",
+                "capabilities": "Night",
+                "air_to_air": {
+                    "AIM-9B": 6,
+                    "AIM-9D": 6,
+                    "Gun": 5
+                },
+                "notes": [
+                    "If Y-rack, No AIM-9B/AIM-9D",
+                    "Only Armed Escort can carry rockets"
+                ]
+            },
+            {
+                "name": "F-8E/H/J Crusader",
+                "crew": 1,
+                "fuel": 5,
+                "bomb": [
+                    2,
+                    1
+                ],
+                "sight": "+0",
+                "rwr": "A",
+                "jam": "3d",
+                "performance": {
+                    "combat": {
+                        "clean": {
+                            "low": "3",
+                            "med": "4",
+                            "high": "4"
+                        },
+                        "laden": {
+                            "low": "3",
+                            "med": "3",
+                            "high": "-"
+                        }
+                    },
+                    "dash": {
+                        "clean": {
+                            "low": "4",
+                            "med": "6",
+                            "high": "6"
+                        },
+                        "laden": {
+                            "low": "4",
+                            "med": "4",
+                            "high": "-"
+                        }
+                    },
+                    "maneuver": {
+                        "clean": {
+                            "low": "6",
+                            "med": "7",
+                            "high": "7"
+                        },
+                        "laden": {
+                            "low": "2",
+                            "med": "3",
+                            "high": "-"
+                        }
+                    }
+                },
+                "ordnance": "-",
+                "capabilities": "Night",
+                "air_to_air": {
+                    "AIM-9B": 6,
+                    "AIM-9D": 6,
+                    "Gun": 5,
+                    "AIM-9G": 6,
+                    "AIM-9C": 6
+                },
+                "notes": [
+                    "If Y-rack, AIM-9B/AIM-9D/AIM-9G is 3",
+                    "AIM-9B/AIM-9D/AIM-9G + AIM-9C, Both are 6"
+                ]
+            },
+            {
+                "name": "A-4C Skyhawk",
+                "crew": 1,
+                "fuel": 10,
+                "bomb": 2,
+                "sight": "+0",
+                "rwr": "A",
+                "jam": "3d",
+                "performance": {
+                    "combat": {
+                        "clean": {
+                            "low": "3",
+                            "med": "4",
+                            "high": "4"
+                        },
+                        "laden": {
+                            "low": "2",
+                            "med": "3",
+                            "high": "-"
+                        }
+                    },
+                    "dash": {
+                        "clean": {
+                            "low": "4",
+                            "med": "4",
+                            "high": "4"
+                        },
+                        "laden": {
+                            "low": "3",
+                            "med": "4",
+                            "high": "-"
+                        }
+                    },
+                    "maneuver": {
+                        "clean": {
+                            "low": "5",
+                            "med": "5",
+                            "high": "4"
+                        },
+                        "laden": {
+                            "low": "2",
+                            "med": "2",
+                            "high": "-"
+                        }
+                    }
+                },
+                "ordnance": {
+                    "Strike": 2
+                },
+                "capabilities": "Night",
+                "air_to_air": {
+                    "Gun": 5
+                },
+                "notes": [
+                    "No slash attacks",
+                    "If Shrike, Bomb is 0"
+                ]
+            },
+            {
+                "name": "A-4E/F Skyhawk",
+                "crew": 1,
+                "fuel": 10,
+                "bomb": 3,
+                "sight": "+0",
+                "rwr": "A",
+                "jam": "3d",
+                "performance": {
+                    "combat": {
+                        "clean": {
+                            "low": "3",
+                            "med": "4",
+                            "high": "4"
+                        },
+                        "laden": {
+                            "low": "2",
+                            "med": "3",
+                            "high": "-"
+                        }
+                    },
+                    "dash": {
+                        "clean": {
+                            "low": "4",
+                            "med": "4",
+                            "high": "4"
+                        },
+                        "laden": {
+                            "low": "3",
+                            "med": "4",
+                            "high": "-"
+                        }
+                    },
+                    "maneuver": {
+                        "clean": {
+                            "low": "5",
+                            "med": "5",
+                            "high": "4"
+                        },
+                        "laden": {
+                            "low": "2",
+                            "med": "2",
+                            "high": "-"
+                        }
+                    }
+                },
+                "ordnance": {
+                    "Strike": 2,
+                    "EOGB": 1
+                },
+                "capabilities": "Night",
+                "air_to_air": {
+                    "Gun": 5
+                },
+                "notes": [
+                    "No slash attacks",
+                    "If Shrike, Bomb is 1"
+                ]
+            },
+            {
+                "name": "A-6A Intruder",
+                "crew": 2,
+                "fuel": 10,
+                "bomb": 4,
+                "sight": [
+                    "+0",
+                    "+3"
+                ],
+                "rwr": "A",
+                "jam": "3d",
+                "performance": {
+                    "combat": {
+                        "clean": {
+                            "low": "3",
+                            "med": "4",
+                            "high": "4"
+                        },
+                        "laden": {
+                            "low": "2",
+                            "med": "3",
+                            "high": "-"
+                        }
+                    },
+                    "dash": {
+                        "clean": {
+                            "low": "4",
+                            "med": "4",
+                            "high": "4"
+                        },
+                        "laden": {
+                            "low": "3",
+                            "med": "4",
+                            "high": "-"
+                        }
+                    },
+                    "maneuver": {
+                        "clean": {
+                            "low": "5",
+                            "med": "4",
+                            "high": "3"
+                        },
+                        "laden": {
+                            "low": "2",
+                            "med": "2",
+                            "high": "-"
+                        }
+                    }
+                },
+                "ordnance": {
+                    "Shrike": [
+                        2,
+                        4
+                    ],
+                    "EOGB": 1
+                },
+                "capabilities": [
+                    "Radar Night",
+                    "TFR"
+                ],
+                "air_to_air": "-",
+                "notes": [
+                    "If Shrike is 2, Bomb is 2",
+                    "If Shrike is 4, Bomb is 0",
+                    "If Blind bombing, Sight is +3, otherwise +0"
+                ]
+            },
+            {
+                "name": "A-6B Intruder",
+                "crew": 2,
+                "fuel": 10,
+                "bomb": 4,
+                "sight": "+0",
+                "rwr": "B",
+                "jam": "3d",
+                "performance": {
+                    "combat": {
+                        "clean": {
+                            "low": "3",
+                            "med": "4",
+                            "high": "4"
+                        },
+                        "laden": {
+                            "low": "2",
+                            "med": "3",
+                            "high": "-"
+                        }
+                    },
+                    "dash": {
+                        "clean": {
+                            "low": "4",
+                            "med": "4",
+                            "high": "4"
+                        },
+                        "laden": {
+                            "low": "3",
+                            "med": "4",
+                            "high": "-"
+                        }
+                    },
+                    "maneuver": {
+                        "clean": {
+                            "low": "5",
+                            "med": "4",
+                            "high": "3"
+                        },
+                        "laden": {
+                            "low": "2",
+                            "med": "2",
+                            "high": "-"
+                        }
+                    }
+                },
+                "ordnance": {
+                    "Shrike": [
+                        2,
+                        4
+                    ],
+                    "Standard A": 1,
+                    "Standard B": 1
+                },
+                "capabilities": "Night",
+                "air_to_air": "-",
+                "notes": [
+                    "If Shrike is 2, Bomb is 2",
+                    "If Shrike is 4, Bomb is 0",
+                    "If Shrike is 2 and Standard A or B is carried, Bomb is 0",
+                    "PAT-ARM"
+                ]
+            },
+            {
+                "name": "A-6C Intruder",
+                "crew": 2,
+                "fuel": 10,
+                "bomb": 4,
+                "sight": [
+                    "+0",
+                    "+3"
+                ],
+                "rwr": "A",
+                "jam": "3d",
+                "performance": {
+                    "combat": {
+                        "clean": {
+                            "low": "3",
+                            "med": "4",
+                            "high": "4"
+                        },
+                        "laden": {
+                            "low": "2",
+                            "med": "3",
+                            "high": "-"
+                        }
+                    },
+                    "dash": {
+                        "clean": {
+                            "low": "4",
+                            "med": "4",
+                            "high": "4"
+                        },
+                        "laden": {
+                            "low": "3",
+                            "med": "4",
+                            "high": "-"
+                        }
+                    },
+                    "maneuver": {
+                        "clean": {
+                            "low": "5",
+                            "med": "4",
+                            "high": "3"
+                        },
+                        "laden": {
+                            "low": "2",
+                            "med": "2",
+                            "high": "-"
+                        }
+                    }
+                },
+                "ordnance": {
+                    "Strike": [
+                        2,
+                        4
+                    ],
+                    "EOGB": 1,
+                    "LGB": 1
+                },
+                "capabilities": [
+                    "Radar Night",
+                    "TFR"
+                ],
+                "air_to_air": "-",
+                "notes": [
+                    "If Strike is 2, Bomb is 2",
+                    "If Strike is 4, Bomb is 0",
+                    "If Blind bombing, Sight is +3, otherwise +0"
+                ]
+            },
+            {
+                "name": "A-7A/B Corsair II",
+                "crew": 1,
+                "fuel": 12,
+                "bomb": 3,
+                "sight": "+1",
+                "rwr": "A",
+                "jam": "3d",
+                "performance": {
+                    "combat": {
+                        "clean": {
+                            "low": "3",
+                            "med": "4",
+                            "high": "4"
+                        },
+                        "laden": {
+                            "low": "2",
+                            "med": "3",
+                            "high": "-"
+                        }
+                    },
+                    "dash": {
+                        "clean": {
+                            "low": "4",
+                            "med": "4",
+                            "high": "4"
+                        },
+                        "laden": {
+                            "low": "3",
+                            "med": "4",
+                            "high": "-"
+                        }
+                    },
+                    "maneuver": {
+                        "clean": {
+                            "low": "5",
+                            "med": "4",
+                            "high": "3"
+                        },
+                        "laden": {
+                            "low": "2",
+                            "med": "2",
+                            "high": "-"
+                        }
+                    }
+                },
+                "ordnance": {
+                    "Strike": 1,
+                    "EOGB": 1
+                },
+                "capabilities": "Night",
+                "air_to_air": {
+                    "Gun": 3,
+                    "AIM-9D": 6,
+                    "AIM-7G/H": 6
+                },
+                "notes": [
+                    "No slash attacks",
+                    "If Shrike, Bomb is 2"
+                ]
+            },
+            {
+                "name": "A-7C/E Corsair II",
+                "crew": 1,
+                "fuel": 8,
+                "bomb": 3,
+                "sight": "+3",
+                "rwr": "A",
+                "jam": "3d",
+                "performance": {
+                    "combat": {
+                        "clean": {
+                            "low": "3",
+                            "med": "4",
+                            "high": "4"
+                        },
+                        "laden": {
+                            "low": "2",
+                            "med": "3",
+                            "high": "-"
+                        }
+                    },
+                    "dash": {
+                        "clean": {
+                            "low": "4",
+                            "med": "4",
+                            "high": "4"
+                        },
+                        "laden": {
+                            "low": "3",
+                            "med": "4",
+                            "high": "-"
+                        }
+                    },
+                    "maneuver": {
+                        "clean": {
+                            "low": "5",
+                            "med": "4",
+                            "high": "3"
+                        },
+                        "laden": {
+                            "low": "2",
+                            "med": "2",
+                            "high": "-"
+                        }
+                    }
+                },
+                "ordnance": {
+                    "Strike": 1,
+                    "EOGB": 1
+                },
+                "capabilities": "Night",
+                "air_to_air": {
+                    "AIM-9G/H": 6,
+                    "Gun": 3
+                },
+                "notes": [
+                    "No slash attacks",
+                    "If Shrike, Bomb is 2"
+                ]
+            },
+            {
+                "name": "EA-6A Intruder",
+                "crew": 2,
+                "fuel": 10,
+                "bomb": "-",
+                "sight": "-",
+                "rwr": "B",
+                "jam": "4d",
+                "performance": {
+                    "combat": {
+                        "clean": {
+                            "low": "3",
+                            "med": "4",
+                            "high": "4"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    },
+                    "dash": {
+                        "clean": {
+                            "low": "4",
+                            "med": "4",
+                            "high": "4"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    },
+                    "maneuver": {
+                        "clean": {
+                            "low": "5",
+                            "med": "4",
+                            "high": "3"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    }
+                },
+                "ordnance": "-",
+                "capabilities": [
+                    "Night",
+                    "TFR"
+                ],
+                "air_to_air": "-",
+                "notes": "-"
+            },
+            {
+                "name": "EA-6B Prowler",
+                "crew": 4,
+                "fuel": 10,
+                "bomb": "-",
+                "sight": "-",
+                "rwr": "B",
+                "jam": "4d",
+                "performance": {
+                    "combat": {
+                        "clean": {
+                            "low": "3",
+                            "med": "4",
+                            "high": "4"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    },
+                    "dash": {
+                        "clean": {
+                            "low": "4",
+                            "med": "4",
+                            "high": "4"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    },
+                    "maneuver": {
+                        "clean": {
+                            "low": "5",
+                            "med": "4",
+                            "high": "3"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    }
+                },
+                "ordnance": "-",
+                "capabilities": [
+                    "Night",
+                    "TFR"
+                ],
+                "air_to_air": "-",
+                "notes": "-"
+            },
+            {
+                "name": "F-14A Tomcat",
+                "crew": 2,
+                "fuel": 7,
+                "bomb": "-",
+                "sight": "-",
+                "rwr": "A",
+                "jam": "3d",
+                "performance": {
+                    "combat": {
+                        "clean": {
+                            "low": "4",
+                            "med": "4",
+                            "high": "4"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    },
+                    "dash": {
+                        "clean": {
+                            "low": "5",
+                            "med": "6",
+                            "high": "7"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    },
+                    "maneuver": {
+                        "clean": {
+                            "low": "7",
+                            "med": "7",
+                            "high": "6"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    }
+                },
+                "ordnance": "-",
+                "capabilities": [
+                    "Night"
+                ],
+                "air_to_air": {
+                    "AIM-9H": 6,
+                    "Gun": 3,
+                    "AIM-54": 6,
+                    "AIM-7E-2": 4
+                },
+                "notes": [
+                    "if no AIM-54 carried, AIM-7E-2 is 1"
+                ]
+            },
+            {
+                "name": "EKA-3B Skywarrior",
+                "crew": 3,
+                "fuel": "U",
+                "bomb": "-",
+                "sight": "-",
+                "rwr": "B",
+                "jam": "4n",
+                "performance": {
+                    "combat": {
+                        "clean": {
+                            "low": "2",
+                            "med": "3",
+                            "high": "3"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    },
+                    "dash": {
+                        "clean": {
+                            "low": "3",
+                            "med": "3",
+                            "high": "3"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    },
+                    "maneuver": {
+                        "clean": {
+                            "low": "1",
+                            "med": "1",
+                            "high": "1"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    }
+                },
+                "ordnance": "-",
+                "capabilities": "Night",
+                "air_to_air": "-",
+                "notes": [
+                    "Large",
+                    "Poor SAM defense",
+                    "No Zoom"
+                ]
+            },
+            {
+                "name": "EF-10B Skyknight",
+                "crew": 2,
+                "fuel": 10,
+                "bomb": "-",
+                "sight": "-",
+                "rwr": "B",
+                "jam": "3n",
+                "performance": {
+                    "combat": {
+                        "clean": {
+                            "low": "2",
+                            "med": "3",
+                            "high": "3"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    },
+                    "dash": {
+                        "clean": {
+                            "low": "3",
+                            "med": "3",
+                            "high": "3"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    },
+                    "maneuver": {
+                        "clean": {
+                            "low": "4",
+                            "med": "3",
+                            "high": "2"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    }
+                },
+                "ordnance": "-",
+                "capabilities": "Night",
+                "air_to_air": "-",
+                "notes": "-"
+            },
+            {
+                "name": "EA-1F 'Electric Spad'",
+                "crew": 2,
+                "fuel": "U",
+                "bomb": "-",
+                "sight": "-",
+                "rwr": "B",
+                "jam": "3n",
+                "performance": {
+                    "combat": {
+                        "clean": {
+                            "low": "1",
+                            "med": "1",
+                            "high": "1"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    },
+                    "dash": {
+                        "clean": {
+                            "low": "2",
+                            "med": "2",
+                            "high": "2"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    },
+                    "maneuver": {
+                        "clean": {
+                            "low": "4",
+                            "med": "3",
+                            "high": "2"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    }
+                },
+                "ordnance": "-",
+                "capabilities": "Standoff Night",
+                "air_to_air": "-",
+                "notes": "-"
+            },
+            {
+                "name": "RA-5C Vigilante",
+                "crew": 2,
+                "fuel": 15,
+                "bomb": "-",
+                "sight": "-",
+                "rwr": "A",
+                "jam": "3d",
+                "performance": {
+                    "combat": {
+                        "clean": {
+                            "low": "4",
+                            "med": "5",
+                            "high": "5"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    },
+                    "dash": {
+                        "clean": {
+                            "low": "5",
+                            "med": "6",
+                            "high": "7"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    },
+                    "maneuver": {
+                        "clean": {
+                            "low": "5",
+                            "med": "6",
+                            "high": "7"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    }
+                },
+                "ordnance": "-",
+                "capabilities": [
+                    "Recon",
+                    "Night"
+                ],
+                "air_to_air": "-",
+                "notes": "-"
+            }
+        ],
+        "air_to_air_weapons": [
+            {
+                "name": "AIM-9B Sidewinder",
+                "class": "IRM",
+                "rating": 2,
+                "availability": "Jan 65 on"
+            },
+            {
+                "name": "AIM-9C Sidewinder",
+                "class": "IRM",
+                "rating": 1,
+                "availability": "Jan 66 on"
+            },
+            {
+                "name": "AIM-9D Sidewinder",
+                "class": "IRM",
+                "rating": 3,
+                "availability": "Jun 68 on"
+            },
+            {
+                "name": "AIM-9G Sidewinder",
+                "class": "IRM",
+                "rating": 4,
+                "availability": "Jan 69 on"
+            },
+            {
+                "name": "AIM-9H Sidewinder",
+                "class": "IRM",
+                "rating": 4,
+                "availability": "Jun 72 on"
+            },
+            {
+                "name": "AIM-7E Sparrow",
+                "class": "RHM",
+                "rating": 1,
+                "availability": "Jan 65 on"
+            },
+            {
+                "name": "AIM-7E-2 Sparrow",
+                "class": "RHM",
+                "rating": 2,
+                "availability": "Aug 68 on"
+            },
+            {
+                "name": "Gun",
+                "class": "Gun",
+                "rating": "-",
+                "availability": "-"
+            }
+        ],
+        "standoff_jamming": {
+            "EA-6A": {
+                "max_range_strength2": 2,
+                "max_range_strength1": 1,
+                "max_range_strength0_5": 0.5
+            },
+            "EA-6B": {
+                "max_range_strength2": 7,
+                "max_range_strength1": 14,
+                "max_range_strength0_5": 48
+            },
+            "EKA-3B": {
+                "max_range_strength2": 6,
+                "max_range_strength1": 11,
+                "max_range_strength0_5": 32
+            },
+            "EA-1F": {
+                "max_range_strength2": 4,
+                "max_range_strength1": 8,
+                "max_range_strength0_5": 20
+            },
+            "EF-10B": {
+                "max_range_strength2": 4,
+                "max_range_strength1": 8,
+                "max_range_strength0_5": 20
+            }
+        }
+    },
+    "USAF": {
+        "aircraft": [
+            {
+                "name": "F-4C Phantom II",
+                "crew": 2,
+                "fuel": 5,
+                "bomb": 3,
+                "sight": "+0",
+                "rwr": "A",
+                "jam": "3n",
+                "performance": {
+                    "combat": {
+                        "clean": {
+                            "low": "4",
+                            "med": "4",
+                            "high": "4"
+                        },
+                        "laden": {
+                            "low": "3",
+                            "med": "3",
+                            "high": "3"
+                        }
+                    },
+                    "dash": {
+                        "clean": {
+                            "low": "5",
+                            "med": "6",
+                            "high": "7"
+                        },
+                        "laden": {
+                            "low": "4",
+                            "med": "5",
+                            "high": "5"
+                        }
+                    },
+                    "maneuver": {
+                        "clean": {
+                            "low": "5",
+                            "med": "6",
+                            "high": "7"
+                        },
+                        "laden": {
+                            "low": "2",
+                            "med": "3",
+                            "high": "3"
+                        }
+                    }
+                },
+                "ordnance": "-",
+                "capabilities": "Night",
+                "air_to_air": {
+                    "AIM-9B": 3,
+                    "AIM-9E": 3,
+                    "AIM-9J": 3,
+                    "AIM-7E": 3,
+                    "AIM-7E-2": 3,
+                    "Gun Pod": 3
+                },
+                "notes": [
+                    "After May 67+, Gun only on CAP",
+                    "If SEAD or Strike/CAP, AIM-7E/E-2 is 5, otherwise 3"
+                ]
+            },
+            {
+                "name": "RF-4C Phantom II",
+                "crew": 2,
+                "fuel": 5,
+                "bomb": "-",
+                "sight": "-",
+                "rwr": "A",
+                "jam": "3n",
+                "performance": {
+                    "combat": {
+                        "clean": {
+                            "low": "4",
+                            "med": "4",
+                            "high": "4"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    },
+                    "dash": {
+                        "clean": {
+                            "low": "5",
+                            "med": "6",
+                            "high": "7"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    },
+                    "maneuver": {
+                        "clean": {
+                            "low": "5",
+                            "med": "6",
+                            "high": "7"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    }
+                },
+                "ordnance": "-",
+                "capabilities": [
+                    "Recon",
+                    "Night",
+                    "TFR"
+                ],
+                "air_to_air": "-",
+                "notes": "-"
+            },
+            {
+                "name": "RF-4B Phantom II",
+                "crew": 2,
+                "fuel": 5,
+                "bomb": "-",
+                "sight": "-",
+                "rwr": "A",
+                "jam": "3d",
+                "performance": {
+                    "combat": {
+                        "clean": {
+                            "low": "4",
+                            "med": "4",
+                            "high": "4"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    },
+                    "dash": {
+                        "clean": {
+                            "low": "5",
+                            "med": "6",
+                            "high": "7"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    },
+                    "maneuver": {
+                        "clean": {
+                            "low": "5",
+                            "med": "6",
+                            "high": "7"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    }
+                },
+                "ordnance": "-",
+                "capabilities": [
+                    "Recon",
+                    "Night",
+                    "TFR"
+                ],
+                "air_to_air": "-",
+                "notes": "-"
+            },
+            {
+                "name": "F-4D Phantom II",
+                "crew": 2,
+                "fuel": 5,
+                "bomb": 3,
+                "sight": "+1",
+                "rwr": "A",
+                "jam": "3n",
+                "performance": {
+                    "combat": {
+                        "clean": {
+                            "low": "4",
+                            "med": "4",
+                            "high": "4"
+                        },
+                        "laden": {
+                            "low": "3",
+                            "med": "3",
+                            "high": "3"
+                        }
+                    },
+                    "dash": {
+                        "clean": {
+                            "low": "5",
+                            "med": "6",
+                            "high": "7"
+                        },
+                        "laden": {
+                            "low": "4",
+                            "med": "5",
+                            "high": "5"
+                        }
+                    },
+                    "maneuver": {
+                        "clean": {
+                            "low": "5",
+                            "med": "6",
+                            "high": "7"
+                        },
+                        "laden": {
+                            "low": "2",
+                            "med": "3",
+                            "high": "3"
+                        }
+                    }
+                },
+                "ordnance": {
+                    "LGB": 1,
+                    "EOGB": 1,
+                    "Ch.Bomb": 1,
+                    "Ch.Disp": 1
+                },
+                "capabilities": [
+                    "IFF",
+                    "Night"
+                ],
+                "air_to_air": {
+                    "AIM-4D": 4,
+                    "AIM-9B": 3,
+                    "AIM-9E": 3,
+                    "AIM-9J": 3,
+                    "AIM-7E": 3,
+                    "AIM-7E-2": 3,
+                    "Gun": 3
+                },
+                "notes": [
+                    "Gun only on CAP",
+                    "If Bomb or SEAD or Strike/CAP or Chaff, AIM-7E/E-2 is 5, otherwise 3"
+                ]
+            },
+            {
+                "name": "F-4E Phantom II",
+                "crew": 2,
+                "fuel": 5,
+                "bomb": 3,
+                "sight": "+1",
+                "rwr": "A",
+                "jam": "3n",
+                "performance": {
+                    "combat": {
+                        "clean": {
+                            "low": "4",
+                            "med": "4",
+                            "high": "4"
+                        },
+                        "laden": {
+                            "low": "3",
+                            "med": "3",
+                            "high": "3"
+                        }
+                    },
+                    "dash": {
+                        "clean": {
+                            "low": "5",
+                            "med": "6",
+                            "high": "7"
+                        },
+                        "laden": {
+                            "low": "4",
+                            "med": "5",
+                            "high": "5"
+                        }
+                    },
+                    "maneuver": {
+                        "clean": {
+                            "low": "6",
+                            "med": "7",
+                            "high": "7"
+                        },
+                        "laden": {
+                            "low": "2",
+                            "med": "3",
+                            "high": "3"
+                        }
+                    }
+                },
+                "ordnance": {
+                    "LGB": 1,
+                    "EOGB": 1,
+                    "Ch.Bomb": 1,
+                    "Ch.Disp": 1
+                },
+                "capabilities": [
+                    "IFF",
+                    "Night"
+                ],
+                "air_to_air": {
+                    "AIM-9E": 3,
+                    "AIM-9J": 3,
+                    "AIM-7E": 3,
+                    "AIM-7E-2": 3,
+                    "Gun": 3
+                },
+                "notes": [
+                    "If Bomb or SEAD or Strike/CAP or Chaff, AIM-7E/E-2 is 5, otherwise 3"
+                ]
+            },
+            {
+                "name": "F-100D Super Sabre",
+                "crew": 1,
+                "fuel": 5,
+                "bomb": 2,
+                "sight": "+0",
+                "rwr": "-",
+                "jam": "-",
+                "performance": {
+                    "combat": {
+                        "clean": {
+                            "low": "3",
+                            "med": "4",
+                            "high": "4"
+                        },
+                        "laden": {
+                            "low": "2",
+                            "med": "3",
+                            "high": "3"
+                        }
+                    },
+                    "dash": {
+                        "clean": {
+                            "low": "4",
+                            "med": "5",
+                            "high": "6"
+                        },
+                        "laden": {
+                            "low": "3",
+                            "med": "4",
+                            "high": "4"
+                        }
+                    },
+                    "maneuver": {
+                        "clean": {
+                            "low": "5",
+                            "med": "6",
+                            "high": "6"
+                        },
+                        "laden": {
+                            "low": "2",
+                            "med": "2",
+                            "high": "2"
+                        }
+                    }
+                },
+                "ordnance": "-",
+                "capabilities": "Night",
+                "air_to_air": {
+                    "Gun": 3,
+                    "AIM-9B": 3
+                },
+                "notes": [
+                    "AIM-9B is only on CAP"
+                ]
+            },
+            {
+                "name": "F-4C Wild Weasel IV",
+                "crew": 2,
+                "fuel": 5,
+                "bomb": "-",
+                "sight": "+0",
+                "rwr": "B",
+                "jam": "-",
+                "performance": {
+                    "combat": {
+                        "clean": {
+                            "low": "4",
+                            "med": "4",
+                            "high": "4"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    },
+                    "dash": {
+                        "clean": {
+                            "low": "5",
+                            "med": "6",
+                            "high": "7"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    },
+                    "maneuver": {
+                        "clean": {
+                            "low": "5",
+                            "med": "6",
+                            "high": "7"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    }
+                },
+                "ordnance": {
+                    "Shrike": 2
+                },
+                "capabilities": "Night",
+                "air_to_air": "-",
+                "notes": "-"
+            },
+            {
+                "name": "F-100F Wild Weasel I",
+                "crew": 2,
+                "fuel": 5,
+                "bomb": 1,
+                "sight": "+0",
+                "rwr": "A",
+                "jam": "-",
+                "performance": {
+                    "combat": {
+                        "clean": {
+                            "low": "3",
+                            "med": "4",
+                            "high": "4"
+                        },
+                        "laden": {
+                            "low": "2",
+                            "med": "3",
+                            "high": "3"
+                        }
+                    },
+                    "dash": {
+                        "clean": {
+                            "low": "4",
+                            "med": "5",
+                            "high": "6"
+                        },
+                        "laden": {
+                            "low": "3",
+                            "med": "4",
+                            "high": "4"
+                        }
+                    },
+                    "maneuver": {
+                        "clean": {
+                            "low": "5",
+                            "med": "6",
+                            "high": "6"
+                        },
+                        "laden": {
+                            "low": "2",
+                            "med": "2",
+                            "high": "2"
+                        }
+                    }
+                },
+                "ordnance": {
+                    "Shrike": 2
+                },
+                "capabilities": "Night",
+                "air_to_air": {
+                    "Gun": 3
+                },
+                "notes": "-"
+            },
+            {
+                "name": "RF-101C Voodoo",
+                "crew": 1,
+                "fuel": 10,
+                "bomb": "-",
+                "sight": "-",
+                "rwr": "A",
+                "jam": "3n",
+                "performance": {
+                    "combat": {
+                        "clean": {
+                            "low": "4",
+                            "med": "5",
+                            "high": "5"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    },
+                    "dash": {
+                        "clean": {
+                            "low": "5",
+                            "med": "6",
+                            "high": "7"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    },
+                    "maneuver": {
+                        "clean": {
+                            "low": "4",
+                            "med": "5",
+                            "high": "6"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    }
+                },
+                "ordnance": "-",
+                "capabilities": [
+                    "Recon",
+                    "Night"
+                ],
+                "air_to_air": "-",
+                "notes": "-"
+            },
+            {
+                "name": "F-104C Starfighter",
+                "crew": 1,
+                "fuel": 5,
+                "bomb": "-",
+                "sight": "-",
+                "rwr": "A",
+                "jam": "-",
+                "performance": {
+                    "combat": {
+                        "clean": {
+                            "low": "4",
+                            "med": "5",
+                            "high": "5"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    },
+                    "dash": {
+                        "clean": {
+                            "low": "5",
+                            "med": "6",
+                            "high": "7"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    },
+                    "maneuver": {
+                        "clean": {
+                            "low": "4",
+                            "med": "5",
+                            "high": "6"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    }
+                },
+                "ordnance": "-",
+                "capabilities": "Night",
+                "air_to_air": {
+                    "AIM-9B": 6,
+                    "Gun": 3
+                },
+                "notes": [
+                    "No Fluid Four"
+                ]
+            },
+            {
+                "name": "F-105D Thunderchief",
+                "crew": 1,
+                "fuel": 5,
+                "bomb": 3,
+                "sight": "+1",
+                "rwr": "A",
+                "jam": "3n",
+                "performance": {
+                    "combat": {
+                        "clean": {
+                            "low": "4",
+                            "med": "5",
+                            "high": "5"
+                        },
+                        "laden": {
+                            "low": "3",
+                            "med": "4",
+                            "high": "-"
+                        }
+                    },
+                    "dash": {
+                        "clean": {
+                            "low": "5",
+                            "med": "6",
+                            "high": "7"
+                        },
+                        "laden": {
+                            "low": "4",
+                            "med": "5",
+                            "high": "-"
+                        }
+                    },
+                    "maneuver": {
+                        "clean": {
+                            "low": "4",
+                            "med": "5",
+                            "high": "6"
+                        },
+                        "laden": {
+                            "low": "3",
+                            "med": "2",
+                            "high": "-"
+                        }
+                    }
+                },
+                "ordnance": "-",
+                "capabilities": [
+                    "R.Nav Night",
+                    "TFR"
+                ],
+                "air_to_air": {
+                    "AIM-9B": 6,
+                    "Gun": 3
+                },
+                "notes": [
+                    "Bomb is 2 from Oct 66+",
+                    "AIM-9B is available only by SSR"
+                ]
+            },
+            {
+                "name": "F-105F Thunderchief(2)",
+                "crew": 2,
+                "fuel": 5,
+                "bomb": 3,
+                "sight": "+1",
+                "rwr": "A",
+                "jam": "3n",
+                "performance": {
+                    "combat": {
+                        "clean": {
+                            "low": "4",
+                            "med": "5",
+                            "high": "5"
+                        },
+                        "laden": {
+                            "low": "3",
+                            "med": "4",
+                            "high": "-"
+                        }
+                    },
+                    "dash": {
+                        "clean": {
+                            "low": "5",
+                            "med": "6",
+                            "high": "7"
+                        },
+                        "laden": {
+                            "low": "4",
+                            "med": "5",
+                            "high": "-"
+                        }
+                    },
+                    "maneuver": {
+                        "clean": {
+                            "low": "4",
+                            "med": "5",
+                            "high": "6"
+                        },
+                        "laden": {
+                            "low": "2",
+                            "med": "3",
+                            "high": "-"
+                        }
+                    }
+                },
+                "ordnance": "-",
+                "capabilities": [
+                    "Night",
+                    "TFR"
+                ],
+                "air_to_air": {
+                    "AIM-9B": 6,
+                    "Gun": 3
+                },
+                "notes": [
+                    "Bomb is 2 from Oct 66+"
+                ]
+            },
+            {
+                "name": "F-105F Wild Weasel III",
+                "crew": 2,
+                "fuel": 5,
+                "bomb": 1.5,
+                "sight": "+1",
+                "rwr": "B",
+                "jam": "-",
+                "performance": {
+                    "combat": {
+                        "clean": {
+                            "low": "4",
+                            "med": "5",
+                            "high": "5"
+                        },
+                        "laden": {
+                            "low": "3",
+                            "med": "4",
+                            "high": "-"
+                        }
+                    },
+                    "dash": {
+                        "clean": {
+                            "low": "5",
+                            "med": "6",
+                            "high": "7"
+                        },
+                        "laden": {
+                            "low": "4",
+                            "med": "5",
+                            "high": "-"
+                        }
+                    },
+                    "maneuver": {
+                        "clean": {
+                            "low": "4",
+                            "med": "5",
+                            "high": "6"
+                        },
+                        "laden": {
+                            "low": "2",
+                            "med": "3",
+                            "high": "-"
+                        }
+                    }
+                },
+                "ordnance": {
+                    "Shrike": 2,
+                    "Standard A": 1
+                },
+                "capabilities": "Night",
+                "air_to_air": {
+                    "Gun": 3
+                },
+                "notes": "-"
+            },
+            {
+                "name": "F-105G Wild Weasel",
+                "crew": 2,
+                "fuel": 5,
+                "bomb": "-",
+                "sight": "+1",
+                "rwr": "B",
+                "jam": "-",
+                "performance": {
+                    "combat": {
+                        "clean": {
+                            "low": "4",
+                            "med": "5",
+                            "high": "5"
+                        },
+                        "laden": {
+                            "low": "3",
+                            "med": "4",
+                            "high": "-"
+                        }
+                    },
+                    "dash": {
+                        "clean": {
+                            "low": "5",
+                            "med": "6",
+                            "high": "7"
+                        },
+                        "laden": {
+                            "low": "4",
+                            "med": "5",
+                            "high": "-"
+                        }
+                    },
+                    "maneuver": {
+                        "clean": {
+                            "low": "4",
+                            "med": "5",
+                            "high": "6"
+                        },
+                        "laden": {
+                            "low": "2",
+                            "med": "3",
+                            "high": "-"
+                        }
+                    }
+                },
+                "ordnance": {
+                    "Shrike": 2,
+                    "Standard A": 1,
+                    "Standard B": 1
+                },
+                "capabilities": "Night",
+                "air_to_air": {
+                    "Gun": 3
+                },
+                "notes": [
+                    "RWR is C from Jan 75+",
+                    "only Standard B from Jan 75+"
+                ]
+            },
+            {
+                "name": "A-7D Corsair II",
+                "crew": 1,
+                "fuel": 8,
+                "bomb": 3,
+                "sight": "+3",
+                "rwr": "A",
+                "jam": "3n",
+                "performance": {
+                    "combat": {
+                        "clean": {
+                            "low": "3",
+                            "med": "4",
+                            "high": "4"
+                        },
+                        "laden": {
+                            "low": "2",
+                            "med": "3",
+                            "high": "-"
+                        }
+                    },
+                    "dash": {
+                        "clean": {
+                            "low": "4",
+                            "med": "4",
+                            "high": "4"
+                        },
+                        "laden": {
+                            "low": "3",
+                            "med": "4",
+                            "high": "-"
+                        }
+                    },
+                    "maneuver": {
+                        "clean": {
+                            "low": "5",
+                            "med": "4",
+                            "high": "3"
+                        },
+                        "laden": {
+                            "low": "2",
+                            "med": "2",
+                            "high": "-"
+                        }
+                    }
+                },
+                "ordnance": "-",
+                "capabilities": "Night",
+                "air_to_air": {
+                    "AIM-9E": 6,
+                    "Gun": 5
+                },
+                "notes": [
+                    "No slash attacks"
+                ]
+            },
+            {
+                "name": "F-111A 'Aardvark'",
+                "crew": 2,
+                "fuel": 15,
+                "bomb": 6,
+                "sight": "+3",
+                "rwr": "A",
+                "jam": "3n",
+                "performance": {
+                    "combat": {
+                        "clean": {
+                            "low": "4",
+                            "med": "5",
+                            "high": "5"
+                        },
+                        "laden": {
+                            "low": "3",
+                            "med": "4",
+                            "high": "4"
+                        }
+                    },
+                    "dash": {
+                        "clean": {
+                            "low": "5",
+                            "med": "6",
+                            "high": "7"
+                        },
+                        "laden": {
+                            "low": "4",
+                            "med": "5",
+                            "high": "5"
+                        }
+                    },
+                    "maneuver": {
+                        "clean": {
+                            "low": "4",
+                            "med": "5",
+                            "high": "6"
+                        },
+                        "laden": {
+                            "low": "2",
+                            "med": "3",
+                            "high": "3"
+                        }
+                    }
+                },
+                "ordnance": "-",
+                "capabilities": [
+                    "Night",
+                    "TFR"
+                ],
+                "air_to_air": "-",
+                "notes": "-"
+            },
+            {
+                "name": "B-52D Stratofortress",
+                "crew": 6,
+                "fuel": "U",
+                "bomb": 30,
+                "sight": "+3",
+                "rwr": "B",
+                "jam": "4n",
+                "performance": {
+                    "combat": {
+                        "clean": {
+                            "low": "2",
+                            "med": "3",
+                            "high": "3"
+                        },
+                        "laden": {
+                            "low": "2",
+                            "med": "3",
+                            "high": "3"
+                        }
+                    },
+                    "dash": {
+                        "clean": {
+                            "low": "3",
+                            "med": "3",
+                            "high": "3"
+                        },
+                        "laden": {
+                            "low": "3",
+                            "med": "3",
+                            "high": "3"
+                        }
+                    },
+                    "maneuver": {
+                        "clean": {
+                            "low": "1",
+                            "med": "1",
+                            "high": "1"
+                        },
+                        "laden": {
+                            "low": "1",
+                            "med": "1",
+                            "high": "1"
+                        }
+                    }
+                },
+                "ordnance": "-",
+                "capabilities": [
+                    "Radar",
+                    "R.Nav Night"
+                ],
+                "air_to_air": {
+                    "Rear Gun": 0
+                },
+                "notes": [
+                    "Large",
+                    "Poor SAM defense",
+                    "Immune AAA/Fire Can@High"
+                ]
+            },
+            {
+                "name": "B-52G Stratofortress",
+                "crew": 6,
+                "fuel": "U",
+                "bomb": 7,
+                "sight": "+3",
+                "rwr": "B",
+                "jam": "2n",
+                "performance": {
+                    "combat": {
+                        "clean": {
+                            "low": "2",
+                            "med": "3",
+                            "high": "3"
+                        },
+                        "laden": {
+                            "low": "2",
+                            "med": "3",
+                            "high": "3"
+                        }
+                    },
+                    "dash": {
+                        "clean": {
+                            "low": "3",
+                            "med": "3",
+                            "high": "3"
+                        },
+                        "laden": {
+                            "low": "3",
+                            "med": "3",
+                            "high": "3"
+                        }
+                    },
+                    "maneuver": {
+                        "clean": {
+                            "low": "1",
+                            "med": "1",
+                            "high": "1"
+                        },
+                        "laden": {
+                            "low": "1",
+                            "med": "1",
+                            "high": "1"
+                        }
+                    }
+                },
+                "ordnance": "-",
+                "capabilities": [
+                    "Radar",
+                    "R.Nav Night"
+                ],
+                "air_to_air": {
+                    "Rear Gun": 0
+                },
+                "notes": [
+                    "Large",
+                    "Poor SAM defense",
+                    "Immune AAA/Fire Can@High"
+                ]
+            },
+            {
+                "name": "EB-66B/C/E",
+                "crew": 5,
+                "fuel": "U",
+                "bomb": "-",
+                "sight": "-",
+                "rwr": "B",
+                "jam": "4n",
+                "performance": {
+                    "combat": {
+                        "clean": {
+                            "low": "2",
+                            "med": "3",
+                            "high": "3"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    },
+                    "dash": {
+                        "clean": {
+                            "low": "3",
+                            "med": "3",
+                            "high": "3"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    },
+                    "maneuver": {
+                        "clean": {
+                            "low": "1",
+                            "med": "1",
+                            "high": "1"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    }
+                },
+                "ordnance": "-",
+                "capabilities": "Standoff Night Spot (C only)",
+                "air_to_air": "-",
+                "notes": [
+                    "Large",
+                    "Poor SAM defense",
+                    "No Zoom"
+                ]
+            },
+            {
+                "name": "A-1H Skyraider",
+                "crew": 1,
+                "fuel": "U",
+                "bomb": 2,
+                "sight": "+0",
+                "rwr": "-",
+                "jam": "-",
+                "performance": {
+                    "combat": {
+                        "clean": {
+                            "low": "1",
+                            "med": "1",
+                            "high": "1"
+                        },
+                        "laden": {
+                            "low": "1",
+                            "med": "1",
+                            "high": "-"
+                        }
+                    },
+                    "dash": {
+                        "clean": {
+                            "low": "2",
+                            "med": "2",
+                            "high": "2"
+                        },
+                        "laden": {
+                            "low": "2",
+                            "med": "2",
+                            "high": "-"
+                        }
+                    },
+                    "maneuver": {
+                        "clean": {
+                            "low": "4",
+                            "med": "3",
+                            "high": "2"
+                        },
+                        "laden": {
+                            "low": "3",
+                            "med": "2",
+                            "high": "-"
+                        }
+                    }
+                },
+                "ordnance": "-",
+                "capabilities": "-",
+                "air_to_air": {
+                    "Gun": 5
+                },
+                "notes": [
+                    "No slash attacks"
+                ]
+            }
+        ],
+        "air_to_air_weapons": [
+            {
+                "name": "AIM-4D Falcon",
+                "class": "IRM",
+                "rating": 1,
+                "availability": "Aug 67 on"
+            },
+            {
+                "name": "AIM-9B Sidewinder",
+                "class": "IRM",
+                "rating": 2,
+                "availability": "Jan 67 on"
+            },
+            {
+                "name": "AIM-9E Sidewinder",
+                "class": "IRM",
+                "rating": 2,
+                "availability": "Jan 67 on"
+            },
+            {
+                "name": "AIM-9J Sidewinder",
+                "class": "IRM",
+                "rating": 2,
+                "availability": "Sep 72 on"
+            },
+            {
+                "name": "AIM-7E Sparrow",
+                "class": "RHM",
+                "rating": 1,
+                "availability": "Jan 65 on"
+            },
+            {
+                "name": "AIM-7E-2 Sparrow",
+                "class": "RHM",
+                "rating": 2,
+                "availability": "Aug 68 on"
+            },
+            {
+                "name": "Gun",
+                "class": "Gun",
+                "rating": 2,
+                "availability": "-"
+            },
+            {
+                "name": "Gun Pod",
+                "class": "Gun",
+                "rating": 2,
+                "availability": "-"
+            },
+            {
+                "name": "Rear Gun",
+                "class": "Gun",
+                "rating": 0,
+                "availability": "-"
+            }
+        ],
+        "standoff_jamming": {
+            "EB-66B": {
+                "max_range_strength2": 2,
+                "max_range_strength1": 1,
+                "max_range_strength0_5": 0.5
+            },
+            "EB-66C": {
+                "max_range_strength2": 5,
+                "max_range_strength1": 10,
+                "max_range_strength0_5": 24
+            },
+            "EB-66E": {
+                "max_range_strength2": 7,
+                "max_range_strength1": 14,
+                "max_range_strength0_5": 48
+            }
+        }
+    }
+}
