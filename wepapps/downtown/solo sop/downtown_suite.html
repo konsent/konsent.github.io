@@ -3158,14 +3158,6 @@
           <button class="bot-roll-btn" id="bGenFlightBtn">생성 확인 (1d10)</button>
           <div class="bot-roll-result" id="bGenFlightResult"></div>
         </div>
-        <div class="bot-table-wrap">
-          <table>
-            <tr><th>주사위</th><th>결과</th></tr>
-            <tr><td>≤ 4 또는 지도에 일반 DRV 없음</td><td>US 비행대에 가장 가까운 DRV가 없는 개방된 비행장에 일반 비행대 1개 배치.</td></tr>
-            <tr><td>5–7</td><td>US 비행대에 가장 가까운 기존의 탐지되지 않은 비행대와 함께 일반 비행대 1개 배치(있는 경우).</td></tr>
-            <tr><td>≥ 8</td><td>이번 턴에는 일반 비행대를 배치하지 않음.</td></tr>
-          </table>
-        </div>
       </div>
     </div>
   </div>
@@ -3252,14 +3244,6 @@
           <button class="bot-roll-btn" id="bAAABtn">AAA 활성화 (1d10)</button>
           <div class="bot-roll-result" id="bAAAResult"></div>
         </div>
-        <div class="bot-table-wrap">
-          <table>
-            <tr><th>결과</th><th></th></tr>
-            <tr><td>≤ 4</td><td><strong>실제 AAA:</strong> 1d10 추가 굴림: ≤ 6 저강도; 7–9 중강도; 10 고강도</td></tr>
-            <tr><td>5–8</td><td><strong>효과 없음(NE):</strong> 비활성 AAA 경고 마커를 유지합니다.</td></tr>
-            <tr><td>≥ 9</td><td><strong>더미 AAA:</strong> AAA 경고 마커를 제거합니다.</td></tr>
-          </table>
-        </div>
         <p style="margin-top:14px;">파이어 캔이 없는 활성 AAA의 2헥스 이내로 이동하는 각 US 비행대에 대해 한 번 확인합니다.</p>
         <div class="bot-hi">
           <strong>파이어 캔 활성화 확인</strong> <span class="bot-tag bot-tag-dice">1d10</span>:<br>
@@ -3277,14 +3261,6 @@
             <div class="bot-roll-result" id="bFireCanResult"></div>
           </div>
         </div>
-        <div class="bot-table-wrap">
-          <table>
-            <tr><th>결과</th><th></th></tr>
-            <tr><td>≤ 3</td><td><strong>실제 파이어 캔:</strong> 사용 가능한 파이어 캔을 배치하고 유발한 US 비행대에 사격합니다.</td></tr>
-            <tr><td>≥ 4</td><td><strong>효과 없음(NE):</strong> 파이어 캔을 놓지 않습니다.</td></tr>
-          </table>
-        </div>
-        <p><strong>보정 수치</strong> <span class="bot-tag bot-tag-mod">5헥스 이내에 파이어 캔이 있는 경우: +1</span></p>
       </div>
     </div>
 
@@ -3325,14 +3301,6 @@
           <button class="bot-roll-btn" id="bSAMActBtn">SAM 활성화 (1d10)</button>
           <div class="bot-roll-result" id="bSAMActResult"></div>
         </div>
-        <div class="bot-table-wrap">
-          <table>
-            <tr><th>결과</th><th></th></tr>
-            <tr><td>≤ 4</td><td><strong>실제 SAM:</strong> SAM 경고 마커를 뒤집어서 Radar ON면으로 놓습니다. 레이더 활성화.</td></tr>
-            <tr><td>5–8</td><td><strong>효과 없음(NE):</strong> 비활성 SAM 경고 마커를 유지합니다. 이번 턴에는 SAM 활성화 확인 없음.</td></tr>
-            <tr><td>≥ 9</td><td><strong>더미 SAM:</strong> SAM 경고 마커를 제거합니다.</td></tr>
-          </table>
-        </div>
       </div>
     </div>
 
@@ -3351,13 +3319,6 @@
           <button class="bot-roll-btn" id="bLOALBtn">LOAL 확인 (1d10)</button>
           <div class="bot-roll-result" id="bLOALResult"></div>
         </div>
-        <div class="bot-table-wrap">
-          <table>
-            <tr><th>결과</th><th></th></tr>
-            <tr><td><strong>사격 발생 O</strong></td><td>SAM을 활성화하고 사격을 유발한 US 비행대에 일제 사격을 시도합니다.</td></tr>
-            <tr><td><strong>사격 발생 X</strong></td><td>SAM은 활성화되지 않습니다.</td></tr>
-          </table>
-        </div>
       </div>
     </div>
   </div>
@@ -3369,7 +3330,9 @@
       <div class="bot-card-title">SAM 행동 표 (활성 SAM / SAM 경고 마커만 적용)</div>
     </div>
     <div class="bot-card-body">
-      <p><strong>이동 페이즈:</strong> 탐지된 US 비행대가 자신을 표적 획득한 SAM의 8헥스* 이내에서 MP를 소모할 때마다 사격 확인을 합니다. 여러 SAM이 한 US 비행대의 표적을 획득한 경우, 가장 가까운 SAM만 확인(동률이면 ID 알파벳 순).</p>
+      <p><strong>이동 페이즈:</strong> 탐지된 US 비행대가 자신을 표적 획득한 SAM의 8헥스* 이내에서 MP를 소모할 때마다 사격 여부 확인. 여러 SAM이 한 US 비행대를 획득한 경우, 가장 가까운 SAM만 확인(동률이면 ID 알파벳 순).</p>
+      <p><strong>ARM 사격:</strong> 탐지 상태 US 비행대가 ARM 사격을 하면, 모든 SAM은 레이더를 켠 상태를 유지하려고 합니다.</p>
+      <p><strong>SAM 표적 획득 페이즈:</strong> US 비행대의 12헥스 내에 있는 비활성 SAM의 활성화 여부를 확인 (<span class="bot-red">🅚 SAM 활성화 테이블</span>). 이후 모든 활성 SAM은 US 비행대 표적 획득을 시도합니다. <span class="bot-red">🅜 타겟 선택 테이블</span> 참조.</p>
       <div class="bot-hi">
         <strong>SAM 사격 확인</strong> <span class="bot-tag bot-tag-dice">1d10</span>:<br>
         > US 비행대까지의 거리 <span class="bot-tag bot-tag-ok">사격</span> | ≤ US 비행대까지의 거리 <span class="bot-tag bot-tag-bad">사격 안 함</span>
@@ -3379,6 +3342,7 @@
           <label style="display:flex;align-items:center;gap:8px;">
             <span>거리:</span>
             <input type="number" id="bSAMDist" min="1" max="10" value="4" style="width:50px;">
+            <span style="font-size:12px;opacity:.75;">(고고도 표적이면 +1)</span>
           </label>
           <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
             <input type="checkbox" id="bSAMAcq">
@@ -3390,17 +3354,6 @@
           <div class="bot-roll-result" id="bSAMFireResult"></div>
         </div>
       </div>
-      <p><strong>보정 수치</strong> <span class="bot-tag bot-tag-mod">완전 표적 획득인 경우: +2</span></p>
-      <div class="bot-note">*표적이 고고도에 있으면 거리에 1을 더합니다.</div>
-      <div class="bot-table-wrap" style="margin-top:10px;">
-        <table>
-          <tr><th>결과</th><th></th></tr>
-          <tr><td><strong>사격 발생 O</strong></td><td>표적 획득된 US 비행대에 SAM 발사 공격 수행. 굴림이 짝수면 일제 사격(salvo), 홀수면 단일 미사일 발사.</td></tr>
-          <tr><td><strong>사격 발생 X</strong></td><td>SAM 사격을 수행하지 않습니다. US 항공기가 8헥스 이내에서 다시 MP를 소모하면 SAM은 재시도할 수 있습니다.</td></tr>
-        </table>
-      </div>
-      <p style="margin-top:10px;"><strong>ARM 사격:</strong> 탐지 상태 US 비행대가 ARM 사격을 하면, 모든 SAM은 레이더를 켠 상태를 유지하려고 합니다.</p>
-      <p><strong>SAM 표적 획득 페이즈:</strong> US 비행대의 12헥스 내에 있는 비활성 SAM의 활성화 여부를 확인 (<span class="bot-red">🅚 SAM 활성화 테이블</span>). 이후 모든 활성 SAM은 US 비행대 표적 획득을 시도합니다. <span class="bot-red">🅜 타겟 선택 테이블</span> 참조.</p>
     </div>
   </div>
 
@@ -7682,22 +7635,43 @@ document.addEventListener('DOMContentLoaded', () => {
   const bGenBtn = document.getElementById('bGenFlightBtn');
   if (bGenBtn) bGenBtn.addEventListener('click', ()=>{
     const r=botRoll();
-    let txt, cls;
-    if(r<=4){txt='개방된 비행장에 배치';cls='bot-tag-ok';}
-    else if(r<=7){txt='기존 비행대와 함께 배치';cls='bot-tag-ok';}
-    else{txt='배치 안 함';cls='bot-tag-bad';}
-    botSetResult('bGenFlightResult', botValHtml(r)+botTagHtml(cls,txt));
+    let html;
+    if(r<=4){
+      html=`<div style="display:flex;flex-direction:column;align-items:flex-end;">`+
+        `<div>${botValHtml(r)}${botTagHtml('bot-tag-ok','개방된 비행장에 배치')}</div>`+
+        `<div style="font-size:12px;margin-top:4px;">US 비행대에 가장 가까운 DRV 없는 개방된 비행장에 <br>일반 비행대 1개 배치</div></div>`;
+    } else if(r<=7){
+      html=`<div style="display:flex;flex-direction:column;align-items:flex-end;">`+
+        `<div>${botValHtml(r)}${botTagHtml('bot-tag-ok','기존 비행대와 함께 배치')}</div>`+
+        `<div style="font-size:12px;margin-top:4px;">가장 가까운 기존 탐지되지 않은 비행대와 함께 일반 비행대 1개 배치 <br>(없으면 생략)</div></div>`;
+    } else {
+      html=`<div style="display:flex;flex-direction:column;align-items:flex-end;">`+
+        `<div>${botValHtml(r)}${botTagHtml('bot-tag-bad','배치 안 함')}</div>`+
+        `<div style="font-size:12px;margin-top:4px;opacity:.8;">이번 턴 일반 비행대 배치 없음</div></div>`;
+    }
+    botSetResult('bGenFlightResult', html);
   });
 
   // I — AAA 활성화
   const bAAABtn = document.getElementById('bAAABtn');
   if (bAAABtn) bAAABtn.addEventListener('click', ()=>{
     const r=botRoll();
-    let txt, cls;
-    if(r<=5){ const r2=botRoll(); const intens=r2<=6?'저강도':r2<=9?'중강도':'고강도'; txt=`실제 AAA (${intens})`; cls='bot-tag-ok'; }
-    else if(r<=8){ txt='효과 없음'; cls='bot-tag-cond'; }
-    else{ txt='더미'; cls='bot-tag-bad'; }
-    botSetResult('bAAAResult', botValHtml(r)+botTagHtml(cls,txt));
+    let html;
+    if(r<=5){
+      const r2=botRoll(), intens=r2<=6?'저강도':r2<=9?'중강도':'고강도';
+      html=`<div style="display:flex;flex-direction:column;align-items:flex-end;">`+
+        `<div>${botValHtml(r)}${botTagHtml('bot-tag-ok','실제 AAA')}</div>`+
+        `<div style="font-size:12px;margin-top:4px;">${intens} (추가 주사위: ${r2})</div></div>`;
+    } else if(r<=8){
+      html=`<div style="display:flex;flex-direction:column;align-items:flex-end;">`+
+        `<div>${botValHtml(r)}${botTagHtml('bot-tag-cond','효과 없음')}</div>`+
+        `<div style="font-size:12px;margin-top:4px;opacity:.8;">비활성 AAA 경고 마커 유지</div></div>`;
+    } else {
+      html=`<div style="display:flex;flex-direction:column;align-items:flex-end;">`+
+        `<div>${botValHtml(r)}${botTagHtml('bot-tag-bad','더미 AAA')}</div>`+
+        `<div style="font-size:12px;margin-top:4px;opacity:.8;">AAA 경고 마커 제거</div></div>`;
+    }
+    botSetResult('bAAAResult', html);
   });
 
   // I — 파이어 캔 활성화
@@ -7707,18 +7681,32 @@ document.addEventListener('DOMContentLoaded', () => {
     const total=r+mod, ok=total<=3;
     const calc=mod?`${r} +${mod} = ${total}`:`${r}`;
     botSetResult('bFireCanResult',`<div style="display:flex;flex-direction:column;align-items:flex-end;">`+
-      `<div>${botValHtml(calc)}${botTagHtml(ok?'bot-tag-ok':'bot-tag-bad',ok?'파이어 캔':'효과 없음')}</div></div>`);
+      `<div>${botValHtml(calc)}${botTagHtml(ok?'bot-tag-ok':'bot-tag-bad',ok?'파이어 캔':'효과 없음')}</div>`+
+      (ok
+        ?`<div style="font-size:12px;margin-top:4px;">사용 가능한 파이어 캔 배치 → 유발한 US 비행대에 사격</div>`
+        :`<div style="font-size:12px;margin-top:4px;opacity:.8;">파이어 캔 배치 안 함</div>`)+
+      `</div>`);
   });
 
   // K — SAM 활성화
   const bSAMActBtn = document.getElementById('bSAMActBtn');
   if (bSAMActBtn) bSAMActBtn.addEventListener('click', ()=>{
     const r=botRoll();
-    let txt, cls;
-    if(r<=4){txt='실제 SAM';cls='bot-tag-ok';}
-    else if(r<=8){txt='효과 없음';cls='bot-tag-cond';}
-    else{txt='더미 SAM';cls='bot-tag-bad';}
-    botSetResult('bSAMActResult', botValHtml(r)+botTagHtml(cls,txt));
+    let html;
+    if(r<=4){
+      html=`<div style="display:flex;flex-direction:column;align-items:flex-end;">`+
+        `<div>${botValHtml(r)}${botTagHtml('bot-tag-ok','실제 SAM')}</div>`+
+        `<div style="font-size:12px;margin-top:4px;">SAM 경고 마커를 Radar ON으로 뒤집기. 레이더 활성화</div></div>`;
+    } else if(r<=8){
+      html=`<div style="display:flex;flex-direction:column;align-items:flex-end;">`+
+        `<div>${botValHtml(r)}${botTagHtml('bot-tag-cond','효과 없음')}</div>`+
+        `<div style="font-size:12px;margin-top:4px;opacity:.8;">비활성 SAM 경고 마커 유지. 이번 턴 활성화 확인 없음</div></div>`;
+    } else {
+      html=`<div style="display:flex;flex-direction:column;align-items:flex-end;">`+
+        `<div>${botValHtml(r)}${botTagHtml('bot-tag-bad','더미 SAM')}</div>`+
+        `<div style="font-size:12px;margin-top:4px;opacity:.8;">SAM 경고 마커 제거</div></div>`;
+    }
+    botSetResult('bSAMActResult', html);
   });
 
   // L — SAM 사격
@@ -7728,16 +7716,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const total=r+mod, dist=parseInt(document.getElementById('bSAMDist')?.value)||0;
     const ok=total>dist;
     const calc=mod?`${r} +${mod} = ${total}`:`${r}`;
+    const salvo=r%2===0;
     botSetResult('bSAMFireResult',`<div style="display:flex;flex-direction:column;align-items:flex-end;">`+
       `<div>${botValHtml(calc)}${botTagHtml(ok?'bot-tag-ok':'bot-tag-bad',ok?'사격':'사격 안 함')}</div>`+
-      `<div style="font-size:11px;opacity:.7;margin-top:3px;color:var(--fade2);">거리 ${dist} vs 결과 ${total}</div></div>`);
+      (ok
+        ?`<div style="font-size:12px;margin-top:4px;">${salvo?'일제 사격 (salvo)':'단일 미사일 발사'}</div>`
+        :`<div style="font-size:12px;margin-top:4px;opacity:.8;">US 항공기가 8헥스 이내에서 다시 MP를 소모하면 재시도 가능</div>`)+
+      `</div>`);
   });
 
   // Z — LOAL
   const bLOALBtn = document.getElementById('bLOALBtn');
   if (bLOALBtn) bLOALBtn.addEventListener('click', ()=>{
     const r=botRoll(), ok=r<=3;
-    botSetResult('bLOALResult', botValHtml(r)+botTagHtml(ok?'bot-tag-ok':'bot-tag-bad',ok?'사격':'사격 안 함'));
+    botSetResult('bLOALResult',`<div style="display:flex;flex-direction:column;align-items:flex-end;">`+
+      `<div>${botValHtml(r)}${botTagHtml(ok?'bot-tag-ok':'bot-tag-bad',ok?'사격':'사격 안 함')}</div>`+
+      (ok
+        ?`<div style="font-size:12px;margin-top:4px;">SAM 활성화 → 유발한 US 비행대에 일제 사격</div>`
+        :`<div style="font-size:12px;margin-top:4px;opacity:.8;">SAM 활성화 안 됨</div>`)+
+      `</div>`);
   });
 
   // N — 비행대 선택
