@@ -6,6 +6,7 @@
 <title>DOWNTOWN — Solo Tools</title>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Noto+Sans+KR:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lz-string@1.5.0/libs/lz-string.min.js"></script>
 <style>
   /* --- Main Tab --- */
   .main-tab-bar {
@@ -6659,7 +6660,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // 공유 기능 (KakaoTalk Share)
   // ============================================================
   // 카카오 JavaScript 앱 키: https://developers.kakao.com 에서 발급 후 아래에 입력
-  const KAKAO_APP_KEY = 'e3038b6ecbc46b9c0aa7b9ce9a096a5e';
+  const KAKAO_APP_KEY = '89f38faa76117ca284d62373accd45ef';
 
   function initKakao() {
     if (typeof Kakao !== 'undefined' && KAKAO_APP_KEY !== 'YOUR_KAKAO_APP_KEY') {
@@ -6676,7 +6677,7 @@ document.addEventListener('DOMContentLoaded', () => {
         oob:  oobRaw  ? JSON.parse(oobRaw)  : null,
         raid: raidRaw ? JSON.parse(raidRaw) : null
       };
-      return btoa(unescape(encodeURIComponent(JSON.stringify(combined))));
+      return LZString.compressToEncodedURIComponent(JSON.stringify(combined));
     } catch(e) { return null; }
   }
 
@@ -6728,7 +6729,7 @@ document.addEventListener('DOMContentLoaded', () => {
         content: {
           title: 'DOWNTOWN — ' + scenarioName + date,
           description: 'Order of Battle · Raid 데이터를 공유합니다. 링크를 열어 불러오세요.',
-          imageUrl: 'https://konsent.github.io/assets/dt/share_thumb.jpg',
+          imageUrl: 'https://konsent.github.io/assets/dt/4.png',
           link: { mobileWebUrl: url, webUrl: url }
         },
         buttons: [{ title: '데이터 불러오기', link: { mobileWebUrl: url, webUrl: url } }]
@@ -6750,7 +6751,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const params = new URLSearchParams(window.location.search);
       const shareParam = params.get('share');
       if (!shareParam) return false;
-      const json = decodeURIComponent(escape(atob(shareParam)));
+      const json = LZString.decompressFromEncodedURIComponent(shareParam);
       const data = JSON.parse(json);
       let loaded = false;
       if (data.oob)  { localStorage.setItem('oobToAdcData', JSON.stringify(data.oob));  loaded = true; }
