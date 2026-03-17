@@ -5612,6 +5612,45 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     document.body.dataset.oobType = oobData.type || 'A';
     const squads = oobData.squads;
+    // ── 시나리오별 수준 규칙 ──
+    const scenCode = (oobData.scenarioName || '').match(/^(D\d+)/)?.[1] || '';
+    const oobType  = oobData.type || 'A';
+    let _d2F4BVet = 0;
+    const resolveSkill = (sd) => {
+      const t = sd.task || '', ac = sd.aircraft || '';
+      const isSEAD = t === 'SEAD', isCAP = t === 'CAP', isAE = t === 'Armed Escort';
+      const isF8 = ac.startsWith('F-8'), isF4B = ac === 'F-4B';
+      switch (scenCode) {
+        case 'D2':
+          if (isF4B && _d2F4BVet < 1) { _d2F4BVet++; return '베테랑'; }
+          return '정규군';
+        case 'D3':
+          return isF8 ? '베테랑' : '정규군';
+        case 'D4':
+          if (oobType === 'A') return (isSEAD || isCAP) ? '베테랑' : '정규군';
+          if (oobType === 'B') return isF8 ? '탑건' : '정규군';
+          return '정규군';
+        case 'D5': case 'D7':
+          if (oobType === 'A') return isSEAD ? '베테랑' : '정규군';
+          if (oobType === 'B') return isF8 ? '탑건' : '정규군';
+          return '정규군';
+        case 'D8':
+          if (oobType === 'A') return isSEAD ? '베테랑' : '훈련됨';
+          if (oobType === 'B') return isF8 ? '탑건' : '정규군';
+          return '정규군';
+        case 'D9':
+          if (oobType === 'A') return isSEAD ? '베테랑' : '훈련됨';
+          return '정규군';
+        case 'D10': case 'D11': case 'D13':
+          if (oobType === 'D') return isSEAD ? '베테랑' : '정규군';
+          if (oobType === 'B') return (isCAP || isAE) ? '탑건' : '정규군';
+          return '정규군';
+        case 'D12': case 'D14': case 'D15': case 'D16':
+          return '베테랑';
+        default:
+          return '정규군';
+      }
+    };
     const missionMap = {
       '재밍 임무':'재밍','재밍 임무 (1차)':'재밍','재밍 임무 (2차, 1967년 8월+)':'재밍','해병대 재밍 지원':'재밍',
       '재밍 임무 1 (USAF)':'재밍','재밍 임무 2 (USN)':'재밍','재밍1':'재밍','재밍2':'재밍','재밍':'재밍',
@@ -5694,8 +5733,9 @@ document.addEventListener('DOMContentLoaded', () => {
         aSel.value = ac;
       }
       if (skillSel) {
-        skillSel.value = '정규군';
-        if (agVal) agVal.textContent = calculateAggressiveness('정규군');
+        const skill = resolveSkill(sd);
+        skillSel.value = skill;
+        if (agVal) agVal.textContent = calculateAggressiveness(skill);
       }
       clone.querySelectorAll('.status-item').forEach((item, idx) => {
         if (idx + 1 > sd.size) {
