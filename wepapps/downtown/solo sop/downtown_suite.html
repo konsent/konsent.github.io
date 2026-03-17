@@ -6668,16 +6668,80 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // --- 공유 데이터 압축 헬퍼 (v2 포맷) ---
+  function _cc(c) { // compact cell
+    if (c.type === 'select')  return 's' + c.value;
+    if (c.type === 'input')   return 'i' + c.value;
+    if (c.type === 'button')  return 'b';
+    if (c.type === 'text')    return 't' + c.value;
+    if (c.type === 'role')    return 'r' + c.value[0]; // a/d/n
+    if (c.type === 'aggress') return 'g' + c.value;
+    return 'b';
+  }
+  function _ec(s) { // expand cell
+    if (!s) return { type: 'button', value: '' };
+    const t = s[0], v = s.slice(1);
+    if (t === 's') return { type: 'select',  value: v };
+    if (t === 'i') return { type: 'input',   value: v };
+    if (t === 'b') return { type: 'button',  value: '' };
+    if (t === 't') return { type: 'text',    value: v };
+    if (t === 'r') return { type: 'role',    value: v === 'a' ? 'attacker' : v === 'd' ? 'defender' : 'none' };
+    if (t === 'g') return { type: 'aggress', value: v };
+    return { type: 'text', value: v };
+  }
+  function _cr(row) { return [row.cells.map(_cc), row.status.map(st => st.value), row.aborted ? 1 : 0]; }
+  function _er(arr)  {
+    return { cells: arr[0].map(_ec), status: arr[1].map(v => ({ value: v, display: 'block' })), aborted: !!arr[2] };
+  }
+  function _compactRaid(d) {
+    const ct = tbl => (tbl || []).map(_cr);
+    return {
+      u: d.us  ? { sc: d.us.scenario||'', d: d.us.date||'', t: d.us.target||'',
+                   l: ct(d.us.lead), m: ct(d.us.main), r: ct(d.us.trail) } : null,
+      d: d.drv ? { t: ct(d.drv.table) } : null,
+      a: d.activeTab || 'us'
+    };
+  }
+  function _expandRaid(c) {
+    const et = tbl => (tbl || []).map(_er);
+    return {
+      us:  c.u ? { scenario: c.u.sc||'', date: c.u.d||'', target: c.u.t||'',
+                   lead: et(c.u.l), main: et(c.u.m), trail: et(c.u.r) } : null,
+      drv: c.d ? { table: et(c.d.t) } : null,
+      activeTab: c.a || 'us'
+    };
+  }
+  function _compactOob(d) {
+    return {
+      t: d.type || null,
+      q: (d.squads || []).map(s => [s.phase, s.mission, s.task, s.aircraft, s.size]),
+      n: d.scenarioName || null,
+      d: d.date || null
+    };
+  }
+  function _expandOob(c) {
+    return {
+      type: c.t || null,
+      squads: (c.q || []).map(a => ({ phase: a[0], mission: a[1], task: a[2], aircraft: a[3], size: a[4] })),
+      scenarioName: c.n || null,
+      date: c.d || null
+    };
+  }
+  // --- End 압축 헬퍼 ---
+
   function encodeShareData() {
     try {
       const oobRaw  = localStorage.getItem('oobToAdcData');
       const raidRaw = localStorage.getItem('downtownGeneratorData');
       if (!oobRaw && !raidRaw) return null;
-      const combined = {
-        oob:  oobRaw  ? JSON.parse(oobRaw)  : null,
-        raid: raidRaw ? JSON.parse(raidRaw) : null
+      const oobData  = oobRaw  ? JSON.parse(oobRaw)  : null;
+      const raidData = raidRaw ? JSON.parse(raidRaw) : null;
+      const compact = {
+        v: 2,
+        o: oobData  ? _compactOob(oobData)   : null,
+        r: raidData ? _compactRaid(raidData) : null
       };
-      return LZString.compressToEncodedURIComponent(JSON.stringify(combined));
+      return LZString.compressToEncodedURIComponent(JSON.stringify(compact));
     } catch(e) { return null; }
   }
 
@@ -6754,8 +6818,13 @@ document.addEventListener('DOMContentLoaded', () => {
       const json = LZString.decompressFromEncodedURIComponent(shareParam);
       const data = JSON.parse(json);
       let loaded = false;
-      if (data.oob)  { localStorage.setItem('oobToAdcData', JSON.stringify(data.oob));  loaded = true; }
-      if (data.raid) { localStorage.setItem('downtownGeneratorData', JSON.stringify(data.raid)); loaded = true; }
+      if (data.v === 2) {
+        if (data.o) { localStorage.setItem('oobToAdcData',            JSON.stringify(_expandOob(data.o)));   loaded = true; }
+        if (data.r) { localStorage.setItem('downtownGeneratorData',   JSON.stringify(_expandRaid(data.r)));  loaded = true; }
+      } else {
+        if (data.oob)  { localStorage.setItem('oobToAdcData', JSON.stringify(data.oob));  loaded = true; }
+        if (data.raid) { localStorage.setItem('downtownGeneratorData', JSON.stringify(data.raid)); loaded = true; }
+      }
       window.history.replaceState({}, '', window.location.pathname);
       if (loaded) {
         const banner = document.createElement('div');
