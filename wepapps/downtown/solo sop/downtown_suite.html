@@ -1440,6 +1440,15 @@
   }
   .bot-roll-btn:hover { background: rgba(139,40,40,0.7); border-color: #e87060; color: #f0d0d0; }
   .bot-roll-result { font-size: 13px; font-weight: 600; text-align: right; flex-grow: 1; }
+  @keyframes bot-result-pop {
+    0%   { transform: translateX(0); }
+    20%  { transform: translateX(-5px); }
+    40%  { transform: translateX(5px); }
+    60%  { transform: translateX(-3px); }
+    80%  { transform: translateX(3px); }
+    100% { transform: translateX(0); }
+  }
+  .bot-result-pop { animation: bot-result-pop 0.35s ease; }
   .bot-roll-val {
     font-family: 'JetBrains Mono', monospace;
     background: rgba(74,74,42,0.28);
@@ -1666,7 +1675,7 @@
       <button class="generate-btn" onclick="generate()">▸ 편제 생성</button>
       <button id="send-to-adc-btn" class="generate-btn" onclick="sendToAdc()" style="display:none; margin-top: 10px; background: var(--tan); color: var(--ink);">▸ 편제 등록</button>
       <button id="oob-print-btn" class="generate-btn" onclick="printResults()" style="display:none; margin-top: 10px; background: var(--dark-green); color: var(--paper);">▸ 편제 인쇄</button>
-      <button id="oob-share-btn" class="generate-btn" onclick="openShareModal()" style="margin-top: 10px; background: var(--blue-dim); color: var(--cream); border: 1px solid var(--blue-bright);">📤 공유</button>
+      <button id="oob-share-btn" class="generate-btn" onclick="openShareModal()" style="display:none; margin-top: 10px; background: var(--blue-dim); color: var(--cream); border: 1px solid var(--blue-bright);">📤 공유</button>
     </div>
 
     <!-- Results Panel -->
@@ -3059,9 +3068,9 @@
 
   <!-- Sub-tab 내비게이션 -->
   <div class="tabs" style="position:relative;">
-    <button class="tab on" data-bot-target="bot-basic-sub">기본 규칙</button>
+    <button class="tab on" data-bot-target="bot-basic-sub">FLIGHT</button>
     <button class="tab" data-bot-target="bot-sam-sub">SAM / AAA</button>
-    <button class="tab" data-bot-target="bot-ref-sub">기타 참고</button>
+    <button class="tab" data-bot-target="bot-ref-sub">ETC</button>
     <button id="bot-reset-btn" onclick="resetAllBot()" title="Solo Bot 전체 초기화">↺ 초기화</button>
   </div>
 
@@ -3168,7 +3177,6 @@
           </div>
           <div id="bCombatChain" style="margin-top:12px;"></div>
         </div>
-        <p><strong>보정 수치</strong> <span class="bot-tag bot-tag-mod">탐지되지 않은 경우: -2</span></p>
       </div>
     </div>
 
@@ -3207,41 +3215,6 @@
       </div>
     </div>
 
-    <div class="bot-card">
-      <div class="bot-card-header">
-        <div class="bot-card-icon">M</div>
-        <div class="bot-card-title">DRV 표적 선택 표</div>
-      </div>
-      <div class="bot-card-body">
-        <p>다음 조건의 US 비행대를 선택합니다 (위에서 아래 순서로):</p>
-        <div class="bot-table-wrap">
-          <table style="min-width:300px;">
-            <tr><th style="width:50%;">행동 유닛이 SAM인 경우</th><th style="width:50%;">행동 유닛이 MiG인 경우</th></tr>
-            <tr>
-              <td>
-                • 행동하는 SAM에게 표적 획득되었고 8헥스 이내<br><br>
-                • 탐지 상태 비행대<br><br>
-                • 적재 상태(Laden)<br><br>
-                • 표적 획득 마커 가장 적은 비행대<br><br>
-                • 가장 가까운 비행대<br><br>
-                • MiG의 5헥스 이내에 있지 않은 비행대<br><br>
-                • 손상/물리화된 항공기가 있는 US 비행대<br><br>
-                • 남은 US 비행대 중에서 무작위 선택
-              </td>
-              <td>
-                • 탐지 상태 비행대<br><br>
-                • 가장 낮은 고도대역에 위치한 비행대<br><br>
-                • 적재 상태(Laden)<br><br>
-                • 표적 획득 마커 가장 적은 비행대<br><br>
-                • 가장 가까운 비행대<br><br>
-                • 손상/물리화된 항공기가 있는 US 비행대<br><br>
-                • 남은 US 비행대 중에서 무작위 선택
-              </td>
-            </tr>
-          </table>
-        </div>
-      </div>
-    </div>
   </div>
 
 </div><!-- .bot-aid-wrapper -->
@@ -3378,6 +3351,7 @@
           <button class="bot-roll-btn" id="bSAMFireBtn">사격 확인 (1d10)</button>
           <div class="bot-roll-result" id="bSAMFireResult"></div>
         </div>
+        <div id="bSAMChain" style="margin-top:12px;"></div>
       </div>
     </div>
   </div>
@@ -4932,6 +4906,7 @@ document.addEventListener('DOMContentLoaded', () => {
     localStorage.setItem('oobToAdcData', JSON.stringify(dataForAdc));
     document.getElementById('send-to-adc-btn').style.display = 'block';
     document.getElementById('oob-print-btn').style.display = 'block';
+    document.getElementById('oob-share-btn').style.display = 'block';
   }
   // ============================================================
   // END: JS from oob.html
@@ -7385,6 +7360,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // 체이닝 결과 초기화
     const chain = document.getElementById('bCombatChain');
     if (chain) chain.innerHTML = '';
+    const samChain = document.getElementById('bSAMChain');
+    if (samChain) samChain.innerHTML = '';
     // 체크박스 초기화
     document.querySelectorAll('#bot-page input[type="checkbox"]').forEach(cb => cb.checked = false);
     // 숫자 입력 기본값 복원
@@ -7594,7 +7571,14 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   function botRoll()  { return Math.floor(Math.random()*10)+1; }
-  function botSetResult(elId, html) { const el=document.getElementById(elId); if(el) el.innerHTML=html; }
+  function botSetResult(elId, html) {
+    const el=document.getElementById(elId);
+    if(!el) return;
+    el.innerHTML=html;
+    el.classList.remove('bot-result-pop');
+    void el.offsetWidth; // reflow to restart animation
+    el.classList.add('bot-result-pop');
+  }
   function botValHtml(v)  { return `<span class="bot-roll-val">${v}</span>`; }
   function botTagHtml(cls,txt) { return `<span class="bot-tag ${cls}">${txt}</span>`; }
 
@@ -7637,35 +7621,18 @@ document.addEventListener('DOMContentLoaded', () => {
           </div>
         </div>
         <div class="bot-card" style="margin-top:4px;">
-          <div class="bot-card-header"><div class="bot-card-icon">M</div><div class="bot-card-title">DRV 표적 선택 표</div></div>
+          <div class="bot-card-header"><div class="bot-card-icon">M</div><div class="bot-card-title">표적 선택 (MiG)</div></div>
           <div class="bot-card-body">
-            <p>다음 조건의 US 비행대를 선택합니다 (위에서 아래 순서로):</p>
-            <div class="bot-table-wrap">
-              <table style="min-width:300px;">
-                <tr><th style="width:50%;">행동 유닛이 SAM인 경우</th><th style="width:50%;">행동 유닛이 MiG인 경우</th></tr>
-                <tr>
-                  <td>
-                    • 행동하는 SAM에게 표적 획득되었고 8헥스 이내<br><br>
-                    • 탐지 상태 비행대<br><br>
-                    • 적재 상태(Laden)<br><br>
-                    • 표적 획득 마커 가장 적은 비행대<br><br>
-                    • 가장 가까운 비행대<br><br>
-                    • MiG의 5헥스 이내에 있지 않은 비행대<br><br>
-                    • 손상/물리화된 항공기가 있는 US 비행대<br><br>
-                    • 남은 US 비행대 중에서 무작위 선택
-                  </td>
-                  <td>
-                    • 탐지 상태 비행대<br><br>
-                    • 가장 낮은 고도대역에 위치한 비행대<br><br>
-                    • 적재 상태(Laden)<br><br>
-                    • 표적 획득 마커 가장 적은 비행대<br><br>
-                    • 가장 가까운 비행대<br><br>
-                    • 손상/물리화된 항공기가 있는 US 비행대<br><br>
-                    • 남은 US 비행대 중에서 무작위 선택
-                  </td>
-                </tr>
-              </table>
-            </div>
+            <p style="margin-bottom:6px;">다음 조건의 US 비행대를 순서대로 선택합니다:</p>
+            <ol style="margin:0;padding-left:18px;line-height:1.9;">
+              <li>탐지 상태 비행대</li>
+              <li>가장 낮은 고도대역에 위치한 비행대</li>
+              <li>적재 상태(Laden)</li>
+              <li>표적 획득 마커 가장 적은 비행대</li>
+              <li>가장 가까운 비행대</li>
+              <li>손상/물리화된 항공기가 있는 US 비행대</li>
+              <li>남은 US 비행대 중에서 무작위 선택</li>
+            </ol>
           </div>
         </div>`;
     } else {
@@ -7780,6 +7747,24 @@ document.addEventListener('DOMContentLoaded', () => {
         ?`<div style="font-size:12px;margin-top:4px;">${salvo?'일제 사격 (salvo)':'단일 미사일 발사'}</div>`
         :`<div style="font-size:12px;margin-top:4px;opacity:.8;">US 항공기가 8헥스 이내에서 다시 MP를 소모하면 재시도 가능</div>`)+
       `</div>`);
+    const samChain = document.getElementById('bSAMChain');
+    if (samChain) samChain.innerHTML = ok ? `
+      <div class="bot-card">
+        <div class="bot-card-header"><div class="bot-card-icon">M</div><div class="bot-card-title">표적 선택 (SAM)</div></div>
+        <div class="bot-card-body">
+          <p style="margin-bottom:6px;">다음 조건의 US 비행대를 순서대로 선택합니다:</p>
+          <ol style="margin:0;padding-left:18px;line-height:1.9;">
+            <li>행동하는 SAM에게 표적 획득되었고 8헥스 이내</li>
+            <li>탐지 상태 비행대</li>
+            <li>적재 상태(Laden)</li>
+            <li>표적 획득 마커 가장 적은 비행대</li>
+            <li>가장 가까운 비행대</li>
+            <li>MiG의 5헥스 이내에 있지 않은 비행대</li>
+            <li>손상/물리화된 항공기가 있는 US 비행대</li>
+            <li>남은 US 비행대 중에서 무작위 선택</li>
+          </ol>
+        </div>
+      </div>` : '';
   });
 
   // Z — LOAL
