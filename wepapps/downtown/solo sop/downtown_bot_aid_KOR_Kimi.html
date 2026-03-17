@@ -4,21 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DRV '봇 지원 카드 - 참조표</title>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Noto+Sans+KR:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-primary: #f8f6f3;
-            --bg-secondary: #ffffff;
-            --bg-tertiary: #f0ede8;
-            --text-primary: #1a1a1a;
-            --text-secondary: #4a4a4a;
-            --text-muted: #7a7a7a;
-            --accent-navy: #2c3e50;
-            --accent-orange: #c75b2b;
-            --accent-teal: #3d7a7a;
-            --accent-red: #b54242;
-            --border: #e0ddd7;
-            --shadow: rgba(0, 0, 0, 0.06);
-            --radius: 8px;
+            --olive: #4a4a2a;
+            --khaki: #8b7d5a;
+            --tan: #c4a96b;
+            --cream: #e8dfc8;
+            --paper: #f2ead8;
+            --ink: #1a1a0e;
+            --red: #8b1a1a;
+            --red-bright: #c0392b;
+            --fade: #9c9c5e;
+            --fade2: #9b9b7a;
+            --border: rgba(74,74,42,0.5);
+            --radius: 2px;
+            /* Compatibility aliases */
+            --text-secondary: #c4b896;
+            --accent-teal: #3a8a6a;
         }
 
         * {
@@ -27,126 +30,169 @@
             padding: 0;
         }
 
-        html {
-            overflow-y: scroll;
-        }
+        html { overflow-y: scroll; }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
+            background-color: #1c1c10;
+            background-image:
+                repeating-linear-gradient(0deg, transparent, transparent 31px, rgba(74,74,42,0.15) 31px, rgba(74,74,42,0.15) 32px),
+                repeating-linear-gradient(90deg, transparent, transparent 31px, rgba(74,74,42,0.08) 31px, rgba(74,74,42,0.08) 32px);
+            min-height: 100vh;
+            font-family: 'Noto Sans KR', sans-serif;
+            color: var(--cream);
             line-height: 1.6;
             font-size: 14px;
         }
 
-        /* Header */
+        /* ── Header ── */
         .header {
-            background: var(--accent-navy);
-            color: white;
-            padding: 24px 20px;
+            background: rgba(16,15,8,0.97);
+            border-bottom: 2px solid var(--olive);
+            color: var(--cream);
+            padding: 28px 20px 20px;
             text-align: center;
+            position: relative;
+        }
+
+        .header::before {
+            content: '✈';
+            position: absolute;
+            top: 30px;
+            left: 40px;
+            font-size: 18px;
+            color: var(--tan);
+            opacity: 0.5;
+        }
+
+        .header::after {
+            content: '✈';
+            position: absolute;
+            top: 30px;
+            right: 40px;
+            font-size: 18px;
+            color: var(--tan);
+            opacity: 0.5;
+            transform: scaleX(-1);
         }
 
         .header h1 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            letter-spacing: 0.5px;
+            font-family: 'Oswald', sans-serif;
+            font-size: clamp(22px, 5vw, 38px);
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            color: var(--tan);
+            text-shadow: 2px 2px 0 var(--olive), 0 0 30px rgba(196,169,107,0.3);
+            line-height: 1;
+            text-transform: uppercase;
+        }
+
+        .header-title-line {
+            width: 160px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--tan), transparent);
+            margin: 8px auto;
         }
 
         .header-subtitle {
-            font-size: 0.85rem;
-            opacity: 0.8;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.35em;
+            color: var(--fade);
             margin-top: 4px;
+            text-transform: uppercase;
         }
 
         .sticky-header-wrapper {
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.6);
         }
 
-        /* Navigation Tabs */
+        /* ── Navigation Tabs ── */
         .nav-tabs {
             display: flex;
             gap: 4px;
-            padding: 12px 16px;
-            background: var(--bg-secondary);
-            border-bottom: 1px solid var(--border);
+            padding: 10px 12px;
+            background: rgba(14,13,7,0.98);
+            border-bottom: 1px solid var(--olive);
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
+            flex-wrap: wrap;
         }
 
         .nav-tab {
             flex-shrink: 0;
             padding: 8px 16px;
-            background: transparent;
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
+            background: rgba(30,28,15,0.8);
+            border: 1px solid var(--olive);
             cursor: pointer;
-            font-size: 0.85rem;
+            font-family: 'Oswald', sans-serif;
+            font-size: 13px;
             font-weight: 500;
-            color: var(--text-secondary);
-            transition: all 0.2s ease;
+            letter-spacing: 0.15em;
+            color: var(--fade2);
+            transition: all 0.2s;
             display: flex;
             flex-direction: column;
             align-items: center;
             line-height: 1.2;
+            text-transform: uppercase;
         }
 
         .nav-tab-sub {
-            font-size: 0.7rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 9px;
             opacity: 0.7;
-            margin-top: 2px;
+            margin-top: 3px;
             font-weight: 400;
+            letter-spacing: 0.1em;
         }
 
         .nav-tab:hover {
-            background: var(--bg-tertiary);
-            border-color: var(--accent-navy);
+            border-color: var(--tan);
+            color: var(--tan);
+            background: rgba(74,74,42,0.2);
         }
 
         .nav-tab.active {
-            background: var(--accent-navy);
-            color: white;
-            border-color: var(--accent-navy);
+            background: rgba(90,26,26,0.5);
+            color: #e8a8a8;
+            border-color: #c45a4a;
         }
 
-        /* Main Content */
+        /* ── Main Content ── */
         .main-content {
             max-width: 1200px;
             margin: 0 auto;
             padding: 24px 16px;
         }
 
-        /* Section */
+        /* ── Section ── */
         .section {
             display: none;
             animation: fadeIn 0.3s ease;
         }
 
-        .section.active {
-            display: block;
-        }
+        .section.active { display: block; }
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
+            to   { opacity: 1; transform: translateY(0); }
         }
 
-        /* Card */
+        /* ── Card (panel) ── */
         .card {
-            background: var(--bg-secondary);
-            border-radius: var(--radius);
-            border: 1px solid var(--border);
+            background: rgba(22,20,10,0.9);
+            border: 1px solid var(--olive);
             margin-bottom: 16px;
             overflow: hidden;
         }
 
         .card-header {
-            background: var(--bg-tertiary);
-            padding: 14px 18px;
-            border-bottom: 1px solid var(--border);
+            background: rgba(28,26,13,0.97);
+            padding: 11px 16px;
+            border-bottom: 1px solid var(--olive);
             display: flex;
             align-items: center;
             gap: 10px;
@@ -155,40 +201,46 @@
         .card-header-icon {
             width: 28px;
             height: 28px;
-            background: var(--accent-navy);
-            color: white;
-            border-radius: 50%;
+            background: rgba(90,26,26,0.75);
+            color: #e8a8a8;
+            border: 1px solid rgba(196,90,74,0.6);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.75rem;
-            font-weight: 600;
+            font-family: 'Oswald', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
             flex-shrink: 0;
+            letter-spacing: 0.05em;
         }
 
         .card-header-icon.dice {
-            background: var(--accent-orange);
+            background: rgba(139,100,20,0.5);
+            color: var(--tan);
+            border-color: rgba(196,169,107,0.5);
         }
 
         .card-title {
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--text-primary);
+            font-family: 'Oswald', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 0.18em;
+            color: var(--tan);
+            text-transform: uppercase;
         }
 
         .card-body {
             padding: 18px;
         }
 
-        /* Typography */
+        /* ── Typography ── */
         p {
             margin-bottom: 12px;
             color: var(--text-secondary);
+            font-size: 13px;
         }
 
-        p:last-child {
-            margin-bottom: 0;
-        }
+        p:last-child { margin-bottom: 0; }
 
         ul, ol {
             padding-left: 20px;
@@ -198,153 +250,164 @@
         li {
             margin-bottom: 6px;
             color: var(--text-secondary);
+            font-size: 13px;
         }
 
-        li:last-child {
-            margin-bottom: 0;
-        }
+        li:last-child { margin-bottom: 0; }
 
-        /* Table */
+        strong { color: var(--cream); }
+
+        /* ── Table ── */
         .table-container {
             overflow-x: auto;
             margin: 12px 0;
-            border-radius: var(--radius);
-            border: 1px solid var(--border);
+            border: 1px solid var(--olive);
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 0.85rem;
+            font-size: 12px;
             min-width: 500px;
         }
 
         th {
-            background: var(--accent-navy);
-            color: white;
-            padding: 12px 10px;
+            background: rgba(90,26,26,0.75);
+            color: #e8a8a8;
+            padding: 9px 10px;
             text-align: left;
+            font-family: 'Oswald', sans-serif;
+            font-size: 11px;
             font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
             white-space: nowrap;
+            border-bottom: 1px solid rgba(196,90,74,0.5);
         }
 
         td {
-            padding: 10px;
-            border-bottom: 1px solid var(--border);
+            padding: 8px 10px;
+            border-bottom: 1px solid rgba(74,74,42,0.3);
             vertical-align: top;
             color: var(--text-secondary);
         }
 
-        tr:nth-child(even) {
-            background: var(--bg-tertiary);
-        }
+        tr:nth-child(even) { background: rgba(74,74,42,0.06); }
+        tr:last-child td   { border-bottom: none; }
+        tbody tr:hover:not(:last-child) { background: rgba(74,74,42,0.14); transition: background 0.15s; }
 
-        tr:last-child td {
-            border-bottom: none;
-        }
-
-        /* Tags */
+        /* ── Tags ── */
         .tag {
             display: inline-block;
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            font-weight: 500;
+            padding: 2px 7px;
+            font-size: 11px;
+            font-weight: 600;
             margin: 2px 0;
+            border: 1px solid;
+            letter-spacing: 0.04em;
         }
 
         .tag-dice {
-            background: #fff3cd;
-            color: #856404;
-            font-family: 'SF Mono', monospace;
+            background: rgba(196,169,107,0.12);
+            color: var(--tan);
+            border-color: rgba(196,169,107,0.4);
+            font-family: 'JetBrains Mono', monospace;
         }
 
         .tag-condition {
-            background: #d1ecf1;
-            color: #0c5460;
+            background: rgba(26,58,90,0.35);
+            color: #a8c8e8;
+            border-color: rgba(74,130,180,0.45);
         }
 
         .tag-condition-red {
-            background: #f8d7da;
-            color: #721c24;
+            background: rgba(139,26,26,0.3);
+            color: #f09090;
+            border-color: rgba(192,57,43,0.45);
         }
 
         .tag-result {
-            background: #d4edda;
-            color: #155724;
+            background: rgba(40,100,50,0.35);
+            color: #88e888;
+            border-color: rgba(60,150,60,0.45);
         }
 
         .tag-modifier {
-            background: #fff3cd;
-            color: #856404;
+            background: rgba(196,169,107,0.12);
+            color: var(--tan);
+            border-color: rgba(196,169,107,0.4);
         }
 
-        /* Highlight Box */
+        /* ── Highlight Box ── */
         .highlight-box {
-            background: var(--bg-tertiary);
-            border-left: 3px solid var(--accent-orange);
-            padding: 14px 16px;
-            border-radius: 0 var(--radius) var(--radius) 0;
-            margin: 14px 0;
+            background: rgba(74,74,42,0.18);
+            border-left: 3px solid var(--tan);
+            padding: 12px 14px;
+            margin: 12px 0;
+            font-size: 13px;
+            color: var(--text-secondary);
         }
 
-        .highlight-box strong {
-            color: var(--text-primary);
-        }
+        .highlight-box strong { color: var(--cream); }
 
-        /* Note Box */
+        /* ── Note Box ── */
         .note-box {
-            background: #e8f4f8;
-            border-left: 3px solid var(--accent-teal);
-            padding: 14px 16px;
-            border-radius: 0 var(--radius) var(--radius) 0;
-            margin: 14px 0;
-            font-size: 0.9rem;
+            background: rgba(26,58,90,0.18);
+            border-left: 3px solid #3a8ac4;
+            padding: 12px 14px;
+            margin: 12px 0;
+            font-size: 12px;
+            color: var(--text-secondary);
+            display: block;
         }
 
-        /* Warning Box */
+        /* ── Warning Box ── */
         .warning-box {
-            background: #fdf2f2;
-            border-left: 3px solid var(--accent-red);
-            padding: 14px 16px;
-            border-radius: 0 var(--radius) var(--radius) 0;
-            margin: 14px 0;
+            background: rgba(139,26,26,0.18);
+            border-left: 3px solid var(--red-bright);
+            padding: 12px 14px;
+            margin: 12px 0;
+            font-size: 13px;
+            color: var(--text-secondary);
         }
 
-        /* Aircraft Type */
+        /* ── Aircraft Type Badge ── */
         .aircraft-type {
             display: inline-block;
-            background: var(--accent-navy);
-            color: white;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            font-weight: 500;
+            background: rgba(90,26,26,0.55);
+            color: #e8a8a8;
+            padding: 1px 7px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            border: 1px solid rgba(196,90,74,0.4);
+            letter-spacing: 0.05em;
         }
 
-        /* Grid Layout */
+        /* ── Grid Layout ── */
         .grid-2 {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 16px;
         }
 
-        /* Red Bold Text */
+        /* ── Red Bold Text ── */
         .text-red-bold {
-            color: var(--accent-red);
+            color: #f08070;
             font-weight: 600;
         }
 
-        /* Black Highlight */
+        /* ── Black Highlight (STOP marker) ── */
         .black-highlight {
-            background: var(--text-primary);
-            color: white;
+            background: rgba(196,169,107,0.18);
+            color: var(--tan);
             padding: 1px 6px;
-            border-radius: 3px;
-            font-weight: 500;
+            font-weight: 600;
+            border: 1px solid rgba(196,169,107,0.4);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
         }
 
-        /* Legend */
+        /* ── Legend ── */
         .legend-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -356,36 +419,37 @@
             align-items: center;
             gap: 10px;
             padding: 8px;
-            background: var(--bg-tertiary);
-            border-radius: var(--radius);
+            background: rgba(74,74,42,0.1);
+            border: 1px solid rgba(74,74,42,0.3);
+            margin-bottom: 6px;
         }
 
         .legend-marker {
             width: 24px;
             height: 24px;
-            background: var(--accent-navy);
-            border-radius: 4px;
+            background: rgba(90,26,26,0.65);
+            border: 1px solid rgba(196,90,74,0.5);
             flex-shrink: 0;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-size: 0.7rem;
+            color: #e8a8a8;
+            font-family: 'Oswald', sans-serif;
+            font-size: 11px;
             font-weight: 600;
         }
 
         .legend-text {
-            font-size: 0.85rem;
+            font-size: 12px;
             color: var(--text-secondary);
         }
 
-        /* Interactive Roller */
+        /* ── Interactive Roller ── */
         .interactive-roller {
-            background: var(--bg-tertiary);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 14px;
-            margin: 16px 0;
+            background: rgba(74,74,42,0.1);
+            border: 1px solid var(--olive);
+            padding: 12px 14px;
+            margin: 14px 0;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -394,157 +458,158 @@
 
         .roll-btn {
             flex-shrink: 0;
-            padding: 10px 20px;
-            background: var(--accent-orange);
-            color: white;
-            border: none;
-            border-radius: var(--radius);
+            padding: 8px 18px;
+            background: rgba(90,26,26,0.55);
+            color: #e8c0c0;
+            border: 1px solid rgba(196,90,74,0.6);
             cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: 600;
-            transition: all 0.2s ease;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            font-family: 'Oswald', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            transition: all 0.2s;
+            text-transform: uppercase;
         }
 
         .roll-btn:hover {
-            background: #d86a3a;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            background: rgba(139,40,40,0.7);
+            border-color: #e87060;
+            color: #f0d0d0;
         }
 
         .roll-result {
-            font-size: 1rem;
+            font-size: 13px;
             font-weight: 600;
             text-align: right;
             flex-grow: 1;
         }
 
         .roll-result .roll-value {
-            font-family: 'SF Mono', monospace;
-            background: var(--bg-secondary);
-            padding: 4px 8px;
-            border-radius: 4px;
-            border: 1px solid var(--border);
-            margin-right: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            background: rgba(74,74,42,0.28);
+            padding: 3px 8px;
+            border: 1px solid var(--olive);
+            margin-right: 6px;
+            color: var(--tan);
+            font-size: 13px;
         }
 
-        /* Print Button */
+        /* ── Inputs inside roller ── */
+        .interactive-roller label {
+            color: var(--fade2);
+            font-size: 12px;
+        }
+
+        .interactive-roller input[type="checkbox"] {
+            accent-color: var(--tan);
+        }
+
+        .interactive-roller input[type="number"] {
+            background: rgba(74,74,42,0.2);
+            border: 1px solid var(--olive);
+            color: var(--cream);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            padding: 3px 6px;
+        }
+
+        .interactive-roller input[type="number"]:focus {
+            outline: none;
+            border-color: var(--tan);
+        }
+
+        select {
+            background: rgba(22,20,10,0.92);
+            border: 1px solid var(--olive);
+            color: var(--cream);
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 12px;
+            padding: 6px 10px;
+            cursor: pointer;
+        }
+
+        select:focus  { outline: none; border-color: var(--tan); }
+        select option { background: #1c1c10; color: var(--cream); }
+
+        /* ── Print Button ── */
         .print-btn {
             position: fixed;
             bottom: 24px;
             right: 24px;
-            width: 56px;
-            height: 56px;
-            background: var(--accent-navy);
-            color: white;
+            width: 50px;
+            height: 50px;
+            background: var(--tan);
+            color: var(--ink);
             border: none;
-            border-radius: 50%;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.5);
             transition: all 0.2s ease;
             z-index: 1000;
         }
 
         .print-btn:hover {
-            background: var(--accent-orange);
+            background: var(--cream);
             transform: scale(1.05);
         }
 
-        .print-btn svg {
-            width: 24px;
-            height: 24px;
-        }
+        .print-btn svg { width: 22px; height: 22px; }
 
-        /* Responsive */
+        /* ── Responsive ── */
         @media (max-width: 768px) {
-            .header h1 {
-                font-size: 1.2rem;
-            }
-
-            .nav-tabs {
-                padding: 10px 12px;
-            }
-
-            .nav-tab {
-                padding: 8px 12px;
-                font-size: 0.8rem;
-            }
-
-            .main-content {
-                padding: 16px 12px;
-            }
-
-            .card-body {
-                padding: 14px;
-            }
-
-            table {
-                font-size: 0.8rem;
-            }
-
-            th, td {
-                padding: 8px 6px;
-            }
+            .header h1 { font-size: 1.4rem; }
+            .header::before, .header::after { display: none; }
+            .nav-tabs { padding: 8px 10px; }
+            .nav-tab { padding: 7px 10px; font-size: 11px; }
+            .main-content { padding: 16px 12px; }
+            .card-body { padding: 14px; }
+            table { font-size: 11px; }
+            th, td { padding: 7px 6px; }
         }
 
-        /* Print Styles */
+        /* ── Print ── */
         @media print {
             body {
                 background: white;
+                background-image: none;
+                color: #111;
                 font-size: 11px;
             }
-
             .header {
                 position: static;
-                padding: 16px;
-            }
-
-            .nav-tabs,
-            .print-btn {
-                display: none !important;
-            }
-
-            .section {
-                display: block !important;
-                page-break-after: always;
-            }
-
-            .section:last-child {
-                page-break-after: auto;
-            }
-
-            .card {
-                break-inside: avoid;
-                margin-bottom: 12px;
-                border: 1px solid #ddd;
-            }
-
-            .card-header {
-                background: #f5f5f5;
-                padding: 10px 14px;
-            }
-
-            .card-body {
+                background: #333;
                 padding: 14px;
             }
-
-            .highlight-box,
-            .note-box,
-            .warning-box {
-                border-left-width: 2px;
-                padding: 10px 12px;
-            }
-
-            table {
-                font-size: 9px;
-            }
-
-            th {
-                background: #333;
-            }
+            .header::before, .header::after { display: none; }
+            .header h1 { color: white; text-shadow: none; font-size: 18px; }
+            .header-subtitle { color: #ccc; }
+            .nav-tabs, .print-btn { display: none !important; }
+            .section { display: block !important; page-break-after: always; }
+            .section:last-child { page-break-after: auto; }
+            .card { break-inside: avoid; margin-bottom: 12px; border: 1px solid #ccc; background: white; }
+            .card-header { background: #f0f0f0; padding: 8px 14px; }
+            .card-title { color: #333; font-size: 12px; }
+            .card-header-icon { background: #666 !important; color: white !important; border: none !important; }
+            .card-body { padding: 12px; }
+            .highlight-box { background: #f8f8e8; border-left: 3px solid #996; color: #333; }
+            .note-box { background: #e8f4f8; border-left: 3px solid #369; color: #333; }
+            .warning-box { background: #fdf0f0; border-left: 3px solid #c33; color: #333; }
+            table { font-size: 9px; }
+            th { background: #444 !important; color: white !important; }
+            td { color: #333; border-bottom-color: #ddd; }
+            .tag-dice { background: #ffd; color: #663; border-color: #996; }
+            .tag-condition { background: #def; color: #036; border-color: #369; }
+            .tag-condition-red { background: #fde; color: #633; border-color: #c33; }
+            .tag-result { background: #dfd; color: #363; border-color: #696; }
+            .roll-result .roll-value { background: #eee; color: #333; border-color: #999; }
+            .interactive-roller { background: #f5f5f5; border-color: #ccc; }
+            .text-red-bold { color: #c33; }
+            .black-highlight { background: #333; color: white; border: none; }
+            .aircraft-type { background: #555; color: white; border: none; }
+            strong { color: #111; }
+            p, li { color: #333; }
         }
     </style>
 <base target="_blank">
@@ -553,6 +618,7 @@
     <div class="sticky-header-wrapper">
     <header class="header">
         <h1>DRV '봇 지원 카드</h1>
+        <div class="header-title-line"></div>
         <div class="header-subtitle">Downtown Air Combat Reference Guide</div>
     </header>
 
@@ -698,7 +764,7 @@
                         </div>
                         <div class="interactive-roller" style="flex-direction: column; align-items: stretch;">
                             <div style="margin-bottom: 12px;">
-                                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 0.9rem; color: var(--text-secondary);">
+                                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 0.9rem; color: var(--fade2);">
                                     <input type="checkbox" id="undetectedModifier">
                                     <span>DRV 비행대가 탐지되지 않음 (-2)</span>
                                 </label>
@@ -780,7 +846,7 @@
                         <p><span class="tag tag-dice">1d10</span>을 굴리고 다음과 같이 이동합니다:</p>
                         <div class="interactive-roller" style="flex-direction: column; align-items: stretch;">
                             <div style="margin-bottom: 12px;">
-                                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 0.9rem; color: var(--text-secondary);">
+                                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 0.9rem; color: var(--fade2);">
                                     <input type="checkbox" id="undetectedModifierG">
                                     <span>DRV 비행대가 탐지되지 않음 (-2)</span>
                                 </label>
@@ -854,7 +920,7 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="card-header-icon">I</div>
-                        <div class="card-title">AAA & 파이어 캔 활성화 표</div>
+                        <div class="card-title">AAA &amp; 파이어 캔 활성화 표</div>
                     </div>
                     <div class="card-body">
                         <p>비활성 AAA 마커의 1헥스 이내로 이동하는 저고도 이상의 각 US 비행대에 대해 한 번 확인합니다.</p>
@@ -894,7 +960,7 @@
                         </div>
                         <div class="interactive-roller" style="flex-direction: column; align-items: stretch;">
                             <div style="margin-bottom: 12px;">
-                                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 0.9rem; color: var(--text-secondary);">
+                                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 0.9rem; color: var(--fade2);">
                                     <input type="checkbox" id="fireCanModifier">
                                     <span>5헥스 이내에 파이어 캔 있음 (+1)</span>
                                 </label>
@@ -981,11 +1047,11 @@
                     </div>
                     <div class="interactive-roller" style="flex-direction: column; align-items: stretch;">
                         <div style="margin-bottom: 12px; display: flex; flex-wrap: wrap; gap: 16px; align-items: center;">
-                            <label style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem; color: var(--text-secondary);">
+                            <label style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem; color: var(--fade2);">
                                 <span>거리:</span>
-                                <input type="number" id="samDistance" min="1" max="10" value="4" style="width: 50px; padding: 4px; border: 1px solid var(--border); border-radius: 4px;">
+                                <input type="number" id="samDistance" min="1" max="10" value="4" style="width: 50px; padding: 4px; border: 1px solid var(--olive); background: rgba(74,74,42,0.2); color: var(--cream); font-family: 'JetBrains Mono', monospace; font-size: 12px;">
                             </label>
-                            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 0.9rem; color: var(--text-secondary);">
+                            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 0.9rem; color: var(--fade2);">
                                 <input type="checkbox" id="samAcqModifier">
                                 <span>완전 표적 획득 (+2)</span>
                             </label>
@@ -1108,8 +1174,8 @@
                     <p>일반 DRV 비행대 활성화 시 <span class="tag tag-dice">1d10</span>을 굴립니다. 모든 DRV 조종사는 베테랑입니다. 시나리오 종료 시, US VP를 추가합니다: <span class="text-red-bold">🅠 종료 시 MAP</span>를 참조.</p>
                     <div class="interactive-roller" style="flex-direction: column; align-items: stretch;">
                         <div style="margin-bottom: 12px; display: flex; gap: 12px; align-items: center;">
-                            <select id="flightScenarioSelect" style="padding: 8px; border-radius: 4px; border: 1px solid var(--border); flex-grow: 1; background-color: white; font-family: inherit; font-size: 0.9rem;">
-                                <option value="" disabled="" selected="">시나리오 선택</option>
+                            <select id="flightScenarioSelect" style="flex-grow: 1;">
+                                <option value="" disabled selected>시나리오 선택</option>
                                 <option value="D1">D1</option>
                                 <option value="D2">D2</option>
                                 <option value="D3">D3</option>
@@ -1275,134 +1341,22 @@
                                 <th>최대 일반 비행대</th>
                                 <th>최대 실제 비행대</th>
                             </tr>
-                            <tr>
-                                <td>D1</td>
-                                <td>11*</td>
-                                <td>5</td>
-                                <td>4</td>
-                                <td>3</td>
-                                <td>1</td>
-                            </tr>
-                            <tr>
-                                <td>D2</td>
-                                <td>—</td>
-                                <td>3*</td>
-                                <td>-</td>
-                                <td>4</td>
-                                <td>2</td>
-                            </tr>
-                            <tr>
-                                <td>D3</td>
-                                <td>22*</td>
-                                <td>8</td>
-                                <td>8</td>
-                                <td>5</td>
-                                <td>3</td>
-                            </tr>
-                            <tr>
-                                <td>D4</td>
-                                <td>26</td>
-                                <td>5</td>
-                                <td>8</td>
-                                <td>5</td>
-                                <td>2</td>
-                            </tr>
-                            <tr>
-                                <td>D5</td>
-                                <td>30</td>
-                                <td>7</td>
-                                <td>9</td>
-                                <td>6</td>
-                                <td>3</td>
-                            </tr>
-                            <tr>
-                                <td>D6</td>
-                                <td>6</td>
-                                <td>4*</td>
-                                <td>2</td>
-                                <td>-</td>
-                                <td>-</td>
-                            </tr>
-                            <tr>
-                                <td>D7</td>
-                                <td>30</td>
-                                <td>8</td>
-                                <td>10</td>
-                                <td>5</td>
-                                <td>2</td>
-                            </tr>
-                            <tr>
-                                <td>D8</td>
-                                <td>30</td>
-                                <td>7</td>
-                                <td>11</td>
-                                <td>5</td>
-                                <td>2</td>
-                            </tr>
-                            <tr>
-                                <td>D9</td>
-                                <td>15</td>
-                                <td>2</td>
-                                <td>4</td>
-                                <td>5</td>
-                                <td>2</td>
-                            </tr>
-                            <tr>
-                                <td>D10</td>
-                                <td>30*</td>
-                                <td>9</td>
-                                <td>11</td>
-                                <td>6</td>
-                                <td>3*</td>
-                            </tr>
-                            <tr>
-                                <td>D11</td>
-                                <td>30</td>
-                                <td>9</td>
-                                <td>12</td>
-                                <td>9</td>
-                                <td>5</td>
-                            </tr>
-                            <tr>
-                                <td>D12</td>
-                                <td>2*</td>
-                                <td>2</td>
-                                <td>0</td>
-                                <td>3</td>
-                                <td>2</td>
-                            </tr>
-                            <tr>
-                                <td>D13</td>
-                                <td>30</td>
-                                <td>9</td>
-                                <td>11</td>
-                                <td>6</td>
-                                <td>2</td>
-                            </tr>
-                            <tr>
-                                <td>D14</td>
-                                <td>18*</td>
-                                <td>0</td>
-                                <td>6</td>
-                                <td>4</td>
-                                <td>2</td>
-                            </tr>
-                            <tr>
-                                <td>D15</td>
-                                <td>-</td>
-                                <td>5</td>
-                                <td>6</td>
-                                <td>5</td>
-                                <td>2</td>
-                            </tr>
-                            <tr>
-                                <td>D16</td>
-                                <td>30*</td>
-                                <td>2</td>
-                                <td>8</td>
-                                <td>5</td>
-                                <td>2</td>
-                            </tr>
+                            <tr><td>D1</td><td>11*</td><td>5</td><td>4</td><td>3</td><td>1</td></tr>
+                            <tr><td>D2</td><td>—</td><td>3*</td><td>-</td><td>4</td><td>2</td></tr>
+                            <tr><td>D3</td><td>22*</td><td>8</td><td>8</td><td>5</td><td>3</td></tr>
+                            <tr><td>D4</td><td>26</td><td>5</td><td>8</td><td>5</td><td>2</td></tr>
+                            <tr><td>D5</td><td>30</td><td>7</td><td>9</td><td>6</td><td>3</td></tr>
+                            <tr><td>D6</td><td>6</td><td>4*</td><td>2</td><td>-</td><td>-</td></tr>
+                            <tr><td>D7</td><td>30</td><td>8</td><td>10</td><td>5</td><td>2</td></tr>
+                            <tr><td>D8</td><td>30</td><td>7</td><td>11</td><td>5</td><td>2</td></tr>
+                            <tr><td>D9</td><td>15</td><td>2</td><td>4</td><td>5</td><td>2</td></tr>
+                            <tr><td>D10</td><td>30*</td><td>9</td><td>11</td><td>6</td><td>3*</td></tr>
+                            <tr><td>D11</td><td>30</td><td>9</td><td>12</td><td>9</td><td>5</td></tr>
+                            <tr><td>D12</td><td>2*</td><td>2</td><td>0</td><td>3</td><td>2</td></tr>
+                            <tr><td>D13</td><td>30</td><td>9</td><td>11</td><td>6</td><td>2</td></tr>
+                            <tr><td>D14</td><td>18*</td><td>0</td><td>6</td><td>4</td><td>2</td></tr>
+                            <tr><td>D15</td><td>-</td><td>5</td><td>6</td><td>5</td><td>2</td></tr>
+                            <tr><td>D16</td><td>30*</td><td>2</td><td>8</td><td>5</td><td>2</td></tr>
                         </table>
                     </div>
                     <p class="note-box">*추가 지침은 DRV '봇 규칙을 참조하세요.</p>
@@ -1416,7 +1370,7 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="card-header-icon">P</div>
-                        <div class="card-title">SAM & AAA 지도 상 마커 범례</div>
+                        <div class="card-title">SAM &amp; AAA 지도 상 마커 범례</div>
                     </div>
                     <div class="card-body">
                         <div class="legend-grid">
@@ -1662,7 +1616,7 @@
             // 1부터 7까지의 숫자 키를 감지합니다.
             if (!isNaN(keyNumber) && keyNumber >= 1 && keyNumber <= tabs.length) {
                 e.preventDefault(); // 브라우저의 기본 동작(예: 페이지 검색)을 막습니다.
-                
+
                 const targetTab = tabs[keyNumber - 1];
                 // 해당 탭이 존재하고 활성화 상태가 아닐 경우에만 클릭 이벤트를 실행합니다.
                 if (targetTab && !targetTab.classList.contains('active')) {
@@ -1688,7 +1642,7 @@
                     resultText = '더미';
                     resultClass = 'tag-condition-red'; // Red
                 }
-                
+
                 activationResult.innerHTML = `
                     <span class="roll-value">${roll}</span>
                     <span class="tag ${resultClass}">${resultText}</span>
@@ -1708,9 +1662,9 @@
                 if (undetectedModifier && undetectedModifier.checked) {
                     modifier = -2;
                 }
-                
+
                 const finalValue = roll + modifier;
-                
+
                 let resultText = '';
                 let resultClass = '';
                 let subText = '';
@@ -1723,7 +1677,7 @@
                     resultText = '교전 없음';
                     resultClass = 'tag-condition-red'; // Red
                 }
-                
+
                 let calcText = modifier !== 0 ? `${roll} ${modifier >= 0 ? '+' : ''}${modifier} = ${finalValue}` : `${roll}`;
 
                 combatResult.innerHTML = `
@@ -1732,7 +1686,7 @@
                             <span class="roll-value" title="주사위: ${roll}, 보정: ${modifier}">${calcText}</span>
                             <span class="tag ${resultClass}">${resultText}</span>
                         </div>
-                        ${subText ? `<div style="font-size: 0.75rem; opacity: 0.8; margin-top: 4px;">${subText}</div>` : ''}
+                        ${subText ? `<div style="font-size: 0.75rem; opacity: 0.8; margin-top: 4px; color: var(--fade2);">${subText}</div>` : ''}
                     </div>
                 `;
             });
@@ -1767,7 +1721,7 @@
                 if (total <= 4) { text = '접근'; cls = 'tag-result'; }
                 else if (total <= 8) { text = '위치 유지'; cls = 'tag-condition'; }
                 else { text = '회피'; cls = 'tag-condition-red'; }
-                
+
                 let calcText = mod !== 0 ? `${roll} ${mod >= 0 ? '+' : ''}${mod} = ${total}` : `${roll}`;
                 nonCombatResult.innerHTML = `
                     <div style="display: flex; flex-direction: column; align-items: flex-end;">
@@ -1820,7 +1774,7 @@
                 let cls = '';
                 if (total <= 3) { text = '파이어 캔'; cls = 'tag-result'; }
                 else { text = '효과 없음'; cls = 'tag-condition-red'; }
-                
+
                 let calcText = mod !== 0 ? `${roll} ${mod >= 0 ? '+' : ''}${mod} = ${total}` : `${roll}`;
                 fireCanResult.innerHTML = `
                     <div style="display: flex; flex-direction: column; align-items: flex-end;">
@@ -1858,12 +1812,12 @@
                 let mod = samAcqModifier && samAcqModifier.checked ? 2 : 0;
                 const total = roll + mod;
                 const dist = parseInt(samDistance.value) || 0;
-                
+
                 let text = '';
                 let cls = '';
                 if (total > dist) { text = '사격'; cls = 'tag-result'; }
                 else { text = '사격 안 함'; cls = 'tag-condition-red'; }
-                
+
                 let calcText = mod !== 0 ? `${roll} ${mod >= 0 ? '+' : ''}${mod} = ${total}` : `${roll}`;
                 samFireResult.innerHTML = `
                     <div style="display: flex; flex-direction: column; align-items: flex-end;">
@@ -1871,7 +1825,7 @@
                             <span class="roll-value" title="주사위: ${roll}, 보정: ${mod}, 거리: ${dist}">${calcText}</span>
                             <span class="tag ${cls}">${text}</span>
                         </div>
-                        <div style="font-size: 0.75rem; opacity: 0.8; margin-top: 4px;">거리 ${dist} vs 결과 ${total}</div>
+                        <div style="font-size: 0.75rem; opacity: 0.8; margin-top: 4px; color: var(--fade2);">거리 ${dist} vs 결과 ${total}</div>
                     </div>`;
             });
         }
@@ -1898,7 +1852,7 @@
                 const roll = Math.floor(Math.random() * 10) + 1;
                 const scenarioSelect = document.getElementById('flightScenarioSelect');
                 const scenario = scenarioSelect ? scenarioSelect.value : '';
-                
+
                 if (!scenario) {
                     flightResult.innerHTML = `<span class="tag tag-condition-red">시나리오를 선택하세요</span>`;
                     return;
@@ -1911,13 +1865,13 @@
                 }
 
                 const matches = data.filter(item => roll >= item.min && roll <= item.max);
-                
+
                 if (matches.length > 0) {
                     const resultHtml = matches.map(m => {
                         const stopBadge = m.stop ? ` <span class="black-highlight">STOP</span>` : '';
                         return `<div><span class="tag tag-result">${m.type} (${m.count})</span>${stopBadge}</div>`;
                     }).join('');
-                    
+
                     flightResult.innerHTML = `
                         <div style="display:flex; flex-direction:column; align-items:flex-end; gap: 4px;">
                             <span class="roll-value">${roll}</span>

@@ -1038,7 +1038,8 @@
 
   /* --- Player Aid reset button --- */
   #aid-reset-btn {
-    margin-left: auto;
+    position: absolute;
+    right: 0;
     padding: 8px 18px;
     border: 1px solid var(--red);
     background: rgba(139,26,26,0.18);
@@ -1248,6 +1249,217 @@
     color: var(--fade);
     border: 1px solid var(--olive) !important;
   }
+
+  /* ══════════════════════════════════════════════════════════════
+     BOT AID PAGES  —  기본 규칙 / SAM·AAA / 기타 참고
+     ══════════════════════════════════════════════════════════════ */
+
+  .bot-aid-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px 16px;
+  }
+
+  /* ── Grid ── */
+  .bot-grid-2 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 16px;
+  }
+
+  /* ── Cards ── */
+  .bot-card {
+    background: rgba(22,20,10,0.9);
+    border: 1px solid var(--olive);
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+  .bot-card-header {
+    background: rgba(28,26,13,0.97);
+    padding: 11px 16px;
+    border-bottom: 1px solid var(--olive);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .bot-card-icon {
+    width: 28px;
+    height: 28px;
+    background: rgba(90,26,26,0.75);
+    color: #e8a8a8;
+    border: 1px solid rgba(196,90,74,0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Oswald', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .bot-card-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    color: var(--tan);
+    text-transform: uppercase;
+  }
+  .bot-card-body {
+    padding: 18px;
+    font-size: 13px;
+    color: #c4b896;
+  }
+  .bot-card-body p { margin-bottom: 10px; }
+  .bot-card-body p:last-child { margin-bottom: 0; }
+  .bot-card-body ul, .bot-card-body ol { padding-left: 20px; margin-bottom: 10px; }
+  .bot-card-body li { margin-bottom: 5px; line-height: 1.5; }
+  .bot-card-body strong { color: var(--cream); }
+
+  /* ── Tables ── */
+  .bot-table-wrap {
+    overflow-x: auto;
+    margin: 10px 0;
+    border: 1px solid var(--olive);
+  }
+  .bot-table-wrap table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    min-width: 400px;
+  }
+  .bot-table-wrap th {
+    background: rgba(90,26,26,0.75);
+    color: #e8a8a8;
+    padding: 8px 10px;
+    text-align: left;
+    font-family: 'Oswald', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    border-bottom: 1px solid rgba(196,90,74,0.5);
+  }
+  .bot-table-wrap td {
+    padding: 7px 10px;
+    border-bottom: 1px solid rgba(74,74,42,0.3);
+    vertical-align: top;
+    color: #c4b896;
+  }
+  .bot-table-wrap tr:nth-child(even) { background: rgba(74,74,42,0.06); }
+  .bot-table-wrap tr:last-child td   { border-bottom: none; }
+  .bot-table-wrap tbody tr:hover:not(:last-child) { background: rgba(74,74,42,0.14); }
+
+  /* ── Callout boxes ── */
+  .bot-hi {
+    background: rgba(74,74,42,0.18);
+    border-left: 3px solid var(--tan);
+    padding: 11px 13px;
+    margin: 10px 0;
+    font-size: 13px;
+    color: #c4b896;
+  }
+  .bot-hi strong { color: var(--cream); }
+  .bot-note {
+    background: rgba(26,58,90,0.18);
+    border-left: 3px solid #3a8ac4;
+    padding: 11px 13px;
+    margin: 10px 0;
+    font-size: 12px;
+    color: #c4b896;
+    display: block;
+  }
+
+  /* ── Tags ── */
+  .bot-tag {
+    display: inline-block;
+    padding: 2px 7px;
+    font-size: 11px;
+    font-weight: 600;
+    margin: 1px 0;
+    border: 1px solid;
+    letter-spacing: 0.04em;
+  }
+  .bot-tag-dice { background: rgba(196,169,107,0.12); color: var(--tan);  border-color: rgba(196,169,107,0.4); font-family: 'JetBrains Mono', monospace; }
+  .bot-tag-cond { background: rgba(26,58,90,0.35);   color: #a8c8e8;     border-color: rgba(74,130,180,0.45); }
+  .bot-tag-bad  { background: rgba(139,26,26,0.3);   color: #f09090;     border-color: rgba(192,57,43,0.45);  }
+  .bot-tag-ok   { background: rgba(40,100,50,0.35);  color: #88e888;     border-color: rgba(60,150,60,0.45);  }
+  .bot-tag-mod  { background: rgba(196,169,107,0.12);color: var(--tan);  border-color: rgba(196,169,107,0.4); }
+  .bot-ac       { display: inline-block; background: rgba(90,26,26,0.55); color: #e8a8a8; padding: 1px 7px; font-family: 'JetBrains Mono', monospace; font-size: 11px; border: 1px solid rgba(196,90,74,0.4); }
+  .bot-stop     { background: rgba(196,169,107,0.18); color: var(--tan); padding: 1px 6px; font-weight: 600; border: 1px solid rgba(196,169,107,0.4); font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+  .bot-red      { color: #f08070; font-weight: 600; }
+
+  /* ── Dice roller ── */
+  .bot-roller {
+    background: rgba(74,74,42,0.1);
+    border: 1px solid var(--olive);
+    padding: 11px 13px;
+    margin: 12px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+  }
+  .bot-roll-btn {
+    flex-shrink: 0;
+    padding: 7px 16px;
+    background: rgba(90,26,26,0.55);
+    color: #e8c0c0;
+    border: 1px solid rgba(196,90,74,0.6);
+    cursor: pointer;
+    font-family: 'Oswald', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    transition: all 0.2s;
+    text-transform: uppercase;
+  }
+  .bot-roll-btn:hover { background: rgba(139,40,40,0.7); border-color: #e87060; color: #f0d0d0; }
+  .bot-roll-result { font-size: 13px; font-weight: 600; text-align: right; flex-grow: 1; }
+  .bot-roll-val {
+    font-family: 'JetBrains Mono', monospace;
+    background: rgba(74,74,42,0.28);
+    padding: 3px 8px;
+    border: 1px solid var(--olive);
+    margin-right: 6px;
+    color: var(--tan);
+    font-size: 13px;
+  }
+  .bot-roller label { color: var(--fade2); font-size: 12px; }
+  .bot-roller input[type="checkbox"] { accent-color: var(--tan); }
+  .bot-roller input[type="number"] {
+    background: rgba(74,74,42,0.2);
+    border: 1px solid var(--olive);
+    color: var(--cream);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    padding: 3px 6px;
+  }
+  .bot-roller input[type="number"]:focus { outline: none; border-color: var(--tan); }
+  .bot-roller select {
+    background: rgba(22,20,10,0.92);
+    border: 1px solid var(--olive);
+    color: var(--cream);
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 12px;
+    padding: 5px 8px;
+    cursor: pointer;
+  }
+  .bot-roller select:focus  { outline: none; border-color: var(--tan); }
+  .bot-roller select option { background: #1c1c10; color: var(--cream); }
+
+  /* ── Legend items ── */
+  .bot-legend-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+  .bot-legend-item { display: flex; align-items: center; gap: 10px; padding: 7px; background: rgba(74,74,42,0.1); border: 1px solid rgba(74,74,42,0.3); margin-bottom: 5px; }
+  .bot-legend-text { font-size: 12px; color: #c4b896; }
+
+  /* ── Bot sub-pages ── */
+  .bot-sub-page { display: none; }
+  .bot-sub-page.active { display: block; }
+  #bot-page .tabs{display:flex;gap:4px;margin-bottom:20px;flex-wrap:wrap;max-width:960px;margin-left:auto;margin-right:auto;justify-content:center}
+  #bot-page button.tab{font-family:'Oswald',sans-serif;font-size:13px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;padding:8px 20px;border:1px solid var(--olive);background:rgba(30,28,15,.9);color:var(--fade);cursor:pointer;transition:all .2s}
+  #bot-page button.tab:hover{border-color:var(--khaki);color:var(--cream)}
+  #bot-page button.tab.on{background:var(--olive);border-color:var(--tan);color:var(--tan)}
 </style>
 </head>
 <body>
@@ -1262,6 +1474,7 @@
   <button class="main-tab-btn active" data-target="oob-page">Order of Battle</button>
   <button class="main-tab-btn" data-target="adc-page">Raid</button>
   <button class="main-tab-btn" data-target="aid-page">Player Aid</button>
+  <button class="main-tab-btn" data-target="bot-page">Solo Bot</button>
 </div>
 
 <div id="oob-page" class="main-page active">
@@ -2810,10 +3023,548 @@
     </div>
 
 
-    
+
 
   </div>
 </div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SOLO BOT  (메인 탭 컨테이너)
+     ══════════════════════════════════════════════════════════════ -->
+<div id="bot-page" class="main-page">
+
+  <!-- Sub-tab 내비게이션 -->
+  <div class="tabs">
+    <button class="tab on" data-bot-target="bot-basic-sub">기본 규칙</button>
+    <button class="tab" data-bot-target="bot-sam-sub">SAM / AAA</button>
+    <button class="tab" data-bot-target="bot-ref-sub">기타 참고</button>
+  </div>
+
+<!-- ── 기본 규칙 (A B C D E F G H M) ── -->
+<div id="bot-basic-sub" class="bot-sub-page active">
+<div class="bot-aid-wrapper">
+
+  <!-- A + B -->
+  <div class="bot-grid-2">
+    <div class="bot-card">
+      <div class="bot-card-header">
+        <div class="bot-card-icon">A</div>
+        <div class="bot-card-title">비행대 활성화 표</div>
+      </div>
+      <div class="bot-card-body">
+        <p>DRV 비행대는 활성화될 때까지 일반 비행대 마커를 사용합니다. 일반 DRV 비행대는 다음 상황에서 활성화를 확인합니다:</p>
+        <ul>
+          <li>육안으로 식별되었을 때 [10.4]</li>
+          <li>공대공 전투를 시도하거나 성공적으로 교전했을 때</li>
+          <li><span class="bot-red">🅓 비행대 행동 — 전투 행동</span>에서 교전 결과를 받았을 때</li>
+        </ul>
+        <div class="bot-hi">
+          <strong>비행대 활성화 확인</strong> <span class="bot-tag bot-tag-dice">1d10</span>:<br>
+          ≤ 5 <span class="bot-tag bot-tag-ok">실제 비행대</span> | ≥ 6 <span class="bot-tag bot-tag-bad">더미</span>
+        </div>
+        <div class="bot-roller">
+          <button class="bot-roll-btn" id="bActivationBtn">활성화 확인 (1d10)</button>
+          <div class="bot-roll-result" id="bActivationResult"></div>
+        </div>
+        <p><strong>실제 비행대:</strong> 비행대를 활성화. <span class="bot-red">🅝 DRV 비행대 선택 표</span> 참조.</p>
+        <p><strong>더미:</strong> 일반 비행대 마커를 제거.</p>
+      </div>
+    </div>
+
+    <div class="bot-card">
+      <div class="bot-card-header">
+        <div class="bot-card-icon">B</div>
+        <div class="bot-card-title">이동 페이즈</div>
+      </div>
+      <div class="bot-card-body">
+        <p>무질서 상태가 아닌 DRV 비행대가 US 비행대로부터 5헥스 이내에 있다면, DRV가 먼저 이동합니다. 그렇지 않으면 US가 먼저 이동합니다.</p>
+        <div class="bot-note">무질서 상태가 아닌 DRV 비행대(주간인 경우)가 3개 이상의 US CAP 비행대로부터 5헥스 이내에 있으면 방어 원형진에 진입합니다. 무질서 상태 비행대와 3개 이상의 US CAP 비행대로부터 5헥스 이내에 있지 않은 비행대는 방어 원형진에서 벗어납니다.</div>
+        <p><strong>DRV 비행대를 다음 순서로 이동:</strong></p>
+        <ol>
+          <li>활성화된 DRV 비행대, US 비행대에 가장 가까운 것부터</li>
+          <li>일반 DRV 비행대, ID 문자 순서로, 탐지된 것부터</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- C -->
+  <div class="bot-card">
+    <div class="bot-card-header">
+      <div class="bot-card-icon">C</div>
+      <div class="bot-card-title">비행대 행동 — 주요 행동</div>
+    </div>
+    <div class="bot-card-body">
+      <p>다음 조건 중 하나라도 적용되면(순서대로), 다음과 같이 이동합니다:</p>
+      <div class="bot-hi">빨간색: 지시사항을 수행한 후 멈춥니다.<br>검은색: 지시사항을 수행한 후 <span class="bot-red">🅓 비행대 행동 — 전투 행동</span>으로 이동합니다.</div>
+      <div class="bot-table-wrap">
+        <table>
+          <tr><th>조건</th><th>행동</th></tr>
+          <tr><td><span class="bot-tag bot-tag-cond">기동 마커</span></td><td>전투 쓰로틀. MF의 ½을 소모하여 기동 마커를 제거.</td></tr>
+          <tr><td><span class="bot-tag bot-tag-cond">BVR 회피 마커</span></td><td>전투 쓰로틀. 1 MP를 소모하여 BVR 회피 마커를 제거.</td></tr>
+          <tr><td><span class="bot-tag bot-tag-bad">손상된 항공기</span></td><td>비행대 내 모든 항공기가 손상된 경우: 비행대 작전 중지. 아래 비행대 작전 중지 지침을 따름.</td></tr>
+          <tr><td><span class="bot-tag bot-tag-bad">묶여진 항공기 / 비행대 작전 중지 / Winchester</span></td><td>전투 쓰로틀. 초저고도로 강하 [☾/⛅: 저고도]. 개방된 비행장 또는 중국 완충 지대(Chinese Buffer Zone) 중 더 가까운 곳으로 이동.</td></tr>
+          <tr><td><span class="bot-tag bot-tag-bad">무질서 상태</span></td><td>집결 지점에 인접하지 않은 경우: 대시 쓰로틀. 초저고도로 강하 [☾/⛅: 저고도]하고 가장 가까운 개방된 비행장 또는 공중 대기 지점(Orbit point)에 최대한 가깝게 이동.</td></tr>
+          <tr><td><span class="bot-tag bot-tag-bad">비행장에서 준비 완료</span></td><td>이륙. 다음 턴에 전진하며 초저고도에 남아 있음.</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- D + E -->
+  <div class="bot-grid-2">
+    <div class="bot-card">
+      <div class="bot-card-header">
+        <div class="bot-card-icon">D</div>
+        <div class="bot-card-title">비행대 행동 — 전투 행동</div>
+      </div>
+      <div class="bot-card-body">
+        <p>이동하는 각 DRV 비행대에 대해 <span class="bot-tag bot-tag-dice">1d10</span>을 굴립니다:</p>
+        <div class="bot-hi">
+          ≤ 5이고 5헥스 이내에 탐지된 US 비행대가 있는 경우: <span class="bot-tag bot-tag-ok">교전</span> → <span class="bot-red">🅕 교전 행동</span><br><br>
+          ≥ 6이거나 5헥스 이내에 탐지된 US 비행대가 없는 경우: <span class="bot-tag bot-tag-bad">교전 없음</span> → <span class="bot-red">🅖 비전투 행동</span>
+        </div>
+        <div class="bot-roller" style="flex-direction:column;align-items:stretch;">
+          <div style="margin-bottom:10px;">
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+              <input type="checkbox" id="bUSInRange">
+              <span>5헥스 이내에 탐지된 US 비행대가 있음</span>
+            </label>
+          </div>
+          <div style="margin-bottom:10px;">
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+              <input type="checkbox" id="bUndetectedD">
+              <span>DRV 비행대가 탐지되지 않음 (-2)</span>
+            </label>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+            <button class="bot-roll-btn" id="bCombatBtn">행동 확인 (1d10)</button>
+            <div class="bot-roll-result" id="bCombatResult"></div>
+          </div>
+          <div id="bCombatChain" style="margin-top:12px;"></div>
+        </div>
+        <p><strong>보정 수치</strong> <span class="bot-tag bot-tag-mod">탐지되지 않은 경우: -2</span></p>
+      </div>
+    </div>
+
+    <div class="bot-card">
+      <div class="bot-card-header">
+        <div class="bot-card-icon">E</div>
+        <div class="bot-card-title">일반 비행대 생성</div>
+      </div>
+      <div class="bot-card-body">
+        <p>각 관리 페이즈마다, 최대치 중 하나가 충족될 때까지 <span class="bot-tag bot-tag-dice">1d10</span>을 굴립니다:</p>
+        <div class="bot-roller">
+          <button class="bot-roll-btn" id="bGenFlightBtn">생성 확인 (1d10)</button>
+          <div class="bot-roll-result" id="bGenFlightResult"></div>
+        </div>
+        <div class="bot-table-wrap">
+          <table>
+            <tr><th>주사위</th><th>결과</th></tr>
+            <tr><td>≤ 4 또는 지도에 일반 DRV 없음</td><td>US 비행대에 가장 가까운 DRV가 없는 개방된 비행장에 일반 비행대 1개 배치.</td></tr>
+            <tr><td>5–7</td><td>US 비행대에 가장 가까운 기존의 탐지되지 않은 비행대와 함께 일반 비행대 1개 배치(있는 경우).</td></tr>
+            <tr><td>≥ 8</td><td>이번 턴에는 일반 비행대를 배치하지 않음.</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- H + M -->
+  <div class="bot-grid-2">
+    <div class="bot-card">
+      <div class="bot-card-header">
+        <div class="bot-card-icon">H</div>
+        <div class="bot-card-title">DRV 일반 비행대 행동</div>
+      </div>
+      <div class="bot-card-body">
+        <ul>
+          <li>일반 비행대는 모든 고도에서 <strong>전투 쓰로틀 3</strong>, <strong>대시 쓰로틀 4</strong>를 사용합니다.</li>
+          <li>이탈하는 경우가 아니라면, DRV 비행대는 항상 플레이 구역을 벗어나지 않도록 선회합니다.</li>
+          <li>DRV 비행대는 초저고도에 있을 때 능선을 피하기 위해 상승합니다.</li>
+          <li>DRV 비행대는 마지막 연료 단위를 자발적으로 사용하지 않습니다.</li>
+          <li>DRV 비행대는 무질서 상태이거나 작전 중지된 경우 교전 해제를 시도합니다.</li>
+          <li>DRV 비행대는 선택할 수 있다면 방어자로서의 교전을 거부합니다.</li>
+          <li>착륙하는 경우가 아니라면, DRV 비행대는 야간이나 초저고도와 저고도 사이에 조밀한 구름층이 있을 때 초저고도로 하강하지 않습니다 [☾/⛅: 저고도].</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="bot-card">
+      <div class="bot-card-header">
+        <div class="bot-card-icon">M</div>
+        <div class="bot-card-title">DRV 표적 선택 표</div>
+      </div>
+      <div class="bot-card-body">
+        <p>다음 조건의 US 비행대를 선택합니다 (위에서 아래 순서로):</p>
+        <div class="bot-table-wrap">
+          <table style="min-width:300px;">
+            <tr><th style="width:50%;">행동 유닛이 SAM인 경우</th><th style="width:50%;">행동 유닛이 MiG인 경우</th></tr>
+            <tr>
+              <td>
+                • 행동하는 SAM에게 표적 획득되었고 8헥스 이내<br><br>
+                • 탐지 상태 비행대<br><br>
+                • 적재 상태(Laden)<br><br>
+                • 표적 획득 마커 가장 적은 비행대<br><br>
+                • 가장 가까운 비행대<br><br>
+                • MiG의 5헥스 이내에 있지 않은 비행대<br><br>
+                • 손상/물리화된 항공기가 있는 US 비행대<br><br>
+                • 남은 US 비행대 중에서 무작위 선택
+              </td>
+              <td>
+                • 탐지 상태 비행대<br><br>
+                • 가장 낮은 고도대역에 위치한 비행대<br><br>
+                • 적재 상태(Laden)<br><br>
+                • 표적 획득 마커 가장 적은 비행대<br><br>
+                • 가장 가까운 비행대<br><br>
+                • 손상/물리화된 항공기가 있는 US 비행대<br><br>
+                • 남은 US 비행대 중에서 무작위 선택
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- .bot-aid-wrapper -->
+</div><!-- #bot-basic-sub -->
+
+
+<!-- ── SAM / AAA (I J K L Z) ── -->
+<div id="bot-sam-sub" class="bot-sub-page">
+<div class="bot-aid-wrapper">
+
+  <!-- I + J -->
+  <div class="bot-grid-2">
+    <div class="bot-card">
+      <div class="bot-card-header">
+        <div class="bot-card-icon">I</div>
+        <div class="bot-card-title">AAA &amp; 파이어 캔 활성화 표</div>
+      </div>
+      <div class="bot-card-body">
+        <p>비활성 AAA 마커의 1헥스 이내로 이동하는 저고도 이상의 각 US 비행대에 대해 한 번 확인합니다.</p>
+        <div class="bot-hi">
+          <strong>AAA 활성화 확인</strong> <span class="bot-tag bot-tag-dice">1d10</span>:<br>
+          ≤ 5 <span class="bot-tag bot-tag-ok">실제 AAA</span> | 6–8 <span class="bot-tag bot-tag-cond">효과 없음</span> | ≥ 9 <span class="bot-tag bot-tag-bad">더미</span>
+        </div>
+        <div class="bot-roller">
+          <button class="bot-roll-btn" id="bAAABtn">AAA 활성화 (1d10)</button>
+          <div class="bot-roll-result" id="bAAAResult"></div>
+        </div>
+        <div class="bot-table-wrap">
+          <table>
+            <tr><th>결과</th><th></th></tr>
+            <tr><td>≤ 4</td><td><strong>실제 AAA:</strong> 1d10 추가 굴림: ≤ 6 저강도; 7–9 중강도; 10 고강도</td></tr>
+            <tr><td>5–8</td><td><strong>효과 없음(NE):</strong> 비활성 AAA 경고 마커를 유지합니다.</td></tr>
+            <tr><td>≥ 9</td><td><strong>더미 AAA:</strong> AAA 경고 마커를 제거합니다.</td></tr>
+          </table>
+        </div>
+        <p style="margin-top:14px;">파이어 캔이 없는 활성 AAA의 2헥스 이내로 이동하는 각 US 비행대에 대해 한 번 확인합니다.</p>
+        <div class="bot-hi">
+          <strong>파이어 캔 활성화 확인</strong> <span class="bot-tag bot-tag-dice">1d10</span>:<br>
+          ≤ 3 <span class="bot-tag bot-tag-ok">파이어 캔</span> | ≥ 4 <span class="bot-tag bot-tag-cond">효과 없음</span>
+        </div>
+        <div class="bot-roller" style="flex-direction:column;align-items:stretch;">
+          <div style="margin-bottom:10px;">
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+              <input type="checkbox" id="bFireCanMod">
+              <span>5헥스 이내에 파이어 캔 있음 (+1)</span>
+            </label>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+            <button class="bot-roll-btn" id="bFireCanBtn">파이어 캔 활성화 (1d10)</button>
+            <div class="bot-roll-result" id="bFireCanResult"></div>
+          </div>
+        </div>
+        <div class="bot-table-wrap">
+          <table>
+            <tr><th>결과</th><th></th></tr>
+            <tr><td>≤ 3</td><td><strong>실제 파이어 캔:</strong> 사용 가능한 파이어 캔을 배치하고 유발한 US 비행대에 사격합니다.</td></tr>
+            <tr><td>≥ 4</td><td><strong>효과 없음(NE):</strong> 파이어 캔을 놓지 않습니다.</td></tr>
+          </table>
+        </div>
+        <p><strong>보정 수치</strong> <span class="bot-tag bot-tag-mod">5헥스 이내에 파이어 캔이 있는 경우: +1</span></p>
+      </div>
+    </div>
+
+    <div class="bot-card">
+      <div class="bot-card-header">
+        <div class="bot-card-icon">J</div>
+        <div class="bot-card-title">AAA / 파이어 캔 행동 표</div>
+      </div>
+      <div class="bot-card-body">
+        <ul>
+          <li>AAA는 이동 페이즈 중 가능한 한 빠른 시점에 사거리 내의 모든 US 비행대에 사격합니다.</li>
+          <li>파이어 캔은 이동 페이즈 중 가능한 한 빠른 시점에 사격합니다.</li>
+          <li>DRV 비행대는 무시합니다(모든 고도에서 충돌 회피[14.74]를 적용합니다).</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- K + Z -->
+  <div class="bot-grid-2">
+    <div class="bot-card">
+      <div class="bot-card-header">
+        <div class="bot-card-icon">K</div>
+        <div class="bot-card-title">SAM 활성화 표</div>
+      </div>
+      <div class="bot-card-body">
+        <p>비활성 SAM은 다음 상황에서 활성화를 확인합니다:</p>
+        <ul>
+          <li>어떤 수단으로든 위치가 파악되었을 때.</li>
+          <li>SAM 표적 획득 페이즈 중, US 비행대로부터 12헥스 이내에 있을 때.</li>
+          <li>[선택사항] 이동 페이즈 중: <span class="bot-red">🅩 발사 후 락온 표</span> 참조.</li>
+        </ul>
+        <div class="bot-hi">
+          <strong>SAM 활성화 확인</strong> <span class="bot-tag bot-tag-dice">1d10</span>:<br>
+          ≤ 4 <span class="bot-tag bot-tag-ok">실제 SAM</span> | 5–8 <span class="bot-tag bot-tag-cond">효과 없음</span> | ≥ 9 <span class="bot-tag bot-tag-bad">더미 SAM</span>
+        </div>
+        <div class="bot-roller">
+          <button class="bot-roll-btn" id="bSAMActBtn">SAM 활성화 (1d10)</button>
+          <div class="bot-roll-result" id="bSAMActResult"></div>
+        </div>
+        <div class="bot-table-wrap">
+          <table>
+            <tr><th>결과</th><th></th></tr>
+            <tr><td>≤ 4</td><td><strong>실제 SAM:</strong> SAM 경고 마커를 뒤집어서 Radar ON면으로 놓습니다. 레이더 활성화.</td></tr>
+            <tr><td>5–8</td><td><strong>효과 없음(NE):</strong> 비활성 SAM 경고 마커를 유지합니다. 이번 턴에는 SAM 활성화 확인 없음.</td></tr>
+            <tr><td>≥ 9</td><td><strong>더미 SAM:</strong> SAM 경고 마커를 제거합니다.</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="bot-card">
+      <div class="bot-card-header">
+        <div class="bot-card-icon">Z</div>
+        <div class="bot-card-title">발사 후 락온 표 (LOAL)</div>
+      </div>
+      <div class="bot-card-body">
+        <p>[선택사항] 1967년 8월 이후인 경우, 탐지된 US 비행대가 비활성 SAM의 5헥스 이내로 이동할 때마다 LOAL 확인을 합니다.</p>
+        <div class="bot-hi">
+          <strong>LOAL</strong> <span class="bot-tag bot-tag-dice">1d10</span>:<br>
+          ≤ 3 <span class="bot-tag bot-tag-ok">사격</span> | ≥ 4 <span class="bot-tag bot-tag-bad">사격 안 함</span>
+        </div>
+        <div class="bot-roller">
+          <button class="bot-roll-btn" id="bLOALBtn">LOAL 확인 (1d10)</button>
+          <div class="bot-roll-result" id="bLOALResult"></div>
+        </div>
+        <div class="bot-table-wrap">
+          <table>
+            <tr><th>결과</th><th></th></tr>
+            <tr><td><strong>사격 발생 O</strong></td><td>SAM을 활성화하고 사격을 유발한 US 비행대에 일제 사격을 시도합니다.</td></tr>
+            <tr><td><strong>사격 발생 X</strong></td><td>SAM은 활성화되지 않습니다.</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- L -->
+  <div class="bot-card">
+    <div class="bot-card-header">
+      <div class="bot-card-icon">L</div>
+      <div class="bot-card-title">SAM 행동 표 (활성 SAM / SAM 경고 마커만 적용)</div>
+    </div>
+    <div class="bot-card-body">
+      <p><strong>이동 페이즈:</strong> 탐지된 US 비행대가 자신을 표적 획득한 SAM의 8헥스* 이내에서 MP를 소모할 때마다 사격 확인을 합니다. 여러 SAM이 한 US 비행대의 표적을 획득한 경우, 가장 가까운 SAM만 확인(동률이면 ID 알파벳 순).</p>
+      <div class="bot-hi">
+        <strong>SAM 사격 확인</strong> <span class="bot-tag bot-tag-dice">1d10</span>:<br>
+        > US 비행대까지의 거리 <span class="bot-tag bot-tag-ok">사격</span> | ≤ US 비행대까지의 거리 <span class="bot-tag bot-tag-bad">사격 안 함</span>
+      </div>
+      <div class="bot-roller" style="flex-direction:column;align-items:stretch;">
+        <div style="margin-bottom:10px;display:flex;flex-wrap:wrap;gap:14px;align-items:center;">
+          <label style="display:flex;align-items:center;gap:8px;">
+            <span>거리:</span>
+            <input type="number" id="bSAMDist" min="1" max="10" value="4" style="width:50px;">
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+            <input type="checkbox" id="bSAMAcq">
+            <span>완전 표적 획득 (+2)</span>
+          </label>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+          <button class="bot-roll-btn" id="bSAMFireBtn">사격 확인 (1d10)</button>
+          <div class="bot-roll-result" id="bSAMFireResult"></div>
+        </div>
+      </div>
+      <p><strong>보정 수치</strong> <span class="bot-tag bot-tag-mod">완전 표적 획득인 경우: +2</span></p>
+      <div class="bot-note">*표적이 고고도에 있으면 거리에 1을 더합니다.</div>
+      <div class="bot-table-wrap" style="margin-top:10px;">
+        <table>
+          <tr><th>결과</th><th></th></tr>
+          <tr><td><strong>사격 발생 O</strong></td><td>표적 획득된 US 비행대에 SAM 발사 공격 수행. 굴림이 짝수면 일제 사격(salvo), 홀수면 단일 미사일 발사.</td></tr>
+          <tr><td><strong>사격 발생 X</strong></td><td>SAM 사격을 수행하지 않습니다. US 항공기가 8헥스 이내에서 다시 MP를 소모하면 SAM은 재시도할 수 있습니다.</td></tr>
+        </table>
+      </div>
+      <p style="margin-top:10px;"><strong>ARM 사격:</strong> 탐지 상태 US 비행대가 ARM 사격을 하면, 모든 SAM은 레이더를 켠 상태를 유지하려고 합니다.</p>
+      <p><strong>SAM 표적 획득 페이즈:</strong> US 비행대의 12헥스 내에 있는 비활성 SAM의 활성화 여부를 확인 (<span class="bot-red">🅚 SAM 활성화 테이블</span>). 이후 모든 활성 SAM은 US 비행대 표적 획득을 시도합니다. <span class="bot-red">🅜 타겟 선택 테이블</span> 참조.</p>
+    </div>
+  </div>
+
+</div><!-- .bot-aid-wrapper -->
+</div><!-- #bot-sam-sub -->
+
+
+<!-- ── 기타 참고 (N O P Q) ── -->
+<div id="bot-ref-sub" class="bot-sub-page">
+<div class="bot-aid-wrapper">
+
+  <!-- N -->
+  <div class="bot-card">
+    <div class="bot-card-header">
+      <div class="bot-card-icon">N</div>
+      <div class="bot-card-title">DRV 비행대 선택 표</div>
+    </div>
+    <div class="bot-card-body">
+      <p>일반 DRV 비행대 활성화 시 <span class="bot-tag bot-tag-dice">1d10</span>을 굴립니다. 모든 DRV 조종사는 베테랑입니다. 시나리오 종료 시, US VP를 추가합니다: <span class="bot-red">🅠 종료 시 MAP</span> 참조.</p>
+      <div class="bot-roller" style="flex-direction:column;align-items:stretch;">
+        <div style="margin-bottom:10px;display:flex;gap:10px;align-items:center;">
+          <select id="bFlightScenario" style="flex-grow:1;">
+            <option value="" disabled selected>시나리오 선택</option>
+            <option value="D1">D1</option><option value="D2">D2</option><option value="D3">D3</option>
+            <option value="D4/D5">D4/D5</option><option value="D6">D6</option>
+            <option value="D7/D8">D7/D8</option><option value="D9">D9</option>
+            <option value="D10/D11">D10/D11</option><option value="D12">D12</option>
+            <option value="D13">D13</option><option value="D14/D16">D14/D16</option>
+            <option value="D15">D15</option>
+          </select>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+          <button class="bot-roll-btn" id="bFlightBtn">비행대 생성 (1d10)</button>
+          <div class="bot-roll-result" id="bFlightResult"></div>
+        </div>
+      </div>
+      <div class="bot-table-wrap">
+        <table>
+          <tr>
+            <th>시나리오</th>
+            <th><span class="bot-ac">MiG-17F</span></th>
+            <th><span class="bot-ac">MiG-19S</span></th>
+            <th><span class="bot-ac">MiG-21F-13</span></th>
+            <th><span class="bot-ac">MiG-21PF</span></th>
+            <th><span class="bot-ac">MiG-21PFM</span></th>
+            <th><span class="bot-ac">MiG-21MF</span></th>
+          </tr>
+          <tr><td>D1</td><td>1-2 (x2), 3-4 (x3), 5-10 (x4)</td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td>D2</td><td>1-2 (x2), <span class="bot-stop">3-10</span> (x4)</td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td>D3</td><td>1 (x2), 2 (x3), 3-6 (x4)</td><td></td><td>7-8 (x2), 9 (x3), 10 (x4)</td><td></td><td></td><td></td></tr>
+          <tr><td>D4/D5</td><td>1 (x2), 2 (x3), 3-4 (x4)</td><td></td><td>5 (x2), 6 (x3), 7 (x4)</td><td>8 (x2), 9 (x3), 10 (x4)</td><td></td><td></td></tr>
+          <tr><td>D6</td><td>1-4 (x2), <span class="bot-stop">5</span> (x4)</td><td></td><td></td><td><span class="bot-stop">6-10</span> (x2)</td><td>5 (x2), 6 (x3), 7 (x4)</td><td>8 (x2), 9 (x3), 10 (x4)</td></tr>
+          <tr><td>D7/D8</td><td>1 (x2), 2 (x3), 3-4 (x4)</td><td></td><td></td><td>5-7 (x2), 8-9 (x3), 10 (x4)</td><td></td><td></td></tr>
+          <tr><td>D9</td><td>1 (x2), 2 (x3), 3-4 (x4)</td><td></td><td>5 (x2), 6 (x3)</td><td>7-8 (x2), 9 (x3), 10 (x4)</td><td></td><td></td></tr>
+          <tr><td>D10/D11</td><td>1 (x2), 2 (x3), 3 (x4)</td><td>4 (x3)</td><td></td><td></td><td>5 (x2), 6 (x3), 7 (x4)</td><td>8 (x2), 9 (x3), 10 (x4)</td></tr>
+          <tr><td>D12</td><td>1 (x2), <span class="bot-stop">2-4</span> (x4)</td><td><span class="bot-stop">5</span> (x2), <span class="bot-stop">6</span> (x3)</td><td></td><td></td><td><span class="bot-stop">7-10</span> (x2)</td><td></td></tr>
+          <tr><td>D13</td><td>1 (x2), 2 (x3), 3 (x4)</td><td>4 (x3)</td><td></td><td></td><td>5-6 (x2), 7 (x3)</td><td>8 (x2), 9 (x3), 10 (x4)</td></tr>
+          <tr><td>D14/D16</td><td></td><td></td><td></td><td></td><td></td><td>1-10 (x1 야간)</td></tr>
+          <tr><td>D15</td><td></td><td></td><td></td><td></td><td></td><td>1-5 (x2), 6-8 (x3), 9-10 (x4)</td></tr>
+        </table>
+      </div>
+      <div class="bot-note">1-2: 주사위 굴림 범위 / x4: 비행대 내 항공기 수 / <span class="bot-stop">5-10</span>: STOP — 이후 더 이상 활성화 없음; 남은 모든 일반 비행대 제거</div>
+    </div>
+  </div>
+
+  <!-- O -->
+  <div class="bot-card">
+    <div class="bot-card-header">
+      <div class="bot-card-icon">O</div>
+      <div class="bot-card-title">DRV 설정 표</div>
+    </div>
+    <div class="bot-card-body">
+      <div class="bot-table-wrap">
+        <table>
+          <tr>
+            <th>시나리오</th>
+            <th>SAM 경고 마커 준비</th>
+            <th>AAA 마커 준비</th>
+            <th>사용 가능한 파이어 캔</th>
+            <th>최대 일반 비행대</th>
+            <th>최대 실제 비행대</th>
+          </tr>
+          <tr><td>D1</td><td>11*</td><td>5</td><td>4</td><td>3</td><td>1</td></tr>
+          <tr><td>D2</td><td>—</td><td>3*</td><td>-</td><td>4</td><td>2</td></tr>
+          <tr><td>D3</td><td>22*</td><td>8</td><td>8</td><td>5</td><td>3</td></tr>
+          <tr><td>D4</td><td>26</td><td>5</td><td>8</td><td>5</td><td>2</td></tr>
+          <tr><td>D5</td><td>30</td><td>7</td><td>9</td><td>6</td><td>3</td></tr>
+          <tr><td>D6</td><td>6</td><td>4*</td><td>2</td><td>-</td><td>-</td></tr>
+          <tr><td>D7</td><td>30</td><td>8</td><td>10</td><td>5</td><td>2</td></tr>
+          <tr><td>D8</td><td>30</td><td>7</td><td>11</td><td>5</td><td>2</td></tr>
+          <tr><td>D9</td><td>15</td><td>2</td><td>4</td><td>5</td><td>2</td></tr>
+          <tr><td>D10</td><td>30*</td><td>9</td><td>11</td><td>6</td><td>3*</td></tr>
+          <tr><td>D11</td><td>30</td><td>9</td><td>12</td><td>9</td><td>5</td></tr>
+          <tr><td>D12</td><td>2*</td><td>2</td><td>0</td><td>3</td><td>2</td></tr>
+          <tr><td>D13</td><td>30</td><td>9</td><td>11</td><td>6</td><td>2</td></tr>
+          <tr><td>D14</td><td>18*</td><td>0</td><td>6</td><td>4</td><td>2</td></tr>
+          <tr><td>D15</td><td>-</td><td>5</td><td>6</td><td>5</td><td>2</td></tr>
+          <tr><td>D16</td><td>30*</td><td>2</td><td>8</td><td>5</td><td>2</td></tr>
+        </table>
+      </div>
+      <div class="bot-note">*추가 지침은 DRV '봇 규칙을 참조하세요.</div>
+    </div>
+  </div>
+
+  <!-- P + Q -->
+  <div class="bot-grid-2">
+    <div class="bot-card">
+      <div class="bot-card-header">
+        <div class="bot-card-icon">P</div>
+        <div class="bot-card-title">SAM &amp; AAA 지도 상 마커 범례</div>
+      </div>
+      <div class="bot-card-body">
+        <div class="bot-legend-grid">
+          <div>
+            <p style="margin-bottom:8px;font-weight:500;color:var(--cream);">SAM 상태:</p>
+            <div class="bot-legend-item"><img src="1.png" alt="marker" style="width:40px;height:40px;"><div class="bot-legend-text">비활성 SAM (시나리오 시작 시 SAM 준비)</div></div>
+            <div class="bot-legend-item"><img src="2.png" alt="marker" style="width:40px;height:40px;"><div class="bot-legend-text">활성 SAM - 위치 불명 (3발 남음)</div></div>
+            <div class="bot-legend-item"><img src="3.png" alt="marker" style="width:40px;height:40px;"><div class="bot-legend-text">활성 SAM - 위치 불명 (레이더 종료, 탄약 고갈)</div></div>
+            <div class="bot-legend-item"><img src="4.png" alt="marker" style="width:40px;height:40px;"><div class="bot-legend-text">활성 SAM - 위치 확인 (3발 남음)</div></div>
+            <div class="bot-legend-item"><img src="5.png" alt="marker" style="width:40px;height:40px;"><div class="bot-legend-text">활성 SAM - 위치 확인 (레이더 종료, 탄약 고갈)</div></div>
+            <div class="bot-legend-item"><img src="6.png" alt="marker" style="width:40px;height:40px;"><div class="bot-legend-text">비활성 AAA (시나리오 시작 시 AAA 준비)</div></div>
+          </div>
+          <div>
+            <p style="margin-bottom:8px;font-weight:500;color:var(--cream);">카운터 방향으로 잔탄 표시:</p>
+            <div class="bot-legend-item"><img src="11.png" alt="marker" style="width:40px;height:40px;"><div class="bot-legend-text">2발 남음</div></div>
+            <div class="bot-legend-item"><img src="22.png" alt="marker" style="width:40px;height:40px;"><div class="bot-legend-text">1발 남음</div></div>
+            <div class="bot-legend-item"><img src="33.png" alt="marker" style="width:40px;height:40px;"><div class="bot-legend-text">탄약 고갈</div></div>
+          </div>
+        </div>
+        <div class="bot-note" style="margin-top:12px;">[선택사항] — SAM 탄약을 추적하는 대신, 공대공 무기와 같이 {3}을 사용하여 탄약 고갈을 굴립니다. 일제 사격을 하는 경우 굴림에 -3을 보정합니다.</div>
+      </div>
+    </div>
+
+    <div class="bot-card">
+      <div class="bot-card-header">
+        <div class="bot-card-icon">Q</div>
+        <div class="bot-card-title">종료 시 MAP</div>
+      </div>
+      <div class="bot-card-body">
+        <p>시나리오 종료 시, 모든 실제 DRV 비행대의 총 MAP를 합산하고 시나리오 설정 지침과 비교합니다. 적절히 US VP를 부여합니다.</p>
+        <div class="bot-table-wrap">
+          <table>
+            <tr>
+              <th>항공기</th>
+              <th>MiG-17F</th>
+              <th>MiG-19S</th>
+              <th>MiG-21 F-13/PF/PFM</th>
+              <th>MiG-21MF</th>
+            </tr>
+            <tr><td>1x</td><td>—</td><td>—</td><td>—</td><td>9</td></tr>
+            <tr><td>2x</td><td>8</td><td>9</td><td>13</td><td>14</td></tr>
+            <tr><td>3x</td><td>10</td><td>12</td><td>18</td><td>19</td></tr>
+            <tr><td>4x</td><td>12</td><td>15</td><td>23</td><td>24</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- .bot-aid-wrapper -->
+</div><!-- #bot-ref-sub -->
+
+</div><!-- #bot-page -->
+
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
@@ -6367,6 +7118,8 @@ document.addEventListener('DOMContentLoaded', () => {
             mainTabs[1].click();
         } else if (event.key === '3' && mainTabs[2]) {
             mainTabs[2].click();
+        } else if (event.key === '4' && mainTabs[3]) {
+            mainTabs[3].click();
         }
     }
   });
@@ -6798,6 +7551,211 @@ document.addEventListener('DOMContentLoaded', () => {
   window.openShareModal  = openShareModal;
   window.closeShareModal = closeShareModal;
   window.copyShareLink   = copyShareLink;
+
+  // ============================================================
+  // BOT AID — Solo Bot 서브탭 스위칭
+  // ============================================================
+  document.querySelectorAll('[data-bot-target]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetId = btn.dataset.botTarget;
+      document.querySelectorAll('.bot-sub-page').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('[data-bot-target]').forEach(b => b.classList.remove('on'));
+      document.getElementById(targetId)?.classList.add('active');
+      btn.classList.add('on');
+    });
+  });
+
+  // ============================================================
+  // BOT AID — 주사위 롤러 (기본 규칙 / SAM·AAA / 기타 참고)
+  // ============================================================
+  const BOT_FLIGHT_DATA = {
+    "D1":      [{ min:1,max:2,type:"MiG-17F",count:"x2"},{ min:3,max:4,type:"MiG-17F",count:"x3"},{ min:5,max:10,type:"MiG-17F",count:"x4"}],
+    "D2":      [{ min:1,max:2,type:"MiG-17F",count:"x2"},{ min:3,max:10,type:"MiG-17F",count:"x4",stop:true}],
+    "D3":      [{ min:1,max:1,type:"MiG-17F",count:"x2"},{ min:2,max:2,type:"MiG-17F",count:"x3"},{ min:3,max:6,type:"MiG-17F",count:"x4"},{ min:7,max:8,type:"MiG-21F-13",count:"x2"},{ min:9,max:9,type:"MiG-21F-13",count:"x3"},{ min:10,max:10,type:"MiG-21F-13",count:"x4"}],
+    "D4/D5":   [{ min:1,max:1,type:"MiG-17F",count:"x2"},{ min:2,max:2,type:"MiG-17F",count:"x3"},{ min:3,max:4,type:"MiG-17F",count:"x4"},{ min:5,max:5,type:"MiG-21F-13",count:"x2"},{ min:6,max:6,type:"MiG-21F-13",count:"x3"},{ min:7,max:7,type:"MiG-21F-13",count:"x4"},{ min:8,max:8,type:"MiG-21PF",count:"x2"},{ min:9,max:9,type:"MiG-21PF",count:"x3"},{ min:10,max:10,type:"MiG-21PF",count:"x4"}],
+    "D6":      [{ min:1,max:4,type:"MiG-17F",count:"x2"},{ min:5,max:5,type:"MiG-17F",count:"x4",stop:true},{ min:6,max:10,type:"MiG-21PF",count:"x2",stop:true},{ min:5,max:5,type:"MiG-21PFM",count:"x2"},{ min:6,max:6,type:"MiG-21PFM",count:"x3"},{ min:7,max:7,type:"MiG-21PFM",count:"x4"},{ min:8,max:8,type:"MiG-21MF",count:"x2"},{ min:9,max:9,type:"MiG-21MF",count:"x3"},{ min:10,max:10,type:"MiG-21MF",count:"x4"}],
+    "D7/D8":   [{ min:1,max:1,type:"MiG-17F",count:"x2"},{ min:2,max:2,type:"MiG-17F",count:"x3"},{ min:3,max:4,type:"MiG-17F",count:"x4"},{ min:5,max:7,type:"MiG-21PF",count:"x2"},{ min:8,max:9,type:"MiG-21PF",count:"x3"},{ min:10,max:10,type:"MiG-21PF",count:"x4"}],
+    "D9":      [{ min:1,max:1,type:"MiG-17F",count:"x2"},{ min:2,max:2,type:"MiG-17F",count:"x3"},{ min:3,max:4,type:"MiG-17F",count:"x4"},{ min:5,max:5,type:"MiG-21F-13",count:"x2"},{ min:6,max:6,type:"MiG-21F-13",count:"x3"},{ min:7,max:8,type:"MiG-21PF",count:"x2"},{ min:9,max:9,type:"MiG-21PF",count:"x3"},{ min:10,max:10,type:"MiG-21PF",count:"x4"}],
+    "D10/D11": [{ min:1,max:1,type:"MiG-17F",count:"x2"},{ min:2,max:2,type:"MiG-17F",count:"x3"},{ min:3,max:3,type:"MiG-17F",count:"x4"},{ min:4,max:4,type:"MiG-19S",count:"x3"},{ min:5,max:5,type:"MiG-21PFM",count:"x2"},{ min:6,max:6,type:"MiG-21PFM",count:"x3"},{ min:7,max:7,type:"MiG-21PFM",count:"x4"},{ min:8,max:8,type:"MiG-21MF",count:"x2"},{ min:9,max:9,type:"MiG-21MF",count:"x3"},{ min:10,max:10,type:"MiG-21MF",count:"x4"}],
+    "D12":     [{ min:1,max:1,type:"MiG-17F",count:"x2"},{ min:2,max:4,type:"MiG-17F",count:"x4",stop:true},{ min:5,max:5,type:"MiG-19S",count:"x2",stop:true},{ min:6,max:6,type:"MiG-19S",count:"x3",stop:true},{ min:7,max:10,type:"MiG-21PFM",count:"x2",stop:true}],
+    "D13":     [{ min:1,max:1,type:"MiG-17F",count:"x2"},{ min:2,max:2,type:"MiG-17F",count:"x3"},{ min:3,max:3,type:"MiG-17F",count:"x4"},{ min:4,max:4,type:"MiG-19S",count:"x3"},{ min:5,max:6,type:"MiG-21PFM",count:"x2"},{ min:7,max:7,type:"MiG-21PFM",count:"x3"},{ min:8,max:8,type:"MiG-21MF",count:"x2"},{ min:9,max:9,type:"MiG-21MF",count:"x3"},{ min:10,max:10,type:"MiG-21MF",count:"x4"}],
+    "D14/D16": [{ min:1,max:10,type:"MiG-21MF",count:"x1 (야간)"}],
+    "D15":     [{ min:1,max:5,type:"MiG-21MF",count:"x2"},{ min:6,max:8,type:"MiG-21MF",count:"x3"},{ min:9,max:10,type:"MiG-21MF",count:"x4"}]
+  };
+
+  function botRoll()  { return Math.floor(Math.random()*10)+1; }
+  function botSetResult(elId, html) { const el=document.getElementById(elId); if(el) el.innerHTML=html; }
+  function botValHtml(v)  { return `<span class="bot-roll-val">${v}</span>`; }
+  function botTagHtml(cls,txt) { return `<span class="bot-tag ${cls}">${txt}</span>`; }
+
+  // A — 비행대 활성화
+  const bActBtn = document.getElementById('bActivationBtn');
+  if (bActBtn) bActBtn.addEventListener('click', ()=>{
+    const r=botRoll();
+    const ok=r<=5;
+    botSetResult('bActivationResult', botValHtml(r)+botTagHtml(ok?'bot-tag-ok':'bot-tag-bad', ok?'실제 비행대':'더미'));
+  });
+
+  // D — 전투 행동
+  const bCombBtn = document.getElementById('bCombatBtn');
+  if (bCombBtn) bCombBtn.addEventListener('click', ()=>{
+    const r=botRoll(), mod=document.getElementById('bUndetectedD')?.checked?-2:0;
+    const total=r+mod;
+    const usInRange=document.getElementById('bUSInRange')?.checked;
+    const isCombat=total<=5 && usInRange;
+    const calc=mod?`${r} ${mod>0?'+':''}${mod} = ${total}`:`${r}`;
+    botSetResult('bCombatResult',`<div style="display:flex;flex-direction:column;align-items:flex-end;">`+
+      `<div>${botValHtml(calc)}${botTagHtml(isCombat?'bot-tag-ok':'bot-tag-bad',isCombat?'교전':'교전 없음')}</div></div>`);
+    const chain=document.getElementById('bCombatChain');
+    if(!chain) return;
+    if(isCombat){
+      chain.innerHTML=`
+        <div class="bot-card" style="margin-top:4px;">
+          <div class="bot-card-header"><div class="bot-card-icon">F</div><div class="bot-card-title">교전 행동</div></div>
+          <div class="bot-card-body">
+            <p><strong>공대공 전투 시도:</strong></p>
+            <ol>
+              <li>표적 선택: <strong>M 표적 선택 표</strong> 참조 (아래).</li>
+              <li>다음과 같이 이동:
+                <ol type="a">
+                  <li>교전에 필요한 경우 대시 쓰로틀, 그렇지 않으면 전투 쓰로틀. 가능하다면 같은 고도에서 후방 반구로 US 비행대 헥스에 진입. 교전 시도; 허용되면 슬래시 공격 수행.</li>
+                  <li>교전에 성공하면 공대공 전투를 해결. 가능한 모든 사격 수행: 기관포 먼저, 그 다음 IRM.</li>
+                  <li>교전에 실패하면 남은 MP를 사용하여 초저고도로 강하 [☾/⛅: 저고도]하고 전진.</li>
+                </ol>
+              </li>
+            </ol>
+          </div>
+        </div>
+        <div class="bot-card" style="margin-top:4px;">
+          <div class="bot-card-header"><div class="bot-card-icon">M</div><div class="bot-card-title">DRV 표적 선택 표</div></div>
+          <div class="bot-card-body">
+            <p>다음 조건의 US 비행대를 선택합니다 (위에서 아래 순서로):</p>
+            <div class="bot-table-wrap">
+              <table style="min-width:300px;">
+                <tr><th style="width:50%;">행동 유닛이 SAM인 경우</th><th style="width:50%;">행동 유닛이 MiG인 경우</th></tr>
+                <tr>
+                  <td>
+                    • 행동하는 SAM에게 표적 획득되었고 8헥스 이내<br><br>
+                    • 탐지 상태 비행대<br><br>
+                    • 적재 상태(Laden)<br><br>
+                    • 표적 획득 마커 가장 적은 비행대<br><br>
+                    • 가장 가까운 비행대<br><br>
+                    • MiG의 5헥스 이내에 있지 않은 비행대<br><br>
+                    • 손상/물리화된 항공기가 있는 US 비행대<br><br>
+                    • 남은 US 비행대 중에서 무작위 선택
+                  </td>
+                  <td>
+                    • 탐지 상태 비행대<br><br>
+                    • 가장 낮은 고도대역에 위치한 비행대<br><br>
+                    • 적재 상태(Laden)<br><br>
+                    • 표적 획득 마커 가장 적은 비행대<br><br>
+                    • 가장 가까운 비행대<br><br>
+                    • 손상/물리화된 항공기가 있는 US 비행대<br><br>
+                    • 남은 US 비행대 중에서 무작위 선택
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>`;
+    } else {
+      const gr=botRoll(), gtotal=gr+mod;
+      let gtxt, gcls, gdesc;
+      if(gtotal<=4){gtxt='접근';gcls='bot-tag-ok';gdesc='전투 쓰로틀. 표적 선택 후 표적 고도에 맞춰 5헥스 이내에 가지 않으며 전방 호 방향으로 이동.';}
+      else if(gtotal<=8){gtxt='위치 유지';gcls='bot-tag-cond';gdesc='전투 쓰로틀. 저고도로 이동. 1MP 전진 → 1MP 좌측 60도 선회. 반복.';}
+      else{gtxt='회피';gcls='bot-tag-bad';gdesc='전투 쓰로틀. 가장 가까운 US 비행대로부터 멀어지며 자유 강하로 초저고도 강하 [☾/⛅: 저고도].';}
+      const gcalc=mod?`${gr} ${mod>0?'+':''}${mod} = ${gtotal}`:`${gr}`;
+      chain.innerHTML=`
+        <div class="bot-card" style="margin-top:4px;">
+          <div class="bot-card-header"><div class="bot-card-icon">G</div><div class="bot-card-title">비전투 행동</div></div>
+          <div class="bot-card-body">
+            <div style="display:flex;align-items:center;justify-content:flex-end;gap:8px;margin-bottom:8px;">
+              ${botValHtml(gcalc)}${botTagHtml(gcls,gtxt)}
+            </div>
+            <p>${gdesc}</p>
+          </div>
+        </div>`;
+    }
+  });
+
+  // E — 일반 비행대 생성
+  const bGenBtn = document.getElementById('bGenFlightBtn');
+  if (bGenBtn) bGenBtn.addEventListener('click', ()=>{
+    const r=botRoll();
+    let txt, cls;
+    if(r<=4){txt='개방된 비행장에 배치';cls='bot-tag-ok';}
+    else if(r<=7){txt='기존 비행대와 함께 배치';cls='bot-tag-ok';}
+    else{txt='배치 안 함';cls='bot-tag-bad';}
+    botSetResult('bGenFlightResult', botValHtml(r)+botTagHtml(cls,txt));
+  });
+
+  // I — AAA 활성화
+  const bAAABtn = document.getElementById('bAAABtn');
+  if (bAAABtn) bAAABtn.addEventListener('click', ()=>{
+    const r=botRoll();
+    let txt, cls;
+    if(r<=5){ const r2=botRoll(); const intens=r2<=6?'저강도':r2<=9?'중강도':'고강도'; txt=`실제 AAA (${intens})`; cls='bot-tag-ok'; }
+    else if(r<=8){ txt='효과 없음'; cls='bot-tag-cond'; }
+    else{ txt='더미'; cls='bot-tag-bad'; }
+    botSetResult('bAAAResult', botValHtml(r)+botTagHtml(cls,txt));
+  });
+
+  // I — 파이어 캔 활성화
+  const bFCBtn = document.getElementById('bFireCanBtn');
+  if (bFCBtn) bFCBtn.addEventListener('click', ()=>{
+    const r=botRoll(), mod=document.getElementById('bFireCanMod')?.checked?1:0;
+    const total=r+mod, ok=total<=3;
+    const calc=mod?`${r} +${mod} = ${total}`:`${r}`;
+    botSetResult('bFireCanResult',`<div style="display:flex;flex-direction:column;align-items:flex-end;">`+
+      `<div>${botValHtml(calc)}${botTagHtml(ok?'bot-tag-ok':'bot-tag-bad',ok?'파이어 캔':'효과 없음')}</div></div>`);
+  });
+
+  // K — SAM 활성화
+  const bSAMActBtn = document.getElementById('bSAMActBtn');
+  if (bSAMActBtn) bSAMActBtn.addEventListener('click', ()=>{
+    const r=botRoll();
+    let txt, cls;
+    if(r<=4){txt='실제 SAM';cls='bot-tag-ok';}
+    else if(r<=8){txt='효과 없음';cls='bot-tag-cond';}
+    else{txt='더미 SAM';cls='bot-tag-bad';}
+    botSetResult('bSAMActResult', botValHtml(r)+botTagHtml(cls,txt));
+  });
+
+  // L — SAM 사격
+  const bSAMFireBtn = document.getElementById('bSAMFireBtn');
+  if (bSAMFireBtn) bSAMFireBtn.addEventListener('click', ()=>{
+    const r=botRoll(), mod=document.getElementById('bSAMAcq')?.checked?2:0;
+    const total=r+mod, dist=parseInt(document.getElementById('bSAMDist')?.value)||0;
+    const ok=total>dist;
+    const calc=mod?`${r} +${mod} = ${total}`:`${r}`;
+    botSetResult('bSAMFireResult',`<div style="display:flex;flex-direction:column;align-items:flex-end;">`+
+      `<div>${botValHtml(calc)}${botTagHtml(ok?'bot-tag-ok':'bot-tag-bad',ok?'사격':'사격 안 함')}</div>`+
+      `<div style="font-size:11px;opacity:.7;margin-top:3px;color:var(--fade2);">거리 ${dist} vs 결과 ${total}</div></div>`);
+  });
+
+  // Z — LOAL
+  const bLOALBtn = document.getElementById('bLOALBtn');
+  if (bLOALBtn) bLOALBtn.addEventListener('click', ()=>{
+    const r=botRoll(), ok=r<=3;
+    botSetResult('bLOALResult', botValHtml(r)+botTagHtml(ok?'bot-tag-ok':'bot-tag-bad',ok?'사격':'사격 안 함'));
+  });
+
+  // N — 비행대 선택
+  const bFlightBtn = document.getElementById('bFlightBtn');
+  if (bFlightBtn) bFlightBtn.addEventListener('click', ()=>{
+    const r=botRoll();
+    const scenario=document.getElementById('bFlightScenario')?.value||'';
+    if(!scenario){ botSetResult('bFlightResult',botTagHtml('bot-tag-bad','시나리오를 선택하세요')); return; }
+    const data=BOT_FLIGHT_DATA[scenario];
+    if(!data){ botSetResult('bFlightResult',botTagHtml('bot-tag-bad','데이터 없음')); return; }
+    const matches=data.filter(i=>r>=i.min&&r<=i.max);
+    if(matches.length){
+      const rows=matches.map(m=>`<div>${botTagHtml('bot-tag-ok',m.type+' ('+m.count+')')}${m.stop?` <span class="bot-stop">STOP</span>`:''}</div>`).join('');
+      botSetResult('bFlightResult',`<div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px;">${botValHtml(r)}${rows}</div>`);
+    } else {
+      botSetResult('bFlightResult', botValHtml(r)+botTagHtml('bot-tag-bad','결과 없음'));
+    }
+  });
 });
 </script>
 
