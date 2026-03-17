@@ -6781,22 +6781,33 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  function shareViaKakao() {
+  async function shareViaKakao() {
     const url = document.getElementById('share-url-input').value;
     if (typeof Kakao !== 'undefined' && Kakao.isInitialized()) {
       const oobRaw = localStorage.getItem('oobToAdcData');
       const oobData = oobRaw ? JSON.parse(oobRaw) : null;
       const scenarioName = (oobData && oobData.scenarioName) ? oobData.scenarioName : 'DOWNTOWN';
       const date = (oobData && oobData.date) ? ' · ' + oobData.date : '';
+
+      // URL이 길면 단축 (카카오 webUrl 1000자 제한 대응)
+      let shareUrl = url;
+      if (url.length > 800) {
+        try {
+          const res = await fetch('https://is.gd/create.php?format=json&url=' + encodeURIComponent(url));
+          const json = await res.json();
+          if (json.shorturl) shareUrl = json.shorturl;
+        } catch(e) { /* 단축 실패 시 원본 URL 사용 */ }
+      }
+
       Kakao.Share.sendDefault({
         objectType: 'feed',
         content: {
           title: 'DOWNTOWN — ' + scenarioName + date,
           description: 'Order of Battle · Raid 데이터를 공유합니다. 링크를 열어 불러오세요.',
           imageUrl: 'https://konsent.github.io/assets/dt/4.png',
-          link: { mobileWebUrl: url, webUrl: url }
+          link: { mobileWebUrl: shareUrl, webUrl: shareUrl }
         },
-        buttons: [{ title: '데이터 불러오기', link: { mobileWebUrl: url, webUrl: url } }]
+        buttons: [{ title: '데이터 불러오기', link: { mobileWebUrl: shareUrl, webUrl: shareUrl } }]
       });
       return;
     }
