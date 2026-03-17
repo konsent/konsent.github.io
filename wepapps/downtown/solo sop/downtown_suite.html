@@ -1036,6 +1036,28 @@
     .result { display: none !important; }
   }
 
+  /* --- Solo Bot reset button --- */
+  #bot-reset-btn {
+    position: absolute;
+    right: 0;
+    padding: 8px 18px;
+    border: 1px solid var(--red);
+    background: rgba(139,26,26,0.18);
+    color: var(--red-bright);
+    font-family: 'Oswald', sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+    align-self: center;
+  }
+  #bot-reset-btn:hover {
+    background: rgba(139,26,26,0.38);
+    border-color: #f99;
+    color: #f99;
+  }
+
   /* --- Player Aid reset button --- */
   #aid-reset-btn {
     position: absolute;
@@ -1088,6 +1110,7 @@
     justify-content: center;
   }
   #adc-reset-confirm.hidden { display: none; }
+  #bot-reset-confirm,
   #aid-reset-confirm {
     position: fixed;
     inset: 0;
@@ -1097,6 +1120,7 @@
     align-items: center;
     justify-content: center;
   }
+  #bot-reset-confirm.hidden,
   #aid-reset-confirm.hidden { display: none; }
   .aid-reset-dialog {
     background: rgba(22,20,10,0.98);
@@ -1640,8 +1664,8 @@
       </div>
 
       <button class="generate-btn" onclick="generate()">▸ 편제 생성</button>
-      <button id="send-to-adc-btn" class="generate-btn" onclick="sendToAdc()" style="display:none; margin-top: 10px; background: var(--tan); color: var(--ink);">ADC 생성기로 보내기</button>
-      <button id="oob-print-btn" class="generate-btn" onclick="printResults()" style="display:none; margin-top: 10px; background: var(--dark-green); color: var(--paper);">편제 인쇄</button>
+      <button id="send-to-adc-btn" class="generate-btn" onclick="sendToAdc()" style="display:none; margin-top: 10px; background: var(--tan); color: var(--ink);">▸ 편제 등록</button>
+      <button id="oob-print-btn" class="generate-btn" onclick="printResults()" style="display:none; margin-top: 10px; background: var(--dark-green); color: var(--paper);">▸ 편제 인쇄</button>
       <button id="oob-share-btn" class="generate-btn" onclick="openShareModal()" style="margin-top: 10px; background: var(--blue-dim); color: var(--cream); border: 1px solid var(--blue-bright);">📤 공유</button>
     </div>
 
@@ -3034,10 +3058,11 @@
 <div id="bot-page" class="main-page">
 
   <!-- Sub-tab 내비게이션 -->
-  <div class="tabs">
+  <div class="tabs" style="position:relative;">
     <button class="tab on" data-bot-target="bot-basic-sub">기본 규칙</button>
     <button class="tab" data-bot-target="bot-sam-sub">SAM / AAA</button>
     <button class="tab" data-bot-target="bot-ref-sub">기타 참고</button>
+    <button id="bot-reset-btn" onclick="resetAllBot()" title="Solo Bot 전체 초기화">↺ 초기화</button>
   </div>
 
 <!-- ── 기본 규칙 (A B C D E F G H M) ── -->
@@ -3389,6 +3414,7 @@
           <button class="bot-roll-btn" id="bFlightBtn">비행대 생성 (1d10)</button>
           <div class="bot-roll-result" id="bFlightResult"></div>
         </div>
+        <div id="bFlightLog" style="margin-top:10px;display:none;border-top:1px solid rgba(74,74,42,0.3);padding-top:8px;"></div>
       </div>
       <div class="bot-table-wrap">
         <table>
@@ -3919,6 +3945,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const ssrInfo = document.getElementById('ssr-info');
     const raidSection = document.getElementById('ssr-raid-section');
     const raidSelect = document.getElementById('ssr-raid-select');
+
+    const bFlightScen = document.getElementById('bFlightScenario');
+    if (bFlightScen) {
+      const matched = Array.from(bFlightScen.options).find(o => o.value === scen || o.value.split('/').includes(scen));
+      bFlightScen.value = matched ? matched.value : '';
+    }
 
     if (!scen) {
       ssrInfo.style.display = 'none';
@@ -5598,7 +5630,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!oobData.squads || oobData.squads.length === 0) {
       saveToLocalStorage();
-      localStorage.removeItem('oobToAdcData');
       if (oobData.scenarioName) {
         alert('시나리오 정보가 업데이트되었습니다. 편대 정보는 없습니다.');
       }
@@ -5703,7 +5734,6 @@ document.addEventListener('DOMContentLoaded', () => {
       updateCallsign(clone);
     });
     saveToLocalStorage();
-    localStorage.removeItem('oobToAdcData');
     alert(`${squads.length}개의 편대가 ADC 생성기에 추가되었습니다.`);
   }
   // ============================================================
@@ -7345,7 +7375,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+  function resetAllBot() {
+    document.getElementById('bot-reset-confirm').classList.remove('hidden');
+  }
+  function doResetAllBot() {
+    document.getElementById('bot-reset-confirm').classList.add('hidden');
+    // 모든 주사위 결과 초기화
+    document.querySelectorAll('#bot-page .bot-roll-result').forEach(el => el.innerHTML = '');
+    // 체이닝 결과 초기화
+    const chain = document.getElementById('bCombatChain');
+    if (chain) chain.innerHTML = '';
+    // 체크박스 초기화
+    document.querySelectorAll('#bot-page input[type="checkbox"]').forEach(cb => cb.checked = false);
+    // 숫자 입력 기본값 복원
+    const dist = document.getElementById('bSAMDist');
+    if (dist) dist.value = '4';
+    // 시나리오 선택 초기화
+    const scenSel = document.getElementById('bFlightScenario');
+    if (scenSel) scenSel.selectedIndex = 0;
+    // 비행대 생성 로그 및 STOP 상태 초기화
+    const log = document.getElementById('bFlightLog');
+    if (log) { log.innerHTML = ''; log.style.display = 'none'; }
+    bFlightRollCount = 0;
+    if (bFlightBtn) { bFlightBtn.disabled = false; bFlightBtn.style.opacity = ''; bFlightBtn.title = ''; }
+  }
+
   window.recalcSR5 = recalcSR5; window.rollSR5 = rollSR5;
+  window.resetAllBot = resetAllBot;
+  window.doResetAllBot = doResetAllBot;
   window.resetAllAid = resetAllAid;
   window.doResetAllAid = doResetAllAid;
   window.resetAllRaid = resetAllRaid;
@@ -7614,9 +7671,9 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       const gr=botRoll(), gtotal=gr+mod;
       let gtxt, gcls, gdesc;
-      if(gtotal<=4){gtxt='접근';gcls='bot-tag-ok';gdesc='전투 쓰로틀. 표적 선택 후 표적 고도에 맞춰 5헥스 이내에 가지 않으며 전방 호 방향으로 이동.';}
-      else if(gtotal<=8){gtxt='위치 유지';gcls='bot-tag-cond';gdesc='전투 쓰로틀. 저고도로 이동. 1MP 전진 → 1MP 좌측 60도 선회. 반복.';}
-      else{gtxt='회피';gcls='bot-tag-bad';gdesc='전투 쓰로틀. 가장 가까운 US 비행대로부터 멀어지며 자유 강하로 초저고도 강하 [☾/⛅: 저고도].';}
+      if(gtotal<=4){gtxt='접근';gcls='bot-tag-ok';gdesc='전투 쓰로틀. <br>표적 선택 후 표적 고도에 맞춰 5헥스 이내에 가지 않으며 전방 호 방향으로 이동.';}
+      else if(gtotal<=8){gtxt='위치 유지';gcls='bot-tag-cond';gdesc='전투 쓰로틀. <br>저고도로 이동. 1MP 전진 → 1MP 좌측 60도 선회. 반복.';}
+      else{gtxt='회피';gcls='bot-tag-bad';gdesc='전투 쓰로틀. <br>가장 가까운 US 비행대로부터 멀어지며 자유 강하로 초저고도 강하 [☾/⛅: 저고도].';}
       const gcalc=mod?`${gr} ${mod>0?'+':''}${mod} = ${gtotal}`:`${gr}`;
       chain.innerHTML=`
         <div class="bot-card" style="margin-top:4px;">
@@ -7738,23 +7795,114 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // N — 비행대 선택
+  const DRV_TYPE_MAP = {
+    'MiG-17F':    'MiG-17F Fresco C [DRV]',
+    'MiG-19S':    'MiG-19S Farmer C [DRV]',
+    'MiG-21F-13': 'MiG-21F-13 Fishbed C [DRV]',
+    'MiG-21PF':   'MiG-21PF Fishbed D [DRV]',
+    'MiG-21PFM':  'MiG-21PFM Fishbed F [DRV]',
+    'MiG-21MF':   'MiG-21MF Fishbed J [DRV]'
+  };
+  function addDrvFlightsToRaid(matches) {
+    const table = document.getElementById('drv-table');
+    if (!table) return 0;
+    const tbody = table.querySelector('tbody');
+    const template = rowTemplates['drv-table'];
+    if (!template) return 0;
+    let added = 0;
+    matches.forEach(m => {
+      const countNum = Number(m.count.match(/\d+/)?.[0]) || 1;
+      const acValue = DRV_TYPE_MAP[m.type] || m.type;
+      const clone = template.cloneNode(true);
+      const acSel = clone.querySelector('td:nth-child(2) select');
+      if (acSel) acSel.value = acValue;
+      const skillSel = clone.querySelector('td:nth-child(3) select');
+      if (skillSel) skillSel.value = '베테랑';
+      clone.querySelectorAll('.status-item').forEach((item, idx) => {
+        const s = item.querySelector('select'), r2 = item.querySelector('.remove-status'), a2 = item.querySelector('.add-status');
+        if (idx < countNum) {
+          if (s) { s.style.display='block'; s.selectedIndex=0; }
+          if (r2) r2.style.display='inline-block';
+          if (a2) a2.style.display='none';
+        } else {
+          if (s) s.style.display='none';
+          if (r2) r2.style.display='none';
+          if (a2) a2.style.display='inline-block';
+        }
+      });
+      const dc = clone.querySelector('td:last-child'); if (dc) dc.innerHTML='';
+      tbody.insertBefore(clone, tbody.lastElementChild);
+      addDeleteButton(clone); addRowListeners(clone);
+      const agVal = clone.querySelector('td:nth-child(4) .aggress-value');
+      if (skillSel && agVal) agVal.textContent = calculateAggressiveness(skillSel.value);
+      updateWeaponData(clone); updateCallsign(clone);
+      added++;
+    });
+    saveToLocalStorage();
+    return added;
+  }
+  let bFlightRollCount = 0;
   const bFlightBtn = document.getElementById('bFlightBtn');
   if (bFlightBtn) bFlightBtn.addEventListener('click', ()=>{
-    const r=botRoll();
+    if (bFlightBtn.disabled) return;
     const scenario=document.getElementById('bFlightScenario')?.value||'';
     if(!scenario){ botSetResult('bFlightResult',botTagHtml('bot-tag-bad','시나리오를 선택하세요')); return; }
     const data=BOT_FLIGHT_DATA[scenario];
     if(!data){ botSetResult('bFlightResult',botTagHtml('bot-tag-bad','데이터 없음')); return; }
+    const r=botRoll();
     const matches=data.filter(i=>r>=i.min&&r<=i.max);
+    const log=document.getElementById('bFlightLog');
+    bFlightRollCount++;
+    const seq=bFlightRollCount;
     if(matches.length){
+      const hasStop=matches.some(m=>m.stop);
+      addDrvFlightsToRaid(matches);
+      const resultText=matches.map(m=>m.type+' ('+m.count+')').join(', ');
       const rows=matches.map(m=>`<div>${botTagHtml('bot-tag-ok',m.type+' ('+m.count+')')}${m.stop?` <span class="bot-stop">STOP</span>`:''}</div>`).join('');
       botSetResult('bFlightResult',`<div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px;">${botValHtml(r)}${rows}</div>`);
+      if(log){
+        log.style.display='block';
+        const entry=document.createElement('div');
+        entry.style.cssText='display:flex;justify-content:space-between;align-items:center;padding:3px 0;border-bottom:1px solid rgba(74,74,42,0.2);font-size:12px;gap:8px;';
+        entry.innerHTML=`<span style="opacity:.5;min-width:24px;">#${seq}</span>`+
+          `<span>${botValHtml(r)}</span>`+
+          `<span style="flex:1;">${resultText}${hasStop?' <span class="bot-stop">STOP</span>':''}</span>`;
+        log.appendChild(entry);
+      }
+      if(hasStop){
+        bFlightBtn.disabled=true;
+        bFlightBtn.style.opacity='0.4';
+        bFlightBtn.title='STOP — 초기화 전까지 비행대 생성 불가';
+        botSetResult('bFlightResult',`<div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px;">${botValHtml(r)}${rows}`+
+          `<div style="font-size:11px;margin-top:4px;color:#f88;">🛑 STOP — 잔여 일반 비행대 모두 제거</div></div>`);
+      }
     } else {
       botSetResult('bFlightResult', botValHtml(r)+botTagHtml('bot-tag-bad','결과 없음'));
+      if(log){
+        log.style.display='block';
+        const entry=document.createElement('div');
+        entry.style.cssText='display:flex;justify-content:space-between;align-items:center;padding:3px 0;border-bottom:1px solid rgba(74,74,42,0.2);font-size:12px;gap:8px;';
+        entry.innerHTML=`<span style="opacity:.5;min-width:24px;">#${seq}</span>`+
+          `<span>${botValHtml(r)}</span>`+
+          `<span style="flex:1;">${botTagHtml('bot-tag-bad','결과 없음')}</span>`;
+        log.appendChild(entry);
+      }
     }
   });
 });
 </script>
+
+<!-- Solo Bot 전체 초기화 확인 다이얼로그 -->
+<div id="bot-reset-confirm" class="hidden">
+  <div class="aid-reset-dialog">
+    <p>Solo Bot을 초기화할까요?</p>
+    <small>기본 규칙 · SAM/AAA · 기타 참고<br>모든 체크박스와 주사위 결과가 지워집니다.</small>
+    <div class="aid-reset-btns">
+      <button class="aid-reset-confirm-yes" onclick="doResetAllBot()">초기화</button>
+      <button class="aid-reset-confirm-no" onclick="document.getElementById('bot-reset-confirm').classList.add('hidden')">취소</button>
+    </div>
+  </div>
+</div>
 
 <!-- Player Aid 전체 초기화 확인 다이얼로그 -->
 <div id="aid-reset-confirm" class="hidden">
