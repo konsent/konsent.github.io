@@ -49,7 +49,7 @@
                 },
                 "ordnance": "-",
                 "capabilities": "Night",
-                "air_to_air": {
+                "air_to_air_depletion_number": {
                     "AIM-9B": 3,
                     "AIM-9D": 3,
                     "AIM-9G": 3,
@@ -108,7 +108,7 @@
                 },
                 "ordnance": "-",
                 "capabilities": "Night",
-                "air_to_air": {
+                "air_to_air_depletion_number": {
                     "AIM-9D": 3,
                     "AIM-9G": 3,
                     "AIM-9H": 3,
@@ -167,7 +167,7 @@
                 },
                 "ordnance": "-",
                 "capabilities": "Night",
-                "air_to_air": {
+                "air_to_air_depletion_number": {
                     "AIM-9G": 3,
                     "AIM-9H": 3,
                     "AIM-7E-2": 3
@@ -227,7 +227,7 @@
                     "Recon",
                     "Night"
                 ],
-                "air_to_air": "-",
+                "air_to_air_depletion_number": "-",
                 "notes": "-"
             },
             {
@@ -278,7 +278,7 @@
                 },
                 "ordnance": "-",
                 "capabilities": "Night",
-                "air_to_air": {
+                "air_to_air_depletion_number": {
                     "AIM-9B": 6,
                     "AIM-9D": 6,
                     "Gun": 5
@@ -339,7 +339,7 @@
                 },
                 "ordnance": "-",
                 "capabilities": "Night",
-                "air_to_air": {
+                "air_to_air_depletion_number": {
                     "AIM-9B": 6,
                     "AIM-9D": 6,
                     "Gun": 5,
@@ -401,7 +401,7 @@
                     "Strike": 2
                 },
                 "capabilities": "Night",
-                "air_to_air": {
+                "air_to_air_depletion_number": {
                     "Gun": 5
                 },
                 "notes": [
@@ -460,7 +460,7 @@
                     "EOGB": 1
                 },
                 "capabilities": "Night",
-                "air_to_air": {
+                "air_to_air_depletion_number": {
                     "Gun": 5
                 },
                 "notes": [
@@ -525,10 +525,10 @@
                     "EOGB": 1
                 },
                 "capabilities": [
-                    "Radar Night",
+                    "Night",
                     "TFR"
                 ],
-                "air_to_air": "-",
+                "air_to_air_depletion_number": "-",
                 "notes": [
                     "If Shrike is 2, Bomb is 2",
                     "If Shrike is 4, Bomb is 0",
@@ -590,7 +590,7 @@
                     "Standard B": 1
                 },
                 "capabilities": "Night",
-                "air_to_air": "-",
+                "air_to_air_depletion_number": "-",
                 "notes": [
                     "If Shrike is 2, Bomb is 2",
                     "If Shrike is 4, Bomb is 0",
@@ -656,10 +656,10 @@
                     "LGB": 1
                 },
                 "capabilities": [
-                    "Radar Night",
+                    "Night",
                     "TFR"
                 ],
-                "air_to_air": "-",
+                "air_to_air_depletion_number": "-",
                 "notes": [
                     "If Strike is 2, Bomb is 2",
                     "If Strike is 4, Bomb is 0",
@@ -717,7 +717,7 @@
                     "EOGB": 1
                 },
                 "capabilities": "Night",
-                "air_to_air": {
+                "air_to_air_depletion_number": {
                     "Gun": 3,
                     "AIM-9D": 6,
                     "AIM-7G/H": 6
@@ -778,7 +778,7 @@
                     "EOGB": 1
                 },
                 "capabilities": "Night",
-                "air_to_air": {
+                "air_to_air_depletion_number": {
                     "AIM-9G/H": 6,
                     "Gun": 3
                 },
@@ -838,7 +838,7 @@
                     "Night",
                     "TFR"
                 ],
-                "air_to_air": "-",
+                "air_to_air_depletion_number": "-",
                 "notes": "-"
             },
             {
@@ -892,7 +892,7 @@
                     "Night",
                     "TFR"
                 ],
-                "air_to_air": "-",
+                "air_to_air_depletion_number": "-",
                 "notes": "-"
             },
             {
@@ -945,7 +945,7 @@
                 "capabilities": [
                     "Night"
                 ],
-                "air_to_air": {
+                "air_to_air_depletion_number": {
                     "AIM-9H": 6,
                     "Gun": 3,
                     "AIM-54": 6,
@@ -1003,7 +1003,7 @@
                 },
                 "ordnance": "-",
                 "capabilities": "Night",
-                "air_to_air": "-",
+                "air_to_air_depletion_number": "-",
                 "notes": [
                     "Large",
                     "Poor SAM defense",
@@ -1058,7 +1058,7 @@
                 },
                 "ordnance": "-",
                 "capabilities": "Night",
-                "air_to_air": "-",
+                "air_to_air_depletion_number": "-",
                 "notes": "-"
             },
             {
@@ -1109,7 +1109,7 @@
                 },
                 "ordnance": "-",
                 "capabilities": "Standoff Night",
-                "air_to_air": "-",
+                "air_to_air_depletion_number": "-",
                 "notes": "-"
             },
             {
@@ -1163,11 +1163,11 @@
                     "Recon",
                     "Night"
                 ],
-                "air_to_air": "-",
+                "air_to_air_depletion_number": "-",
                 "notes": "-"
             }
         ],
-        "air_to_air_weapons": [
+        "air_to_air_depletion_number_weapons": [
             {
                 "name": "AIM-9B Sidewinder",
                 "class": "IRM",
@@ -1295,7 +1295,7 @@
                 },
                 "ordnance": "-",
                 "capabilities": "Night",
-                "air_to_air": {
+                "air_to_air_depletion_number": {
                     "AIM-9B": 3,
                     "AIM-9E": 3,
                     "AIM-9J": 3,
@@ -1360,7 +1360,7 @@
                     "Night",
                     "TFR"
                 ],
-                "air_to_air": "-",
+                "air_to_air_depletion_number": "-",
                 "notes": "-"
             },
             {
@@ -1415,7 +1415,7 @@
                     "Night",
                     "TFR"
                 ],
-                "air_to_air": "-",
+                "air_to_air_depletion_number": "-",
                 "notes": "-"
             },
             {
@@ -1474,7 +1474,7 @@
                     "IFF",
                     "Night"
                 ],
-                "air_to_air": {
+                "air_to_air_depletion_number": {
                     "AIM-4D": 4,
                     "AIM-9B": 3,
                     "AIM-9E": 3,
@@ -1544,7 +1544,7 @@
                     "IFF",
                     "Night"
                 ],
-                "air_to_air": {
+                "air_to_air_depletion_number": {
                     "AIM-9E": 3,
                     "AIM-9J": 3,
                     "AIM-7E": 3,
@@ -1603,7 +1603,7 @@
                 },
                 "ordnance": "-",
                 "capabilities": "Night",
-                "air_to_air": {
+                "air_to_air_depletion_number": {
                     "Gun": 3,
                     "AIM-9B": 3
                 },
@@ -1661,7 +1661,7 @@
                     "Shrike": 2
                 },
                 "capabilities": "Night",
-                "air_to_air": "-",
+                "air_to_air_depletion_number": "-",
                 "notes": "-"
             },
             {
@@ -1714,7 +1714,7 @@
                     "Shrike": 2
                 },
                 "capabilities": "Night",
-                "air_to_air": {
+                "air_to_air_depletion_number": {
                     "Gun": 3
                 },
                 "notes": "-"
@@ -1770,7 +1770,7 @@
                     "Recon",
                     "Night"
                 ],
-                "air_to_air": "-",
+                "air_to_air_depletion_number": "-",
                 "notes": "-"
             },
             {
@@ -1821,7 +1821,7 @@
                 },
                 "ordnance": "-",
                 "capabilities": "Night",
-                "air_to_air": {
+                "air_to_air_depletion_number": {
                     "AIM-9B": 6,
                     "Gun": 3
                 },
@@ -1880,7 +1880,7 @@
                     "R.Nav Night",
                     "TFR"
                 ],
-                "air_to_air": {
+                "air_to_air_depletion_number": {
                     "AIM-9B": 6,
                     "Gun": 3
                 },
@@ -1940,7 +1940,7 @@
                     "Night",
                     "TFR"
                 ],
-                "air_to_air": {
+                "air_to_air_depletion_number": {
                     "AIM-9B": 6,
                     "Gun": 3
                 },
@@ -1999,7 +1999,7 @@
                     "Standard A": 1
                 },
                 "capabilities": "Night",
-                "air_to_air": {
+                "air_to_air_depletion_number": {
                     "Gun": 3
                 },
                 "notes": "-"
@@ -2056,7 +2056,7 @@
                     "Standard B": 1
                 },
                 "capabilities": "Night",
-                "air_to_air": {
+                "air_to_air_depletion_number": {
                     "Gun": 3
                 },
                 "notes": [
@@ -2112,7 +2112,7 @@
                 },
                 "ordnance": "-",
                 "capabilities": "Night",
-                "air_to_air": {
+                "air_to_air_depletion_number": {
                     "AIM-9E": 6,
                     "Gun": 5
                 },
@@ -2171,7 +2171,7 @@
                     "Night",
                     "TFR"
                 ],
-                "air_to_air": "-",
+                "air_to_air_depletion_number": "-",
                 "notes": "-"
             },
             {
@@ -2225,7 +2225,7 @@
                     "Radar",
                     "R.Nav Night"
                 ],
-                "air_to_air": {
+                "air_to_air_depletion_number": {
                     "Rear Gun": 0
                 },
                 "notes": [
@@ -2285,7 +2285,7 @@
                     "Radar",
                     "R.Nav Night"
                 ],
-                "air_to_air": {
+                "air_to_air_depletion_number": {
                     "Rear Gun": 0
                 },
                 "notes": [
@@ -2342,7 +2342,7 @@
                 },
                 "ordnance": "-",
                 "capabilities": "Standoff Night Spot (C only)",
-                "air_to_air": "-",
+                "air_to_air_depletion_number": "-",
                 "notes": [
                     "Large",
                     "Poor SAM defense",
@@ -2397,7 +2397,7 @@
                 },
                 "ordnance": "-",
                 "capabilities": "-",
-                "air_to_air": {
+                "air_to_air_depletion_number": {
                     "Gun": 5
                 },
                 "notes": [
@@ -2405,7 +2405,7 @@
                 ]
             }
         ],
-        "air_to_air_weapons": [
+        "air_to_air_depletion_number_weapons": [
             {
                 "name": "AIM-4D Falcon",
                 "class": "IRM",
