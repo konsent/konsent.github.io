@@ -5870,7 +5870,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
   function makeUsRowHTML() {
     return `<td><select class="fit-width"><option>타격</option><option>아이언 핸드</option><option>채프</option><option>재밍</option><option>CSAR</option><option>정찰</option><option>MiGCAP</option></select></td>` +
-      `<td><select class="fit-width"><option>폭격</option><option>SEAD</option><option>CAP</option><option>무장 호위</option><option>구조 지원</option><option>정찰</option><option>재밍</option><option>채프 살포</option><option>타격</option></select></td>` +
+      `<td><select class="fit-width"><option>폭격</option><option>SEAD</option><option>CAP</option><option>무장 호위</option><option>구조 지원</option><option>정찰</option><option>재밍</option><option>채프 살포</option><option value="타격">타격/CAP</option></select></td>` +
       `<td><select class="callsign-select"></select></td>` +
       `<td><select>${US_AIRCRAFT_OPTIONS}</select></td>` +
       `<td><select>${SKILL_OPTIONS}</select></td>` +
@@ -6330,7 +6330,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     const taskMap = {
       'Jamming':'재밍','CAP':'CAP','SEAD':'SEAD','Armed Escort':'무장 호위','Bombing':'폭격',
-      'Strike/CAP':'타격','Recon':'정찰','Chaff Laying':'채프 살포','Rescue Support':'구조 지원',
+      'Strike/CAP':'타격/CAP','Recon':'정찰','Chaff Laying':'채프 살포','Rescue Support':'구조 지원',
     };
     const acMap = {
       'EB-66C':'EB-66C [US]','EB-66B':'EB-66B [US]','EB-66E':'EB-66E [US]','F-4C':'F-4C Phantom 2 [US]',
@@ -6398,9 +6398,68 @@ document.addEventListener('DOMContentLoaded', () => {
       updateOrdnanceCell(clone);
       updateCallsign(clone);
     });
+    // ── F-105 Strike/CAP 자동 적용 (D4~D9, USAF) ──
+    const scenCode2 = (oobData.scenarioName || '').match(/^(D\d+)/)?.[1] || '';
+    const hasStrikeCapRule = ['D4','D5','D7','D8','D9'].includes(scenCode2) && oobType === 'A';
+    if (hasStrikeCapRule) {
+      applyF105StrikeCapRule();
+    }
+
     saveToLocalStorage();
     alert(`${squads.length}개의 편대가 ADC 생성기에 추가되었습니다.`);
   }
+
+  // F-105 Strike/CAP 규칙 자동 적용
+  function applyF105StrikeCapRule() {
+    var bombingF105Rows = [];
+    document.querySelectorAll('#us-lead-table tbody tr, #us-main-table tbody tr, #us-trail-table tbody tr').forEach(function(row){
+      if (row.querySelector('.add-row')) return;
+      var acSel = row.querySelector('td:nth-child(4) select');
+      var taskSel = row.querySelector('td:nth-child(2) select');
+      if (!acSel || !taskSel) return;
+      var ac = acSel.value || '';
+      var task = taskSel.value || '';
+      if (ac.indexOf('F-105D') >= 0 && task === '폭격') {
+        bombingF105Rows.push(row);
+      }
+    });
+    if (bombingF105Rows.length === 0) return;
+
+    // 랜덤 1개 → Strike/CAP
+    var strikeIdx = Math.floor(Math.random() * bombingF105Rows.length);
+    bombingF105Rows.forEach(function(row, idx){
+      var taskSel = row.querySelector('td:nth-child(2) select');
+      if (idx === strikeIdx) {
+        // Strike/CAP: 태스크 → 타격, IRM → AIM-9B
+        if (taskSel) {
+          taskSel.value = '타격';
+          if (taskSel.classList.contains('fit-width')) adjustSelectWidth(taskSel);
+        }
+        updateWeaponData(row);
+        updateOrdnanceCell(row);
+        var irmCell = getWeaponCell(row, 1);
+        if (irmCell) {
+          var irmSel = irmCell.querySelector('select');
+          if (irmSel) {
+            var aim9bOpt = Array.from(irmSel.options).find(function(o){ return o.value === 'AIM-9B'; });
+            if (aim9bOpt) irmSel.value = 'AIM-9B';
+          }
+        }
+      } else {
+        // 나머지 F-105D: IRM 미탑재
+        updateWeaponData(row);
+        var irmCell = getWeaponCell(row, 1);
+        if (irmCell) {
+          var irmSel = irmCell.querySelector('select');
+          if (irmSel) {
+            var noneOpt = Array.from(irmSel.options).find(function(o){ return o.value === ''; });
+            if (noneOpt) irmSel.value = '';
+          }
+        }
+      }
+    });
+  }
+
   // ============================================================
   // END: JS from adc.html
   // ============================================================
