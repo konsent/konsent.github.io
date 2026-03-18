@@ -1854,6 +1854,16 @@
               <option value="day">주간</option><option value="night">야간 / 시야 없음</option>
             </select>
           </div>
+          <div class="field-row" style="margin:0"><span class="field-lbl" style="color:var(--tan)">공격측 고도</span>
+            <select id="man-att-alt" onchange="onAltChange()">
+              <option value="low">초저고도/저고도</option><option value="med" selected>중고도</option><option value="high">고고도</option>
+            </select>
+          </div>
+          <div class="field-row" style="margin:0"><span class="field-lbl" style="color:#ff9100">방어측 고도</span>
+            <select id="man-def-alt" onchange="onAltChange()">
+              <option value="low">초저고도/저고도</option><option value="med" selected>중고도</option><option value="high">고고도</option>
+            </select>
+          </div>
         </div>
         <!-- 양측 입력 -->
         <div id="raid-sync-bar" class="raid-sync-info" style="display:none">
@@ -2157,6 +2167,9 @@
           <div style="border:1px solid var(--tan);border-radius:4px;padding:10px 12px">
             <div class="sec-lbl" style="margin-top:0;color:var(--tan)">공격측 사격</div>
             <div class="info-box" id="shot-att-info" style="margin-bottom:8px">사격 기회: —회</div>
+            <div class="field-row" style="margin-bottom:6px"><span class="field-lbl">무기 선택</span>
+              <select id="shot-att-weapon" onchange="onWeaponSelect('att')"><option value="">— 수동 입력 —</option></select>
+            </div>
             <div class="field-row"><span class="field-lbl">무기 전투값 (CV)</span><input type="number" id="shot-att-cv" value="2" min="0" max="6" oninput="recalcShot('att')"></div>
             <div style="font-size:11px;color:var(--fade);margin-bottom:6px">※ BVR / 초저고도 IRM·RHM → CV = 0</div>
             <div class="field-row" style="margin-bottom:6px">
@@ -2187,6 +2200,9 @@
           <div style="border:1px solid #ff9100;border-radius:4px;padding:10px 12px">
             <div class="sec-lbl" style="margin-top:0;color:#ff9100">방어측 사격</div>
             <div class="info-box" id="shot-def-info" style="margin-bottom:8px">사격 기회: —회</div>
+            <div class="field-row" style="margin-bottom:6px"><span class="field-lbl">무기 선택</span>
+              <select id="shot-def-weapon" onchange="onWeaponSelect('def')"><option value="">— 수동 입력 —</option></select>
+            </div>
             <div class="field-row"><span class="field-lbl">무기 전투값 (CV)</span><input type="number" id="shot-def-cv" value="2" min="0" max="6" oninput="recalcShot('def')"></div>
             <div style="font-size:11px;color:var(--fade);margin-bottom:6px">※ BVR / 초저고도 IRM·RHM → CV = 0</div>
             <div class="field-row" style="margin-bottom:6px">
@@ -4929,6 +4945,119 @@ document.addEventListener('DOMContentLoaded', () => {
     "MiG-21": ["Van Cuong","Van Coc","Thanh Dao","Thanh Ngan","Ngoc Ngu","Hong Nhi"]
   };
   const CALLSIGN_DATA = { "GMT_Downtown_Callsigns": { "USAF": [ { "aircraft": "F-4 Phantom II", "callsigns": ["Buick", "Cactus", "Chevy", "Denver", "Dingus", "Dodge", "Fletch", "Gambit", "Icebag", "Locust", "Nomad", "Oyster", "Olds", "Rambler", "Tampa", "Vegas", "Waco", "Zinc"] }, { "aircraft": "F-100 Super Sabre", "callsigns": ["Apple", "Spruce"] }, { "aircraft": "F-104 Starfighter", "callsigns": ["Falstaff", "Goose", "Leopard", "Lincoln", "Zebra"] }, { "aircraft": "F-105 Thunderchief", "callsigns": ["Basco", "Bison", "Brass", "Carbine", "Dallas", "Eagle", "Kite", "Laredo", "Magnum", "Pistol"] }, { "aircraft": "F-111 Aardvark", "callsigns": ["Condor", "Crow", "Hammer", "Jackal", "Pontiac", "Raccoon", "Slam", "Snug", "Suntan", "Tonto"] }, { "aircraft": "A-7 Corsair II", "callsigns": ["DeSoto", "Highball", "Hornet", "Pepper", "Pluto", "Sapphire", "Skipjack", "Sunglass", "Termite", "Vandal"] }, { "aircraft": "B-52", "callsigns": ["Aqua", "Ash", "Azure", "Black", "Blue", "Brick", "Bronze", "Brown", "Charcoal", "Cobalt", "Copper", "Cream", "Ebony", "Ginger", "Green", "Hazel", "Ivory", "Garnet", "Gold", "Gray", "Lilac", "Magnolia", "Olive", "Opal", "Orange", "Peach", "Purple", "Quartz", "Quilt", "Rainbow", "Red", "Rose", "Ruby", "Scarlet", "Snow", "Stone", "Straw", "Tan", "Walnut", "White"] }, { "aircraft": "RF-101 Voodoo", "callsigns": ["Buckshot", "Canyon"] }, { "aircraft": "EB-66 Destroyer", "callsigns": ["Cardinal", "Merco", "Teak", "Valent", "Wandes"] } ], "USN_USMC": [ { "aircraft": "F-4 Phantom II", "callsigns": ["Bandwagon", "Black Lion", "Clubleaf", "Dakota", "Harlow", "Jingle", "Killer", "Kingfish", "Linfield", "Old Nick", "Rock River", "Rootbeer", "Shamrock", "Showtime", "Silverkite"] }, { "aircraft": "F-8 Crusader", "callsigns": ["Bobbin", "Corktip", "Falcon", "Feedbag", "Firefighter", "Milkvine", "Nickel", "Page Boy", "Sheepdog", "Superheat"] }, { "aircraft": "A-4 Skyhawk", "callsigns": ["Bronco", "Bulldog", "Clansman", "Diamond", "Dogear", "Raider", "Redcock", "Saint", "Silverfox", "Stinger", "Ubangi", "Warhorse"] }, { "aircraft": "A-6 Intruder", "callsigns": ["Arab", "Bengal", "Boomer", "Chicago", "Ghost", "Knight", "Panther", "Phoenix", "Sword", "Viceroy"] }, { "aircraft": "A-7 Corsair II", "callsigns": ["Beefeater", "Busybee", "Champ", "Chippie", "Jason", "Jury", "Mace", "Royal", "Streetcar", "Warhawk"] }, { "aircraft": "RA-5 Vigilante", "callsigns": ["Giant", "Glenrock"] }, { "aircraft": "EF-10 Skynight", "callsigns": ["Cottonpicker", "Pigment"] }, { "aircraft": "EA-1 Skyraider", "callsigns": ["Knighthawk", "Zapper"] }, { "aircraft": "EA-6 Prowler", "callsigns": ["Battery", "Lancer", "Lizard", "Scorpion"] }, { "aircraft": "EKA-3 Skywarrior", "callsigns": ["Deep Sea", "Gunpowder"] } ], "CSAR": [ { "aircraft": "A-1 Skyraider (Sandy)", "callsigns": ["Sandy-1", "Sandy-2"] }, { "aircraft": "HC-130 Hercules (King)", "callsigns": ["King"] }, { "aircraft": "HH-3/HH-53 (Jolly Green)", "callsigns": ["Jolly Green"] }, { "aircraft": "HH-2/SH-3 (Big Mother)", "callsigns": ["Big Mother", "Clementine", "Priscilla"] } ] } };
+  // ── ADC JSON 데이터 (전역) ──
+  var ADC_JSON = null;
+  (function loadAdcJson(){
+    fetch('adc.json').then(r=>r.json()).then(d=>{
+      ADC_JSON=d;
+      console.log('ADC JSON loaded');
+      // JSON 로드 완료 후, 이미 역할이 설정되어 있으면 동기화
+      if (typeof syncDogfightFromRaid === 'function' && typeof raidRoles !== 'undefined') {
+        var hasRole = raidRoles.attacker || raidRoles.defender;
+        if (hasRole) syncDogfightFromRaid();
+      }
+    }).catch(e=>console.warn('adc.json load failed',e));
+  })();
+
+  // AIRCRAFT_DATA 키 → adc.json 기체명 + 진영 매핑
+  var ADC_NAME_MAP = {
+    "F-4B Phantom 2 [US]":       {faction:"USN", name:"F-4B Phantom II"},
+    "F-4J Phantom 2 [US]":       {faction:"USN", name:"F-4J Phantom II"},
+    "F-4N Phantom 2 [US]":       {faction:"USN", name:"F-4N Phantom II"},
+    "RF-8A_G Crusader [US]":     {faction:"USN", name:"RF-8A/G Crusader"},
+    "F-8C_D Crusader [US]":      {faction:"USN", name:"F-8C/D Crusader"},
+    "F-8E_H_J Crusader [US]":    {faction:"USN", name:"F-8E/H/J Crusader"},
+    "A-4C Skyhawk [US]":         {faction:"USN", name:"A-4C Skyhawk"},
+    "A-4E_F Skyhawk [US]":       {faction:"USN", name:"A-4E/F Skyhawk"},
+    "A-6A Intruder [US]":        {faction:"USN", name:"A-6A Intruder"},
+    "A-6B Intruder [US]":        {faction:"USN", name:"A-6B Intruder"},
+    "A-6C Intruder [US]":        {faction:"USN", name:"A-6C Intruder"},
+    "A-7A_B Corsair 2 [US]":     {faction:"USN", name:"A-7A/B Corsair II"},
+    "A-7C_E Corsair 2 [US]":     {faction:"USN", name:"A-7C/E Corsair II"},
+    "EA-6A Intruder [US]":       {faction:"USN", name:"EA-6A Intruder"},
+    "EA-6B Prowler [US]":        {faction:"USN", name:"EA-6B Prowler"},
+    "F-14A Tomcat [US]":         {faction:"USN", name:"F-14A Tomcat"},
+    "EKA-3B Skywarrior [US]":    {faction:"USN", name:"EKA-3B Skywarrior"},
+    "EF-10B Skynight [US]":      {faction:"USN", name:"EF-10B Skyknight"},
+    "EA-1F Electric SPAD [US]":  {faction:"USN", name:"EA-1F 'Electric Spad'"},
+    "RA-5C Vigilante [US]":      {faction:"USN", name:"RA-5C Vigilante"},
+    "F-4C Phantom 2 [US]":       {faction:"USAF", name:"F-4C Phantom II"},
+    "RF-4C Phantom 2 [US]":      {faction:"USAF", name:"RF-4C Phantom II"},
+    "RF-4B Phantom 2 [US]":      {faction:"USAF", name:"RF-4B Phantom II"},
+    "F-4D Phantom 2 [US]":       {faction:"USAF", name:"F-4D Phantom II"},
+    "F-4E Phantom 2 [US]":       {faction:"USAF", name:"F-4E Phantom II"},
+    "F-4C Wild Weasel 4 [US]":   {faction:"USAF", name:"F-4C Wild Weasel IV"},
+    "F-100D Super Sabre [US]":   {faction:"USAF", name:"F-100D Super Sabre"},
+    "F-100F Wild Weasel 1 [US]": {faction:"USAF", name:"F-100F Wild Weasel I"},
+    "RF1-1C Voodoo [US]":        {faction:"USAF", name:"RF-101C Voodoo"},
+    "F-104C Starfighter [US]":   {faction:"USAF", name:"F-104C Starfighter"},
+    "F-105D Thunderchief [US]":  {faction:"USAF", name:"F-105D Thunderchief"},
+    "F-105F Thunderchief(2) [US]":{faction:"USAF", name:"F-105F Thunderchief(2)"},
+    "F-105F Thunderchief [US]":  {faction:"USAF", name:"F-105F Wild Weasel III"},
+    "F-105F Wild Weasel 3 [US]": {faction:"USAF", name:"F-105F Wild Weasel III"},
+    "F-105G Wild Weasel [US]":   {faction:"USAF", name:"F-105G Wild Weasel"},
+    "F-105G Wild Weasel(2) [US]":{faction:"USAF", name:"F-105G Wild Weasel"},
+    "F-111A Aardvark [US]":      {faction:"USAF", name:"F-111A 'Aardvark'"},
+    "B-52D Stratofortress [US]": {faction:"USAF", name:"B-52D Stratofortress"},
+    "B-52G Stratofortress [US]": {faction:"USAF", name:"B-52G Stratofortress"},
+    "EB-66B [US]":               {faction:"USAF", name:"EB-66B/C/E"},
+    "EB-66C [US]":               {faction:"USAF", name:"EB-66B/C/E"},
+    "EB-66E [US]":               {faction:"USAF", name:"EB-66B/C/E"},
+    "A-7D Corsair 2 [US]":       {faction:"USAF", name:"A-7D Corsair II"},
+    "A-1H Skyraider [US]":       {faction:"USAF", name:"A-1H Skyraider"},
+    "Canberra MK.20 [AUS]":      null,
+    "Mirage IIIO(F) [AUS]":      null,
+    "MiG-17F Fresco C [DRV]":    {faction:"DRV", name:"MiG-17F Fresco C"},
+    "MiG-17PF Fresco D [DRV]":   {faction:"DRV", name:"MiG-17PF Fresco D"},
+    "MiG-19S Farmer C [DRV]":    {faction:"DRV", name:"MiG-19S Farmer C"},
+    "MiG-21F-13 Fishbed C [DRV]":{faction:"DRV", name:"MiG-21F-13 Fishbed C"},
+    "MiG-21MF Fishbed J [DRV]":  {faction:"DRV", name:"MiG-21MF Fishbed J"},
+    "MiG-21PF Fishbed D [DRV]":  {faction:"DRV", name:"MiG-21PF Fishbed D"},
+    "MiG-21PFM Fishbed F [DRV]": {faction:"DRV", name:"MiG-21PFM Fishbed F"},
+  };
+
+  // RAID 행에서 adc.json 기체 데이터 조회
+  function getAdcAircraft(row) {
+    if (!ADC_JSON) return null;
+    var isDrv = row.closest('table').id === 'drv-table';
+    var acSel = row.querySelector(isDrv ? 'td:nth-child(2) select' : 'td:nth-child(4) select');
+    if (!acSel) return null;
+    var mapping = ADC_NAME_MAP[acSel.value];
+    if (!mapping) return null;
+    var list = ADC_JSON[mapping.faction];
+    if (!list || !list.aircraft) return null;
+    return list.aircraft.find(function(a){return a.name === mapping.name;}) || null;
+  }
+
+  // RAID 행에서 현재 폭탄 값 읽기 (숫자)
+  function getRowBombValue(row) {
+    var isDrv = row.closest('table').id === 'drv-table';
+    var cell = isDrv ? row.querySelectorAll('td')[8] : row.querySelectorAll('td')[10];
+    if (!cell) return 0;
+    var el = cell.querySelector('input, select');
+    if (!el) return 0;
+    var v = parseFloat(el.value);
+    return isNaN(v) ? 0 : v;
+  }
+
+  // RAID 행에서 무기 칸 값 읽기 (기총=0, IRM=1, RHM=2)
+  function getRowWeaponValue(row, weapIdx) {
+    var isDrv = row.closest('table').id === 'drv-table';
+    var offset = isDrv ? 5 : 7;
+    var cell = row.querySelectorAll('td')[offset + weapIdx];
+    if (!cell) return '';
+    var el = cell.querySelector('input, select');
+    return el ? el.value : '';
+  }
+
+  // 고도 키 → performance 키 매핑
+  function altToKey(altVal) {
+    if (altVal === 'low') return 'low';
+    if (altVal === 'med') return 'med';
+    if (altVal === 'high') return 'high';
+    return 'med';
+  }
+
   const AIRCRAFT_DATA = {
     "A-1H Skyraider [US]": ["2{2}", "", "", "2", "U"],
     "A-4C Skyhawk [US]": ["2{5}", "", "", "2/0", "10"],
@@ -5520,6 +5649,9 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       if (data.drv) restoreTable('drv-table', data.drv.table);
       if (data.activeTab) showContent(data.activeTab);
+      // 역할 복원 후 ADC 동기화
+      var hasRole = raidRoles && (raidRoles.attacker || raidRoles.defender);
+      if (hasRole && typeof syncDogfightFromRaid === 'function') syncDogfightFromRaid();
     } catch(e) {}
   }
   function restoreTable(tableId, tableData) {
@@ -7257,11 +7389,208 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
+    // ── ADC 연동: 기동력, 무기, 조준기, 재밍 자동 반영 ──
+    syncAdcData('att', attRow);
+    syncAdcData('def', defRow);
+
     recalcEng();
     recalcMan('att');
     recalcMan('def');
     recalcMor('att');
     recalcMor('def');
+  }
+
+  // ── ADC 데이터 동기화 (역할 지정 시 호출) ──
+  function syncAdcData(side, row) {
+    if (!row) { console.log('[ADC] syncAdcData: no row for', side); return; }
+    if (!ADC_JSON) { console.log('[ADC] syncAdcData: ADC_JSON not loaded yet'); return; }
+    var ac = getAdcAircraft(row);
+    if (!ac) {
+      var isDrv = row.closest('table').id === 'drv-table';
+      var acSel = row.querySelector(isDrv ? 'td:nth-child(2) select' : 'td:nth-child(4) select');
+      console.log('[ADC] syncAdcData: no match for', side, '- acSel value:', acSel ? acSel.value : 'N/A');
+      return;
+    }
+    var bombVal = getRowBombValue(row);
+    var loadState = (bombVal === 0) ? 'clean' : 'laden';
+    var altSel = document.getElementById('man-' + side + '-alt');
+    var alt = altSel ? altSel.value : 'med';
+
+    // 1. 기동력 자동 입력
+    var manVal = ac.performance && ac.performance.maneuver && ac.performance.maneuver[loadState]
+      ? ac.performance.maneuver[loadState][alt] : '-';
+    console.log('[ADC]', side, ':', ac.name, 'bomb='+bombVal, loadState, 'alt='+alt, 'maneuver='+manVal);
+    if (manVal && manVal !== '-') {
+      document.getElementById('man-' + side + '-my').value = parseInt(manVal) || 0;
+    }
+
+    // 2. 무기 선택 드롭다운 채우기
+    populateWeaponSelect(side, row, ac);
+
+    // 3. Sight → ATG 폭격 조준기 (공격측만)
+    if (side === 'att') {
+      var sight = ac.sight;
+      if (Array.isArray(sight)) sight = sight[0]; // 기본값은 첫 번째
+      if (sight && sight !== '-') {
+        var bs = document.getElementById('atg-bombsight');
+        if (bs) { bs.value = parseInt(sight) || 0; recalcAtg(); }
+      }
+    }
+
+    // 4. Jam → SAM 방어 재밍 (공격측 = US 비행대가 SAM 방어 대상)
+    if (side === 'att') {
+      var jam = ac.jam;
+      var jamEl = document.getElementById('sr-def-jam');
+      var jamModeEl = document.getElementById('sr-jam-mode');
+      if (jam && jam !== '-' && jamEl) {
+        var jamStr = parseInt(jam) || 0;
+        jamEl.value = jamStr;
+        if (jamModeEl) jamModeEl.value = jamStr > 0 ? 'def' : 'none';
+        recalcSR1(); recalcSR3();
+      } else if (jamEl) {
+        jamEl.value = 0;
+        if (jamModeEl) jamModeEl.value = 'none';
+        recalcSR1(); recalcSR3();
+      }
+    }
+
+    // 고도 차이 자동 체크
+    autoCheckAltDiff();
+  }
+
+  // 고도 변경 시 호출
+  function onAltChange() {
+    // 기동력 재계산
+    ['att','def'].forEach(function(side){
+      var roleKey = side === 'att' ? 'attacker' : 'defender';
+      var row = raidRoles[roleKey];
+      if (!row || !ADC_JSON) return;
+      var ac = getAdcAircraft(row);
+      if (!ac) return;
+      var bombVal = getRowBombValue(row);
+      var loadState = (bombVal === 0) ? 'clean' : 'laden';
+      var alt = document.getElementById('man-' + side + '-alt').value;
+      var manVal = ac.performance && ac.performance.maneuver && ac.performance.maneuver[loadState]
+        ? ac.performance.maneuver[loadState][alt] : '-';
+      if (manVal && manVal !== '-') {
+        document.getElementById('man-' + side + '-my').value = parseInt(manVal) || 0;
+      }
+    });
+    autoCheckAltDiff();
+    recalcMan('att'); recalcMan('def');
+    // BVR 방어자 저고도 자동 체크
+    var defAlt = document.getElementById('man-def-alt').value;
+    var bvrLowCb = document.querySelector('#s2b input[data-v="-4"]');
+    if (bvrLowCb) bvrLowCb.checked = (defAlt === 'low');
+    recalcBVR();
+  }
+
+  // 고도 차이 → 교전 판정 체크박스 자동 체크
+  function autoCheckAltDiff() {
+    var attAlt = document.getElementById('man-att-alt');
+    var defAlt = document.getElementById('man-def-alt');
+    if (!attAlt || !defAlt) return;
+    var diff = (attAlt.value !== defAlt.value);
+    var cbAtt = document.getElementById('eng-alt-diff-att');
+    var cbDef = document.getElementById('eng-alt-diff-def');
+    if (cbAtt) cbAtt.checked = diff;
+    if (cbDef) cbDef.checked = diff;
+    recalcEng();
+  }
+
+  // 무기 선택 드롭다운 채우기
+  function populateWeaponSelect(side, row, ac) {
+    var sel = document.getElementById('shot-' + side + '-weapon');
+    if (!sel) return;
+    sel.innerHTML = '<option value="">— 수동 입력 —</option>';
+    if (!ac || !ac.air_to_air_depletion_number || typeof ac.air_to_air_depletion_number !== 'object') return;
+
+    var faction = null;
+    var isDrv = row.closest('table').id === 'drv-table';
+    var acSel = row.querySelector(isDrv ? 'td:nth-child(2) select' : 'td:nth-child(4) select');
+    if (acSel) {
+      var mapping = ADC_NAME_MAP[acSel.value];
+      if (mapping) faction = mapping.faction;
+    }
+
+    // 진영별 무기 데이터
+    var weaponsList = ADC_JSON[faction] && ADC_JSON[faction].air_to_air_depletion_number_weapons
+      ? ADC_JSON[faction].air_to_air_depletion_number_weapons : [];
+    var weaponRatingMap = {};
+    weaponsList.forEach(function(w){ weaponRatingMap[w.name] = w; });
+
+    // 무기 칸에서 고갈 여부 확인 (기총=0, IRM=1, RHM=2)
+    var gunVal = getRowWeaponValue(row, 0);
+    var irmVal = getRowWeaponValue(row, 1);
+    var rhmVal = getRowWeaponValue(row, 2);
+
+    Object.keys(ac.air_to_air_depletion_number).forEach(function(weapName){
+      var depNum = ac.air_to_air_depletion_number[weapName];
+      var wInfo = weaponRatingMap[weapName];
+      var wClass = wInfo ? wInfo.class : 'Gun';
+      var rating = wInfo ? wInfo.rating : 0;
+
+      // 고갈 여부 체크
+      var depleted = false;
+      if (wClass === 'Gun') {
+        depleted = (gunVal === '' || gunVal === '0');
+      } else if (wClass === 'IRM') {
+        depleted = (irmVal === '' || irmVal === '0');
+      } else if (wClass === 'RHM') {
+        depleted = (rhmVal === '' || rhmVal === '0');
+      }
+
+      var label = weapName + ' [CV:' + rating + ' 고갈:' + depNum + ']';
+      if (depleted) label += ' (고갈)';
+      var opt = document.createElement('option');
+      opt.value = JSON.stringify({name:weapName, class:wClass, rating:rating, dep:depNum, depleted:depleted});
+      opt.textContent = label;
+      if (depleted) opt.style.color = '#8b1a1a';
+      sel.appendChild(opt);
+    });
+  }
+
+  // 무기 선택 시
+  function onWeaponSelect(side) {
+    var sel = document.getElementById('shot-' + side + '-weapon');
+    if (!sel || !sel.value) return;
+    try {
+      var w = JSON.parse(sel.value);
+      // CV 입력
+      document.getElementById('shot-' + side + '-cv').value = w.depleted ? 0 : w.rating;
+      // 고갈 수치 입력
+      document.getElementById('shot-' + side + '-dep').value = w.dep;
+
+      // 추가 미사용 무기 자동 체크
+      autoCheckUnusedWeapon(side, w);
+
+      recalcShot(side);
+    } catch(e){}
+  }
+
+  // 추가 미사용 무기 보유 자동 체크
+  function autoCheckUnusedWeapon(side, selectedWeapon) {
+    var roleKey = side === 'att' ? 'attacker' : 'defender';
+    var row = raidRoles[roleKey];
+    if (!row) return;
+
+    var gunVal = getRowWeaponValue(row, 0);
+    var irmVal = getRowWeaponValue(row, 1);
+    var rhmVal = getRowWeaponValue(row, 2);
+
+    var hasOther = false;
+    var selClass = selectedWeapon.class;
+    // 선택한 무기 이외의 클래스에 남은 무기가 있는지 확인
+    if (selClass !== 'Gun' && gunVal !== '' && gunVal !== '0') hasOther = true;
+    if (selClass !== 'IRM' && irmVal !== '' && irmVal !== '0') hasOther = true;
+    if (selClass !== 'RHM' && rhmVal !== '' && rhmVal !== '0') hasOther = true;
+
+    var modsDiv = document.getElementById('shot-' + side + '-mods');
+    if (modsDiv) {
+      var cb = modsDiv.querySelector('input[type=checkbox]');
+      if (cb) cb.checked = hasOther;
+    }
+    recalcShot(side);
   }
 
   // sync 바 잠금 — 교전 판정 굴린 후 호출 (스냅샷 고정)
@@ -7384,6 +7713,8 @@ document.addEventListener('DOMContentLoaded', () => {
   window.recalcSR2 = recalcSR2; window.rollSR2 = rollSR2;
   window.recalcSR3 = recalcSR3; window.rollSR3 = rollSR3;
   window.rollSR4 = rollSR4; window.resetSR = resetSR;
+  window.onAltChange = onAltChange;
+  window.onWeaponSelect = onWeaponSelect;
 
 
 
