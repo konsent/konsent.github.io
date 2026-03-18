@@ -119,7 +119,11 @@
                     "AIM-7E-2": 3
                 },
                 "notes": [
-                    "If Armed Escort, AIM-7E/E-2 is 5, otherwise 3"
+                    "If Armed Escort, AIM-7E/E-2 is 5, otherwise 3",
+                    "AIM-9D is available from Jul 66+",
+                    "AIM-9G is available from Jan 69+",
+                    "AIM-9H is available from Jan 69+",
+                    "AIM-7E-2 is available from Aug 68+"
                 ]
             },
             {
@@ -233,7 +237,10 @@
                     "Night"
                 ],
                 "air_to_air_depletion_number": {},
-                "notes": []
+                "notes": [
+                    "rwr is available from Jul 66+",
+                    "jam is available from Jul 66+"
+                ]
             },
             {
                 "name": "F-8C/D Crusader",
@@ -292,7 +299,11 @@
                 },
                 "notes": [
                     "If Y-rack, No AIM-9B/AIM-9D",
-                    "Only Armed Escort can carry rockets"
+                    "Only Armed Escort can carry rockets",
+                    "AIM-9B is available from Jan 65+",
+                    "AIM-9D is available from Jul 66+",
+                    "rwr is available from Jul 66+",
+                    "jam is available from Jul 66+"
                 ]
             },
             {
@@ -357,7 +368,13 @@
                 },
                 "notes": [
                     "If Y-rack, AIM-9B/AIM-9D/AIM-9G is 3",
-                    "AIM-9B/AIM-9D/AIM-9G + AIM-9C, Both are 6"
+                    "AIM-9B/AIM-9D/AIM-9G + AIM-9C, Both are 6",
+                    "AIM-9B is available from Jan 65+",
+                    "AIM-9D is available from Jul 66+",
+                    "AIM-9G is available from Jan 69+",
+                    "AIM-9C is available from Jul 66 to Dec 67",
+                    "rwr is available from Jul 66+",
+                    "jam is available from Jul 66+"
                 ]
             },
             {
@@ -417,7 +434,10 @@
                 },
                 "notes": [
                     "No slash attacks",
-                    "If Shrike, Bomb is 0"
+                    "If Shrike, Bomb is 0",
+                    "Shrike is available from Apr 66+",
+                    "rwr is available from Jul 66+",
+                    "jam is available from Apr 66+"
                 ]
             },
             {
@@ -478,7 +498,11 @@
                 },
                 "notes": [
                     "No slash attacks",
-                    "If Shrike, Bomb is 1"
+                    "If Shrike, Bomb is 1",
+                    "Shrike is available from Apr 66+",
+                    "EOGB is available from Mar 67+",
+                    "rwr is available from Jul 66+",
+                    "jam is available from Jul 66+"
                 ]
             },
             {
@@ -545,7 +569,9 @@
                 "notes": [
                     "If Shrike is 2, Bomb is 2",
                     "If Shrike is 4, Bomb is 0",
-                    "If Blind bombing, Sight is +3, otherwise +0"
+                    "If Blind bombing, Sight is +3, otherwise +0",
+                    "Shrike is available from Apr 66+",
+                    "EOGB is available from Jan 67+"
                 ]
             },
             {
@@ -610,7 +636,9 @@
                     "If Shrike is 2, Bomb is 2",
                     "If Shrike is 4, Bomb is 0",
                     "If Shrike is 2 and Standard A or B is carried, Bomb is 0",
-                    "PAT-ARM"
+                    "PAT-ARM",
+                    "Standard A is available from Mar 68+",
+                    "Standard B is available from Apr 68+"
                 ]
             },
             {
@@ -678,7 +706,8 @@
                 "notes": [
                     "If Shrike is 2, Bomb is 2",
                     "If Shrike is 4, Bomb is 0",
-                    "If Blind bombing, Sight is +3, otherwise +0"
+                    "If Blind bombing, Sight is +3, otherwise +0",
+                    "LGB is available from Nov 72+"
                 ]
             },
             {
@@ -1189,7 +1218,9 @@
                     "Night"
                 ],
                 "air_to_air_depletion_number": {},
-                "notes": []
+                "notes": [
+                    "jam is available from Jul 66+"
+                ]
             }
         ],
         "air_to_air_depletion_number_weapons": [
@@ -1345,7 +1376,8 @@
                 },
                 "notes": [
                     "After May 67+, Gun only on CAP",
-                    "If SEAD or Strike/CAP, AIM-7E/E-2 is 5, otherwise 3"
+                    "If SEAD or Strike/CAP, AIM-7E/E-2 is 5, otherwise 3",
+                    "AIM-7E-2 is available from Aug 68+"
                 ]
             },
             {
@@ -1401,7 +1433,10 @@
                     "TFR"
                 ],
                 "air_to_air_depletion_number": {},
-                "notes": []
+                "notes": [
+                    "rwr is available from Apr 67+",
+                    "jam is available from Jan 67+"
+                ]
             },
             {
                 "name": "RF-4B Phantom II",
@@ -1456,7 +1491,15 @@
                     "TFR"
                 ],
                 "air_to_air_depletion_number": {},
-                "notes": []
+                "notes": [
+                    "AIM-9B is available from Jan 65+",
+                    "AIM-9D is available from Jul 66+",
+                    "AIM-9G is available from Jan 69+",
+                    "AIM-7E is available from Jan 65+",
+                    "AIM-7E-2 is available from Aug 68+",
+                    "rwr is available from Jul 66+",
+                    "jam is available from Jul 66+"
+                ]
             },
             {
                 "name": "F-4D Phantom II",
@@ -1525,7 +1568,11 @@
                 },
                 "notes": [
                     "Gun only on CAP",
-                    "If Bomb or SEAD or Strike/CAP or Chaff, AIM-7E/E-2 is 5, otherwise 3"
+                    "If Bomb or SEAD or Strike/CAP or Chaff, AIM-7E/E-2 is 5, otherwise 3",
+                    "AIM-7E-2 is available from Aug 68+",
+                    "LGB is available from May 68+",
+                    "Chaff Disp is available from Jun 72+",
+                    "Chaff Bomb is available from May 72+"
                 ]
             },
             {
@@ -1592,7 +1639,9 @@
                     "Gun": 3
                 },
                 "notes": [
-                    "If Bomb or SEAD or Strike/CAP or Chaff, AIM-7E/E-2 is 5, otherwise 3"
+                    "If Bomb or SEAD or Strike/CAP or Chaff, AIM-7E/E-2 is 5, otherwise 3",
+                    "Chaff Disp is available from Jun 72+",
+                    "Chaff Bomb is available from May 72+"
                 ]
             },
             {
@@ -1763,7 +1812,9 @@
                 "air_to_air_depletion_number": {
                     "Gun": 3
                 },
-                "notes": []
+                "notes": [
+                    "Shrike is available from Apr 66+"
+                ]
             },
             {
                 "name": "RF-101C Voodoo",
@@ -1817,7 +1868,10 @@
                     "Night"
                 ],
                 "air_to_air_depletion_number": {},
-                "notes": []
+                "notes": [
+                    "rwr is available from Oct 66+",
+                    "jam is available from Jul 65+"
+                ]
             },
             {
                 "name": "F-104C Starfighter",
@@ -1874,7 +1928,8 @@
                     "Gun": 3
                 },
                 "notes": [
-                    "No Fluid Four"
+                    "No Fluid Four",
+                    "rwr is available from Nov 66+"
                 ]
             },
             {
@@ -1934,7 +1989,9 @@
                 },
                 "notes": [
                     "Bomb is 2 from Oct 66+",
-                    "AIM-9B is available only by SSR"
+                    "AIM-9B is available only by SSR",
+                    "rwr is available from Oct 66+",
+                    "jam is available from Oct 66+"
                 ]
             },
             {
@@ -1993,7 +2050,9 @@
                     "Gun": 3
                 },
                 "notes": [
-                    "Bomb is 2 from Oct 66+"
+                    "Bomb is 2 from Oct 66+",
+                    "rwr is available from Oct 66+",
+                    "jam is available from Oct 66+"
                 ]
             },
             {
@@ -2052,7 +2111,9 @@
                 "air_to_air_depletion_number": {
                     "Gun": 3
                 },
-                "notes": []
+                "notes": [
+                    "Standard A is available from May 68+"
+                ]
             },
             {
                 "name": "F-105G Wild Weasel",
@@ -2060,7 +2121,7 @@
                 "fuel": 5,
                 "bomb": "-",
                 "sight": "+1",
-                "rwr": "B",
+                "rwr": "C",
                 "jam": "-",
                 "performance": {
                     "combat": {
@@ -2113,6 +2174,68 @@
                 "notes": [
                     "RWR is C from Jan 75+",
                     "only Standard B from Jan 75+"
+                ]
+            },
+            {
+                "name": "F-105G Wild Weasel (2)",
+                "crew": 2,
+                "fuel": 5,
+                "bomb": "-",
+                "sight": "+1",
+                "rwr": "B",
+                "jam": "-",
+                "performance": {
+                    "combat": {
+                        "clean": {
+                            "low": "4",
+                            "med": "5",
+                            "high": "5"
+                        },
+                        "laden": {
+                            "low": "3",
+                            "med": "4",
+                            "high": "-"
+                        }
+                    },
+                    "dash": {
+                        "clean": {
+                            "low": "5",
+                            "med": "6",
+                            "high": "7"
+                        },
+                        "laden": {
+                            "low": "4",
+                            "med": "5",
+                            "high": "-"
+                        }
+                    },
+                    "maneuver": {
+                        "clean": {
+                            "low": "4",
+                            "med": "5",
+                            "high": "6"
+                        },
+                        "laden": {
+                            "low": "2",
+                            "med": "3",
+                            "high": "-"
+                        }
+                    }
+                },
+                "ordnance": {
+                    "Shrike": 2,
+                    "Standard B": 1,
+                    "Standard A": 1
+                },
+                "capabilities": [
+                    "Night"
+                ],
+                "air_to_air_depletion_number": {
+                    "Gun": 3
+                },
+                "notes": [
+                    "Standard A is available from May 68+",
+                    "Standard B is available from Jan 69+"
                 ]
             },
             {
