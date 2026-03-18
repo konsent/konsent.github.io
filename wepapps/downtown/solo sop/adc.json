@@ -47,8 +47,10 @@
                         }
                     }
                 },
-                "ordnance": "-",
-                "capabilities": "Night",
+                "ordnance": {},
+                "capabilities": [
+                    "Night"
+                ],
                 "air_to_air_depletion_number": {
                     "AIM-9B": 3,
                     "AIM-9D": 3,
@@ -106,8 +108,10 @@
                         }
                     }
                 },
-                "ordnance": "-",
-                "capabilities": "Night",
+                "ordnance": {},
+                "capabilities": [
+                    "Night"
+                ],
                 "air_to_air_depletion_number": {
                     "AIM-9D": 3,
                     "AIM-9G": 3,
@@ -165,8 +169,10 @@
                         }
                     }
                 },
-                "ordnance": "-",
-                "capabilities": "Night",
+                "ordnance": {},
+                "capabilities": [
+                    "Night"
+                ],
                 "air_to_air_depletion_number": {
                     "AIM-9G": 3,
                     "AIM-9H": 3,
@@ -222,13 +228,13 @@
                         }
                     }
                 },
-                "ordnance": "-",
+                "ordnance": {},
                 "capabilities": [
                     "Recon",
                     "Night"
                 ],
-                "air_to_air_depletion_number": "-",
-                "notes": "-"
+                "air_to_air_depletion_number": {},
+                "notes": []
             },
             {
                 "name": "F-8C/D Crusader",
@@ -276,8 +282,10 @@
                         }
                     }
                 },
-                "ordnance": "-",
-                "capabilities": "Night",
+                "ordnance": {},
+                "capabilities": [
+                    "Night"
+                ],
                 "air_to_air_depletion_number": {
                     "AIM-9B": 6,
                     "AIM-9D": 6,
@@ -337,8 +345,10 @@
                         }
                     }
                 },
-                "ordnance": "-",
-                "capabilities": "Night",
+                "ordnance": {},
+                "capabilities": [
+                    "Night"
+                ],
                 "air_to_air_depletion_number": {
                     "AIM-9B": 6,
                     "AIM-9D": 6,
@@ -400,7 +410,9 @@
                 "ordnance": {
                     "Strike": 2
                 },
-                "capabilities": "Night",
+                "capabilities": [
+                    "Night"
+                ],
                 "air_to_air_depletion_number": {
                     "Gun": 5
                 },
@@ -459,7 +471,9 @@
                     "Strike": 2,
                     "EOGB": 1
                 },
-                "capabilities": "Night",
+                "capabilities": [
+                    "Night"
+                ],
                 "air_to_air_depletion_number": {
                     "Gun": 5
                 },
@@ -528,7 +542,7 @@
                     "Night",
                     "TFR"
                 ],
-                "air_to_air_depletion_number": "-",
+                "air_to_air_depletion_number": {},
                 "notes": [
                     "If Shrike is 2, Bomb is 2",
                     "If Shrike is 4, Bomb is 0",
@@ -589,8 +603,10 @@
                     "Standard A": 1,
                     "Standard B": 1
                 },
-                "capabilities": "Night",
-                "air_to_air_depletion_number": "-",
+                "capabilities": [
+                    "Night"
+                ],
+                "air_to_air_depletion_number": {},
                 "notes": [
                     "If Shrike is 2, Bomb is 2",
                     "If Shrike is 4, Bomb is 0",
@@ -659,7 +675,7 @@
                     "Night",
                     "TFR"
                 ],
-                "air_to_air_depletion_number": "-",
+                "air_to_air_depletion_number": {},
                 "notes": [
                     "If Strike is 2, Bomb is 2",
                     "If Strike is 4, Bomb is 0",
@@ -716,7 +732,9 @@
                     "Strike": 1,
                     "EOGB": 1
                 },
-                "capabilities": "Night",
+                "capabilities": [
+                    "Night"
+                ],
                 "air_to_air_depletion_number": {
                     "Gun": 3,
                     "AIM-9D": 6,
@@ -777,7 +795,9 @@
                     "Strike": 1,
                     "EOGB": 1
                 },
-                "capabilities": "Night",
+                "capabilities": [
+                    "Night"
+                ],
                 "air_to_air_depletion_number": {
                     "AIM-9G/H": 6,
                     "Gun": 3
@@ -833,13 +853,13 @@
                         }
                     }
                 },
-                "ordnance": "-",
+                "ordnance": {},
                 "capabilities": [
                     "Night",
                     "TFR"
                 ],
-                "air_to_air_depletion_number": "-",
-                "notes": "-"
+                "air_to_air_depletion_number": {},
+                "notes": []
             },
             {
                 "name": "EA-6B Prowler",
@@ -887,13 +907,13 @@
                         }
                     }
                 },
-                "ordnance": "-",
+                "ordnance": {},
                 "capabilities": [
                     "Night",
                     "TFR"
                 ],
-                "air_to_air_depletion_number": "-",
-                "notes": "-"
+                "air_to_air_depletion_number": {},
+                "notes": []
             },
             {
                 "name": "F-14A Tomcat",
@@ -941,7 +961,7 @@
                         }
                     }
                 },
-                "ordnance": "-",
+                "ordnance": {},
                 "capabilities": [
                     "Night"
                 ],
@@ -1001,9 +1021,11 @@
                         }
                     }
                 },
-                "ordnance": "-",
-                "capabilities": "Night",
-                "air_to_air_depletion_number": "-",
+                "ordnance": {},
+                "capabilities": [
+                    "Night"
+                ],
+                "air_to_air_depletion_number": {},
                 "notes": [
                     "Large",
                     "Poor SAM defense",
@@ -1056,10 +1078,12 @@
                         }
                     }
                 },
-                "ordnance": "-",
-                "capabilities": "Night",
-                "air_to_air_depletion_number": "-",
-                "notes": "-"
+                "ordnance": {},
+                "capabilities": [
+                    "Night"
+                ],
+                "air_to_air_depletion_number": {},
+                "notes": []
             },
             {
                 "name": "EA-1F 'Electric Spad'",
@@ -1107,10 +1131,12 @@
                         }
                     }
                 },
-                "ordnance": "-",
-                "capabilities": "Standoff Night",
-                "air_to_air_depletion_number": "-",
-                "notes": "-"
+                "ordnance": {},
+                "capabilities": [
+                    "Standoff Night"
+                ],
+                "air_to_air_depletion_number": {},
+                "notes": []
             },
             {
                 "name": "RA-5C Vigilante",
@@ -1158,13 +1184,13 @@
                         }
                     }
                 },
-                "ordnance": "-",
+                "ordnance": {},
                 "capabilities": [
                     "Recon",
                     "Night"
                 ],
-                "air_to_air_depletion_number": "-",
-                "notes": "-"
+                "air_to_air_depletion_number": {},
+                "notes": []
             }
         ],
         "air_to_air_depletion_number_weapons": [
@@ -1293,8 +1319,10 @@
                         }
                     }
                 },
-                "ordnance": "-",
-                "capabilities": "Night",
+                "ordnance": {},
+                "capabilities": [
+                    "Night"
+                ],
                 "air_to_air_depletion_number": {
                     "AIM-9B": 3,
                     "AIM-9E": 3,
@@ -1354,14 +1382,14 @@
                         }
                     }
                 },
-                "ordnance": "-",
+                "ordnance": {},
                 "capabilities": [
                     "Recon",
                     "Night",
                     "TFR"
                 ],
-                "air_to_air_depletion_number": "-",
-                "notes": "-"
+                "air_to_air_depletion_number": {},
+                "notes": []
             },
             {
                 "name": "RF-4B Phantom II",
@@ -1409,14 +1437,14 @@
                         }
                     }
                 },
-                "ordnance": "-",
+                "ordnance": {},
                 "capabilities": [
                     "Recon",
                     "Night",
                     "TFR"
                 ],
-                "air_to_air_depletion_number": "-",
-                "notes": "-"
+                "air_to_air_depletion_number": {},
+                "notes": []
             },
             {
                 "name": "F-4D Phantom II",
@@ -1601,8 +1629,10 @@
                         }
                     }
                 },
-                "ordnance": "-",
-                "capabilities": "Night",
+                "ordnance": {},
+                "capabilities": [
+                    "Night"
+                ],
                 "air_to_air_depletion_number": {
                     "Gun": 3,
                     "AIM-9B": 3
@@ -1660,9 +1690,11 @@
                 "ordnance": {
                     "Shrike": 2
                 },
-                "capabilities": "Night",
-                "air_to_air_depletion_number": "-",
-                "notes": "-"
+                "capabilities": [
+                    "Night"
+                ],
+                "air_to_air_depletion_number": {},
+                "notes": []
             },
             {
                 "name": "F-100F Wild Weasel I",
@@ -1713,11 +1745,13 @@
                 "ordnance": {
                     "Shrike": 2
                 },
-                "capabilities": "Night",
+                "capabilities": [
+                    "Night"
+                ],
                 "air_to_air_depletion_number": {
                     "Gun": 3
                 },
-                "notes": "-"
+                "notes": []
             },
             {
                 "name": "RF-101C Voodoo",
@@ -1765,13 +1799,13 @@
                         }
                     }
                 },
-                "ordnance": "-",
+                "ordnance": {},
                 "capabilities": [
                     "Recon",
                     "Night"
                 ],
-                "air_to_air_depletion_number": "-",
-                "notes": "-"
+                "air_to_air_depletion_number": {},
+                "notes": []
             },
             {
                 "name": "F-104C Starfighter",
@@ -1819,8 +1853,10 @@
                         }
                     }
                 },
-                "ordnance": "-",
-                "capabilities": "Night",
+                "ordnance": {},
+                "capabilities": [
+                    "Night"
+                ],
                 "air_to_air_depletion_number": {
                     "AIM-9B": 6,
                     "Gun": 3
@@ -1875,7 +1911,7 @@
                         }
                     }
                 },
-                "ordnance": "-",
+                "ordnance": {},
                 "capabilities": [
                     "R.Nav Night",
                     "TFR"
@@ -1935,7 +1971,7 @@
                         }
                     }
                 },
-                "ordnance": "-",
+                "ordnance": {},
                 "capabilities": [
                     "Night",
                     "TFR"
@@ -1998,11 +2034,13 @@
                     "Shrike": 2,
                     "Standard A": 1
                 },
-                "capabilities": "Night",
+                "capabilities": [
+                    "Night"
+                ],
                 "air_to_air_depletion_number": {
                     "Gun": 3
                 },
-                "notes": "-"
+                "notes": []
             },
             {
                 "name": "F-105G Wild Weasel",
@@ -2055,7 +2093,9 @@
                     "Standard A": 1,
                     "Standard B": 1
                 },
-                "capabilities": "Night",
+                "capabilities": [
+                    "Night"
+                ],
                 "air_to_air_depletion_number": {
                     "Gun": 3
                 },
@@ -2110,8 +2150,10 @@
                         }
                     }
                 },
-                "ordnance": "-",
-                "capabilities": "Night",
+                "ordnance": {},
+                "capabilities": [
+                    "Night"
+                ],
                 "air_to_air_depletion_number": {
                     "AIM-9E": 6,
                     "Gun": 5
@@ -2166,13 +2208,13 @@
                         }
                     }
                 },
-                "ordnance": "-",
+                "ordnance": {},
                 "capabilities": [
                     "Night",
                     "TFR"
                 ],
-                "air_to_air_depletion_number": "-",
-                "notes": "-"
+                "air_to_air_depletion_number": {},
+                "notes": []
             },
             {
                 "name": "B-52D Stratofortress",
@@ -2220,7 +2262,7 @@
                         }
                     }
                 },
-                "ordnance": "-",
+                "ordnance": {},
                 "capabilities": [
                     "Radar",
                     "R.Nav Night"
@@ -2280,7 +2322,7 @@
                         }
                     }
                 },
-                "ordnance": "-",
+                "ordnance": {},
                 "capabilities": [
                     "Radar",
                     "R.Nav Night"
@@ -2340,9 +2382,11 @@
                         }
                     }
                 },
-                "ordnance": "-",
-                "capabilities": "Standoff Night Spot (C only)",
-                "air_to_air_depletion_number": "-",
+                "ordnance": {},
+                "capabilities": [
+                    "Standoff Night Spot (C only)"
+                ],
+                "air_to_air_depletion_number": {},
                 "notes": [
                     "Large",
                     "Poor SAM defense",
@@ -2395,8 +2439,8 @@
                         }
                     }
                 },
-                "ordnance": "-",
-                "capabilities": "-",
+                "ordnance": {},
+                "capabilities": [],
                 "air_to_air_depletion_number": {
                     "Gun": 5
                 },
@@ -2478,5 +2522,405 @@
                 "max_range_strength0_5": 48
             }
         }
+    },
+    "DRV": {
+        "aircraft": [
+            {
+                "name": "MiG-17F Fresco C",
+                "crew": 1,
+                "fuel": 12,
+                "bomb": "-",
+                "sight": "-",
+                "rwr": "-",
+                "jam": "-",
+                "performance": {
+                    "combat": {
+                        "clean": {
+                            "low": "3",
+                            "med": "3",
+                            "high": "3"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    },
+                    "dash": {
+                        "clean": {
+                            "low": "4",
+                            "med": "4",
+                            "high": "4"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    },
+                    "maneuver": {
+                        "clean": {
+                            "low": "5",
+                            "med": "5",
+                            "high": "4"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    }
+                },
+                "ordnance": {},
+                "capabilities": [],
+                "air_to_air_depletion_number": {
+                    "Gun": 5
+                },
+                "notes": [
+                    "No slash attacks"
+                ]
+            },
+            {
+                "name": "MiG-17PF Fresco D",
+                "crew": 1,
+                "fuel": 12,
+                "bomb": "-",
+                "sight": "-",
+                "rwr": "-",
+                "jam": "-",
+                "performance": {
+                    "combat": {
+                        "clean": {
+                            "low": "3",
+                            "med": "3",
+                            "high": "3"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    },
+                    "dash": {
+                        "clean": {
+                            "low": "4",
+                            "med": "4",
+                            "high": "4"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    },
+                    "maneuver": {
+                        "clean": {
+                            "low": "5",
+                            "med": "5",
+                            "high": "4"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    }
+                },
+                "ordnance": {},
+                "capabilities": [],
+                "air_to_air_depletion_number": {
+                    "Gun": 5
+                },
+                "notes": [
+                    "No slash attacks"
+                ]
+            },
+            {
+                "name": "MiG-19S Farmer C",
+                "crew": 1,
+                "fuel": 7,
+                "bomb": "-",
+                "sight": "-",
+                "rwr": "-",
+                "jam": "-",
+                "performance": {
+                    "combat": {
+                        "clean": {
+                            "low": "3",
+                            "med": "4",
+                            "high": "4"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    },
+                    "dash": {
+                        "clean": {
+                            "low": "4",
+                            "med": "5",
+                            "high": "6"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    },
+                    "maneuver": {
+                        "clean": {
+                            "low": "5",
+                            "med": "6",
+                            "high": "6"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    }
+                },
+                "ordnance": {},
+                "capabilities": [],
+                "air_to_air_depletion_number": {
+                    "R-3s": 6,
+                    "Gun": 5
+                },
+                "notes": []
+            },
+            {
+                "name": "MiG-21F-13 Fishbed C",
+                "crew": 1,
+                "fuel": 7,
+                "bomb": "-",
+                "sight": "-",
+                "rwr": "-",
+                "jam": "-",
+                "performance": {
+                    "combat": {
+                        "clean": {
+                            "low": "3",
+                            "med": "4",
+                            "high": "4"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    },
+                    "dash": {
+                        "clean": {
+                            "low": "4",
+                            "med": "5",
+                            "high": "7"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    },
+                    "maneuver": {
+                        "clean": {
+                            "low": "5",
+                            "med": "6",
+                            "high": "8"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    }
+                },
+                "ordnance": {},
+                "capabilities": [],
+                "air_to_air_depletion_number": {
+                    "R-3s": 6,
+                    "Gun": 5
+                },
+                "notes": []
+            },
+            {
+                "name": "MiG-21MF Fishbed J",
+                "crew": 1,
+                "fuel": 7,
+                "bomb": "-",
+                "sight": "-",
+                "rwr": "-",
+                "jam": "-",
+                "performance": {
+                    "combat": {
+                        "clean": {
+                            "low": "3",
+                            "med": "4",
+                            "high": "4"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    },
+                    "dash": {
+                        "clean": {
+                            "low": "4",
+                            "med": "5",
+                            "high": "7"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    },
+                    "maneuver": {
+                        "clean": {
+                            "low": "5",
+                            "med": "6",
+                            "high": "8"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    }
+                },
+                "ordnance": {},
+                "capabilities": [
+                    "Night"
+                ],
+                "air_to_air_depletion_number": {
+                    "R-3s": 6,
+                    "Gun": 5
+                },
+                "notes": []
+            },
+            {
+                "name": "MiG-21PF Fishbed D",
+                "crew": 1,
+                "fuel": 8,
+                "bomb": "-",
+                "sight": "-",
+                "rwr": "-",
+                "jam": "-",
+                "performance": {
+                    "combat": {
+                        "clean": {
+                            "low": "3",
+                            "med": "4",
+                            "high": "4"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    },
+                    "dash": {
+                        "clean": {
+                            "low": "4",
+                            "med": "5",
+                            "high": "7"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    },
+                    "maneuver": {
+                        "clean": {
+                            "low": "5",
+                            "med": "6",
+                            "high": "8"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    }
+                },
+                "ordnance": {},
+                "capabilities": [],
+                "air_to_air_depletion_number": {
+                    "R-3s": 6
+                },
+                "notes": []
+            },
+            {
+                "name": "MiG-21PFM Fishbed F",
+                "crew": 1,
+                "fuel": 7,
+                "bomb": "-",
+                "sight": "-",
+                "rwr": "-",
+                "jam": "-",
+                "performance": {
+                    "combat": {
+                        "clean": {
+                            "low": "3",
+                            "med": "4",
+                            "high": "4"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    },
+                    "dash": {
+                        "clean": {
+                            "low": "4",
+                            "med": "5",
+                            "high": "7"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    },
+                    "maneuver": {
+                        "clean": {
+                            "low": "5",
+                            "med": "6",
+                            "high": "8"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    }
+                },
+                "ordnance": {},
+                "capabilities": [
+                    "Night"
+                ],
+                "air_to_air_depletion_number": {
+                    "R-3s": 6
+                },
+                "notes": []
+            }
+        ],
+        "air_to_air_depletion_number_weapons": [
+            {
+                "name": "R-3s",
+                "class": "IRM",
+                "rating": 2,
+                "availability": "-"
+            },
+            {
+                "name": "Gun",
+                "class": "Gun",
+                "rating": 2,
+                "availability": "-"
+            }
+        ]
     }
 }
