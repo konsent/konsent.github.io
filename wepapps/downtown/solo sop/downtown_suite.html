@@ -5373,6 +5373,8 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       if (!isLoading) {
         oldEl.value = strVal;
+      } else if (oldValue !== undefined && oldValue !== '') {
+        oldEl.value = oldValue;
       }
     }
   }
@@ -6324,7 +6326,10 @@ document.addEventListener('DOMContentLoaded', () => {
               } else {
                   sel.value = sc.value; if (sel.classList.contains('fit-width')) adjustSelectWidth(sel);
               }
-          } else if (inp && sc.type === 'input') { inp.value = sc.value; }
+          } else if (inp && (sc.type === 'input' || sc.type === 'select')) {
+              // select 데이터를 input에 임시 세팅 (updateWeaponData에서 select로 교체 시 복원용)
+              inp.value = sc.value;
+          }
           else if (cell.querySelector('.role-btn-wrap') && sc.type === 'role') {
             if (sc.value !== 'none') {
               const btn = cell.querySelector(`[data-role="${sc.value}"]`);
