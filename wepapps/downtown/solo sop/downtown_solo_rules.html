@@ -1413,6 +1413,18 @@
                 });
             }, observerOptions);
             document.querySelectorAll('h2[id^="s5-"]').forEach(section => observer.observe(section));
+
+            // Prevent bookmark links from opening in new window (due to <base target="_blank">)
+            document.querySelectorAll('.bookmark-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetEl = document.getElementById(targetId);
+                    if (targetEl) {
+                        targetEl.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
         });
     </script>
 </body>
