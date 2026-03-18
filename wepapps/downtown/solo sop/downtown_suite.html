@@ -4959,6 +4959,69 @@ document.addEventListener('DOMContentLoaded', () => {
     }).catch(e=>console.warn('adc.json load failed',e));
   })();
 
+  // ── 가용 날짜 유틸 ──
+  var MONTH_MAP = {Jan:1,Feb:2,Mar:3,Apr:4,May:5,Jun:6,Jul:7,Aug:8,Sep:9,Oct:10,Nov:11,Dec:12};
+  // "Jul 66" → {y:1966, m:7}, "on 74" → {y:1974, m:1}, "-" → null
+  function parseAvailDate(s) {
+    if (!s || s === '-') return null;
+    var m;
+    m = s.match(/([A-Z][a-z]{2})\s+(\d{2,4})/);
+    if (m) {
+      var mon = MONTH_MAP[m[1]] || 1;
+      var yr = parseInt(m[2]); if (yr < 100) yr += 1900;
+      return {y:yr, m:mon};
+    }
+    m = s.match(/on\s+(\d{2,4})/);
+    if (m) {
+      var yr = parseInt(m[1]); if (yr < 100) yr += 1900;
+      return {y:yr, m:1};
+    }
+    return null;
+  }
+  // "Jul 66 to Dec 67" → {from:{y:1966,m:7}, to:{y:1967,m:12}}
+  function parseAvailRange(s) {
+    if (!s) return {from:null, to:null};
+    var m = s.match(/([A-Z][a-z]{2}\s+\d{2,4})\s+to\s+([A-Z][a-z]{2}\s+\d{2,4})/);
+    if (m) return {from:parseAvailDate(m[1]), to:parseAvailDate(m[2])};
+    return {from:parseAvailDate(s), to:null};
+  }
+  // 시나리오 날짜 읽기 → {y:YYYY, m:MM}
+  function getScenarioDate() {
+    var el = document.getElementById('us-date');
+    if (!el || !el.value) return null;
+    var parts = el.value.split('-');
+    if (parts.length < 2) return null;
+    return {y:parseInt(parts[0]), m:parseInt(parts[1])};
+  }
+  // ym1 <= ym2 비교
+  function ymLte(a, b) { return a.y < b.y || (a.y === b.y && a.m <= b.m); }
+  // 가용 여부 판별 — availStr: availability 문자열 또는 notes의 "from Mon YY+" 부분
+  function isAvailableAt(availStr, scenDate) {
+    if (!scenDate) return true; // 날짜 미입력이면 모두 허용
+    if (!availStr || availStr === '-') return true;
+    var range = parseAvailRange(availStr);
+    if (!range.from) return true;
+    if (!ymLte(range.from, scenDate)) return false; // 아직 가용 전
+    if (range.to && !ymLte(scenDate, range.to)) return false; // 가용 기간 지남
+    return true;
+  }
+  // 기체 notes에서 항목별 가용 날짜 추출
+  // 반환: { "AIM-9D": "Jul 66+", "rwr": "Jul 66+", "jam": "Apr 66+", "Shrike": "Apr 66+", ... }
+  function parseNotesAvailability(notes) {
+    if (!notes || !Array.isArray(notes)) return {};
+    var result = {};
+    notes.forEach(function(note){
+      // "X is available from Mon YY+" or "X is available from Mon YY to Mon YY"
+      var m = note.match(/^(.+?)\s+is\s+available\s+from\s+(.+)/i);
+      if (m) {
+        var item = m[1].trim();
+        var dateStr = m[2].replace(/\+$/, '').trim();
+        result[item] = dateStr;
+      }
+    });
+    return result;
+  }
+
   // HTML 항공기 select 값 → adc.json 기체명 + 진영 매핑
   var ADC_NAME_MAP = {
     "F-4B Phantom 2 [US]":       {faction:"USN", name:"F-4B Phantom II"},
@@ -5091,6 +5154,15 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   // adc.json에서 무기 칸 데이터를 구축: {gun:[...], irm:[...], rhm:[...], bomb:..., fuel:...}
+  // 날짜 변경 시 모든 US 행의 무기/ordnance 재생성
+  function refreshAllWeaponsForDate() {
+    document.querySelectorAll('#us-lead-table tbody tr, #us-main-table tbody tr, #us-trail-table tbody tr').forEach(function(row){
+      if (row.querySelector('.add-row')) return;
+      updateWeaponData(row);
+      updateOrdnanceCell(row);
+    });
+  }
+
   function buildWeaponInfo(aircraftKey) {
     if (!ADC_JSON) return null;
     // AUS fallback
@@ -5113,13 +5185,22 @@ document.addEventListener('DOMContentLoaded', () => {
     var weaponsList = factionData.air_to_air_depletion_number_weapons || [];
     var ratingMap = {};
     weaponsList.forEach(function(w){ ratingMap[w.name] = w; });
-    // 기체별 무기 → class 분류
+    // 기체별 무기 → class 분류 (가용 날짜 필터 적용)
+    var scenDate = getScenarioDate();
+    var notesAvail = parseNotesAvailability(ac.notes);
     var info = {gun:[], irm:[], rhm:[], bomb:ac.bomb, fuel:ac.fuel};
     var aadn = ac.air_to_air_depletion_number;
     if (aadn && typeof aadn === 'object') {
       Object.keys(aadn).forEach(function(weapName){
-        var dep = aadn[weapName];
+        // 무기 가용 여부 체크: weapons 목록의 availability 또는 notes의 가용일
         var wInfo = ratingMap[weapName];
+        var weapAvail = wInfo ? wInfo.availability : '-';
+        var noteAvail = notesAvail[weapName];
+        // notes에 구체적 가용일이 있으면 우선 사용
+        if (noteAvail && !isAvailableAt(noteAvail, scenDate)) return;
+        if (!noteAvail && !isAvailableAt(weapAvail, scenDate)) return;
+
+        var dep = aadn[weapName];
         var cls = wInfo ? wInfo.class : 'Gun';
         var key = cls === 'Gun' ? 'gun' : cls === 'IRM' ? 'irm' : 'rhm';
         info[key].push({name:weapName, dep:dep});
@@ -5412,10 +5493,15 @@ document.addEventListener('DOMContentLoaded', () => {
     wrap.style.cssText = 'display:flex;flex-direction:column;gap:2px;font-size:11px';
 
     var armAllowed = isArmCbuAllowed(row);
+    var scenDate = getScenarioDate();
+    var notesAvail = parseNotesAvailability(acData.notes);
     var ordKeys = Object.keys(acData.ordnance);
     ordKeys.forEach(function(name){
       // ARM 무장은 아이언 핸드/SEAD만 사용 가능
       if (ARM_NAMES.indexOf(name) >= 0 && !armAllowed) return;
+      // 가용 날짜 필터
+      var noteAvail = notesAvail[name];
+      if (noteAvail && !isAvailableAt(noteAvail, scenDate)) return;
       var val = acData.ordnance[name];
       var line = document.createElement('div');
       line.style.cssText = 'display:flex;align-items:center;gap:4px';
@@ -7881,7 +7967,11 @@ document.addEventListener('DOMContentLoaded', () => {
   initializeTemplates();
   document.querySelectorAll('table tbody tr:not(:last-child)').forEach(addRowListeners);
   const di2 = document.getElementById('us-date'); const ti2 = document.getElementById('us-target');
-  if (di2) di2.addEventListener('input', saveToLocalStorage);
+  if (di2) di2.addEventListener('input', function(){
+    saveToLocalStorage();
+    // 날짜 변경 → 모든 행의 무기/ordnance 재생성 (가용 날짜 필터 재적용)
+    refreshAllWeaponsForDate();
+  });
   if (ti2) ti2.addEventListener('input', saveToLocalStorage);
   loadFromShareUrl();
   loadFromLocalStorage();
@@ -8219,11 +8309,19 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    // 4. Jam → SAM 방어 재밍 (공격측 = US 비행대가 SAM 방어 대상)
+    // 4. Jam/RWR → SAM 방어 재밍 (공격측 = US 비행대가 SAM 방어 대상)
+    // 가용 날짜 체크
+    var scenDate = getScenarioDate();
+    var notesAvail = parseNotesAvailability(ac.notes);
+    var rwrAvailable = notesAvail['rwr'] ? isAvailableAt(notesAvail['rwr'], scenDate) : true;
+    var jamAvailable = notesAvail['jam'] ? isAvailableAt(notesAvail['jam'], scenDate) : true;
+
     if (side === 'att') {
       var jam = ac.jam;
       var jamEl = document.getElementById('sr-def-jam');
       var jamModeEl = document.getElementById('sr-jam-mode');
+      // jam 미가용이면 0으로 처리
+      if (!jamAvailable) jam = '-';
       if (jam && jam !== '-' && jamEl) {
         var jamStr = parseInt(jam) || 0;
         jamEl.value = jamStr;
