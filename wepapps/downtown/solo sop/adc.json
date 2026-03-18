@@ -1195,43 +1195,43 @@
         ],
         "air_to_air_depletion_number_weapons": [
             {
-                "name": "AIM-9B Sidewinder",
+                "name": "AIM-9B",
                 "class": "IRM",
                 "rating": 2,
                 "availability": "Jan 65 on"
             },
             {
-                "name": "AIM-9C Sidewinder",
+                "name": "AIM-9C",
                 "class": "IRM",
                 "rating": 1,
                 "availability": "Jan 66 on"
             },
             {
-                "name": "AIM-9D Sidewinder",
+                "name": "AIM-9D",
                 "class": "IRM",
                 "rating": 3,
                 "availability": "Jun 68 on"
             },
             {
-                "name": "AIM-9G Sidewinder",
+                "name": "AIM-9G",
                 "class": "IRM",
                 "rating": 4,
                 "availability": "Jan 69 on"
             },
             {
-                "name": "AIM-9H Sidewinder",
+                "name": "AIM-9H",
                 "class": "IRM",
                 "rating": 4,
                 "availability": "Jun 72 on"
             },
             {
-                "name": "AIM-7E Sparrow",
+                "name": "AIM-7E",
                 "class": "RHM",
                 "rating": 1,
                 "availability": "Jan 65 on"
             },
             {
-                "name": "AIM-7E-2 Sparrow",
+                "name": "AIM-7E-2",
                 "class": "RHM",
                 "rating": 2,
                 "availability": "Aug 68 on"
@@ -2451,37 +2451,37 @@
         ],
         "air_to_air_depletion_number_weapons": [
             {
-                "name": "AIM-4D Falcon",
+                "name": "AIM-4D",
                 "class": "IRM",
                 "rating": 1,
                 "availability": "Aug 67 on"
             },
             {
-                "name": "AIM-9B Sidewinder",
+                "name": "AIM-9B",
                 "class": "IRM",
                 "rating": 2,
                 "availability": "Jan 67 on"
             },
             {
-                "name": "AIM-9E Sidewinder",
+                "name": "AIM-9E",
                 "class": "IRM",
                 "rating": 2,
                 "availability": "Jan 67 on"
             },
             {
-                "name": "AIM-9J Sidewinder",
+                "name": "AIM-9J",
                 "class": "IRM",
                 "rating": 2,
                 "availability": "Sep 72 on"
             },
             {
-                "name": "AIM-7E Sparrow",
+                "name": "AIM-7E",
                 "class": "RHM",
                 "rating": 1,
                 "availability": "Jan 65 on"
             },
             {
-                "name": "AIM-7E-2 Sparrow",
+                "name": "AIM-7E-2",
                 "class": "RHM",
                 "rating": 2,
                 "availability": "Aug 68 on"

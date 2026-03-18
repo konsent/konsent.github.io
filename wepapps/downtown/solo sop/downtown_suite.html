@@ -2021,7 +2021,7 @@
               <label class="mod"><input type="checkbox" data-v="1" onchange="recalcMan('att')"><span>적 밀집 대형</span><span class="mv p">+1</span></label>
               <label class="mod"><input type="checkbox" data-v="-2" onchange="recalcMan('att')"><span>적 교전 해제 중</span><span class="mv n">-2</span></label>
               <label class="mod"><input type="checkbox" data-v="-1" onchange="recalcMan('att')"><span>아군 상승 후</span><span class="mv n">-1</span></label>
-              <label class="mod"><input type="checkbox" data-v="-2" onchange="recalcMan('att')"><span>아군 급상승 후</span><span class="mv n">-2</span></label>
+              <label class="mod"><input type="checkbox" id="man-att-zoom" data-v="-2" onchange="recalcMan('att')"><span>아군 급상승 후</span><span class="mv n">-2</span></label>
               <label class="mod"><input type="checkbox" data-v="-2" onchange="recalcMan('att')"><span>기동 마커 보유</span><span class="mv n">-2</span></label>
               <label class="mod"><input type="checkbox" id="man-att-night" data-v="-3" onchange="recalcMan('att')"><span>야간 전투</span><span class="mv n">-3</span></label>
             </div>
@@ -2052,7 +2052,7 @@
               <label class="mod"><input type="checkbox" data-v="1" onchange="recalcMan('def')"><span>적 밀집 대형</span><span class="mv p">+1</span></label>
               <label class="mod"><input type="checkbox" data-v="-2" onchange="recalcMan('def')"><span>적 교전 해제 중</span><span class="mv n">-2</span></label>
               <label class="mod"><input type="checkbox" data-v="-1" onchange="recalcMan('def')"><span>아군 상승 후</span><span class="mv n">-1</span></label>
-              <label class="mod"><input type="checkbox" data-v="-2" onchange="recalcMan('def')"><span>아군 급상승 후</span><span class="mv n">-2</span></label>
+              <label class="mod"><input type="checkbox" id="man-def-zoom" data-v="-2" onchange="recalcMan('def')"><span>아군 급상승 후</span><span class="mv n">-2</span></label>
               <label class="mod"><input type="checkbox" data-v="-2" onchange="recalcMan('def')"><span>기동 마커 보유</span><span class="mv n">-2</span></label>
               <label class="mod"><input type="checkbox" id="man-def-night" data-v="-3" onchange="recalcMan('def')"><span>야간 전투</span><span class="mv n">-3</span></label>
             </div>
@@ -6017,6 +6017,28 @@ document.addEventListener('DOMContentLoaded', () => {
       unlock('s2');unlock('s2b');setBadge('s2-badge','활성화','success');
       var attAV=getAV('eng-av'),defAV=getAV('eng-def-av');
       var isNight=document.getElementById('eng-night-att').checked;
+
+      // ── 전투 고도 결정 ──
+      var attAlt=document.getElementById('man-att-alt').value;
+      var defAlt=document.getElementById('man-def-alt').value;
+      var ALT_ORDER={low:0,med:1,high:2};
+      var ALT_LABEL={low:'초저고도/저고도',med:'중고도',high:'고고도'};
+      var combatAlt, defZoom=false;
+      if(G.engOutcome==='def_surprise'){
+        // 방어측만 성공 → 전투는 공격측 고도에서
+        combatAlt=attAlt;
+        // 방어측이 더 낮은 고도에서 올라온 경우 급상승
+        if(ALT_ORDER[defAlt]<ALT_ORDER[attAlt]) defZoom=true;
+      }else{
+        // 공격측 성공 or 쌍방 → 전투는 방어측 고도에서
+        combatAlt=defAlt;
+      }
+      G.combatAlt=combatAlt;
+
+      // 전투 고도 기준으로 양측 기동력 재세팅
+      setCombatManeuver('att', combatAlt);
+      setCombatManeuver('def', combatAlt);
+
       // 공유 AV/야간 세팅
       document.getElementById('man-att-av').value=attAV;document.getElementById('man-att-av-disp').textContent=sign(attAV);
       document.getElementById('man-def-av').value=defAV;document.getElementById('man-def-av-disp').textContent=sign(defAV);
@@ -6028,9 +6050,34 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('man-att-disadv').checked=defSurp;document.getElementById('man-att-disadv').disabled=true;
       document.getElementById('man-def-surprise').checked=defSurp;document.getElementById('man-def-surprise').disabled=true;
       document.getElementById('man-def-disadv').checked=attSurp;document.getElementById('man-def-disadv').disabled=true;
+      // 급상승 자동 적용
+      var zoomAtt=document.getElementById('man-att-zoom');
+      var zoomDef=document.getElementById('man-def-zoom');
+      if(zoomAtt){zoomAtt.checked=false;zoomAtt.disabled=true;}
+      if(zoomDef){zoomDef.checked=defZoom;zoomDef.disabled=true;}
+
       var outcomeNote=attSurp?'공격측 기습 보정 자동 반영':defSurp?'방어측 기습 보정 자동 반영':'기습 보정 없음';
-      document.getElementById('man-inherited').textContent='AV 자동 반영  ·  야간: '+(isNight?'적용':'미적용')+'  ·  '+outcomeNote;
+      var altNote='전투 고도: '+ALT_LABEL[combatAlt]+(defZoom?' (방어측 급상승 -2)':'');
+      document.getElementById('man-inherited').textContent='AV 자동 반영  ·  야간: '+(isNight?'적용':'미적용')+'  ·  '+outcomeNote+'  ·  '+altNote;
+      // 교전 결과에도 전투 고도 표시
+      outcomeEl.innerHTML+='\n<div style="margin-top:6px;font-size:12px;color:var(--fade2)">📍 전투 고도: <b style="color:var(--tan)">'+ALT_LABEL[combatAlt]+'</b>'+(defZoom?' — 방어측 급상승 (-2 기동 판정 적용)':'')+'</div>';
       recalcMan('att');recalcMan('def');
+    }
+  }
+  // 전투 고도 기준으로 한 측의 기동력 세팅
+  function setCombatManeuver(side, combatAlt) {
+    var roleKey = side === 'att' ? 'attacker' : 'defender';
+    var row = raidRoles[roleKey];
+    if (!row || !ADC_JSON) return;
+    var ac = getAdcAircraft(row);
+    if (!ac) return;
+    var bombVal = getRowBombValue(row);
+    var loadState = (bombVal === 0) ? 'clean' : 'laden';
+    var manVal = ac.performance && ac.performance.maneuver && ac.performance.maneuver[loadState]
+      ? ac.performance.maneuver[loadState][combatAlt] : '-';
+    console.log('[ADC] setCombatManeuver', side, ac.name, loadState, combatAlt, '→', manVal);
+    if (manVal && manVal !== '-') {
+      document.getElementById('man-' + side + '-my').value = parseInt(manVal) || 0;
     }
   }
   function recalcMan(side){
@@ -7485,7 +7532,8 @@ document.addEventListener('DOMContentLoaded', () => {
     recalcBVR();
   }
 
-  // 고도 차이 → 교전 판정 체크박스 자동 체크
+  // 고도 차이 → 교전 판정 체크박스 자동 체크 + 교전 가능 검증
+  var ALT_INDEX = {low:0, med:1, high:2};
   function autoCheckAltDiff() {
     var attAlt = document.getElementById('man-att-alt');
     var defAlt = document.getElementById('man-def-alt');
@@ -7495,6 +7543,34 @@ document.addEventListener('DOMContentLoaded', () => {
     var cbDef = document.getElementById('eng-alt-diff-def');
     if (cbAtt) cbAtt.checked = diff;
     if (cbDef) cbDef.checked = diff;
+
+    // 교전 가능 여부: 공격측이 방어측과 같거나 1단계 위까지만 가능
+    var attIdx = ALT_INDEX[attAlt.value] || 0;
+    var defIdx = ALT_INDEX[defAlt.value] || 0;
+    var altGap = attIdx - defIdx;
+    var warnEl = document.getElementById('eng-alt-warn');
+    if (!warnEl) {
+      warnEl = document.createElement('div');
+      warnEl.id = 'eng-alt-warn';
+      warnEl.style.cssText = 'font-size:12px;padding:6px 10px;margin-top:6px;border-radius:3px;display:none';
+      var syncBar = document.getElementById('raid-sync-bar');
+      if (syncBar) syncBar.parentNode.insertBefore(warnEl, syncBar.nextSibling);
+    }
+    if (altGap > 1) {
+      warnEl.style.display = 'block';
+      warnEl.style.background = 'rgba(139,26,26,0.2)';
+      warnEl.style.border = '1px solid rgba(139,26,26,0.5)';
+      warnEl.style.color = '#e88';
+      warnEl.textContent = '⚠ 교전 불가: 공격측('+attAlt.value+')이 방어측('+defAlt.value+')보다 2단계 이상 높습니다. 교전하려면 같은 고도이거나 1단계 위까지만 가능합니다.';
+    } else if (defIdx > attIdx) {
+      warnEl.style.display = 'block';
+      warnEl.style.background = 'rgba(139,100,26,0.2)';
+      warnEl.style.border = '1px solid rgba(139,100,26,0.5)';
+      warnEl.style.color = '#ea8';
+      warnEl.textContent = '⚠ 주의: 방어측이 공격측보다 높은 고도에 있습니다. 공격측은 방어측과 같거나 위에 있어야 교전 가능합니다.';
+    } else {
+      warnEl.style.display = 'none';
+    }
     recalcEng();
   }
 
