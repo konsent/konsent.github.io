@@ -6342,7 +6342,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     const taskMap = {
       'Jamming':'재밍','CAP':'CAP','SEAD':'SEAD','Armed Escort':'무장 호위','Bombing':'폭격',
-      'Strike/CAP':'타격/CAP','Recon':'정찰','Chaff Laying':'채프 살포','Rescue Support':'구조 지원',
+      'Strike/CAP':'타격','Recon':'정찰','Chaff Laying':'채프 살포','Rescue Support':'구조 지원',
     };
     const acMap = {
       'EB-66C':'EB-66C [US]','EB-66B':'EB-66B [US]','EB-66E':'EB-66E [US]','F-4C':'F-4C Phantom 2 [US]',
@@ -6365,8 +6365,9 @@ document.addEventListener('DOMContentLoaded', () => {
       'B-52':'B-52D Stratofortress [US]',
     };
     const tableIdMap = { 'lead':'us-lead-table', 'main':'us-main-table', 'trail':'us-trail-table' };
+    console.log('[OOB] Total squads:', squads.length, squads.map(s=>s.phase+'/'+s.task+'/'+s.aircraft));
     squads.forEach(sd => {
-      const tid = tableIdMap[sd.phase]; if (!tid) return;
+      const tid = tableIdMap[sd.phase]; if (!tid) { console.warn('[OOB] Unknown phase:', sd.phase, sd); return; }
       const table = document.getElementById(tid);
       const tbody = table.querySelector('tbody');
       const tr = rowTemplates[tid]; if (!tr) return;
@@ -6423,6 +6424,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // F-105 Strike/CAP 규칙 자동 적용
   function applyF105StrikeCapRule() {
+    console.log('[F105] applyF105StrikeCapRule called');
     var bombingF105Rows = [];
     document.querySelectorAll('#us-lead-table tbody tr, #us-main-table tbody tr, #us-trail-table tbody tr').forEach(function(row){
       if (row.querySelector('.add-row')) return;
@@ -6435,6 +6437,7 @@ document.addEventListener('DOMContentLoaded', () => {
         bombingF105Rows.push(row);
       }
     });
+    console.log('[F105] Found bombing F-105D rows:', bombingF105Rows.length);
     if (bombingF105Rows.length === 0) return;
 
     // 랜덤 1개 → Strike/CAP
