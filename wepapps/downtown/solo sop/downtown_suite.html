@@ -8749,7 +8749,8 @@ document.addEventListener('DOMContentLoaded', () => {
     a.href = url;
     var scenario = (exportData.raid && exportData.raid.us && exportData.raid.us.scenario) || 'raid';
     var date = (exportData.raid && exportData.raid.us && exportData.raid.us.date) || '';
-    a.download = 'downtown_' + scenario.replace(/[^a-zA-Z0-9가-힣]/g,'_') + (date ? '_'+date : '') + '.json';
+    var target = (exportData.raid && exportData.raid.us && exportData.raid.us.target) || '';
+    a.download = 'downtown_' + scenario.replace(/[^a-zA-Z0-9가-힣]/g,'_') + (date ? '_'+date : '') + (target ? '_'+target.replace(/[^a-zA-Z0-9가-힣]/g,'_') : '') + '.json';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
