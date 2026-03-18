@@ -5322,6 +5322,15 @@ document.addEventListener('DOMContentLoaded', () => {
               }
           }
       }
+
+      // 무기 셀 변경 시 작전 중지 조건 체크
+      if (!isDrv) {
+        weaponCells.forEach(function(cell){
+          cell.querySelectorAll('select').forEach(function(s){
+            s.addEventListener('change', function(){ checkWeaponAbortCondition(row); });
+          });
+        });
+      }
   }
 
   // ═══════════════ ORDNANCE 셀 관리 ═══════════════
@@ -5614,6 +5623,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 태스크+ordnance 기반 무기 고갈수치 동적 변경
     applyTaskWeaponRules(row, acData, state);
+
+    // 무기 소모 → 작전 중지 체크
+    checkWeaponAbortCondition(row);
   }
 
   // 태스크/ordnance 기반 무기 고갈수치 규칙
@@ -6817,6 +6829,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (idx !== classIdx) setRaidWeaponDepleted(row, idx);
               });
             }
+            checkWeaponAbortCondition(row);
             saveToLocalStorage();
           } catch(e){}
         }
@@ -7057,6 +7070,67 @@ document.addEventListener('DOMContentLoaded', () => {
     if (inp) {
       var cur = parseInt(inp.value) || 0;
       inp.value = Math.max(0, cur - 1);
+      saveToLocalStorage();
+    }
+  }
+
+  // ── 무기 소모에 따른 작전 중지/태스크 변경 체크 ──
+  function checkWeaponAbortCondition(row) {
+    if (!row || row.classList.contains('aborted')) return;
+    var isDrv = row.closest('table').id === 'drv-table';
+    if (isDrv) return;
+    var taskSel = row.querySelector('td:nth-child(2) select');
+    if (!taskSel) return;
+    var task = taskSel.value;
+
+    // 상태 읽기
+    var gunAvail = isWeaponAvailable(row, 0);
+    var irmAvail = isWeaponAvailable(row, 1);
+    var rhmAvail = isWeaponAvailable(row, 2);
+    var bombEl = (Array.from(row.querySelectorAll('td')).slice(7,12))[3];
+    var bombVal = bombEl ? parseFloat((bombEl.querySelector('input,select') || {}).value) || 0 : 0;
+    var ordState = readOrdnanceState(row);
+    // 공대지 ordnance 잔탄 합계 (CBU 포함, Shrike/Standard 등)
+    var ordRemain = 0;
+    Object.keys(ordState).forEach(function(k){
+      if (k === 'CBU' || k === 'CBU_count') {
+        if (k === 'CBU_count') ordRemain += (ordState[k] || 0);
+      } else {
+        ordRemain += (ordState[k] || 0);
+      }
+    });
+    var allAtgGone = (bombVal <= 0) && (ordRemain <= 0);
+    var allAamGone = !irmAvail && !rhmAvail;
+    var allWeaponsGone = !gunAvail && allAamGone && allAtgGone;
+
+    var msg = null;
+    switch(task) {
+      case 'SEAD':
+        if (allAtgGone) msg = '공대지 무장 소모 → 작전 중지';
+        break;
+      case 'CAP':
+        if (allAamGone) msg = '공대공 미사일 소모 → 작전 중지';
+        break;
+      case '무장 호위':
+        if (allAtgGone) {
+          // 작전 중지 대신 CAP으로 전환
+          taskSel.value = 'CAP';
+          if (taskSel.classList.contains('fit-width')) adjustSelectWidth(taskSel);
+          updateOrdnanceCell(row);
+          var rInp = row.querySelector('td:nth-child(14) input');
+          if (rInp) rInp.value = (rInp.value ? rInp.value + ' ' : '') + 'AE→CAP';
+          saveToLocalStorage();
+          return; // 중지하지 않음
+        }
+        break;
+      case '구조 지원':
+        if (allWeaponsGone) msg = '모든 무기 소모 → 작전 중지';
+        break;
+    }
+    if (msg) {
+      row.classList.add('aborted');
+      var rInp = row.querySelector('td:nth-child(14) input');
+      if (rInp) rInp.value = (rInp.value ? rInp.value + ' ' : '') + msg;
       saveToLocalStorage();
     }
   }
