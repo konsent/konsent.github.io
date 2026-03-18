@@ -296,7 +296,7 @@
     vertical-align: middle;
   }
 
-  #adc-page td select, #adc-page td input[type="text"] {
+  #adc-page td select, #adc-page td input[type="text"], #adc-page td input[type="number"] {
     background: rgba(74,74,42,0.12);
     border: 1px solid rgba(74,74,42,0.5);
     color: var(--cream);
@@ -306,7 +306,7 @@
     width: 100%;
     transition: border-color 0.15s;
   }
-  #adc-page td select:focus, #adc-page td input[type="text"]:focus {
+  #adc-page td select:focus, #adc-page td input[type="text"]:focus, #adc-page td input[type="number"]:focus {
     outline: none;
     border-color: var(--tan);
     background: rgba(74,74,42,0.22);
@@ -1676,7 +1676,6 @@
       <button class="generate-btn" onclick="generate()">▸ 편제 생성</button>
       <button id="send-to-adc-btn" class="generate-btn" onclick="sendToAdc()" style="display:none; margin-top: 10px; background: var(--tan); color: var(--ink);">▸ 편제 등록</button>
       <button id="oob-print-btn" class="generate-btn" onclick="printResults()" style="display:none; margin-top: 10px; background: var(--dark-green); color: var(--paper);">▸ 편제 인쇄</button>
-      <button id="oob-share-btn" class="generate-btn" onclick="openShareModal()" style="display:none; margin-top: 10px; background: var(--blue-dim); color: var(--cream); border: 1px solid var(--blue-bright);">📤 공유</button>
     </div>
 
     <!-- Results Panel -->
@@ -1696,7 +1695,8 @@
     <button class="tab-btn drv-tab" id="drv-btn">▸ DRV 요격기</button>
     <button id="adc-reset-btn" class="tab-btn" onclick="resetAllRaid()" title="RAID 전체 초기화" style="margin-left: auto; border-color: var(--red-bright); color: var(--red-bright);">↺ 초기화</button>
     <button id="adc-print-btn" class="tab-btn" style="border-color: var(--dark-green); color: var(--dark-green);">🖨️ 인쇄</button>
-    <button id="adc-share-btn" class="tab-btn" onclick="openShareModal()" style="border-color: var(--blue-bright); color: var(--blue-bright);">📤 공유</button>
+    <button class="tab-btn" onclick="exportRaidToFile()" style="border-color: var(--olive); color: var(--olive);">💾 저장</button>
+    <label class="tab-btn" style="border-color: var(--olive); color: var(--olive); cursor:pointer;">📂 불러오기<input type="file" accept=".json" onchange="importRaidFromFile(event)" style="display:none"></label>
   </div>
 
   <!-- ══════════════ US CONTENT ══════════════ -->
@@ -4923,7 +4923,6 @@ document.addEventListener('DOMContentLoaded', () => {
     localStorage.setItem('oobToAdcData', JSON.stringify(dataForAdc));
     document.getElementById('send-to-adc-btn').style.display = 'block';
     document.getElementById('oob-print-btn').style.display = 'block';
-    document.getElementById('oob-share-btn').style.display = 'block';
   }
   // ============================================================
   // END: JS from oob.html
@@ -5249,12 +5248,11 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // 폭탄/연료 셀 생성
-  function createValueCell(cell, value, isLoading) {
+  function createValueCell(cell, value, isLoading, useNumber) {
     var oldEl = cell.querySelector('input, select');
     var oldValue = oldEl ? oldEl.value : undefined;
 
     if (Array.isArray(value)) {
-      // 배열이면 드롭다운
       cell.innerHTML = '';
       var sel = document.createElement('select');
       value.forEach(function(v){ var o=document.createElement('option'); o.value=v; o.textContent=v; sel.appendChild(o); });
@@ -5266,12 +5264,30 @@ document.addEventListener('DOMContentLoaded', () => {
       cell.appendChild(sel);
     } else {
       var strVal = (value==='-'||value===null||value===undefined) ? '' : String(value);
-      if (!oldEl || oldEl.tagName !== 'INPUT') {
+      var isNum = useNumber && strVal !== '' && strVal !== 'U' && !isNaN(parseFloat(strVal));
+      if (!oldEl || oldEl.tagName !== 'INPUT' || (isNum && oldEl.type !== 'number')) {
         cell.innerHTML = '';
         var inp = document.createElement('input');
-        inp.type = 'text';
+        if (isNum) {
+          inp.type = 'number';
+          inp.min = '0';
+          inp.max = strVal;
+          inp.style.width = '48px';
+        } else {
+          inp.type = 'text';
+        }
         cell.appendChild(inp);
         inp.addEventListener('input', saveToLocalStorage);
+        inp.addEventListener('change', function(){
+          if (inp.type === 'number') {
+            var v = parseInt(inp.value) || 0;
+            var mx = parseInt(inp.max) || 999;
+            if (v < 0) v = 0;
+            if (v > mx) v = mx;
+            inp.value = v;
+          }
+          saveToLocalStorage();
+        });
         oldEl = inp;
       }
       if (!isLoading) {
@@ -5299,7 +5315,7 @@ document.addEventListener('DOMContentLoaded', () => {
           createWeaponCell(weaponCells[1], wInfo.irm, isLoading);
           createWeaponCell(weaponCells[2], wInfo.rhm, isLoading);
           createValueCell(weaponCells[3], wInfo.bomb, isLoading);
-          createValueCell(weaponCells[4], wInfo.fuel, isLoading);
+          createValueCell(weaponCells[4], wInfo.fuel, isLoading, true);
       }
 
       // CAP 태스크일 때 폭탄 = 0
@@ -6127,6 +6143,11 @@ document.addEventListener('DOMContentLoaded', () => {
           var cbuCnt = cell.querySelector('input[data-ord-name="CBU_count"]');
           if (cbuCnt) ordState['CBU_count'] = parseInt(cbuCnt.value) || 0;
           rowData.cells.push({ type:'ordnance', value: JSON.stringify(ordState) });
+        } else if (cell.querySelector('.status-grid')) {
+          cell.querySelectorAll('.status-item').forEach(item => {
+            const s = item.querySelector('select');
+            rowData.status.push({ value: s.value, display: s.style.display || 'block' });
+          });
         } else if (sel) rowData.cells.push({ type:'select', value: sel.value });
         else if (inp) rowData.cells.push({ type:'input', value: inp.value });
         else if (roleWrap) {
@@ -6138,12 +6159,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         else if (viewBtn) rowData.cells.push({ type:'button', value:'보기' });
         else if (abortBtn) rowData.cells.push({ type:'button', value:'중단' });
-        else if (cell.querySelector('.status-grid')) {
-          cell.querySelectorAll('.status-item').forEach(item => {
-            const s = item.querySelector('select');
-            rowData.status.push({ value: s.value, display: s.style.display || 'block' });
-          });
-        } else if (cell.querySelector('.aggress-container')) {
+        else if (cell.querySelector('.aggress-container')) {
           rowData.cells.push({ type:'aggress', value: cell.querySelector('.aggress-value').textContent.trim() });
         } else {
           rowData.cells.push({ type:'text', value: cell.textContent.trim() });
@@ -6195,12 +6211,25 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       let ci = 0, si = 0;
       clone.querySelectorAll('td:not(:last-child)').forEach(cell => {
+        // status-grid는 cells 배열에 포함되지 않음 — 별도 처리
+        if (cell.querySelector('.status-grid')) {
+          cell.querySelectorAll('.status-item').forEach(item => {
+            if (si < rowData.status.length) {
+              const ss = rowData.status[si]; const s = item.querySelector('select');
+              const rem = item.querySelector('.remove-status'); const add = item.querySelector('.add-status');
+              s.value = ss.value; s.style.display = ss.display || 'block';
+              if (rem) rem.style.display = s.style.display === 'block' ? 'inline-block' : 'none';
+              if (add) add.style.display = s.style.display === 'none'  ? 'inline-block' : 'none';
+              si++;
+            }
+          });
+          return; // ci 증가하지 않음
+        }
         if (ci < rowData.cells.length) {
           const sc = rowData.cells[ci];
           const sel = cell.querySelector('select'); const inp = cell.querySelector('input[type="text"]');
 
           if (sc.type === 'ordnance') {
-            // ordnance 복원은 updateOrdnanceCell에서 isLoading으로 처리
             clone.dataset.savedOrdnance = sc.value || '{}';
           } else if (sc.type === 'button') {
           } else if (sel && (sc.type === 'select' || sc.type === 'input')) {
@@ -6210,22 +6239,11 @@ document.addEventListener('DOMContentLoaded', () => {
                   sel.value = sc.value; if (sel.classList.contains('fit-width')) adjustSelectWidth(sel);
               }
           } else if (inp && sc.type === 'input') { inp.value = sc.value; }
-          else if (cell.querySelector('.status-grid')) {
-            cell.querySelectorAll('.status-item').forEach(item => {
-              if (si < rowData.status.length) {
-                const ss = rowData.status[si]; const s = item.querySelector('select');
-                const rem = item.querySelector('.remove-status'); const add = item.querySelector('.add-status');
-                s.value = ss.value; s.style.display = ss.display || 'block';
-                if (rem) rem.style.display = s.style.display === 'block' ? 'inline-block' : 'none';
-                if (add) add.style.display = s.style.display === 'none'  ? 'inline-block' : 'none';
-                si++;
-              }
-            });
-          } else if (cell.querySelector('.role-btn-wrap') && sc.type === 'role') {
+          else if (cell.querySelector('.role-btn-wrap') && sc.type === 'role') {
             if (sc.value !== 'none') {
               const btn = cell.querySelector(`[data-role="${sc.value}"]`);
               if (btn) {
-                const role = sc.value; // 'attacker' | 'defender'
+                const role = sc.value;
                 btn.classList.add(role === 'attacker' ? 'attacker-active' : 'defender-active');
                 if (raidRoles) raidRoles[role] = clone;
               }
@@ -8557,28 +8575,43 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // --- 공유 데이터 압축 헬퍼 (v2 포맷) ---
   function _cc(c) { // compact cell
-    if (c.type === 'select')  return 's' + c.value;
-    if (c.type === 'input')   return 'i' + c.value;
-    if (c.type === 'button')  return 'b';
-    if (c.type === 'text')    return 't' + c.value;
-    if (c.type === 'role')    return 'r' + c.value[0]; // a/d/n
-    if (c.type === 'aggress') return 'g' + c.value;
+    if (c.type === 'select')    return 's' + c.value;
+    if (c.type === 'input')     return 'i' + c.value;
+    if (c.type === 'button')    return 'b';
+    if (c.type === 'text')      return 't' + c.value;
+    if (c.type === 'role')      return 'r' + c.value[0]; // a/d/n
+    if (c.type === 'aggress')   return 'g' + c.value;
+    if (c.type === 'ordnance')  return 'o' + c.value; // ordnance JSON
     return 'b';
   }
   function _ec(s) { // expand cell
     if (!s) return { type: 'button', value: '' };
     const t = s[0], v = s.slice(1);
-    if (t === 's') return { type: 'select',  value: v };
-    if (t === 'i') return { type: 'input',   value: v };
-    if (t === 'b') return { type: 'button',  value: '' };
-    if (t === 't') return { type: 'text',    value: v };
-    if (t === 'r') return { type: 'role',    value: v === 'a' ? 'attacker' : v === 'd' ? 'defender' : 'none' };
-    if (t === 'g') return { type: 'aggress', value: v };
+    if (t === 's') return { type: 'select',   value: v };
+    if (t === 'i') return { type: 'input',    value: v };
+    if (t === 'b') return { type: 'button',   value: '' };
+    if (t === 't') return { type: 'text',     value: v };
+    if (t === 'r') return { type: 'role',     value: v === 'a' ? 'attacker' : v === 'd' ? 'defender' : 'none' };
+    if (t === 'g') return { type: 'aggress',  value: v };
+    if (t === 'o') return { type: 'ordnance', value: v }; // ordnance JSON
     return { type: 'text', value: v };
   }
-  function _cr(row) { return [row.cells.map(_cc), row.status.map(st => st.value), row.aborted ? 1 : 0]; }
-  function _er(arr)  {
-    return { cells: arr[0].map(_ec), status: arr[1].map(v => ({ value: v, display: 'block' })), aborted: !!arr[2] };
+  function _cr(row) {
+    return [
+      row.cells.map(_cc),
+      row.status.map(st => [st.value, st.display === 'none' ? 0 : 1]),
+      row.aborted ? 1 : 0
+    ];
+  }
+  function _er(arr) {
+    return {
+      cells: arr[0].map(_ec),
+      status: arr[1].map(v => Array.isArray(v)
+        ? { value: v[0], display: v[1] ? 'block' : 'none' }
+        : { value: v, display: 'block' } // 하위호환: 이전 포맷
+      ),
+      aborted: !!arr[2]
+    };
   }
   function _compactRaid(d) {
     const ct = tbl => (tbl || []).map(_cr);
@@ -8698,6 +8731,50 @@ document.addEventListener('DOMContentLoaded', () => {
   window.openShareModal  = openShareModal;
   window.closeShareModal = closeShareModal;
   window.copyShareLink   = copyShareLink;
+
+  // ── 파일 저장/불러오기 (JSON) ──
+  function exportRaidToFile() {
+    saveToLocalStorage(); // 최신 상태 저장
+    var oobRaw  = localStorage.getItem('oobToAdcData');
+    var raidRaw = localStorage.getItem('downtownGeneratorData');
+    var exportData = {
+      version: 3,
+      timestamp: new Date().toISOString(),
+      oob:  oobRaw  ? JSON.parse(oobRaw)  : null,
+      raid: raidRaw ? JSON.parse(raidRaw) : null
+    };
+    var blob = new Blob([JSON.stringify(exportData, null, 2)], {type: 'application/json'});
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    var scenario = (exportData.raid && exportData.raid.us && exportData.raid.us.scenario) || 'raid';
+    var date = (exportData.raid && exportData.raid.us && exportData.raid.us.date) || '';
+    a.download = 'downtown_' + scenario.replace(/[^a-zA-Z0-9가-힣]/g,'_') + (date ? '_'+date : '') + '.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+  function importRaidFromFile(event) {
+    var file = event.target.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      try {
+        var data = JSON.parse(e.target.result);
+        if (data.oob)  localStorage.setItem('oobToAdcData', JSON.stringify(data.oob));
+        if (data.raid) localStorage.setItem('downtownGeneratorData', JSON.stringify(data.raid));
+        loadFromLocalStorage();
+        alert('RAID 데이터를 불러왔습니다.');
+      } catch(err) {
+        alert('파일을 읽을 수 없습니다: ' + err.message);
+      }
+    };
+    reader.readAsText(file);
+    event.target.value = ''; // 같은 파일 재선택 가능
+  }
+  window.exportRaidToFile  = exportRaidToFile;
+  window.importRaidFromFile = importRaidFromFile;
 
   // ============================================================
   // BOT AID — Solo Bot 서브탭 스위칭
