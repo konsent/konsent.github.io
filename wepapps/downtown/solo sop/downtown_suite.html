@@ -5346,6 +5346,16 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ordnance 셀 업데이트
+  // ARM/CBU 허용 여부: 아이언 핸드 임무 또는 SEAD 태스크만
+  var ARM_NAMES = ['Shrike', 'Standard A', 'Standard B'];
+  function isArmCbuAllowed(row) {
+    var missionSel = row.querySelector('td:nth-child(1) select');
+    var taskSel = row.querySelector('td:nth-child(2) select');
+    var mission = missionSel ? missionSel.value : '';
+    var task = taskSel ? taskSel.value : '';
+    return mission === '아이언 핸드' || task === 'SEAD';
+  }
+
   function updateOrdnanceCell(row) {
     var cell = getOrdnanceCell(row);
     if (!cell) return;
@@ -5375,8 +5385,11 @@ document.addEventListener('DOMContentLoaded', () => {
     var wrap = document.createElement('div');
     wrap.style.cssText = 'display:flex;flex-direction:column;gap:2px;font-size:11px';
 
+    var armAllowed = isArmCbuAllowed(row);
     var ordKeys = Object.keys(acData.ordnance);
     ordKeys.forEach(function(name){
+      // ARM 무장은 아이언 핸드/SEAD만 사용 가능
+      if (ARM_NAMES.indexOf(name) >= 0 && !armAllowed) return;
       var val = acData.ordnance[name];
       var line = document.createElement('div');
       line.style.cssText = 'display:flex;align-items:center;gap:4px';
@@ -5441,10 +5454,10 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       wrap.appendChild(line);
     });
-    // CBU 전환 옵션 (bomb > 0인 기체만)
+    // CBU 전환 옵션 (bomb > 0 + 아이언 핸드/SEAD만)
     var baseBomb = acData.bomb;
     var numBomb = (baseBomb !== '-' && baseBomb !== null && baseBomb !== undefined) ? parseFloat(baseBomb) || 0 : 0;
-    if (numBomb > 0) {
+    if (numBomb > 0 && armAllowed) {
       var cbuLine = document.createElement('div');
       cbuLine.style.cssText = 'display:flex;align-items:center;gap:4px;border-top:1px solid var(--olive);padding-top:3px;margin-top:2px';
       var cbuCb = document.createElement('input');
@@ -5977,9 +5990,10 @@ document.addEventListener('DOMContentLoaded', () => {
       s.addEventListener('change', () => {
         adjustSelectWidth(s);
         const isUsTable = !row.closest('table').id.startsWith('drv');
-        if (isUsTable && s.closest('td').cellIndex === 1) {
+        var ci = s.closest('td').cellIndex;
+        if (isUsTable && (ci === 0 || ci === 1)) {
             updateWeaponData(row);
-            applyOrdnanceRules(row); // 태스크 변경 시 ordnance 규칙 재적용
+            updateOrdnanceCell(row); // 임무/태스크 변경 시 ordnance 재생성
         }
         saveToLocalStorage();
       });
