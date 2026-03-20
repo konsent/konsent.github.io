@@ -46,6 +46,140 @@
   .main-page { display: none; }
   .main-page.active { display: block; }
 
+  /* --- SOP (Sequence of Play) Tab Styles --- */
+  #sop-page { max-width: 900px; margin: 0 auto; }
+  .sop-phase {
+    background: rgba(30,28,15,0.85);
+    border: 1px solid var(--olive);
+    border-radius: 6px;
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+  .sop-phase-head {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 16px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.15s;
+  }
+  .sop-phase-head:hover { background: rgba(74,74,42,0.25); }
+  .sop-phase-num {
+    min-width: 36px; height: 36px;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--olive);
+    color: var(--tan);
+    font-family: 'Oswald', sans-serif;
+    font-size: 16px; font-weight: 700;
+    border-radius: 4px;
+    letter-spacing: 0.05em;
+  }
+  .sop-phase-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 17px; font-weight: 500;
+    letter-spacing: 0.1em;
+    color: var(--cream);
+    flex: 1;
+  }
+  .sop-phase-arrow {
+    color: var(--fade);
+    font-size: 14px;
+    transition: transform 0.2s;
+  }
+  .sop-phase.open .sop-phase-arrow { transform: rotate(90deg); }
+  .sop-phase-body {
+    display: none;
+    padding: 0 16px 14px 64px;
+    color: var(--fade2);
+    font-size: 14px;
+    line-height: 1.7;
+  }
+  .sop-phase.open .sop-phase-body { display: block; }
+  .sop-phase-body ul { padding-left: 18px; margin: 6px 0; }
+  .sop-phase-body li { margin-bottom: 4px; }
+  .sop-phase-body h4 {
+    color: var(--tan); font-size: 14px; margin: 10px 0 4px;
+    font-family: 'Oswald', sans-serif; letter-spacing: 0.08em;
+  }
+  .sop-phase-body .note-box {
+    background: rgba(74,74,42,0.2);
+    border-left: 3px solid var(--olive);
+    padding: 8px 12px;
+    margin: 8px 0;
+    font-size: 13px;
+    color: var(--fade);
+  }
+  .sop-phase-body .table-ref {
+    color: var(--tan);
+    font-weight: 600;
+    font-size: 13px;
+  }
+
+  /* Random Event Dice */
+  .sop-dice-section {
+    background: rgba(30,28,15,0.9);
+    border: 2px solid var(--red);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+  .sop-dice-section h3 {
+    font-family: 'Oswald', sans-serif;
+    color: var(--red-bright);
+    font-size: 18px;
+    letter-spacing: 0.15em;
+    margin-bottom: 14px;
+  }
+  .sop-dice-btn {
+    padding: 12px 36px;
+    background: var(--red);
+    border: 1px solid var(--red-bright);
+    color: var(--cream);
+    font-family: 'Oswald', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: all 0.2s;
+  }
+  .sop-dice-btn:hover { background: var(--red-bright); transform: scale(1.04); }
+  .sop-dice-btn:active { transform: scale(0.97); }
+  .sop-dice-result {
+    margin-top: 16px;
+    display: none;
+    text-align: left;
+    background: rgba(74,74,42,0.15);
+    border: 1px solid var(--olive);
+    border-radius: 6px;
+    padding: 16px;
+  }
+  .sop-dice-result.show { display: block; }
+  .sop-dice-roll-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--red-bright);
+  }
+  .sop-dice-event-name {
+    font-family: 'Oswald', sans-serif;
+    font-size: 20px;
+    color: var(--tan);
+    letter-spacing: 0.1em;
+    margin: 6px 0;
+  }
+  .sop-dice-event-desc {
+    color: var(--fade2);
+    font-size: 14px;
+    line-height: 1.7;
+  }
+  .sop-dice-note {
+    margin-top: 10px;
+    font-size: 12px;
+    color: var(--fade);
+    font-style: italic;
+  }
+
   /* --- Merged Styles --- */
   :root {
     --olive: #4a4a2a;
@@ -1507,6 +1641,7 @@
 <div class="main-tab-bar">
   <button class="main-tab-btn active" data-target="oob-page">Order of Battle</button>
   <button class="main-tab-btn" data-target="adc-page">Raid</button>
+  <button class="main-tab-btn" data-target="sop-page">Sequence of Play</button>
   <button class="main-tab-btn" data-target="aid-page">Player Aid</button>
   <button class="main-tab-btn" data-target="bot-page">Solo Bot</button>
 </div>
@@ -1827,6 +1962,217 @@
     <!-- Images will be populated here -->
   </div>
 </div>
+
+<div id="sop-page" class="main-page">
+  <!-- Sequence of Play -->
+
+  <!-- 무작위 이벤트 주사위 -->
+  <div class="sop-dice-section">
+    <h3>RANDOM EVENT DICE</h3>
+    <button class="sop-dice-btn" onclick="rollRandomEvent()">ROLL (2d10)</button>
+    <div id="sop-dice-result" class="sop-dice-result">
+      <div class="sop-dice-roll-num" id="sop-roll-num"></div>
+      <div class="sop-dice-event-name" id="sop-event-name"></div>
+      <div class="sop-dice-event-desc" id="sop-event-desc"></div>
+      <div class="sop-dice-note" id="sop-event-note"></div>
+    </div>
+  </div>
+
+  <!-- 5.1 무작위 사건 -->
+  <div class="sop-phase open">
+    <div class="sop-phase-head" onclick="this.parentElement.classList.toggle('open')">
+      <div class="sop-phase-num">5.1</div>
+      <div class="sop-phase-title">무작위 사건</div>
+      <div class="sop-phase-arrow">&#9654;</div>
+    </div>
+    <div class="sop-phase-body">
+      <p>아래에 명시되지 않는 한 각 무작위 사건을 정상적으로 실행합니다: <span class="table-ref">무작위 이벤트</span></p>
+      <ul>
+        <li><strong>신속 대응 경보:</strong> 활성화된 MiG 비행대 수가 최대 실제 비행대와 같거나 지도 상 일반 비행대가 최대 일반 비행대와 같지 않는 한(<span class="table-ref">DRV 준비 표</span> 참조), 무작위 개방 비행장에 무작위 방향으로 일반 DRV 비행대를 배치합니다.</li>
+        <li><strong>AAA 매복:</strong> MiG처럼 <span class="table-ref">표적 선택 표</span>를 사용하여 비행대를 선택합니다.</li>
+        <li><strong>날씨 악화:</strong> 날씨 카운터를 무작위로 선택합니다.</li>
+        <li><strong>DRV 관제사의 신경 쇠약:</strong> 먼저 무질서 상태인 실제 DRV 비행대 중 무작위로 하나를; 그 다음 일반 DRV 비행대 중 무작위로 하나를 선택합니다.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 5.2 재밍 페이즈 -->
+  <div class="sop-phase">
+    <div class="sop-phase-head" onclick="this.parentElement.classList.toggle('open')">
+      <div class="sop-phase-num">5.2</div>
+      <div class="sop-phase-title">재밍 페이즈</div>
+      <div class="sop-phase-arrow">&#9654;</div>
+    </div>
+    <div class="sop-phase-body">
+      <p>변경사항 없음.</p>
+    </div>
+  </div>
+
+  <!-- 5.3 탐지 페이즈 -->
+  <div class="sop-phase">
+    <div class="sop-phase-head" onclick="this.parentElement.classList.toggle('open')">
+      <div class="sop-phase-num">5.3</div>
+      <div class="sop-phase-title">탐지 페이즈</div>
+      <div class="sop-phase-arrow">&#9654;</div>
+    </div>
+    <div class="sop-phase-body">
+      <p>변경사항 없음.</p>
+      <img src="detection.png" alt="탐지 테이블" style="width: 50%; height: auto;">
+    </div>
+  </div>
+
+  <!-- 5.4 이동 페이즈 -->
+  <div class="sop-phase">
+    <div class="sop-phase-head" onclick="this.parentElement.classList.toggle('open')">
+      <div class="sop-phase-num">5.4</div>
+      <div class="sop-phase-title">이동 페이즈</div>
+      <div class="sop-phase-arrow">&#9654;</div>
+    </div>
+    <div class="sop-phase-body">
+      <h4>방어 원형진 (Defensive Wheel)</h4>
+      <div class="note-box"><strong>참고:</strong> 방어 원형진은 1967년 4월 이후 시나리오에서만 사용 가능합니다. MiG-17 2대 이상으로 구성된 비행대(또는 더미 비행대)만 진입할 수 있습니다.</div>
+      <ul>
+        <li><strong>자동 진입:</strong> CAP 태스크를 받은 3개 이상의 미군 비행대의 5헥스 내에 있는 무질서 상태가 아닌 MiG-17 비행대(2대 이상)는 방어 원형진에 진입합니다.</li>
+        <li><strong>강제 해제:</strong> 3개 이상의 미군 CAP 비행대의 5헥스 내에 있지 않거나, 무질서 상태가 되거나, 기체가 1대로 줄면 방어 원형진을 떠납니다. 해제 시 산개(Scatter) 판정을 적용합니다.</li>
+        <li><strong>전투 규칙:</strong> 원형진 상태에서는 MP를 소모하지 않으며, 모든 방향이 전방 호로 취급됩니다. 기습 불가, 불리함 페널티 없음. 기동 표에서 항상 1대 컬럼을 사용합니다. 전투 후 산개 판정 및 기동 마커가 적용되지 않습니다. 원형진 내 최대 8대까지 합류 가능합니다.</li>
+      </ul>
+
+      <h4>이동 순서</h4>
+      <ul>
+        <li>미군 비행대의 5헥스 내에 무질서 상태가 아닌 DRV 비행대가 있으면, DRV가 먼저 이동하기로 선택합니다. 그렇지 않으면, 플레이어가 먼저 이동합니다.</li>
+      </ul>
+
+      <h4>일반 DRV 비행대 활성화</h4>
+      <ul>
+        <li><span class="table-ref">비행대 활성화 표</span>를 사용하여 일반 DRV 비행대 활성화를 확인합니다.</li>
+        <li>일반 비행대가 활성화될 때:
+          <ul>
+            <li><span class="table-ref">DRV 비행대 선택 표</span>를 사용하여 항공기 유형과 비행대 내 항공기 수를 결정합니다.</li>
+            <li>일반 비행대 마커를 적절한 DRV 비행대 마커로 교체합니다.</li>
+            <li>DRV 비행대 로그 시트에 비행대 정보를 추가합니다. 모든 DRV 조종사는 베테랑입니다.</li>
+            <li>굴림 결과가 검은 상자에 흰 텍스트를 보여주거나 활성화된 DRV 비행대의 총 수가 <span class="table-ref">DRV 준비 표</span>에 표시된 최대 실제 비행대와 같아지면, 이것이 활성화될 마지막 일반 DRV 비행대입니다. 맵에서 남은 모든 일반 DRV 비행대를 제거하고(더미로 공개됨) 더 이상 배치하지 않습니다.</li>
+          </ul>
+        </li>
+      </ul>
+
+      <h4>DRV 비행대 이동</h4>
+      <ul>
+        <li><span class="table-ref">이동 페이즈</span>를 사용하여 DRV 비행대 이동 순서를 결정합니다.</li>
+        <li>활성 비행대가 강제로 취해야 할 행동이 있는지 <span class="table-ref">비행대 행동 — 주요 행동</span>을 확인합니다.</li>
+        <li><span class="table-ref">비행대 행동 — 전투 행동</span>을 사용하여 활성 비행대가 취할 행동을 결정합니다. 다음 상황 보정을 적용합니다:
+          <ul>
+            <li>DRV 비행대가 탐지되지 않음: <strong>-2</strong></li>
+            <li>5헥스 내 US 비행대 3개 이상 뭉쳐있음(공격대 추정): <strong>-1</strong></li>
+            <li>US 비행대가 목표를 향해 이동 중(미폭격): <strong>-1</strong></li>
+            <li>표적 US 비행대를 획득한 활성 SAM 있음: <strong>+2</strong> (SAM이 처리하도록 비켜야 함)</li>
+            <li>US 비행대가 폭격 완료, 이탈 중: <strong>+2</strong></li>
+            <li>DRV 비행대에 손상 항공기 있음: <strong>+2</strong></li>
+            <li>US CAP 비행대만 있음(뭉쳐있지 않음): <strong>+1</strong></li>
+          </ul>
+        </li>
+        <li><span class="table-ref">비행대 행동 — 교전 행동</span> 또는 <span class="table-ref">비행대 행동 — 비전투 행동</span> 중 하나를 사용하여 활성 비행대가 어떻게 이동할지 결정합니다.</li>
+        <li><strong>교전 후 이탈 (Hit-and-Clear):</strong> 교전 후 사격이 완료되면, 남은 MP를 사용하여 표적 US 비행대로부터 5헥스 밖(1972년 이후: 3헥스 밖)으로 이탈합니다.</li>
+        <li>모든 DRV 비행대를 이동시킬 때 <span class="table-ref">일반 비행대 행동</span>을 지침으로 사용합니다. 직전 턴에 교전 후 이탈한 DRV 비행대는, 비전투 행동 시 마지막으로 교전한 US 비행대 방향으로 선회하여 재접근합니다.</li>
+      </ul>
+
+      <h4>이동하는 미군 비행대에 대한 활성 SAM 발사</h4>
+      <ul>
+        <li>활성 SAM이 이동하는 미군 비행대를 발사하는지와 몇 개의 미사일을 발사하는지 확인하려면 <span class="table-ref">SAM 행동 표</span>를 참조하세요. SAM 탄약 추적은 6.3을 참조하세요.</li>
+      </ul>
+
+      <h4>ARM 발사</h4>
+      <ul>
+        <li>활성 SAM은 ARM 발사에 의해 목표가 되면 레이더를 켜진 상태로 유지하려고 시도합니다. 목표가 된 SAM이 ARM 사기 체크[18.74]에 실패하면, SAM 위에 레이더 종료 마커를 놓되 활성 상태를 나타내기 위해 레이더 켜짐 면을 위로 두어야 합니다.</li>
+      </ul>
+
+      <h4>AAA 활성화</h4>
+      <ul>
+        <li>미군 비행대가 각 비활성 AAA 마커의 1헥스 내로 이동할 때마다 AAA 활성화 체크를 합니다. <span class="table-ref">AAA &amp; 파이어 캔 활성화 표</span>를 참조하세요.</li>
+      </ul>
+
+      <h4>파이어 캔 활성화</h4>
+      <ul>
+        <li>미군 비행대가 이미 파이어 캔이 없고 파이어 캔에 인접하지 않은 활성 AAA 마커나 인쇄된 AAA 집중구역의 2헥스 내로 이동할 때마다 파이어 캔 활성화 체크를 합니다. <span class="table-ref">AAA &amp; 파이어 캔 활성화 표</span>를 참조하세요.</li>
+      </ul>
+
+      <h4>이동하는 미군 비행대에 대한 AAA 발사</h4>
+      <ul>
+        <li>이동하는 미군 비행대에 대한 AAA와 파이어 캔 발사는 <span class="table-ref">AAA/파이어 캔 행동 표</span>를 참조하세요.</li>
+      </ul>
+      <div class="note-box"><strong>참고:</strong> AAA와 파이어 캔은 DRV 비행대를 절대 공격하지 않습니다.</div>
+
+      <h4>[선택사항] 비활성 SAM 발사 후 락온 발사</h4>
+      <ul>
+        <li>탐지된 미군 비행대가 비활성 SAM의 5헥스 내로 이동할 때마다 확인합니다. <span class="table-ref">발사 후 락온 표</span>를 참조하세요.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 5.5 연료 페이즈 -->
+  <div class="sop-phase">
+    <div class="sop-phase-head" onclick="this.parentElement.classList.toggle('open')">
+      <div class="sop-phase-num">5.5</div>
+      <div class="sop-phase-title">연료 페이즈</div>
+      <div class="sop-phase-arrow">&#9654;</div>
+    </div>
+    <div class="sop-phase-body">
+      <p>변경사항 없음.</p>
+    </div>
+  </div>
+
+  <!-- 5.6 SAM 위치 확인 페이즈 -->
+  <div class="sop-phase">
+    <div class="sop-phase-head" onclick="this.parentElement.classList.toggle('open')">
+      <div class="sop-phase-num">5.6</div>
+      <div class="sop-phase-title">SAM 위치 확인 페이즈</div>
+      <div class="sop-phase-arrow">&#9654;</div>
+    </div>
+    <div class="sop-phase-body">
+      <p>미군 비행대가 비활성 SAM을 성공적으로 위치 확인하면, 진행하기 전에 SAM 활성화 체크를 실시합니다. <span class="table-ref">SAM 활성화 표</span>를 참조하세요.</p>
+    </div>
+  </div>
+
+  <!-- 5.7 추적 페이즈 -->
+  <div class="sop-phase">
+    <div class="sop-phase-head" onclick="this.parentElement.classList.toggle('open')">
+      <div class="sop-phase-num">5.7</div>
+      <div class="sop-phase-title">추적 페이즈</div>
+      <div class="sop-phase-arrow">&#9654;</div>
+    </div>
+    <div class="sop-phase-body">
+      <p>변경사항 없음.</p>
+      <img src="track.png" alt="추적 테이블" style="width: 50%; height: auto;">
+    </div>
+  </div>
+
+  <!-- 5.8 SAM 표적 획득 페이즈 -->
+  <div class="sop-phase">
+    <div class="sop-phase-head" onclick="this.parentElement.classList.toggle('open')">
+      <div class="sop-phase-num">5.8</div>
+      <div class="sop-phase-title">SAM 표적 획득 페이즈</div>
+      <div class="sop-phase-arrow">&#9654;</div>
+    </div>
+    <div class="sop-phase-body">
+      <p>미군 비행대의 12헥스 내에 있는 각 비활성 SAM에 대해 활성화를 확인합니다. <span class="table-ref">SAM 활성화 표</span>를 참조하세요. 그 다음, 모든 활성 SAM은 미군 비행대를 표적 획득하려고 시도합니다. 이 페이즈에 활성화된 SAM은 12헥스 내에 탐지된 미군 비행대가 있다면 신속 표적 획득을 시도합니다. <span class="table-ref">표적 선택 표</span>를 참조하세요. 모든 경우에 목표 미군 비행대가 고고도에 있으면 거리에 1을 추가합니다.</p>
+    </div>
+  </div>
+
+  <!-- 5.9 관리 페이즈 -->
+  <div class="sop-phase">
+    <div class="sop-phase-head" onclick="this.parentElement.classList.toggle('open')">
+      <div class="sop-phase-num">5.9</div>
+      <div class="sop-phase-title">관리 페이즈</div>
+      <div class="sop-phase-arrow">&#9654;</div>
+    </div>
+    <div class="sop-phase-body">
+      <ul>
+        <li>탄약이 없는 활성 SAM과 SAM 경고 마커는 레이더를 끕니다.</li>
+        <li>활성 MiG 비행대의 총 수가 최대 실제 비행대와 같거나 지도 상 일반 MiG 비행대의 총 수가 최대 일반 비행대와 같아질 때까지(<span class="table-ref">DRV 준비 표</span> 참조), 일반 DRV 비행대가 맵에 추가되는지 굴림합니다. <span class="table-ref">일반 비행대 생성</span>을 참조하세요.</li>
+      </ul>
+    </div>
+  </div>
+
+</div><!-- #sop-page -->
 
 <div id="aid-page" class="main-page">
   <!-- Content from aid.html -->
@@ -3235,10 +3581,24 @@
           </div>
           <!-- DRV 비행대 상태 -->
           <div style="font-size:11px;font-weight:600;letter-spacing:.1em;color:var(--fade);text-transform:uppercase;margin-bottom:6px;border-bottom:1px solid rgba(74,74,42,0.3);padding-bottom:4px;">DRV 비행대 상태</div>
-          <div style="margin-bottom:10px;">
+          <div style="margin-bottom:6px;">
             <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
               <input type="checkbox" id="bDRVDamaged">
               <span>DRV 비행대에 무력화된 항공기 있음 <span class="mv p">+2</span></span>
+            </label>
+          </div>
+          <!-- 시대별 교리 보정 -->
+          <div style="font-size:11px;font-weight:600;letter-spacing:.1em;color:var(--fade);text-transform:uppercase;margin-bottom:6px;border-bottom:1px solid rgba(74,74,42,0.3);padding-bottom:4px;">시대별 교리 보정</div>
+          <div style="margin-bottom:6px;">
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+              <input type="checkbox" id="bEra1972">
+              <span>1972년 이후 시나리오 (적극적 요격 교리) <span class="mv n">-1</span> <span style="font-size:10px;color:var(--fade);opacity:.7;">— RAID 연동</span></span>
+            </label>
+          </div>
+          <div style="margin-bottom:10px;">
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+              <input type="checkbox" id="bMiG17AAA">
+              <span>MiG-17F + 활성 AAA 2헥스 이내 (AAA 커버 교전) <span class="mv n">-2</span></span>
             </label>
           </div>
           <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
@@ -3288,9 +3648,16 @@
           US 비행대의 5헥스 이내(1972년 이후: 3헥스)에 DRV 비행대가 있으면 해당 US 비행대에 대한 SAM 사격이 금지됩니다. 비전투 행동 시 가능한 한 활성 SAM의 사격을 방해하지 않는 위치를 유지하세요.
         </div>
         <div class="bot-note" style="margin-top:8px;">
-          <strong>MiG 유형별 행동</strong><br>
-          <strong>MiG-21 계열:</strong> 교전 성공 시 1회 사격 후(미사일 1발 또는 기관포 1회) 남은 MP로 즉시 이탈합니다. 재교전을 시도하지 않습니다. (히트 앤 런)<br>
-          <strong>MiG-17F:</strong> 활성 AAA 2헥스 이내 저고도에서만 교전을 시도합니다. AAA 커버 밖에서는 비전투 행동을 수행합니다.
+          <strong>MiG 유형별 행동</strong>
+          <div class="bot-table-wrap" style="margin-top:6px;">
+            <table>
+              <tr><th>기체</th><th>교전 방식</th><th>핵심 원칙</th></tr>
+              <tr><td>MiG-21</td><td>Hit &amp; Run (1회 사격 후 이탈)</td><td>SAM 구역 클리어 우선</td></tr>
+              <tr><td>MiG-21 (1972)</td><td>호위기 우회, Laden 직접 공격</td><td>폭격기 본체 요격</td></tr>
+              <tr><td>MiG-17F</td><td>AAA 커버 내 선회전 지속</td><td>저고도 유인</td></tr>
+            </table>
+          </div>
+          <div style="margin-top:6px;font-size:12px;color:var(--fade);font-style:italic;">SAM이 하강 유도 → MiG/AAA가 저고도에서 격추. MiG가 대형 와해 → SAM이 개별 타격.</div>
         </div>
         <div class="bot-hi" style="margin-top:8px;" id="bWheelCombatSection">
           <strong>방어 원형진 전투 규칙 참고</strong> — 1967년 4월 이후<br><br>
@@ -3609,6 +3976,42 @@
 
 </div><!-- #bot-page -->
 
+
+<script>
+// ── Random Event Dice (2d10) ──
+const RANDOM_EVENTS = [
+  { range: [2,2],   name: 'DRV 통신 실패', desc: '시나리오 남은 기간 동안 DRV 탐지 레벨이 두 칸 오른쪽으로 이동합니다. 다시 이 결과가 나오면, 통신 실패가 해소되고 열 이동을 더 이상 적용하지 않습니다.' },
+  { range: [3,3],   name: '미군 통신 실패', desc: '시나리오 남은 기간 동안 미군 탐지 레벨이 한 칸 오른쪽으로 이동합니다. 다시 이 결과가 나오면 통신 실패가 해소되고 열 이동을 더 이상 적용하지 않습니다.' },
+  { range: [4,4],   name: '구름 틈', desc: '미군 플레이어는 아무 비행대 두 헥스 거리 내에 구름 틈 카운터를 지도에 배치합니다. 이 틈은 다른 틈 카운터로부터 두 헥스보다 가까워서는 안됩니다. (맵에 구름층이 없으면 효과 없음)' },
+  { range: [5,5],   name: '긴급 출격 경보', desc: 'DRV 플레이어는 즉시 준비되지 않은 MiG 비행대를 준비 상태로 만들 수 있습니다.' },
+  { range: [6,6],   name: '\u00B6 AAA 매복 (2개 비행대, 저강도)', desc: '초저고도/저고도에 있는 2개 비행대에 대한 AAA 매복 공격. 험지가 아닌 육지 헥스 위에 있는 비헬리콥터 미군 비행대 두 개에 대해 저강도 AAA 집중포화 공격을 실시합니다(DRV 플레이어 선택).', aaa: true },
+  { range: [7,8],   name: '\u00B6 AAA 매복 (1개 비행대, 저강도)', desc: '초저고도/저고도에 있는 1개 비행대에 대한 AAA 매복 공격. 험지가 아닌 육지 헥스 위에 있는 비헬리콥터 미군 비행대 하나에 대해 저강도 AAA 집중포화 공격을 실시합니다(DRV 플레이어 선택).', aaa: true },
+  { range: [9,10],  name: '\u00B6 AAA 매복 (1개 비행대, 소형화기)', desc: '초저고도/저고도에 있는 1개 비행대에 대한 AAA 매복 공격. 험지가 아닌 육지 헥스 위에 있는 비헬리콥터 미군 비행대 하나에 대해 소형화기 AAA 집중포화 공격을 실시합니다(DRV 플레이어 선택).', aaa: true },
+  { range: [11,11], name: '미군 교전수칙 허가', desc: '이번 게임 턴에 한 번만, 전방 공격 범위 내에 아군 유닛이 없는 한, 하나의 미군 F-4 비행대가 탐지된 DRV 비행대에 대해 BVR 미사일 공격을 할 수 있습니다.' },
+  { range: [12,12], name: '공격 명령 지연', desc: 'DRV 비행대는 이번 게임 턴에 공대공 전투를 개시할 수 없습니다.' },
+  { range: [13,15], name: '\u00B6 AAA 매복 (2개 비행대, 소형화기)', desc: '초저고도에 있는 2개 비행대에 대한 AAA 매복 공격. 험지가 아닌 육지 헥스 위에 있는 비헬리콥터 미군 비행대 두 개에 대해 소형화기 AAA 집중포화 공격을 실시합니다(DRV 플레이어 선택).', aaa: true },
+  { range: [16,16], name: '날씨 악화', desc: 'DRV 플레이어는 맵에서 하나의 틈 카운터를 제거합니다(있는 경우).' },
+  { range: [17,17], name: '레드 크라운/디스코 오퍼레이터 우위 확보', desc: '미군 플레이어는 시나리오의 모든 후속 게임 턴에서 선공을 위해 먼저 선택할 수 있습니다. 다시 이 결과가 나오면 DRV 플레이어가 다시 우위를 점하고 선공을 위해 먼저 선택할 수 있습니다.' },
+  { range: [18,18], name: '안개 해소', desc: '안개 고도를 1레벨 낮춥니다. 안개가 초저고도에 있으면 안개를 완전히 제거합니다.' },
+  { range: [19,19], name: 'DRV 관제사 신경 쇠약', desc: '하나의 DRV 비행대를 작전 중지합니다(더미 아님, DRV 플레이어 선택).' },
+  { range: [20,20], name: '미군 비행대 곤경', desc: '하나의 미군 비행대를 작전 중지합니다(미군 플레이어 선택).' }
+];
+
+function rollRandomEvent() {
+  const d1 = Math.floor(Math.random() * 10) + 1;
+  const d2 = Math.floor(Math.random() * 10) + 1;
+  const total = d1 + d2;
+
+  const evt = RANDOM_EVENTS.find(e => total >= e.range[0] && total <= e.range[1]);
+  const box = document.getElementById('sop-dice-result');
+  document.getElementById('sop-roll-num').textContent = total + '  (' + d1 + ' + ' + d2 + ')';
+  document.getElementById('sop-event-name').textContent = evt ? evt.name : '이벤트 없음';
+  document.getElementById('sop-event-desc').textContent = evt ? evt.desc : '';
+  document.getElementById('sop-event-note').textContent =
+    (evt && evt.aaa) ? '\u00B6 AAA 매복은 야간에는 효과가 없습니다.' : '';
+  box.classList.add('show');
+}
+</script>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
@@ -4110,6 +4513,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (settings.year) document.getElementById('year-select').value = settings.year;
     if (settings.month) document.getElementById('month-select').value = settings.month;
 
+    // 1972년 이후 시나리오 여부 → Solo Bot 체크박스 자동 동기화
+    syncEra1972();
+
     if (settings.carrierId) {
       const sel = document.getElementById('carrier-select');
       if (sel) sel.value = settings.carrierId;
@@ -4270,7 +4676,12 @@ document.addEventListener('DOMContentLoaded', () => {
       if(el) el.style.display = isD ? 'flex' : 'none';
     });
   }
-  function onDateChange() {}
+  function onDateChange() { syncEra1972(); }
+  function syncEra1972() {
+    const yr = parseInt(document.getElementById('year-select')?.value) || 0;
+    const cb = document.getElementById('bEra1972');
+    if (cb) cb.checked = yr >= 1972;
+  }
   function renderMission(phase, name, squads, note) {
     let html = `<div class="mission-block" style="animation-delay:${renderMission._idx++ * 0.06}s">
       <div class="mission-header">
@@ -9297,6 +9708,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if(document.getElementById('bUSEgress')?.checked) mod+=2;
     if(document.getElementById('bDRVDamaged')?.checked) mod+=2;
     if(document.getElementById('bUSCAPOnly')?.checked) mod+=1;
+    if(document.getElementById('bEra1972')?.checked) mod-=1;
+    if(document.getElementById('bMiG17AAA')?.checked) mod-=2;
     const total=r+mod;
     const usInRange=document.getElementById('bUSInRange')?.checked;
     const isCombat=total<=5 && usInRange;
@@ -9306,8 +9719,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const chain=document.getElementById('bCombatChain');
     if(!chain) return;
     const isIdentified=document.getElementById('bUSIdentified')?.checked;
+    const is1972=document.getElementById('bEra1972')?.checked;
+    const isMiG17AAA=document.getElementById('bMiG17AAA')?.checked;
     if(isCombat){
-      // F — 교전 행동 (Hit-and-Clear)
+      // F — 교전 행동 (Hit-and-Clear) — 시대별 교리 반영
       const mTableHtml=isIdentified?`
             <ol style="margin:0;padding-left:18px;line-height:1.9;">
               <li>적재 상태(Laden) 타격/폭격 비행대</li>
@@ -9326,56 +9741,63 @@ document.addEventListener('DOMContentLoaded', () => {
               <li>가장 낮은 고도대역</li>
               <li>무작위</li>
             </ol>`;
+
       chain.innerHTML=`
         <div class="bot-card" style="margin-top:4px;">
-          <div class="bot-card-header"><div class="bot-card-icon">F</div><div class="bot-card-title">교전 행동 — Hit-and-Clear</div></div>
+          <div class="bot-card-header"><div class="bot-card-icon">F</div><div class="bot-card-title">교전 행동</div></div>
           <div class="bot-card-body">
             <p><strong>공대공 전투 시도:</strong></p>
             <ol>
               <li>표적 선택: <strong>M 표적 선택 표</strong> 참조 (아래).</li>
               <li>다음과 같이 이동:
                 <ol type="a">
-                  <li>교전에 필요한 경우 대시 쓰로틀, 그렇지 않으면 전투 쓰로틀. 가능하다면 같은 고도에서 후방 반구로 US 비행대 헥스에 진입. 교전 시도; 허용되면 슬래시 공격 수행.</li>
-                  <li>교전에 성공하면 공대공 전투를 해결. 가능한 모든 사격 수행: 기관포 먼저, 그 다음 IRM.</li>
-                  <li>교전에 실패하면 남은 MP를 사용하여 초저고도로 강하 [☾/⛅: 저고도]하고 전진.</li>
+                  <li>교전에 필요한 경우 대시 쓰로틀, 그렇지 않으면 전투 쓰로틀. <br>가능하다면 같은 고도에서 후방 반구로 US 비행대 헥스에 진입. 교전 시도; <br>가능하면 슬래시 공격 수행.</li>
+                  <li>교전 성공 시: 공대공 전투를 해결. <br>가능한 모든 사격 수행: 기관포 먼저, 그 다음 IRM.</li>
+                  <li>교전 실패 시: 남은 MP로 초저고도로 강하 [☾/⛅: 저고도] 후 전진.</li>
                 </ol>
               </li>
             </ol>
             <div style="margin-top:10px;padding:10px 12px;background:rgba(196,90,74,0.15);border:1px solid rgba(196,90,74,0.4);font-size:12px;">
-              <strong style="color:#e8a8a8;">★ 교전 후 이탈 (SAM 구역 클리어):</strong><br>
-              사격 완료 후, 남은 MP로 표적 US 비행대로부터 <strong>5헥스 밖</strong>(1972년 이후: 3헥스 밖)으로 이탈합니다. 초저고도로 강하 [☾/⛅: 저고도].<br>
-              <span style="opacity:.75;">→ 비교전 구역을 클리어하여 SAM이 해당 US 비행대를 사격할 수 있게 합니다.</span>
+              <strong style="color:#e8a8a8;">★ 교전 후 이탈:</strong> 사격 완료 후 <strong>${is1972?'3':'5'}헥스 밖</strong>으로 이탈. 초저고도 강하 [☾/⛅: 저고도].
+              ${is1972?'<br><span style="opacity:.75;">1972: 호위기를 우회하여 Laden 비행대를 직접 공격.</span>':''}
+              ${isMiG17AAA?'<br><span style="opacity:.75;">MiG-17F: 이탈 대신 AAA 커버 내에서 선회전 지속.</span>':''}
             </div>
           </div>
         </div>
         <div class="bot-card" style="margin-top:4px;">
           <div class="bot-card-header"><div class="bot-card-icon">M</div><div class="bot-card-title">표적 선택 (MiG) — ${isIdentified?'식별 후':'식별 전'}</div></div>
           <div class="bot-card-body">
-            <p style="margin-bottom:6px;">${isIdentified?'육안 식별된 US 비행대를 순서대로 선택합니다:':'식별 전 — 비행대 유형을 모르므로 뭉침/거리 기준으로 선택합니다:'}</p>
+            <p style="margin-bottom:6px;">${isIdentified?'육안 식별된 US 비행대를 순서대로 선택합니다:':'식별 전 — 뭉침/거리 기준으로 선택합니다:'}</p>
             ${mTableHtml}
           </div>
         </div>`;
     } else {
-      // G — 비전투 행동 (재설계: SAM 구역 의식)
+      // G — 비전투 행동 (재설계: SAM-MiG-AAA 통합 방공 교리)
       const gr=botRoll();
       let gmod=0;
       if(document.getElementById('bSAMAcquiredD')?.checked) gmod+=3;
-      // 연료 보정 제거됨
       if(document.getElementById('bUSCluster')?.checked) gmod-=1;
+      if(is1972) gmod-=1;
+      if(isMiG17AAA) gmod-=2;
       const gtotal=gr+gmod;
       let gtxt, gcls, gdesc;
-      if(gtotal<=3){
+      if(gtotal<=2){
+        gtxt='고도 유인';gcls='bot-tag-ok';
+        gdesc=isMiG17AAA
+          ?'전투 쓰로틀. AAA 2헥스 이내에서 US 비행대 접근. 저고도 유인.'
+          :'전투 쓰로틀. US 비행대 6헥스 밖(1972: 4헥스) 궤도 비행. 하강 유도.';
+      } else if(gtotal<=4){
         gtxt='대기 궤도';gcls='bot-tag-ok';
-        gdesc='전투 쓰로틀. 저고도 유지.<br>활성 SAM에서 가장 가까운 US 비행대로부터 <strong>6헥스 밖</strong>(1972년: 4헥스)에서 궤도 비행. 다음 턴 교전 준비.';
+        gdesc='전투 쓰로틀. US 비행대 6헥스 밖(1972: 4헥스) 궤도 비행. 다음 턴 교전 준비.';
       } else if(gtotal<=6){
         gtxt='차단 위치';gcls='bot-tag-cond';
-        gdesc='전투 쓰로틀. 저고도 유지.<br>뭉쳐있는 US 비행대 그룹의 <strong>진행 방향 전방 6헥스 이상</strong> 지점으로 이동. SAM 구역 밖에서 대기하며 다음 턴 정면 교전 준비.';
+        gdesc='전투 쓰로틀. US 비행대 그룹 진행 방향 전방 6헥스+ 지점으로 이동.';
       } else if(gtotal<=8){
         gtxt='SAM 구역 클리어';gcls='bot-tag-mod';
-        gdesc='전투 쓰로틀.<br>가장 가까운 US 비행대로부터 <strong>6헥스 밖</strong>으로 이동. SAM 사격 활성화를 위한 능동적 이탈.';
+        gdesc='전투 쓰로틀. US 비행대 6헥스 밖으로 이동. SAM 사격 활성화.';
       } else {
         gtxt='이탈';gcls='bot-tag-bad';
-        gdesc='전투 쓰로틀. 초저고도로 강하 [☾/⛅: 저고도].<br>중국 완충지대(Chinese Buffer Zone)를 향해 이동. 연료 보존.';
+        gdesc='전투 쓰로틀. 초저고도 강하 [☾/⛅: 저고도]. 완충지대로 이동.';
       }
       const gcalc=gmod?`${gr} ${gmod>0?'+':''}${gmod} = ${gtotal}`:`${gr}`;
       chain.innerHTML=`
@@ -9387,7 +9809,7 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
             <p>${gdesc}</p>
             <div style="margin-top:8px;font-size:11px;color:rgba(196,169,107,0.7);">
-              보정: SAM 표적 획득 +3 / US 3개+ 뭉침 -1
+              보정: SAM 획득 +3 / US 뭉침 -1${is1972?' / 1972 -1':''}${isMiG17AAA?' / AAA 커버 -2':''}
             </div>
           </div>
         </div>`;
