@@ -155,12 +155,6 @@
     padding: 16px;
   }
   .sop-dice-result.show { display: block; }
-  .sop-dice-roll-num {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 32px;
-    font-weight: 700;
-    color: var(--red-bright);
-  }
   .sop-dice-event-name {
     font-family: 'Oswald', sans-serif;
     font-size: 20px;
@@ -1968,10 +1962,8 @@
 
   <!-- 무작위 이벤트 주사위 -->
   <div class="sop-dice-section">
-    <h3>RANDOM EVENT DICE</h3>
-    <button class="sop-dice-btn" onclick="rollRandomEvent()">ROLL (2d10)</button>
+    <button class="sop-dice-btn" onclick="rollRandomEvent()">RANDOM EVENT</button>
     <div id="sop-dice-result" class="sop-dice-result">
-      <div class="sop-dice-roll-num" id="sop-roll-num"></div>
       <div class="sop-dice-event-name" id="sop-event-name"></div>
       <div class="sop-dice-event-desc" id="sop-event-desc"></div>
       <div class="sop-dice-note" id="sop-event-note"></div>
@@ -2062,7 +2054,7 @@
         <li><span class="table-ref">비행대 행동 — 전투 행동</span>을 사용하여 활성 비행대가 취할 행동을 결정합니다. 다음 상황 보정을 적용합니다:
           <ul>
             <li>DRV 비행대가 탐지되지 않음: <strong>-2</strong></li>
-            <li>5헥스 내 US 비행대 3개 이상 뭉쳐있음(공격대 추정): <strong>-1</strong></li>
+            <li>5헥스 내 US 비행대 3개 이상 뭉쳐있음(폭격 비행대로 추정): <strong>-1</strong></li>
             <li>US 비행대가 목표를 향해 이동 중(미폭격): <strong>-1</strong></li>
             <li>표적 US 비행대를 획득한 활성 SAM 있음: <strong>+2</strong> (SAM이 처리하도록 비켜야 함)</li>
             <li>US 비행대가 폭격 완료, 이탈 중: <strong>+2</strong></li>
@@ -3497,15 +3489,16 @@
     </div>
     <div class="bot-card-body">
       <p>다음 조건 중 하나라도 적용되면(순서대로), 다음과 같이 이동합니다:</p>
-      <div class="bot-hi">빨간색: 지시사항을 수행한 후 멈춥니다.<br>검은색: 지시사항을 수행한 후 <span class="bot-red">🅓 비행대 행동 — 전투 행동</span>으로 이동합니다.</div>
+      <div class="bot-hi"><span class="bot-tag bot-tag-bad">빨간색</span>: 지시사항을 수행한 후 멈춥니다.<br><span class="bot-tag bot-tag-cond">파란색</span>: 지시사항을 수행한 후 <span class="bot-red">🅓 비행대 행동 — 전투 행동</span>으로 이동합니다.</div>
       <div class="bot-table-wrap">
         <table>
           <tr><th>조건</th><th>행동</th></tr>
           <tr><td><span class="bot-tag bot-tag-cond">기동 마커</span></td><td>전투 쓰로틀. MF의 ½을 소모하여 기동 마커를 제거.</td></tr>
           <tr><td><span class="bot-tag bot-tag-cond">BVR 회피 마커</span></td><td>전투 쓰로틀. 1 MP를 소모하여 BVR 회피 마커를 제거.</td></tr>
           <tr><td><span class="bot-tag bot-tag-bad">손상된 항공기</span></td><td>비행대 내 모든 항공기가 손상된 경우: 비행대 작전 중지. 아래 비행대 작전 중지 지침을 따름.</td></tr>
-          <tr><td><span class="bot-tag bot-tag-bad">무력화된 항공기 / 비행대 작전 중지 / Winchester</span></td><td>전투 쓰로틀. 초저고도로 강하 [☾/⛅: 저고도]. 중국 완충 지대(Chinese Buffer Zone)를 향해 이동.</td></tr>
+          <tr><td><span class="bot-tag bot-tag-bad">무력화된 항공기 / 작전 중지 / Winchester</span></td><td>전투 쓰로틀. 초저고도로 강하 [☾/⛅: 저고도]. 개방된 비행장 또는 중국 완충 지대 중 더 가까운 곳을 향해 이동.</td></tr>
           <tr><td><span class="bot-tag bot-tag-bad">무질서 상태</span></td><td>집결 지점에 인접하지 않은 경우: 대시 쓰로틀. 초저고도로 강하 [☾/⛅: 저고도]하고 가장 가까운 공중 대기 지점(Orbit point)에 최대한 가깝게 이동.</td></tr>
+          <tr><td><span class="bot-tag bot-tag-bad">비행장에서 준비 완료</span></td><td>이륙. 다음 턴에 전진하며 초저고도에 남아 있음.</td></tr>
         </table>
       </div>
     </div>
@@ -3564,7 +3557,7 @@
           <div style="margin-bottom:6px;">
             <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
               <input type="checkbox" id="bUSPreBomb" onchange="if(this.checked){document.getElementById('bUSEgress').checked=false;document.getElementById('bUSEgress').disabled=true;}else{document.getElementById('bUSEgress').disabled=false;}">
-              <span>US 비행대가 목표를 향해 이동 중 — 미폭격 <span class="mv n">-1</span></span>
+              <span>US 비행대가 목표를 향해 이동 중 — 아직 폭격하지 않은 상태 <span class="mv n">-1</span></span>
             </label>
           </div>
           <div style="margin-bottom:6px;">
@@ -3595,10 +3588,30 @@
               <span>1972년 이후 시나리오 (적극적 요격 교리) <span class="mv n">-1</span> <span style="font-size:10px;color:var(--fade);opacity:.7;">— RAID 연동</span></span>
             </label>
           </div>
-          <div style="margin-bottom:10px;">
+          <!-- 고도 / 후방 -->
+          <div style="font-size:11px;font-weight:600;letter-spacing:.1em;color:var(--fade);text-transform:uppercase;margin-bottom:6px;border-bottom:1px solid rgba(74,74,42,0.3);padding-bottom:4px;">고도 · 위치</div>
+          <div style="margin-bottom:6px;">
             <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
-              <input type="checkbox" id="bMiG17AAA">
-              <span>MiG-17F + 활성 AAA 2헥스 이내 (AAA 커버 교전) <span class="mv n">-2</span></span>
+              <input type="checkbox" id="bAltDisadv" onchange="if(this.checked){document.getElementById('bRearAspect').checked=false;document.getElementById('bRearAspect').disabled=true;}else{document.getElementById('bRearAspect').disabled=false;}">
+              <span>표적 US 비행대가 DRV보다 높은 고도 <span class="mv p">+2</span></span>
+            </label>
+          </div>
+          <div style="margin-bottom:6px;">
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+              <input type="checkbox" id="bRearAspect" onchange="if(this.checked){document.getElementById('bAltDisadv').checked=false;document.getElementById('bAltDisadv').disabled=true;}else{document.getElementById('bAltDisadv').disabled=false;}">
+              <span>표적 후방으로 교전 시도 가능 (고도 보정 무시) <span class="mv n">-1</span></span>
+            </label>
+          </div>
+          <!-- MiG 유형 -->
+          <div style="font-size:11px;font-weight:600;letter-spacing:.1em;color:var(--fade);text-transform:uppercase;margin-bottom:6px;border-bottom:1px solid rgba(74,74,42,0.3);padding-bottom:4px;">MiG 유형</div>
+          <div style="margin-bottom:10px;display:flex;gap:12px;">
+            <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
+              <input type="radio" name="bMiGType" value="mig21" checked>
+              <span>MiG-21</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
+              <input type="radio" name="bMiGType" value="mig17">
+              <span>MiG-17</span>
             </label>
           </div>
           <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
@@ -3652,12 +3665,11 @@
           <div class="bot-table-wrap" style="margin-top:6px;">
             <table>
               <tr><th>기체</th><th>교전 방식</th><th>핵심 원칙</th></tr>
-              <tr><td>MiG-21</td><td>Hit &amp; Run (1회 사격 후 이탈)</td><td>SAM 구역 클리어 우선</td></tr>
-              <tr><td>MiG-21 (1972)</td><td>호위기 우회, Laden 직접 공격</td><td>폭격기 본체 요격</td></tr>
-              <tr><td>MiG-17F</td><td>AAA 커버 내 선회전 지속</td><td>저고도 유인</td></tr>
+              <tr><td>MiG-21</td><td>Hit &amp; Run (슬래시 1회 후 이탈)</td><td>에너지 우위 시만 교전</td></tr>
+              <tr><td>MiG-17</td><td>저속 선회전 (Dogfight)</td><td>근접전 유도</td></tr>
             </table>
           </div>
-          <div style="margin-top:6px;font-size:12px;color:var(--fade);font-style:italic;">SAM이 하강 유도 → MiG/AAA가 저고도에서 격추. MiG가 대형 와해 → SAM이 개별 타격.</div>
+          <div style="margin-top:6px;font-size:12px;color:var(--fade);font-style:italic;">고도 우위 없으면 교전 금지. 후방 기습 시 고도 무관. 전투기보다 폭격기 우선.</div>
         </div>
         <div class="bot-hi" style="margin-top:8px;" id="bWheelCombatSection">
           <strong>방어 원형진 전투 규칙 참고</strong> — 1967년 4월 이후<br><br>
@@ -4004,7 +4016,6 @@ function rollRandomEvent() {
 
   const evt = RANDOM_EVENTS.find(e => total >= e.range[0] && total <= e.range[1]);
   const box = document.getElementById('sop-dice-result');
-  document.getElementById('sop-roll-num').textContent = total + '  (' + d1 + ' + ' + d2 + ')';
   document.getElementById('sop-event-name').textContent = evt ? evt.name : '이벤트 없음';
   document.getElementById('sop-event-desc').textContent = evt ? evt.desc : '';
   document.getElementById('sop-event-note').textContent =
@@ -9409,7 +9420,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const samChain = document.getElementById('bSAMChain');
     if (samChain) samChain.innerHTML = '';
     // 체크박스 초기화
-    document.querySelectorAll('#bot-page input[type="checkbox"]').forEach(cb => cb.checked = false);
+    document.querySelectorAll('#bot-page input[type="checkbox"]').forEach(cb => { cb.checked = false; cb.disabled = false; });
+    // MiG 유형 라디오 초기화
+    const mig21Radio = document.querySelector('input[name="bMiGType"][value="mig21"]');
+    if (mig21Radio) mig21Radio.checked = true;
     // 숫자 입력 기본값 복원
     const dist = document.getElementById('bSAMDist');
     if (dist) dist.value = '4';
@@ -9709,7 +9723,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if(document.getElementById('bDRVDamaged')?.checked) mod+=2;
     if(document.getElementById('bUSCAPOnly')?.checked) mod+=1;
     if(document.getElementById('bEra1972')?.checked) mod-=1;
-    if(document.getElementById('bMiG17AAA')?.checked) mod-=2;
+    if(document.getElementById('bAltDisadv')?.checked) mod+=2;
+    if(document.getElementById('bRearAspect')?.checked) mod-=1;
     const total=r+mod;
     const usInRange=document.getElementById('bUSInRange')?.checked;
     const isCombat=total<=5 && usInRange;
@@ -9720,7 +9735,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if(!chain) return;
     const isIdentified=document.getElementById('bUSIdentified')?.checked;
     const is1972=document.getElementById('bEra1972')?.checked;
-    const isMiG17AAA=document.getElementById('bMiG17AAA')?.checked;
+    const isMiG17=document.querySelector('input[name="bMiGType"][value="mig17"]')?.checked;
     if(isCombat){
       // F — 교전 행동 (Hit-and-Clear) — 시대별 교리 반영
       const mTableHtml=isIdentified?`
@@ -9742,25 +9757,59 @@ document.addEventListener('DOMContentLoaded', () => {
               <li>무작위</li>
             </ol>`;
 
+      const hasRear=document.getElementById('bRearAspect')?.checked;
+      const hasSAM=document.getElementById('bSAMAcquiredD')?.checked;
+
+      // 교전 절차: 상황별 즉시 실행 가능한 지시
+      let fSteps, fAfter;
+      if(hasRear && !isMiG17){
+        // MiG-21 + 후방 → 슬래시 즉시 실행
+        fSteps=`<ol>
+              <li><strong>M 표적 선택 표</strong> 참조 (아래).</li>
+              <li>대시 쓰로틀. 후방 반구에서 <strong>슬래시 공격</strong> 실시.</li>
+              <li>사격: 기관포 → IRM 순서로 가능한 모든 사격 수행.</li>
+            </ol>`;
+      } else if(hasRear && isMiG17){
+        // MiG-17 + 후방 → 후방에서 교전 진입, 선회전
+        fSteps=`<ol>
+              <li><strong>M 표적 선택 표</strong> 참조 (아래).</li>
+              <li>전투 쓰로틀. 후방 반구에서 교전 진입.</li>
+              <li>사격: 기관포 → IRM 순서로 가능한 모든 사격 수행.</li>
+            </ol>`;
+      } else if(isMiG17){
+        // MiG-17 + 후방 아님 → 후방 반구 진입 시도
+        fSteps=`<ol>
+              <li><strong>M 표적 선택 표</strong> 참조 (아래).</li>
+              <li>전투 쓰로틀. 같은 고도에서 후방 반구 진입 시도. 교전 시도.</li>
+              <li>교전 성공 → 기관포 → IRM 순서로 사격.</li>
+              <li>교전 실패 → 초저고도 강하 [☾/⛅: 저고도] 후 이탈.</li>
+            </ol>`;
+      } else {
+        // MiG-21 + 후방 아님 → 후방 반구 진입 시도, 슬래시
+        fSteps=`<ol>
+              <li><strong>M 표적 선택 표</strong> 참조 (아래).</li>
+              <li>대시 쓰로틀. 같은 고도에서 후방 반구 진입 시도. 슬래시 공격.</li>
+              <li>교전 성공 → 기관포 → IRM 순서로 사격.</li>
+              <li>교전 실패 → 초저고도 강하 [☾/⛅: 저고도] 후 이탈.</li>
+            </ol>`;
+      }
+
+      // 교전 후 행동
+      if(hasSAM){
+        fAfter=`<strong style="color:#e8a8a8;">★ 교전 후:</strong> <strong>${is1972?'3':'5'}헥스 밖</strong> 이탈. 초저고도 강하 [☾/⛅: 저고도].${is1972?'<br><span style="opacity:.75;">1972: 호위기를 우회하여 Laden 비행대를 직접 공격.</span>':''}`;
+      } else {
+        fAfter=`<strong style="color:#e8a8a8;">★ 교전 후:</strong><br>
+                표적이 폭격/SEAD/정찰/재밍기 → ${isMiG17?'근접 유지, 재교전':'이탈 후 다음 턴 재접근'}.<br>
+                표적이 전투기 → 이탈, 고가치 표적 탐색.`;
+      }
+
       chain.innerHTML=`
         <div class="bot-card" style="margin-top:4px;">
-          <div class="bot-card-header"><div class="bot-card-icon">F</div><div class="bot-card-title">교전 행동</div></div>
+          <div class="bot-card-header"><div class="bot-card-icon">F</div><div class="bot-card-title">교전 행동 — ${isMiG17?'MiG-17 선회전':'MiG-21 Hit&Run'}</div></div>
           <div class="bot-card-body">
-            <p><strong>공대공 전투 시도:</strong></p>
-            <ol>
-              <li>표적 선택: <strong>M 표적 선택 표</strong> 참조 (아래).</li>
-              <li>다음과 같이 이동:
-                <ol type="a">
-                  <li>교전에 필요한 경우 대시 쓰로틀, 그렇지 않으면 전투 쓰로틀. <br>가능하다면 같은 고도에서 후방 반구로 US 비행대 헥스에 진입. 교전 시도; <br>가능하면 슬래시 공격 수행.</li>
-                  <li>교전 성공 시: 공대공 전투를 해결. <br>가능한 모든 사격 수행: 기관포 먼저, 그 다음 IRM.</li>
-                  <li>교전 실패 시: 남은 MP로 초저고도로 강하 [☾/⛅: 저고도] 후 전진.</li>
-                </ol>
-              </li>
-            </ol>
+            ${fSteps}
             <div style="margin-top:10px;padding:10px 12px;background:rgba(196,90,74,0.15);border:1px solid rgba(196,90,74,0.4);font-size:12px;">
-              <strong style="color:#e8a8a8;">★ 교전 후 이탈:</strong> 사격 완료 후 <strong>${is1972?'3':'5'}헥스 밖</strong>으로 이탈. 초저고도 강하 [☾/⛅: 저고도].
-              ${is1972?'<br><span style="opacity:.75;">1972: 호위기를 우회하여 Laden 비행대를 직접 공격.</span>':''}
-              ${isMiG17AAA?'<br><span style="opacity:.75;">MiG-17F: 이탈 대신 AAA 커버 내에서 선회전 지속.</span>':''}
+              ${fAfter}
             </div>
           </div>
         </div>
@@ -9778,17 +9827,14 @@ document.addEventListener('DOMContentLoaded', () => {
       if(document.getElementById('bSAMAcquiredD')?.checked) gmod+=3;
       if(document.getElementById('bUSCluster')?.checked) gmod-=1;
       if(is1972) gmod-=1;
-      if(isMiG17AAA) gmod-=2;
       const gtotal=gr+gmod;
       let gtxt, gcls, gdesc;
       if(gtotal<=2){
         gtxt='고도 유인';gcls='bot-tag-ok';
-        gdesc=isMiG17AAA
-          ?'전투 쓰로틀. AAA 2헥스 이내에서 US 비행대 접근. 저고도 유인.'
-          :'전투 쓰로틀. US 비행대 6헥스 밖(1972: 4헥스) 궤도 비행. 하강 유도.';
+        gdesc='전투 쓰로틀. US 비행대 6헥스 밖(1972: 4헥스) 선회 대기. 하강 유도.';
       } else if(gtotal<=4){
         gtxt='대기 궤도';gcls='bot-tag-ok';
-        gdesc='전투 쓰로틀. US 비행대 6헥스 밖(1972: 4헥스) 궤도 비행. 다음 턴 교전 준비.';
+        gdesc='전투 쓰로틀. US 비행대 6헥스 밖(1972: 4헥스) 선회 대기. 다음 턴 교전 준비.';
       } else if(gtotal<=6){
         gtxt='차단 위치';gcls='bot-tag-cond';
         gdesc='전투 쓰로틀. US 비행대 그룹 진행 방향 전방 6헥스+ 지점으로 이동.';
@@ -9808,9 +9854,9 @@ document.addEventListener('DOMContentLoaded', () => {
               ${botValHtml(gcalc)}${botTagHtml(gcls,gtxt)}
             </div>
             <p>${gdesc}</p>
-            <div style="margin-top:8px;font-size:11px;color:rgba(196,169,107,0.7);">
-              보정: SAM 획득 +3 / US 뭉침 -1${is1972?' / 1972 -1':''}${isMiG17AAA?' / AAA 커버 -2':''}
-            </div>
+            ${gmod?`<div style="margin-top:8px;font-size:11px;color:rgba(196,169,107,0.7);">
+              적용 보정:${document.getElementById('bSAMAcquiredD')?.checked?' SAM 획득 +3':''}${document.getElementById('bUSCluster')?.checked?' / US 뭉침 -1':''}${is1972?' / 1972 -1':''}
+            </div>`:''}
           </div>
         </div>`;
     }
