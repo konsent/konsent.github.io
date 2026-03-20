@@ -8005,6 +8005,10 @@ document.addEventListener('DOMContentLoaded', () => {
           return; // 중지하지 않음
         }
         break;
+      case '폭격':
+      case '타격':
+        if (allAtgGone) msg = '공대지 무장 소모 → 작전 중지';
+        break;
       case '구조 지원':
         if (allWeaponsGone) msg = '모든 무기 소모 → 작전 중지';
         break;
