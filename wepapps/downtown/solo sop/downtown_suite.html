@@ -5854,6 +5854,264 @@ document.addEventListener('DOMContentLoaded', () => {
     return info;
   }
 
+  // ═══════════════ Y-RACK 지원 (F-8 계열) ═══════════════
+
+  function getF8Type(aircraftKey) {
+    if (aircraftKey === 'F-8C_D Crusader [US]') return 'F8CD';
+    if (aircraftKey === 'F-8E_H_J Crusader [US]') return 'F8EHJ';
+    return null;
+  }
+
+  function isRowYrack(row) {
+    return row.dataset.yrack === '1';
+  }
+  function isRowRocket(row) {
+    return row.dataset.rocket === '1';
+  }
+
+  // Y-rack / Rocket 체크박스 생성/제거
+  function updateYrackCheckbox(row, f8Type) {
+    var acCell = row.querySelector('td:nth-child(4)');
+    if (!acCell) return;
+    var existing = acCell.querySelector('.yrack-wrap');
+    if (!f8Type) {
+      if (existing) existing.remove();
+      delete row.dataset.yrack;
+      delete row.dataset.rocket;
+      return;
+    }
+    if (!existing) {
+      var wrap = document.createElement('div');
+      wrap.className = 'yrack-wrap';
+      wrap.style.cssText = 'margin-top:3px;font-size:11px;display:flex;gap:8px;align-items:center;';
+
+      // Y-rack 체크박스
+      var yCb = document.createElement('input');
+      yCb.type = 'checkbox'; yCb.className = 'yrack-cb';
+      yCb.style.cssText = 'vertical-align:middle;margin-right:2px;cursor:pointer;';
+      var yLbl = document.createElement('span');
+      yLbl.textContent = 'Y-Rack';
+      yLbl.style.cssText = 'color:#c4a96b;cursor:pointer;';
+      yLbl.addEventListener('click', function(){ if (!yCb.disabled) yCb.click(); });
+
+      // Rocket 체크박스
+      var rCb = document.createElement('input');
+      rCb.type = 'checkbox'; rCb.className = 'rocket-cb';
+      rCb.style.cssText = 'vertical-align:middle;margin-right:2px;cursor:pointer;';
+      var rLbl = document.createElement('span');
+      rLbl.textContent = 'Rocket';
+      rLbl.style.cssText = 'color:#e08050;cursor:pointer;';
+      rLbl.addEventListener('click', function(){ if (!rCb.disabled) rCb.click(); });
+
+      wrap.appendChild(yCb); wrap.appendChild(yLbl);
+      wrap.appendChild(rCb); wrap.appendChild(rLbl);
+      acCell.appendChild(wrap);
+
+      yCb.addEventListener('change', function(){
+        row.dataset.yrack = yCb.checked ? '1' : '';
+        updateWeaponData(row);
+        updateOrdnanceCell(row);
+        saveToLocalStorage();
+      });
+      rCb.addEventListener('change', function(){
+        row.dataset.rocket = rCb.checked ? '1' : '';
+        updateWeaponData(row);
+        updateOrdnanceCell(row);
+        saveToLocalStorage();
+      });
+    }
+    var yCb = acCell.querySelector('.yrack-cb');
+    var rCb = acCell.querySelector('.rocket-cb');
+    if (yCb) yCb.checked = (row.dataset.yrack === '1');
+    if (rCb) rCb.checked = (row.dataset.rocket === '1');
+
+    // Armed Escort → 자동 로켓 탑재
+    var taskSel = row.querySelector('td:nth-child(2) select');
+    var task = taskSel ? taskSel.value : '';
+    if (rCb && task === '무장 호위') {
+      rCb.checked = true; row.dataset.rocket = '1';
+    }
+  }
+
+  // F-8 무기 데이터 수정 (buildWeaponInfo 결과에 적용)
+  function applyF8ToWeapons(row, wInfo, f8Type) {
+    var taskSel = row.querySelector('td:nth-child(2) select');
+    var task = taskSel ? taskSel.value : '';
+    var hasYrack = isRowYrack(row);
+    var hasRocket = isRowRocket(row);
+
+    // 배열형 bomb → 최대값 (숫자 입력으로 변환)
+    if (Array.isArray(wInfo.bomb)) {
+      wInfo.bomb = Math.max.apply(null, wInfo.bomb);
+    }
+
+    // 로켓 탑재 시: bomb=1, IRM/RHM 비활성
+    if (hasRocket) {
+      wInfo.bomb = 1;
+      wInfo.irm = [];
+      wInfo.rhm = [];
+      return;
+    }
+
+    // Y-rack 효과
+    if (hasYrack) {
+      if (f8Type === 'F8EHJ') {
+        // Y-rack: IRM dep 3 (양쪽 탑재 시 6은 linkF8EhjWeapons에서 처리)
+        wInfo.irm.forEach(function(w){ w.dep = 3; });
+      } else if (f8Type === 'F8CD') {
+        wInfo.irm.forEach(function(w){ w.dep = 3; });
+        if (task === '무장 호위') {
+          wInfo.bomb = 0;
+        }
+      }
+    }
+    // Y-rack 없으면 IRM/RHM 상호 배제는 linkF8EhjWeapons에서 처리
+  }
+
+  // F-8E/H/J: Y-rack 여부에 따라 IRM/RHM 배타 선택 또는 동시 탑재 관리
+  function linkF8EhjWeapons(row, weaponCells) {
+    var irmCell = weaponCells[1], rhmCell = weaponCells[2];
+    if (!irmCell || !rhmCell) return;
+    var irmSels = irmCell.querySelectorAll('select[data-weapon-name]');
+    var rhmSels = rhmCell.querySelectorAll('select[data-weapon-name]');
+    if (irmSels.length === 0 || rhmSels.length === 0) return;
+
+    var _suppressExclusion = false; // 상호 배제 무한루프 방지
+
+    function syncF8Weapons() {
+      var hasYrack = isRowYrack(row);
+      var irmLoaded = Array.from(irmSels).some(function(s){ return s.value && s.value !== '' && s.value !== '고갈'; });
+      var rhmLoaded = Array.from(rhmSels).some(function(s){ return s.value && s.value !== '' && s.value !== '고갈'; });
+
+      if (hasYrack) {
+        // Y-rack ON: 양쪽 동시 탑재 가능
+        // 양쪽 탑재 → dep 모두 6, 한쪽만 → IRM dep 3
+        if (irmLoaded && rhmLoaded) {
+          irmSels.forEach(function(s){ updateDepDisplay(s, 6); });
+          rhmSels.forEach(function(s){ updateDepDisplay(s, 6); });
+        } else {
+          irmSels.forEach(function(s){ updateDepDisplay(s, 3); });
+          var rhmWeapons = []; try { rhmWeapons = JSON.parse(rhmCell.dataset.weapons||'[]'); } catch(e){}
+          rhmSels.forEach(function(s){
+            var orig = rhmWeapons.find(function(w){ return w.name === s.dataset.weaponName; });
+            if (orig) updateDepDisplay(s, orig.dep);
+          });
+        }
+      } else {
+        // Y-rack OFF: IRM/RHM 중 하나만 선택 가능 (상호 배제)
+        // IRM/RHM 선택 시 select 활성/비활성 처리는 하지 않고 값만 비움
+      }
+    }
+
+    // IRM 변경 → Y-rack OFF면 RHM 비움
+    irmSels.forEach(function(s){
+      s.addEventListener('change', function(){
+        if (_suppressExclusion) return;
+        if (!isRowYrack(row)) {
+          var irmLoaded = s.value && s.value !== '' && s.value !== '고갈';
+          if (irmLoaded) {
+            _suppressExclusion = true;
+            rhmSels.forEach(function(r){ r.value = ''; });
+            _suppressExclusion = false;
+          }
+        }
+        syncF8Weapons();
+        saveToLocalStorage();
+      });
+    });
+
+    // RHM 변경 → Y-rack OFF면 IRM 비움
+    rhmSels.forEach(function(s){
+      s.addEventListener('change', function(){
+        if (_suppressExclusion) return;
+        if (!isRowYrack(row)) {
+          var rhmLoaded = s.value && s.value !== '' && s.value !== '고갈';
+          if (rhmLoaded) {
+            _suppressExclusion = true;
+            irmSels.forEach(function(r){ r.value = ''; });
+            _suppressExclusion = false;
+          }
+        }
+        syncF8Weapons();
+        saveToLocalStorage();
+      });
+    });
+
+    // 초기 상태: Y-rack OFF면 IRM 기본 선택, RHM 비움 (로딩 중이면 저장값 유지)
+    var isLoading = row.dataset.isLoading === 'true';
+    if (!isRowYrack(row) && !isLoading) {
+      rhmSels.forEach(function(s){ s.value = ''; });
+    }
+    syncF8Weapons();
+  }
+
+  // 고갈수치 표시 업데이트
+  function updateDepDisplay(sel, newDep) {
+    if (!sel) return;
+    Array.from(sel.options).forEach(function(opt){
+      if (opt.value && opt.value !== '고갈' && opt.value !== '') {
+        opt.textContent = opt.value + ' [' + newDep + ']';
+        opt.dataset.dep = newDep;
+      }
+    });
+  }
+
+  // F-8C/D: 폭탄 ↔ IRM 상호 배제
+  function linkF8CdRestrictions(row, weaponCells) {
+    var irmCell = weaponCells[1], bombCell = weaponCells[3];
+    if (!irmCell || !bombCell) return;
+
+    function checkF8CdBombIrm() {
+      if (!isRowYrack(row)) return;
+      var bombEl = bombCell.querySelector('input, select');
+      var bombVal = bombEl ? (parseFloat(bombEl.value) || 0) : 0;
+      var irmSel = irmCell.querySelector('select');
+      if (!irmSel) return;
+
+      if (bombVal > 0) {
+        // 폭탄 있으면 IRM 장착 불가
+        if (irmSel.value && irmSel.value !== '' && irmSel.value !== '고갈') {
+          irmSel.value = '';
+        }
+        irmSel.disabled = true;
+        irmSel.title = 'Y-Rack: 폭탄 탑재 시 IRM 장착 불가';
+      } else {
+        irmSel.disabled = false;
+        irmSel.title = '';
+      }
+    }
+
+    bombCell.querySelectorAll('input, select').forEach(function(el){
+      el.addEventListener('change', checkF8CdBombIrm);
+      el.addEventListener('input', checkF8CdBombIrm);
+    });
+    // 초기 체크
+    checkF8CdBombIrm();
+  }
+
+  // Y-rack 기동력 오버라이드 값 반환 (null이면 기본값 사용)
+  function getYrackManeuverOverride(row, loadState, alt) {
+    if (!row) return null;
+    var isDrv = row.closest('table').id === 'drv-table';
+    if (isDrv) return null;
+    var acSel = row.querySelector('td:nth-child(4) select');
+    if (!acSel) return null;
+    var f8Type = getF8Type(acSel.value);
+    if (!f8Type || !isRowYrack(row)) return null;
+
+    // Clean: 6/7/7 → 5/6/6
+    var yrackClean = { low: '5', med: '6', high: '6' };
+    if (loadState === 'clean') return yrackClean[alt] || null;
+
+    // Laden
+    if (f8Type === 'F8EHJ') {
+      var yrackLaden = { low: '1', med: '2', high: '-' };
+      return yrackLaden[alt] || '-';
+    }
+    // F-8C/D laden은 원래 "-" 이므로 변경 없음
+    return null;
+  }
+
   // 무기 셀에 드롭다운(보유/고갈/미탑재) 생성
   // 듀얼 모드 판별: AIM-54 + 다른 RHM이 공존하면 듀얼
   function isDualWeaponCell(weapons) {
@@ -5982,6 +6240,10 @@ document.addEventListener('DOMContentLoaded', () => {
       cell.innerHTML = '';
       var sel = document.createElement('select');
       value.forEach(function(v){ var o=document.createElement('option'); o.value=v; o.textContent=v; sel.appendChild(o); });
+      // 0이 없으면 추가 (폭탄 소진 표현)
+      if (!value.some(function(v){ return String(v) === '0'; })) {
+        var o0 = document.createElement('option'); o0.value='0'; o0.textContent='0'; sel.appendChild(o0);
+      }
       if (isLoading && oldValue !== undefined) {
         var found = Array.from(sel.options).some(function(o){return o.value===oldValue;});
         if (found) sel.value = oldValue;
@@ -6033,6 +6295,11 @@ document.addEventListener('DOMContentLoaded', () => {
       const wInfo = buildWeaponInfo(aircraftKey);
       if (!wInfo) return;
 
+      // ── Y-rack / Rocket (F-8 계열) ──
+      const f8Type = isDrv ? null : getF8Type(aircraftKey);
+      if (!isDrv) updateYrackCheckbox(row, f8Type);
+      if (f8Type) applyF8ToWeapons(row, wInfo, f8Type);
+
       const weaponCells = isDrv
           ? Array.from(row.querySelectorAll('td')).slice(5, 10)
           : Array.from(row.querySelectorAll('td')).slice(7, 12);
@@ -6042,7 +6309,7 @@ document.addEventListener('DOMContentLoaded', () => {
           createWeaponCell(weaponCells[0], wInfo.gun, isLoading);
           createWeaponCell(weaponCells[1], wInfo.irm, isLoading);
           createWeaponCell(weaponCells[2], wInfo.rhm, isLoading);
-          createValueCell(weaponCells[3], wInfo.bomb, isLoading);
+          createValueCell(weaponCells[3], wInfo.bomb, isLoading, true);
           // bomb의 ruleMax 초기화 (ordnance 규칙 적용 기준)
           var bombInit = weaponCells[3].querySelector('input, select');
           if (bombInit && !isLoading) {
@@ -6084,6 +6351,12 @@ document.addEventListener('DOMContentLoaded', () => {
             });
           });
         });
+      }
+
+      // F-8 무기 연동 (Y-rack/Rocket)
+      if (f8Type && !isDrv && weaponCells.length === 5 && !isRowRocket(row)) {
+        if (f8Type === 'F8EHJ') linkF8EhjWeapons(row, weaponCells);
+        if (f8Type === 'F8CD' && isRowYrack(row)) linkF8CdRestrictions(row, weaponCells);
       }
   }
 
@@ -6947,7 +7220,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const rows = table.querySelectorAll('tbody tr:not(:last-child)');
     const data = [];
     rows.forEach(row => {
-      const rowData = { cells: [], status: [], aborted: row.classList.contains('aborted') };
+      const rowData = { cells: [], status: [], aborted: row.classList.contains('aborted'), yrack: row.dataset.yrack || '', rocket: row.dataset.rocket || '' };
       row.querySelectorAll('td:not(:last-child)').forEach(cell => {
         const sel = cell.querySelector('select');
         const inp = cell.querySelector('input');
@@ -7087,6 +7360,8 @@ document.addEventListener('DOMContentLoaded', () => {
       tbody.insertBefore(clone, addRowBtnRow);
       addDeleteButton(clone); addRowListeners(clone);
       clone.dataset.isLoading = 'true';
+      if (rowData.yrack) clone.dataset.yrack = rowData.yrack;
+      if (rowData.rocket) clone.dataset.rocket = rowData.rocket;
       updateWeaponData(clone);
       if (tableId !== 'drv-table') updateOrdnanceCell(clone);
       updateCallsign(clone);
@@ -7524,6 +7799,9 @@ document.addEventListener('DOMContentLoaded', () => {
     var loadState = (bombVal === 0) ? 'clean' : 'laden';
     var manVal = ac.performance && ac.performance.maneuver && ac.performance.maneuver[loadState]
       ? ac.performance.maneuver[loadState][combatAlt] : '-';
+    // Y-rack 기동력 오버라이드
+    var yrackMan = getYrackManeuverOverride(row, loadState, combatAlt);
+    if (yrackMan !== null) manVal = yrackMan;
     console.log('[ADC] setCombatManeuver', side, ac.name, loadState, combatAlt, '→', manVal);
     if (manVal && manVal !== '-') {
       document.getElementById('man-' + side + '-my').value = parseInt(manVal) || 0;
@@ -8006,8 +8284,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         break;
       case '폭격':
-      case '타격':
         if (allAtgGone) msg = '공대지 무장 소모 → 작전 중지';
+        break;
+      case '타격':
+        if (allAtgGone) {
+          // 공대지 무장 소모 시 CAP으로 전환
+          taskSel.value = 'CAP';
+          if (taskSel.classList.contains('fit-width')) adjustSelectWidth(taskSel);
+          updateOrdnanceCell(row);
+          var rInp = row.querySelector('td:nth-child(14) input');
+          if (rInp) rInp.value = (rInp.value ? rInp.value + ' ' : '') + '타격→CAP';
+          saveToLocalStorage();
+          return; // 중지하지 않음
+        }
         break;
       case '구조 지원':
         if (allWeaponsGone) msg = '모든 무기 소모 → 작전 중지';
@@ -9076,6 +9365,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // 1. 기동력 자동 입력
     var manVal = ac.performance && ac.performance.maneuver && ac.performance.maneuver[loadState]
       ? ac.performance.maneuver[loadState][alt] : '-';
+    // Y-rack 기동력 오버라이드
+    var yrackMan = getYrackManeuverOverride(row, loadState, alt);
+    if (yrackMan !== null) manVal = yrackMan;
     console.log('[ADC]', side, ':', ac.name, 'bomb='+bombVal, loadState, 'alt='+alt, 'maneuver='+manVal);
     if (manVal && manVal !== '-') {
       document.getElementById('man-' + side + '-my').value = parseInt(manVal) || 0;
@@ -9138,6 +9430,9 @@ document.addEventListener('DOMContentLoaded', () => {
       var alt = document.getElementById('man-' + side + '-alt').value;
       var manVal = ac.performance && ac.performance.maneuver && ac.performance.maneuver[loadState]
         ? ac.performance.maneuver[loadState][alt] : '-';
+      // Y-rack 기동력 오버라이드
+      var yrackMan = getYrackManeuverOverride(row, loadState, alt);
+      if (yrackMan !== null) manVal = yrackMan;
       if (manVal && manVal !== '-') {
         document.getElementById('man-' + side + '-my').value = parseInt(manVal) || 0;
       }
