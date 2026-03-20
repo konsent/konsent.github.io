@@ -5596,6 +5596,11 @@ document.addEventListener('DOMContentLoaded', () => {
     fetch('adc.json').then(r=>r.json()).then(d=>{
       ADC_JSON=d;
       console.log('ADC JSON loaded');
+      // JSON 로드 완료 후 항공기 가용 기간 필터 적용
+      _acAvailCache = null;
+      document.querySelectorAll('#us-lead-table tbody tr, #us-main-table tbody tr, #us-trail-table tbody tr').forEach(function(row){
+        if (!row.querySelector('.add-row')) filterAircraftOptions(row);
+      });
       // JSON 로드 완료 후, 이미 역할이 설정되어 있으면 동기화
       if (typeof syncDogfightFromRaid === 'function' && typeof raidRoles !== 'undefined') {
         var hasRole = raidRoles.attacker || raidRoles.defender;
@@ -5697,14 +5702,14 @@ document.addEventListener('DOMContentLoaded', () => {
     "F-4C Wild Weasel 4 [US]":   {faction:"USAF", name:"F-4C Wild Weasel IV"},
     "F-100D Super Sabre [US]":   {faction:"USAF", name:"F-100D Super Sabre"},
     "F-100F Wild Weasel 1 [US]": {faction:"USAF", name:"F-100F Wild Weasel I"},
-    "RF1-1C Voodoo [US]":        {faction:"USAF", name:"RF-101C Voodoo"},
+    "RF-101C Voodoo [US]":       {faction:"USAF", name:"RF-101C Voodoo"},
     "F-104C Starfighter [US]":   {faction:"USAF", name:"F-104C Starfighter"},
     "F-105D Thunderchief [US]":  {faction:"USAF", name:"F-105D Thunderchief"},
     "F-105F Thunderchief(2) [US]":{faction:"USAF", name:"F-105F Thunderchief(2)"},
     "F-105F Thunderchief [US]":  {faction:"USAF", name:"F-105F Wild Weasel III"},
     "F-105F Wild Weasel 3 [US]": {faction:"USAF", name:"F-105F Wild Weasel III"},
     "F-105G Wild Weasel [US]":   {faction:"USAF", name:"F-105G Wild Weasel"},
-    "F-105G Wild Weasel(2) [US]":{faction:"USAF", name:"F-105G Wild Weasel"},
+    "F-105G Wild Weasel(2) [US]":{faction:"USAF", name:"F-105G Wild Weasel (2)"},
     "F-111A Aardvark [US]":      {faction:"USAF", name:"F-111A 'Aardvark'"},
     "B-52D Stratofortress [US]": {faction:"USAF", name:"B-52D Stratofortress"},
     "B-52G Stratofortress [US]": {faction:"USAF", name:"B-52G Stratofortress"},
@@ -5800,9 +5805,101 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // adc.json에서 무기 칸 데이터를 구축: {gun:[...], irm:[...], rhm:[...], bomb:..., fuel:...}
   // 날짜 변경 시 모든 US 행의 무기/ordnance 재생성
+  // ── 기체 가용 기간 필터 ──
+
+  // adc.json에서 기체별 가용 기간 캐시 구축 (aircraftKey → [availStr, ...])
+  var _acAvailCache = null;
+  function buildAcAvailCache() {
+    if (_acAvailCache) return _acAvailCache;
+    if (!ADC_JSON) return {}; // 로딩 전이면 캐시 저장하지 않고 빈 객체 반환
+    _acAvailCache = {};
+    Object.keys(ADC_NAME_MAP).forEach(function(key){
+      var mapping = ADC_NAME_MAP[key];
+      if (!mapping) return;
+      var factionData = ADC_JSON[mapping.faction];
+      if (!factionData || !factionData.aircraft) return;
+      var ac = factionData.aircraft.find(function(a){ return a.name === mapping.name; });
+      if (!ac || !ac.notes) return;
+      var ranges = [];
+      ac.notes.forEach(function(note){
+        // "available from Mon YY" 또는 "available from Mon YY to Mon YY"
+        var m = note.match(/^available\s+from\s+(.+)/i);
+        if (m) { ranges.push(m[1].replace(/\+$/, '').trim()); return; }
+        // "available until Mon YY" → 시작일 없이 종료일만
+        var m2 = note.match(/^available\s+until\s+(.+)/i);
+        if (m2) { ranges.push('Jan 64 to ' + m2[1].replace(/\+$/, '').trim()); }
+      });
+      if (ranges.length > 0) _acAvailCache[key] = ranges;
+    });
+    return _acAvailCache;
+  }
+
+  // 기체가 시나리오 날짜에 사용 가능한지 (여러 가용 기간 중 하나라도 해당하면 OK)
+  function isAircraftAvailable(ranges, scenDate) {
+    if (!scenDate) return true;
+    if (!ranges || ranges.length === 0) return true;
+    return ranges.some(function(r){ return isAvailableAt(r, scenDate); });
+  }
+
+  // 항공기 select의 option을 시나리오 날짜에 따라 활성/비활성
+  // 전체 옵션 목록 원본 (최초 1회 저장)
+  var _allAcOptions = null;
+  function getAllAcOptions() {
+    if (_allAcOptions) return _allAcOptions;
+    // US_AIRCRAFT_OPTIONS에서 파싱
+    var tmp = document.createElement('select');
+    tmp.innerHTML = US_AIRCRAFT_OPTIONS;
+    _allAcOptions = Array.from(tmp.options).map(function(o){ return {value:o.value, text:o.textContent}; });
+    return _allAcOptions;
+  }
+
+  function filterAircraftOptions(row) {
+    var isDrv = row.closest('table').id === 'drv-table';
+    if (isDrv) return;
+    var acSel = row.querySelector('td:nth-child(4) select');
+    if (!acSel) return;
+    var scenDate = getScenarioDate();
+    var cache = buildAcAvailCache();
+    var curVal = acSel.value;
+    var allOpts = getAllAcOptions();
+
+    // 옵션 재구성
+    acSel.innerHTML = '';
+    allOpts.forEach(function(item){
+      var ranges = cache[item.value];
+      var ok = !ranges || isAircraftAvailable(ranges, scenDate);
+      // 사용 가능하거나, 현재 선택된 값이면 표시
+      if (ok || item.value === curVal) {
+        var opt = document.createElement('option');
+        opt.value = item.value;
+        opt.textContent = item.text;
+        if (!ok) {
+          // 현재 선택이지만 날짜 불가 → 경고 표시
+          opt.textContent = item.text + ' ⚠';
+          opt.style.color = '#c0392b';
+        }
+        acSel.appendChild(opt);
+      }
+    });
+    acSel.value = curVal;
+
+    // 현재 선택된 항공기가 날짜 불가이면 경고
+    var curRanges = cache[curVal];
+    if (curRanges && !isAircraftAvailable(curRanges, scenDate)) {
+      acSel.style.outline = '2px solid #c0392b';
+      acSel.title = '현재 시나리오 날짜에 사용 불가능한 항공기입니다';
+    } else {
+      acSel.style.outline = '';
+      acSel.title = '';
+    }
+  }
+
+  // 모든 US 행의 항공기 필터 + 무기 갱신
   function refreshAllWeaponsForDate() {
+    _acAvailCache = null; // 캐시 리셋
     document.querySelectorAll('#us-lead-table tbody tr, #us-main-table tbody tr, #us-trail-table tbody tr').forEach(function(row){
       if (row.querySelector('.add-row')) return;
+      filterAircraftOptions(row);
       updateWeaponData(row);
       updateOrdnanceCell(row);
     });
@@ -6905,7 +7002,7 @@ document.addEventListener('DOMContentLoaded', () => {
         else if (acName.includes('F-111')) dbKey = "F-111 Aardvark";
         else if (acName.includes('A-7')) dbKey = "A-7 Corsair II";
         else if (acName.includes('B-52')) dbKey = "B-52";
-        else if (acName.includes('RF-101') || acName.includes('RF1-1C')) dbKey = "RF-101 Voodoo";
+        else if (acName.includes('RF-101')) dbKey = "RF-101 Voodoo";
         else if (acName.includes('EB-66')) dbKey = "EB-66 Destroyer";
         else if (acName.includes('F-8') || acName.includes('RF-8')) dbKey = "F-8 Crusader";
         else if (acName.includes('A-4')) dbKey = "A-4 Skyhawk";
@@ -6975,7 +7072,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
   }
-  const US_AIRCRAFT_OPTIONS = `<option value="A-1H Skyraider [US]">A-1H Skyraider</option><option value="A-4C Skyhawk [US]">A-4C Skyhawk</option><option value="A-4E_F Skyhawk [US]">A-4E_F Skyhawk</option><option value="A-6A Intruder [US]">A-6A Intruder</option><option value="A-6B Intruder [US]">A-6B Intruder</option><option value="A-6C Intruder [US]">A-6C Intruder</option><option value="A-7A_B Corsair 2 [US]">A-7A_B Corsair 2</option><option value="A-7C_E Corsair 2 [US]">A-7C_E Corsair 2</option><option value="A-7D Corsair 2 [US]">A-7D Corsair 2</option><option value="B-52D Stratofortress [US]">B-52D Stratofortress</option><option value="B-52G Stratofortress [US]">B-52G Stratofortress</option><option value="Canberra MK.20 [AUS]">Canberra MK.20</option><option value="EA-1F Electric SPAD [US]">EA-1F Electric SPAD</option><option value="EA-6A Intruder [US]">EA-6A Intruder</option><option value="EA-6B Prowler [US]">EA-6B Prowler</option><option value="EB-66B [US]">EB-66B</option><option value="EB-66C [US]">EB-66C</option><option value="EB-66E [US]">EB-66E</option><option value="EF-10B Skynight [US]">EF-10B Skynight</option><option value="EKA-3B Skywarrior [US]">EKA-3B Skywarrior</option><option value="F-100D Super Sabre [US]">F-100D Super Sabre</option><option value="F-100F Wild Weasel 1 [US]">F-100F Wild Weasel 1</option><option value="F-104C Starfighter [US]">F-104C Starfighter</option><option value="F-105D Thunderchief [US]">F-105D Thunderchief</option><option value="F-105F Thunderchief(2) [US]">F-105F Thunderchief(2)</option><option value="F-105F Thunderchief [US]">F-105F Thunderchief</option><option value="F-105F Wild Weasel 3 [US]">F-105F Wild Weasel 3</option><option value="F-105G Wild Weasel [US]">F-105G Wild Weasel</option><option value="F-105G Wild Weasel(2) [US]">F-105G Wild Weasel(2)</option><option value="F-111A Aardvark [US]">F-111A Aardvark</option><option value="F-14A Tomcat [US]">F-14A Tomcat</option><option value="F-4B Phantom 2 [US]">F-4B Phantom 2</option><option value="F-4C Phantom 2 [US]">F-4C Phantom 2</option><option value="F-4C Wild Weasel 4 [US]">F-4C Wild Weasel 4</option><option value="F-4D Phantom 2 [US]">F-4D Phantom 2</option><option value="F-4E Phantom 2 [US]">F-4E Phantom 2</option><option value="F-4J Phantom 2 [US]">F-4J Phantom 2</option><option value="F-4N Phantom 2 [US]">F-4N Phantom 2</option><option value="F-8C_D Crusader [US]">F-8C_D Crusader</option><option value="F-8E_H_J Crusader [US]">F-8E_H_J Crusader</option><option value="Mirage IIIO(F) [AUS]">Mirage IIIO(F)</option><option value="RA-5C Vigilante [US]">RA-5C Vigilante</option><option value="RF-4B Phantom 2 [US]">RF-4B Phantom 2</option><option value="RF-4C Phantom 2 [US]">RF-4C Phantom 2</option><option value="RF-8A_G Crusader [US]">RF-8A_G Crusader</option><option value="RF1-1C Voodoo [US]">RF1-1C Voodoo</option>`;
+  const US_AIRCRAFT_OPTIONS = `<option value="A-1H Skyraider [US]">A-1H Skyraider</option><option value="A-4C Skyhawk [US]">A-4C Skyhawk</option><option value="A-4E_F Skyhawk [US]">A-4E_F Skyhawk</option><option value="A-6A Intruder [US]">A-6A Intruder</option><option value="A-6B Intruder [US]">A-6B Intruder</option><option value="A-6C Intruder [US]">A-6C Intruder</option><option value="A-7A_B Corsair 2 [US]">A-7A_B Corsair 2</option><option value="A-7C_E Corsair 2 [US]">A-7C_E Corsair 2</option><option value="A-7D Corsair 2 [US]">A-7D Corsair 2</option><option value="B-52D Stratofortress [US]">B-52D Stratofortress</option><option value="B-52G Stratofortress [US]">B-52G Stratofortress</option><option value="Canberra MK.20 [AUS]">Canberra MK.20</option><option value="EA-1F Electric SPAD [US]">EA-1F Electric SPAD</option><option value="EA-6A Intruder [US]">EA-6A Intruder</option><option value="EA-6B Prowler [US]">EA-6B Prowler</option><option value="EB-66B [US]">EB-66B</option><option value="EB-66C [US]">EB-66C</option><option value="EB-66E [US]">EB-66E</option><option value="EF-10B Skynight [US]">EF-10B Skynight</option><option value="EKA-3B Skywarrior [US]">EKA-3B Skywarrior</option><option value="F-100D Super Sabre [US]">F-100D Super Sabre</option><option value="F-100F Wild Weasel 1 [US]">F-100F Wild Weasel 1</option><option value="F-104C Starfighter [US]">F-104C Starfighter</option><option value="F-105D Thunderchief [US]">F-105D Thunderchief</option><option value="F-105F Thunderchief(2) [US]">F-105F Thunderchief(2)</option><option value="F-105F Thunderchief [US]">F-105F Thunderchief</option><option value="F-105F Wild Weasel 3 [US]">F-105F Wild Weasel 3</option><option value="F-105G Wild Weasel [US]">F-105G Wild Weasel</option><option value="F-105G Wild Weasel(2) [US]">F-105G Wild Weasel(2)</option><option value="F-111A Aardvark [US]">F-111A Aardvark</option><option value="F-14A Tomcat [US]">F-14A Tomcat</option><option value="F-4B Phantom 2 [US]">F-4B Phantom 2</option><option value="F-4C Phantom 2 [US]">F-4C Phantom 2</option><option value="F-4C Wild Weasel 4 [US]">F-4C Wild Weasel 4</option><option value="F-4D Phantom 2 [US]">F-4D Phantom 2</option><option value="F-4E Phantom 2 [US]">F-4E Phantom 2</option><option value="F-4J Phantom 2 [US]">F-4J Phantom 2</option><option value="F-4N Phantom 2 [US]">F-4N Phantom 2</option><option value="F-8C_D Crusader [US]">F-8C_D Crusader</option><option value="F-8E_H_J Crusader [US]">F-8E_H_J Crusader</option><option value="Mirage IIIO(F) [AUS]">Mirage IIIO(F)</option><option value="RA-5C Vigilante [US]">RA-5C Vigilante</option><option value="RF-4B Phantom 2 [US]">RF-4B Phantom 2</option><option value="RF-4C Phantom 2 [US]">RF-4C Phantom 2</option><option value="RF-8A_G Crusader [US]">RF-8A_G Crusader</option><option value="RF-101C Voodoo [US]">RF-101C Voodoo</option>`;
   const STATUS_GRID = `<div class="status-grid">
     <div class="status-item" data-status="1"><div class="status-header"><label>#1</label></div><select><option selected></option><option>손상</option><option>무력화</option><option>격추</option></select></div>
     <div class="status-item" data-status="2"><div class="status-header"><label>#2</label><button class="status-control-btn remove-status">X</button><button class="status-control-btn add-status" style="display:none">+</button></div><select><option selected></option><option>손상</option><option>무력화</option><option>격추</option></select></div>
@@ -7154,6 +7251,8 @@ document.addEventListener('DOMContentLoaded', () => {
     row.querySelectorAll('.role-btn').forEach(btn => {
       btn.addEventListener('click', () => handleRoleButtonClick(btn));
     });
+    // 항공기 가용 기간 필터 적용
+    filterAircraftOptions(row);
   }
   function addAggressivenessControlsWithSync(row) {
     const container = row.querySelector('.aggress-container');
@@ -7476,7 +7575,7 @@ document.addEventListener('DOMContentLoaded', () => {
       'EB-66C':'EB-66C [US]','EB-66B':'EB-66B [US]','EB-66E':'EB-66E [US]','F-4C':'F-4C Phantom 2 [US]',
       'F-104C':'F-104C Starfighter [US]','F-4D':'F-4D Phantom 2 [US]','F-100F':'F-100F Wild Weasel 1 [US]',
       'F-105D':'F-105D Thunderchief [US]','F-105F WW':'F-105F Wild Weasel 3 [US]','F-105F':'F-105F Thunderchief [US]',
-      'RF-101C':'RF1-1C Voodoo [US]','RF-4C':'RF-4C Phantom 2 [US]','F-4E':'F-4E Phantom 2 [US]',
+      'RF-101C':'RF-101C Voodoo [US]','RF-4C':'RF-4C Phantom 2 [US]','F-4E':'F-4E Phantom 2 [US]',
       'A-7D':'A-7D Corsair 2 [US]','F-105G WW':'F-105G Wild Weasel [US]','F-4C WW':'F-4C Wild Weasel 4 [US]',
       'A-1':'A-1H Skyraider [US]','F-4B':'F-4B Phantom 2 [US]','A-4C':'A-4C Skyhawk [US]',
       'F-8C/F-8E':'F-8E_H_J Crusader [US]','F-8C':'F-8C_D Crusader [US]','F-8E':'F-8E_H_J Crusader [US]','F-8D':'F-8C_D Crusader [US]',
@@ -7524,6 +7623,25 @@ document.addEventListener('DOMContentLoaded', () => {
         let ac = acMap[sd.aircraft] || '';
         if (sd.aircraft === 'Helicopter') { ac = 'A-1H Skyraider [US]'; if (rInp) rInp.value = '헬리콥터'; }
         else if (sd.aircraft === 'A-6A/C') { if (rInp) rInp.value = (rInp.value ? rInp.value+' ' : '')+'A-6C 가능'; }
+        // WW 변형: 날짜에 안 맞으면 대체 변형 사용
+        var wwFallbacks = {
+          'F-105G Wild Weasel [US]': 'F-105G Wild Weasel(2) [US]',
+          'F-105G Wild Weasel(2) [US]': 'F-105G Wild Weasel [US]',
+          'F-105F Wild Weasel 3 [US]': 'F-105F Thunderchief [US]',
+          'F-105F Thunderchief [US]': 'F-105F Wild Weasel 3 [US]'
+        };
+        var scenDate = getScenarioDate();
+        if (ac && scenDate && wwFallbacks[ac]) {
+          var cache = buildAcAvailCache();
+          var ranges = cache[ac];
+          if (ranges && !isAircraftAvailable(ranges, scenDate)) {
+            var alt = wwFallbacks[ac];
+            var altRanges = cache[alt];
+            if (!altRanges || isAircraftAvailable(altRanges, scenDate)) {
+              ac = alt;
+            }
+          }
+        }
         aSel.value = ac;
       }
       if (skillSel) {
