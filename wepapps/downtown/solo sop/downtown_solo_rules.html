@@ -891,9 +891,12 @@
         <div class="section">
             <h2 id="s5-4">5.4 이동 페이즈</h2>
             <div class="subsection">
-                <h3>방어 원형진:</h3>
+                <h3>방어 원형진 (Defensive Wheel):</h3>
+                <div class="note"><strong>참고:</strong> 방어 원형진은 1967년 4월 이후 시나리오에서만 사용 가능합니다. MiG-17 2대 이상으로 구성된 비행대(또는 더미 비행대)만 진입할 수 있습니다.</div>
                 <ul>
-                    <li>CAP 태스크를 받은 3개 이상의 미군 비행대의 5헥스 내에 있는 무질서 상태가 아닌 DRV 비행대는 방어 원형진에 진입합니다. 3개 이상의 미군 CAP 비행대의 5헥스 내에 있지 않거나 무질서 상태인 DRV 비행대는 방어 원형진을 떠납니다.</li>
+                    <li><strong>자동 진입:</strong> CAP 태스크를 받은 3개 이상의 미군 비행대의 5헥스 내에 있는 무질서 상태가 아닌 MiG-17 비행대(2대 이상)는 방어 원형진에 진입합니다.</li>
+                    <li><strong>강제 해제:</strong> 3개 이상의 미군 CAP 비행대의 5헥스 내에 있지 않거나, 무질서 상태가 되거나, 기체가 1대로 줄면 방어 원형진을 떠납니다. 해제 시 산개(Scatter) 판정을 적용합니다.</li>
+                    <li><strong>전투 규칙:</strong> 원형진 상태에서는 MP를 소모하지 않으며, 모든 방향이 전방 호로 취급됩니다. 기습 불가, 불리함 페널티 없음. 기동 표에서 항상 1대 컬럼을 사용합니다. 전투 후 산개 판정 및 기동 마커가 적용되지 않습니다. 원형진 내 최대 8대까지 합류 가능합니다.</li>
                 </ul>
 
                 <h3>이동 순서:</h3>
@@ -918,9 +921,20 @@
                 <ul>
                     <li><span class="table-ref">🅑 이동 페이즈</span>를 사용하여 DRV 비행대 이동 순서를 결정합니다.</li>
                     <li>활성 비행대가 강제로 취해야 할 행동이 있는지 <span class="table-ref">🅒 비행대 행동 — 주요 행동</span>을 확인합니다.</li>
-                    <li><span class="table-ref">🅓 비행대 행동 — 전투 행동</span>을 사용하여 활성 비행대가 취할 행동을 결정합니다.</li>
+                    <li><span class="table-ref">🅓 비행대 행동 — 전투 행동</span>을 사용하여 활성 비행대가 취할 행동을 결정합니다. 다음 상황 보정을 적용합니다:
+                        <ul>
+                            <li>DRV 비행대가 탐지되지 않음: <strong>-2</strong></li>
+                            <li>5헥스 내 US 비행대 3개 이상 뭉쳐있음(공격대 추정): <strong>-1</strong></li>
+                            <li>US 비행대가 목표를 향해 이동 중(미폭격): <strong>-1</strong></li>
+                            <li>표적 US 비행대를 획득한 활성 SAM 있음: <strong>+2</strong> (SAM이 처리하도록 비켜야 함)</li>
+                            <li>US 비행대가 폭격 완료, 이탈 중: <strong>+2</strong></li>
+                            <li>DRV 비행대에 손상 항공기 있음: <strong>+2</strong></li>
+                            <li>US CAP 비행대만 있음(뭉쳐있지 않음): <strong>+1</strong></li>
+                        </ul>
+                    </li>
                     <li><span class="table-ref">🅕 비행대 행동 — 교전 행동</span> 또는 <span class="table-ref">🅖 비행대 행동 — 비전투 행동</span> 중 하나를 사용하여 활성 비행대가 어떻게 이동할지 결정합니다.</li>
-                    <li>모든 DRV 비행대를 이동시킬 때 <span class="table-ref">🅗 일반 비행대 행동</span>을 지침으로 사용합니다.</li>
+                    <li><strong>교전 후 이탈 (Hit-and-Clear):</strong> 교전 후 사격이 완료되면, 남은 MP를 사용하여 표적 US 비행대로부터 5헥스 밖(1972년 이후: 3헥스 밖)으로 이탈합니다. 이를 통해 비교전 구역을 클리어하여 SAM이 해당 US 비행대를 사격할 수 있게 합니다.</li>
+                    <li>모든 DRV 비행대를 이동시킬 때 <span class="table-ref">🅗 일반 비행대 행동</span>을 지침으로 사용합니다. 직전 턴에 교전 후 이탈한 DRV 비행대는, 비전투 행동 시 마지막으로 교전한 US 비행대 방향으로 선회하여 재접근합니다.</li>
                 </ul>
 
                 <h3>이동하는 미군 비행대에 대한 활성 SAM 발사:</h3>
@@ -1000,13 +1014,40 @@
         <div class="section">
             <h2>6.1 표적 선택</h2>
             <div class="subsection">
-                <p>활성 MiG나 SAM이 미군 비행대를 목표로 해야 할 때마다, <span class="table-ref">🅜 표적 선택 표</span>를 사용합니다:</p>
+                <p>활성 MiG나 SAM이 미군 비행대를 목표로 해야 할 때마다, <span class="table-ref">🅜 표적 선택 표</span>를 사용합니다.</p>
+                <p><strong>MiG 표적 선택 — 식별 전</strong> (육안 식별 안 된 US 비행대):</p>
                 <ol>
-                    <li><strong>1단계.</strong> 적절한 열의 맨 위에서 시작하여 아래로 읽습니다. 그 열에 점이 있는 각 행에 대해, 일치하는 미군 비행대를 찾습니다. 일치하는 비행대가 없으면, 그 행을 건ㄴ 뛰고 다음으로 계속합니다. 이 조건을 만족하는 비행대가 하나뿐이면, 그 미군 비행대를 목표로 합니다. 그렇지 않으면,</li>
-                    <li><strong>2단계.</strong> 둘 이상의 비행대가 일치하면, 열을 따라 계속 날아가서 충족되는 다음 조건으로 갑니다. 미군 비행대와 일치하지 않는 조건들을 계속 건ㄴ 뜁니다. 원래 조건과 새 조건을 모두 만족하는 비행대가 하나뿐이면, 그것을 목표로 합니다.</li>
-                    <li><strong>3단계.</strong> 이 과정을 계속하여, 아래의 각 행을 확인하고 만족하는 모든 조건을 적용하여, 단일 미군 비행대가 선택될 때까지 합니다.</li>
-                    <li><strong>4단계.</strong> 선택될 각 목표에 대해 1단계부터 이 과정을 반복합니다.</li>
+                    <li>뭉쳐있는(2개 이상 같은/인접 헥스) US 비행대 그룹</li>
+                    <li>활성 SAM이 표적 획득하지 않은 비행대</li>
+                    <li>가장 가까운 비행대</li>
+                    <li>가장 낮은 고도대역</li>
+                    <li>무작위</li>
                 </ol>
+                <p><strong>MiG 표적 선택 — 식별 후</strong> (육안 식별된 US 비행대):</p>
+                <ol>
+                    <li>적재 상태(Laden) 공격/폭격 비행대</li>
+                    <li>활성 SAM이 표적 획득하지 않은 비행대</li>
+                    <li>에스코트가 분리된 비행대</li>
+                    <li>SEAD/Iron Hand 비행대 (SAM 방어)</li>
+                    <li>가장 낮은 고도대역</li>
+                    <li>가장 가까운 비행대</li>
+                    <li>손상된 항공기가 있는 비행대</li>
+                    <li>무작위</li>
+                </ol>
+                <p class="note"><strong>핵심:</strong> SAM이 이미 표적 획득한 US 비행대에는 MiG를 보내지 않습니다. SAM이 처리하게 두고, MiG는 SAM 커버가 없는 비행대를 공격합니다. 이것이 SAM-MiG 구역 분담의 핵심입니다.</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>6.2 비교전 구역 (Deconfliction)</h2>
+            <div class="subsection">
+                <p>표적이 되는 미군 비행대 근처에 DRV 비행대(더미 마커 포함)가 있다면 SAM은 미사일을 발사할 수 없습니다.</p>
+                <ul>
+                    <li><strong>일반 시나리오:</strong> 표적 비행대로부터 5헥스 이내에 DRV 비행대가 하나라도 있으면 SAM 사격이 금지됩니다.</li>
+                    <li><strong>1972년 이후 시나리오:</strong> 금지 거리가 3헥스 이내로 단축됩니다.</li>
+                </ul>
+                <p>'봇'의 교전 행동(🅕)에는 교전 후 즉시 이탈하여 비교전 구역을 클리어하는 규칙이 포함됩니다. 비전투 행동(🅖)에서도 SAM 사격을 방해하지 않는 위치를 유지합니다.</p>
+                <p>AAA와 파이어 캔은 DRV 비행대에 절대로 사격하지 않습니다(비교전 원칙 항상 적용).</p>
             </div>
         </div>
 
@@ -1413,6 +1454,18 @@
                 });
             }, observerOptions);
             document.querySelectorAll('h2[id^="s5-"]').forEach(section => observer.observe(section));
+
+            // Prevent bookmark links from opening in new window (due to <base target="_blank">)
+            document.querySelectorAll('.bookmark-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetEl = document.getElementById(targetId);
+                    if (targetEl) {
+                        targetEl.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
         });
     </script>
 </body>

@@ -59,6 +59,7 @@
                     "AIM-7E-2": 3
                 },
                 "notes": [
+                    "available from Aug 64",
                     "If Armed Escort, AIM-7E/E-2 is 5, otherwise 3"
                 ]
             },
@@ -119,6 +120,7 @@
                     "AIM-7E-2": 3
                 },
                 "notes": [
+                    "available from May 68",
                     "If Armed Escort, AIM-7E/E-2 is 5, otherwise 3",
                     "AIM-9D is available from Jul 66+",
                     "AIM-9G is available from Jan 69+",
@@ -182,6 +184,7 @@
                     "AIM-7E-2": 3
                 },
                 "notes": [
+                    "available from Feb 73",
                     "If Armed Escort, AIM-7E-2 is 5, otherwise 3"
                 ]
             },
@@ -238,6 +241,7 @@
                 ],
                 "air_to_air_depletion_number": {},
                 "notes": [
+                    "available from Aug 64",
                     "rwr is available from Jul 66+",
                     "jam is available from Jul 66+"
                 ]
@@ -298,6 +302,7 @@
                     "Gun": 5
                 },
                 "notes": [
+                    "available from Dec 64 to Jan 68",
                     "If Y-rack, No AIM-9B/AIM-9D",
                     "Only Armed Escort can carry rockets",
                     "AIM-9B is available from Jan 65+",
@@ -367,6 +372,7 @@
                     "AIM-9C": 6
                 },
                 "notes": [
+                    "available from Dec 64",
                     "If Y-rack, AIM-9B/AIM-9D/AIM-9G is 3",
                     "AIM-9B/AIM-9D/AIM-9G + AIM-9C, Both are 6",
                     "AIM-9B is available from Jan 65+",
@@ -433,6 +439,7 @@
                     "Gun": 5
                 },
                 "notes": [
+                    "available from Aug 64 to Nov 70",
                     "No slash attacks",
                     "If Shrike, Bomb is 0",
                     "Shrike is available from Apr 66+",
@@ -497,6 +504,7 @@
                     "Gun": 5
                 },
                 "notes": [
+                    "available from Dec 64",
                     "No slash attacks",
                     "If Shrike, Bomb is 1",
                     "Shrike is available from Apr 66+",
@@ -567,6 +575,7 @@
                 ],
                 "air_to_air_depletion_number": {},
                 "notes": [
+                    "available from Jun 65",
                     "If Shrike is 2, Bomb is 2",
                     "If Shrike is 4, Bomb is 0",
                     "If Blind bombing, Sight is +3, otherwise +0",
@@ -633,6 +642,7 @@
                 ],
                 "air_to_air_depletion_number": {},
                 "notes": [
+                    "available from Dec 67",
                     "If Shrike is 2, Bomb is 2",
                     "If Shrike is 4, Bomb is 0",
                     "If Shrike is 2 and Standard A or B is carried, Bomb is 0",
@@ -704,6 +714,7 @@
                 ],
                 "air_to_air_depletion_number": {},
                 "notes": [
+                    "available from May 70",
                     "If Shrike is 2, Bomb is 2",
                     "If Shrike is 4, Bomb is 0",
                     "If Blind bombing, Sight is +3, otherwise +0",
@@ -769,6 +780,7 @@
                     "AIM-7G/H": 6
                 },
                 "notes": [
+                    "available from Dec 67",
                     "No slash attacks",
                     "If Shrike, Bomb is 2"
                 ]
@@ -831,6 +843,7 @@
                     "Gun": 3
                 },
                 "notes": [
+                    "available from May 70",
                     "No slash attacks",
                     "If Shrike, Bomb is 2"
                 ]
@@ -887,7 +900,9 @@
                     "TFR"
                 ],
                 "air_to_air_depletion_number": {},
-                "notes": []
+                "notes": [
+                    "available from Nov 66"
+                ]
             },
             {
                 "name": "EA-6B Prowler",
@@ -941,7 +956,9 @@
                     "TFR"
                 ],
                 "air_to_air_depletion_number": {},
-                "notes": []
+                "notes": [
+                    "available from Jul 72"
+                ]
             },
             {
                 "name": "F-14A Tomcat",
@@ -1000,6 +1017,7 @@
                     "AIM-7E-2": 4
                 },
                 "notes": [
+                    "available from Sep 74",
                     "if no AIM-54 carried, AIM-7E-2 is 1"
                 ]
             },
@@ -1055,6 +1073,7 @@
                 ],
                 "air_to_air_depletion_number": {},
                 "notes": [
+                    "available from Dec 67",
                     "Large",
                     "Poor SAM defense",
                     "No Zoom"
@@ -1111,7 +1130,9 @@
                     "Night"
                 ],
                 "air_to_air_depletion_number": {},
-                "notes": []
+                "notes": [
+                    "available from Jan 65 to Nov 69"
+                ]
             },
             {
                 "name": "EA-1F 'Electric Spad'",
@@ -1164,7 +1185,9 @@
                     "Standoff Night"
                 ],
                 "air_to_air_depletion_number": {},
-                "notes": []
+                "notes": [
+                    "available from Feb 65 to Jul 68"
+                ]
             },
             {
                 "name": "RA-5C Vigilante",
@@ -1219,6 +1242,7 @@
                 ],
                 "air_to_air_depletion_number": {},
                 "notes": [
+                    "available from Sep 64",
                     "jam is available from Jul 66+"
                 ]
             }
@@ -1239,7 +1263,7 @@
             },
             {
                 "name": "AIM-9C",
-                "class": "IRM",
+                "class": "RHM",
                 "rating": 1,
                 "availability": "Jan 66 on"
             },
@@ -1375,6 +1399,7 @@
                     "Gun Pod": 3
                 },
                 "notes": [
+                    "available from Apr 65",
                     "After May 67+, Gun only on CAP",
                     "If SEAD or Strike/CAP, AIM-7E/E-2 is 5, otherwise 3",
                     "AIM-7E-2 is available from Aug 68+"
@@ -1434,6 +1459,7 @@
                 ],
                 "air_to_air_depletion_number": {},
                 "notes": [
+                    "available from Nov 65",
                     "rwr is available from Apr 67+",
                     "jam is available from Jan 67+"
                 ]
@@ -1492,6 +1518,7 @@
                 ],
                 "air_to_air_depletion_number": {},
                 "notes": [
+                    "available from Oct 66",
                     "AIM-9B is available from Jan 65+",
                     "AIM-9D is available from Jul 66+",
                     "AIM-9G is available from Jan 69+",
@@ -1567,6 +1594,7 @@
                     "Gun": 3
                 },
                 "notes": [
+                    "available from Aug 67",
                     "Gun only on CAP",
                     "If Bomb or SEAD or Strike/CAP or Chaff, AIM-7E/E-2 is 5, otherwise 3",
                     "AIM-7E-2 is available from Aug 68+",
@@ -1639,6 +1667,7 @@
                     "Gun": 3
                 },
                 "notes": [
+                    "available from Nov 68",
                     "If Bomb or SEAD or Strike/CAP or Chaff, AIM-7E/E-2 is 5, otherwise 3",
                     "Chaff Disp is available from Jun 72+",
                     "Chaff Bomb is available from May 72+"
@@ -1699,6 +1728,7 @@
                     "AIM-9B": 3
                 },
                 "notes": [
+                    "available from Apr 65 to Jun 71",
                     "AIM-9B is only on CAP"
                 ]
             },
@@ -1755,7 +1785,9 @@
                     "Night"
                 ],
                 "air_to_air_depletion_number": {},
-                "notes": []
+                "notes": [
+                    "available from Oct 72"
+                ]
             },
             {
                 "name": "F-100F Wild Weasel I",
@@ -1813,6 +1845,7 @@
                     "Gun": 3
                 },
                 "notes": [
+                    "available from Dec 65 to Apr 66",
                     "Shrike is available from Apr 66+"
                 ]
             },
@@ -1869,6 +1902,7 @@
                 ],
                 "air_to_air_depletion_number": {},
                 "notes": [
+                    "available until Nov 70",
                     "rwr is available from Oct 66+",
                     "jam is available from Jul 65+"
                 ]
@@ -1928,6 +1962,8 @@
                     "Gun": 3
                 },
                 "notes": [
+                    "available from Apr 65 to Dec 65",
+                    "available from Jun 66 to Jul 67",
                     "No Fluid Four",
                     "rwr is available from Nov 66+"
                 ]
@@ -1988,6 +2024,7 @@
                     "Gun": 3
                 },
                 "notes": [
+                    "available from Feb 65 to Oct 70",
                     "Bomb is 2 from Oct 66+",
                     "AIM-9B is available only by SSR",
                     "rwr is available from Oct 66+",
@@ -2050,6 +2087,7 @@
                     "Gun": 3
                 },
                 "notes": [
+                    "available from Apr 67 to Mar 68",
                     "Bomb is 2 from Oct 66+",
                     "rwr is available from Oct 66+",
                     "jam is available from Oct 66+"
@@ -2112,6 +2150,7 @@
                     "Gun": 3
                 },
                 "notes": [
+                    "available from Jun 66 to Dec 70",
                     "Standard A is available from May 68+"
                 ]
             },
@@ -2172,6 +2211,7 @@
                     "Gun": 3
                 },
                 "notes": [
+                    "available from Jan 75",
                     "RWR is C from Jan 75+",
                     "only Standard B from Jan 75+"
                 ]
@@ -2234,6 +2274,7 @@
                     "Gun": 3
                 },
                 "notes": [
+                    "available from Apr 68",
                     "Standard A is available from May 68+",
                     "Standard B is available from Jan 69+"
                 ]
@@ -2293,6 +2334,7 @@
                     "Gun": 5
                 },
                 "notes": [
+                    "available from Oct 72",
                     "No slash attacks"
                 ]
             },
@@ -2348,7 +2390,9 @@
                     "TFR"
                 ],
                 "air_to_air_depletion_number": {},
-                "notes": []
+                "notes": [
+                    "available from Oct 72"
+                ]
             },
             {
                 "name": "B-52D Stratofortress",
@@ -2405,6 +2449,7 @@
                     "Rear Gun": 0
                 },
                 "notes": [
+                    "available from Apr 72",
                     "Large",
                     "Poor SAM defense",
                     "Immune AAA/Fire Can@High"
@@ -2465,6 +2510,7 @@
                     "Rear Gun": 0
                 },
                 "notes": [
+                    "available from May 72",
                     "Large",
                     "Poor SAM defense",
                     "Immune AAA/Fire Can@High"
@@ -2522,6 +2568,7 @@
                 ],
                 "air_to_air_depletion_number": {},
                 "notes": [
+                    "available from Oct 65",
                     "Large",
                     "Poor SAM defense",
                     "No Zoom"
@@ -2579,6 +2626,7 @@
                     "Gun": 5
                 },
                 "notes": [
+                    "available from Jan 65",
                     "No slash attacks"
                 ]
             }

@@ -1,7 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "Bash(node -e \":*)"
+      "Bash(node -e \":*)",
+      "Bash(python3:*)"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\YongheeKwon\\Downloads\\konsent.github.io\\wepapps\\downtown\\solo sop\\assets\\dt\\us"
     ]
   }
 }
