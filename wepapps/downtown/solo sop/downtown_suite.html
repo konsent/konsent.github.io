@@ -5494,7 +5494,16 @@ document.addEventListener('DOMContentLoaded', () => {
       // JSON 로드 완료 후 항공기 가용 기간 필터 적용
       _acAvailCache = null;
       document.querySelectorAll('#us-lead-table tbody tr, #us-main-table tbody tr, #us-trail-table tbody tr').forEach(function(row){
-        if (!row.querySelector('.add-row')) filterAircraftOptions(row);
+        if (!row.querySelector('.add-row')) {
+          filterAircraftOptions(row);
+          // ADC 로드 전에 저장된 ordnance 복원 재시도
+          if (row.dataset.savedOrdnance) {
+            row.dataset.isLoading = 'true';
+            updateWeaponData(row);
+            updateOrdnanceCell(row);
+            delete row.dataset.isLoading;
+          }
+        }
       });
       // JSON 로드 완료 후, 이미 역할이 설정되어 있으면 동기화
       if (typeof syncDogfightFromRaid === 'function' && typeof raidRoles !== 'undefined') {
@@ -6406,6 +6415,16 @@ document.addEventListener('DOMContentLoaded', () => {
     return mission === '아이언 핸드' || task === 'SEAD';
   }
 
+  function getAircraftCount(row) {
+    var grid = row.querySelector('.status-grid');
+    if (!grid) return 1;
+    var count = 0;
+    grid.querySelectorAll('.status-item select').forEach(function(sel){
+      if (sel.style.display !== 'none') count++;
+    });
+    return count || 1;
+  }
+
   function updateOrdnanceCell(row) {
     var cell = getOrdnanceCell(row);
     if (!cell) return;
@@ -6414,9 +6433,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 이전 값 복원용
     var oldState = {};
+    var hasSavedState = false;
     // savedOrdnance가 있으면 우선 사용 (localStorage 복원)
     if (row.dataset.savedOrdnance) {
-      try { oldState = JSON.parse(row.dataset.savedOrdnance); } catch(e){}
+      try { oldState = JSON.parse(row.dataset.savedOrdnance); hasSavedState = true; } catch(e){}
+      // acData가 아직 없으면 savedOrdnance를 보존해두고 나중에 재시도
+      if (!acData || !acData.ordnance || Object.keys(acData.ordnance).length === 0) {
+        cell.innerHTML = '';
+        cell.style.color = 'var(--fade)';
+        cell.textContent = '—';
+        return; // savedOrdnance는 삭제하지 않고 유지
+      }
       delete row.dataset.savedOrdnance;
     } else {
       cell.querySelectorAll('select, input[type=checkbox], input[type=number]').forEach(function(el){
@@ -6448,11 +6475,12 @@ document.addEventListener('DOMContentLoaded', () => {
       var noteAvail = notesAvail[name];
       if (noteAvail && !isAvailableAt(noteAvail, scenDate)) return;
       var val = acData.ordnance[name];
+      var acCount = getAircraftCount(row);
       var line = document.createElement('div');
       line.style.cssText = 'display:flex;align-items:center;gap:4px';
 
       if (Array.isArray(val)) {
-        // 배열 → 드롭다운 (예: Shrike [2,4])
+        // 배열 → 드롭다운 (예: Shrike [2,4]); value는 per-aircraft 유지, 표시만 총합
         var sel = document.createElement('select');
         sel.dataset.ordName = name;
         sel.style.fontSize = '11px';
@@ -6461,10 +6489,10 @@ document.addEventListener('DOMContentLoaded', () => {
         sel.appendChild(optNone);
         val.forEach(function(v){
           var opt = document.createElement('option');
-          opt.value = String(v); opt.textContent = name + ' ×' + v;
+          opt.value = String(v); opt.textContent = name + ' ×' + (v * acCount);
           sel.appendChild(opt);
         });
-        if (isLoading && oldState[name] !== undefined) {
+        if ((isLoading || hasSavedState) && oldState[name] !== undefined) {
           sel.value = String(oldState[name]);
         } else {
           sel.value = String(val[0]); // 기본: 첫 번째 옵션
@@ -6474,25 +6502,26 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         line.appendChild(sel);
       } else {
-        // 단일 숫자 → 잔탄 카운터 (수동 조절 가능)
+        // 단일 숫자 → 잔탄 카운터 (기체 수 × per-aircraft 값)
+        var totalVal = val * acCount;
         var lbl = document.createElement('span');
         lbl.textContent = name;
         lbl.style.cssText = 'min-width:60px;flex:1';
         var numInp = document.createElement('input');
         numInp.type = 'number'; numInp.dataset.ordName = name;
-        numInp.min = '0'; numInp.max = String(val);
+        numInp.min = '0'; numInp.max = String(totalVal);
         numInp.style.cssText = 'width:36px;font-size:11px;text-align:center';
-        if (isLoading && oldState[name] !== undefined) {
+        if ((isLoading || hasSavedState) && oldState[name] !== undefined) {
           numInp.value = String(oldState[name]);
         } else {
-          numInp.value = String(val);
+          numInp.value = String(totalVal);
         }
         var maxLbl = document.createElement('span');
-        maxLbl.textContent = '/' + val;
+        maxLbl.textContent = '/' + totalVal;
         maxLbl.style.cssText = 'color:var(--fade);font-size:10px';
         numInp.addEventListener('change', function(){
           var v = parseInt(numInp.value) || 0;
-          if (v < 0) v = 0; if (v > val) v = val;
+          if (v < 0) v = 0; if (v > totalVal) v = totalVal;
           numInp.value = v;
           // Standard A/B 상호 배타
           if (name === 'Standard A' && v > 0) {
@@ -6531,7 +6560,7 @@ document.addEventListener('DOMContentLoaded', () => {
       var cbuMax = document.createElement('span');
       cbuMax.textContent = '/' + numBomb;
       cbuMax.style.cssText = 'color:var(--fade);font-size:10px';
-      if (isLoading && oldState['CBU'] !== undefined) {
+      if ((isLoading || hasSavedState) && oldState['CBU'] !== undefined) {
         cbuCb.checked = !!oldState['CBU'];
         cbuNum.value = String(oldState['CBU_count'] || numBomb);
         cbuNum.disabled = !cbuCb.checked;
@@ -7116,6 +7145,8 @@ document.addEventListener('DOMContentLoaded', () => {
       } else if (t.classList.contains('add-status')) {
         sel.style.display = 'block'; rem.style.display = 'inline-block'; add.style.display = 'none'; sel.selectedIndex = 0;
       }
+      const row = t.closest('tr');
+      if (row) updateOrdnanceCell(row);
       saveToLocalStorage();
     });
     grid.querySelectorAll('.status-item select').forEach(s => s.addEventListener('change', () => {
