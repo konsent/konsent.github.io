@@ -3641,6 +3641,17 @@
       </div>
     </div>
 
+    <div class="gci-q-blk" id="gci-q2d" style="display:none">
+      <div class="gci-q-lbl">
+        <strong>[폭격기 근접]</strong> 폭격 비행대(또는 추정 비행대)가 예상 폭격 목표에 6헥스 이내로 접근했는가?
+        <span class="gci-q-note">6헥스 이내 = 폭격 임박. SEAD보다 폭격기 저지가 우선됨</span>
+      </div>
+      <div class="gci-btn-row">
+        <button class="gci-btn-yn yes" onclick="gciAns('gci-q2d','yes')">YES — 6헥스 이내</button>
+        <button class="gci-btn-yn no"  onclick="gciAns('gci-q2d','no')">NO — 아직 먼 거리</button>
+      </div>
+    </div>
+
     <div id="gci-threat-rbox" style="display:none"></div>
 
     <div class="gci-nav-row">
@@ -10842,7 +10853,7 @@ document.addEventListener('DOMContentLoaded', () => {
 (function(){
 const GS={
   ewRoll:0,ewGrade:'',
-  hasSead:false,hasStrike:false,pilotConfirm:false,
+  hasSead:false,hasStrike:false,pilotConfirm:false,strikeClose:false,
   escortPresent:false,escortCloser:false,twoSquads:false,separated:false,
   samRange:false,samAcq:false,migClose:false,aaaRange:false,
   scScore:0,answers:{},phase:0,
@@ -11036,7 +11047,8 @@ window.gciAns=function(qid,val){
 
   if(qid==='gci-q2a'){GS.hasSead=(val==='yes');gciShow('gci-q2b');}
   else if(qid==='gci-q2b'){GS.hasStrike=(val==='yes');gciShow('gci-q2c');}
-  else if(qid==='gci-q2c'){GS.pilotConfirm=(val==='yes');gciResolveThreat();}
+  else if(qid==='gci-q2c'){GS.pilotConfirm=(val==='yes');if(GS.hasSead&&GS.hasStrike){gciShow('gci-q2d');}else{gciResolveThreat();}}
+  else if(qid==='gci-q2d'){GS.strikeClose=(val==='yes');gciResolveThreat();}
   else if(qid==='gci-q3a'){GS.escortPresent=(val==='yes');val==='yes'?gciShow('gci-q3b'):gciResolveEscort();}
   else if(qid==='gci-q3b'){GS.escortCloser=(val==='yes');val==='yes'?gciShow('gci-q3c'):gciResolveEscort();}
   else if(qid==='gci-q3c'){GS.twoSquads=(val==='yes');val==='yes'?gciResolveEscort():gciShow('gci-q3d');}
@@ -11058,10 +11070,29 @@ function gciResolveThreat(){
   if(noThreat){
     rb.innerHTML=`<div class="gci-rbox hold"><div class="gci-rbox-t">위협 편대 미탐지 — 대기</div>요격 대상 없음. MiG 대기.</div>`;
     gciSetBdg(2,'bad','위협 없음');
+  } else if(GS.hasSead&&GS.hasStrike){
+    // 둘 다 있는 경우: 폭격기 근접 여부로 우선순위 결정
+    let chips='';
+    if(GS.strikeClose){
+      chips+=`<span class="gci-chip gci-c-k">1순위: Strike (6헥스 이내)</span>`;
+      chips+=`<span class="gci-chip gci-c-s">2순위: SEAD</span>`;
+    } else {
+      chips+=`<span class="gci-chip gci-c-s">1순위: SEAD</span>`;
+      chips+=`<span class="gci-chip gci-c-k">2순위: Strike (원거리)</span>`;
+    }
+    if(GS.pilotConfirm) chips+=`<span class="gci-chip gci-c-e">파일럿 확인</span>`;
+    let detail='';
+    if(GS.strikeClose){
+      detail=`폭격 비행대가 목표 6헥스 이내 — 폭격 임박. 폭격기 저지 최우선.<br>SEAD기는 가능하면 별도 편대로 대응, 여유 없으면 SAM/AAA에 맡김.`;
+    } else {
+      detail=`폭격 비행대 아직 원거리 — SEAD기 최대한 요격하여 방공망 보호.<br>폭격기가 6헥스 이내 접근 시 우선순위 전환.`;
+    }
+    rb.innerHTML=`<div class="gci-rbox go"><div class="gci-rbox-t">요격 대상 선정</div><div class="gci-chips" style="margin-top:4px">${chips}</div><div style="margin-top:8px;font-size:12px;line-height:1.6;color:var(--cream)">${detail}</div></div>`;
+    gciSetBdg(2,'ok','선정 완료');
   } else {
     let chips='';
-    if(GS.hasSead) chips+=`<span class="gci-chip gci-c-s">1순위: SEAD</span>`;
-    if(GS.hasStrike) chips+=`<span class="gci-chip gci-c-k">2순위: Strike</span>`;
+    if(GS.hasSead) chips+=`<span class="gci-chip gci-c-s">요격 대상: SEAD</span>`;
+    if(GS.hasStrike) chips+=`<span class="gci-chip gci-c-k">요격 대상: Strike</span>`;
     if(GS.pilotConfirm) chips+=`<span class="gci-chip gci-c-e">파일럿 확인</span>`;
     rb.innerHTML=`<div class="gci-rbox go"><div class="gci-rbox-t">요격 대상 선정</div><div class="gci-chips" style="margin-top:4px">${chips}</div></div>`;
     gciSetBdg(2,'ok','선정 완료');
@@ -11136,33 +11167,74 @@ function gciRecalcSc(){
 function gciBuildFinal(){
   const fc=document.getElementById('gci-final-card'); fc.classList.add('on');
   const fb=document.getElementById('gci-final-body');
-  const tgt=GS.hasSead?'SEAD 편대':'Strike/Bombing 편대';
   const sc=GS.scScore;
-  const dec=sc>=3?'출격 명령':sc>=1?'MiG-21 단독 선제':'이륙 후 공중 대기';
-  let escL='';
-  if(!GS.escortPresent) escL='없음 — 직접 공격';
-  else if(!GS.escortCloser) escL='MiG 위치 유리';
-  else if(GS.twoSquads) escL='1편대 견제, 1편대 공격';
-  else if(GS.separated) escL='분리 확인 — 직접 공격';
-  else escL='우회 / 대기';
-  let defL='';
-  if(GS.samRange&&GS.samAcq&&GS.migClose) defL='5헥스 충돌 — MiG 선제 후 SAM 협조';
-  else if(GS.samRange&&GS.samAcq) defL='SAM 발사 후 MiG 추가 공격';
-  else if(GS.samRange) defL='SAM 미획득 — MiG 선제';
-  else if(GS.aaaRange) defL='AAA 엄호';
-  else defL='방공망 없음';
+  const dec=sc>=3?'출격 명령':sc>=1?'조건부 출격':'이륙 후 공중 대기';
+  const bothThreats=GS.hasSead&&GS.hasStrike;
+
+  // 요격 대상 텍스트
+  let tgtChips='', tgtDetail='';
+  if(bothThreats){
+    if(GS.strikeClose){
+      tgtChips=`<span class="gci-chip gci-c-k">1순위: Strike (6헥스 이내)</span><span class="gci-chip gci-c-s">2순위: SEAD</span>`;
+      tgtDetail='폭격 비행대 목표 6헥스 이내 접근 — 폭격기 저지 최우선. SEAD기는 여유 편대로 대응하거나 SAM/AAA에 위임.';
+    } else {
+      tgtChips=`<span class="gci-chip gci-c-s">1순위: SEAD</span><span class="gci-chip gci-c-k">2순위: Strike (원거리)</span>`;
+      tgtDetail='폭격 비행대 아직 원거리 — SEAD기 최대한 요격하여 방공망 보호. 폭격기가 6헥스 이내 접근 시 우선순위 전환.';
+    }
+  } else if(GS.hasSead){
+    tgtChips=`<span class="gci-chip gci-c-s">요격 대상: SEAD</span>`;
+    tgtDetail='SEAD 편대 요격. 방공망 보호가 핵심.';
+  } else if(GS.hasStrike){
+    tgtChips=`<span class="gci-chip gci-c-k">요격 대상: Strike</span>`;
+    tgtDetail='폭격 편대 요격. 폭탄 투하 전 저지가 목표.';
+  } else {
+    tgtChips=`<span class="gci-chip gci-c-h">위협 미확인</span>`;
+    tgtDetail='위협 편대 미탐지.';
+  }
+  if(GS.pilotConfirm) tgtChips+=`<span class="gci-chip gci-c-e">파일럿 확인</span>`;
+
+  // Escort 상세
+  let escDetail='';
+  if(!GS.escortPresent) escDetail='Escort 없음 — 요격 대상에 직접 공격 가능.';
+  else if(!GS.escortCloser) escDetail='Escort 있으나 MiG 위치가 유리 — Escort에 선점당하기 전에 요격 대상 직접 공격.';
+  else if(GS.twoSquads) escDetail='Escort가 차단 위치 + MiG 2편대 가용 — 1편대는 Escort 견제(기동만, 교전 최소화), 1편대는 요격 대상 공격.';
+  else if(GS.separated) escDetail='Escort와 요격 대상 분리 확인 — Escort 무시하고 요격 대상에 직접 접근.';
+  else escDetail='Escort 미처리 + 밀착 — 정면 돌파 불리. 접근 각도 조정하거나 다음 턴 재시도.';
+
+  // 방공망 상세
+  let defDetail='';
+  if(GS.samRange&&GS.samAcq&&GS.migClose) defDetail='SAM 표적 획득 완료, 그러나 MiG가 5헥스 이내 — SAM 사격 불가. MiG 공격 후 5헥스 밖 이탈 → SAM 사격, 또는 MiG와 SAM이 다른 방향에서 협공.';
+  else if(GS.samRange&&GS.samAcq) defDetail='SAM 표적 획득 완료, MiG 5헥스 밖 — SAM 발사 우선. 요격 대상이 회피 기동하는 동안 MiG 추가 공격.';
+  else if(GS.samRange) defDetail='SAM 사정권 내이나 미획득 — MiG가 선제 공격. SAM 획득 시 후속 협조.';
+  else if(GS.aaaRange) defDetail='AAA 엄호 범위 내 — MiG 공격 허가. AAA가 추가 화력 지원.';
+  else defDetail='SAM·AAA 엄호 없음 — 불리한 환경. 출격 점수에 반영됨.';
+
+  // 출격 결정 상세
+  let decDetail='';
+  if(sc>=3) decDetail=`출격 점수 ${'+'+sc} — 즉시 요격 대상 방향 전 편대 투입. 기종은 교전 시 주사위 판정.`;
+  else if(sc>=1) decDetail=`출격 점수 ${'+'+sc} — MiG-21 계열 단독 선제만 허가. 유리한 위치에서 일격 이탈.`;
+  else decDetail=`출격 점수 ${sc} — 조건 불리. 이륙 후 비행장 근처 선회 대기. 상황 호전 시 투입.`;
+
+  // 공격 후 행동
+  const a=GS.answers;
+  let postDetail='';
+  if(a['gci-q6a']==='yes') postDetail='미군 전투기 추적 중 — 즉시 이탈. SAM/AAA 방향으로 유인하여 방공망 화력 유도.';
+  else if(a['gci-q6b']==='yes') postDetail='연료 부족 — 귀환 명령.';
+  else if(a['gci-q6c']==='yes') postDetail='요격 대상 미폭격 — 재접근 허가. 2차 공격 시도.';
+  else postDetail='폭격 완료 — 임무 종료. 귀환.';
+
   fb.innerHTML=`
-    <div class="gci-chips" style="margin-bottom:8px">
-      <span class="gci-chip ${GS.hasSead?'gci-c-s':'gci-c-k'}">요격 대상: ${tgt}</span>
+    <div class="gci-chips" style="margin-bottom:10px">
+      ${tgtChips}
       <span class="gci-chip ${sc>=3?'gci-c-s':sc>=1?'gci-c-k':'gci-c-h'}">${dec}</span>
-      <span class="gci-chip gci-c-h">EW ${GS.ewGrade}</span>
+      <span class="gci-chip gci-c-h">EW ${GS.ewGrade} (${GS.ewRoll})</span>
     </div>
-    <ul>
-      <li><strong>요격 대상:</strong> ${tgt}${GS.pilotConfirm?' (파일럿 확인)':' (추정)'}</li>
-      <li><strong>Escort:</strong> ${escL}</li>
-      <li><strong>방공망:</strong> ${defL}</li>
-      <li><strong>출격 점수:</strong> ${sc>=0?'+'+sc:sc} → ${dec}</li>
-      <li><strong>MiG 기종:</strong> 교전 시 주사위 판정</li>
+    <ul style="margin-bottom:6px">
+      <li style="margin-bottom:6px"><strong>요격 대상:</strong> ${tgtDetail}</li>
+      <li style="margin-bottom:6px"><strong>Escort:</strong> ${escDetail}</li>
+      <li style="margin-bottom:6px"><strong>방공망 협조:</strong> ${defDetail}</li>
+      <li style="margin-bottom:6px"><strong>출격 결정:</strong> ${decDetail}</li>
+      <li><strong>공격 후:</strong> ${postDetail}</li>
     </ul>`;
 }
 
@@ -11200,7 +11272,7 @@ function gciSetBdg(p,t,tx){const b=document.getElementById(`gci-b${p}`);if(!b)re
 
 /* 전체 초기화 (Solo Bot 초기화에서 호출) — EW 포함 완전 리셋 */
 window.gciResetAll=function(){
-  Object.assign(GS,{ewRoll:0,ewGrade:'',hasSead:false,hasStrike:false,pilotConfirm:false,
+  Object.assign(GS,{ewRoll:0,ewGrade:'',hasSead:false,hasStrike:false,pilotConfirm:false,strikeClose:false,
     escortPresent:false,escortCloser:false,twoSquads:false,separated:false,
     samRange:false,samAcq:false,migClose:false,aaaRange:false,scScore:0,answers:{},phase:0});
   gciR1State={sead:null,strike:null};
@@ -11218,7 +11290,7 @@ window.gciResetAll=function(){
 /* GCI 처음부터 — EW 결과는 유지, P1부터 재시작 */
 window.gciRestartFlow=function(){
   const savedEwRoll=GS.ewRoll, savedEwGrade=GS.ewGrade;
-  Object.assign(GS,{hasSead:false,hasStrike:false,pilotConfirm:false,
+  Object.assign(GS,{hasSead:false,hasStrike:false,pilotConfirm:false,strikeClose:false,
     escortPresent:false,escortCloser:false,twoSquads:false,separated:false,
     samRange:false,samAcq:false,migClose:false,aaaRange:false,scScore:0,answers:{},phase:1});
   GS.ewRoll=savedEwRoll; GS.ewGrade=savedEwGrade;
@@ -11237,7 +11309,7 @@ function gciResetUI(){
   document.getElementById('gci-sc-val').textContent='0';
   document.getElementById('gci-sc-rbox').innerHTML='';
   ['gci-threat-rbox','gci-escort-rbox','gci-airdef-rbox','gci-post-rbox'].forEach(id=>{const e=document.getElementById(id);if(e){e.style.display='none';e.innerHTML='';}});
-  ['gci-q2b','gci-q2c','gci-q3b','gci-q3c','gci-q3d','gci-q4b','gci-q4c','gci-q4d','gci-q6b','gci-q6c'].forEach(id=>{const e=document.getElementById(id);if(e) e.style.display='none';});
+  ['gci-q2b','gci-q2c','gci-q2d','gci-q3b','gci-q3c','gci-q3d','gci-q4b','gci-q4c','gci-q4d','gci-q6b','gci-q6c'].forEach(id=>{const e=document.getElementById(id);if(e) e.style.display='none';});
   for(let i=1;i<=6;i++) gciSetBdg(i,'','대기');
   document.getElementById('gci-next2').disabled=true;
   document.getElementById('gci-next3').disabled=true;
