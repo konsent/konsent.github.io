@@ -46,134 +46,6 @@
   .main-page { display: none; }
   .main-page.active { display: block; }
 
-  /* --- SOP (Sequence of Play) Tab Styles --- */
-  #sop-page { max-width: 900px; margin: 0 auto; }
-  .sop-phase {
-    background: rgba(30,28,15,0.85);
-    border: 1px solid var(--olive);
-    border-radius: 6px;
-    margin-bottom: 12px;
-    overflow: hidden;
-  }
-  .sop-phase-head {
-    display: flex; align-items: center; gap: 12px;
-    padding: 12px 16px;
-    cursor: pointer;
-    user-select: none;
-    transition: background 0.15s;
-  }
-  .sop-phase-head:hover { background: rgba(74,74,42,0.25); }
-  .sop-phase-num {
-    min-width: 36px; height: 36px;
-    display: flex; align-items: center; justify-content: center;
-    background: var(--olive);
-    color: var(--tan);
-    font-family: 'Oswald', sans-serif;
-    font-size: 16px; font-weight: 700;
-    border-radius: 4px;
-    letter-spacing: 0.05em;
-  }
-  .sop-phase-title {
-    font-family: 'Oswald', sans-serif;
-    font-size: 17px; font-weight: 500;
-    letter-spacing: 0.1em;
-    color: var(--cream);
-    flex: 1;
-  }
-  .sop-phase-arrow {
-    color: var(--fade);
-    font-size: 14px;
-    transition: transform 0.2s;
-  }
-  .sop-phase.open .sop-phase-arrow { transform: rotate(90deg); }
-  .sop-phase-body {
-    display: none;
-    padding: 0 16px 14px 64px;
-    color: var(--fade2);
-    font-size: 14px;
-    line-height: 1.7;
-  }
-  .sop-phase.open .sop-phase-body { display: block; }
-  .sop-phase-body ul { padding-left: 18px; margin: 6px 0; }
-  .sop-phase-body li { margin-bottom: 4px; }
-  .sop-phase-body h4 {
-    color: var(--tan); font-size: 14px; margin: 10px 0 4px;
-    font-family: 'Oswald', sans-serif; letter-spacing: 0.08em;
-  }
-  .sop-phase-body .note-box {
-    background: rgba(74,74,42,0.2);
-    border-left: 3px solid var(--olive);
-    padding: 8px 12px;
-    margin: 8px 0;
-    font-size: 13px;
-    color: var(--fade);
-  }
-  .sop-phase-body .table-ref {
-    color: var(--tan);
-    font-weight: 600;
-    font-size: 13px;
-  }
-
-  /* Random Event Dice */
-  .sop-dice-section {
-    background: rgba(30,28,15,0.9);
-    border: 2px solid var(--red);
-    border-radius: 8px;
-    padding: 20px;
-    margin-bottom: 16px;
-    text-align: center;
-  }
-  .sop-dice-section h3 {
-    font-family: 'Oswald', sans-serif;
-    color: var(--red-bright);
-    font-size: 18px;
-    letter-spacing: 0.15em;
-    margin-bottom: 14px;
-  }
-  .sop-dice-btn {
-    padding: 12px 36px;
-    background: var(--red);
-    border: 1px solid var(--red-bright);
-    color: var(--cream);
-    font-family: 'Oswald', sans-serif;
-    font-size: 18px;
-    font-weight: 700;
-    letter-spacing: 0.15em;
-    cursor: pointer;
-    border-radius: 6px;
-    transition: all 0.2s;
-  }
-  .sop-dice-btn:hover { background: var(--red-bright); transform: scale(1.04); }
-  .sop-dice-btn:active { transform: scale(0.97); }
-  .sop-dice-result {
-    margin-top: 16px;
-    display: none;
-    text-align: left;
-    background: rgba(74,74,42,0.15);
-    border: 1px solid var(--olive);
-    border-radius: 6px;
-    padding: 16px;
-  }
-  .sop-dice-result.show { display: block; }
-  .sop-dice-event-name {
-    font-family: 'Oswald', sans-serif;
-    font-size: 20px;
-    color: var(--tan);
-    letter-spacing: 0.1em;
-    margin: 6px 0;
-  }
-  .sop-dice-event-desc {
-    color: var(--fade2);
-    font-size: 14px;
-    line-height: 1.7;
-  }
-  .sop-dice-note {
-    margin-top: 10px;
-    font-size: 12px;
-    color: var(--fade);
-    font-style: italic;
-  }
-
   /* --- Merged Styles --- */
   :root {
     --olive: #4a4a2a;
@@ -442,29 +314,20 @@
   #adc-page td select option { background: #1c1c10; color: var(--cream); }
   #adc-page td select.fit-width { width: auto; min-width: 70px; }
 
-  #us-lead-table  td:nth-child(n+7):nth-child(-n+9) input,
-  #us-main-table  td:nth-child(n+7):nth-child(-n+9) input,
-  #us-trail-table td:nth-child(n+7):nth-child(-n+9) input,
-  #drv-table      td:nth-child(n+5):nth-child(-n+7) input { width: 38px; }
-  .bomb-fuel-cell input, .bomb-fuel-cell select { width: 28px !important; font-size: 11px; padding: 1px 2px; box-sizing: content-box; }
+  #us-lead-table  td:nth-child(n+8):nth-child(-n+12) input,
+  #us-main-table  td:nth-child(n+8):nth-child(-n+12) input,
+  #us-trail-table td:nth-child(n+8):nth-child(-n+12) input,
+  #drv-table      td:nth-child(n+6):nth-child(-n+10) input { width: 38px; }
 
   #us-lead-table  td:nth-child(3) input,
   #us-main-table  td:nth-child(3) input,
   #us-trail-table td:nth-child(3) input { width: 70px; }
 
-  #us-lead-table  td:nth-child(12) input,
-  #us-main-table  td:nth-child(12) input,
-  #us-trail-table td:nth-child(12) input,
+  #us-lead-table  td:nth-child(14) input,
+  #us-main-table  td:nth-child(14) input,
+  #us-trail-table td:nth-child(14) input,
   #drv-table      td:nth-child(1)  input,
-  #drv-table      td:nth-child(9) input { width: 70px; }
-
-  .stacked-cell { display:flex; flex-direction:column; gap:1px; align-items:center; }
-  .bomb-fuel-cell { text-align:center; padding: 2px 3px !important; }
-  .bomb-wrap, .fuel-wrap { display:flex; align-items:center; gap:3px; justify-content:center; font-size:10px; }
-  .bomb-wrap::before { content:'폭탄'; font-size:9px; color:var(--fade); white-space:nowrap; }
-  .fuel-wrap::before { content:'연료'; font-size:9px; color:var(--fade); white-space:nowrap; }
-  .skill-av-cell { padding: 10px 3px !important; }
-  .skill-av-cell select { margin-bottom:2px; }
+  #drv-table      td:nth-child(11) input { width: 70px; }
 
   .status-grid {
     display: grid;
@@ -1644,7 +1507,6 @@
 <div class="main-tab-bar">
   <button class="main-tab-btn active" data-target="oob-page">Order of Battle</button>
   <button class="main-tab-btn" data-target="adc-page">Raid</button>
-  <button class="main-tab-btn" data-target="sop-page">Sequence of Play</button>
   <button class="main-tab-btn" data-target="aid-page">Player Aid</button>
   <button class="main-tab-btn" data-target="bot-page">Solo Bot</button>
 </div>
@@ -1864,16 +1726,16 @@
       <div class="table-wrap">
         <table id="us-lead-table">
           <thead>
-            <tr><th colspan="16">선발 공격대 (Pre-Raid)</th></tr>
+            <tr><th colspan="18">선발 공격대 (Pre-Raid)</th></tr>
             <tr>
               <th>임무</th><th>태스크</th><th>콜싸인</th><th>항공기 유형</th>
-              <th>수준/AV</th><th>상태</th>
-              <th>기총</th><th>IRM</th><th>RHM</th><th>폭탄/연료</th><th>Ordnance</th>
+              <th>수준</th><th>공격성</th><th>상태</th>
+              <th>기총</th><th>IRM</th><th>RHM</th><th>폭탄</th><th>연료</th><th>Ordnance</th>
               <th>비고</th><th>역할</th><th></th><th>ADC</th><th>삭제</th>
             </tr>
           </thead>
           <tbody>
-            <tr><td colspan="16" style="text-align:center; padding:8px 0;"><button class="add-row" data-target="us-lead-table">+ 비행대 추가</button></td></tr>
+            <tr><td colspan="18" style="text-align:center; padding:8px 0;"><button class="add-row" data-target="us-lead-table">+ 비행대 추가</button></td></tr>
           </tbody>
         </table>
       </div>
@@ -1885,16 +1747,16 @@
       <div class="table-wrap">
         <table id="us-main-table">
           <thead>
-            <tr><th colspan="16">주 공격대 (MAIN)</th></tr>
+            <tr><th colspan="18">주 공격대 (MAIN)</th></tr>
             <tr>
               <th>임무</th><th>태스크</th><th>콜싸인</th><th>항공기 유형</th>
-              <th>수준/AV</th><th>상태</th>
-              <th>기총</th><th>IRM</th><th>RHM</th><th>폭탄/연료</th><th>Ordnance</th>
+              <th>수준</th><th>공격성</th><th>상태</th>
+              <th>기총</th><th>IRM</th><th>RHM</th><th>폭탄</th><th>연료</th><th>Ordnance</th>
               <th>비고</th><th>역할</th><th></th><th>ADC</th><th>삭제</th>
             </tr>
           </thead>
           <tbody>
-            <tr><td colspan="16" style="text-align:center; padding:8px 0;"><button class="add-row" data-target="us-main-table">+ 비행대 추가</button></td></tr>
+            <tr><td colspan="18" style="text-align:center; padding:8px 0;"><button class="add-row" data-target="us-main-table">+ 비행대 추가</button></td></tr>
           </tbody>
         </table>
       </div>
@@ -1906,16 +1768,16 @@
       <div class="table-wrap">
         <table id="us-trail-table">
           <thead>
-            <tr><th colspan="16">후발 공격대 (TRAIL)</th></tr>
+            <tr><th colspan="18">후발 공격대 (TRAIL)</th></tr>
             <tr>
               <th>임무</th><th>태스크</th><th>콜싸인</th><th>항공기 유형</th>
-              <th>수준/AV</th><th>상태</th>
-              <th>기총</th><th>IRM</th><th>RHM</th><th>폭탄/연료</th><th>Ordnance</th>
+              <th>수준</th><th>공격성</th><th>상태</th>
+              <th>기총</th><th>IRM</th><th>RHM</th><th>폭탄</th><th>연료</th><th>Ordnance</th>
               <th>비고</th><th>역할</th><th></th><th>ADC</th><th>삭제</th>
             </tr>
           </thead>
           <tbody>
-            <tr><td colspan="16" style="text-align:center; padding:8px 0;"><button class="add-row" data-target="us-trail-table">+ 비행대 추가</button></td></tr>
+            <tr><td colspan="18" style="text-align:center; padding:8px 0;"><button class="add-row" data-target="us-trail-table">+ 비행대 추가</button></td></tr>
           </tbody>
         </table>
       </div>
@@ -1929,16 +1791,15 @@
       <div class="table-wrap">
         <table id="drv-table">
           <thead>
-            <tr><th colspan="13">DRV 요격기 (INTERCEPTORS)</th></tr>
+            <tr><th colspan="15">DRV 요격기 (INTERCEPTORS)</th></tr>
             <tr>
-              <th>콜싸인</th><th>항공기 유형</th><th>수준/AV</th><th>상태</th>
-              <th>기총</th><th>IRM</th><th>RHM</th><th>폭탄/연료</th>
+              <th>콜싸인</th><th>항공기 유형</th><th>수준</th><th>공격성</th><th>상태</th>
+              <th>기총</th><th>IRM</th><th>RHM</th><th>폭탄</th><th>연료</th>
               <th>비고</th><th>역할</th><th></th><th>ADC</th><th>삭제</th>
             </tr>
           </thead>
           <tbody>
             <tr><td colspan="13" style="text-align:center; padding:8px 0;"><button class="add-row" data-target="drv-table">+ 편대 추가</button></td></tr>
-
           </tbody>
         </table>
       </div>
@@ -1966,215 +1827,6 @@
     <!-- Images will be populated here -->
   </div>
 </div>
-
-<div id="sop-page" class="main-page">
-  <!-- Sequence of Play -->
-
-  <!-- 무작위 이벤트 주사위 -->
-  <div class="sop-dice-section">
-    <button class="sop-dice-btn" onclick="rollRandomEvent()">RANDOM EVENT</button>
-    <div id="sop-dice-result" class="sop-dice-result">
-      <div class="sop-dice-event-name" id="sop-event-name"></div>
-      <div class="sop-dice-event-desc" id="sop-event-desc"></div>
-      <div class="sop-dice-note" id="sop-event-note"></div>
-    </div>
-  </div>
-
-  <!-- 5.1 무작위 사건 -->
-  <div class="sop-phase open">
-    <div class="sop-phase-head" onclick="this.parentElement.classList.toggle('open')">
-      <div class="sop-phase-num">5.1</div>
-      <div class="sop-phase-title">무작위 사건</div>
-      <div class="sop-phase-arrow">&#9654;</div>
-    </div>
-    <div class="sop-phase-body">
-      <p>아래에 명시되지 않는 한 각 무작위 사건을 정상적으로 실행합니다: <span class="table-ref">무작위 이벤트</span></p>
-      <ul>
-        <li><strong>신속 대응 경보:</strong> 활성화된 MiG 비행대 수가 최대 실제 비행대와 같거나 지도 상 일반 비행대가 최대 일반 비행대와 같지 않는 한(<span class="table-ref">DRV 준비 표</span> 참조), 무작위 개방 비행장에 무작위 방향으로 일반 DRV 비행대를 배치합니다.</li>
-        <li><strong>AAA 매복:</strong> MiG처럼 <span class="table-ref">표적 선택 표</span>를 사용하여 비행대를 선택합니다.</li>
-        <li><strong>날씨 악화:</strong> 날씨 카운터를 무작위로 선택합니다.</li>
-        <li><strong>DRV 관제사의 신경 쇠약:</strong> 먼저 무질서 상태인 실제 DRV 비행대 중 무작위로 하나를; 그 다음 일반 DRV 비행대 중 무작위로 하나를 선택합니다.</li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- 5.2 재밍 페이즈 -->
-  <div class="sop-phase">
-    <div class="sop-phase-head" onclick="this.parentElement.classList.toggle('open')">
-      <div class="sop-phase-num">5.2</div>
-      <div class="sop-phase-title">재밍 페이즈</div>
-      <div class="sop-phase-arrow">&#9654;</div>
-    </div>
-    <div class="sop-phase-body">
-      <p>변경사항 없음.</p>
-    </div>
-  </div>
-
-  <!-- 5.3 탐지 페이즈 -->
-  <div class="sop-phase">
-    <div class="sop-phase-head" onclick="this.parentElement.classList.toggle('open')">
-      <div class="sop-phase-num">5.3</div>
-      <div class="sop-phase-title">탐지 페이즈</div>
-      <div class="sop-phase-arrow">&#9654;</div>
-    </div>
-    <div class="sop-phase-body">
-      <p>변경사항 없음.</p>
-      <img src="detection.png" alt="탐지 테이블" style="width: 50%; height: auto;">
-    </div>
-  </div>
-
-  <!-- 5.4 이동 페이즈 -->
-  <div class="sop-phase">
-    <div class="sop-phase-head" onclick="this.parentElement.classList.toggle('open')">
-      <div class="sop-phase-num">5.4</div>
-      <div class="sop-phase-title">이동 페이즈</div>
-      <div class="sop-phase-arrow">&#9654;</div>
-    </div>
-    <div class="sop-phase-body">
-      <h4>방어 원형진 (Defensive Wheel)</h4>
-      <div class="note-box"><strong>참고:</strong> 방어 원형진은 1967년 4월 이후 시나리오에서만 사용 가능합니다. MiG-17 2대 이상으로 구성된 비행대(또는 더미 비행대)만 진입할 수 있습니다.</div>
-      <ul>
-        <li><strong>자동 진입:</strong> CAP 태스크를 받은 3개 이상의 미군 비행대의 5헥스 내에 있는 무질서 상태가 아닌 MiG-17 비행대(2대 이상)는 방어 원형진에 진입합니다.</li>
-        <li><strong>강제 해제:</strong> 3개 이상의 미군 CAP 비행대의 5헥스 내에 있지 않거나, 무질서 상태가 되거나, 기체가 1대로 줄면 방어 원형진을 떠납니다. 해제 시 산개(Scatter) 판정을 적용합니다.</li>
-        <li><strong>전투 규칙:</strong> 원형진 상태에서는 MP를 소모하지 않으며, 모든 방향이 전방 호로 취급됩니다. 기습 불가, 불리함 페널티 없음. 기동 표에서 항상 1대 컬럼을 사용합니다. 전투 후 산개 판정 및 기동 마커가 적용되지 않습니다. 원형진 내 최대 8대까지 합류 가능합니다.</li>
-      </ul>
-
-      <h4>이동 순서</h4>
-      <ul>
-        <li>미군 비행대의 5헥스 내에 무질서 상태가 아닌 DRV 비행대가 있으면, DRV가 먼저 이동하기로 선택합니다. 그렇지 않으면, 플레이어가 먼저 이동합니다.</li>
-      </ul>
-
-      <h4>일반 DRV 비행대 활성화</h4>
-      <ul>
-        <li><span class="table-ref">비행대 활성화 표</span>를 사용하여 일반 DRV 비행대 활성화를 확인합니다.</li>
-        <li>일반 비행대가 활성화될 때:
-          <ul>
-            <li><span class="table-ref">DRV 비행대 선택 표</span>를 사용하여 항공기 유형과 비행대 내 항공기 수를 결정합니다.</li>
-            <li>일반 비행대 마커를 적절한 DRV 비행대 마커로 교체합니다.</li>
-            <li>DRV 비행대 로그 시트에 비행대 정보를 추가합니다. 모든 DRV 조종사는 베테랑입니다.</li>
-            <li>굴림 결과가 검은 상자에 흰 텍스트를 보여주거나 활성화된 DRV 비행대의 총 수가 <span class="table-ref">DRV 준비 표</span>에 표시된 최대 실제 비행대와 같아지면, 이것이 활성화될 마지막 일반 DRV 비행대입니다. 맵에서 남은 모든 일반 DRV 비행대를 제거하고(더미로 공개됨) 더 이상 배치하지 않습니다.</li>
-          </ul>
-        </li>
-      </ul>
-
-      <h4>DRV 비행대 이동</h4>
-      <ul>
-        <li><span class="table-ref">이동 페이즈</span>를 사용하여 DRV 비행대 이동 순서를 결정합니다.</li>
-        <li>활성 비행대가 강제로 취해야 할 행동이 있는지 <span class="table-ref">비행대 행동 — 주요 행동</span>을 확인합니다.</li>
-        <li><span class="table-ref">비행대 행동 — 전투 행동</span>을 사용하여 활성 비행대가 취할 행동을 결정합니다. 다음 상황 보정을 적용합니다:
-          <ul>
-            <li>DRV 비행대가 탐지되지 않음: <strong>-2</strong></li>
-            <li>5헥스 내 US 비행대 3개 이상 뭉쳐있음(폭격 비행대로 추정): <strong>-1</strong></li>
-            <li>US 비행대가 목표를 향해 이동 중(미폭격): <strong>-1</strong></li>
-            <li>표적 US 비행대를 획득한 활성 SAM 있음: <strong>+2</strong> (SAM이 처리하도록 비켜야 함)</li>
-            <li>US 비행대가 폭격 완료, 이탈 중: <strong>+2</strong></li>
-            <li>DRV 비행대에 손상 항공기 있음: <strong>+2</strong></li>
-            <li>US CAP 비행대만 있음(뭉쳐있지 않음): <strong>+1</strong></li>
-          </ul>
-        </li>
-        <li><span class="table-ref">비행대 행동 — 교전 행동</span> 또는 <span class="table-ref">비행대 행동 — 비전투 행동</span> 중 하나를 사용하여 활성 비행대가 어떻게 이동할지 결정합니다.</li>
-        <li><strong>교전 후 이탈 (Hit-and-Clear):</strong> 교전 후 사격이 완료되면, 남은 MP를 사용하여 표적 US 비행대로부터 5헥스 밖(1972년 이후: 3헥스 밖)으로 이탈합니다.</li>
-        <li>모든 DRV 비행대를 이동시킬 때 <span class="table-ref">일반 비행대 행동</span>을 지침으로 사용합니다. 직전 턴에 교전 후 이탈한 DRV 비행대는, 비전투 행동 시 마지막으로 교전한 US 비행대 방향으로 선회하여 재접근합니다.</li>
-      </ul>
-
-      <h4>이동하는 미군 비행대에 대한 활성 SAM 발사</h4>
-      <ul>
-        <li>활성 SAM이 이동하는 미군 비행대를 발사하는지와 몇 개의 미사일을 발사하는지 확인하려면 <span class="table-ref">SAM 행동 표</span>를 참조하세요. SAM 탄약 추적은 6.3을 참조하세요.</li>
-      </ul>
-
-      <h4>ARM 발사</h4>
-      <ul>
-        <li>활성 SAM은 ARM 발사에 의해 목표가 되면 레이더를 켜진 상태로 유지하려고 시도합니다. 목표가 된 SAM이 ARM 사기 체크[18.74]에 실패하면, SAM 위에 레이더 종료 마커를 놓되 활성 상태를 나타내기 위해 레이더 켜짐 면을 위로 두어야 합니다.</li>
-      </ul>
-
-      <h4>AAA 활성화</h4>
-      <ul>
-        <li>미군 비행대가 각 비활성 AAA 마커의 1헥스 내로 이동할 때마다 AAA 활성화 체크를 합니다. <span class="table-ref">AAA &amp; 파이어 캔 활성화 표</span>를 참조하세요.</li>
-      </ul>
-
-      <h4>파이어 캔 활성화</h4>
-      <ul>
-        <li>미군 비행대가 이미 파이어 캔이 없고 파이어 캔에 인접하지 않은 활성 AAA 마커나 인쇄된 AAA 집중구역의 2헥스 내로 이동할 때마다 파이어 캔 활성화 체크를 합니다. <span class="table-ref">AAA &amp; 파이어 캔 활성화 표</span>를 참조하세요.</li>
-      </ul>
-
-      <h4>이동하는 미군 비행대에 대한 AAA 발사</h4>
-      <ul>
-        <li>이동하는 미군 비행대에 대한 AAA와 파이어 캔 발사는 <span class="table-ref">AAA/파이어 캔 행동 표</span>를 참조하세요.</li>
-      </ul>
-      <div class="note-box"><strong>참고:</strong> AAA와 파이어 캔은 DRV 비행대를 절대 공격하지 않습니다.</div>
-
-      <h4>[선택사항] 비활성 SAM 발사 후 락온 발사</h4>
-      <ul>
-        <li>탐지된 미군 비행대가 비활성 SAM의 5헥스 내로 이동할 때마다 확인합니다. <span class="table-ref">발사 후 락온 표</span>를 참조하세요.</li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- 5.5 연료 페이즈 -->
-  <div class="sop-phase">
-    <div class="sop-phase-head" onclick="this.parentElement.classList.toggle('open')">
-      <div class="sop-phase-num">5.5</div>
-      <div class="sop-phase-title">연료 페이즈</div>
-      <div class="sop-phase-arrow">&#9654;</div>
-    </div>
-    <div class="sop-phase-body">
-      <p>변경사항 없음.</p>
-    </div>
-  </div>
-
-  <!-- 5.6 SAM 위치 확인 페이즈 -->
-  <div class="sop-phase">
-    <div class="sop-phase-head" onclick="this.parentElement.classList.toggle('open')">
-      <div class="sop-phase-num">5.6</div>
-      <div class="sop-phase-title">SAM 위치 확인 페이즈</div>
-      <div class="sop-phase-arrow">&#9654;</div>
-    </div>
-    <div class="sop-phase-body">
-      <p>미군 비행대가 비활성 SAM을 성공적으로 위치 확인하면, 진행하기 전에 SAM 활성화 체크를 실시합니다. <span class="table-ref">SAM 활성화 표</span>를 참조하세요.</p>
-    </div>
-  </div>
-
-  <!-- 5.7 추적 페이즈 -->
-  <div class="sop-phase">
-    <div class="sop-phase-head" onclick="this.parentElement.classList.toggle('open')">
-      <div class="sop-phase-num">5.7</div>
-      <div class="sop-phase-title">추적 페이즈</div>
-      <div class="sop-phase-arrow">&#9654;</div>
-    </div>
-    <div class="sop-phase-body">
-      <p>변경사항 없음.</p>
-      <img src="track.png" alt="추적 테이블" style="width: 50%; height: auto;">
-    </div>
-  </div>
-
-  <!-- 5.8 SAM 표적 획득 페이즈 -->
-  <div class="sop-phase">
-    <div class="sop-phase-head" onclick="this.parentElement.classList.toggle('open')">
-      <div class="sop-phase-num">5.8</div>
-      <div class="sop-phase-title">SAM 표적 획득 페이즈</div>
-      <div class="sop-phase-arrow">&#9654;</div>
-    </div>
-    <div class="sop-phase-body">
-      <p>미군 비행대의 12헥스 내에 있는 각 비활성 SAM에 대해 활성화를 확인합니다. <span class="table-ref">SAM 활성화 표</span>를 참조하세요. 그 다음, 모든 활성 SAM은 미군 비행대를 표적 획득하려고 시도합니다. 이 페이즈에 활성화된 SAM은 12헥스 내에 탐지된 미군 비행대가 있다면 신속 표적 획득을 시도합니다. <span class="table-ref">표적 선택 표</span>를 참조하세요. 모든 경우에 목표 미군 비행대가 고고도에 있으면 거리에 1을 추가합니다.</p>
-    </div>
-  </div>
-
-  <!-- 5.9 관리 페이즈 -->
-  <div class="sop-phase">
-    <div class="sop-phase-head" onclick="this.parentElement.classList.toggle('open')">
-      <div class="sop-phase-num">5.9</div>
-      <div class="sop-phase-title">관리 페이즈</div>
-      <div class="sop-phase-arrow">&#9654;</div>
-    </div>
-    <div class="sop-phase-body">
-      <ul>
-        <li>탄약이 없는 활성 SAM과 SAM 경고 마커는 레이더를 끕니다.</li>
-        <li>활성 MiG 비행대의 총 수가 최대 실제 비행대와 같거나 지도 상 일반 MiG 비행대의 총 수가 최대 일반 비행대와 같아질 때까지(<span class="table-ref">DRV 준비 표</span> 참조), 일반 DRV 비행대가 맵에 추가되는지 굴림합니다. <span class="table-ref">일반 비행대 생성</span>을 참조하세요.</li>
-      </ul>
-    </div>
-  </div>
-
-</div><!-- #sop-page -->
 
 <div id="aid-page" class="main-page">
   <!-- Content from aid.html -->
@@ -3521,7 +3173,7 @@
         <p>이동하는 각 DRV 비행대에 대해 <span class="bot-tag bot-tag-dice">1d10</span>을 굴립니다:</p>
         <div class="bot-hi">
           ≤ 5이고 5헥스 이내에 탐지된 US 비행대가 있는 경우: <span class="bot-tag bot-tag-ok">교전</span> → <span class="bot-red">🅕 교전 행동</span><br><br>
-          그 외: <span class="bot-tag bot-tag-bad">교전 없음</span> → <span class="bot-red">🅖 비전투 행동</span>
+          ≥ 6이거나 5헥스 이내에 탐지된 US 비행대가 없는 경우: <span class="bot-tag bot-tag-bad">교전 없음</span> → <span class="bot-red">🅖 비전투 행동</span>
         </div>
         <div class="bot-roller" style="flex-direction:column;align-items:stretch;">
           <div style="margin-bottom:10px;">
@@ -3885,41 +3537,6 @@
 
 
 <script>
-// ── Random Event Dice (2d10) ──
-const RANDOM_EVENTS = [
-  { range: [2,2],   name: 'DRV 통신 실패', desc: '시나리오 남은 기간 동안 DRV 탐지 레벨이 두 칸 오른쪽으로 이동합니다. 다시 이 결과가 나오면, 통신 실패가 해소되고 열 이동을 더 이상 적용하지 않습니다.' },
-  { range: [3,3],   name: '미군 통신 실패', desc: '시나리오 남은 기간 동안 미군 탐지 레벨이 한 칸 오른쪽으로 이동합니다. 다시 이 결과가 나오면 통신 실패가 해소되고 열 이동을 더 이상 적용하지 않습니다.' },
-  { range: [4,4],   name: '구름 틈', desc: '미군 플레이어는 아무 비행대 두 헥스 거리 내에 구름 틈 카운터를 지도에 배치합니다. 이 틈은 다른 틈 카운터로부터 두 헥스보다 가까워서는 안됩니다. (맵에 구름층이 없으면 효과 없음)' },
-  { range: [5,5],   name: '긴급 출격 경보', desc: 'DRV 플레이어는 즉시 준비되지 않은 MiG 비행대를 준비 상태로 만들 수 있습니다.' },
-  { range: [6,6],   name: '\u00B6 AAA 매복 (2개 비행대, 저강도)', desc: '초저고도/저고도에 있는 2개 비행대에 대한 AAA 매복 공격. 험지가 아닌 육지 헥스 위에 있는 비헬리콥터 미군 비행대 두 개에 대해 저강도 AAA 집중포화 공격을 실시합니다(DRV 플레이어 선택).', aaa: true },
-  { range: [7,8],   name: '\u00B6 AAA 매복 (1개 비행대, 저강도)', desc: '초저고도/저고도에 있는 1개 비행대에 대한 AAA 매복 공격. 험지가 아닌 육지 헥스 위에 있는 비헬리콥터 미군 비행대 하나에 대해 저강도 AAA 집중포화 공격을 실시합니다(DRV 플레이어 선택).', aaa: true },
-  { range: [9,10],  name: '\u00B6 AAA 매복 (1개 비행대, 소형화기)', desc: '초저고도/저고도에 있는 1개 비행대에 대한 AAA 매복 공격. 험지가 아닌 육지 헥스 위에 있는 비헬리콥터 미군 비행대 하나에 대해 소형화기 AAA 집중포화 공격을 실시합니다(DRV 플레이어 선택).', aaa: true },
-  { range: [11,11], name: '미군 교전수칙 허가', desc: '이번 게임 턴에 한 번만, 전방 공격 범위 내에 아군 유닛이 없는 한, 하나의 미군 F-4 비행대가 탐지된 DRV 비행대에 대해 BVR 미사일 공격을 할 수 있습니다.' },
-  { range: [12,12], name: '공격 명령 지연', desc: 'DRV 비행대는 이번 게임 턴에 공대공 전투를 개시할 수 없습니다.' },
-  { range: [13,15], name: '\u00B6 AAA 매복 (2개 비행대, 소형화기)', desc: '초저고도에 있는 2개 비행대에 대한 AAA 매복 공격. 험지가 아닌 육지 헥스 위에 있는 비헬리콥터 미군 비행대 두 개에 대해 소형화기 AAA 집중포화 공격을 실시합니다(DRV 플레이어 선택).', aaa: true },
-  { range: [16,16], name: '날씨 악화', desc: 'DRV 플레이어는 맵에서 하나의 틈 카운터를 제거합니다(있는 경우).' },
-  { range: [17,17], name: '레드 크라운/디스코 오퍼레이터 우위 확보', desc: '미군 플레이어는 시나리오의 모든 후속 게임 턴에서 선공을 위해 먼저 선택할 수 있습니다. 다시 이 결과가 나오면 DRV 플레이어가 다시 우위를 점하고 선공을 위해 먼저 선택할 수 있습니다.' },
-  { range: [18,18], name: '안개 해소', desc: '안개 고도를 1레벨 낮춥니다. 안개가 초저고도에 있으면 안개를 완전히 제거합니다.' },
-  { range: [19,19], name: 'DRV 관제사 신경 쇠약', desc: '하나의 DRV 비행대를 작전 중지합니다(더미 아님, DRV 플레이어 선택).' },
-  { range: [20,20], name: '미군 비행대 곤경', desc: '하나의 미군 비행대를 작전 중지합니다(미군 플레이어 선택).' }
-];
-
-function rollRandomEvent() {
-  const d1 = Math.floor(Math.random() * 10) + 1;
-  const d2 = Math.floor(Math.random() * 10) + 1;
-  const total = d1 + d2;
-
-  const evt = RANDOM_EVENTS.find(e => total >= e.range[0] && total <= e.range[1]);
-  const box = document.getElementById('sop-dice-result');
-  document.getElementById('sop-event-name').textContent = evt ? evt.name : '이벤트 없음';
-  document.getElementById('sop-event-desc').textContent = evt ? evt.desc : '';
-  document.getElementById('sop-event-note').textContent =
-    (evt && evt.aaa) ? '\u00B6 AAA 매복은 야간에는 효과가 없습니다.' : '';
-  box.classList.add('show');
-}
-</script>
-
-<script>
 document.addEventListener('DOMContentLoaded', () => {
   // Main tab switching logic
   const mainTabs = document.querySelectorAll('.main-tab-btn');
@@ -4015,19 +3632,10 @@ document.addEventListener('DOMContentLoaded', () => {
       ],
       autoSet: (raid) => {
         if (!raid) return { table: 'A', year: 1966, month: 11 };
-        // 연합 항모 공격: 첫 번째 항모 기준으로 설정 (나머지는 generate에서 추가)
-        if (raid === '23nov_usn') {
-          return { table: 'B', year: 1966, month: 11, carrierId: 'R',
-            variants: { d4_dual_carrier: true, d4_carrier2: 'Q' },
-            extraNotes: ['23 Nov: 2개 항모 동시 공격 — Ticonderoga(R) + Coral Sea(Q)'] };
-        }
-        if (raid === '14dec_usn') {
-          return { table: 'B', year: 1966, month: 12, carrierId: 'R',
-            variants: { d4_dual_carrier: true, d4_carrier2: 'P' },
-            extraNotes: ['14 Dec: 2개 항모 동시 공격 — Ticonderoga(R) + FDR(P)'] };
-        }
         if (raid.includes('usn')) {
-          const carrierMap = { '2dec_usn': 'Q', '13dec_usn': 'R' };
+          const carrierMap = {
+            '23nov_usn': 'R', '2dec_usn': 'Q', '13dec_usn': 'R', '14dec_usn': 'R'
+          };
           return { table: 'B', year: 1966, month: raid.includes('dec') ? 12 : 11,
             carrierId: carrierMap[raid] || 'R' };
         }
@@ -4058,62 +3666,45 @@ document.addEventListener('DOMContentLoaded', () => {
         { label: "20 Apr — USN (Kitty Hawk S 또는 Bon Homme Richard V)", id: "20apr_usn" },
         { label: "22 Apr — USN (Ticonderoga R)", id: "22apr_usn" },
         { label: "23 Apr — USAF 합동 공격대", id: "23apr_usaf" },
-        { label: "24 Apr — 협동 공격 (USAF + USN×2, 3개 공격대)", id: "24apr" },
-        { label: "25 Apr — USAF 또는 USN (주사위 결정)", id: "25apr" },
-        { label: "26 Apr — USAF 또는 USN (주사위 결정)", id: "26apr" },
+        { label: "24 Apr — USAF 팬텀 공격대 (Hoa Lac)", id: "24apr_usaf" },
+        { label: "24 Apr — USN 1차 (Kitty Hawk S → Kep)", id: "24apr_usn1" },
+        { label: "24 Apr — USN 2차 (Bon Homme Richard V → Hon Gai)", id: "24apr_usn2" },
+        { label: "25 Apr — USAF 주요 공격대", id: "25apr_usaf" },
+        { label: "25 Apr — USN (Bon Homme Richard V)", id: "25apr_usn" },
+        { label: "26 Apr — USAF 주요+합동 공격대", id: "26apr_usaf" },
+        { label: "26 Apr — USN (Ticonderoga R)", id: "26apr_usn" },
         { label: "28 Apr — USAF 합동 공격대", id: "28apr_usaf" },
         { label: "29 Apr — USAF (폭격 강도 3)", id: "29apr_usaf" },
         { label: "30 Apr — USAF 주요+합동 공격대", id: "30apr_usaf" },
       ],
       autoSet: (raid) => {
         if (!raid) return { table: 'A', year: 1967, month: 4 };
-        // 25/26 Apr: d10 굴려서 USAF/USN 결정
-        if (raid === '25apr') {
-          const roll = (window._d5Roll25 !== undefined) ? window._d5Roll25 : d10(); window._d5Roll25 = roll;
-          if (roll <= 5) {
-            return { table: 'A', year: 1967, month: 4, variants: { major: true },
-              extraNotes: ['25 Apr 주사위: ' + roll + ' (1-5) → USAF 주요 공격대, 표적: Hanoi Le Pap 변압기'] };
-          } else {
-            return { table: 'B', year: 1967, month: 4, carrierId: 'V',
-              extraNotes: ['25 Apr 주사위: ' + roll + ' (6-10) → USN (Bon Homme Richard V), 표적: Haiphong POL 저장시설'] };
-          }
-        }
-        if (raid === '26apr') {
-          const roll = (window._d5Roll26 !== undefined) ? window._d5Roll26 : d10(); window._d5Roll26 = roll;
-          if (roll <= 5) {
-            return { table: 'B', year: 1967, month: 4, carrierId: 'R',
-              extraNotes: ['26 Apr 주사위: ' + roll + ' (1-5) → USN (Ticonderoga R), 표적: Haiphong POL 저장시설'] };
-          } else {
-            return { table: 'A', year: 1967, month: 4, variants: { joint: true, major: true, deleteMigcap: true },
-              extraNotes: ['26 Apr 주사위: ' + roll + ' (6-10) → USAF 주요+합동 공격대, 표적: Hanoi 화력 발전소'] };
-          }
-        }
-        // 24 Apr: 협동 공격 — USAF 팬텀 공격대 기준으로 설정 (나머지 2개는 generate에서 추가)
-        if (raid === '24apr') {
-          return { table: 'A', year: 1967, month: 4,
-            variants: { phantom: true, joint: true },
-            extraNotes: ['24 Apr: 3개 공격대 동시 생성 (USAF 팬텀 + USN Kep + USN Hon Gai)'] };
-        }
         if (raid && raid.includes('usn')) {
-          const cmap = { '20apr_usn':'S', '22apr_usn':'R' };
+          const cmap = { '20apr_usn':'S', '22apr_usn':'R', '24apr_usn1':'S',
+                         '24apr_usn2':'V', '25apr_usn':'V', '26apr_usn':'R' };
           return { table: 'B', year: 1967, month: 4, carrierId: cmap[raid] || 'R' };
         }
         const variants = {
-          joint: ['23apr_usaf','28apr_usaf','30apr_usaf'].includes(raid),
-          major: ['30apr_usaf'].includes(raid),
-          deleteMigcap: ['19apr_usaf','23apr_usaf','30apr_usaf'].includes(raid),
+          phantom: ['24apr_usaf'].includes(raid),
+          joint: ['23apr_usaf','24apr_usaf','26apr_usaf','28apr_usaf','30apr_usaf'].includes(raid),
+          major: ['25apr_usaf','26apr_usaf','30apr_usaf'].includes(raid),
+          deleteMigcap: ['19apr_usaf','23apr_usaf','26apr_usaf','30apr_usaf'].includes(raid),
           deleteOneStrike: raid === '19apr_usaf',
           bombStrength3: raid === '29apr_usaf',
         };
         return { table: 'A', year: 1967, month: 4, variants };
       },
       rules: [
-        { text: "USAF: 공격 임무 F-105 1개 비행대에만 AIM-9B → Strike/CAP (나머지 IRM 불가)", raids: ['19apr_usaf','23apr_usaf','24apr','25apr','26apr','28apr_usaf','29apr_usaf','30apr_usaf'] },
+        { text: "USAF: 공격 임무 F-105 1개 비행대에만 AIM-9B → Strike/CAP (나머지 IRM 불가)", raids: ['19apr_usaf','23apr_usaf','24apr_usaf','25apr_usaf','26apr_usaf','28apr_usaf','29apr_usaf','30apr_usaf'] },
         { text: "19 Apr: 공격 임무 F-105 비행대 1개 삭제", raids: ['19apr_usaf'] },
-        { text: "19/23/26/30 Apr: MiGCAP 임무 전체 삭제", raids: ['19apr_usaf','23apr_usaf','26apr','30apr_usaf'] },
+        { text: "19/23/26/30 Apr: MiGCAP 임무 전체 삭제", raids: ['19apr_usaf','23apr_usaf','26apr_usaf','30apr_usaf'] },
         { text: "23 Apr USAF: 합동 공격대 변형", raids: ['23apr_usaf'] },
-        { text: "24 Apr: 3개 공격대 협동 공격 — USAF 팬텀(Hoa Lac) + USN 1차(Kep) + USN 2차(Hon Gai)", raids: ['24apr'] },
-        { text: "25/26 Apr: d10 굴림 → 1-5 또는 6-10에 따라 USAF/USN 결정 (표적 자동 결정)", raids: ['25apr','26apr'] },
+        { text: "24 Apr USAF: 팬텀 공격대, 목표 Hoa Lac", raids: ['24apr_usaf'] },
+        { text: "24 Apr USN: 두 별개 공격대 동시 출격 (Kep / Hon Gai)", raids: ['24apr_usn1','24apr_usn2'] },
+        { text: "24 Apr 각 공격대: 스탠드오프 재밍 + 정찰 임무 각 1개씩", raids: ['24apr_usaf','24apr_usn1','24apr_usn2'] },
+        { text: "25 Apr USAF: 주요 공격대 변형", raids: ['25apr_usaf'] },
+        { text: "25/26 Apr: USAF+USN 동시 공격 가능 (USAF 10:30, USN 30턴 후)", raids: ['25apr_usaf','25apr_usn','26apr_usaf','26apr_usn'] },
+        { text: "26 Apr USAF: 주요 공격대 + 합동 공격대 변형", raids: ['26apr_usaf'] },
         { text: "28 Apr USAF: 합동 공격대 변형", raids: ['28apr_usaf'] },
         { text: "29 Apr: F-105 비행대 폭격 강도 3으로 증가 (속도 영향 없음)", raids: ['29apr_usaf'] },
         { text: "30 Apr USAF: 주요 공격대 (F-105 1개 추가) + 합동 공격대", raids: ['30apr_usaf'] },
@@ -4340,15 +3931,6 @@ document.addEventListener('DOMContentLoaded', () => {
     { ID:"lll", LineDates:"3 Oct 72-28 May 73", Carrier:"Enterprise", CAP:"F-4J", Bombing:["A-6A*","A-7E"], Jamming:"EA-6B", SEAD:["A-6B","A-7E"], Recon:"RA-5C" },
     { ID:"mmm", LineDates:"9 Dec 72-30 May 73", Carrier:"Ranger", CAP:"F-4J", Bombing:["A-6A*","A-7E"], Jamming:"EKA-3B", SEAD:["A-6B","A-7E"], Recon:"RA-5C" },
   ];
-  // 방어 원형진 가시성 — D1,D2,D3(1967년 4월 이전)이면 숨김
-  function updateWheelVisibility(scen) {
-    const preWheel = ['D1','D2','D3'];
-    const hide = scen && preWheel.includes(scen);
-    const ws = document.getElementById('bWheelSection');
-    const wc = document.getElementById('bWheelCombatSection');
-    if (ws) ws.style.display = hide ? 'none' : '';
-    if (wc) wc.style.display = hide ? 'none' : '';
-  }
   function onScenarioChange() {
     const scen = document.getElementById('scenario-select').value;
     const ssrInfo = document.getElementById('ssr-info');
@@ -4360,9 +3942,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const matched = Array.from(bFlightScen.options).find(o => o.value === scen || o.value.split('/').includes(scen));
       bFlightScen.value = matched ? matched.value : '';
     }
-
-    // 방어 원형진: 1967년 4월 이전 시나리오(D1~D3)이면 숨김
-    updateWheelVisibility(scen);
 
     if (!scen) {
       ssrInfo.style.display = 'none';
@@ -4418,9 +3997,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (settings.year) document.getElementById('year-select').value = settings.year;
     if (settings.month) document.getElementById('month-select').value = settings.month;
-
-    // 1972년 이후 시나리오 여부 → Solo Bot 체크박스 자동 동기화
-    syncEra1972();
 
     if (settings.carrierId) {
       const sel = document.getElementById('carrier-select');
@@ -4582,12 +4158,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if(el) el.style.display = isD ? 'flex' : 'none';
     });
   }
-  function onDateChange() { syncEra1972(); }
-  function syncEra1972() {
-    const yr = parseInt(document.getElementById('year-select')?.value) || 0;
-    const cb = document.getElementById('bEra1972');
-    if (cb) cb.checked = yr >= 1972;
-  }
+  function onDateChange() {}
   function renderMission(phase, name, squads, note) {
     let html = `<div class="mission-block" style="animation-delay:${renderMission._idx++ * 0.06}s">
       <div class="mission-header">
@@ -5218,58 +4789,8 @@ document.addEventListener('DOMContentLoaded', () => {
     html += renderAmmo(["B-52D/G: 레이더 폭격", "F-111A: ARM (SEAD)", "F-105G WW / F-4C WW: ARM", "F-4E: 폭탄 또는 CBU"]);
     return html;
   }
-  // ── D5 표적 데이터 ──
-  const SCENARIO_TARGETS = {
-    D5: {
-      '19apr_usaf': [{ name:"Xuan Mai NVA 막사", hex:"2334", profile:"C" }],
-      '20apr_usn':  [{ name:"Haiphong East 화력 발전소", hex:"2410", profile:"B" }, { name:"Haiphong West 화력 발전소", hex:"2411", profile:"B" }],
-      '22apr_usn':  [{ name:"Haiphong 시멘트 공장", hex:"2411", profile:"B" }],
-      '23apr_usaf': [{ name:"Thai Nguyen 철 및 철강 단지", hex:"0628", profile:"B" }],
-      '24apr': [
-        { name:"Hoa Lac 격납 진지", hex:"2035", profile:"B" },
-        { name:"Kep 비행장 활주로", hex:"1120", profile:"B" },
-        { name:"Kep 격납 진지", hex:"1120", profile:"B" },
-        { name:"Hon Gai 철도 차량기지", hex:"2202", profile:"C" }
-      ],
-      '25apr': { useRoll:'_d5Roll25', options:[[1,5,"Hanoi Le Pap 변압기","1929","B"],[6,10,"Haiphong POL 저장시설","2411","D"]] },
-      '26apr': { useRoll:'_d5Roll26', options:[[1,5,"Haiphong POL 저장시설","2411","D"],[6,10,"Hanoi 화력 발전소","1929","B"]] },
-      '28apr_usaf': [{ name:"Hanoi 철도 차량기지 및 정비 공장", hex:"2028", profile:"C" }],
-      '29apr_usaf': [{ name:"Canal des Rapides 교량 (2개 경간)", hex:"1927", profile:"A" }],
-      '30apr_usaf': [{ name:"Hanoi 화력 발전소", hex:"1929", profile:"B" }],
-    },
-    D4: {
-      '22nov_usaf': [{ name:"Ha Gia POL 저장시설", hex:"1227", profile:"D" }],
-      '23nov_usn':  [{ name:"Can Thon POL 저장시설", hex:"2026", profile:"D" }, { name:"Van Dien 보급창", hex:"2228", profile:"C" }],
-      '2dec_usn':   [{ name:"Kep POL 저장시설", hex:"1019", profile:"D" }],
-      '2dec_usaf':  [{ name:"Phuc Yen POL 저장시설", hex:"1529", profile:"D" }],
-      '5dec_usaf':  [{ name:"Phuc Yen POL 저장시설", hex:"1529", profile:"C" }],
-      '8dec_usaf':  [{ name:"Phuc Yen POL 저장시설", hex:"1529", profile:"C" }, { name:"Phuc Yen 철도 차량기지", hex:"1529", profile:"C" }],
-      '13dec_usn':  [{ name:"Yen Vien 철도 차량기지", hex:"1826", profile:"C" }, { name:"Xuan Mai 교량 (1개 경간)", hex:"2333", profile:"B" }],
-      '14dec_usaf': [{ name:"Yen Vien 철도 차량기지", hex:"1826", profile:"C" }],
-      '14dec_usn':  [{ name:"Van Dien 보급창", hex:"2228", profile:"C" }],
-    }
-  };
-  function resolveScenarioTargets(scen, raidId) {
-    const scenData = SCENARIO_TARGETS[scen];
-    if (!scenData || !raidId) return null;
-    const entry = scenData[raidId];
-    if (!entry) return null;
-    if (Array.isArray(entry)) return { targets: entry, diceInfo: null };
-    // roll — autoSet에서 이미 굴린 주사위 재활용, 없으면 새로 굴림
-    const opts = entry.options || entry.roll;
-    const subRoll = entry.useRoll ? (window[entry.useRoll] || d10()) : d10();
-    for (const opt of opts) {
-      if (subRoll >= opt[0] && subRoll <= opt[1]) {
-        return {
-          targets: [{ name: opt[2], hex: opt[3], profile: opt[4] }],
-          diceInfo: '표적 결정 주사위: ' + subRoll + ' (' + opt[0] + '-' + opt[1] + ')'
-        };
-      }
-    }
-    return null;
-  }
   function generate() {
-    let table = document.getElementById('table-select').value;
+    const table = document.getElementById('table-select').value;
     const dc = dateCode();
     const year = parseInt(document.getElementById('year-select').value);
     const month = parseInt(document.getElementById('month-select').value);
@@ -5315,16 +4836,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const scen = document.getElementById('scenario-select').value;
     const raidId = document.getElementById('ssr-raid-select').value;
     const ssrData = scen ? SSR_DATA[scen] : null;
-
-    // D5 25/26 Apr: 매 생성 시 새로 주사위를 굴려 USAF/USN 재결정 + UI 갱신
-    if (scen === 'D5' && (raidId === '25apr' || raidId === '26apr')) {
-      // 이전 주사위 결과 초기화하여 새로 굴리게 함
-      delete window._d5Roll25; delete window._d5Roll26;
-      applyScenarioSettings(scen, raidId);
-      table = document.getElementById('table-select').value;
-    }
-
-    // applyScenarioSettings가 이미 autoSet을 호출했으므로 저장된 결과 재사용
     const ssrSettings = ssrData ? ssrData.autoSet(raidId || null) : null;
 
     if (ssrSettings && ssrSettings.variants) {
@@ -5351,41 +4862,6 @@ document.addEventListener('DOMContentLoaded', () => {
       else if (v.d16fixed) content = generateD16Fixed(addSquadsToOob);
       else if (v.b52) content = generateD10B52(dc, addSquadsToOob);
       else if (v.mine) content = generateD10Mine(dc, addSquadsToOob);
-    } else if (scen === 'D5' && raidId === '24apr') {
-      // D5 24 Apr: 3개 공격대 협동 공격
-      content += renderDivider('공격대 1 — USAF 팬텀 공격대 (Hoa Lac)');
-      content += generateA(dc, { ...variants, phantom: true, joint: true }, addSquadsToOob);
-      oobForAdc.forEach(s => { if (!s.raidNote) { s.raidNote = 'USAF(Hoa Lac)'; s.forceOobType = 'A'; } });
-
-      content += renderDivider('공격대 2 — USN 1차 (Kitty Hawk S → Kep)');
-      const oobMark2 = oobForAdc.length;
-      document.getElementById('carrier-select').value = 'S';
-      content += generateB(dc, variants, addSquadsToOob);
-      for (let i = oobMark2; i < oobForAdc.length; i++) { oobForAdc[i].raidNote = 'USN(Kep)'; oobForAdc[i].forceOobType = 'B'; }
-
-      content += renderDivider('공격대 3 — USN 2차 (Bon Homme Richard V → Hon Gai)');
-      const oobMark3 = oobForAdc.length;
-      document.getElementById('carrier-select').value = 'V';
-      content += generateB(dc, variants, addSquadsToOob);
-      for (let i = oobMark3; i < oobForAdc.length; i++) { oobForAdc[i].raidNote = 'USN(Hon Gai)'; oobForAdc[i].forceOobType = 'B'; }
-    } else if (variants.d4_dual_carrier && variants.d4_carrier2) {
-      // D4 연합 항모 공격: 2개 항모 편제 동시 생성
-      const carrier1Id = document.getElementById('carrier-select').value;
-      const carrier1 = CARRIERS.find(c => c.ID === carrier1Id);
-      const carrier2 = CARRIERS.find(c => c.ID === variants.d4_carrier2);
-      const c1Name = carrier1 ? carrier1.Carrier : carrier1Id;
-      const c2Name = carrier2 ? carrier2.Carrier : variants.d4_carrier2;
-
-      content += renderDivider('항모 1 — ' + c1Name + ' (' + carrier1Id + ')');
-      content += generateB(dc, variants, addSquadsToOob);
-      const mark1End = oobForAdc.length;
-      oobForAdc.forEach((s, i) => { if (!s.raidNote) { s.raidNote = c1Name + '(' + carrier1Id + ')'; s.forceOobType = 'B'; } });
-
-      content += renderDivider('항모 2 — ' + c2Name + ' (' + variants.d4_carrier2 + ')');
-      const oobMark2 = oobForAdc.length;
-      document.getElementById('carrier-select').value = variants.d4_carrier2;
-      content += generateB(dc, variants, addSquadsToOob);
-      for (let i = oobMark2; i < oobForAdc.length; i++) { oobForAdc[i].raidNote = c2Name + '(' + variants.d4_carrier2 + ')'; oobForAdc[i].forceOobType = 'B'; }
     } else if (table === 'A') content = generateA(dc, variants, addSquadsToOob);
     else if (table === 'B') content = generateB(dc, variants, addSquadsToOob);
     else if (table.startsWith('C')) content = generateC(table, dc, addSquadsToOob);
@@ -5444,22 +4920,6 @@ document.addEventListener('DOMContentLoaded', () => {
       scenarioName: ssrData ? ssrData.name : null,
       date: dateString
     };
-    // 시나리오 표적 자동 결정
-    if (scen && raidId) {
-      const targetResult = resolveScenarioTargets(scen, raidId);
-      if (targetResult) {
-        dataForAdc.targets = targetResult.targets;
-        dataForAdc.targetDiceInfo = targetResult.diceInfo;
-        // OOB 결과에도 표적 정보 표시
-        const targetsHtml = targetResult.targets.map(t =>
-          `<strong>${t.name}</strong> (${t.hex}, 프로필 ${t.profile})`
-        ).join('<br>');
-        const diceNote = targetResult.diceInfo ? `<br><span class="dice-result">${targetResult.diceInfo}</span>` : '';
-        document.getElementById('results').innerHTML += renderNote(
-          `<strong style="color:var(--green)">🎯 표적</strong><br>${targetsHtml}${diceNote}`
-        );
-      }
-    }
     localStorage.setItem('oobToAdcData', JSON.stringify(dataForAdc));
     document.getElementById('send-to-adc-btn').style.display = 'block';
     document.getElementById('oob-print-btn').style.display = 'block';
@@ -5491,11 +4951,6 @@ document.addEventListener('DOMContentLoaded', () => {
     fetch('adc.json').then(r=>r.json()).then(d=>{
       ADC_JSON=d;
       console.log('ADC JSON loaded');
-      // JSON 로드 완료 후 항공기 가용 기간 필터 적용
-      _acAvailCache = null;
-      document.querySelectorAll('#us-lead-table tbody tr, #us-main-table tbody tr, #us-trail-table tbody tr').forEach(function(row){
-        if (!row.querySelector('.add-row')) filterAircraftOptions(row);
-      });
       // JSON 로드 완료 후, 이미 역할이 설정되어 있으면 동기화
       if (typeof syncDogfightFromRaid === 'function' && typeof raidRoles !== 'undefined') {
         var hasRole = raidRoles.attacker || raidRoles.defender;
@@ -5597,14 +5052,14 @@ document.addEventListener('DOMContentLoaded', () => {
     "F-4C Wild Weasel 4 [US]":   {faction:"USAF", name:"F-4C Wild Weasel IV"},
     "F-100D Super Sabre [US]":   {faction:"USAF", name:"F-100D Super Sabre"},
     "F-100F Wild Weasel 1 [US]": {faction:"USAF", name:"F-100F Wild Weasel I"},
-    "RF-101C Voodoo [US]":       {faction:"USAF", name:"RF-101C Voodoo"},
+    "RF1-1C Voodoo [US]":        {faction:"USAF", name:"RF-101C Voodoo"},
     "F-104C Starfighter [US]":   {faction:"USAF", name:"F-104C Starfighter"},
     "F-105D Thunderchief [US]":  {faction:"USAF", name:"F-105D Thunderchief"},
     "F-105F Thunderchief(2) [US]":{faction:"USAF", name:"F-105F Thunderchief(2)"},
     "F-105F Thunderchief [US]":  {faction:"USAF", name:"F-105F Wild Weasel III"},
     "F-105F Wild Weasel 3 [US]": {faction:"USAF", name:"F-105F Wild Weasel III"},
     "F-105G Wild Weasel [US]":   {faction:"USAF", name:"F-105G Wild Weasel"},
-    "F-105G Wild Weasel(2) [US]":{faction:"USAF", name:"F-105G Wild Weasel (2)"},
+    "F-105G Wild Weasel(2) [US]":{faction:"USAF", name:"F-105G Wild Weasel"},
     "F-111A Aardvark [US]":      {faction:"USAF", name:"F-111A 'Aardvark'"},
     "B-52D Stratofortress [US]": {faction:"USAF", name:"B-52D Stratofortress"},
     "B-52G Stratofortress [US]": {faction:"USAF", name:"B-52G Stratofortress"},
@@ -5640,7 +5095,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // RAID 행에서 현재 폭탄 값 읽기 (숫자)
   function getRowBombValue(row) {
     var isDrv = row.closest('table').id === 'drv-table';
-    var cell = isDrv ? (row.querySelector('.bomb-wrap') || row.querySelectorAll('td')[7]) : (row.querySelector('.bomb-wrap') || row.querySelectorAll('td')[9]);
+    var cell = isDrv ? row.querySelectorAll('td')[8] : row.querySelectorAll('td')[10];
     if (!cell) return 0;
     var el = cell.querySelector('input, select');
     if (!el) return 0;
@@ -5648,32 +5103,10 @@ document.addEventListener('DOMContentLoaded', () => {
     return isNaN(v) ? 0 : v;
   }
 
-  // US 테이블 무기 셀 추출 (bomb+fuel 결합 셀 분리)
-  function getUsWeaponCells(row) {
-    var tds = Array.from(row.querySelectorAll('td'));
-    var rawCells = tds.slice(6, 10); // [gun, IRM, RHM, bombFuelCell]
-    if (rawCells.length < 4) return rawCells;
-    var bfCell = rawCells[3];
-    var bombWrap = bfCell.querySelector('.bomb-wrap') || bfCell;
-    var fuelWrap = bfCell.querySelector('.fuel-wrap') || bfCell;
-    return [rawCells[0], rawCells[1], rawCells[2], bombWrap, fuelWrap];
-  }
-
-  // DRV 테이블 무기 셀 추출 (bomb+fuel 결합 셀 분리)
-  function getDrvWeaponCells(row) {
-    var tds = Array.from(row.querySelectorAll('td'));
-    var rawCells = tds.slice(4, 8); // [gun, IRM, RHM, bombFuelCell]
-    if (rawCells.length < 4) return rawCells;
-    var bfCell = rawCells[3];
-    var bombWrap = bfCell.querySelector('.bomb-wrap') || bfCell;
-    var fuelWrap = bfCell.querySelector('.fuel-wrap') || bfCell;
-    return [rawCells[0], rawCells[1], rawCells[2], bombWrap, fuelWrap];
-  }
-
   // RAID 행에서 무기 칸의 모든 select 값 읽기 (기총=0, IRM=1, RHM=2)
   function getWeaponCell(row, weapIdx) {
     var isDrv = row.closest('table').id === 'drv-table';
-    var offset = isDrv ? 4 : 6;
+    var offset = isDrv ? 5 : 7;
     return row.querySelectorAll('td')[offset + weapIdx] || null;
   }
   // 첫 번째 값 읽기 (하위호환)
@@ -5722,101 +5155,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // adc.json에서 무기 칸 데이터를 구축: {gun:[...], irm:[...], rhm:[...], bomb:..., fuel:...}
   // 날짜 변경 시 모든 US 행의 무기/ordnance 재생성
-  // ── 기체 가용 기간 필터 ──
-
-  // adc.json에서 기체별 가용 기간 캐시 구축 (aircraftKey → [availStr, ...])
-  var _acAvailCache = null;
-  function buildAcAvailCache() {
-    if (_acAvailCache) return _acAvailCache;
-    if (!ADC_JSON) return {}; // 로딩 전이면 캐시 저장하지 않고 빈 객체 반환
-    _acAvailCache = {};
-    Object.keys(ADC_NAME_MAP).forEach(function(key){
-      var mapping = ADC_NAME_MAP[key];
-      if (!mapping) return;
-      var factionData = ADC_JSON[mapping.faction];
-      if (!factionData || !factionData.aircraft) return;
-      var ac = factionData.aircraft.find(function(a){ return a.name === mapping.name; });
-      if (!ac || !ac.notes) return;
-      var ranges = [];
-      ac.notes.forEach(function(note){
-        // "available from Mon YY" 또는 "available from Mon YY to Mon YY"
-        var m = note.match(/^available\s+from\s+(.+)/i);
-        if (m) { ranges.push(m[1].replace(/\+$/, '').trim()); return; }
-        // "available until Mon YY" → 시작일 없이 종료일만
-        var m2 = note.match(/^available\s+until\s+(.+)/i);
-        if (m2) { ranges.push('Jan 64 to ' + m2[1].replace(/\+$/, '').trim()); }
-      });
-      if (ranges.length > 0) _acAvailCache[key] = ranges;
-    });
-    return _acAvailCache;
-  }
-
-  // 기체가 시나리오 날짜에 사용 가능한지 (여러 가용 기간 중 하나라도 해당하면 OK)
-  function isAircraftAvailable(ranges, scenDate) {
-    if (!scenDate) return true;
-    if (!ranges || ranges.length === 0) return true;
-    return ranges.some(function(r){ return isAvailableAt(r, scenDate); });
-  }
-
-  // 항공기 select의 option을 시나리오 날짜에 따라 활성/비활성
-  // 전체 옵션 목록 원본 (최초 1회 저장)
-  var _allAcOptions = null;
-  function getAllAcOptions() {
-    if (_allAcOptions) return _allAcOptions;
-    // US_AIRCRAFT_OPTIONS에서 파싱
-    var tmp = document.createElement('select');
-    tmp.innerHTML = US_AIRCRAFT_OPTIONS;
-    _allAcOptions = Array.from(tmp.options).map(function(o){ return {value:o.value, text:o.textContent}; });
-    return _allAcOptions;
-  }
-
-  function filterAircraftOptions(row) {
-    var isDrv = row.closest('table').id === 'drv-table';
-    if (isDrv) return;
-    var acSel = row.querySelector('td:nth-child(4) select');
-    if (!acSel) return;
-    var scenDate = getScenarioDate();
-    var cache = buildAcAvailCache();
-    var curVal = acSel.value;
-    var allOpts = getAllAcOptions();
-
-    // 옵션 재구성
-    acSel.innerHTML = '';
-    allOpts.forEach(function(item){
-      var ranges = cache[item.value];
-      var ok = !ranges || isAircraftAvailable(ranges, scenDate);
-      // 사용 가능하거나, 현재 선택된 값이면 표시
-      if (ok || item.value === curVal) {
-        var opt = document.createElement('option');
-        opt.value = item.value;
-        opt.textContent = item.text;
-        if (!ok) {
-          // 현재 선택이지만 날짜 불가 → 경고 표시
-          opt.textContent = item.text + ' ⚠';
-          opt.style.color = '#c0392b';
-        }
-        acSel.appendChild(opt);
-      }
-    });
-    acSel.value = curVal;
-
-    // 현재 선택된 항공기가 날짜 불가이면 경고
-    var curRanges = cache[curVal];
-    if (curRanges && !isAircraftAvailable(curRanges, scenDate)) {
-      acSel.style.outline = '2px solid #c0392b';
-      acSel.title = '현재 시나리오 날짜에 사용 불가능한 항공기입니다';
-    } else {
-      acSel.style.outline = '';
-      acSel.title = '';
-    }
-  }
-
-  // 모든 US 행의 항공기 필터 + 무기 갱신
   function refreshAllWeaponsForDate() {
-    _acAvailCache = null; // 캐시 리셋
     document.querySelectorAll('#us-lead-table tbody tr, #us-main-table tbody tr, #us-trail-table tbody tr').forEach(function(row){
       if (row.querySelector('.add-row')) return;
-      filterAircraftOptions(row);
       updateWeaponData(row);
       updateOrdnanceCell(row);
     });
@@ -5866,264 +5207,6 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
     return info;
-  }
-
-  // ═══════════════ Y-RACK 지원 (F-8 계열) ═══════════════
-
-  function getF8Type(aircraftKey) {
-    if (aircraftKey === 'F-8C_D Crusader [US]') return 'F8CD';
-    if (aircraftKey === 'F-8E_H_J Crusader [US]') return 'F8EHJ';
-    return null;
-  }
-
-  function isRowYrack(row) {
-    return row.dataset.yrack === '1';
-  }
-  function isRowRocket(row) {
-    return row.dataset.rocket === '1';
-  }
-
-  // Y-rack / Rocket 체크박스 생성/제거
-  function updateYrackCheckbox(row, f8Type) {
-    var acCell = row.querySelector('td:nth-child(4)');
-    if (!acCell) return;
-    var existing = acCell.querySelector('.yrack-wrap');
-    if (!f8Type) {
-      if (existing) existing.remove();
-      delete row.dataset.yrack;
-      delete row.dataset.rocket;
-      return;
-    }
-    if (!existing) {
-      var wrap = document.createElement('div');
-      wrap.className = 'yrack-wrap';
-      wrap.style.cssText = 'margin-top:3px;font-size:11px;display:flex;gap:8px;align-items:center;';
-
-      // Y-rack 체크박스
-      var yCb = document.createElement('input');
-      yCb.type = 'checkbox'; yCb.className = 'yrack-cb';
-      yCb.style.cssText = 'vertical-align:middle;margin-right:2px;cursor:pointer;';
-      var yLbl = document.createElement('span');
-      yLbl.textContent = 'Y-Rack';
-      yLbl.style.cssText = 'color:#c4a96b;cursor:pointer;';
-      yLbl.addEventListener('click', function(){ if (!yCb.disabled) yCb.click(); });
-
-      // Rocket 체크박스
-      var rCb = document.createElement('input');
-      rCb.type = 'checkbox'; rCb.className = 'rocket-cb';
-      rCb.style.cssText = 'vertical-align:middle;margin-right:2px;cursor:pointer;';
-      var rLbl = document.createElement('span');
-      rLbl.textContent = 'Rocket';
-      rLbl.style.cssText = 'color:#e08050;cursor:pointer;';
-      rLbl.addEventListener('click', function(){ if (!rCb.disabled) rCb.click(); });
-
-      wrap.appendChild(yCb); wrap.appendChild(yLbl);
-      wrap.appendChild(rCb); wrap.appendChild(rLbl);
-      acCell.appendChild(wrap);
-
-      yCb.addEventListener('change', function(){
-        row.dataset.yrack = yCb.checked ? '1' : '';
-        updateWeaponData(row);
-        updateOrdnanceCell(row);
-        saveToLocalStorage();
-      });
-      rCb.addEventListener('change', function(){
-        row.dataset.rocket = rCb.checked ? '1' : '';
-        updateWeaponData(row);
-        updateOrdnanceCell(row);
-        saveToLocalStorage();
-      });
-    }
-    var yCb = acCell.querySelector('.yrack-cb');
-    var rCb = acCell.querySelector('.rocket-cb');
-    if (yCb) yCb.checked = (row.dataset.yrack === '1');
-    if (rCb) rCb.checked = (row.dataset.rocket === '1');
-
-    // Armed Escort → 자동 로켓 탑재
-    var taskSel = row.querySelector('td:nth-child(2) select');
-    var task = taskSel ? taskSel.value : '';
-    if (rCb && task === '무장 호위') {
-      rCb.checked = true; row.dataset.rocket = '1';
-    }
-  }
-
-  // F-8 무기 데이터 수정 (buildWeaponInfo 결과에 적용)
-  function applyF8ToWeapons(row, wInfo, f8Type) {
-    var taskSel = row.querySelector('td:nth-child(2) select');
-    var task = taskSel ? taskSel.value : '';
-    var hasYrack = isRowYrack(row);
-    var hasRocket = isRowRocket(row);
-
-    // 배열형 bomb → 최대값 (숫자 입력으로 변환)
-    if (Array.isArray(wInfo.bomb)) {
-      wInfo.bomb = Math.max.apply(null, wInfo.bomb);
-    }
-
-    // 로켓 탑재 시: bomb=1, IRM/RHM 비활성
-    if (hasRocket) {
-      wInfo.bomb = 1;
-      wInfo.irm = [];
-      wInfo.rhm = [];
-      return;
-    }
-
-    // Y-rack 효과
-    if (hasYrack) {
-      if (f8Type === 'F8EHJ') {
-        // Y-rack: IRM dep 3 (양쪽 탑재 시 6은 linkF8EhjWeapons에서 처리)
-        wInfo.irm.forEach(function(w){ w.dep = 3; });
-      } else if (f8Type === 'F8CD') {
-        wInfo.irm.forEach(function(w){ w.dep = 3; });
-        if (task === '무장 호위') {
-          wInfo.bomb = 0;
-        }
-      }
-    }
-    // Y-rack 없으면 IRM/RHM 상호 배제는 linkF8EhjWeapons에서 처리
-  }
-
-  // F-8E/H/J: Y-rack 여부에 따라 IRM/RHM 배타 선택 또는 동시 탑재 관리
-  function linkF8EhjWeapons(row, weaponCells) {
-    var irmCell = weaponCells[1], rhmCell = weaponCells[2];
-    if (!irmCell || !rhmCell) return;
-    var irmSels = irmCell.querySelectorAll('select[data-weapon-name]');
-    var rhmSels = rhmCell.querySelectorAll('select[data-weapon-name]');
-    if (irmSels.length === 0 || rhmSels.length === 0) return;
-
-    var _suppressExclusion = false; // 상호 배제 무한루프 방지
-
-    function syncF8Weapons() {
-      var hasYrack = isRowYrack(row);
-      var irmLoaded = Array.from(irmSels).some(function(s){ return s.value && s.value !== '' && s.value !== '고갈'; });
-      var rhmLoaded = Array.from(rhmSels).some(function(s){ return s.value && s.value !== '' && s.value !== '고갈'; });
-
-      if (hasYrack) {
-        // Y-rack ON: 양쪽 동시 탑재 가능
-        // 양쪽 탑재 → dep 모두 6, 한쪽만 → IRM dep 3
-        if (irmLoaded && rhmLoaded) {
-          irmSels.forEach(function(s){ updateDepDisplay(s, 6); });
-          rhmSels.forEach(function(s){ updateDepDisplay(s, 6); });
-        } else {
-          irmSels.forEach(function(s){ updateDepDisplay(s, 3); });
-          var rhmWeapons = []; try { rhmWeapons = JSON.parse(rhmCell.dataset.weapons||'[]'); } catch(e){}
-          rhmSels.forEach(function(s){
-            var orig = rhmWeapons.find(function(w){ return w.name === s.dataset.weaponName; });
-            if (orig) updateDepDisplay(s, orig.dep);
-          });
-        }
-      } else {
-        // Y-rack OFF: IRM/RHM 중 하나만 선택 가능 (상호 배제)
-        // IRM/RHM 선택 시 select 활성/비활성 처리는 하지 않고 값만 비움
-      }
-    }
-
-    // IRM 변경 → Y-rack OFF면 RHM 비움
-    irmSels.forEach(function(s){
-      s.addEventListener('change', function(){
-        if (_suppressExclusion) return;
-        if (!isRowYrack(row)) {
-          var irmLoaded = s.value && s.value !== '' && s.value !== '고갈';
-          if (irmLoaded) {
-            _suppressExclusion = true;
-            rhmSels.forEach(function(r){ r.value = ''; });
-            _suppressExclusion = false;
-          }
-        }
-        syncF8Weapons();
-        saveToLocalStorage();
-      });
-    });
-
-    // RHM 변경 → Y-rack OFF면 IRM 비움
-    rhmSels.forEach(function(s){
-      s.addEventListener('change', function(){
-        if (_suppressExclusion) return;
-        if (!isRowYrack(row)) {
-          var rhmLoaded = s.value && s.value !== '' && s.value !== '고갈';
-          if (rhmLoaded) {
-            _suppressExclusion = true;
-            irmSels.forEach(function(r){ r.value = ''; });
-            _suppressExclusion = false;
-          }
-        }
-        syncF8Weapons();
-        saveToLocalStorage();
-      });
-    });
-
-    // 초기 상태: Y-rack OFF면 IRM 기본 선택, RHM 비움 (로딩 중이면 저장값 유지)
-    var isLoading = row.dataset.isLoading === 'true';
-    if (!isRowYrack(row) && !isLoading) {
-      rhmSels.forEach(function(s){ s.value = ''; });
-    }
-    syncF8Weapons();
-  }
-
-  // 고갈수치 표시 업데이트
-  function updateDepDisplay(sel, newDep) {
-    if (!sel) return;
-    Array.from(sel.options).forEach(function(opt){
-      if (opt.value && opt.value !== '고갈' && opt.value !== '') {
-        opt.textContent = opt.value + ' [' + newDep + ']';
-        opt.dataset.dep = newDep;
-      }
-    });
-  }
-
-  // F-8C/D: 폭탄 ↔ IRM 상호 배제
-  function linkF8CdRestrictions(row, weaponCells) {
-    var irmCell = weaponCells[1], bombCell = weaponCells[3];
-    if (!irmCell || !bombCell) return;
-
-    function checkF8CdBombIrm() {
-      if (!isRowYrack(row)) return;
-      var bombEl = bombCell.querySelector('input, select');
-      var bombVal = bombEl ? (parseFloat(bombEl.value) || 0) : 0;
-      var irmSel = irmCell.querySelector('select');
-      if (!irmSel) return;
-
-      if (bombVal > 0) {
-        // 폭탄 있으면 IRM 장착 불가
-        if (irmSel.value && irmSel.value !== '' && irmSel.value !== '고갈') {
-          irmSel.value = '';
-        }
-        irmSel.disabled = true;
-        irmSel.title = 'Y-Rack: 폭탄 탑재 시 IRM 장착 불가';
-      } else {
-        irmSel.disabled = false;
-        irmSel.title = '';
-      }
-    }
-
-    bombCell.querySelectorAll('input, select').forEach(function(el){
-      el.addEventListener('change', checkF8CdBombIrm);
-      el.addEventListener('input', checkF8CdBombIrm);
-    });
-    // 초기 체크
-    checkF8CdBombIrm();
-  }
-
-  // Y-rack 기동력 오버라이드 값 반환 (null이면 기본값 사용)
-  function getYrackManeuverOverride(row, loadState, alt) {
-    if (!row) return null;
-    var isDrv = row.closest('table').id === 'drv-table';
-    if (isDrv) return null;
-    var acSel = row.querySelector('td:nth-child(4) select');
-    if (!acSel) return null;
-    var f8Type = getF8Type(acSel.value);
-    if (!f8Type || !isRowYrack(row)) return null;
-
-    // Clean: 6/7/7 → 5/6/6
-    var yrackClean = { low: '5', med: '6', high: '6' };
-    if (loadState === 'clean') return yrackClean[alt] || null;
-
-    // Laden
-    if (f8Type === 'F8EHJ') {
-      var yrackLaden = { low: '1', med: '2', high: '-' };
-      return yrackLaden[alt] || '-';
-    }
-    // F-8C/D laden은 원래 "-" 이므로 변경 없음
-    return null;
   }
 
   // 무기 셀에 드롭다운(보유/고갈/미탑재) 생성
@@ -6254,10 +5337,6 @@ document.addEventListener('DOMContentLoaded', () => {
       cell.innerHTML = '';
       var sel = document.createElement('select');
       value.forEach(function(v){ var o=document.createElement('option'); o.value=v; o.textContent=v; sel.appendChild(o); });
-      // 0이 없으면 추가 (폭탄 소진 표현)
-      if (!value.some(function(v){ return String(v) === '0'; })) {
-        var o0 = document.createElement('option'); o0.value='0'; o0.textContent='0'; sel.appendChild(o0);
-      }
       if (isLoading && oldValue !== undefined) {
         var found = Array.from(sel.options).some(function(o){return o.value===oldValue;});
         if (found) sel.value = oldValue;
@@ -6274,7 +5353,7 @@ document.addEventListener('DOMContentLoaded', () => {
           inp.type = 'number';
           inp.min = '0';
           inp.max = strVal;
-          inp.style.width = cell.closest('.bomb-fuel-cell') ? '28px' : '48px';
+          inp.style.width = '48px';
         } else {
           inp.type = 'text';
         }
@@ -6309,26 +5388,16 @@ document.addEventListener('DOMContentLoaded', () => {
       const wInfo = buildWeaponInfo(aircraftKey);
       if (!wInfo) return;
 
-      // ── Y-rack / Rocket (F-8 계열) ──
-      const f8Type = isDrv ? null : getF8Type(aircraftKey);
-      if (!isDrv) updateYrackCheckbox(row, f8Type);
-      if (f8Type) applyF8ToWeapons(row, wInfo, f8Type);
-
       const weaponCells = isDrv
-          ? getDrvWeaponCells(row)
-          : getUsWeaponCells(row);
+          ? Array.from(row.querySelectorAll('td')).slice(5, 10)
+          : Array.from(row.querySelectorAll('td')).slice(7, 12);
 
       if (weaponCells.length === 5) {
           // [0]=기총, [1]=IRM, [2]=RHM, [3]=폭탄, [4]=연료
           createWeaponCell(weaponCells[0], wInfo.gun, isLoading);
           createWeaponCell(weaponCells[1], wInfo.irm, isLoading);
           createWeaponCell(weaponCells[2], wInfo.rhm, isLoading);
-          createValueCell(weaponCells[3], wInfo.bomb, isLoading, true);
-          // bomb의 ruleMax 초기화 (ordnance 규칙 적용 기준)
-          var bombInit = weaponCells[3].querySelector('input, select');
-          if (bombInit && !isLoading) {
-            bombInit.dataset.ruleMax = bombInit.value;
-          }
+          createValueCell(weaponCells[3], wInfo.bomb, isLoading);
           createValueCell(weaponCells[4], wInfo.fuel, isLoading, true);
       }
 
@@ -6354,29 +5423,19 @@ document.addEventListener('DOMContentLoaded', () => {
           }
       }
 
-      // 무기 셀 변경 시 작전 중지 조건 체크 (select + input 모두)
+      // 무기 셀 변경 시 작전 중지 조건 체크
       if (!isDrv) {
-        weaponCells.forEach(function(cell, idx){
-          cell.querySelectorAll('select, input').forEach(function(el){
-            el.addEventListener('change', function(){
-              checkWeaponAbortCondition(row);
-              // 폭탄(idx=3) 변경 시 CBU 잠금 갱신
-              if (idx === 3) updateCbuLock(row);
-            });
+        weaponCells.forEach(function(cell){
+          cell.querySelectorAll('select').forEach(function(s){
+            s.addEventListener('change', function(){ checkWeaponAbortCondition(row); });
           });
         });
-      }
-
-      // F-8 무기 연동 (Y-rack/Rocket)
-      if (f8Type && !isDrv && weaponCells.length === 5 && !isRowRocket(row)) {
-        if (f8Type === 'F8EHJ') linkF8EhjWeapons(row, weaponCells);
-        if (f8Type === 'F8CD' && isRowYrack(row)) linkF8CdRestrictions(row, weaponCells);
       }
   }
 
   // ═══════════════ ORDNANCE 셀 관리 ═══════════════
 
-  // ordnance 셀 찾기 (US 테이블만, 연료 다음 칸 = td:nth-child(11))
+  // ordnance 셀 찾기 (US 테이블만, 연료 다음 칸 = td:nth-child(13))
   function getOrdnanceCell(row) {
     if (row.closest('table').id === 'drv-table') return null;
     return row.querySelector('td.ordnance-cell');
@@ -6419,11 +5478,9 @@ document.addEventListener('DOMContentLoaded', () => {
       try { oldState = JSON.parse(row.dataset.savedOrdnance); } catch(e){}
       delete row.dataset.savedOrdnance;
     } else {
-      cell.querySelectorAll('select, input[type=checkbox], input[type=number]').forEach(function(el){
+      cell.querySelectorAll('select, input[type=checkbox]').forEach(function(el){
         var k = el.dataset.ordName;
-        if (!k) return;
-        if (el.type === 'checkbox') oldState[k] = el.checked;
-        else oldState[k] = el.tagName === 'SELECT' ? el.value : (parseInt(el.value) || 0);
+        if (k) oldState[k] = el.tagName==='SELECT' ? el.value : el.checked;
       });
     }
 
@@ -6544,7 +5601,6 @@ document.addEventListener('DOMContentLoaded', () => {
           cbuNum.value = '0';
         }
         applyCbuRule(row, acData);
-        checkWeaponAbortCondition(row);
         saveToLocalStorage();
       });
       cbuNum.addEventListener('change', function(){
@@ -6552,8 +5608,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (v < 0) v = 0; if (v > numBomb) v = numBomb;
         cbuNum.value = v;
         applyCbuRule(row, acData);
-        checkWeaponAbortCondition(row);
-        updateCbuLock(row);
         saveToLocalStorage();
       });
       cbuLine.appendChild(cbuCb);
@@ -6572,52 +5626,10 @@ document.addEventListener('DOMContentLoaded', () => {
         stdB.value = '0';
       }
       applyOrdnanceRules(row);
-    } else {
-      // 로딩 시: CBU가 체크된 경우에만 applyCbuRule 실행
-      var loadCbuCb = wrap.querySelector('input[data-ord-name="CBU"]');
-      if (loadCbuCb && loadCbuCb.checked && numBomb > 0) {
-        var bombCellForLoad = row.querySelector('.bomb-wrap') || Array.from(row.querySelectorAll('td'))[9];
-        if (bombCellForLoad) {
-          var bombElForLoad = bombCellForLoad.querySelector('input, select');
-          if (bombElForLoad) bombElForLoad.dataset.preCbuBomb = String(numBomb);
-        }
-        applyCbuRule(row, acData);
-      } else {
-        // CBU 미사용 시에도 ordnance 규칙은 적용
-        applyOrdnanceRules(row);
-      }
-      updateCbuLock(row);
+    } else if (numBomb > 0) {
+      // 로딩 시 CBU 상태 복원 적용
+      applyCbuRule(row, acData);
     }
-  }
-
-  // bomb/CBU 소모 여부에 따라 CBU 체크박스 잠금/해제
-  function updateCbuLock(row) {
-    var ordCell = getOrdnanceCell(row);
-    if (!ordCell) return;
-    var cbuCb = ordCell.querySelector('input[data-ord-name="CBU"]');
-    if (!cbuCb) return;
-    var locked = false;
-    if (cbuCb.checked) {
-      // CBU 활성 상태: CBU를 소모했으면 체크해제 불가
-      var cbuNum = ordCell.querySelector('input[data-ord-name="CBU_count"]');
-      var cbuMax = parseInt(cbuNum ? cbuNum.max : 0) || 0;
-      var cbuCur = parseInt(cbuNum ? cbuNum.value : 0) || 0;
-      locked = cbuCur < cbuMax;
-    } else {
-      // CBU 비활성 상태: bomb을 소모했으면 체크 불가
-      var bombCell = row.querySelector('.bomb-wrap') || Array.from(row.querySelectorAll('td'))[9];
-      if (bombCell) {
-        var bombEl = bombCell.querySelector('input, select');
-        if (bombEl) {
-          var curBomb = parseFloat(bombEl.value) || 0;
-          var ruleMax = parseFloat(bombEl.dataset.ruleMax);
-          locked = !isNaN(ruleMax) && curBomb < ruleMax;
-        }
-      }
-    }
-    cbuCb.disabled = locked;
-    var cbuLine = cbuCb.closest('div');
-    if (cbuLine) cbuLine.style.opacity = locked ? '0.4' : '';
   }
 
   // CBU 전환 시 bomb 값 조정
@@ -6628,23 +5640,18 @@ document.addEventListener('DOMContentLoaded', () => {
     var cbuNum = cell.querySelector('input[data-ord-name="CBU_count"]');
     if (!cbuCb || !cbuNum) return;
     var baseBomb = parseFloat(acData.bomb) || 0;
-    var weaponCells = getUsWeaponCells(row);
+    var weaponCells = Array.from(row.querySelectorAll('td')).slice(7, 12);
     var bombCell = weaponCells[3];
     if (!bombCell) return;
     var bombEl = bombCell.querySelector('input, select');
     if (!bombEl) return;
 
     if (cbuCb.checked) {
-      // CBU 활성: 현재 bomb 값을 저장 후 bomb = 0 (이미 저장된 값이 있으면 덮어쓰지 않음)
-      if (bombEl.dataset.preCbuBomb === undefined || bombEl.dataset.preCbuBomb === '') {
-        bombEl.dataset.preCbuBomb = bombEl.value;
-      }
+      // CBU 활성: bomb = 0
       bombEl.value = '0';
     } else {
-      // CBU 비활성: CBU 활성화 전에 저장해둔 bomb 값 복원 (ordnance 규칙도 재적용)
-      var restored = bombEl.dataset.preCbuBomb;
-      bombEl.value = (restored !== undefined && restored !== '') ? restored : baseBomb;
-      delete bombEl.dataset.preCbuBomb;
+      // CBU 비활성: bomb 원래 값 복원 (ordnance 규칙도 재적용)
+      bombEl.value = baseBomb;
       applyOrdnanceRules(row);
     }
   }
@@ -6701,42 +5708,20 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // bomb 셀 업데이트
-    var weaponCells = getUsWeaponCells(row);
-    var bombCell = weaponCells[3]; // 폭탄 (.bomb-wrap)
+    var weaponCells = Array.from(row.querySelectorAll('td')).slice(7, 12);
+    var bombCell = weaponCells[3]; // 폭탄
     if (bombCell) {
       var bombEl = bombCell.querySelector('input, select');
       if (bombEl) {
-        // CBU 활성 상태면 bomb을 건드리지 않음 (0 유지)
-        var ordCell = getOrdnanceCell(row);
-        var cbuActive = ordCell && ordCell.querySelector('input[data-ord-name="CBU"]');
-        if (cbuActive && cbuActive.checked) {
-          // bomb은 0 유지, ruleMax도 건드리지 않음 (CBU 해제 시 올바른 비교를 위해)
+        if (bombEl.tagName === 'SELECT') {
+          // select인 경우 가장 가까운 옵션 선택
+          var best = null;
+          Array.from(bombEl.options).forEach(function(o){
+            if (parseFloat(o.value) === newBomb) best = o.value;
+          });
+          if (best !== null) bombEl.value = best;
         } else {
-          var curBomb = parseFloat(bombEl.value) || 0;
-          var prevRule = parseFloat(bombEl.dataset.ruleMax);
-          // ruleMax가 없으면 (첫 세팅) 무조건 적용
-          if (isNaN(prevRule)) {
-            prevRule = curBomb;
-          }
-          if (curBomb >= prevRule) {
-            // 사용자가 bomb을 소모하지 않은 상태 → 규칙값 추종
-            if (bombEl.tagName === 'SELECT') {
-              var best = null;
-              Array.from(bombEl.options).forEach(function(o){
-                if (parseFloat(o.value) === newBomb) best = o.value;
-              });
-              if (best !== null) bombEl.value = best;
-            } else {
-              bombEl.value = newBomb;
-            }
-          } else {
-            // 사용자가 bomb을 이미 소모 → 새 규칙값이 더 낮을 때만 하향
-            if (newBomb < curBomb) {
-              bombEl.value = newBomb;
-            }
-            // 새 규칙값이 더 높으면 (Shrike 소모 등) bomb을 올리지 않음
-          }
-          bombEl.dataset.ruleMax = String(newBomb);
+          bombEl.value = newBomb;
         }
       }
     }
@@ -6744,9 +5729,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // 태스크+ordnance 기반 무기 고갈수치 동적 변경
     applyTaskWeaponRules(row, acData, state);
 
-    // 무기 소모 → 작전 중지 체크 + CBU 잠금 갱신
+    // 무기 소모 → 작전 중지 체크
     checkWeaponAbortCondition(row);
-    updateCbuLock(row);
   }
 
   // 태스크/ordnance 기반 무기 고갈수치 규칙
@@ -6886,13 +5870,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const acName = acSel.value || "";
 
     const oobType = document.body.dataset.oobType || 'A';
-    // 항공기명으로 USAF/USN 자동 판별 (혼성 공격대 대응)
-    const usnAircraft = ['A-4','A-6','A-7A_B','A-7C_E','F-4B','F-4J','F-4N','F-8','RF-8','RA-5','EA-1','EA-6','EKA-3','EF-10'];
-    const isUsnAc = usnAircraft.some(p => acName.includes(p));
     let callsignDb;
     if (oobType.startsWith('E')) {
       callsignDb = CALLSIGN_DATA.GMT_Downtown_Callsigns.CSAR;
-    } else if (oobType === 'B' || isUsnAc) {
+    } else if (oobType === 'B') {
       callsignDb = CALLSIGN_DATA.GMT_Downtown_Callsigns.USN_USMC;
     } else {
       callsignDb = CALLSIGN_DATA.GMT_Downtown_Callsigns.USAF;
@@ -6901,7 +5882,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let dbKey = null;
     let options = [];
 
-    const remarksInput = row.querySelector('td:nth-child(12) input');
+    const remarksInput = row.querySelector('td:nth-child(14) input');
     const isHeli = remarksInput && remarksInput.value.includes('헬리콥터');
 
     if (oobType.startsWith('E') && isHeli) {
@@ -6919,7 +5900,7 @@ document.addEventListener('DOMContentLoaded', () => {
         else if (acName.includes('F-111')) dbKey = "F-111 Aardvark";
         else if (acName.includes('A-7')) dbKey = "A-7 Corsair II";
         else if (acName.includes('B-52')) dbKey = "B-52";
-        else if (acName.includes('RF-101')) dbKey = "RF-101 Voodoo";
+        else if (acName.includes('RF-101') || acName.includes('RF1-1C')) dbKey = "RF-101 Voodoo";
         else if (acName.includes('EB-66')) dbKey = "EB-66 Destroyer";
         else if (acName.includes('F-8') || acName.includes('RF-8')) dbKey = "F-8 Crusader";
         else if (acName.includes('A-4')) dbKey = "A-4 Skyhawk";
@@ -6989,7 +5970,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
   }
-  const US_AIRCRAFT_OPTIONS = `<option value="A-1H Skyraider [US]">A-1H Skyraider</option><option value="A-4C Skyhawk [US]">A-4C Skyhawk</option><option value="A-4E_F Skyhawk [US]">A-4E_F Skyhawk</option><option value="A-6A Intruder [US]">A-6A Intruder</option><option value="A-6B Intruder [US]">A-6B Intruder</option><option value="A-6C Intruder [US]">A-6C Intruder</option><option value="A-7A_B Corsair 2 [US]">A-7A_B Corsair 2</option><option value="A-7C_E Corsair 2 [US]">A-7C_E Corsair 2</option><option value="A-7D Corsair 2 [US]">A-7D Corsair 2</option><option value="B-52D Stratofortress [US]">B-52D Stratofortress</option><option value="B-52G Stratofortress [US]">B-52G Stratofortress</option><option value="Canberra MK.20 [AUS]">Canberra MK.20</option><option value="EA-1F Electric SPAD [US]">EA-1F Electric SPAD</option><option value="EA-6A Intruder [US]">EA-6A Intruder</option><option value="EA-6B Prowler [US]">EA-6B Prowler</option><option value="EB-66B [US]">EB-66B</option><option value="EB-66C [US]">EB-66C</option><option value="EB-66E [US]">EB-66E</option><option value="EF-10B Skynight [US]">EF-10B Skynight</option><option value="EKA-3B Skywarrior [US]">EKA-3B Skywarrior</option><option value="F-100D Super Sabre [US]">F-100D Super Sabre</option><option value="F-100F Wild Weasel 1 [US]">F-100F Wild Weasel 1</option><option value="F-104C Starfighter [US]">F-104C Starfighter</option><option value="F-105D Thunderchief [US]">F-105D Thunderchief</option><option value="F-105F Thunderchief(2) [US]">F-105F Thunderchief(2)</option><option value="F-105F Thunderchief [US]">F-105F Thunderchief</option><option value="F-105F Wild Weasel 3 [US]">F-105F Wild Weasel 3</option><option value="F-105G Wild Weasel [US]">F-105G Wild Weasel</option><option value="F-105G Wild Weasel(2) [US]">F-105G Wild Weasel(2)</option><option value="F-111A Aardvark [US]">F-111A Aardvark</option><option value="F-14A Tomcat [US]">F-14A Tomcat</option><option value="F-4B Phantom 2 [US]">F-4B Phantom 2</option><option value="F-4C Phantom 2 [US]">F-4C Phantom 2</option><option value="F-4C Wild Weasel 4 [US]">F-4C Wild Weasel 4</option><option value="F-4D Phantom 2 [US]">F-4D Phantom 2</option><option value="F-4E Phantom 2 [US]">F-4E Phantom 2</option><option value="F-4J Phantom 2 [US]">F-4J Phantom 2</option><option value="F-4N Phantom 2 [US]">F-4N Phantom 2</option><option value="F-8C_D Crusader [US]">F-8C_D Crusader</option><option value="F-8E_H_J Crusader [US]">F-8E_H_J Crusader</option><option value="Mirage IIIO(F) [AUS]">Mirage IIIO(F)</option><option value="RA-5C Vigilante [US]">RA-5C Vigilante</option><option value="RF-4B Phantom 2 [US]">RF-4B Phantom 2</option><option value="RF-4C Phantom 2 [US]">RF-4C Phantom 2</option><option value="RF-8A_G Crusader [US]">RF-8A_G Crusader</option><option value="RF-101C Voodoo [US]">RF-101C Voodoo</option>`;
+  const US_AIRCRAFT_OPTIONS = `<option value="A-1H Skyraider [US]">A-1H Skyraider</option><option value="A-4C Skyhawk [US]">A-4C Skyhawk</option><option value="A-4E_F Skyhawk [US]">A-4E_F Skyhawk</option><option value="A-6A Intruder [US]">A-6A Intruder</option><option value="A-6B Intruder [US]">A-6B Intruder</option><option value="A-6C Intruder [US]">A-6C Intruder</option><option value="A-7A_B Corsair 2 [US]">A-7A_B Corsair 2</option><option value="A-7C_E Corsair 2 [US]">A-7C_E Corsair 2</option><option value="A-7D Corsair 2 [US]">A-7D Corsair 2</option><option value="B-52D Stratofortress [US]">B-52D Stratofortress</option><option value="B-52G Stratofortress [US]">B-52G Stratofortress</option><option value="Canberra MK.20 [AUS]">Canberra MK.20</option><option value="EA-1F Electric SPAD [US]">EA-1F Electric SPAD</option><option value="EA-6A Intruder [US]">EA-6A Intruder</option><option value="EA-6B Prowler [US]">EA-6B Prowler</option><option value="EB-66B [US]">EB-66B</option><option value="EB-66C [US]">EB-66C</option><option value="EB-66E [US]">EB-66E</option><option value="EF-10B Skynight [US]">EF-10B Skynight</option><option value="EKA-3B Skywarrior [US]">EKA-3B Skywarrior</option><option value="F-100D Super Sabre [US]">F-100D Super Sabre</option><option value="F-100F Wild Weasel 1 [US]">F-100F Wild Weasel 1</option><option value="F-104C Starfighter [US]">F-104C Starfighter</option><option value="F-105D Thunderchief [US]">F-105D Thunderchief</option><option value="F-105F Thunderchief(2) [US]">F-105F Thunderchief(2)</option><option value="F-105F Thunderchief [US]">F-105F Thunderchief</option><option value="F-105F Wild Weasel 3 [US]">F-105F Wild Weasel 3</option><option value="F-105G Wild Weasel [US]">F-105G Wild Weasel</option><option value="F-105G Wild Weasel(2) [US]">F-105G Wild Weasel(2)</option><option value="F-111A Aardvark [US]">F-111A Aardvark</option><option value="F-14A Tomcat [US]">F-14A Tomcat</option><option value="F-4B Phantom 2 [US]">F-4B Phantom 2</option><option value="F-4C Phantom 2 [US]">F-4C Phantom 2</option><option value="F-4C Wild Weasel 4 [US]">F-4C Wild Weasel 4</option><option value="F-4D Phantom 2 [US]">F-4D Phantom 2</option><option value="F-4E Phantom 2 [US]">F-4E Phantom 2</option><option value="F-4J Phantom 2 [US]">F-4J Phantom 2</option><option value="F-4N Phantom 2 [US]">F-4N Phantom 2</option><option value="F-8C_D Crusader [US]">F-8C_D Crusader</option><option value="F-8E_H_J Crusader [US]">F-8E_H_J Crusader</option><option value="Mirage IIIO(F) [AUS]">Mirage IIIO(F)</option><option value="RA-5C Vigilante [US]">RA-5C Vigilante</option><option value="RF-4B Phantom 2 [US]">RF-4B Phantom 2</option><option value="RF-4C Phantom 2 [US]">RF-4C Phantom 2</option><option value="RF-8A_G Crusader [US]">RF-8A_G Crusader</option><option value="RF1-1C Voodoo [US]">RF1-1C Voodoo</option>`;
   const STATUS_GRID = `<div class="status-grid">
     <div class="status-item" data-status="1"><div class="status-header"><label>#1</label></div><select><option selected></option><option>손상</option><option>무력화</option><option>격추</option></select></div>
     <div class="status-item" data-status="2"><div class="status-header"><label>#2</label><button class="status-control-btn remove-status">X</button><button class="status-control-btn add-status" style="display:none">+</button></div><select><option selected></option><option>손상</option><option>무력화</option><option>격추</option></select></div>
@@ -7009,10 +5990,10 @@ document.addEventListener('DOMContentLoaded', () => {
       `<td><select class="fit-width"><option>폭격</option><option>SEAD</option><option>CAP</option><option>무장 호위</option><option>구조 지원</option><option>정찰</option><option>재밍</option><option>채프 살포</option><option value="타격">타격/CAP</option></select></td>` +
       `<td><select class="callsign-select"></select></td>` +
       `<td><select>${US_AIRCRAFT_OPTIONS}</select></td>` +
-      `<td class="skill-av-cell"><div class="stacked-cell"><select>${SKILL_OPTIONS}</select>${AGGRESS}</div></td>` +
+      `<td><select>${SKILL_OPTIONS}</select></td>` +
+      `<td>${AGGRESS}</td>` +
       `<td>${STATUS_GRID}</td>` +
-      `<td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td>` +
-      `<td class="bomb-fuel-cell"><div class="bomb-wrap"><input type="text" value=""></div><div class="fuel-wrap"><input type="text" value=""></div></td>` +
+      `<td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td>` +
       `<td class="ordnance-cell"></td>` +
       `<td><input type="text" value=""></td>` +
       `<td><div class="role-btn-wrap"><button type="button" class="role-btn us-attacker-btn" data-role="attacker" data-side="us">공격</button><button type="button" class="role-btn us-defender-btn" data-role="defender" data-side="us">방어</button></div></td>` +
@@ -7021,10 +6002,10 @@ document.addEventListener('DOMContentLoaded', () => {
   function makeDrvRowHTML() {
     return `<td><select class="callsign-select"></select></td>` +
       `<td><select><option value="MiG-17F Fresco C [DRV]">MiG-17F Fresco C</option><option value="MiG-17PF Fresco D [DRV]">MiG-17PF Fresco D</option><option value="MiG-19S Farmer C [DRV]">MiG-19S Farmer C</option><option value="MiG-21F-13 Fishbed C [DRV]">MiG-21F-13 Fishbed C</option><option value="MiG-21MF Fishbed J [DRV]">MiG-21MF Fishbed J</option><option value="MiG-21PF Fishbed D [DRV]">MiG-21PF Fishbed D</option><option value="MiG-21PFM Fishbed F [DRV]">MiG-21PFM Fishbed F</option></select></td>` +
-      `<td class="skill-av-cell"><div class="stacked-cell"><select>${SKILL_OPTIONS}</select>${AGGRESS}</div></td>` +
+      `<td><select>${SKILL_OPTIONS}</select></td>` +
+      `<td>${AGGRESS}</td>` +
       `<td>${STATUS_GRID}</td>` +
-      `<td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td>` +
-      `<td class="bomb-fuel-cell"><div class="bomb-wrap"><input type="text" value=""></div><div class="fuel-wrap"><input type="text" value=""></div></td>` +
+      `<td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td>` +
       `<td><input type="text" value=""></td>` +
       `<td><div class="role-btn-wrap"><button type="button" class="role-btn drv-attacker-btn" data-role="attacker" data-side="drv">공격</button><button type="button" class="role-btn drv-defender-btn" data-role="defender" data-side="drv">방어</button></div></td>` +
      `<td><button class="abort-btn">중단</button></td><td><button class="view-btn">보기</button></td><td></td>`;
@@ -7084,7 +6065,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const tid = row.closest('table').id;
     const isDrv = tid === 'drv-table';
     const skillSel = row.querySelector(isDrv ? 'td:nth-child(3) select' : 'td:nth-child(5) select');
-    const agVal    = row.querySelector(isDrv ? 'td:nth-child(3) .aggress-value' : 'td:nth-child(5) .aggress-value');
+    const agVal    = row.querySelector(isDrv ? 'td:nth-child(4) .aggress-value' : 'td:nth-child(6) .aggress-value');
     if (skillSel && agVal) {
       skillSel.addEventListener('change', () => {
         if (skillSel.value) { agVal.textContent = calculateAggressiveness(skillSel.value); saveToLocalStorage(); }
@@ -7118,11 +6099,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       saveToLocalStorage();
     });
-    grid.querySelectorAll('.status-item select').forEach(s => s.addEventListener('change', () => {
-      saveToLocalStorage();
-      const row = grid.closest('tr');
-      if (row) checkWeaponAbortCondition(row);
-    }));
+    grid.querySelectorAll('.status-item select').forEach(s => s.addEventListener('change', saveToLocalStorage));
   }
   function addRowListeners(row) {
     row.querySelectorAll('select.fit-width').forEach(s => {
@@ -7168,8 +6145,6 @@ document.addEventListener('DOMContentLoaded', () => {
     row.querySelectorAll('.role-btn').forEach(btn => {
       btn.addEventListener('click', () => handleRoleButtonClick(btn));
     });
-    // 항공기 가용 기간 필터 적용
-    filterAircraftOptions(row);
   }
   function addAggressivenessControlsWithSync(row) {
     const container = row.querySelector('.aggress-container');
@@ -7236,29 +6211,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const rows = table.querySelectorAll('tbody tr:not(:last-child)');
     const data = [];
     rows.forEach(row => {
-      const rowData = { cells: [], status: [], aborted: row.classList.contains('aborted'), yrack: row.dataset.yrack || '', rocket: row.dataset.rocket || '' };
+      const rowData = { cells: [], status: [], aborted: row.classList.contains('aborted') };
       row.querySelectorAll('td:not(:last-child)').forEach(cell => {
         const sel = cell.querySelector('select');
         const inp = cell.querySelector('input');
         const viewBtn = cell.querySelector('button.view-btn');
         const abortBtn = cell.querySelector('button.abort-btn');
         const roleWrap = cell.querySelector('.role-btn-wrap');
-        // 수준+공격성 결합 셀
-        if (cell.classList.contains('skill-av-cell')) {
-          var skillSel = cell.querySelector('select');
-          rowData.cells.push({ type:'select', value: skillSel ? skillSel.value : '' });
-          var agVal = cell.querySelector('.aggress-value');
-          rowData.cells.push({ type:'aggress', value: agVal ? agVal.textContent.trim() : '0' });
-          return; // skip default handling
-        }
-        // 폭탄+연료 결합 셀
-        if (cell.classList.contains('bomb-fuel-cell')) {
-          var bombEl = cell.querySelector('.bomb-wrap input, .bomb-wrap select');
-          var fuelEl = cell.querySelector('.fuel-wrap input, .fuel-wrap select');
-          rowData.cells.push({ type:'input', value: bombEl ? bombEl.value : '' });
-          rowData.cells.push({ type:'input', value: fuelEl ? fuelEl.value : '' });
-          return; // skip default handling
-        }
         if (cell.classList.contains('ordnance-cell')) {
           // ordnance 상태 저장
           var ordState = {};
@@ -7354,36 +6313,6 @@ document.addEventListener('DOMContentLoaded', () => {
           });
           return; // ci 증가하지 않음
         }
-        // 수준+공격성 결합 셀 복원
-        if (cell.classList.contains('skill-av-cell')) {
-          if (ci < rowData.cells.length) {
-            var sc1 = rowData.cells[ci]; ci++;
-            var sel = cell.querySelector('select');
-            if (sel && sc1.type === 'select') sel.value = sc1.value;
-          }
-          if (ci < rowData.cells.length) {
-            var sc2 = rowData.cells[ci]; ci++;
-            if (sc2.type === 'aggress') {
-              var agVal = cell.querySelector('.aggress-value');
-              if (agVal) agVal.textContent = sc2.value || '0';
-            }
-          }
-          return; // skip default
-        }
-        // 폭탄+연료 결합 셀 복원
-        if (cell.classList.contains('bomb-fuel-cell')) {
-          if (ci < rowData.cells.length) {
-            var sc1 = rowData.cells[ci]; ci++;
-            var bombEl = cell.querySelector('.bomb-wrap input');
-            if (bombEl) bombEl.value = sc1.value || '';
-          }
-          if (ci < rowData.cells.length) {
-            var sc2 = rowData.cells[ci]; ci++;
-            var fuelEl = cell.querySelector('.fuel-wrap input');
-            if (fuelEl) fuelEl.value = sc2.value || '';
-          }
-          return; // skip default
-        }
         if (ci < rowData.cells.length) {
           const sc = rowData.cells[ci];
           const sel = cell.querySelector('select'); const inp = cell.querySelector('input[type="text"]');
@@ -7422,8 +6351,6 @@ document.addEventListener('DOMContentLoaded', () => {
       tbody.insertBefore(clone, addRowBtnRow);
       addDeleteButton(clone); addRowListeners(clone);
       clone.dataset.isLoading = 'true';
-      if (rowData.yrack) clone.dataset.yrack = rowData.yrack;
-      if (rowData.rocket) clone.dataset.rocket = rowData.rocket;
       updateWeaponData(clone);
       if (tableId !== 'drv-table') updateOrdnanceCell(clone);
       updateCallsign(clone);
@@ -7445,13 +6372,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const dateInput = document.getElementById('us-date');
     if (dateInput) dateInput.value = oobData.date || '';
     const targetInput = document.getElementById('us-target');
-    if (targetInput) {
-      if (oobData.targets && oobData.targets.length > 0) {
-        targetInput.value = oobData.targets.map(t => t.name + ' (' + t.hex + ', ' + t.profile + ')').join(' / ');
-      } else {
-        targetInput.value = '';
-      }
-    }
+    if (targetInput) targetInput.value = '';
 
     if (!oobData.squads || oobData.squads.length === 0) {
       saveToLocalStorage();
@@ -7470,7 +6391,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const t = sd.task || '', ac = sd.aircraft || '';
       const isSEAD = t === 'SEAD', isCAP = t === 'CAP', isAE = t === 'Armed Escort';
       const isF8 = ac.startsWith('F-8'), isF4B = ac === 'F-4B';
-      const sdType = sd.forceOobType || oobType; // 혼성 공격대 시 행별 oobType 우선
       switch (scenCode) {
         case 'D2':
           if (isF4B && _d2F4BVet < 1) { _d2F4BVet++; return '베테랑'; }
@@ -7478,23 +6398,23 @@ document.addEventListener('DOMContentLoaded', () => {
         case 'D3':
           return isF8 ? '베테랑' : '정규군';
         case 'D4':
-          if (sdType === 'A') return (isSEAD || isCAP) ? '베테랑' : '정규군';
-          if (sdType === 'B') return isF8 ? '탑건' : '정규군';
+          if (oobType === 'A') return (isSEAD || isCAP) ? '베테랑' : '정규군';
+          if (oobType === 'B') return isF8 ? '탑건' : '정규군';
           return '정규군';
         case 'D5': case 'D7':
-          if (sdType === 'A') return isSEAD ? '베테랑' : '정규군';
-          if (sdType === 'B') return isF8 ? '탑건' : '정규군';
+          if (oobType === 'A') return isSEAD ? '베테랑' : '정규군';
+          if (oobType === 'B') return isF8 ? '탑건' : '정규군';
           return '정규군';
         case 'D8':
-          if (sdType === 'A') return isSEAD ? '베테랑' : '훈련됨';
-          if (sdType === 'B') return isF8 ? '탑건' : '정규군';
+          if (oobType === 'A') return isSEAD ? '베테랑' : '훈련됨';
+          if (oobType === 'B') return isF8 ? '탑건' : '정규군';
           return '정규군';
         case 'D9':
-          if (sdType === 'A') return isSEAD ? '베테랑' : '훈련됨';
+          if (oobType === 'A') return isSEAD ? '베테랑' : '훈련됨';
           return '정규군';
         case 'D10': case 'D11': case 'D13':
-          if (sdType === 'D') return isSEAD ? '베테랑' : '정규군';
-          if (sdType === 'B') return (isCAP || isAE) ? '탑건' : '정규군';
+          if (oobType === 'D') return isSEAD ? '베테랑' : '정규군';
+          if (oobType === 'B') return (isCAP || isAE) ? '탑건' : '정규군';
           return '정규군';
         case 'D12': case 'D14': case 'D15': case 'D16':
           return '베테랑';
@@ -7538,10 +6458,10 @@ document.addEventListener('DOMContentLoaded', () => {
       'EB-66C':'EB-66C [US]','EB-66B':'EB-66B [US]','EB-66E':'EB-66E [US]','F-4C':'F-4C Phantom 2 [US]',
       'F-104C':'F-104C Starfighter [US]','F-4D':'F-4D Phantom 2 [US]','F-100F':'F-100F Wild Weasel 1 [US]',
       'F-105D':'F-105D Thunderchief [US]','F-105F WW':'F-105F Wild Weasel 3 [US]','F-105F':'F-105F Thunderchief [US]',
-      'RF-101C':'RF-101C Voodoo [US]','RF-4C':'RF-4C Phantom 2 [US]','F-4E':'F-4E Phantom 2 [US]',
+      'RF-101C':'RF1-1C Voodoo [US]','RF-4C':'RF-4C Phantom 2 [US]','F-4E':'F-4E Phantom 2 [US]',
       'A-7D':'A-7D Corsair 2 [US]','F-105G WW':'F-105G Wild Weasel [US]','F-4C WW':'F-4C Wild Weasel 4 [US]',
       'A-1':'A-1H Skyraider [US]','F-4B':'F-4B Phantom 2 [US]','A-4C':'A-4C Skyhawk [US]',
-      'F-8C/F-8E':'F-8E_H_J Crusader [US]','F-8C':'F-8C_D Crusader [US]','F-8E':'F-8E_H_J Crusader [US]','F-8D':'F-8C_D Crusader [US]',
+      'F-8C/F-8E':'F-8E_H_J Crusader [US]','F-8E':'F-8E_H_J Crusader [US]','F-8D':'F-8C_D Crusader [US]',
       'A-4E':'A-4E_F Skyhawk [US]','A-6A':'A-6A Intruder [US]','EA-1F':'EA-1F Electric SPAD [US]',
       'EF-10B':'EF-10B Skynight [US]','RA-5C':'RA-5C Vigilante [US]','RF-8A':'RF-8A_G Crusader [US]',
       'RF-8G':'RF-8A_G Crusader [US]','EKA-3B':'EKA-3B Skywarrior [US]','A-7A':'A-7A_B Corsair 2 [US]',
@@ -7566,15 +6486,11 @@ document.addEventListener('DOMContentLoaded', () => {
       const tSel = clone.querySelector('td:nth-child(2) select');
       const aSel = clone.querySelector('td:nth-child(4) select');
       const skillSel = clone.querySelector('td:nth-child(5) select');
-      const agVal = clone.querySelector('td:nth-child(5) .aggress-value');
-      const rInp = clone.querySelector('td:nth-child(12) input');
+      const agVal = clone.querySelector('td:nth-child(6) .aggress-value');
+      const rInp = clone.querySelector('td:nth-child(14) input');
       if (mSel) { mSel.value = missionMap[sd.mission] || ''; if (mSel.classList.contains('fit-width')) adjustSelectWidth(mSel); }
       if (tSel) { tSel.value = taskMap[sd.task] || ''; if (tSel.classList.contains('fit-width')) adjustSelectWidth(tSel); }
       if (rInp) {
-        // 협동 공격 비고 (D5 24apr 등)
-        if (sd.raidNote) {
-          rInp.value = sd.raidNote;
-        }
         const subGroupMatch = sd.mission.match(/(?:^|[\s가-힣])([A-F])(?:\s*[\(\s]|$)/);
         if (subGroupMatch) {
           const label = subGroupMatch[1];
@@ -7586,25 +6502,6 @@ document.addEventListener('DOMContentLoaded', () => {
         let ac = acMap[sd.aircraft] || '';
         if (sd.aircraft === 'Helicopter') { ac = 'A-1H Skyraider [US]'; if (rInp) rInp.value = '헬리콥터'; }
         else if (sd.aircraft === 'A-6A/C') { if (rInp) rInp.value = (rInp.value ? rInp.value+' ' : '')+'A-6C 가능'; }
-        // WW 변형: 날짜에 안 맞으면 대체 변형 사용
-        var wwFallbacks = {
-          'F-105G Wild Weasel [US]': 'F-105G Wild Weasel(2) [US]',
-          'F-105G Wild Weasel(2) [US]': 'F-105G Wild Weasel [US]',
-          'F-105F Wild Weasel 3 [US]': 'F-105F Thunderchief [US]',
-          'F-105F Thunderchief [US]': 'F-105F Wild Weasel 3 [US]'
-        };
-        var scenDate = getScenarioDate();
-        if (ac && scenDate && wwFallbacks[ac]) {
-          var cache = buildAcAvailCache();
-          var ranges = cache[ac];
-          if (ranges && !isAircraftAvailable(ranges, scenDate)) {
-            var alt = wwFallbacks[ac];
-            var altRanges = cache[alt];
-            if (!altRanges || isAircraftAvailable(altRanges, scenDate)) {
-              ac = alt;
-            }
-          }
-        }
         aSel.value = ac;
       }
       if (skillSel) {
@@ -7880,9 +6777,6 @@ document.addEventListener('DOMContentLoaded', () => {
     var loadState = (bombVal === 0) ? 'clean' : 'laden';
     var manVal = ac.performance && ac.performance.maneuver && ac.performance.maneuver[loadState]
       ? ac.performance.maneuver[loadState][combatAlt] : '-';
-    // Y-rack 기동력 오버라이드
-    var yrackMan = getYrackManeuverOverride(row, loadState, combatAlt);
-    if (yrackMan !== null) manVal = yrackMan;
     console.log('[ADC] setCombatManeuver', side, ac.name, loadState, combatAlt, '→', manVal);
     if (manVal && manVal !== '-') {
       document.getElementById('man-' + side + '-my').value = parseInt(manVal) || 0;
@@ -8270,8 +7164,8 @@ document.addEventListener('DOMContentLoaded', () => {
     var row = getRaidRow(side);
     if (!row) return;
     var isDrv = row.closest('table').id === 'drv-table';
-    // US: .bomb-wrap in td:nth-child(10), DRV: .bomb-wrap in td:nth-child(8)
-    var bombCell = row.querySelector(isDrv ? 'td:nth-child(8) .bomb-wrap' : 'td:nth-child(10) .bomb-wrap');
+    // US: td:nth-child(11)=폭탄, DRV: td:nth-child(9)=폭탄
+    var bombCell = row.querySelector(isDrv ? 'td:nth-child(9)' : 'td:nth-child(11)');
     if (!bombCell) return;
     var inp = bombCell.querySelector('input');
     if (inp) { inp.value = '0'; saveToLocalStorage(); }
@@ -8282,8 +7176,8 @@ document.addEventListener('DOMContentLoaded', () => {
     var row = getRaidRow(side);
     if (!row) return;
     var isDrv = row.closest('table').id === 'drv-table';
-    // US: .fuel-wrap in td:nth-child(10), DRV: .fuel-wrap in td:nth-child(8)
-    var fuelCell = row.querySelector(isDrv ? 'td:nth-child(8) .fuel-wrap' : 'td:nth-child(10) .fuel-wrap');
+    // US: td:nth-child(12)=연료, DRV: td:nth-child(10)=연료
+    var fuelCell = row.querySelector(isDrv ? 'td:nth-child(10)' : 'td:nth-child(12)');
     if (!fuelCell) return;
     var inp = fuelCell.querySelector('input');
     if (inp) {
@@ -8297,25 +7191,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function checkWeaponAbortCondition(row) {
     if (!row || row.classList.contains('aborted')) return;
     var isDrv = row.closest('table').id === 'drv-table';
-
-    // 모든 기체가 손상/무력화/격추 → 작전 중지 (US + DRV 공통)
-    var allHit = true;
-    row.querySelectorAll('.status-item').forEach(function(item) {
-      var sel = item.querySelector('select');
-      if (sel && sel.style.display !== 'none') {
-        if (!sel.value || sel.value === '') allHit = false;
-      }
-    });
-    if (allHit) {
-      row.classList.add('aborted');
-      var noteCol = isDrv ? 'td:nth-child(9)' : 'td:nth-child(12)';
-      var rInp = row.querySelector(noteCol + ' input');
-      if (rInp) rInp.value = (rInp.value ? rInp.value + ' ' : '') + '모든 기체 피해 → 작전 중지';
-      saveToLocalStorage();
-      return;
-    }
-
-    if (isDrv) return; // 무기/태스크 기반 체크는 US만
+    if (isDrv) return;
     var taskSel = row.querySelector('td:nth-child(2) select');
     if (!taskSel) return;
     var task = taskSel.value;
@@ -8324,7 +7200,7 @@ document.addEventListener('DOMContentLoaded', () => {
     var gunAvail = isWeaponAvailable(row, 0);
     var irmAvail = isWeaponAvailable(row, 1);
     var rhmAvail = isWeaponAvailable(row, 2);
-    var bombEl = row.querySelector('.bomb-wrap') || Array.from(row.querySelectorAll('td'))[9];
+    var bombEl = (Array.from(row.querySelectorAll('td')).slice(7,12))[3];
     var bombVal = bombEl ? parseFloat((bombEl.querySelector('input,select') || {}).value) || 0 : 0;
     var ordState = readOrdnanceState(row);
     // 공대지 ordnance 잔탄 합계 (CBU 포함, Shrike/Standard 등)
@@ -8340,10 +7216,6 @@ document.addEventListener('DOMContentLoaded', () => {
     var allAamGone = !irmAvail && !rhmAvail;
     var allWeaponsGone = !gunAvail && allAamGone && allAtgGone;
 
-    // 임무(mission) 읽기 — 아이언 핸드 임무도 SEAD와 동일 기준 적용
-    var missSel = row.querySelector('td:nth-child(1) select');
-    var mission = missSel ? missSel.value : '';
-
     var msg = null;
     switch(task) {
       case 'SEAD':
@@ -8358,23 +7230,8 @@ document.addEventListener('DOMContentLoaded', () => {
           taskSel.value = 'CAP';
           if (taskSel.classList.contains('fit-width')) adjustSelectWidth(taskSel);
           updateOrdnanceCell(row);
-          var rInp = row.querySelector('td:nth-child(12) input');
+          var rInp = row.querySelector('td:nth-child(14) input');
           if (rInp) rInp.value = (rInp.value ? rInp.value + ' ' : '') + 'AE→CAP';
-          saveToLocalStorage();
-          return; // 중지하지 않음
-        }
-        break;
-      case '폭격':
-        if (allAtgGone) msg = '공대지 무장 소모 → 작전 중지';
-        break;
-      case '타격':
-        if (allAtgGone) {
-          // 공대지 무장 소모 시 CAP으로 전환
-          taskSel.value = 'CAP';
-          if (taskSel.classList.contains('fit-width')) adjustSelectWidth(taskSel);
-          updateOrdnanceCell(row);
-          var rInp = row.querySelector('td:nth-child(12) input');
-          if (rInp) rInp.value = (rInp.value ? rInp.value + ' ' : '') + '타격→CAP';
           saveToLocalStorage();
           return; // 중지하지 않음
         }
@@ -8383,14 +7240,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (allWeaponsGone) msg = '모든 무기 소모 → 작전 중지';
         break;
     }
-    // 아이언 핸드 임무: 태스크와 무관하게 공대지 무장 소모 시 작전 중지 (기총 잔탄 무시)
-    if (!msg && mission === '아이언 핸드' && allAtgGone) {
-      msg = '공대지 무장 소모 → 작전 중지';
-    }
-    // (모든 기체 피해 체크는 위에서 US/DRV 공통으로 처리됨)
     if (msg) {
       row.classList.add('aborted');
-      var rInp = row.querySelector('td:nth-child(12) input');
+      var rInp = row.querySelector('td:nth-child(14) input');
       if (rInp) rInp.value = (rInp.value ? rInp.value + ' ' : '') + msg;
       saveToLocalStorage();
     }
@@ -9128,8 +7980,6 @@ document.addEventListener('DOMContentLoaded', () => {
   if (ti2) ti2.addEventListener('input', saveToLocalStorage);
   loadFromShareUrl();
   loadFromLocalStorage();
-  // 초기 로드 시 시나리오에 따라 원형진 가시성 설정
-  updateWheelVisibility(document.getElementById('scenario-select')?.value || '');
   if (usContent.style.display !== 'block' && drvContent.style.display !== 'block') {
     const hash = location.hash.substring(1);
     showContent(hash === 'us' || hash === 'drv' ? hash : 'us');
@@ -9184,7 +8034,7 @@ document.addEventListener('DOMContentLoaded', () => {
       addDeleteButton(clone); addRowListeners(clone);
       const isDrv = targetId === 'drv-table';
       const skillSel = clone.querySelector(isDrv ? 'td:nth-child(3) select' : 'td:nth-child(5) select');
-      const agVal    = clone.querySelector(isDrv ? 'td:nth-child(3) .aggress-value' : 'td:nth-child(5) .aggress-value');
+      const agVal    = clone.querySelector(isDrv ? 'td:nth-child(4) .aggress-value' : 'td:nth-child(6) .aggress-value');
       if (skillSel && agVal && skillSel.value) agVal.textContent = calculateAggressiveness(skillSel.value);
       updateWeaponData(clone);
       updateCallsign(clone);
@@ -9446,9 +8296,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // 1. 기동력 자동 입력
     var manVal = ac.performance && ac.performance.maneuver && ac.performance.maneuver[loadState]
       ? ac.performance.maneuver[loadState][alt] : '-';
-    // Y-rack 기동력 오버라이드
-    var yrackMan = getYrackManeuverOverride(row, loadState, alt);
-    if (yrackMan !== null) manVal = yrackMan;
     console.log('[ADC]', side, ':', ac.name, 'bomb='+bombVal, loadState, 'alt='+alt, 'maneuver='+manVal);
     if (manVal && manVal !== '-') {
       document.getElementById('man-' + side + '-my').value = parseInt(manVal) || 0;
@@ -9511,9 +8358,6 @@ document.addEventListener('DOMContentLoaded', () => {
       var alt = document.getElementById('man-' + side + '-alt').value;
       var manVal = ac.performance && ac.performance.maneuver && ac.performance.maneuver[loadState]
         ? ac.performance.maneuver[loadState][alt] : '-';
-      // Y-rack 기동력 오버라이드
-      var yrackMan = getYrackManeuverOverride(row, loadState, alt);
-      if (yrackMan !== null) manVal = yrackMan;
       if (manVal && manVal !== '-') {
         document.getElementById('man-' + side + '-my').value = parseInt(manVal) || 0;
       }
@@ -9800,10 +8644,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const samChain = document.getElementById('bSAMChain');
     if (samChain) samChain.innerHTML = '';
     // 체크박스 초기화
-    document.querySelectorAll('#bot-page input[type="checkbox"]').forEach(cb => { cb.checked = false; cb.disabled = false; });
-    // MiG 유형 라디오 초기화
-    const mig21Radio = document.querySelector('input[name="bMiGType"][value="mig21"]');
-    if (mig21Radio) mig21Radio.checked = true;
+    document.querySelectorAll('#bot-page input[type="checkbox"]').forEach(cb => cb.checked = false);
     // 숫자 입력 기본값 복원
     const dist = document.getElementById('bSAMDist');
     if (dist) dist.value = '4';
@@ -9896,7 +8737,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function _compactOob(d) {
     return {
       t: d.type || null,
-      q: (d.squads || []).map(s => [s.phase, s.mission, s.task, s.aircraft, s.size, s.raidNote||'', s.forceOobType||'']),
+      q: (d.squads || []).map(s => [s.phase, s.mission, s.task, s.aircraft, s.size]),
       n: d.scenarioName || null,
       d: d.date || null
     };
@@ -9904,7 +8745,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function _expandOob(c) {
     return {
       type: c.t || null,
-      squads: (c.q || []).map(a => ({ phase: a[0], mission: a[1], task: a[2], aircraft: a[3], size: a[4], raidNote: a[5]||'', forceOobType: a[6]||'' })),
+      squads: (c.q || []).map(a => ({ phase: a[0], mission: a[1], task: a[2], aircraft: a[3], size: a[4] })),
       scenarioName: c.n || null,
       date: c.d || null
     };
