@@ -6332,7 +6332,15 @@ document.addEventListener('DOMContentLoaded', () => {
           createWeaponCell(weaponCells[0], wInfo.gun, isLoading);
           createWeaponCell(weaponCells[1], wInfo.irm, isLoading);
           createWeaponCell(weaponCells[2], wInfo.rhm, isLoading);
-          createValueCell(weaponCells[3], wInfo.bomb, isLoading, true);
+          // 폭탄 = per-aircraft × 기체 수
+          var bombAcCount = isDrv ? 1 : getAircraftCount(row);
+          var scaledBomb = wInfo.bomb;
+          if (Array.isArray(wInfo.bomb)) {
+            scaledBomb = wInfo.bomb.map(function(v){ return parseFloat(v)*bombAcCount; });
+          } else if (wInfo.bomb && wInfo.bomb !== '-' && !isNaN(parseFloat(wInfo.bomb))) {
+            scaledBomb = String(parseFloat(wInfo.bomb) * bombAcCount);
+          }
+          createValueCell(weaponCells[3], scaledBomb, isLoading, true);
           // bomb의 ruleMax 초기화 (ordnance 규칙 적용 기준)
           var bombInit = weaponCells[3].querySelector('input, select');
           if (bombInit && !isLoading) {
@@ -6542,7 +6550,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     // CBU 전환 옵션 (bomb > 0 + 아이언 핸드/SEAD만)
     var baseBomb = acData.bomb;
-    var numBomb = (baseBomb !== '-' && baseBomb !== null && baseBomb !== undefined) ? parseFloat(baseBomb) || 0 : 0;
+    var numBomb = (baseBomb !== '-' && baseBomb !== null && baseBomb !== undefined) ? (parseFloat(baseBomb) || 0) * getAircraftCount(row) : 0;
     if (numBomb > 0 && armAllowed) {
       var cbuLine = document.createElement('div');
       cbuLine.style.cssText = 'display:flex;align-items:center;gap:4px;border-top:1px solid var(--olive);padding-top:3px;margin-top:2px';
@@ -6656,7 +6664,7 @@ document.addEventListener('DOMContentLoaded', () => {
     var cbuCb = cell.querySelector('input[data-ord-name="CBU"]');
     var cbuNum = cell.querySelector('input[data-ord-name="CBU_count"]');
     if (!cbuCb || !cbuNum) return;
-    var baseBomb = parseFloat(acData.bomb) || 0;
+    var baseBomb = (parseFloat(acData.bomb) || 0) * getAircraftCount(row);
     var weaponCells = getUsWeaponCells(row);
     var bombCell = weaponCells[3];
     if (!bombCell) return;
@@ -6703,29 +6711,30 @@ document.addEventListener('DOMContentLoaded', () => {
     var state = readOrdnanceState(row);
     var baseBomb = acData.bomb;
     if (baseBomb === '-' || baseBomb === null || baseBomb === undefined) return;
-    baseBomb = parseFloat(baseBomb) || 0;
+    var _acCountForBomb = getAircraftCount(row);
+    baseBomb = (parseFloat(baseBomb) || 0) * _acCountForBomb;
     var newBomb = baseBomb;
     var notes = acData.notes || [];
 
-    // notes 파싱하여 규칙 적용
+    // notes 파싱하여 규칙 적용 (notes의 bomb 값은 per-aircraft → acCount 곱함)
     notes.forEach(function(note){
       var m;
       // "If Shrike, Bomb is X"
       m = note.match(/^If Shrike,?\s*Bomb\s*is\s*(\d+\.?\d*)/i);
       if (m && (state['Shrike'] || 0) > 0) {
-        newBomb = parseFloat(m[1]);
+        newBomb = parseFloat(m[1]) * _acCountForBomb;
         return;
       }
       // "If Shrike is N, Bomb is X"
       m = note.match(/^If Shrike\s*is\s*(\d+),?\s*Bomb\s*is\s*(\d+\.?\d*)/i);
       if (m && (state['Shrike'] || 0) === parseInt(m[1])) {
-        newBomb = parseFloat(m[2]);
+        newBomb = parseFloat(m[2]) * _acCountForBomb;
       }
       // "If Shrike is N and Standard A or B is carried, Bomb is X"
       m = note.match(/^If Shrike\s*is\s*(\d+)\s*and\s*Standard\s*A\s*or\s*B\s*is\s*carried,?\s*Bomb\s*is\s*(\d+\.?\d*)/i);
       if (m && (state['Shrike'] || 0) === parseInt(m[1]) &&
           ((state['Standard A'] || 0) > 0 || (state['Standard B'] || 0) > 0)) {
-        newBomb = parseFloat(m[2]);
+        newBomb = parseFloat(m[2]) * _acCountForBomb;
       }
     });
 
@@ -7146,7 +7155,10 @@ document.addEventListener('DOMContentLoaded', () => {
         sel.style.display = 'block'; rem.style.display = 'inline-block'; add.style.display = 'none'; sel.selectedIndex = 0;
       }
       const row = t.closest('tr');
-      if (row) updateOrdnanceCell(row);
+      if (row) {
+        updateWeaponData(row);    // bomb 셀 총합 갱신
+        updateOrdnanceCell(row);  // ordnance 표시 갱신 (acCount 반영)
+      }
       saveToLocalStorage();
     });
     grid.querySelectorAll('.status-item select').forEach(s => s.addEventListener('change', () => {
