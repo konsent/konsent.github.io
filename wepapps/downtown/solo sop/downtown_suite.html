@@ -4137,6 +4137,10 @@
             <input type="checkbox" id="bSAMAcq">
             <span>완전 표적 획득 (+2)</span>
           </label>
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+            <input type="checkbox" id="bSAMLowAlt">
+            <span>초저고도 표적 (−2)</span>
+          </label>
         </div>
         <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
           <button class="bot-roll-btn" id="bSAMFireBtn">사격 확인 (1d10)</button>
@@ -9269,17 +9273,25 @@ document.addEventListener('DOMContentLoaded', () => {
     recalcSR3();
     var mod = parseInt(document.getElementById('sr3-total').textContent) || 0;
     var mode = document.getElementById('sr-jam-mode').value;
-    var thresholds = {none:10, def:8, cell:6, chaff:5};
-    var thresh = thresholds[mode];
+    var evadeMin = {none:10, def:8, cell:6, chaff:5}[mode];
+    var missMin  = {none:14, def:10, cell:7, chaff:6}[mode];
     var d = r2(), total = d + mod;
-    var evaded = total >= thresh;
+    var resHTML, badge, badgeCls;
+    if (total >= missMin) {
+      resHTML = '<span class="ok">▸ 빗나감!</span> &nbsp;(' + total + ' ≥ ' + missMin + ')  —  SAM 공격 실패, 피해 없음';
+      badge = '빗나감'; badgeCls = 'success';
+    } else if (total >= evadeMin) {
+      resHTML = '<span class="warn">▸ 회피!</span> &nbsp;(' + evadeMin + ' ≤ ' + total + ' < ' + missMin + ')  —  SAM 회피 기동 수행 (고도 하강 + 무장 투하)';
+      badge = '회피'; badgeCls = 'success';
+    } else {
+      resHTML = '<span class="bad">▸ 효과없음</span> &nbsp;(' + total + ' < ' + evadeMin + ')  →  SAM 공격 결과 그대로 적용, 피해 판정';
+      badge = '방어 실패'; badgeCls = 'danger';
+    }
     document.getElementById('sr3-dice').textContent = d + ' + (' + sign(mod) + ') = ' + total;
-    document.getElementById('sr3-res').innerHTML = evaded
-      ? '<span class="ok">▸ 회피 성공!</span> &nbsp;(' + total + ' ≥ ' + thresh + ')  —  SAM 피해 없음'
-      : '<span class="bad">▸ 회피 실패</span> &nbsp;(' + total + ' < ' + thresh + ')  →  피해 판정';
+    document.getElementById('sr3-res').innerHTML = resHTML;
     document.getElementById('sr3-result').style.display = 'block';
-    setNum('sr3-num','done'); setBadge('sr3-badge', evaded?'회피 성공':'회피 실패', evaded?'success':'danger');
-    if (!evaded) {
+    setNum('sr3-num','done'); setBadge('sr3-badge', badge, badgeCls);
+    if (total < evadeMin) {
       unlock('sr4'); setBadge('sr4-badge','활성화','success');
     }
   }
@@ -10704,7 +10716,7 @@ document.addEventListener('DOMContentLoaded', () => {
     botSetResult('bSAMActResult', html);
   });
 
-  // L — SAM 사격
+  // L — SAM 사격 + 후속 체인 (공격→방어→피해→회피기동)
   const bSAMFireBtn = document.getElementById('bSAMFireBtn');
   if (bSAMFireBtn) bSAMFireBtn.addEventListener('click', ()=>{
     const r=botRoll(), mod=document.getElementById('bSAMAcq')?.checked?2:0;
@@ -10712,6 +10724,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const ok=total>dist;
     const calc=mod?`${r} +${mod} = ${total}`:`${r}`;
     const salvo=r%2===0;
+    const isFullAcq=document.getElementById('bSAMAcq')?.checked||false;
+    const isLowAlt=document.getElementById('bSAMLowAlt')?.checked||false;
     botSetResult('bSAMFireResult',`<div style="display:flex;flex-direction:column;align-items:flex-end;">`+
       `<div>${botValHtml(calc)}${botTagHtml(ok?'bot-tag-ok':'bot-tag-bad',ok?'사격':'사격 안 함')}</div>`+
       (ok
@@ -10719,7 +10733,11 @@ document.addEventListener('DOMContentLoaded', () => {
         :`<div style="font-size:12px;margin-top:4px;opacity:.8;">US 항공기가 8헥스 이내에서 다시 MP를 소모하면 재시도 가능</div>`)+
       `</div>`);
     const samChain = document.getElementById('bSAMChain');
-    if (samChain) samChain.innerHTML = ok ? `
+    if(!samChain) return;
+    if(!ok){ samChain.innerHTML=''; return; }
+
+    // ── Card M: 표적 선택 ──
+    let chainHTML=`
       <div class="bot-card">
         <div class="bot-card-header"><div class="bot-card-icon">M</div><div class="bot-card-title">표적 선택 (SAM)</div></div>
         <div class="bot-card-body">
@@ -10735,7 +10753,225 @@ document.addEventListener('DOMContentLoaded', () => {
             <li>남은 US 비행대 중에서 무작위 선택</li>
           </ol>
         </div>
-      </div>` : '';
+      </div>`;
+
+    // ── SAM 공격 판정 (auto-roll) ──
+    const atkD=botRoll()+botRoll(); // 2d10
+    let atkMod=0;
+    if(dist>=5) atkMod-=(dist-4);       // 사거리 보정
+    if(!isFullAcq) atkMod-=1;            // 부분 표적 획득 -1
+    if(isLowAlt) atkMod-=2;              // 초저고도 -2
+    if(salvo) atkMod+=2;                 // 일제 사격 +2
+    const atkTotal=atkD+atkMod;
+    const atkHit=atkTotal>=14;
+    let modParts=[];
+    if(dist>=5) modParts.push(`사거리 ${-(dist-4)}`);
+    if(!isFullAcq) modParts.push('부분획득 −1');
+    if(isLowAlt) modParts.push('초저고도 −2');
+    if(salvo) modParts.push('일제사격 +2');
+    const modStr=modParts.length?` (${modParts.join(', ')})`:'';
+
+    chainHTML+=`
+      <div class="bot-card" style="border-color:${atkHit?'var(--grn-b)':'var(--red-b)'};">
+        <div class="bot-card-header"><div class="bot-card-icon" style="${atkHit?'':'background:rgba(90,26,26,.8);color:#e8a8a8;'}">⬥</div><div class="bot-card-title">SAM 공격 판정 [15.42]</div></div>
+        <div class="bot-card-body">
+          <div style="font-size:13px;margin-bottom:6px;">2d10: <strong>${atkD}</strong> + 보정 <strong>${sign(atkMod)}</strong>${modStr} = <strong>${atkTotal}</strong></div>
+          <div style="font-size:14px;font-weight:700;color:${atkHit?'#8ad88a':'#e87878'};">${atkHit?'▸ 명중! (≥14) → 방어 판정':'▸ 실패 (<14) — 효과 없음'}</div>
+        </div>
+      </div>`;
+
+    if(!atkHit){ samChain.innerHTML=chainHTML; return; }
+
+    // ── SAM 방어 판정 (유저 입력 필요) ──
+    chainHTML+=`
+      <div class="bot-card" id="bSAMDefCard">
+        <div class="bot-card-header"><div class="bot-card-icon">⬥</div><div class="bot-card-title">SAM 방어 판정 [15.42]</div></div>
+        <div class="bot-card-body">
+          <div style="margin-bottom:10px;display:flex;flex-wrap:wrap;gap:14px;align-items:center;">
+            <label style="display:flex;align-items:center;gap:8px;">
+              <span>재밍:</span>
+              <select id="bSAMJamMode" style="padding:4px 8px;background:#1c1c10;border:1px solid var(--olive);color:var(--cream);font-size:12px;">
+                <option value="none">방어 재밍 없음</option>
+                <option value="def">방어 재밍 있음</option>
+                <option value="cell">재밍 셀 내</option>
+                <option value="chaff">채프 회랑 내</option>
+              </select>
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;">
+              <span>스탠드오프 재머:</span>
+              <input type="number" id="bSAMSOJ" min="0" max="9" value="0" style="width:40px;padding:4px;background:#1c1c10;border:1px solid var(--olive);color:var(--cream);font-size:12px;">
+            </label>
+          </div>
+          <div style="margin-bottom:10px;display:flex;flex-wrap:wrap;gap:14px;align-items:center;">
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+              <input type="checkbox" id="bSAMDefWeak" data-v="-1">
+              <span>SAM 방어 취약 (−1)</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+              <input type="checkbox" id="bSAMNoLOS" data-v="-1">
+              <span>SAM으로 시야 없음 (−1)</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+              <input type="checkbox" id="bSAMNoRWR" data-v="-2">
+              <span>RWR 없음 (−2)</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+              <input type="checkbox" id="bSAMBeacon" data-v="2">
+              <span>비콘 재밍 (+2)</span>
+            </label>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <button class="bot-roll-btn" id="bSAMDefRollBtn">방어 판정 (2d10)</button>
+            <div class="bot-roll-result" id="bSAMDefResult"></div>
+          </div>
+          <div id="bSAMDefChain" style="margin-top:12px;"></div>
+        </div>
+      </div>`;
+
+    samChain.innerHTML=chainHTML;
+
+    // ── 방어 판정 버튼 핸들러 ──
+    document.getElementById('bSAMDefRollBtn').addEventListener('click', function(){
+      const defD=botRoll()+botRoll(); // 2d10
+      const mode=document.getElementById('bSAMJamMode').value;
+      const evadeMin={none:10,def:8,cell:6,chaff:5}[mode];
+      const missMin={none:14,def:10,cell:7,chaff:6}[mode];
+      const soj=parseInt(document.getElementById('bSAMSOJ').value)||0;
+      let cbMod=0;
+      ['bSAMDefWeak','bSAMNoLOS','bSAMNoRWR','bSAMBeacon'].forEach(id=>{
+        const cb=document.getElementById(id);
+        if(cb&&cb.checked) cbMod+=parseInt(cb.dataset.v)||0;
+      });
+      const defMod=soj+cbMod;
+      const defTotal=defD+defMod;
+
+      let resTag, resLabel, resDetail;
+      if(defTotal>=missMin){
+        resTag='bot-tag-ok'; resLabel='빗나감';
+        resDetail='SAM 공격 실패 — 피해 없음, 회피 기동 불필요';
+      } else if(defTotal>=evadeMin){
+        resTag='bot-tag-cond'; resLabel='회피';
+        resDetail='SAM 회피 기동 수행 (고도 하강 + 무장 투하)';
+      } else {
+        resTag='bot-tag-bad'; resLabel='효과없음';
+        resDetail='방어 실패 → 피해 판정으로 진행';
+      }
+
+      botSetResult('bSAMDefResult',`<div style="display:flex;flex-direction:column;align-items:flex-end;">`+
+        `<div>${botValHtml(defD+' + ('+sign(defMod)+') = '+defTotal)}${botTagHtml(resTag,resLabel)}</div>`+
+        `<div style="font-size:12px;margin-top:4px;">${resDetail}</div>`+
+        `</div>`);
+
+      const defChain=document.getElementById('bSAMDefChain');
+      if(!defChain) return;
+
+      // 빗나감: 체인 종료
+      if(defTotal>=missMin){ defChain.innerHTML=''; return; }
+
+      // 회피: SAM 회피 기동만 (피해 없음)
+      if(defTotal>=evadeMin){
+        const evasD=botRoll();
+        defChain.innerHTML=`
+          <div class="bot-card" style="border-color:#c45a4a;">
+            <div class="bot-card-header"><div class="bot-card-icon" style="background:rgba(90,26,26,.8);color:#e8a8a8;">⬥</div><div class="bot-card-title">SAM 회피 기동 [15.43]</div></div>
+            <div class="bot-card-body">
+              <div style="font-size:12px;color:var(--fade2);margin-bottom:8px;">항공기는 반드시 고도를 한 단계 낮추고, ARM이 아닌 모든 무장을 투하합니다. SAM 방어력이 낮은 항공기는 수행 불가.</div>
+              <div style="font-size:16px;font-weight:700;color:var(--tan);margin-bottom:6px;">회피 방향: ${evasD}</div>
+              <div style="font-size:12px;color:var(--cream);">1d10 = <strong>${evasD}</strong> → 해당 방향으로 이동 + 고도 1밴드 하강</div>
+              <div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
+                <img src="scatter1.png" style="max-width:100%;width:300px;border:1px solid var(--olive);">
+                <img src="scatter2.png" style="max-width:100%;width:300px;border:1px solid var(--olive);">
+              </div>
+            </div>
+          </div>`;
+        return;
+      }
+
+      // 효과없음: SAM 피해 판정 → 피해 시 회피 기동
+      defChain.innerHTML=`
+        <div class="bot-card" id="bSAMDmgCard" style="border-color:var(--red-b);">
+          <div class="bot-card-header"><div class="bot-card-icon" style="background:rgba(90,26,26,.8);color:#e8a8a8;">⬥</div><div class="bot-card-title">SAM 피해 [15.42]</div></div>
+          <div class="bot-card-body">
+            <div style="margin-bottom:10px;display:flex;flex-wrap:wrap;gap:14px;align-items:center;">
+              <label style="display:flex;align-items:center;gap:8px;">
+                <span>비행대 기체 수:</span>
+                <select id="bSAMNumAC" style="padding:4px 8px;background:#1c1c10;border:1px solid var(--olive);color:var(--cream);font-size:12px;">
+                  <option value="1">1기</option>
+                  <option value="2">2기</option>
+                  <option value="3">3기</option>
+                  <option value="4" selected>4기</option>
+                </select>
+              </label>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;">
+              <button class="bot-roll-btn" id="bSAMDmgRollBtn">피해 판정 (1d10)</button>
+              <div class="bot-roll-result" id="bSAMDmgResult"></div>
+            </div>
+            <div id="bSAMDmgChain" style="margin-top:12px;"></div>
+          </div>
+        </div>`;
+
+      // ── 피해 판정 버튼 핸들러 ──
+      document.getElementById('bSAMDmgRollBtn').addEventListener('click', function(){
+        const dmgD=botRoll(); // 1d10
+        const acqCol=isFullAcq?2:1;
+        const fullTbl =['D','D','D, D','C','K','K','K','K','K','K'];
+        const partTbl =['NE','NE','D','D, D','D','D','C','K','K','K'];
+        const result=acqCol>=2?fullTbl[dmgD-1]:partTbl[dmgD-1];
+        const numAC=parseInt(document.getElementById('bSAMNumAC').value)||4;
+        const colIdx=Math.min(numAC-1,3);
+        const dmgItems=result==='NE'?[]:result.split(', ');
+
+        let resultLabel='';
+        if(result==='NE') resultLabel='효과 없음';
+        else if(result==='K') resultLabel='격추';
+        else if(result==='C') resultLabel='무력화';
+        else if(result==='D, D') resultLabel='피해 ×2';
+        else resultLabel='피해';
+
+        let allocHTML='';
+        if(dmgItems.length>0){
+          dmgItems.forEach(dmg=>{
+            const allocD=botRoll();
+            const entry=ALLOC_TBL[allocD-1][colIdx];
+            const finalType=entry.c?'C':dmg;
+            const typeLabel=finalType==='K'?'격추':finalType==='C'?'무력화':'피해';
+            const typeColor=finalType==='K'?'#e05555':finalType==='C'?'#ff9100':'var(--tan)';
+            allocHTML+=`<div style="font-size:12px;margin-top:4px;">배분 주사위: <strong>${allocD}</strong> → <strong style="color:${typeColor}">${entry.n}번기 ${typeLabel}</strong></div>`;
+          });
+        }
+
+        botSetResult('bSAMDmgResult',`<div style="display:flex;flex-direction:column;align-items:flex-end;">`+
+          `<div>${botValHtml(dmgD)}${botTagHtml(result==='NE'?'bot-tag-cond':'bot-tag-bad',resultLabel)}</div>`+
+          `<div style="font-size:12px;margin-top:2px;opacity:.7;">${isFullAcq?'완전':'부분'} 표적 획득</div>`+
+          `</div>`);
+
+        const dmgChain=document.getElementById('bSAMDmgChain');
+        if(!dmgChain) return;
+
+        if(result==='NE'){
+          dmgChain.innerHTML=`<div style="font-size:13px;color:var(--fade);padding:6px 0;">효과 없음 — SAM 해결 완료.</div>`;
+          return;
+        }
+
+        // ── SAM 회피 기동 (자동 굴림) ──
+        const evasD=botRoll();
+        dmgChain.innerHTML=`
+          <div style="font-size:12px;margin-bottom:10px;">${allocHTML}</div>
+          <div class="bot-card" style="border-color:#c45a4a;">
+            <div class="bot-card-header"><div class="bot-card-icon" style="background:rgba(90,26,26,.8);color:#e8a8a8;">⬥</div><div class="bot-card-title">SAM 회피 기동 [15.43]</div></div>
+            <div class="bot-card-body">
+              <div style="font-size:12px;color:var(--fade2);margin-bottom:8px;">피해를 입은 항공기는 반드시 고도를 한 단계 낮추고, ARM이 아닌 모든 무장을 투하합니다. SAM 방어력이 낮은 항공기는 수행 불가.</div>
+              <div style="font-size:16px;font-weight:700;color:var(--tan);margin-bottom:6px;">회피 방향: ${evasD}</div>
+              <div style="font-size:12px;color:var(--cream);">1d10 = <strong>${evasD}</strong> → 해당 방향으로 이동 + 고도 1밴드 하강</div>
+              <div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
+                <img src="scatter1.png" style="max-width:100%;width:300px;border:1px solid var(--olive);">
+                <img src="scatter2.png" style="max-width:100%;width:300px;border:1px solid var(--olive);">
+              </div>
+            </div>
+          </div>`;
+      });
+    });
   });
 
   // Z — LOAL
