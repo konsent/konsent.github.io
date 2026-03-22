@@ -4365,7 +4365,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // FAB는 Raid 탭과 Player Aid 탭 모두에서 표시
     const fab = document.getElementById('view-all-adc-fab');
     if (fab) {
-      fab.style.display = (targetId === 'adc-page' || targetId === 'aid-page') ? 'flex' : 'none';
+      fab.style.display = 'flex';
     }
     // 탭 전환 시 뷰어 패널 닫기
     const viewerPanel = document.getElementById('adc-viewer-panel');
