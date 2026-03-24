@@ -47,7 +47,7 @@
   .main-page.active { display: block; }
 
   /* --- SOP (Sequence of Play) Tab Styles --- */
-  #sop-page { max-width: 900px; margin: 0 auto; }
+  #sop-page { max-width: 1000px; margin: 0 auto; }
   .sop-phase {
     background: rgba(30,28,15,0.85);
     border: 1px solid var(--olive);
@@ -695,7 +695,10 @@
     display: none; /* hidden by default; shown in Raid & Player Aid tabs */
     align-items: center;
     justify-content: center;
-    font-size: 24px;
+    font-size: 14px;
+    font-weight: bold;
+    font-family: 'Oswald', sans-serif;
+    letter-spacing: 0.05em;
     cursor: pointer;
     z-index: 1001;
     box-shadow: 0 4px 12px rgba(0,0,0,0.4);
@@ -773,7 +776,7 @@
 
   /* --- Styles from oob.html --- */
   .main-layout {
-    max-width: 1100px;
+    max-width: 1000px;
     margin: 0 auto;
     display: grid;
     grid-template-columns: 360px 1fr;
@@ -1046,11 +1049,11 @@
   }
 
   /* --- Styles from aid.html --- */
-  #aid-page .tabs{display:flex;gap:4px;margin-bottom:20px;flex-wrap:wrap;max-width:960px;margin-left:auto;margin-right:auto;justify-content:center}
+  #aid-page .tabs{display:flex;gap:4px;margin-bottom:20px;flex-wrap:wrap;max-width:1000px;margin-left:auto;margin-right:auto;justify-content:center}
   #aid-page button.tab{font-family:'Oswald',sans-serif;font-size:13px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;padding:8px 20px;border:1px solid var(--olive);background:rgba(30,28,15,.9);color:var(--fade);cursor:pointer;transition:all .2s}
   #aid-page button.tab:hover{border-color:var(--khaki);color:var(--cream)}
   #aid-page button.tab.on{background:var(--olive);border-color:var(--tan);color:var(--tan)}
-  #aid-page .page{display:none;max-width:960px;margin:0 auto}
+  #aid-page .page{display:none;max-width:1000px;margin:0 auto}
   #aid-page .page.on{display:block}
   .step{background:rgba(30,28,15,.9);border:1px solid var(--olive);margin-bottom:10px;overflow:hidden;transition:opacity .2s}
   .step.locked{opacity:.3;pointer-events:none}
@@ -1417,7 +1420,7 @@
      ══════════════════════════════════════════════════════════════ */
 
   .bot-aid-wrapper {
-    max-width: 1200px;
+    max-width: 1000px;
     margin: 0 auto;
     padding: 24px 16px;
   }
@@ -1627,20 +1630,20 @@
   /* ── Bot sub-pages ── */
   .bot-sub-page { display: none; }
   .bot-sub-page.active { display: block; }
-  #bot-page .tabs{display:flex;gap:4px;margin-bottom:20px;flex-wrap:wrap;max-width:960px;margin-left:auto;margin-right:auto;justify-content:center}
+  #bot-page .tabs{display:flex;gap:4px;margin-bottom:20px;flex-wrap:wrap;max-width:1000px;margin-left:auto;margin-right:auto;justify-content:center}
   #bot-page button.tab{font-family:'Oswald',sans-serif;font-size:13px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;padding:8px 20px;border:1px solid var(--olive);background:rgba(30,28,15,.9);color:var(--fade);cursor:pointer;transition:all .2s}
   #bot-page button.tab:hover{border-color:var(--khaki);color:var(--cream)}
   #bot-page button.tab.on{background:var(--olive);border-color:var(--tan);color:var(--tan)}
 
   /* ── GCI sub-page ── */
-  #bot-gci-sub .gci-header{max-width:820px;margin:0 auto 18px;border-bottom:2px solid var(--olive);padding-bottom:9px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+  #bot-gci-sub .gci-header{max-width:1000px;margin:0 auto 18px;border-bottom:2px solid var(--olive);padding-bottom:9px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
   #bot-gci-sub .gci-hdr-t{font-family:'Oswald',sans-serif;font-size:23px;font-weight:700;letter-spacing:.25em;color:var(--tan);text-transform:uppercase}
   #bot-gci-sub .gci-hdr-s{font-size:11px;color:var(--fade);letter-spacing:.1em}
-  #bot-gci-sub .gci-prog{max-width:820px;margin:0 auto 16px;display:flex;gap:4px}
+  #bot-gci-sub .gci-prog{max-width:1000px;margin:0 auto 16px;display:flex;gap:4px}
   #bot-gci-sub .gci-ps{flex:1;height:3px;background:rgba(74,74,42,.3);border-radius:2px;transition:background .3s}
   #bot-gci-sub .gci-ps.done{background:var(--olive)}
   #bot-gci-sub .gci-ps.active{background:var(--tan)}
-  #bot-gci-sub .gci-card{max-width:820px;margin:0 auto 10px;background:rgba(22,20,10,.92);border:1px solid var(--olive);border-radius:3px;overflow:hidden;display:none}
+  #bot-gci-sub .gci-card{max-width:1000px;margin:0 auto 10px;background:rgba(22,20,10,.92);border:1px solid var(--olive);border-radius:3px;overflow:hidden;display:none}
   #bot-gci-sub .gci-card.on{display:block}
   #bot-gci-sub .gci-card.done{opacity:.55}
   #bot-gci-sub .gci-card-hdr{display:flex;align-items:center;gap:10px;padding:9px 14px;background:rgba(28,26,13,.97);border-bottom:1px solid var(--olive)}
@@ -1722,7 +1725,7 @@
   #bot-gci-sub .gci-btn-back:hover{border-color:var(--fade2);color:var(--cream)}
   #bot-gci-sub .gci-btn-reset{margin-left:auto;padding:7px 14px;background:transparent;border:1px solid rgba(139,26,26,.4);color:rgba(200,100,100,.6);font-family:'Oswald',sans-serif;font-size:12px;font-weight:500;letter-spacing:.12em;cursor:pointer;border-radius:3px;text-transform:uppercase;transition:all .15s}
   #bot-gci-sub .gci-btn-reset:hover{border-color:var(--red-b);color:#e87878}
-  #bot-gci-sub .gci-final-card{max-width:820px;margin:0 auto 14px;background:rgba(90,26,26,.1);border:1px solid rgba(196,90,74,.4);border-radius:3px;overflow:hidden;display:none}
+  #bot-gci-sub .gci-final-card{max-width:1000px;margin:0 auto 14px;background:rgba(90,26,26,.1);border:1px solid rgba(196,90,74,.4);border-radius:3px;overflow:hidden;display:none}
   #bot-gci-sub .gci-final-card.on{display:block}
   #bot-gci-sub .gci-final-hdr{background:rgba(90,26,26,.5);padding:8px 14px;border-bottom:1px solid rgba(196,90,74,.4);font-family:'Oswald',sans-serif;font-size:12px;font-weight:700;letter-spacing:.2em;color:#e8a8a8;text-transform:uppercase}
   #bot-gci-sub .gci-final-body{padding:13px 15px;font-size:12px;line-height:1.8;color:var(--cream)}
@@ -1976,16 +1979,16 @@
       <div class="table-wrap">
         <table id="us-lead-table">
           <thead>
-            <tr><th colspan="16">선발 공격대 (Pre-Raid)</th></tr>
+            <tr><th colspan="15">선발 공격대 (Pre-Raid)</th></tr>
             <tr>
               <th>임무</th><th>태스크</th><th>콜싸인</th><th>항공기 유형</th>
               <th>수준/AV</th><th>상태</th>
               <th>기총</th><th>IRM</th><th>RHM</th><th>폭탄/연료</th><th>Ordnance</th>
-              <th>비고</th><th>역할</th><th></th><th>ADC</th><th>삭제</th>
+              <th>비고</th><th>역할</th><th></th><th>삭제</th>
             </tr>
           </thead>
           <tbody>
-            <tr><td colspan="16" style="text-align:center; padding:8px 0;"><button class="add-row" data-target="us-lead-table">+ 비행대 추가</button></td></tr>
+            <tr><td colspan="15" style="text-align:center; padding:8px 0;"><button class="add-row" data-target="us-lead-table">+ 비행대 추가</button></td></tr>
           </tbody>
         </table>
       </div>
@@ -1997,16 +2000,16 @@
       <div class="table-wrap">
         <table id="us-main-table">
           <thead>
-            <tr><th colspan="16">주 공격대 (MAIN)</th></tr>
+            <tr><th colspan="15">주 공격대 (MAIN)</th></tr>
             <tr>
               <th>임무</th><th>태스크</th><th>콜싸인</th><th>항공기 유형</th>
               <th>수준/AV</th><th>상태</th>
               <th>기총</th><th>IRM</th><th>RHM</th><th>폭탄/연료</th><th>Ordnance</th>
-              <th>비고</th><th>역할</th><th></th><th>ADC</th><th>삭제</th>
+              <th>비고</th><th>역할</th><th></th><th>삭제</th>
             </tr>
           </thead>
           <tbody>
-            <tr><td colspan="16" style="text-align:center; padding:8px 0;"><button class="add-row" data-target="us-main-table">+ 비행대 추가</button></td></tr>
+            <tr><td colspan="15" style="text-align:center; padding:8px 0;"><button class="add-row" data-target="us-main-table">+ 비행대 추가</button></td></tr>
           </tbody>
         </table>
       </div>
@@ -2018,16 +2021,16 @@
       <div class="table-wrap">
         <table id="us-trail-table">
           <thead>
-            <tr><th colspan="16">후발 공격대 (TRAIL)</th></tr>
+            <tr><th colspan="15">후발 공격대 (TRAIL)</th></tr>
             <tr>
               <th>임무</th><th>태스크</th><th>콜싸인</th><th>항공기 유형</th>
               <th>수준/AV</th><th>상태</th>
               <th>기총</th><th>IRM</th><th>RHM</th><th>폭탄/연료</th><th>Ordnance</th>
-              <th>비고</th><th>역할</th><th></th><th>ADC</th><th>삭제</th>
+              <th>비고</th><th>역할</th><th></th><th>삭제</th>
             </tr>
           </thead>
           <tbody>
-            <tr><td colspan="16" style="text-align:center; padding:8px 0;"><button class="add-row" data-target="us-trail-table">+ 비행대 추가</button></td></tr>
+            <tr><td colspan="15" style="text-align:center; padding:8px 0;"><button class="add-row" data-target="us-trail-table">+ 비행대 추가</button></td></tr>
           </tbody>
         </table>
       </div>
@@ -2040,16 +2043,16 @@
       <div class="panel-title drv-color">▸ DRV 요격기 편대</div>
       <div class="table-wrap">
         <table id="drv-table">
-          <thead>
-            <tr><th colspan="13">DRV 요격기 (INTERCEPTORS)</th></tr>
+ㅇ          <thead>
+            <tr><th colspan="12">DRV 요격기 (INTERCEPTORS)</th></tr>
             <tr>
               <th>콜싸인</th><th>항공기 유형</th><th>수준/AV</th><th>상태</th>
               <th>기총</th><th>IRM</th><th>RHM</th><th>폭탄/연료</th>
-              <th>비고</th><th>역할</th><th></th><th>ADC</th><th>삭제</th>
+              <th>비고</th><th>역할</th><th></th><th>삭제</th>
             </tr>
           </thead>
           <tbody>
-            <tr><td colspan="13" style="text-align:center; padding:8px 0;"><button class="add-row" data-target="drv-table">+ 편대 추가</button></td></tr>
+            <tr><td colspan="12" style="text-align:center; padding:8px 0;"><button class="add-row" data-target="drv-table">+ 편대 추가</button></td></tr>
 
           </tbody>
         </table>
@@ -2068,7 +2071,7 @@
 </div>
 
 <!-- ADC Viewer (global – visible in Raid AND Player Aid tabs) -->
-<div id="view-all-adc-fab" title="모든 ADC 보기">🖼️</div>
+<div id="view-all-adc-fab" title="모든 ADC 보기">ADC</div>
 <div id="adc-viewer-panel" class="hidden">
   <div class="adc-viewer-header">
     <span>선택된 항공기 ADC</span>
@@ -2132,7 +2135,7 @@
     <div class="sop-phase-body">
       <p>변경사항 없음.</p>
       <span class="table-ref">탐지 테이블</span>
-      <img src="detection.png" style="width:50%;margin-top:10px;border:1px solid var(--olive);">
+      <img src="assets/detection.png" style="width:50%;margin-top:10px;border:1px solid var(--olive);">
     </div>
   </div>
 
@@ -2243,7 +2246,7 @@
     <div class="sop-phase-body">
       <p>변경사항 없음.</p>
       <span class="table-ref">추적 테이블</span>
-      <img src="track.png" style="width:50%;margin-top:10px;border:1px solid var(--olive);">
+      <img src="assets/track.png" style="width:50%;margin-top:10px;border:1px solid var(--olive);">
     </div>
   </div>
 
@@ -2789,8 +2792,8 @@
           </div>
           <!-- 산개 방향 그림 (공통) -->
           <div id="scatter-imgs" style="margin-top:6px;display:flex;flex-wrap:wrap;gap:10px;justify-content:center">
-            <img src="scatter1.png" style="max-width:100%;width:400px;border:1px solid var(--olive);">
-            <img src="scatter2.png" style="max-width:100%;width:400px;border:1px solid var(--olive);">
+            <img src="assets/scatter1.png" style="max-width:100%;width:400px;border:1px solid var(--olive);">
+            <img src="assets/scatter2.png" style="max-width:100%;width:400px;border:1px solid var(--olive);">
           </div>
         </div>
         <button class="btn secondary" onclick="resetAir()">⟳ 공중전 처음부터 다시</button>
@@ -3537,6 +3540,7 @@
     <button class="tab on" data-bot-target="bot-basic-sub">FLIGHT</button>
     <button class="tab" data-bot-target="bot-sam-sub">SAM / AAA</button>
     <button class="tab" data-bot-target="bot-ref-sub">ETC</button>
+    <button class="tab" onclick="window.open('downtown_solo_rules.html','_blank')">RULES</button>
     <button id="bot-reset-btn" onclick="resetAllBot()" title="Solo Bot 전체 초기화">↺ 초기화</button>
   </div>
 
@@ -3859,7 +3863,7 @@
   <div class="gci-final-body" id="gci-final-body"></div>
 </div>
 
-<div class="gci-nav-row" style="max-width:820px;margin:16px auto 0;">
+<div class="gci-nav-row" style="max-width:1000px;margin:16px auto 0;">
   <button class="gci-btn-back" onclick="gciRestartFlow()" id="gci-restart-btn" style="display:none">↺ GCI 처음부터</button>
 </div>
 
@@ -4264,18 +4268,18 @@
         <div class="bot-legend-grid">
           <div>
             <p style="margin-bottom:8px;font-weight:500;color:var(--cream);">SAM 상태:</p>
-            <div class="bot-legend-item"><img src="1.png" alt="marker" style="width:40px;height:40px;"><div class="bot-legend-text">비활성 SAM (시나리오 시작 시 SAM 준비)</div></div>
-            <div class="bot-legend-item"><img src="2.png" alt="marker" style="width:40px;height:40px;"><div class="bot-legend-text">활성 SAM - 위치 불명 (3발 남음)</div></div>
-            <div class="bot-legend-item"><img src="3.png" alt="marker" style="width:40px;height:40px;"><div class="bot-legend-text">활성 SAM - 위치 불명 (레이더 종료, 탄약 고갈)</div></div>
-            <div class="bot-legend-item"><img src="4.png" alt="marker" style="width:40px;height:40px;"><div class="bot-legend-text">활성 SAM - 위치 확인 (3발 남음)</div></div>
-            <div class="bot-legend-item"><img src="5.png" alt="marker" style="width:40px;height:40px;"><div class="bot-legend-text">활성 SAM - 위치 확인 (레이더 종료, 탄약 고갈)</div></div>
-            <div class="bot-legend-item"><img src="6.png" alt="marker" style="width:40px;height:40px;"><div class="bot-legend-text">비활성 AAA (시나리오 시작 시 AAA 준비)</div></div>
+            <div class="bot-legend-item"><img src="assets/1.png" alt="marker" style="width:40px;height:40px;"><div class="bot-legend-text">비활성 SAM (시나리오 시작 시 SAM 준비)</div></div>
+            <div class="bot-legend-item"><img src="assets/2.png" alt="marker" style="width:40px;height:40px;"><div class="bot-legend-text">활성 SAM - 위치 불명 (3발 남음)</div></div>
+            <div class="bot-legend-item"><img src="assets/3.png" alt="marker" style="width:40px;height:40px;"><div class="bot-legend-text">활성 SAM - 위치 불명 (레이더 종료, 탄약 고갈)</div></div>
+            <div class="bot-legend-item"><img src="assets/4.png" alt="marker" style="width:40px;height:40px;"><div class="bot-legend-text">활성 SAM - 위치 확인 (3발 남음)</div></div>
+            <div class="bot-legend-item"><img src="assets/5.png" alt="marker" style="width:40px;height:40px;"><div class="bot-legend-text">활성 SAM - 위치 확인 (레이더 종료, 탄약 고갈)</div></div>
+            <div class="bot-legend-item"><img src="assets/6.png" alt="marker" style="width:40px;height:40px;"><div class="bot-legend-text">비활성 AAA (시나리오 시작 시 AAA 준비)</div></div>
           </div>
           <div>
             <p style="margin-bottom:8px;font-weight:500;color:var(--cream);">카운터 방향으로 잔탄 표시:</p>
-            <div class="bot-legend-item"><img src="11.png" alt="marker" style="width:40px;height:40px;"><div class="bot-legend-text">2발 남음</div></div>
-            <div class="bot-legend-item"><img src="22.png" alt="marker" style="width:40px;height:40px;"><div class="bot-legend-text">1발 남음</div></div>
-            <div class="bot-legend-item"><img src="33.png" alt="marker" style="width:40px;height:40px;"><div class="bot-legend-text">탄약 고갈</div></div>
+            <div class="bot-legend-item"><img src="assets/11.png" alt="marker" style="width:40px;height:40px;"><div class="bot-legend-text">2발 남음</div></div>
+            <div class="bot-legend-item"><img src="assets/22.png" alt="marker" style="width:40px;height:40px;"><div class="bot-legend-text">1발 남음</div></div>
+            <div class="bot-legend-item"><img src="assets/33.png" alt="marker" style="width:40px;height:40px;"><div class="bot-legend-text">탄약 고갈</div></div>
           </div>
         </div>
         <div class="bot-note" style="margin-top:12px;">[선택사항] — SAM 탄약을 추적하는 대신, 공대공 무기와 같이 {3}을 사용하여 탄약 고갈을 굴립니다. 일제 사격을 하는 경우 굴림에 -3을 보정합니다.</div>
@@ -5918,7 +5922,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // ── ADC JSON 데이터 (전역) ──
   var ADC_JSON = null;
   (function loadAdcJson(){
-    fetch('adc.json').then(r=>r.json()).then(d=>{
+    fetch('dt_adc.json').then(r=>r.json()).then(d=>{
       ADC_JSON=d;
       console.log('ADC JSON loaded');
       // JSON 로드 완료 후 항공기 가용 기간 필터 적용
@@ -7484,7 +7488,7 @@ document.addEventListener('DOMContentLoaded', () => {
       `<td class="ordnance-cell"></td>` +
       `<td><input type="text" value=""></td>` +
       `<td><div class="role-btn-wrap"><button type="button" class="role-btn us-attacker-btn" data-role="attacker" data-side="us">공격</button><button type="button" class="role-btn us-defender-btn" data-role="defender" data-side="us">방어</button></div></td>` +
-     `<td><button class="abort-btn">중단</button></td><td><button class="view-btn">보기</button></td><td></td>`;
+     `<td><button class="abort-btn">중단</button></td><td></td>`;
   }
   function makeDrvRowHTML() {
     return `<td><select class="callsign-select"></select></td>` +
@@ -7495,7 +7499,7 @@ document.addEventListener('DOMContentLoaded', () => {
       `<td class="bomb-fuel-cell"><div class="bomb-wrap"><input type="text" value=""></div><div class="fuel-wrap"><input type="text" value=""></div></td>` +
       `<td><input type="text" value=""></td>` +
       `<td><div class="role-btn-wrap"><button type="button" class="role-btn drv-attacker-btn" data-role="attacker" data-side="drv">공격</button><button type="button" class="role-btn drv-defender-btn" data-role="defender" data-side="drv">방어</button></div></td>` +
-     `<td><button class="abort-btn">중단</button></td><td><button class="view-btn">보기</button></td><td></td>`;
+     `<td><button class="abort-btn">중단</button></td><td></td>`;
   }
   const modal = document.getElementById('image-modal');
   const modalImage = document.getElementById('modal-image');
@@ -7634,8 +7638,6 @@ document.addEventListener('DOMContentLoaded', () => {
             saveToLocalStorage();
         });
     }
-    const vb = row.querySelector('.view-btn');
-    if (vb) addViewButtonListener(vb);
     row.querySelectorAll('.status-grid').forEach(addStatusGridControls);
     // 역할 버튼 이벤트
     row.querySelectorAll('.role-btn').forEach(btn => {
@@ -8927,7 +8929,7 @@ document.addEventListener('DOMContentLoaded', () => {
     var d=r1d6();
     var alt='고도 1밴드 하강';
     document.getElementById('sam-evasion-dice').textContent=d;
-    document.getElementById('sam-evasion-res').innerHTML='방향: <b>'+d+'</b>  ·  '+alt + '<div style="margin-top: 10px; display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;"><img src="scatter1.png" style="max-width: 100%; width: 400px; border: 1px solid var(--olive);"><img src="scatter2.png" style="max-width: 100%; width: 400px; border: 1px solid var(--olive);"></div>';
+    document.getElementById('sam-evasion-res').innerHTML='방향: <b>'+d+'</b>  ·  '+alt + '<div style="margin-top: 10px; display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;"><img src="assets/scatter1.png" style="max-width: 100%; width: 400px; border: 1px solid var(--olive);"><img src="assets/scatter2.png" style="max-width: 100%; width: 400px; border: 1px solid var(--olive);"></div>';
     document.getElementById('sam-evasion-result').style.display='block';
   }
   function resetAir(){
@@ -9677,6 +9679,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const viewerContent = document.getElementById('adc-viewer-content');
   const closeViewerBtn = document.getElementById('adc-viewer-close');
   fab.addEventListener('click', () => {
+    if (!viewerPanel.classList.contains('hidden')) {
+      viewerPanel.classList.add('hidden');
+      document.body.style.paddingBottom = '';
+      return;
+    }
     viewerContent.innerHTML = '';
     const aircraftNames = new Set();
     document.querySelectorAll('table[id] tbody tr:not(:last-child)').forEach(row => {
@@ -10879,8 +10886,8 @@ document.addEventListener('DOMContentLoaded', () => {
               <div style="font-size:16px;font-weight:700;color:var(--tan);margin-bottom:6px;">회피 방향: ${evasD}</div>
               <div style="font-size:12px;color:var(--cream);">1d10 = <strong>${evasD}</strong> → 해당 방향으로 이동 + 고도 1밴드 하강</div>
               <div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
-                <img src="scatter1.png" style="max-width:100%;width:300px;border:1px solid var(--olive);">
-                <img src="scatter2.png" style="max-width:100%;width:300px;border:1px solid var(--olive);">
+                <img src="assets/scatter1.png" style="max-width:100%;width:300px;border:1px solid var(--olive);">
+                <img src="assets/scatter2.png" style="max-width:100%;width:300px;border:1px solid var(--olive);">
               </div>
             </div>
           </div>`;
@@ -10965,8 +10972,8 @@ document.addEventListener('DOMContentLoaded', () => {
               <div style="font-size:16px;font-weight:700;color:var(--tan);margin-bottom:6px;">회피 방향: ${evasD}</div>
               <div style="font-size:12px;color:var(--cream);">1d10 = <strong>${evasD}</strong> → 해당 방향으로 이동 + 고도 1밴드 하강</div>
               <div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
-                <img src="scatter1.png" style="max-width:100%;width:300px;border:1px solid var(--olive);">
-                <img src="scatter2.png" style="max-width:100%;width:300px;border:1px solid var(--olive);">
+                <img src="assets/scatter1.png" style="max-width:100%;width:300px;border:1px solid var(--olive);">
+                <img src="assets/scatter2.png" style="max-width:100%;width:300px;border:1px solid var(--olive);">
               </div>
             </div>
           </div>`;
