@@ -29,5 +29,5 @@ v1.0 - 최초 업로드본
 
 - [자료 링크](/photo/[KOR]Red Storm_v1.0.pdf)
 <br>
-
+- [솔로 헬퍼 앱](https://konsent.github.io/adc/Redstorm_suite.html)
 
