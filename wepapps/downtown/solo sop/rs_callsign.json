@@ -1,0 +1,67 @@
+{
+  "USA": {
+    "A-7": ["Wedge", "Viceroy", "DeSoto", "Pepper", "Highball", "Ghost", "Bull", "Vandal", "Pluto"],
+    "A-10": ["Falcon", "Cylon", "Bobbin", "Nickel", "Hog", "Giant", "Sandy", "Lizard", "Lancer"],
+    "B-52": ["Hulk", "Aqua", "Gold", "Cobalt", "Rose", "Czar"],
+    "C-141": ["Ho Jo", "Hilton", "Clyde", "Bonnie", "Ward", "June"],
+    "EC-130": ["Buzz"],
+    "F-4": ["Bud", "Strohs", "Vegas", "Tampa", "Denver", "Blatz", "Buick", "Chevy", "Pabst", "Miller", "Dodge", "Coors"],
+    "F-15": ["Citgo", "Carbine", "Taco", "Buns", "Cobra", "Nemo", "Dallas", "Shade", "Roach", "Mister", "Juice", "Fresno"],
+    "F-16": ["Silverfox", "Raider", "Dogear", "Bronco", "Stinger", "Redcock", "Laredo", "Kite", "Saint", "Hammer", "Danger", "Bulldog"],
+    "F-117": ["Hail", "Duke", "Thunder"],
+    "F-111": ["Karma", "Tonto", "Suntan", "Slam", "Elton", "Jackal", "Crow", "Condor", "Sledge", "Raccoon", "Pontiac", "Remit"],
+    "H-53": ["Mother", "Anger"],
+    "SRAM": ["411", "412", "511", "611", "612"],
+    "GLCM": ["111", "112", "211", "212", "311", "312"]
+  },
+  "West Germany": {
+    "Alpha Jet": ["Manta", "Vectra", "Kadett", "Omega", "Quattro", "Corsa"],
+    "F-4": ["Kaiser", "Otto", "Falk", "Aldo", "Spyder", "Cabrio", "Golf", "Jetta", "Polo", "Caddy", "Passat", "Dasher"],
+    "F-104": ["Isen", "Regen", "Alz", "Brenz", "Isar", "Lech", "Naab", "Paar", "Vils"],
+    "Tornado": ["Milo", "Lukas", "Jupp", "Saxon", "Ivo", "Gerald", "Attila", "Boris", "Emil"],
+    "HFB-320": ["Bonn"],
+    "CH-53": ["Heidi", "Lena"]
+  },
+  "United Kingdom": {
+    "Harrier": ["Nutmeg", "Post", "Sweeper", "Pitch", "Goal", "Endline", "Header", "Derby", "Chip"],
+    "FGR.2": ["Knife", "Dagger", "Axe", "Mace", "Longbow", "Blade", "Pike", "Foil", "Buzzsaw"],
+    "Jaguar": ["Fend", "Engage", "Biff", "Scrum", "Ruck", "Pack", "Strike", "Rooks", "Placer"],
+    "Tornado": ["Wildcat", "Vole", "Hare", "Boar", "Stoat", "Otter", "Mink", "Deer", "Puma", "Lynx", "Lion", "Fox"],
+    "Puma": ["April", "May"],
+    "Buccaneer": ["Fulmar", "Gull", "Eagle"],
+    "Falcon": ["Winger"]
+  },
+  "Belgium": {
+    "F-16": ["Saison", "Amber", "Blonde", "Tripel", "Stout", "Abbey", "Bock", "Pils", "Lambic"],
+    "Mirage 5": ["Namur", "Liege", "Mons", "Brux", "Hainaut", "Antwerp"]
+  },
+  "Canada": {
+    "CF-18": ["Dack", "Kipp", "Evans", "Banks", "Archerarch", "Ness", "Jasper", "Lake", "Boyle"],
+    "CF-5": ["Wales", "Campbell", "Norris", "Adams", "Smythe", "Patrick"]
+  },
+  "USSR": {
+    "MiG-21": ["Shilka", "Luganski", "Glinka", "Kaluga", "Molokov", "Azov"],
+    "MiG-23": ["Titov", "Leonov", "Glazkov", "Budarin", "Zelenkin", "Raskova", "Popkov", "Meklin", "Argeyev", "Dunayev", "Zelenko", "Orlav", "Novitski", "Kazakov", "Dolina"],
+    "MiG-25": ["Babak", "Zudov", "Atkov", "Suchkov", "Tyurin", "Avdeev", "Volkov", "Koldunov", "Alexey", "Markov", "Krasnov", "Rudneva"],
+    "MiG-27": ["Konev", "Yegorov", "Kuzmin", "Alyokhina", "Zaytsev", "Sebrova", "Pavlov", "Fedorov", "Sultan", "Nagurski", "Ilyushini", "Gromov"],
+    "MiG-29": ["Stepanov", "Nikulin", "Mihin", "Karasev", "Siskov", "Pulov", "Karelin", "Antonov", "Oskin", "Ivanov", "Fedorets", "Boitsov"],
+    "Su-17": ["Litvyak", "Krasavin", "Schukin", "Lepikov", "Onilova", "Kovpak", "Danilov", "Bychkov", "Chuikov", "Aslanov", "Bashman", "Bokatz"],
+    "Su-24": ["Tolokov", "Samut", "Leman", "Mitusov", "Sutyagin", "Pravik", "Mikhailov", "Krylov", "Litvyak", "Loyko", "Komarov", "Subbotin"],
+    "Su-25": ["Smirnov", "Kamozin", "Churilin", "Sytov", "Dolgikh", "Budanov", "Ozdoev", "Borisova", "Afonin"],
+    "Su-27": ["Poltava", "Vilnius", "Kharkov", "Polotsk", "Rostov", "Tallinn"],
+    "Tu-16": ["Nina", "Vera", "Elena"],
+    "Tu-22": ["Novikov", "Gulayev", "Gnido", "Karpov", "Chisiov", "Klubov"],
+    "Yak-28": ["Novikov", "Gulayev", "Gnido", "Karpov", "Chisiov", "Klubov"],
+    "An-12": ["Igor", "Ivan"],
+    "IL-76": ["Zoya", "Larisa", "Irina", "Darya", "Olga", "Nika"],
+    "Mi-8": ["Kirov", "Sochi", "Tula", "Serov", "Penza", "Khimki", "Tomsk", "Orsk", "Chita"],
+    "AS-6": ["33", "22", "11", "66", "55", "44", "99", "88", "77"],
+    "AS-15": ["17", "18", "15", "16", "12", "13"]
+  },
+  "East Germany": {
+    "MiG-21": ["Pruess", "Hess", "Frankl", "Reiff", "Richter", "Russ", "Wenzl", "Seitz", "Hemer", "Wolf", "Schob", "Mecke", "Klein", "Wagner", "Zeller"],
+    "MiG-23": ["Crump", "Becker", "Scheer", "Kehl", "Lemke", "Dorn", "Bauer", "Meyer", "Rall", "Pingel", "Klemm", "Thiel"],
+    "Su-22": ["Seiler", "Voss", "Beyer", "Engel", "Rumey", "Thorn", "Claude", "Ewald", "Koch"],
+    "Mi-8/Mi-14": ["Zeha", "Trabant", "Rondo", "Melkus"]
+  }
+}
