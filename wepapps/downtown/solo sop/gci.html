@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GCI — VPAF 지상관제</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Noto+Sans+KR:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --olive:#4a4a2a;--tan:#c4a96b;--cream:#e8dfc8;
+  --fade:#9c9c5e;--fade2:#9b9b7a;
+  --red-b:#c0392b;--grn-b:#3a8a3a;--amb:#ff9100;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background-color:#1c1c10;
+  background-image:
+    repeating-linear-gradient(0deg,transparent,transparent 31px,rgba(74,74,42,.15) 31px,rgba(74,74,42,.15) 32px),
+    repeating-linear-gradient(90deg,transparent,transparent 31px,rgba(74,74,42,.08) 31px,rgba(74,74,42,.08) 32px);
+  min-height:100vh;font-family:'Noto Sans KR',sans-serif;color:var(--cream);padding:16px;
+}
+.page-header{max-width:820px;margin:0 auto 18px;border-bottom:2px solid var(--olive);padding-bottom:9px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.hdr-t{font-family:'Oswald',sans-serif;font-size:23px;font-weight:700;letter-spacing:.25em;color:var(--tan);text-transform:uppercase}
+.hdr-s{font-size:11px;color:var(--fade);letter-spacing:.1em}
+
+/* progress */
+.prog{max-width:820px;margin:0 auto 16px;display:flex;gap:4px}
+.ps{flex:1;height:3px;background:rgba(74,74,42,.3);border-radius:2px;transition:background .3s}
+.ps.done{background:var(--olive)}.ps.active{background:var(--tan)}
+
+/* card */
+.card{max-width:820px;margin:0 auto 10px;background:rgba(22,20,10,.92);border:1px solid var(--olive);border-radius:3px;overflow:hidden;display:none}
+.card.on{display:block}.card.done{opacity:.55}
+.card-hdr{display:flex;align-items:center;gap:10px;padding:9px 14px;background:rgba(28,26,13,.97);border-bottom:1px solid var(--olive)}
+.card-num{min-width:30px;height:30px;display:flex;align-items:center;justify-content:center;background:var(--olive);color:var(--tan);font-family:'Oswald',sans-serif;font-size:13px;font-weight:700;border-radius:2px;flex-shrink:0}
+.card-num.ew-num{background:rgba(90,26,26,.8);color:#e8a8a8;border:1px solid rgba(196,90,74,.5)}
+.card-title{font-family:'Oswald',sans-serif;font-size:14px;font-weight:500;letter-spacing:.15em;color:var(--cream);text-transform:uppercase;flex:1}
+.bdg{font-family:'Oswald',sans-serif;font-size:10px;letter-spacing:.12em;padding:2px 7px;border-radius:2px;border:1px solid var(--olive);color:var(--fade);text-transform:uppercase}
+.bdg.ok{border-color:var(--grn-b);color:#6aba6a;background:rgba(42,90,42,.2)}
+.bdg.warn{border-color:var(--amb);color:var(--amb);background:rgba(139,90,26,.15)}
+.bdg.bad{border-color:var(--red-b);color:#e87878;background:rgba(139,26,26,.2)}
+.card-body{padding:13px 15px}
+
+/* EW table */
+.ew-tbl{width:100%;border-collapse:collapse;font-size:12px;margin-bottom:12px}
+.ew-tbl th{padding:4px 8px;text-align:left;font-family:'Oswald',sans-serif;font-size:11px;letter-spacing:.1em;color:var(--fade);text-transform:uppercase;border-bottom:1px solid var(--olive);background:rgba(74,74,42,.15)}
+.ew-tbl td{padding:5px 8px;border-bottom:1px solid rgba(74,74,42,.2);color:var(--cream);font-size:12px;line-height:1.5}
+.ew-tbl tr:last-child td{border-bottom:none}
+.ew-tbl .lv{font-family:'Oswald',sans-serif;font-weight:700;font-size:15px}
+.lA{color:#e8a8a8}.lB{color:var(--tan)}.lC{color:var(--amb)}.lD{color:#e87878}
+.ew-roll-row{display:flex;align-items:center;gap:14px;margin-bottom:12px;flex-wrap:wrap}
+.btn-roll{padding:7px 18px;background:rgba(90,26,26,.5);border:1px solid rgba(196,90,74,.5);color:#e8a8a8;font-family:'Oswald',sans-serif;font-size:12px;font-weight:500;letter-spacing:.15em;cursor:pointer;border-radius:3px;text-transform:uppercase;transition:all .15s}
+.btn-roll:hover{background:rgba(90,26,26,.8)}
+.ew-dice{font-family:'JetBrains Mono',monospace;font-size:28px;font-weight:600;color:var(--tan)}
+.ew-lv-txt{font-family:'Oswald',sans-serif;font-size:22px;font-weight:700;letter-spacing:.2em}
+.ew-lv-desc{font-size:12px;color:var(--fade2);margin-top:2px;line-height:1.5}
+.ew-preposi{font-size:12px;margin-top:6px;padding:6px 10px;border-left:2px solid var(--tan);background:rgba(74,74,42,.15);color:var(--cream)}
+
+/* q blocks */
+.q-blk{margin-bottom:11px}
+.q-lbl{font-size:13px;color:var(--cream);line-height:1.6;margin-bottom:7px}
+.q-lbl strong{color:var(--tan)}
+.q-note{display:block;font-size:11px;color:var(--fade2);margin-top:2px;font-style:italic}
+.btn-row{display:flex;gap:7px;flex-wrap:wrap}
+.btn-yn{padding:6px 15px;border:1px solid var(--olive);background:rgba(30,28,15,.9);color:var(--fade);font-family:'Oswald',sans-serif;font-size:12px;font-weight:500;letter-spacing:.12em;cursor:pointer;border-radius:3px;transition:all .15s;text-transform:uppercase}
+.btn-yn:hover{border-color:var(--tan);color:var(--tan)}
+.btn-yn.yes.sel{background:rgba(42,90,42,.35);border-color:#6aba6a;color:#8ad88a}
+.btn-yn.no.sel{background:rgba(139,26,26,.3);border-color:#c04a4a;color:#e89090}
+.btn-yn.neu.sel{background:rgba(74,74,42,.4);border-color:var(--tan);color:var(--tan)}
+
+/* info row (for ew-level info banners) */
+.info-strip{padding:7px 10px;border-left:2px solid #4a7aaa;background:rgba(42,74,106,.15);font-size:12px;color:var(--fade2);margin-bottom:10px;line-height:1.5}
+
+/* score */
+.sc-list{list-style:none;padding:0}
+.sc-item{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid rgba(74,74,42,.2);cursor:pointer;user-select:none}
+.sc-item:last-child{border-bottom:none}
+.sc-item:hover{background:rgba(74,74,42,.1);margin:0 -4px;padding-left:4px;padding-right:4px}
+.sc-item input[type=checkbox]{accent-color:var(--tan);width:13px;height:13px;flex-shrink:0;cursor:pointer}
+.sc-lbl{flex:1;font-size:12px;color:var(--fade2)}
+.sc-lbl.on{color:var(--cream)}
+.sc-bdg{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;padding:1px 6px;border-radius:2px;flex-shrink:0}
+.sc-bdg.p{background:rgba(42,90,42,.3);color:#8ad88a;border:1px solid rgba(58,138,58,.4)}
+.sc-bdg.n{background:rgba(139,26,26,.3);color:#e89090;border:1px solid rgba(192,74,74,.4)}
+.sc-total{display:flex;align-items:center;justify-content:space-between;margin-top:9px;padding:6px 10px;background:rgba(74,74,42,.15);border:1px solid var(--olive);border-radius:2px}
+.sc-total-lbl{font-family:'Oswald',sans-serif;font-size:11px;letter-spacing:.12em;color:var(--fade);text-transform:uppercase}
+.sc-total-val{font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:600;color:var(--tan)}
+
+/* result boxes */
+.rbox{padding:9px 12px;border-radius:3px;margin-top:10px;font-size:12px;line-height:1.7}
+.rbox.go{background:rgba(42,90,42,.25);border:1px solid var(--grn-b)}
+.rbox.cond{background:rgba(139,90,26,.2);border:1px solid var(--amb)}
+.rbox.hold{background:rgba(139,26,26,.2);border:1px solid #8b4a4a}
+.rbox.info{background:rgba(74,74,42,.2);border:1px solid var(--olive)}
+.rbox-t{font-family:'Oswald',sans-serif;font-size:13px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;margin-bottom:4px}
+.rbox.go .rbox-t{color:#8ad88a}.rbox.cond .rbox-t{color:var(--amb)}.rbox.hold .rbox-t{color:#e87878}.rbox.info .rbox-t{color:var(--tan)}
+
+/* tag */
+.tag{display:inline-block;font-family:'Oswald',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;padding:1px 6px;border-radius:2px;margin-right:5px;text-transform:uppercase;vertical-align:middle}
+.t-atk{background:rgba(139,26,26,.5);color:#e8a0a0;border:1px solid rgba(196,90,74,.5)}
+.t-hld{background:rgba(74,74,42,.4);color:var(--tan);border:1px solid var(--olive)}
+.t-ret{background:rgba(42,42,90,.4);color:#a0a0e8;border:1px solid rgba(74,74,196,.4)}
+.t-sup{background:rgba(90,60,26,.5);color:#e8c880;border:1px solid rgba(196,150,74,.5)}
+.t-sam{background:rgba(26,60,90,.5);color:#a0c8e8;border:1px solid rgba(74,130,196,.5)}
+
+/* chips */
+.chips{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:7px}
+.chip{font-size:11px;padding:2px 8px;border-radius:2px;font-family:'JetBrains Mono',monospace}
+.c-s{background:rgba(139,26,26,.3);color:#e8a0a0;border:1px solid rgba(196,74,74,.4)}
+.c-k{background:rgba(139,90,26,.3);color:#e8c878;border:1px solid rgba(196,150,74,.4)}
+.c-e{background:rgba(42,74,42,.3);color:#90c890;border:1px solid rgba(74,138,74,.4)}
+.c-h{background:rgba(42,42,90,.3);color:#9090e8;border:1px solid rgba(74,74,196,.4)}
+
+/* nav */
+.nav-row{display:flex;gap:8px;margin-top:13px;align-items:center;flex-wrap:wrap}
+.btn-next{padding:7px 18px;background:var(--olive);border:1px solid var(--tan);color:var(--tan);font-family:'Oswald',sans-serif;font-size:12px;font-weight:500;letter-spacing:.15em;cursor:pointer;border-radius:3px;text-transform:uppercase;transition:all .15s}
+.btn-next:hover{background:rgba(74,74,42,.8)}.btn-next:disabled{opacity:.35;cursor:not-allowed}
+.btn-back{padding:7px 14px;background:transparent;border:1px solid var(--olive);color:var(--fade);font-family:'Oswald',sans-serif;font-size:12px;font-weight:500;letter-spacing:.12em;cursor:pointer;border-radius:3px;text-transform:uppercase;transition:all .15s}
+.btn-back:hover{border-color:var(--fade2);color:var(--cream)}
+.btn-reset{margin-left:auto;padding:7px 14px;background:transparent;border:1px solid rgba(139,26,26,.4);color:rgba(200,100,100,.6);font-family:'Oswald',sans-serif;font-size:12px;font-weight:500;letter-spacing:.12em;cursor:pointer;border-radius:3px;text-transform:uppercase;transition:all .15s}
+.btn-reset:hover{border-color:var(--red-b);color:#e87878}
+
+/* final */
+.final-card{max-width:820px;margin:0 auto 14px;background:rgba(90,26,26,.1);border:1px solid rgba(196,90,74,.4);border-radius:3px;overflow:hidden;display:none}
+.final-card.on{display:block}
+.final-hdr{background:rgba(90,26,26,.5);padding:8px 14px;border-bottom:1px solid rgba(196,90,74,.4);font-family:'Oswald',sans-serif;font-size:12px;font-weight:700;letter-spacing:.2em;color:#e8a8a8;text-transform:uppercase}
+.final-body{padding:13px 15px;font-size:12px;line-height:1.8;color:var(--cream)}
+.final-body ul{padding-left:16px;margin:4px 0}
+.final-body li{margin-bottom:3px}
+
+/* turn selector */
+.turn-sel{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap;align-items:center}
+.turn-sel-lbl{font-size:11px;color:var(--fade);letter-spacing:.1em;margin-right:2px}
+.btn-turn{padding:5px 12px;border:1px solid var(--olive);background:rgba(30,28,15,.9);color:var(--fade);font-family:'Oswald',sans-serif;font-size:12px;font-weight:500;letter-spacing:.1em;cursor:pointer;border-radius:3px;transition:all .15s}
+.btn-turn:hover{border-color:var(--tan);color:var(--tan)}
+.btn-turn.sel{background:rgba(74,74,42,.4);border-color:var(--tan);color:var(--tan)}
+.turn-warn{padding:7px 10px;border-radius:3px;font-size:12px;line-height:1.6;margin-bottom:10px}
+.turn-warn.w-hold{background:rgba(139,26,26,.15);border-left:2px solid #c0392b;color:#e8a0a0}
+.turn-warn.w-cond{background:rgba(139,90,26,.12);border-left:2px solid var(--amb);color:#e8c878}
+.turn-warn.w-ok{background:rgba(42,90,42,.15);border-left:2px solid var(--grn-b);color:#a0d8a0}
+
+/* SAM diagram */
+.sam-coord{border:1px solid rgba(74,130,196,.4);border-radius:3px;padding:9px 12px;background:rgba(26,60,90,.15);font-size:12px;margin-top:8px}
+.sam-coord-t{font-family:'Oswald',sans-serif;font-size:11px;font-weight:700;letter-spacing:.15em;color:#a0c8e8;text-transform:uppercase;margin-bottom:6px}
+.sam-opt{display:flex;gap:8px;margin-bottom:5px;align-items:flex-start}
+.sam-opt-lbl{font-family:'Oswald',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;color:#a0c8e8;min-width:36px;text-transform:uppercase;padding-top:1px}
+.sam-opt-txt{font-size:12px;color:var(--fade2);line-height:1.5;flex:1}
+
+/* divider */
+hr.div{border:none;border-top:1px solid rgba(74,74,42,.25);margin:10px 0}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="hdr-t">GCI — 지상관제</div>
+  <div class="hdr-s">VPAF · MiG 요격 조율 판단 보조</div>
+</div>
+
+<div class="prog" id="prog">
+  <div class="ps active" id="ps0"></div>
+  <div class="ps" id="ps1"></div>
+  <div class="ps" id="ps2"></div>
+  <div class="ps" id="ps3"></div>
+  <div class="ps" id="ps4"></div>
+  <div class="ps" id="ps5"></div>
+</div>
+
+<!-- ══════════════════════════════════
+     EW: 조기경보 판정
+══════════════════════════════════ -->
+<div class="card on" id="card0">
+  <div class="card-hdr">
+    <div class="card-num ew-num">EW</div>
+    <div class="card-title">조기경보 판정</div>
+    <div class="bdg" id="b0">대기</div>
+  </div>
+  <div class="card-body">
+    <table class="ew-tbl">
+      <thead><tr><th>2d10</th><th>등급</th><th>정보 수준</th><th>MiG 사전 배치</th></tr></thead>
+      <tbody>
+        <tr><td>16–20</td><td><span class="lv lA">A</span></td><td>완전 파악 — 편대 구성·임무·경로 모두 확인</td><td>제한 없음</td></tr>
+        <tr><td>10–15</td><td><span class="lv lB">B</span></td><td>주요 정보 파악 — 규모·방향 확인, 임무 대부분 파악</td><td>2편대 사전 배치</td></tr>
+        <tr><td>6–9</td><td><span class="lv lC">C</span></td><td>부분 파악 — 진입 방향·규모만, 임무 불명확</td><td>1편대 공중 대기 가능</td></tr>
+        <tr><td>2–5</td><td><span class="lv lD">D</span></td><td>조기경보 실패 — 진입 방향만, 완전 반응형 대응</td><td>사전 배치 불가</td></tr>
+      </tbody>
+    </table>
+
+    <div class="ew-roll-row">
+      <button class="btn-roll" onclick="rollEW()">▸ 2d10 굴리기</button>
+      <div class="ew-dice" id="ew-dice">—</div>
+      <div>
+        <div class="ew-lv-txt" id="ew-lv">—</div>
+        <div class="ew-lv-desc" id="ew-desc"></div>
+        <div class="ew-preposi" id="ew-pre" style="display:none"></div>
+      </div>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn-next" id="next0" onclick="goNext(0)" disabled>다음 →</button>
+      <button class="btn-reset" onclick="resetAll()">↺ 초기화</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     P1: 레이더 판독
+══════════════════════════════════ -->
+<div class="card" id="card1">
+  <div class="card-hdr">
+    <div class="card-num">1</div>
+    <div class="card-title">레이더 판독</div>
+    <div class="bdg" id="b1">대기</div>
+  </div>
+  <div class="card-body" id="card1-body">
+    <!-- populated dynamically based on EW grade -->
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     P2: 요격 대상 선정
+══════════════════════════════════ -->
+<div class="card" id="card2">
+  <div class="card-hdr">
+    <div class="card-num">2</div>
+    <div class="card-title">요격 대상 선정</div>
+    <div class="bdg" id="b2">대기</div>
+  </div>
+  <div class="card-body">
+    <div class="info-strip" id="priority-context"></div>
+
+    <div class="q-blk" id="q2a">
+      <div class="q-lbl">
+        <strong>[SEAD]</strong> 소규모 편대(2~4기)가 SAM 기지 방향으로 분리 이동 중인가?
+        <span class="q-note">공습 표적 방향과 다른 경로 — 주 편대와 분리되어 SAM 방향 접근</span>
+      </div>
+      <div class="btn-row">
+        <button class="btn-yn yes" onclick="ans('q2a','yes')">YES</button>
+        <button class="btn-yn no"  onclick="ans('q2a','no')">NO</button>
+      </div>
+    </div>
+
+    <div class="q-blk" id="q2b" style="display:none">
+      <div class="q-lbl">
+        <strong>[Strike]</strong> 공습 예상 경로를 따라 이동 중인 편대가 있는가?
+        <span class="q-note">불확실하면 위협으로 간주 / EW C·D에서는 이동 방향과 진입 경로로만 판단</span>
+      </div>
+      <div class="btn-row">
+        <button class="btn-yn yes" onclick="ans('q2b','yes')">YES</button>
+        <button class="btn-yn no"  onclick="ans('q2b','no')">NO</button>
+      </div>
+    </div>
+
+    <div class="q-blk" id="q2c" style="display:none">
+      <div class="q-lbl">
+        <strong>[파일럿 보고]</strong> 접촉 MiG로부터 폭장 또는 ARM 탑재 육안 확인 보고가 있는가?
+      </div>
+      <div class="btn-row">
+        <button class="btn-yn yes" onclick="ans('q2c','yes')">YES</button>
+        <button class="btn-yn no"  onclick="ans('q2c','no')">NO / 미접촉</button>
+      </div>
+    </div>
+
+    <div id="threat-rbox" style="display:none"></div>
+
+    <div class="nav-row">
+      <button class="btn-back" onclick="goBack(2)">← 이전</button>
+      <button class="btn-next" id="next2" onclick="goNext(2)" disabled>다음 →</button>
+      <button class="btn-reset" onclick="resetAll()">↺ 초기화</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     P3: Escort 평가
+══════════════════════════════════ -->
+<div class="card" id="card3">
+  <div class="card-hdr">
+    <div class="card-num">3</div>
+    <div class="card-title">Escort 평가</div>
+    <div class="bdg" id="b3">대기</div>
+  </div>
+  <div class="card-body">
+    <div class="q-blk" id="q3a">
+      <div class="q-lbl"><strong>요격 대상 편대와 동반 이동 중인 Escort 편대가 있는가?</strong></div>
+      <div class="btn-row">
+        <button class="btn-yn yes" onclick="ans('q3a','yes')">YES</button>
+        <button class="btn-yn no"  onclick="ans('q3a','no')">NO — Escort 없음</button>
+      </div>
+    </div>
+    <div class="q-blk" id="q3b" style="display:none">
+      <div class="q-lbl">
+        <strong>Escort가 MiG보다 요격 대상에 더 가까운가?</strong>
+        <span class="q-note">MiG 기준 헥스 거리 비교</span>
+      </div>
+      <div class="btn-row">
+        <button class="btn-yn yes" onclick="ans('q3b','yes')">YES — 차단 중</button>
+        <button class="btn-yn no"  onclick="ans('q3b','no')">NO — MiG가 유리</button>
+      </div>
+    </div>
+    <div class="q-blk" id="q3c" style="display:none">
+      <div class="q-lbl"><strong>가용 MiG 편대 수 ≥ 2인가?</strong></div>
+      <div class="btn-row">
+        <button class="btn-yn yes" onclick="ans('q3c','yes')">YES</button>
+        <button class="btn-yn no"  onclick="ans('q3c','no')">NO — 1편대뿐</button>
+      </div>
+    </div>
+    <div class="q-blk" id="q3d" style="display:none">
+      <div class="q-lbl">
+        <strong>Escort와 요격 대상 편대 사이 간격이 충분히 벌어져 있는가?</strong>
+        <span class="q-note">MiG 1편대가 요격 대상에 단독 접근 가능한 상태</span>
+      </div>
+      <div class="btn-row">
+        <button class="btn-yn yes" onclick="ans('q3d','yes')">YES — 분리됨</button>
+        <button class="btn-yn no"  onclick="ans('q3d','no')">NO — 밀착</button>
+      </div>
+    </div>
+    <div id="escort-rbox" style="display:none"></div>
+    <div class="nav-row">
+      <button class="btn-back" onclick="goBack(3)">← 이전</button>
+      <button class="btn-next" id="next3" onclick="goNext(3)" disabled>다음 →</button>
+      <button class="btn-reset" onclick="resetAll()">↺ 초기화</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     P4: 방공망 협조
+══════════════════════════════════ -->
+<div class="card" id="card4">
+  <div class="card-hdr">
+    <div class="card-num">4</div>
+    <div class="card-title">방공망 협조</div>
+    <div class="bdg" id="b4">대기</div>
+  </div>
+  <div class="card-body">
+
+    <div class="q-blk" id="q4a">
+      <div class="q-lbl"><strong>요격 예정 구역이 SAM 사정권 내인가?</strong></div>
+      <div class="btn-row">
+        <button class="btn-yn yes" onclick="ans('q4a','yes')">YES</button>
+        <button class="btn-yn no"  onclick="ans('q4a','no')">NO — SAM 없음</button>
+      </div>
+    </div>
+
+    <div class="q-blk" id="q4b" style="display:none">
+      <div class="q-lbl"><strong>SAM이 해당 요격 대상을 이미 표적 획득했는가?</strong></div>
+      <div class="btn-row">
+        <button class="btn-yn yes" onclick="ans('q4b','yes')">YES — 표적 획득 완료</button>
+        <button class="btn-yn no"  onclick="ans('q4b','no')">NO — 미획득</button>
+      </div>
+    </div>
+
+    <div class="q-blk" id="q4c" style="display:none">
+      <div class="q-lbl">
+        <strong>MiG가 요격 대상의 5헥스 이내로 진입할 예정인가?</strong>
+        <span class="q-note">MiG가 5헥스 이내에 있으면 SAM은 사격 불가</span>
+      </div>
+      <div class="btn-row">
+        <button class="btn-yn yes" onclick="ans('q4c','yes')">YES — 5헥스 이내</button>
+        <button class="btn-yn no"  onclick="ans('q4c','no')">NO — 5헥스 밖 유지</button>
+      </div>
+    </div>
+
+    <div class="q-blk" id="q4d" style="display:none">
+      <div class="q-lbl"><strong>AAA 범위 내인가?</strong></div>
+      <div class="btn-row">
+        <button class="btn-yn yes" onclick="ans('q4d','yes')">YES</button>
+        <button class="btn-yn no"  onclick="ans('q4d','no')">NO</button>
+      </div>
+    </div>
+
+    <div id="airdef-rbox" style="display:none"></div>
+
+    <div class="nav-row">
+      <button class="btn-back" onclick="goBack(4)">← 이전</button>
+      <button class="btn-next" id="next4" onclick="goNext(4)" disabled>다음 →</button>
+      <button class="btn-reset" onclick="resetAll()">↺ 초기화</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     P5: 출격 결정
+══════════════════════════════════ -->
+<div class="card" id="card5">
+  <div class="card-hdr">
+    <div class="card-num">5</div>
+    <div class="card-title">출격 결정</div>
+    <div class="bdg" id="b5">대기</div>
+  </div>
+  <div class="card-body">
+    <ul class="sc-list">
+      <li class="sc-item" onclick="toggleSc(this)">
+        <input type="checkbox" data-v="2">
+        <span class="sc-lbl">후방 또는 측방 접근 가능</span>
+        <span class="sc-bdg p">+2</span>
+      </li>
+      <li class="sc-item" onclick="toggleSc(this)">
+        <input type="checkbox" data-v="1">
+        <span class="sc-lbl">SAM / AAA 엄호 범위 내</span>
+        <span class="sc-bdg p">+1</span>
+      </li>
+      <li class="sc-item" onclick="toggleSc(this)">
+        <input type="checkbox" data-v="1">
+        <span class="sc-lbl">Escort 처리 완료 (견제 배정 또는 Escort 없음)</span>
+        <span class="sc-bdg p">+1</span>
+      </li>
+      <li class="sc-item" onclick="toggleSc(this)">
+        <input type="checkbox" data-v="1">
+        <span class="sc-lbl">MiG 현재 미탐지</span>
+        <span class="sc-bdg p">+1</span>
+      </li>
+      <li class="sc-item" onclick="toggleSc(this)">
+        <input type="checkbox" data-v="-2">
+        <span class="sc-lbl">Escort 미처리 + 요격 대상과 밀착</span>
+        <span class="sc-bdg n">−2</span>
+      </li>
+      <li class="sc-item" onclick="toggleSc(this)">
+        <input type="checkbox" data-v="-2">
+        <span class="sc-lbl">방공망 없음 + 정면 접근만 가능</span>
+        <span class="sc-bdg n">−2</span>
+      </li>
+    </ul>
+    <div class="sc-total">
+      <span class="sc-total-lbl">출격 판단 점수</span>
+      <span class="sc-total-val" id="sc-val">0</span>
+    </div>
+    <div id="sc-rbox" style="margin-top:10px"></div>
+    <div class="nav-row">
+      <button class="btn-back" onclick="goBack(5)">← 이전</button>
+      <button class="btn-next" onclick="goNext(5)">공격 후 →</button>
+      <button class="btn-reset" onclick="resetAll()">↺ 초기화</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     P6: 공격 후 행동
+══════════════════════════════════ -->
+<div class="card" id="card6">
+  <div class="card-hdr">
+    <div class="card-num">6</div>
+    <div class="card-title">공격 후 행동</div>
+    <div class="bdg" id="b6">대기</div>
+  </div>
+  <div class="card-body">
+    <div class="q-blk" id="q6a">
+      <div class="q-lbl"><strong>Escort / 미군 전투기가 MiG를 추적 중인가?</strong></div>
+      <div class="btn-row">
+        <button class="btn-yn yes" onclick="ans('q6a','yes')">YES — 추적 중</button>
+        <button class="btn-yn no"  onclick="ans('q6a','no')">NO</button>
+      </div>
+    </div>
+    <div class="q-blk" id="q6b" style="display:none">
+      <div class="q-lbl"><strong>연료 마커 2개 이하인가?</strong></div>
+      <div class="btn-row">
+        <button class="btn-yn yes" onclick="ans('q6b','yes')">YES — 연료 부족</button>
+        <button class="btn-yn no"  onclick="ans('q6b','no')">NO</button>
+      </div>
+    </div>
+    <div class="q-blk" id="q6c" style="display:none">
+      <div class="q-lbl"><strong>요격 대상이 아직 공습 표적에 폭격을 실시하지 않았는가?</strong></div>
+      <div class="btn-row">
+        <button class="btn-yn yes" onclick="ans('q6c','yes')">YES — 미폭격</button>
+        <button class="btn-yn no"  onclick="ans('q6c','no')">NO — 폭격 완료</button>
+      </div>
+    </div>
+    <div id="post-rbox" style="display:none"></div>
+    <div class="nav-row">
+      <button class="btn-back" onclick="goBack(6)">← 이전</button>
+      <button class="btn-reset" onclick="resetAll()">↺ 초기화</button>
+    </div>
+  </div>
+</div>
+
+<!-- final -->
+<div class="final-card" id="final-card">
+  <div class="final-hdr">◈ GCI 지령 요약</div>
+  <div class="final-body" id="final-body"></div>
+</div>
+
+<script>
+const S={
+  ewRoll:0,ewGrade:'',
+  hasSead:false,hasStrike:false,pilotConfirm:false,
+  escortPresent:false,escortCloser:false,twoSquads:false,separated:false,
+  samRange:false,samAcq:false,migClose:false,aaaRange:false,
+  scScore:0,
+  answers:{},phase:0,
+};
+
+/* ── EW data ── */
+const EW={
+  A:{cls:'lA',desc:'완전 파악',detail:'편대 구성·임무·경로 모두 파악. 레이더 판독 단계 생략 가능.',pre:'사전 배치 제한 없음'},
+  B:{cls:'lB',desc:'주요 정보 파악',detail:'규모·방향·주요 임무 파악. 일부 세부 임무 불명.',pre:'MiG 2편대까지 공중 대기 가능'},
+  C:{cls:'lC',desc:'부분 파악',detail:'진입 방향과 규모만 파악. 임무는 레이더 이동 패턴으로 추론.',pre:'MiG 1편대 공중 대기 가능 (비행장 근처 또는 공중 대기점)'},
+  D:{cls:'lD',desc:'조기경보 실패',detail:'진입 방향만. 모든 것을 직접 관측으로 판단해야 함.',pre:'사전 배치 불가 — 경보 후 긴급 출격'},
+};
+
+/* ── EW Roll ── */
+function rollEW(){
+  const d1=Math.ceil(Math.random()*10),d2=Math.ceil(Math.random()*10);
+  const t=d1+d2; S.ewRoll=t;
+  S.ewGrade=t>=16?'A':t>=10?'B':t>=6?'C':'D';
+  const g=EW[S.ewGrade];
+  document.getElementById('ew-dice').textContent=t;
+  const lv=document.getElementById('ew-lv');
+  lv.className='ew-lv-txt '+g.cls; lv.textContent=S.ewGrade;
+  document.getElementById('ew-desc').textContent=g.desc+' — '+g.detail;
+  const pre=document.getElementById('ew-pre');
+  pre.style.display='block'; pre.textContent='▸ '+g.pre;
+  setBdg(0,S.ewGrade==='A'||S.ewGrade==='B'?'ok':S.ewGrade==='C'?'warn':'bad',`EW ${S.ewGrade} (${t})`);
+  document.getElementById('next0').disabled=false;
+}
+
+/* ── Turn selector HTML snippet ── */
+function turnSelectorHTML(){
+  return `<div class="turn-sel">
+    <span class="turn-sel-lbl">탐지 후 경과 턴:</span>
+    <button class="btn-turn" onclick="selectTurn(1,this)">1턴</button>
+    <button class="btn-turn" onclick="selectTurn(2,this)">2턴</button>
+    <button class="btn-turn" onclick="selectTurn(3,this)">3턴</button>
+    <button class="btn-turn" onclick="selectTurn(4,this)">4턴+</button>
+  </div>
+  <div id="turn-warn"></div>`;
+}
+
+let S_turn=0;
+function selectTurn(t, btn){
+  S_turn=t;
+  document.querySelectorAll('.btn-turn').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');
+  updateTurnWarn();
+}
+
+function updateTurnWarn(){
+  const el=document.getElementById('turn-warn'); if(!el) return;
+  const g=S.ewGrade; const t=S_turn;
+  let html='';
+
+  if(g==='B'){
+    if(t<=2) html=`<div class="turn-warn w-cond">탐지 초기 — 공습 표적 방향 불확실. 임무 구분은 가능하나 어느 표적을 노리는지 아직 불명확. 1~2턴 더 관측하면 경로 확정 가능.</div>`;
+    else      html=`<div class="turn-warn w-ok">경로 파악 가능 — 이동 패턴으로 공습 표적 방향 추정 가능. 요격 대상 선정 진행.</div>`;
+  } else if(g==='C'){
+    if(t===1) html=`<div class="turn-warn w-hold">탐지 1턴 — 진입 방향만 확인. 공습 표적 미상. 2~3턴 관측 후 판단 강권. 지금 MiG 출격 시 잘못된 요격 대상 가능성 높음.</div>`;
+    else if(t===2) html=`<div class="turn-warn w-cond">탐지 2턴 — 경로 불완전. 여러 공습 표적 가능성 병존. SEAD 여부 확인 가능하면 판단. 폭격기 방향은 아직 불명.</div>`;
+    else      html=`<div class="turn-warn w-ok">경로 추론 가능 — 이동 패턴으로 어느 표적인지 2~3개로 좁힐 수 있음. 아래 질문으로 요격 대상 판단 진행.</div>`;
+  } else if(g==='D'){
+    if(t<=2) html=`<div class="turn-warn w-hold">탐지 초기 + 조기경보 실패 — 아무것도 모르는 상태. MiG 출격 금지. 파일럿 교전 보고가 들어오거나 3턴 이상 관측 후 재판단.</div>`;
+    else if(t===3) html=`<div class="turn-warn w-cond">탐지 3턴 — 이동 방향으로 대략적 경로 추측 가능. 그러나 여전히 표적 불명. SEAD 분리 여부만 관측하고 신중히 판단.</div>`;
+    else      html=`<div class="turn-warn w-cond">탐지 4턴+ — 경로 방향 어느정도 파악. 그러나 EW D 조건에서는 표적 확정 불가. 파일럿 보고 우선. 판단 신중히.</div>`;
+  }
+  el.innerHTML=html;
+}
+
+/* ── Build P1 based on EW grade ── */
+function buildRadarPhase(){
+  const body=document.getElementById('card1-body');
+  const g=S.ewGrade;
+  S_turn=0;
+
+  if(g==='A'){
+    body.innerHTML=`
+      <div class="rbox go"><div class="rbox-t">EW A — 완전 파악</div>
+      편대 구성·임무·경로 모두 파악. 초반 턴 무관하게 요격 대상 즉시 선정 가능.<br>
+      <small style="color:var(--fade2)">솔로 플레이: 실제 미군 편대 구성을 그대로 사용.</small></div>
+      <div class="nav-row">
+        <button class="btn-back" onclick="goBack(1)">← 이전</button>
+        <button class="btn-next" onclick="skipRadar()">요격 대상 선정 →</button>
+        <button class="btn-reset" onclick="resetAll()">↺ 초기화</button>
+      </div>`;
+    setBdg(1,'ok','생략');
+  } else if(g==='B'){
+    body.innerHTML=`
+      ${turnSelectorHTML()}
+      <div class="info-strip">규모·방향 파악됨. 경과 턴 선택 후 아래 항목 확인.</div>
+      <div class="q-blk" id="q1b1">
+        <div class="q-lbl"><strong>SEAD / Iron Hand 편대 확인됐는가?</strong><span class="q-note">소규모 편대가 SAM 방향으로 분리 이동</span></div>
+        <div class="btn-row">
+          <button class="btn-yn yes" onclick="r1ans('sead',true)">YES</button>
+          <button class="btn-yn no" onclick="r1ans('sead',false)">NO / 불명</button>
+        </div>
+      </div>
+      <div class="q-blk" id="q1b2">
+        <div class="q-lbl"><strong>폭격 편대 (Strike·Bombing) 확인됐는가?</strong></div>
+        <div class="btn-row">
+          <button class="btn-yn yes" onclick="r1ans('strike',true)">YES</button>
+          <button class="btn-yn no" onclick="r1ans('strike',false)">NO / 불명</button>
+        </div>
+      </div>
+      <div id="r1-rbox" style="display:none"></div>
+      <div class="nav-row">
+        <button class="btn-back" onclick="goBack(1)">← 이전</button>
+        <button class="btn-next" id="next1" onclick="goNext(1)" disabled>다음 →</button>
+        <button class="btn-reset" onclick="resetAll()">↺ 초기화</button>
+      </div>`;
+    setBdg(1,'','진행 중');
+  } else if(g==='C'){
+    body.innerHTML=`
+      ${turnSelectorHTML()}
+      <div class="info-strip">진입 방향·규모만 파악. 공습 표적 미상 — 예상 표적 목록과 진입 경로 비교하여 추정.</div>
+      <div class="q-blk">
+        <div class="q-lbl"><strong>주 편대와 분리된 소규모 편대(2~4기)가 있는가?</strong><span class="q-note">= SEAD 가능성</span></div>
+        <div class="btn-row">
+          <button class="btn-yn yes" onclick="r1ans('sead',true)">YES</button>
+          <button class="btn-yn no" onclick="r1ans('sead',false)">NO</button>
+        </div>
+      </div>
+      <div class="q-blk">
+        <div class="q-lbl"><strong>대규모 편대(5기 이상)가 예상 공습 경로를 따라 이동 중인가?</strong><span class="q-note">= Strike/Bombing 가능성. 3턴+ 경과 시에만 신뢰도 높음</span></div>
+        <div class="btn-row">
+          <button class="btn-yn yes" onclick="r1ans('strike',true)">YES</button>
+          <button class="btn-yn no" onclick="r1ans('strike',false)">NO / 불명</button>
+        </div>
+      </div>
+      <div id="r1-rbox" style="display:none"></div>
+      <div class="nav-row">
+        <button class="btn-back" onclick="goBack(1)">← 이전</button>
+        <button class="btn-next" id="next1" onclick="goNext(1)" disabled>다음 →</button>
+        <button class="btn-reset" onclick="resetAll()">↺ 초기화</button>
+      </div>`;
+    setBdg(1,'','진행 중');
+  } else { // D
+    body.innerHTML=`
+      ${turnSelectorHTML()}
+      <div class="rbox hold" style="margin-bottom:10px"><div class="rbox-t">EW D — 조기경보 실패</div>
+      MiG 사전 배치 불가. 파일럿 교전 보고 전까지 임무 판단 불가.<br>
+      경과 턴을 선택하면 현재 판단 가능 수준을 확인할 수 있음.</div>
+      <div class="nav-row">
+        <button class="btn-back" onclick="goBack(1)">← 이전</button>
+        <button class="btn-next" onclick="goNext(1)">다음 →</button>
+        <button class="btn-reset" onclick="resetAll()">↺ 초기화</button>
+      </div>`;
+    setBdg(1,'bad','경보 실패');
+  }
+}
+
+let r1State={sead:null,strike:null};
+function r1ans(type,val){
+  r1State[type]=val;
+  if(type==='sead') S.hasSead=val;
+  if(type==='strike') S.hasStrike=val;
+
+  // update button visuals
+  const btns=event.currentTarget.closest('.q-blk').querySelectorAll('.btn-yn');
+  btns.forEach(b=>b.classList.remove('sel'));
+  event.currentTarget.classList.add('sel');
+
+  if(r1State.sead!==null && r1State.strike!==null){
+    const rb=document.getElementById('r1-rbox');
+    rb.style.display='block';
+    let chips='';
+    if(r1State.sead) chips+=`<span class="chip c-s">SEAD 확인</span>`;
+    if(r1State.strike) chips+=`<span class="chip c-k">Strike 확인</span>`;
+    if(!r1State.sead&&!r1State.strike) chips=`<span class="chip c-h">위협 미확인</span>`;
+    rb.innerHTML=`<div class="rbox ${r1State.sead||r1State.strike?'go':'hold'}"><div class="chips" style="margin-top:2px">${chips}</div></div>`;
+    const next=document.getElementById('next1');
+    if(next) next.disabled=false;
+    setBdg(1,r1State.sead||r1State.strike?'ok':'bad',r1State.sead||r1State.strike?'탐지':'미탐지');
+  }
+}
+
+function skipRadar(){
+  // EW A: set hasSead/hasStrike from game knowledge, skip to P2
+  S.hasSead=true; S.hasStrike=true; S.pilotConfirm=true;
+  setPhase(2);
+  setTimeout(()=>buildPriorityContext(),50);
+}
+
+/* ── P2 priority context ── */
+function buildPriorityContext(){
+  const el=document.getElementById('priority-context');
+  if(!el) return;
+  const g=S.ewGrade;
+  if(g==='A') el.textContent='EW A: 편대 임무 완전 파악. SEAD → Strike 순으로 요격 대상 선정.';
+  else if(g==='B') el.textContent='EW B: 주요 편대 파악됨. 우선순위에 따라 요격 대상 선정.';
+  else if(g==='C') el.textContent='EW C: 레이더 추론 기반. 소규모 분리 편대(SEAD 추정) 우선.';
+  else el.textContent='EW D: 조기경보 실패. 교전 중 파일럿 보고 후 요격 대상 확정.';
+}
+
+/* ── Answer handler ── */
+function ans(qid,val){
+  S.answers[qid]=val;
+  const blk=document.getElementById(qid);
+  blk.querySelectorAll('.btn-yn').forEach(b=>b.classList.remove('sel'));
+  blk.querySelector(`.btn-yn.${val==='yes'?'yes':'no'}`).classList.add('sel');
+
+  if(qid==='q2a'){S.hasSead=(val==='yes');show('q2b');}
+  else if(qid==='q2b'){S.hasStrike=(val==='yes');show('q2c');}
+  else if(qid==='q2c'){S.pilotConfirm=(val==='yes');resolveThreat();}
+  else if(qid==='q3a'){S.escortPresent=(val==='yes');val==='yes'?show('q3b'):resolveEscort();}
+  else if(qid==='q3b'){S.escortCloser=(val==='yes');val==='yes'?show('q3c'):resolveEscort();}
+  else if(qid==='q3c'){S.twoSquads=(val==='yes');val==='yes'?resolveEscort():show('q3d');}
+  else if(qid==='q3d'){S.separated=(val==='yes');resolveEscort();}
+  else if(qid==='q4a'){S.samRange=(val==='yes');val==='yes'?show('q4b'):show('q4d');}
+  else if(qid==='q4b'){S.samAcq=(val==='yes');val==='yes'?show('q4c'):resolveAirDef();}
+  else if(qid==='q4c'){S.migClose=(val==='yes');resolveAirDef();}
+  else if(qid==='q4d'){S.aaaRange=(val==='yes');resolveAirDef();}
+  else if(qid==='q6a'){val==='yes'?resolvePost():show('q6b');}
+  else if(qid==='q6b'){val==='yes'?resolvePost():show('q6c');}
+  else if(qid==='q6c'){resolvePost();}
+}
+
+function show(id){const e=document.getElementById(id);if(e)e.style.display='block';}
+
+/* ── Resolvers ── */
+function resolveThreat(){
+  const rb=document.getElementById('threat-rbox'); rb.style.display='block';
+  const noThreat=!S.hasSead&&!S.hasStrike;
+  if(noThreat){
+    rb.innerHTML=`<div class="rbox hold"><div class="rbox-t">위협 편대 미탐지 — 대기</div>요격 대상 없음. MiG 대기.</div>`;
+    setBdg(2,'bad','위협 없음');
+  } else {
+    let chips='';
+    if(S.hasSead) chips+=`<span class="chip c-s">1순위: SEAD</span>`;
+    if(S.hasStrike) chips+=`<span class="chip c-k">2순위: Strike</span>`;
+    if(S.pilotConfirm) chips+=`<span class="chip c-e">파일럿 확인</span>`;
+    rb.innerHTML=`<div class="rbox go"><div class="rbox-t">요격 대상 선정</div><div class="chips" style="margin-top:4px">${chips}</div></div>`;
+    setBdg(2,'ok','선정 완료');
+  }
+  document.getElementById('next2').disabled=false;
+}
+
+function resolveEscort(){
+  const rb=document.getElementById('escort-rbox'); rb.style.display='block';
+  let msg='',cls='info';
+  if(!S.escortPresent){msg=`<span class="tag t-atk">직접 공격</span> Escort 없음.`;cls='go';setBdg(3,'ok','Escort 없음');}
+  else if(!S.escortCloser){msg=`<span class="tag t-atk">직접 공격</span> MiG 위치 유리.`;cls='go';setBdg(3,'ok','위치 유리');}
+  else if(S.twoSquads){msg=`<span class="tag t-sup">2편대 배정</span> 1편대 Escort 견제(기동만, 교전 최소화), 1편대 요격 대상 공격.`;cls='cond';setBdg(3,'warn','견제 배정');}
+  else if(S.separated){msg=`<span class="tag t-atk">직접 공격</span> 편대 분리 확인.`;cls='go';setBdg(3,'ok','분리 확인');}
+  else{msg=`<span class="tag t-hld">대기 / 우회</span> Escort 미처리 + 밀착. 접근 각도 조정 또는 다음 턴 대기.`;cls='hold';setBdg(3,'bad','우회 필요');}
+  rb.innerHTML=`<div class="rbox ${cls}">${msg}</div>`;
+  document.getElementById('next3').disabled=false;
+}
+
+function resolveAirDef(){
+  const rb=document.getElementById('airdef-rbox'); rb.style.display='block';
+  let msg='',cls='info';
+
+  if(S.samRange && S.samAcq && S.migClose){
+    // SAM acquired but MiG within 5 hexes → SAM cannot fire
+    msg=`<span class="tag t-atk">MiG 선제</span> MiG가 5헥스 이내 — SAM 사격 불가.
+    <div class="sam-coord">
+      <div class="sam-coord-t">SAM 협조 방안</div>
+      <div class="sam-opt"><span class="sam-opt-lbl">안 A</span><span class="sam-opt-txt">MiG 공격 → 5헥스 밖 이탈 → SAM 사격</span></div>
+      <div class="sam-opt"><span class="sam-opt-lbl">안 B</span><span class="sam-opt-txt">MiG 다른 방향 접근 + SAM 해당 축에서 발사 (공간 분리)</span></div>
+    </div>`;
+    cls='cond'; setBdg(4,'warn','5헥스 충돌');
+  } else if(S.samRange && S.samAcq && !S.migClose){
+    msg=`<span class="tag t-sam">SAM 우선</span> 표적 획득 완료, MiG 5헥스 밖. SAM 발사 → 요격 대상 회피 기동 중 MiG 추가 공격.`;cls='cond';setBdg(4,'warn','SAM 발사 후');
+  } else if(S.samRange && !S.samAcq){
+    msg=`<span class="tag t-atk">MiG 선제</span> SAM 미획득. MiG 선공격 → SAM 획득 시 협조.`;cls='go';setBdg(4,'ok','MiG 선제');
+  } else if(S.aaaRange){
+    msg=`<span class="tag t-atk">공격 허가</span> AAA 엄호 범위 내.`;cls='go';setBdg(4,'ok','AAA 엄호');
+  } else {
+    msg=`<span class="tag t-hld">방공망 없음</span> 출격 점수로 판단. 불리한 환경.`;cls='hold';setBdg(4,'bad','방공망 없음');
+  }
+  rb.innerHTML=`<div class="rbox ${cls}">${msg}</div>`;
+  document.getElementById('next4').disabled=false;
+}
+
+function resolvePost(){
+  const rb=document.getElementById('post-rbox'); rb.style.display='block';
+  const a=S.answers;
+  let msg='',cls='';
+  if(a.q6a==='yes'){msg=`<span class="tag t-ret">즉시 이탈</span> SAM/AAA 방향으로 유인 가능.`;cls='hold';setBdg(6,'bad','이탈');}
+  else if(a.q6b==='yes'){msg=`<span class="tag t-ret">귀환</span> 연료 부족.`;cls='hold';setBdg(6,'bad','귀환');}
+  else if(a.q6c==='yes'){msg=`<span class="tag t-atk">재접근</span> 요격 대상 미폭격. 재접근 허가.`;cls='go';setBdg(6,'ok','재접근');}
+  else{msg=`<span class="tag t-ret">귀환</span> 공습 표적 폭격 완료. 임무 종료.`;cls='cond';setBdg(6,'warn','임무 종료');}
+  rb.innerHTML=`<div class="rbox ${cls}">${msg}</div>`;
+  buildFinal();
+}
+
+/* ── Scramble score ── */
+function toggleSc(li){
+  const cb=li.querySelector('input[type=checkbox]');cb.checked=!cb.checked;
+  li.querySelector('.sc-lbl').classList.toggle('on',cb.checked);
+  recalcSc();
+}
+function recalcSc(){
+  let s=0;
+  document.querySelectorAll('.sc-list input:checked').forEach(cb=>s+=parseInt(cb.dataset.v));
+  S.scScore=s;
+  document.getElementById('sc-val').textContent=s>0?'+'+s:s;
+  const rb=document.getElementById('sc-rbox');
+  if(s>=3){rb.innerHTML=`<div class="rbox go"><div class="rbox-t">출격 명령</div>점수 ${s>=0?'+'+s:s}. 준비 완료 MiG 전 편대 출격. 기종은 교전 시 주사위로 결정.</div>`;setBdg(5,'ok','출격');}
+  else if(s>=1){rb.innerHTML=`<div class="rbox cond"><div class="rbox-t">조건부 출격</div>점수 ${s>=0?'+'+s:s}. MiG-21 계열 단독 선제만 허가.</div>`;setBdg(5,'warn','조건부');}
+  else{rb.innerHTML=`<div class="rbox hold"><div class="rbox-t">대기</div>점수 ${s<=0?s:'+'+s}. 조건 불리.</div>`;setBdg(5,'bad','대기');}
+}
+
+/* ── Final ── */
+function buildFinal(){
+  const fc=document.getElementById('final-card'); fc.classList.add('on');
+  const fb=document.getElementById('final-body');
+  const tgt=S.hasSead?'SEAD 편대':'Strike/Bombing 편대';
+  const sc=S.scScore;
+  const dec=sc>=3?'출격 명령':sc>=1?'MiG-21 단독 선제':'대기';
+  let escL='';
+  if(!S.escortPresent) escL='없음 — 직접 공격';
+  else if(!S.escortCloser) escL='MiG 위치 유리';
+  else if(S.twoSquads) escL='1편대 견제, 1편대 공격';
+  else if(S.separated) escL='분리 확인 — 직접 공격';
+  else escL='우회 / 대기';
+  let defL='';
+  if(S.samRange&&S.samAcq&&S.migClose) defL='5헥스 충돌 — MiG 선제 후 SAM 협조';
+  else if(S.samRange&&S.samAcq) defL='SAM 발사 후 MiG 추가 공격';
+  else if(S.samRange) defL='SAM 미획득 — MiG 선제';
+  else if(S.aaaRange) defL='AAA 엄호';
+  else defL='방공망 없음';
+  fb.innerHTML=`
+    <div class="chips" style="margin-bottom:8px">
+      <span class="chip ${S.hasSead?'c-s':'c-k'}">요격 대상: ${tgt}</span>
+      <span class="chip ${sc>=3?'c-s':sc>=1?'c-k':'c-h'}">${dec}</span>
+      <span class="chip c-h">EW ${S.ewGrade}</span>
+    </div>
+    <ul>
+      <li><strong>요격 대상:</strong> ${tgt}${S.pilotConfirm?' (파일럿 확인)':' (추정)'}</li>
+      <li><strong>Escort:</strong> ${escL}</li>
+      <li><strong>방공망:</strong> ${defL}</li>
+      <li><strong>출격 점수:</strong> ${sc>=0?'+'+sc:sc} → ${dec}</li>
+      <li><strong>MiG 기종:</strong> 교전 시 주사위 판정</li>
+    </ul>`;
+}
+
+/* ── Navigation ── */
+function goNext(from){
+  const next=from+1;
+  if(from===0){buildRadarPhase();}
+  if(from===1){buildPriorityContext();}
+  setPhase(next);
+}
+function goBack(from){setPhase(from-1);}
+
+function setPhase(n){
+  S.phase=n;
+  for(let i=0;i<=6;i++){
+    const c=document.getElementById(`card${i}`);
+    if(!c) continue;
+    c.classList.remove('on','done');
+    if(i<n) c.classList.add('on','done');
+    else if(i===n) c.classList.add('on');
+  }
+  updateProg(n);
+  const ac=document.getElementById(`card${n}`);
+  if(ac) setTimeout(()=>ac.scrollIntoView({behavior:'smooth',block:'start'}),40);
+}
+
+function updateProg(n){
+  for(let i=0;i<=5;i++){
+    const p=document.getElementById(`ps${i}`);if(!p) continue;
+    p.className='ps';
+    if(i<n) p.classList.add('done');
+    else if(i===n) p.classList.add('active');
+  }
+}
+function setBdg(p,t,tx){const b=document.getElementById(`b${p}`);if(!b)return;b.className='bdg '+(t||'');b.textContent=tx;}
+
+/* ── Reset ── */
+function resetAll(){
+  Object.assign(S,{ewRoll:0,ewGrade:'',hasSead:false,hasStrike:false,pilotConfirm:false,
+    escortPresent:false,escortCloser:false,twoSquads:false,separated:false,
+    samRange:false,samAcq:false,migClose:false,aaaRange:false,scScore:0,answers:{},phase:0});
+  r1State={sead:null,strike:null};
+  document.querySelectorAll('.btn-yn').forEach(b=>b.classList.remove('sel'));
+  document.querySelectorAll('input[type=checkbox]').forEach(cb=>{cb.checked=false;});
+  document.querySelectorAll('.sc-lbl').forEach(l=>l.classList.remove('on'));
+  document.getElementById('sc-val').textContent='0';
+  document.getElementById('sc-rbox').innerHTML='';
+  document.getElementById('ew-dice').textContent='—';
+  const lv=document.getElementById('ew-lv'); lv.className='ew-lv-txt'; lv.textContent='—';
+  document.getElementById('ew-desc').textContent='';
+  document.getElementById('ew-pre').style.display='none';
+  ['threat-rbox','escort-rbox','airdef-rbox','post-rbox'].forEach(id=>{const e=document.getElementById(id);if(e){e.style.display='none';e.innerHTML='';}});
+  ['q2b','q2c','q3b','q3c','q3d','q4b','q4c','q4d','q6b','q6c'].forEach(id=>{const e=document.getElementById(id);if(e) e.style.display='none';});
+  for(let i=0;i<=6;i++) setBdg(i,'','대기');
+  setBdg(0,'','진행 중');
+  document.getElementById('next0').disabled=true;
+  document.getElementById('next2').disabled=true;
+  document.getElementById('next3').disabled=true;
+  document.getElementById('next4').disabled=true;
+  document.getElementById('final-card').classList.remove('on');
+  document.getElementById('card1-body').innerHTML='';
+  setPhase(0);
+}
+</script>
+</body>
+</html>

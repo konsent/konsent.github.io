@@ -47,7 +47,7 @@
   .main-page.active { display: block; }
 
   /* --- SOP (Sequence of Play) Tab Styles --- */
-  #sop-page { max-width: 900px; margin: 0 auto; }
+  #sop-page { max-width: 1000px; margin: 0 auto; }
   .sop-phase {
     background: rgba(30,28,15,0.85);
     border: 1px solid var(--olive);
@@ -695,7 +695,10 @@
     display: none; /* hidden by default; shown in Raid & Player Aid tabs */
     align-items: center;
     justify-content: center;
-    font-size: 24px;
+    font-size: 14px;
+    font-weight: bold;
+    font-family: 'Oswald', sans-serif;
+    letter-spacing: 0.05em;
     cursor: pointer;
     z-index: 1001;
     box-shadow: 0 4px 12px rgba(0,0,0,0.4);
@@ -773,7 +776,7 @@
 
   /* --- Styles from oob.html --- */
   .main-layout {
-    max-width: 1100px;
+    max-width: 1000px;
     margin: 0 auto;
     display: grid;
     grid-template-columns: 360px 1fr;
@@ -1046,11 +1049,11 @@
   }
 
   /* --- Styles from aid.html --- */
-  #aid-page .tabs{display:flex;gap:4px;margin-bottom:20px;flex-wrap:wrap;max-width:960px;margin-left:auto;margin-right:auto;justify-content:center}
+  #aid-page .tabs{display:flex;gap:4px;margin-bottom:20px;flex-wrap:wrap;max-width:1000px;margin-left:auto;margin-right:auto;justify-content:center}
   #aid-page button.tab{font-family:'Oswald',sans-serif;font-size:13px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;padding:8px 20px;border:1px solid var(--olive);background:rgba(30,28,15,.9);color:var(--fade);cursor:pointer;transition:all .2s}
   #aid-page button.tab:hover{border-color:var(--khaki);color:var(--cream)}
   #aid-page button.tab.on{background:var(--olive);border-color:var(--tan);color:var(--tan)}
-  #aid-page .page{display:none;max-width:960px;margin:0 auto}
+  #aid-page .page{display:none;max-width:1000px;margin:0 auto}
   #aid-page .page.on{display:block}
   .step{background:rgba(30,28,15,.9);border:1px solid var(--olive);margin-bottom:10px;overflow:hidden;transition:opacity .2s}
   .step.locked{opacity:.3;pointer-events:none}
@@ -1417,7 +1420,7 @@
      ══════════════════════════════════════════════════════════════ */
 
   .bot-aid-wrapper {
-    max-width: 1200px;
+    max-width: 1000px;
     margin: 0 auto;
     padding: 24px 16px;
   }
@@ -1627,10 +1630,122 @@
   /* ── Bot sub-pages ── */
   .bot-sub-page { display: none; }
   .bot-sub-page.active { display: block; }
-  #bot-page .tabs{display:flex;gap:4px;margin-bottom:20px;flex-wrap:wrap;max-width:960px;margin-left:auto;margin-right:auto;justify-content:center}
+  #bot-page .tabs{display:flex;gap:4px;margin-bottom:20px;flex-wrap:wrap;max-width:1000px;margin-left:auto;margin-right:auto;justify-content:center}
   #bot-page button.tab{font-family:'Oswald',sans-serif;font-size:13px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;padding:8px 20px;border:1px solid var(--olive);background:rgba(30,28,15,.9);color:var(--fade);cursor:pointer;transition:all .2s}
   #bot-page button.tab:hover{border-color:var(--khaki);color:var(--cream)}
   #bot-page button.tab.on{background:var(--olive);border-color:var(--tan);color:var(--tan)}
+
+  /* ── GCI sub-page ── */
+  #bot-gci-sub .gci-header{max-width:1000px;margin:0 auto 18px;border-bottom:2px solid var(--olive);padding-bottom:9px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+  #bot-gci-sub .gci-hdr-t{font-family:'Oswald',sans-serif;font-size:23px;font-weight:700;letter-spacing:.25em;color:var(--tan);text-transform:uppercase}
+  #bot-gci-sub .gci-hdr-s{font-size:11px;color:var(--fade);letter-spacing:.1em}
+  #bot-gci-sub .gci-prog{max-width:1000px;margin:0 auto 16px;display:flex;gap:4px}
+  #bot-gci-sub .gci-ps{flex:1;height:3px;background:rgba(74,74,42,.3);border-radius:2px;transition:background .3s}
+  #bot-gci-sub .gci-ps.done{background:var(--olive)}
+  #bot-gci-sub .gci-ps.active{background:var(--tan)}
+  #bot-gci-sub .gci-card{max-width:1000px;margin:0 auto 10px;background:rgba(22,20,10,.92);border:1px solid var(--olive);border-radius:3px;overflow:hidden;display:none}
+  #bot-gci-sub .gci-card.on{display:block}
+  #bot-gci-sub .gci-card.done{opacity:.55}
+  #bot-gci-sub .gci-card-hdr{display:flex;align-items:center;gap:10px;padding:9px 14px;background:rgba(28,26,13,.97);border-bottom:1px solid var(--olive)}
+  #bot-gci-sub .gci-card-num{min-width:30px;height:30px;display:flex;align-items:center;justify-content:center;background:var(--olive);color:var(--tan);font-family:'Oswald',sans-serif;font-size:13px;font-weight:700;border-radius:2px;flex-shrink:0}
+  #bot-gci-sub .gci-card-num.ew-num{background:rgba(90,26,26,.8);color:#e8a8a8;border:1px solid rgba(196,90,74,.5)}
+  #bot-gci-sub .gci-card-title{font-family:'Oswald',sans-serif;font-size:14px;font-weight:500;letter-spacing:.15em;color:var(--cream);text-transform:uppercase;flex:1}
+  #bot-gci-sub .gci-bdg{font-family:'Oswald',sans-serif;font-size:10px;letter-spacing:.12em;padding:2px 7px;border-radius:2px;border:1px solid var(--olive);color:var(--fade);text-transform:uppercase}
+  #bot-gci-sub .gci-bdg.ok{border-color:var(--grn-b);color:#6aba6a;background:rgba(42,90,42,.2)}
+  #bot-gci-sub .gci-bdg.warn{border-color:var(--amb);color:var(--amb);background:rgba(139,90,26,.15)}
+  #bot-gci-sub .gci-bdg.bad{border-color:var(--red-b);color:#e87878;background:rgba(139,26,26,.2)}
+  #bot-gci-sub .gci-card-body{padding:13px 15px}
+  #bot-gci-sub .gci-ew-tbl{width:100%;border-collapse:collapse;font-size:12px;margin-bottom:12px}
+  #bot-gci-sub .gci-ew-tbl th{padding:4px 8px;text-align:left;font-family:'Oswald',sans-serif;font-size:11px;letter-spacing:.1em;color:var(--fade);text-transform:uppercase;border-bottom:1px solid var(--olive);background:rgba(74,74,42,.15)}
+  #bot-gci-sub .gci-ew-tbl td{padding:5px 8px;border-bottom:1px solid rgba(74,74,42,.2);color:var(--cream);font-size:12px;line-height:1.5}
+  #bot-gci-sub .gci-ew-tbl tr:last-child td{border-bottom:none}
+  #bot-gci-sub .gci-ew-tbl .lv{font-family:'Oswald',sans-serif;font-weight:700;font-size:15px}
+  #bot-gci-sub .lA{color:#e8a8a8}
+  #bot-gci-sub .lB{color:var(--tan)}
+  #bot-gci-sub .lC{color:var(--amb)}
+  #bot-gci-sub .lD{color:#e87878}
+  #bot-gci-sub .gci-ew-roll-row{display:flex;align-items:center;gap:14px;margin-bottom:12px;flex-wrap:wrap}
+  #bot-gci-sub .gci-btn-roll{padding:7px 18px;background:rgba(90,26,26,.5);border:1px solid rgba(196,90,74,.5);color:#e8a8a8;font-family:'Oswald',sans-serif;font-size:12px;font-weight:500;letter-spacing:.15em;cursor:pointer;border-radius:3px;text-transform:uppercase;transition:all .15s}
+  #bot-gci-sub .gci-btn-roll:hover{background:rgba(90,26,26,.8)}
+  #bot-gci-sub .gci-ew-dice{font-family:'JetBrains Mono',monospace;font-size:28px;font-weight:600;color:var(--tan)}
+  #bot-gci-sub .gci-ew-lv-txt{font-family:'Oswald',sans-serif;font-size:22px;font-weight:700;letter-spacing:.2em}
+  #bot-gci-sub .gci-ew-lv-desc{font-size:12px;color:var(--fade2);margin-top:2px;line-height:1.5}
+  #bot-gci-sub .gci-ew-preposi{font-size:12px;margin-top:6px;padding:6px 10px;border-left:2px solid var(--tan);background:rgba(74,74,42,.15);color:var(--cream)}
+  #bot-gci-sub .gci-q-blk{margin-bottom:11px}
+  #bot-gci-sub .gci-q-lbl{font-size:13px;color:var(--cream);line-height:1.6;margin-bottom:7px}
+  #bot-gci-sub .gci-q-lbl strong{color:var(--tan)}
+  #bot-gci-sub .gci-q-note{display:block;font-size:11px;color:var(--fade2);margin-top:2px;font-style:italic}
+  #bot-gci-sub .gci-btn-row{display:flex;gap:7px;flex-wrap:wrap}
+  #bot-gci-sub .gci-btn-yn{padding:6px 15px;border:1px solid var(--olive);background:rgba(30,28,15,.9);color:var(--fade);font-family:'Oswald',sans-serif;font-size:12px;font-weight:500;letter-spacing:.12em;cursor:pointer;border-radius:3px;transition:all .15s;text-transform:uppercase}
+  #bot-gci-sub .gci-btn-yn:hover{border-color:var(--tan);color:var(--tan)}
+  #bot-gci-sub .gci-btn-yn.yes.sel{background:rgba(42,90,42,.35);border-color:#6aba6a;color:#8ad88a}
+  #bot-gci-sub .gci-btn-yn.no.sel{background:rgba(139,26,26,.3);border-color:#c04a4a;color:#e89090}
+  #bot-gci-sub .gci-btn-yn.neu.sel{background:rgba(74,74,42,.4);border-color:var(--tan);color:var(--tan)}
+  #bot-gci-sub .gci-info-strip{padding:7px 10px;border-left:2px solid #4a7aaa;background:rgba(42,74,106,.15);font-size:12px;color:var(--fade2);margin-bottom:10px;line-height:1.5}
+  #bot-gci-sub .gci-sc-list{list-style:none;padding:0}
+  #bot-gci-sub .gci-sc-item{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid rgba(74,74,42,.2);cursor:pointer;user-select:none}
+  #bot-gci-sub .gci-sc-item:last-child{border-bottom:none}
+  #bot-gci-sub .gci-sc-item:hover{background:rgba(74,74,42,.1);margin:0 -4px;padding-left:4px;padding-right:4px}
+  #bot-gci-sub .gci-sc-item input[type=checkbox]{accent-color:var(--tan);width:13px;height:13px;flex-shrink:0;cursor:pointer}
+  #bot-gci-sub .gci-sc-lbl{flex:1;font-size:12px;color:var(--fade2)}
+  #bot-gci-sub .gci-sc-lbl.on{color:var(--cream)}
+  #bot-gci-sub .gci-sc-bdg{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;padding:1px 6px;border-radius:2px;flex-shrink:0}
+  #bot-gci-sub .gci-sc-bdg.p{background:rgba(42,90,42,.3);color:#8ad88a;border:1px solid rgba(58,138,58,.4)}
+  #bot-gci-sub .gci-sc-bdg.n{background:rgba(139,26,26,.3);color:#e89090;border:1px solid rgba(192,74,74,.4)}
+  #bot-gci-sub .gci-sc-total{display:flex;align-items:center;justify-content:space-between;margin-top:9px;padding:6px 10px;background:rgba(74,74,42,.15);border:1px solid var(--olive);border-radius:2px}
+  #bot-gci-sub .gci-sc-total-lbl{font-family:'Oswald',sans-serif;font-size:11px;letter-spacing:.12em;color:var(--fade);text-transform:uppercase}
+  #bot-gci-sub .gci-sc-total-val{font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:600;color:var(--tan)}
+  #bot-gci-sub .gci-rbox{padding:9px 12px;border-radius:3px;margin-top:10px;font-size:12px;line-height:1.7}
+  #bot-gci-sub .gci-rbox.go{background:rgba(42,90,42,.25);border:1px solid var(--grn-b)}
+  #bot-gci-sub .gci-rbox.cond{background:rgba(139,90,26,.2);border:1px solid var(--amb)}
+  #bot-gci-sub .gci-rbox.hold{background:rgba(139,26,26,.2);border:1px solid #8b4a4a}
+  #bot-gci-sub .gci-rbox.info{background:rgba(74,74,42,.2);border:1px solid var(--olive)}
+  #bot-gci-sub .gci-rbox-t{font-family:'Oswald',sans-serif;font-size:13px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;margin-bottom:4px}
+  #bot-gci-sub .gci-rbox.go .gci-rbox-t{color:#8ad88a}
+  #bot-gci-sub .gci-rbox.cond .gci-rbox-t{color:var(--amb)}
+  #bot-gci-sub .gci-rbox.hold .gci-rbox-t{color:#e87878}
+  #bot-gci-sub .gci-rbox.info .gci-rbox-t{color:var(--tan)}
+  #bot-gci-sub .gci-tag{display:inline-block;font-family:'Oswald',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;padding:1px 6px;border-radius:2px;margin-right:5px;text-transform:uppercase;vertical-align:middle}
+  #bot-gci-sub .gci-t-atk{background:rgba(139,26,26,.5);color:#e8a0a0;border:1px solid rgba(196,90,74,.5)}
+  #bot-gci-sub .gci-t-hld{background:rgba(74,74,42,.4);color:var(--tan);border:1px solid var(--olive)}
+  #bot-gci-sub .gci-t-ret{background:rgba(42,42,90,.4);color:#a0a0e8;border:1px solid rgba(74,74,196,.4)}
+  #bot-gci-sub .gci-t-sup{background:rgba(90,60,26,.5);color:#e8c880;border:1px solid rgba(196,150,74,.5)}
+  #bot-gci-sub .gci-t-sam{background:rgba(26,60,90,.5);color:#a0c8e8;border:1px solid rgba(74,130,196,.5)}
+  #bot-gci-sub .gci-chips{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:7px}
+  #bot-gci-sub .gci-chip{font-size:11px;padding:2px 8px;border-radius:2px;font-family:'JetBrains Mono',monospace}
+  #bot-gci-sub .gci-c-s{background:rgba(139,26,26,.3);color:#e8a0a0;border:1px solid rgba(196,74,74,.4)}
+  #bot-gci-sub .gci-c-k{background:rgba(139,90,26,.3);color:#e8c878;border:1px solid rgba(196,150,74,.4)}
+  #bot-gci-sub .gci-c-e{background:rgba(42,74,42,.3);color:#90c890;border:1px solid rgba(74,138,74,.4)}
+  #bot-gci-sub .gci-c-h{background:rgba(42,42,90,.3);color:#9090e8;border:1px solid rgba(74,74,196,.4)}
+  #bot-gci-sub .gci-nav-row{display:flex;gap:8px;margin-top:13px;align-items:center;flex-wrap:wrap}
+  #bot-gci-sub .gci-btn-next{padding:7px 18px;background:var(--olive);border:1px solid var(--tan);color:var(--tan);font-family:'Oswald',sans-serif;font-size:12px;font-weight:500;letter-spacing:.15em;cursor:pointer;border-radius:3px;text-transform:uppercase;transition:all .15s}
+  #bot-gci-sub .gci-btn-next:hover{background:rgba(74,74,42,.8)}
+  #bot-gci-sub .gci-btn-next:disabled{opacity:.35;cursor:not-allowed}
+  #bot-gci-sub .gci-btn-back{padding:7px 14px;background:transparent;border:1px solid var(--olive);color:var(--fade);font-family:'Oswald',sans-serif;font-size:12px;font-weight:500;letter-spacing:.12em;cursor:pointer;border-radius:3px;text-transform:uppercase;transition:all .15s}
+  #bot-gci-sub .gci-btn-back:hover{border-color:var(--fade2);color:var(--cream)}
+  #bot-gci-sub .gci-btn-reset{margin-left:auto;padding:7px 14px;background:transparent;border:1px solid rgba(139,26,26,.4);color:rgba(200,100,100,.6);font-family:'Oswald',sans-serif;font-size:12px;font-weight:500;letter-spacing:.12em;cursor:pointer;border-radius:3px;text-transform:uppercase;transition:all .15s}
+  #bot-gci-sub .gci-btn-reset:hover{border-color:var(--red-b);color:#e87878}
+  #bot-gci-sub .gci-final-card{max-width:1000px;margin:0 auto 14px;background:rgba(90,26,26,.1);border:1px solid rgba(196,90,74,.4);border-radius:3px;overflow:hidden;display:none}
+  #bot-gci-sub .gci-final-card.on{display:block}
+  #bot-gci-sub .gci-final-hdr{background:rgba(90,26,26,.5);padding:8px 14px;border-bottom:1px solid rgba(196,90,74,.4);font-family:'Oswald',sans-serif;font-size:12px;font-weight:700;letter-spacing:.2em;color:#e8a8a8;text-transform:uppercase}
+  #bot-gci-sub .gci-final-body{padding:13px 15px;font-size:12px;line-height:1.8;color:var(--cream)}
+  #bot-gci-sub .gci-final-body ul{padding-left:16px;margin:4px 0}
+  #bot-gci-sub .gci-final-body li{margin-bottom:3px}
+  #bot-gci-sub .gci-turn-sel{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap;align-items:center}
+  #bot-gci-sub .gci-turn-sel-lbl{font-size:11px;color:var(--fade);letter-spacing:.1em;margin-right:2px}
+  #bot-gci-sub .gci-btn-turn{padding:5px 12px;border:1px solid var(--olive);background:rgba(30,28,15,.9);color:var(--fade);font-family:'Oswald',sans-serif;font-size:12px;font-weight:500;letter-spacing:.1em;cursor:pointer;border-radius:3px;transition:all .15s}
+  #bot-gci-sub .gci-btn-turn:hover{border-color:var(--tan);color:var(--tan)}
+  #bot-gci-sub .gci-btn-turn.sel{background:rgba(74,74,42,.4);border-color:var(--tan);color:var(--tan)}
+  #bot-gci-sub .gci-turn-warn{padding:7px 10px;border-radius:3px;font-size:12px;line-height:1.6;margin-bottom:10px}
+  #bot-gci-sub .gci-turn-warn.w-hold{background:rgba(139,26,26,.15);border-left:2px solid #c0392b;color:#e8a0a0}
+  #bot-gci-sub .gci-turn-warn.w-cond{background:rgba(139,90,26,.12);border-left:2px solid var(--amb);color:#e8c878}
+  #bot-gci-sub .gci-turn-warn.w-ok{background:rgba(42,90,42,.15);border-left:2px solid var(--grn-b);color:#a0d8a0}
+  #bot-gci-sub .gci-sam-coord{border:1px solid rgba(74,130,196,.4);border-radius:3px;padding:9px 12px;background:rgba(26,60,90,.15);font-size:12px;margin-top:8px}
+  #bot-gci-sub .gci-sam-coord-t{font-family:'Oswald',sans-serif;font-size:11px;font-weight:700;letter-spacing:.15em;color:#a0c8e8;text-transform:uppercase;margin-bottom:6px}
+  #bot-gci-sub .gci-sam-opt{display:flex;gap:8px;margin-bottom:5px;align-items:flex-start}
+  #bot-gci-sub .gci-sam-opt-lbl{font-family:'Oswald',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;color:#a0c8e8;min-width:36px;text-transform:uppercase;padding-top:1px}
+  #bot-gci-sub .gci-sam-opt-txt{font-size:12px;color:var(--fade2);line-height:1.5;flex:1}
+  #bot-gci-sub hr.gci-div{border:none;border-top:1px solid rgba(74,74,42,.25);margin:10px 0}
 </style>
 </head>
 <body>
@@ -1864,16 +1979,16 @@
       <div class="table-wrap">
         <table id="us-lead-table">
           <thead>
-            <tr><th colspan="16">선발 공격대 (Pre-Raid)</th></tr>
+            <tr><th colspan="15">선발 공격대 (Pre-Raid)</th></tr>
             <tr>
               <th>임무</th><th>태스크</th><th>콜싸인</th><th>항공기 유형</th>
               <th>수준/AV</th><th>상태</th>
               <th>기총</th><th>IRM</th><th>RHM</th><th>폭탄/연료</th><th>Ordnance</th>
-              <th>비고</th><th>역할</th><th></th><th>ADC</th><th>삭제</th>
+              <th>비고</th><th>역할</th><th></th><th>삭제</th>
             </tr>
           </thead>
           <tbody>
-            <tr><td colspan="16" style="text-align:center; padding:8px 0;"><button class="add-row" data-target="us-lead-table">+ 비행대 추가</button></td></tr>
+            <tr><td colspan="15" style="text-align:center; padding:8px 0;"><button class="add-row" data-target="us-lead-table">+ 비행대 추가</button></td></tr>
           </tbody>
         </table>
       </div>
@@ -1885,16 +2000,16 @@
       <div class="table-wrap">
         <table id="us-main-table">
           <thead>
-            <tr><th colspan="16">주 공격대 (MAIN)</th></tr>
+            <tr><th colspan="15">주 공격대 (MAIN)</th></tr>
             <tr>
               <th>임무</th><th>태스크</th><th>콜싸인</th><th>항공기 유형</th>
               <th>수준/AV</th><th>상태</th>
               <th>기총</th><th>IRM</th><th>RHM</th><th>폭탄/연료</th><th>Ordnance</th>
-              <th>비고</th><th>역할</th><th></th><th>ADC</th><th>삭제</th>
+              <th>비고</th><th>역할</th><th></th><th>삭제</th>
             </tr>
           </thead>
           <tbody>
-            <tr><td colspan="16" style="text-align:center; padding:8px 0;"><button class="add-row" data-target="us-main-table">+ 비행대 추가</button></td></tr>
+            <tr><td colspan="15" style="text-align:center; padding:8px 0;"><button class="add-row" data-target="us-main-table">+ 비행대 추가</button></td></tr>
           </tbody>
         </table>
       </div>
@@ -1906,16 +2021,16 @@
       <div class="table-wrap">
         <table id="us-trail-table">
           <thead>
-            <tr><th colspan="16">후발 공격대 (TRAIL)</th></tr>
+            <tr><th colspan="15">후발 공격대 (TRAIL)</th></tr>
             <tr>
               <th>임무</th><th>태스크</th><th>콜싸인</th><th>항공기 유형</th>
               <th>수준/AV</th><th>상태</th>
               <th>기총</th><th>IRM</th><th>RHM</th><th>폭탄/연료</th><th>Ordnance</th>
-              <th>비고</th><th>역할</th><th></th><th>ADC</th><th>삭제</th>
+              <th>비고</th><th>역할</th><th></th><th>삭제</th>
             </tr>
           </thead>
           <tbody>
-            <tr><td colspan="16" style="text-align:center; padding:8px 0;"><button class="add-row" data-target="us-trail-table">+ 비행대 추가</button></td></tr>
+            <tr><td colspan="15" style="text-align:center; padding:8px 0;"><button class="add-row" data-target="us-trail-table">+ 비행대 추가</button></td></tr>
           </tbody>
         </table>
       </div>
@@ -1928,16 +2043,16 @@
       <div class="panel-title drv-color">▸ DRV 요격기 편대</div>
       <div class="table-wrap">
         <table id="drv-table">
-          <thead>
-            <tr><th colspan="13">DRV 요격기 (INTERCEPTORS)</th></tr>
+ㅇ          <thead>
+            <tr><th colspan="12">DRV 요격기 (INTERCEPTORS)</th></tr>
             <tr>
               <th>콜싸인</th><th>항공기 유형</th><th>수준/AV</th><th>상태</th>
               <th>기총</th><th>IRM</th><th>RHM</th><th>폭탄/연료</th>
-              <th>비고</th><th>역할</th><th></th><th>ADC</th><th>삭제</th>
+              <th>비고</th><th>역할</th><th></th><th>삭제</th>
             </tr>
           </thead>
           <tbody>
-            <tr><td colspan="13" style="text-align:center; padding:8px 0;"><button class="add-row" data-target="drv-table">+ 편대 추가</button></td></tr>
+            <tr><td colspan="12" style="text-align:center; padding:8px 0;"><button class="add-row" data-target="drv-table">+ 편대 추가</button></td></tr>
 
           </tbody>
         </table>
@@ -1956,7 +2071,7 @@
 </div>
 
 <!-- ADC Viewer (global – visible in Raid AND Player Aid tabs) -->
-<div id="view-all-adc-fab" title="모든 ADC 보기">🖼️</div>
+<div id="view-all-adc-fab" title="모든 ADC 보기">ADC</div>
 <div id="adc-viewer-panel" class="hidden">
   <div class="adc-viewer-header">
     <span>선택된 항공기 ADC</span>
@@ -1990,8 +2105,8 @@
     <div class="sop-phase-body">
       <p>아래에 명시되지 않는 한 각 무작위 사건을 정상적으로 실행합니다: <span class="table-ref">무작위 이벤트</span></p>
       <ul>
-        <li><strong>신속 대응 경보:</strong> 활성화된 MiG 비행대 수가 최대 실제 비행대와 같거나 지도 상 일반 비행대가 최대 일반 비행대와 같지 않는 한(<span class="table-ref">DRV 준비 표</span> 참조), 무작위 개방 비행장에 무작위 방향으로 일반 DRV 비행대를 배치합니다.</li>
-        <li><strong>AAA 매복:</strong> MiG처럼 <span class="table-ref">표적 선택 표</span>를 사용하여 비행대를 선택합니다.</li>
+        <li><strong>신속 대응 경보:</strong> 활성화된 MiG 비행대 수가 최대 실제 비행대와 같거나 지도 상 일반 비행대가 최대 일반 비행대와 같지 않는 한(<span class="table-ref">🅞 DRV 준비 표</span> 참조), 무작위 개방 비행장에 무작위 방향으로 일반 DRV 비행대를 배치합니다.</li>
+        <li><strong>AAA 매복:</strong> MiG처럼 <span class="table-ref">🅜 표적 선택 표</span>를 사용하여 비행대를 선택합니다.</li>
         <li><strong>날씨 악화:</strong> 날씨 카운터를 무작위로 선택합니다.</li>
         <li><strong>DRV 관제사의 신경 쇠약:</strong> 먼저 무질서 상태인 실제 DRV 비행대 중 무작위로 하나를; 그 다음 일반 DRV 비행대 중 무작위로 하나를 선택합니다.</li>
       </ul>
@@ -2019,7 +2134,8 @@
     </div>
     <div class="sop-phase-body">
       <p>변경사항 없음.</p>
-      <img src="detection.png" alt="탐지 테이블" style="width: 50%; height: auto;">
+      <span class="table-ref">탐지 테이블</span>
+      <img src="assets/detection.png" style="width:50%;margin-top:10px;border:1px solid var(--olive);">
     </div>
   </div>
 
@@ -2031,12 +2147,9 @@
       <div class="sop-phase-arrow">&#9654;</div>
     </div>
     <div class="sop-phase-body">
-      <h4>방어 원형진 (Defensive Wheel)</h4>
-      <div class="note-box"><strong>참고:</strong> 방어 원형진은 1967년 4월 이후 시나리오에서만 사용 가능합니다. MiG-17 2대 이상으로 구성된 비행대(또는 더미 비행대)만 진입할 수 있습니다.</div>
+      <h4>방어 원형진:</h4>
       <ul>
-        <li><strong>자동 진입:</strong> CAP 태스크를 받은 3개 이상의 미군 비행대의 5헥스 내에 있는 무질서 상태가 아닌 MiG-17 비행대(2대 이상)는 방어 원형진에 진입합니다.</li>
-        <li><strong>강제 해제:</strong> 3개 이상의 미군 CAP 비행대의 5헥스 내에 있지 않거나, 무질서 상태가 되거나, 기체가 1대로 줄면 방어 원형진을 떠납니다. 해제 시 산개(Scatter) 판정을 적용합니다.</li>
-        <li><strong>전투 규칙:</strong> 원형진 상태에서는 MP를 소모하지 않으며, 모든 방향이 전방 호로 취급됩니다. 기습 불가, 불리함 페널티 없음. 기동 표에서 항상 1대 컬럼을 사용합니다. 전투 후 산개 판정 및 기동 마커가 적용되지 않습니다. 원형진 내 최대 8대까지 합류 가능합니다.</li>
+        <li>CAP 태스크를 받은 3개 이상의 미군 비행대의 5헥스 내에 있는 무질서 상태가 아닌 DRV 비행대는 방어 원형진에 진입합니다. 3개 이상의 미군 CAP 비행대의 5헥스 내에 있지 않거나 무질서 상태인 DRV 비행대는 방어 원형진을 떠납니다.</li>
       </ul>
 
       <h4>이동 순서</h4>
@@ -2046,40 +2159,29 @@
 
       <h4>일반 DRV 비행대 활성화</h4>
       <ul>
-        <li><span class="table-ref">비행대 활성화 표</span>를 사용하여 일반 DRV 비행대 활성화를 확인합니다.</li>
+        <li><span class="table-ref">🅐 비행대 활성화 표</span>를 사용하여 일반 DRV 비행대 활성화를 확인합니다.</li>
         <li>일반 비행대가 활성화될 때:
           <ul>
-            <li><span class="table-ref">DRV 비행대 선택 표</span>를 사용하여 항공기 유형과 비행대 내 항공기 수를 결정합니다.</li>
+            <li><span class="table-ref">🅝 DRV 비행대 선택 표</span>를 사용하여 항공기 유형과 비행대 내 항공기 수를 결정합니다.</li>
             <li>일반 비행대 마커를 적절한 DRV 비행대 마커로 교체합니다.</li>
             <li>DRV 비행대 로그 시트에 비행대 정보를 추가합니다. 모든 DRV 조종사는 베테랑입니다.</li>
-            <li>굴림 결과가 검은 상자에 흰 텍스트를 보여주거나 활성화된 DRV 비행대의 총 수가 <span class="table-ref">DRV 준비 표</span>에 표시된 최대 실제 비행대와 같아지면, 이것이 활성화될 마지막 일반 DRV 비행대입니다. 맵에서 남은 모든 일반 DRV 비행대를 제거하고(더미로 공개됨) 더 이상 배치하지 않습니다.</li>
+            <li>굴림 결과가 검은 상자에 흰 텍스트를 보여주거나 활성화된 DRV 비행대의 총 수가 <span class="table-ref">🅞 DRV 준비 표</span>에 표시된 최대 실제 비행대와 같아지면, 이것이 활성화될 마지막 일반 DRV 비행대입니다. 맵에서 남은 모든 일반 DRV 비행대를 제거하고(더미로 공개됨) 더 이상 배치하지 않습니다.</li>
           </ul>
         </li>
       </ul>
 
       <h4>DRV 비행대 이동</h4>
       <ul>
-        <li><span class="table-ref">이동 페이즈</span>를 사용하여 DRV 비행대 이동 순서를 결정합니다.</li>
-        <li>활성 비행대가 강제로 취해야 할 행동이 있는지 <span class="table-ref">비행대 행동 — 주요 행동</span>을 확인합니다.</li>
-        <li><span class="table-ref">비행대 행동 — 전투 행동</span>을 사용하여 활성 비행대가 취할 행동을 결정합니다. 다음 상황 보정을 적용합니다:
-          <ul>
-            <li>DRV 비행대가 탐지되지 않음: <strong>-2</strong></li>
-            <li>5헥스 내 US 비행대 3개 이상 뭉쳐있음(폭격 비행대로 추정): <strong>-1</strong></li>
-            <li>US 비행대가 목표를 향해 이동 중(미폭격): <strong>-1</strong></li>
-            <li>표적 US 비행대를 획득한 활성 SAM 있음: <strong>+2</strong> (SAM이 처리하도록 비켜야 함)</li>
-            <li>US 비행대가 폭격 완료, 이탈 중: <strong>+2</strong></li>
-            <li>DRV 비행대에 손상 항공기 있음: <strong>+2</strong></li>
-            <li>US CAP 비행대만 있음(뭉쳐있지 않음): <strong>+1</strong></li>
-          </ul>
-        </li>
-        <li><span class="table-ref">비행대 행동 — 교전 행동</span> 또는 <span class="table-ref">비행대 행동 — 비전투 행동</span> 중 하나를 사용하여 활성 비행대가 어떻게 이동할지 결정합니다.</li>
-        <li><strong>교전 후 이탈 (Hit-and-Clear):</strong> 교전 후 사격이 완료되면, 남은 MP를 사용하여 표적 US 비행대로부터 5헥스 밖(1972년 이후: 3헥스 밖)으로 이탈합니다.</li>
-        <li>모든 DRV 비행대를 이동시킬 때 <span class="table-ref">일반 비행대 행동</span>을 지침으로 사용합니다. 직전 턴에 교전 후 이탈한 DRV 비행대는, 비전투 행동 시 마지막으로 교전한 US 비행대 방향으로 선회하여 재접근합니다.</li>
+        <li><span class="table-ref">🅑 이동 페이즈</span>를 사용하여 DRV 비행대 이동 순서를 결정합니다.</li>
+        <li>활성 비행대가 강제로 취해야 할 행동이 있는지 <span class="table-ref">🅒 비행대 행동 — 주요 행동</span>을 확인합니다.</li>
+        <li><span class="table-ref">🅓 비행대 행동 — 전투 행동</span>을 사용하여 활성 비행대가 취할 행동을 결정합니다.</li>
+        <li><span class="table-ref">🅕 비행대 행동 — 교전 행동</span> 또는 <span class="table-ref">🅖 비행대 행동 — 비전투 행동</span> 중 하나를 사용하여 활성 비행대가 어떻게 이동할지 결정합니다.</li>
+        <li>모든 DRV 비행대를 이동시킬 때 <span class="table-ref">🅗 일반 비행대 행동</span>을 지침으로 사용합니다.</li>
       </ul>
 
       <h4>이동하는 미군 비행대에 대한 활성 SAM 발사</h4>
       <ul>
-        <li>활성 SAM이 이동하는 미군 비행대를 발사하는지와 몇 개의 미사일을 발사하는지 확인하려면 <span class="table-ref">SAM 행동 표</span>를 참조하세요. SAM 탄약 추적은 6.3을 참조하세요.</li>
+        <li>활성 SAM이 이동하는 미군 비행대를 발사하는지와 몇 개의 미사일을 발사하는지 확인하려면 <span class="table-ref">🅛 SAM 행동 표</span>를 참조하세요. SAM 탄약 추적은 6.3을 참조하세요.</li>
       </ul>
 
       <h4>ARM 발사</h4>
@@ -2089,23 +2191,23 @@
 
       <h4>AAA 활성화</h4>
       <ul>
-        <li>미군 비행대가 각 비활성 AAA 마커의 1헥스 내로 이동할 때마다 AAA 활성화 체크를 합니다. <span class="table-ref">AAA &amp; 파이어 캔 활성화 표</span>를 참조하세요.</li>
+        <li>미군 비행대가 각 비활성 AAA 마커의 1헥스 내로 이동할 때마다 AAA 활성화 체크를 합니다. <span class="table-ref">🅘 AAA &amp; 파이어 캔 활성화 표</span>를 참조하세요.</li>
       </ul>
 
       <h4>파이어 캔 활성화</h4>
       <ul>
-        <li>미군 비행대가 이미 파이어 캔이 없고 파이어 캔에 인접하지 않은 활성 AAA 마커나 인쇄된 AAA 집중구역의 2헥스 내로 이동할 때마다 파이어 캔 활성화 체크를 합니다. <span class="table-ref">AAA &amp; 파이어 캔 활성화 표</span>를 참조하세요.</li>
+        <li>미군 비행대가 이미 파이어 캔이 없고 파이어 캔에 인접하지 않은 활성 AAA 마커나 인쇄된 AAA 집중구역의 2헥스 내로 이동할 때마다 파이어 캔 활성화 체크를 합니다. <span class="table-ref">🅘 AAA &amp; 파이어 캔 활성화 표</span>를 참조하세요. 주어진 시나리오에 대해 이용 가능한 모든 파이어 캔이 배치되었다면, 추가 배치 지침을 모두 무시합니다.</li>
       </ul>
 
       <h4>이동하는 미군 비행대에 대한 AAA 발사</h4>
       <ul>
-        <li>이동하는 미군 비행대에 대한 AAA와 파이어 캔 발사는 <span class="table-ref">AAA/파이어 캔 행동 표</span>를 참조하세요.</li>
+        <li>이동하는 미군 비행대에 대한 AAA와 파이어 캔 발사는 <span class="table-ref">🅙 AAA/파이어 캔 행동 표</span>를 참조하세요.</li>
       </ul>
       <div class="note-box"><strong>참고:</strong> AAA와 파이어 캔은 DRV 비행대를 절대 공격하지 않습니다.</div>
 
       <h4>[선택사항] 비활성 SAM 발사 후 락온 발사</h4>
       <ul>
-        <li>탐지된 미군 비행대가 비활성 SAM의 5헥스 내로 이동할 때마다 확인합니다. <span class="table-ref">발사 후 락온 표</span>를 참조하세요.</li>
+        <li>탐지된 미군 비행대가 비활성 SAM의 5헥스 내로 이동할 때마다 확인합니다. <span class="table-ref">🅩 발사 후 락온 표</span>를 참조하세요.</li>
       </ul>
     </div>
   </div>
@@ -2130,7 +2232,7 @@
       <div class="sop-phase-arrow">&#9654;</div>
     </div>
     <div class="sop-phase-body">
-      <p>미군 비행대가 비활성 SAM을 성공적으로 위치 확인하면, 진행하기 전에 SAM 활성화 체크를 실시합니다. <span class="table-ref">SAM 활성화 표</span>를 참조하세요.</p>
+      <p>미군 비행대가 비활성 SAM을 성공적으로 위치 확인하면, 진행하기 전에 SAM 활성화 체크를 실시합니다. <span class="table-ref">🅚 SAM 활성화 표</span>를 참조하세요.</p>
     </div>
   </div>
 
@@ -2143,7 +2245,8 @@
     </div>
     <div class="sop-phase-body">
       <p>변경사항 없음.</p>
-      <img src="track.png" alt="추적 테이블" style="width: 50%; height: auto;">
+      <span class="table-ref">추적 테이블</span>
+      <img src="assets/track.png" style="width:50%;margin-top:10px;border:1px solid var(--olive);">
     </div>
   </div>
 
@@ -2155,7 +2258,7 @@
       <div class="sop-phase-arrow">&#9654;</div>
     </div>
     <div class="sop-phase-body">
-      <p>미군 비행대의 12헥스 내에 있는 각 비활성 SAM에 대해 활성화를 확인합니다. <span class="table-ref">SAM 활성화 표</span>를 참조하세요. 그 다음, 모든 활성 SAM은 미군 비행대를 표적 획득하려고 시도합니다. 이 페이즈에 활성화된 SAM은 12헥스 내에 탐지된 미군 비행대가 있다면 신속 표적 획득을 시도합니다. <span class="table-ref">표적 선택 표</span>를 참조하세요. 모든 경우에 목표 미군 비행대가 고고도에 있으면 거리에 1을 추가합니다.</p>
+      <p>미군 비행대의 12헥스 내에 있는 각 비활성 SAM에 대해 활성화를 확인합니다. <span class="table-ref">🅚 SAM 활성화 표</span>를 참조하세요. 그 다음, 모든 활성 SAM은 미군 비행대를 표적 획득하려고 시도합니다. 이 페이즈에 활성화된 SAM은 12헥스 내에 탐지된 미군 비행대가 있다면 신속 표적 획득을 시도합니다. <span class="table-ref">🅜 표적 선택 표</span>를 참조하세요. 모든 경우에 목표 미군 비행대가 고고도에 있으면 거리에 1을 추가합니다.</p>
     </div>
   </div>
 
@@ -2169,7 +2272,7 @@
     <div class="sop-phase-body">
       <ul>
         <li>탄약이 없는 활성 SAM과 SAM 경고 마커는 레이더를 끕니다.</li>
-        <li>활성 MiG 비행대의 총 수가 최대 실제 비행대와 같거나 지도 상 일반 MiG 비행대의 총 수가 최대 일반 비행대와 같아질 때까지(<span class="table-ref">DRV 준비 표</span> 참조), 일반 DRV 비행대가 맵에 추가되는지 굴림합니다. <span class="table-ref">일반 비행대 생성</span>을 참조하세요.</li>
+        <li>활성 MiG 비행대의 총 수가 최대 실제 비행대와 같거나 지도 상 일반 MiG 비행대의 총 수가 최대 일반 비행대와 같아질 때까지(<span class="table-ref">🅞 DRV 준비 표</span> 참조), 일반 DRV 비행대가 맵에 추가되는지 굴림합니다. <span class="table-ref">🅔 일반 비행대 생성</span>을 참조하세요.</li>
       </ul>
     </div>
   </div>
@@ -2689,8 +2792,8 @@
           </div>
           <!-- 산개 방향 그림 (공통) -->
           <div id="scatter-imgs" style="margin-top:6px;display:flex;flex-wrap:wrap;gap:10px;justify-content:center">
-            <img src="scatter1.png" style="max-width:100%;width:400px;border:1px solid var(--olive);">
-            <img src="scatter2.png" style="max-width:100%;width:400px;border:1px solid var(--olive);">
+            <img src="assets/scatter1.png" style="max-width:100%;width:400px;border:1px solid var(--olive);">
+            <img src="assets/scatter2.png" style="max-width:100%;width:400px;border:1px solid var(--olive);">
           </div>
         </div>
         <button class="btn secondary" onclick="resetAir()">⟳ 공중전 처음부터 다시</button>
@@ -3433,11 +3536,338 @@
 
   <!-- Sub-tab 내비게이션 -->
   <div class="tabs" style="position:relative;">
+    <button class="tab" data-bot-target="bot-gci-sub">GCI</button>
     <button class="tab on" data-bot-target="bot-basic-sub">FLIGHT</button>
     <button class="tab" data-bot-target="bot-sam-sub">SAM / AAA</button>
     <button class="tab" data-bot-target="bot-ref-sub">ETC</button>
+    <button class="tab" onclick="window.open('downtown_solo_rules.html','_blank')">RULES</button>
     <button id="bot-reset-btn" onclick="resetAllBot()" title="Solo Bot 전체 초기화">↺ 초기화</button>
   </div>
+
+<!-- ── GCI 지상관제 ── -->
+<div id="bot-gci-sub" class="bot-sub-page">
+
+<div class="gci-header">
+  <div class="gci-hdr-t">GCI — 지상관제</div>
+  <div class="gci-hdr-s">VPAF · MiG 요격 조율 판단 보조</div>
+</div>
+
+<div class="gci-prog" id="gci-prog">
+  <div class="gci-ps active" id="gci-ps0"></div>
+  <div class="gci-ps" id="gci-ps1"></div>
+  <div class="gci-ps" id="gci-ps2"></div>
+  <div class="gci-ps" id="gci-ps3"></div>
+  <div class="gci-ps" id="gci-ps4"></div>
+  <div class="gci-ps" id="gci-ps5"></div>
+</div>
+
+<!-- EW: 조기경보 판정 -->
+<div class="gci-card on" id="gci-card0">
+  <div class="gci-card-hdr">
+    <div class="gci-card-num ew-num">EW</div>
+    <div class="gci-card-title">조기경보 판정</div>
+    <div class="gci-bdg" id="gci-b0">대기</div>
+  </div>
+  <div class="gci-card-body">
+    <table class="gci-ew-tbl">
+      <thead><tr><th>2d10</th><th>등급</th><th>정보 수준</th><th>MiG 사전 배치</th></tr></thead>
+      <tbody>
+        <tr><td>16–20</td><td><span class="lv lA">A</span></td><td>완전 파악 — 편대 구성·임무·경로 모두 확인</td><td>제한 없음</td></tr>
+        <tr><td>10–15</td><td><span class="lv lB">B</span></td><td>주요 정보 파악 — 규모·방향 확인, 임무 대부분 파악</td><td>2편대 사전 배치</td></tr>
+        <tr><td>6–9</td><td><span class="lv lC">C</span></td><td>부분 파악 — 진입 방향·규모만, 임무 불명확</td><td>1편대 공중 대기 가능</td></tr>
+        <tr><td>2–5</td><td><span class="lv lD">D</span></td><td>조기경보 실패 — 진입 방향만, 완전 반응형 대응</td><td>사전 배치 불가</td></tr>
+      </tbody>
+    </table>
+
+    <div class="gci-ew-roll-row">
+      <button class="gci-btn-roll" onclick="gciRollEW()">▸ 2d10 굴리기</button>
+      <div class="gci-ew-dice" id="gci-ew-dice">—</div>
+      <div>
+        <div class="gci-ew-lv-txt" id="gci-ew-lv">—</div>
+        <div class="gci-ew-lv-desc" id="gci-ew-desc"></div>
+        <div class="gci-ew-preposi" id="gci-ew-pre" style="display:none"></div>
+      </div>
+    </div>
+
+    <div class="gci-nav-row">
+      <button class="gci-btn-next" id="gci-next0" onclick="gciGoNext(0)" disabled>다음 →</button>
+    </div>
+  </div>
+</div>
+
+<!-- P1: 레이더 판독 -->
+<div class="gci-card" id="gci-card1">
+  <div class="gci-card-hdr">
+    <div class="gci-card-num">1</div>
+    <div class="gci-card-title">레이더 판독</div>
+    <div class="gci-bdg" id="gci-b1">대기</div>
+  </div>
+  <div class="gci-card-body" id="gci-card1-body"></div>
+</div>
+
+<!-- P2: 요격 대상 선정 -->
+<div class="gci-card" id="gci-card2">
+  <div class="gci-card-hdr">
+    <div class="gci-card-num">2</div>
+    <div class="gci-card-title">요격 대상 선정</div>
+    <div class="gci-bdg" id="gci-b2">대기</div>
+  </div>
+  <div class="gci-card-body">
+    <div class="gci-info-strip" id="gci-priority-context"></div>
+
+    <div class="gci-q-blk" id="gci-q2a">
+      <div class="gci-q-lbl">
+        <strong>[SEAD]</strong> 소규모 편대(2~4기)가 SAM 기지 방향으로 분리 이동 중인가?
+        <span class="gci-q-note">공습 표적 방향과 다른 경로 — 주 편대와 분리되어 SAM 방향 접근</span>
+      </div>
+      <div class="gci-btn-row">
+        <button class="gci-btn-yn yes" onclick="gciAns('gci-q2a','yes')">YES</button>
+        <button class="gci-btn-yn no"  onclick="gciAns('gci-q2a','no')">NO</button>
+      </div>
+    </div>
+
+    <div class="gci-q-blk" id="gci-q2b" style="display:none">
+      <div class="gci-q-lbl">
+        <strong>[Strike]</strong> 공습 예상 경로를 따라 이동 중인 편대가 있는가?
+        <span class="gci-q-note">불확실하면 위협으로 간주 / EW C·D에서는 이동 방향과 진입 경로로만 판단</span>
+      </div>
+      <div class="gci-btn-row">
+        <button class="gci-btn-yn yes" onclick="gciAns('gci-q2b','yes')">YES</button>
+        <button class="gci-btn-yn no"  onclick="gciAns('gci-q2b','no')">NO</button>
+      </div>
+    </div>
+
+    <div class="gci-q-blk" id="gci-q2c" style="display:none">
+      <div class="gci-q-lbl">
+        <strong>[파일럿 보고]</strong> 접촉 MiG로부터 폭장 또는 ARM 탑재 육안 확인 보고가 있는가?
+      </div>
+      <div class="gci-btn-row">
+        <button class="gci-btn-yn yes" onclick="gciAns('gci-q2c','yes')">YES</button>
+        <button class="gci-btn-yn no"  onclick="gciAns('gci-q2c','no')">NO / 미접촉</button>
+      </div>
+    </div>
+
+    <div class="gci-q-blk" id="gci-q2d" style="display:none">
+      <div class="gci-q-lbl">
+        <strong>[폭격기 근접]</strong> 폭격 비행대(또는 추정 비행대)가 예상 폭격 목표에 6헥스 이내로 접근했는가?
+        <span class="gci-q-note">6헥스 이내 = 폭격 임박. SEAD보다 폭격기 저지가 우선됨</span>
+      </div>
+      <div class="gci-btn-row">
+        <button class="gci-btn-yn yes" onclick="gciAns('gci-q2d','yes')">YES — 6헥스 이내</button>
+        <button class="gci-btn-yn no"  onclick="gciAns('gci-q2d','no')">NO — 아직 먼 거리</button>
+      </div>
+    </div>
+
+    <div id="gci-threat-rbox" style="display:none"></div>
+
+    <div class="gci-nav-row">
+      <button class="gci-btn-back" onclick="gciGoBack(2)">← 이전</button>
+      <button class="gci-btn-next" id="gci-next2" onclick="gciGoNext(2)" disabled>다음 →</button>
+
+    </div>
+  </div>
+</div>
+
+<!-- P3: Escort 평가 -->
+<div class="gci-card" id="gci-card3">
+  <div class="gci-card-hdr">
+    <div class="gci-card-num">3</div>
+    <div class="gci-card-title">Escort 평가</div>
+    <div class="gci-bdg" id="gci-b3">대기</div>
+  </div>
+  <div class="gci-card-body">
+    <div class="gci-q-blk" id="gci-q3a">
+      <div class="gci-q-lbl"><strong>요격 대상 편대와 동반 이동 중인 Escort 편대가 있는가?</strong></div>
+      <div class="gci-btn-row">
+        <button class="gci-btn-yn yes" onclick="gciAns('gci-q3a','yes')">YES</button>
+        <button class="gci-btn-yn no"  onclick="gciAns('gci-q3a','no')">NO — Escort 없음</button>
+      </div>
+    </div>
+    <div class="gci-q-blk" id="gci-q3b" style="display:none">
+      <div class="gci-q-lbl">
+        <strong>Escort가 MiG보다 요격 대상에 더 가까운가?</strong>
+        <span class="gci-q-note">MiG 기준 헥스 거리 비교</span>
+      </div>
+      <div class="gci-btn-row">
+        <button class="gci-btn-yn yes" onclick="gciAns('gci-q3b','yes')">YES — 차단 중</button>
+        <button class="gci-btn-yn no"  onclick="gciAns('gci-q3b','no')">NO — MiG가 유리</button>
+      </div>
+    </div>
+    <div class="gci-q-blk" id="gci-q3c" style="display:none">
+      <div class="gci-q-lbl"><strong>가용 MiG 편대 수 ≥ 2인가?</strong></div>
+      <div class="gci-btn-row">
+        <button class="gci-btn-yn yes" onclick="gciAns('gci-q3c','yes')">YES</button>
+        <button class="gci-btn-yn no"  onclick="gciAns('gci-q3c','no')">NO — 1편대뿐</button>
+      </div>
+    </div>
+    <div class="gci-q-blk" id="gci-q3d" style="display:none">
+      <div class="gci-q-lbl">
+        <strong>Escort와 요격 대상 편대 사이 간격이 충분히 벌어져 있는가?</strong>
+        <span class="gci-q-note">MiG 1편대가 요격 대상에 단독 접근 가능한 상태</span>
+      </div>
+      <div class="gci-btn-row">
+        <button class="gci-btn-yn yes" onclick="gciAns('gci-q3d','yes')">YES — 분리됨</button>
+        <button class="gci-btn-yn no"  onclick="gciAns('gci-q3d','no')">NO — 밀착</button>
+      </div>
+    </div>
+    <div id="gci-escort-rbox" style="display:none"></div>
+    <div class="gci-nav-row">
+      <button class="gci-btn-back" onclick="gciGoBack(3)">← 이전</button>
+      <button class="gci-btn-next" id="gci-next3" onclick="gciGoNext(3)" disabled>다음 →</button>
+
+    </div>
+  </div>
+</div>
+
+<!-- P4: 방공망 협조 -->
+<div class="gci-card" id="gci-card4">
+  <div class="gci-card-hdr">
+    <div class="gci-card-num">4</div>
+    <div class="gci-card-title">방공망 협조</div>
+    <div class="gci-bdg" id="gci-b4">대기</div>
+  </div>
+  <div class="gci-card-body">
+    <div class="gci-q-blk" id="gci-q4a">
+      <div class="gci-q-lbl"><strong>요격 예정 구역이 SAM 사정권 내인가?</strong></div>
+      <div class="gci-btn-row">
+        <button class="gci-btn-yn yes" onclick="gciAns('gci-q4a','yes')">YES</button>
+        <button class="gci-btn-yn no"  onclick="gciAns('gci-q4a','no')">NO — SAM 없음</button>
+      </div>
+    </div>
+    <div class="gci-q-blk" id="gci-q4b" style="display:none">
+      <div class="gci-q-lbl"><strong>SAM이 해당 요격 대상을 이미 표적 획득했는가?</strong></div>
+      <div class="gci-btn-row">
+        <button class="gci-btn-yn yes" onclick="gciAns('gci-q4b','yes')">YES — 표적 획득 완료</button>
+        <button class="gci-btn-yn no"  onclick="gciAns('gci-q4b','no')">NO — 미획득</button>
+      </div>
+    </div>
+    <div class="gci-q-blk" id="gci-q4c" style="display:none">
+      <div class="gci-q-lbl">
+        <strong>MiG가 요격 대상의 5헥스 이내로 진입할 예정인가?</strong>
+        <span class="gci-q-note">MiG가 5헥스 이내에 있으면 SAM은 사격 불가</span>
+      </div>
+      <div class="gci-btn-row">
+        <button class="gci-btn-yn yes" onclick="gciAns('gci-q4c','yes')">YES — 5헥스 이내</button>
+        <button class="gci-btn-yn no"  onclick="gciAns('gci-q4c','no')">NO — 5헥스 밖 유지</button>
+      </div>
+    </div>
+    <div class="gci-q-blk" id="gci-q4d" style="display:none">
+      <div class="gci-q-lbl"><strong>AAA 범위 내인가?</strong></div>
+      <div class="gci-btn-row">
+        <button class="gci-btn-yn yes" onclick="gciAns('gci-q4d','yes')">YES</button>
+        <button class="gci-btn-yn no"  onclick="gciAns('gci-q4d','no')">NO</button>
+      </div>
+    </div>
+    <div id="gci-airdef-rbox" style="display:none"></div>
+    <div class="gci-nav-row">
+      <button class="gci-btn-back" onclick="gciGoBack(4)">← 이전</button>
+      <button class="gci-btn-next" id="gci-next4" onclick="gciGoNext(4)" disabled>다음 →</button>
+
+    </div>
+  </div>
+</div>
+
+<!-- P5: 출격 결정 -->
+<div class="gci-card" id="gci-card5">
+  <div class="gci-card-hdr">
+    <div class="gci-card-num">5</div>
+    <div class="gci-card-title">출격 결정</div>
+    <div class="gci-bdg" id="gci-b5">대기</div>
+  </div>
+  <div class="gci-card-body">
+    <ul class="gci-sc-list">
+      <li class="gci-sc-item" onclick="gciToggleSc(this)">
+        <input type="checkbox" data-v="2">
+        <span class="gci-sc-lbl">후방 또는 측방 접근 가능</span>
+        <span class="gci-sc-bdg p">+2</span>
+      </li>
+      <li class="gci-sc-item" onclick="gciToggleSc(this)">
+        <input type="checkbox" data-v="1">
+        <span class="gci-sc-lbl">SAM / AAA 엄호 범위 내</span>
+        <span class="gci-sc-bdg p">+1</span>
+      </li>
+      <li class="gci-sc-item" onclick="gciToggleSc(this)">
+        <input type="checkbox" data-v="1">
+        <span class="gci-sc-lbl">Escort 처리 완료 (견제 배정 또는 Escort 없음)</span>
+        <span class="gci-sc-bdg p">+1</span>
+      </li>
+      <li class="gci-sc-item" onclick="gciToggleSc(this)">
+        <input type="checkbox" data-v="1">
+        <span class="gci-sc-lbl">MiG 현재 미탐지</span>
+        <span class="gci-sc-bdg p">+1</span>
+      </li>
+      <li class="gci-sc-item" onclick="gciToggleSc(this)">
+        <input type="checkbox" data-v="-2">
+        <span class="gci-sc-lbl">Escort 미처리 + 요격 대상과 밀착</span>
+        <span class="gci-sc-bdg n">−2</span>
+      </li>
+      <li class="gci-sc-item" onclick="gciToggleSc(this)">
+        <input type="checkbox" data-v="-2">
+        <span class="gci-sc-lbl">방공망 없음 + 정면 접근만 가능</span>
+        <span class="gci-sc-bdg n">−2</span>
+      </li>
+    </ul>
+    <div class="gci-sc-total">
+      <span class="gci-sc-total-lbl">출격 판단 점수</span>
+      <span class="gci-sc-total-val" id="gci-sc-val">0</span>
+    </div>
+    <div id="gci-sc-rbox" style="margin-top:10px"></div>
+    <div class="gci-nav-row">
+      <button class="gci-btn-back" onclick="gciGoBack(5)">← 이전</button>
+      <button class="gci-btn-next" onclick="gciGoNext(5)">공격 후 →</button>
+
+    </div>
+  </div>
+</div>
+
+<!-- P6: 공격 후 행동 -->
+<div class="gci-card" id="gci-card6">
+  <div class="gci-card-hdr">
+    <div class="gci-card-num">6</div>
+    <div class="gci-card-title">공격 후 행동</div>
+    <div class="gci-bdg" id="gci-b6">대기</div>
+  </div>
+  <div class="gci-card-body">
+    <div class="gci-q-blk" id="gci-q6a">
+      <div class="gci-q-lbl"><strong>Escort / 미군 전투기가 MiG를 추적 중인가?</strong></div>
+      <div class="gci-btn-row">
+        <button class="gci-btn-yn yes" onclick="gciAns('gci-q6a','yes')">YES — 추적 중</button>
+        <button class="gci-btn-yn no"  onclick="gciAns('gci-q6a','no')">NO</button>
+      </div>
+    </div>
+    <div class="gci-q-blk" id="gci-q6b" style="display:none">
+      <div class="gci-q-lbl"><strong>연료 마커 2개 이하인가?</strong></div>
+      <div class="gci-btn-row">
+        <button class="gci-btn-yn yes" onclick="gciAns('gci-q6b','yes')">YES — 연료 부족</button>
+        <button class="gci-btn-yn no"  onclick="gciAns('gci-q6b','no')">NO</button>
+      </div>
+    </div>
+    <div class="gci-q-blk" id="gci-q6c" style="display:none">
+      <div class="gci-q-lbl"><strong>요격 대상이 아직 공습 표적에 폭격을 실시하지 않았는가?</strong></div>
+      <div class="gci-btn-row">
+        <button class="gci-btn-yn yes" onclick="gciAns('gci-q6c','yes')">YES — 미폭격</button>
+        <button class="gci-btn-yn no"  onclick="gciAns('gci-q6c','no')">NO — 폭격 완료</button>
+      </div>
+    </div>
+    <div id="gci-post-rbox" style="display:none"></div>
+    <div class="gci-nav-row">
+      <button class="gci-btn-back" onclick="gciGoBack(6)">← 이전</button>
+
+    </div>
+  </div>
+</div>
+
+<!-- final -->
+<div class="gci-final-card" id="gci-final-card">
+  <div class="gci-final-hdr">◈ GCI 지령 요약</div>
+  <div class="gci-final-body" id="gci-final-body"></div>
+</div>
+
+<div class="gci-nav-row" style="max-width:1000px;margin:16px auto 0;">
+  <button class="gci-btn-back" onclick="gciRestartFlow()" id="gci-restart-btn" style="display:none">↺ GCI 처음부터</button>
+</div>
+
+</div><!-- #bot-gci-sub -->
 
 <!-- ── 기본 규칙 (A B C D E F G H M) ── -->
 <div id="bot-basic-sub" class="bot-sub-page active">
@@ -3477,11 +3907,7 @@
       </div>
       <div class="bot-card-body">
         <p>무질서 상태가 아닌 DRV 비행대가 US 비행대로부터 5헥스 이내에 있다면, DRV가 먼저 이동합니다. 그렇지 않으면 US가 먼저 이동합니다.</p>
-        <div class="bot-note" id="bWheelSection">
-          <strong>방어 원형진 (Defensive Wheel)</strong> — 1967년 4월 이후, MiG-17 2대 이상만 가능<br><br>
-          <strong>자동 진입:</strong> 무질서 상태가 아닌 MiG-17 비행대(2대 이상, 주간)가 3개 이상의 US CAP 비행대로부터 5헥스 이내에 있으면 방어 원형진에 진입합니다.<br>
-          <strong>강제 해제:</strong> 3개 이상의 US CAP 비행대로부터 5헥스 이내에 있지 않거나, 무질서 상태가 되거나, 기체가 1대로 줄면 원형진에서 벗어납니다. 해제 시 <strong>산개(Scatter) 판정</strong>을 적용합니다.
-        </div>
+        <div class="bot-note">무질서 상태가 아닌 DRV 비행대(주간인 경우)가 3개 이상의 US CAP 비행대로부터 5헥스 이내에 있으면 방어 원형진에 진입합니다. 무질서 상태 비행대와 3개 이상의 US CAP 비행대로부터 5헥스 이내에 있지 않은 비행대는 방어 원형진에서 벗어납니다.</div>
         <p><strong>DRV 비행대를 다음 순서로 이동:</strong></p>
         <ol>
           <li>활성화된 DRV 비행대, US 비행대에 가장 가까운 것부터</li>
@@ -3499,15 +3925,15 @@
     </div>
     <div class="bot-card-body">
       <p>다음 조건 중 하나라도 적용되면(순서대로), 다음과 같이 이동합니다:</p>
-      <div class="bot-hi"><span class="bot-tag bot-tag-bad">빨간색</span>: 지시사항을 수행한 후 멈춥니다.<br><span class="bot-tag bot-tag-cond">파란색</span>: 지시사항을 수행한 후 <span class="bot-red">🅓 비행대 행동 — 전투 행동</span>으로 이동합니다.</div>
+      <div class="bot-hi">빨간색: 지시사항을 수행한 후 멈춥니다.<br>검은색: 지시사항을 수행한 후 <span class="bot-red">🅓 비행대 행동 — 전투 행동</span>으로 이동합니다.</div>
       <div class="bot-table-wrap">
         <table>
           <tr><th>조건</th><th>행동</th></tr>
           <tr><td><span class="bot-tag bot-tag-cond">기동 마커</span></td><td>전투 쓰로틀. MF의 ½을 소모하여 기동 마커를 제거.</td></tr>
           <tr><td><span class="bot-tag bot-tag-cond">BVR 회피 마커</span></td><td>전투 쓰로틀. 1 MP를 소모하여 BVR 회피 마커를 제거.</td></tr>
           <tr><td><span class="bot-tag bot-tag-bad">손상된 항공기</span></td><td>비행대 내 모든 항공기가 손상된 경우: 비행대 작전 중지. 아래 비행대 작전 중지 지침을 따름.</td></tr>
-          <tr><td><span class="bot-tag bot-tag-bad">무력화된 항공기 / 작전 중지 / Winchester</span></td><td>전투 쓰로틀. 초저고도로 강하 [☾/⛅: 저고도]. 개방된 비행장 또는 중국 완충 지대 중 더 가까운 곳을 향해 이동.</td></tr>
-          <tr><td><span class="bot-tag bot-tag-bad">무질서 상태</span></td><td>집결 지점에 인접하지 않은 경우: 대시 쓰로틀. 초저고도로 강하 [☾/⛅: 저고도]하고 가장 가까운 공중 대기 지점(Orbit point)에 최대한 가깝게 이동.</td></tr>
+          <tr><td><span class="bot-tag bot-tag-bad">무력화된 항공기 / 비행대 작전 중지 / Winchester</span></td><td>전투 쓰로틀. 초저고도로 강하 [☾/⛅: 저고도]. 개방된 비행장 또는 중국 완충 지대(Chinese Buffer Zone) 중 더 가까운 곳으로 이동.</td></tr>
+          <tr><td><span class="bot-tag bot-tag-bad">무질서 상태</span></td><td>집결 지점에 인접하지 않은 경우: 대시 쓰로틀. 초저고도로 강하 [☾/⛅: 저고도]하고 가장 가까운 개방된 비행장 또는 공중 대기 지점(Orbit point)에 최대한 가깝게 이동.</td></tr>
           <tr><td><span class="bot-tag bot-tag-bad">비행장에서 준비 완료</span></td><td>이륙. 다음 턴에 전진하며 초저고도에 남아 있음.</td></tr>
         </table>
       </div>
@@ -3528,100 +3954,16 @@
           그 외: <span class="bot-tag bot-tag-bad">교전 없음</span> → <span class="bot-red">🅖 비전투 행동</span>
         </div>
         <div class="bot-roller" style="flex-direction:column;align-items:stretch;">
-          <!-- 탐지 / 식별 -->
-          <div style="font-size:11px;font-weight:600;letter-spacing:.1em;color:var(--fade);text-transform:uppercase;margin-bottom:6px;border-bottom:1px solid rgba(74,74,42,0.3);padding-bottom:4px;">탐지 · 식별</div>
-          <div style="margin-bottom:6px;">
+          <div style="margin-bottom:10px;">
             <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
               <input type="checkbox" id="bUSInRange">
               <span>5헥스 이내에 탐지된 US 비행대가 있음</span>
             </label>
           </div>
-          <div style="margin-bottom:6px;">
-            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
-              <input type="checkbox" id="bUSIdentified">
-              <span>표적 US 비행대가 육안 식별됨</span>
-            </label>
-          </div>
           <div style="margin-bottom:10px;">
             <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
               <input type="checkbox" id="bUndetectedD">
-              <span>DRV 비행대가 탐지되지 않음 <span class="mv n">-2</span></span>
-            </label>
-          </div>
-          <!-- US 편대 구성 -->
-          <div style="font-size:11px;font-weight:600;letter-spacing:.1em;color:var(--fade);text-transform:uppercase;margin-bottom:6px;border-bottom:1px solid rgba(74,74,42,0.3);padding-bottom:4px;">US 편대 구성</div>
-          <div style="margin-bottom:6px;">
-            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
-              <input type="checkbox" id="bUSCluster">
-              <span>5헥스 내 US 비행대 3개 이상 뭉쳐있음 — 공격대 추정 <span class="mv n">-1</span></span>
-            </label>
-          </div>
-          <div style="margin-bottom:10px;">
-            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
-              <input type="checkbox" id="bUSCAPOnly">
-              <span>US CAP 비행대만 있음 — 뭉쳐있지 않음 <span class="mv p">+1</span></span>
-            </label>
-          </div>
-          <!-- 표적 이동 상태 -->
-          <div style="font-size:11px;font-weight:600;letter-spacing:.1em;color:var(--fade);text-transform:uppercase;margin-bottom:6px;border-bottom:1px solid rgba(74,74,42,0.3);padding-bottom:4px;">표적 이동 상태</div>
-          <div style="margin-bottom:6px;">
-            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
-              <input type="checkbox" id="bUSPreBomb" onchange="if(this.checked){document.getElementById('bUSEgress').checked=false;document.getElementById('bUSEgress').disabled=true;}else{document.getElementById('bUSEgress').disabled=false;}">
-              <span>US 비행대가 목표를 향해 이동 중 — 아직 폭격하지 않은 상태 <span class="mv n">-1</span></span>
-            </label>
-          </div>
-          <div style="margin-bottom:6px;">
-            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
-              <input type="checkbox" id="bUSEgress" onchange="if(this.checked){document.getElementById('bUSPreBomb').checked=false;document.getElementById('bUSPreBomb').disabled=true;}else{document.getElementById('bUSPreBomb').disabled=false;}">
-              <span>US 비행대가 폭격 완료, 이탈 중 <span class="mv p">+2</span></span>
-            </label>
-          </div>
-          <div style="margin-bottom:10px;">
-            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
-              <input type="checkbox" id="bSAMAcquiredD">
-              <span>표적 US 비행대를 획득한 활성 SAM 있음 <span class="mv p">+2</span></span>
-            </label>
-          </div>
-          <!-- DRV 비행대 상태 -->
-          <div style="font-size:11px;font-weight:600;letter-spacing:.1em;color:var(--fade);text-transform:uppercase;margin-bottom:6px;border-bottom:1px solid rgba(74,74,42,0.3);padding-bottom:4px;">DRV 비행대 상태</div>
-          <div style="margin-bottom:6px;">
-            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
-              <input type="checkbox" id="bDRVDamaged">
-              <span>DRV 비행대에 무력화된 항공기 있음 <span class="mv p">+2</span></span>
-            </label>
-          </div>
-          <!-- 시대별 교리 보정 -->
-          <div style="font-size:11px;font-weight:600;letter-spacing:.1em;color:var(--fade);text-transform:uppercase;margin-bottom:6px;border-bottom:1px solid rgba(74,74,42,0.3);padding-bottom:4px;">시대별 교리 보정</div>
-          <div style="margin-bottom:6px;">
-            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
-              <input type="checkbox" id="bEra1972">
-              <span>1972년 이후 시나리오 (적극적 요격 교리) <span class="mv n">-1</span> <span style="font-size:10px;color:var(--fade);opacity:.7;">— RAID 연동</span></span>
-            </label>
-          </div>
-          <!-- 고도 / 후방 -->
-          <div style="font-size:11px;font-weight:600;letter-spacing:.1em;color:var(--fade);text-transform:uppercase;margin-bottom:6px;border-bottom:1px solid rgba(74,74,42,0.3);padding-bottom:4px;">고도 · 위치</div>
-          <div style="margin-bottom:6px;">
-            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
-              <input type="checkbox" id="bAltDisadv" onchange="if(this.checked){document.getElementById('bRearAspect').checked=false;document.getElementById('bRearAspect').disabled=true;}else{document.getElementById('bRearAspect').disabled=false;}">
-              <span>표적 US 비행대가 DRV보다 높은 고도 <span class="mv p">+2</span></span>
-            </label>
-          </div>
-          <div style="margin-bottom:6px;">
-            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
-              <input type="checkbox" id="bRearAspect" onchange="if(this.checked){document.getElementById('bAltDisadv').checked=false;document.getElementById('bAltDisadv').disabled=true;}else{document.getElementById('bAltDisadv').disabled=false;}">
-              <span>표적 후방으로 교전 시도 가능 (고도 보정 무시) <span class="mv n">-1</span></span>
-            </label>
-          </div>
-          <!-- MiG 유형 -->
-          <div style="font-size:11px;font-weight:600;letter-spacing:.1em;color:var(--fade);text-transform:uppercase;margin-bottom:6px;border-bottom:1px solid rgba(74,74,42,0.3);padding-bottom:4px;">MiG 유형</div>
-          <div style="margin-bottom:10px;display:flex;gap:12px;">
-            <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
-              <input type="radio" name="bMiGType" value="mig21" checked>
-              <span>MiG-21</span>
-            </label>
-            <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
-              <input type="radio" name="bMiGType" value="mig17">
-              <span>MiG-17</span>
+              <span>DRV 비행대가 탐지되지 않음 (-2)</span>
             </label>
           </div>
           <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
@@ -3664,31 +4006,7 @@
           <li>DRV 비행대는 무질서 상태이거나 작전 중지된 경우 교전 해제를 시도합니다.</li>
           <li>DRV 비행대는 선택할 수 있다면 방어자로서의 교전을 거부합니다.</li>
           <li>착륙하는 경우가 아니라면, DRV 비행대는 야간이나 초저고도와 저고도 사이에 조밀한 구름층이 있을 때 초저고도로 하강하지 않습니다 [☾/⛅: 저고도].</li>
-          <li>직전 턴에 교전 후 이탈한 DRV 비행대는, 비전투 행동 시 <strong>마지막으로 교전한 US 비행대 방향으로 선회</strong>하여 재접근합니다.</li>
         </ul>
-        <div class="bot-hi" style="margin-top:12px;">
-          <strong>비교전 구역 (Deconfliction)</strong><br>
-          US 비행대의 5헥스 이내(1972년 이후: 3헥스)에 DRV 비행대가 있으면 해당 US 비행대에 대한 SAM 사격이 금지됩니다. 비전투 행동 시 가능한 한 활성 SAM의 사격을 방해하지 않는 위치를 유지하세요.
-        </div>
-        <div class="bot-note" style="margin-top:8px;">
-          <strong>MiG 유형별 행동</strong>
-          <div class="bot-table-wrap" style="margin-top:6px;">
-            <table>
-              <tr><th>기체</th><th>교전 방식</th><th>핵심 원칙</th></tr>
-              <tr><td>MiG-21</td><td>Hit &amp; Run (슬래시 1회 후 이탈)</td><td>에너지 우위 시만 교전</td></tr>
-              <tr><td>MiG-17</td><td>저속 선회전 (Dogfight)</td><td>근접전 유도</td></tr>
-            </table>
-          </div>
-          <div style="margin-top:6px;font-size:12px;color:var(--fade);font-style:italic;">고도 우위 없으면 교전 금지. 후방 기습 시 고도 무관. 전투기보다 폭격기 우선.</div>
-        </div>
-        <div class="bot-hi" style="margin-top:8px;" id="bWheelCombatSection">
-          <strong>방어 원형진 전투 규칙 참고</strong> — 1967년 4월 이후<br><br>
-          <strong>공격 시:</strong> 기동 표에서 항상 <strong>1대 컬럼</strong>을 사용합니다 (비행대 수 무관).<br>
-          <strong>방어 시:</strong> 모든 방향이 전방 호로 취급됩니다. 기습 불가, 불리함 페널티 없음.<br>
-          <strong>이동:</strong> MP를 소모하지 않습니다. 항상 전투 쓰로틀 상태입니다.<br>
-          <strong>전후 처리:</strong> 산개 판정 없음, 기동 마커 없음.<br>
-          <strong>제한:</strong> 원형진 내 최대 8대. 여러 MiG-17 비행대가 같은 헥스/고도에서 합류 가능.
-        </div>
       </div>
     </div>
 
@@ -3805,9 +4123,6 @@
       <div class="bot-card-title">SAM 행동 표 (활성 SAM / SAM 경고 마커만 적용)</div>
     </div>
     <div class="bot-card-body">
-      <div class="bot-hi" style="margin-bottom:12px;border-left-color:#c45a4a;">
-        <strong>⚠ SAM 사격 전 비교전 구역 확인:</strong> 표적 US 비행대의 5헥스 이내(1972년 이후: 3헥스)에 DRV 비행대(일반 포함)가 있으면 <strong>사격 불가</strong>. 다른 US 비행대로 표적을 전환합니다.
-      </div>
       <p><strong>이동 페이즈:</strong> 탐지된 US 비행대가 자신을 표적 획득한 SAM의 8헥스* 이내에서 MP를 소모할 때마다 사격 여부 확인. 여러 SAM이 한 US 비행대를 획득한 경우, 가장 가까운 SAM만 확인(동률이면 ID 알파벳 순).</p>
       <p><strong>ARM 사격:</strong> 탐지 상태 US 비행대가 ARM 사격을 하면, 모든 SAM은 레이더를 켠 상태를 유지하려고 합니다.</p>
       <p><strong>SAM 표적 획득 페이즈:</strong> US 비행대의 12헥스 내에 있는 비활성 SAM의 활성화 여부를 확인 (<span class="bot-red">🅚 SAM 활성화 테이블</span>). 이후 모든 활성 SAM은 US 비행대 표적 획득을 시도합니다. <span class="bot-red">🅜 타겟 선택 테이블</span> 참조.</p>
@@ -3825,6 +4140,10 @@
           <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
             <input type="checkbox" id="bSAMAcq">
             <span>완전 표적 획득 (+2)</span>
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+            <input type="checkbox" id="bSAMLowAlt">
+            <span>초저고도 표적 (−2)</span>
           </label>
         </div>
         <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
@@ -3949,18 +4268,18 @@
         <div class="bot-legend-grid">
           <div>
             <p style="margin-bottom:8px;font-weight:500;color:var(--cream);">SAM 상태:</p>
-            <div class="bot-legend-item"><img src="1.png" alt="marker" style="width:40px;height:40px;"><div class="bot-legend-text">비활성 SAM (시나리오 시작 시 SAM 준비)</div></div>
-            <div class="bot-legend-item"><img src="2.png" alt="marker" style="width:40px;height:40px;"><div class="bot-legend-text">활성 SAM - 위치 불명 (3발 남음)</div></div>
-            <div class="bot-legend-item"><img src="3.png" alt="marker" style="width:40px;height:40px;"><div class="bot-legend-text">활성 SAM - 위치 불명 (레이더 종료, 탄약 고갈)</div></div>
-            <div class="bot-legend-item"><img src="4.png" alt="marker" style="width:40px;height:40px;"><div class="bot-legend-text">활성 SAM - 위치 확인 (3발 남음)</div></div>
-            <div class="bot-legend-item"><img src="5.png" alt="marker" style="width:40px;height:40px;"><div class="bot-legend-text">활성 SAM - 위치 확인 (레이더 종료, 탄약 고갈)</div></div>
-            <div class="bot-legend-item"><img src="6.png" alt="marker" style="width:40px;height:40px;"><div class="bot-legend-text">비활성 AAA (시나리오 시작 시 AAA 준비)</div></div>
+            <div class="bot-legend-item"><img src="assets/1.png" alt="marker" style="width:40px;height:40px;"><div class="bot-legend-text">비활성 SAM (시나리오 시작 시 SAM 준비)</div></div>
+            <div class="bot-legend-item"><img src="assets/2.png" alt="marker" style="width:40px;height:40px;"><div class="bot-legend-text">활성 SAM - 위치 불명 (3발 남음)</div></div>
+            <div class="bot-legend-item"><img src="assets/3.png" alt="marker" style="width:40px;height:40px;"><div class="bot-legend-text">활성 SAM - 위치 불명 (레이더 종료, 탄약 고갈)</div></div>
+            <div class="bot-legend-item"><img src="assets/4.png" alt="marker" style="width:40px;height:40px;"><div class="bot-legend-text">활성 SAM - 위치 확인 (3발 남음)</div></div>
+            <div class="bot-legend-item"><img src="assets/5.png" alt="marker" style="width:40px;height:40px;"><div class="bot-legend-text">활성 SAM - 위치 확인 (레이더 종료, 탄약 고갈)</div></div>
+            <div class="bot-legend-item"><img src="assets/6.png" alt="marker" style="width:40px;height:40px;"><div class="bot-legend-text">비활성 AAA (시나리오 시작 시 AAA 준비)</div></div>
           </div>
           <div>
             <p style="margin-bottom:8px;font-weight:500;color:var(--cream);">카운터 방향으로 잔탄 표시:</p>
-            <div class="bot-legend-item"><img src="11.png" alt="marker" style="width:40px;height:40px;"><div class="bot-legend-text">2발 남음</div></div>
-            <div class="bot-legend-item"><img src="22.png" alt="marker" style="width:40px;height:40px;"><div class="bot-legend-text">1발 남음</div></div>
-            <div class="bot-legend-item"><img src="33.png" alt="marker" style="width:40px;height:40px;"><div class="bot-legend-text">탄약 고갈</div></div>
+            <div class="bot-legend-item"><img src="assets/11.png" alt="marker" style="width:40px;height:40px;"><div class="bot-legend-text">2발 남음</div></div>
+            <div class="bot-legend-item"><img src="assets/22.png" alt="marker" style="width:40px;height:40px;"><div class="bot-legend-text">1발 남음</div></div>
+            <div class="bot-legend-item"><img src="assets/33.png" alt="marker" style="width:40px;height:40px;"><div class="bot-legend-text">탄약 고갈</div></div>
           </div>
         </div>
         <div class="bot-note" style="margin-top:12px;">[선택사항] — SAM 탄약을 추적하는 대신, 공대공 무기와 같이 {3}을 사용하여 탄약 고갈을 굴립니다. 일제 사격을 하는 경우 굴림에 -3을 보정합니다.</div>
@@ -4050,7 +4369,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // FAB는 Raid 탭과 Player Aid 탭 모두에서 표시
     const fab = document.getElementById('view-all-adc-fab');
     if (fab) {
-      fab.style.display = (targetId === 'adc-page' || targetId === 'aid-page') ? 'flex' : 'none';
+      fab.style.display = 'flex';
     }
     // 탭 전환 시 뷰어 패널 닫기
     const viewerPanel = document.getElementById('adc-viewer-panel');
@@ -5603,13 +5922,22 @@ document.addEventListener('DOMContentLoaded', () => {
   // ── ADC JSON 데이터 (전역) ──
   var ADC_JSON = null;
   (function loadAdcJson(){
-    fetch('adc.json').then(r=>r.json()).then(d=>{
+    fetch('dt_adc.json').then(r=>r.json()).then(d=>{
       ADC_JSON=d;
       console.log('ADC JSON loaded');
       // JSON 로드 완료 후 항공기 가용 기간 필터 적용
       _acAvailCache = null;
       document.querySelectorAll('#us-lead-table tbody tr, #us-main-table tbody tr, #us-trail-table tbody tr').forEach(function(row){
-        if (!row.querySelector('.add-row')) filterAircraftOptions(row);
+        if (!row.querySelector('.add-row')) {
+          filterAircraftOptions(row);
+          // ADC 로드 전에 저장된 ordnance 복원 재시도
+          if (row.dataset.savedOrdnance) {
+            row.dataset.isLoading = 'true';
+            updateWeaponData(row);
+            updateOrdnanceCell(row);
+            delete row.dataset.isLoading;
+          }
+        }
       });
       // JSON 로드 완료 후, 이미 역할이 설정되어 있으면 동기화
       if (typeof syncDogfightFromRaid === 'function' && typeof raidRoles !== 'undefined') {
@@ -6438,7 +6766,15 @@ document.addEventListener('DOMContentLoaded', () => {
           createWeaponCell(weaponCells[0], wInfo.gun, isLoading);
           createWeaponCell(weaponCells[1], wInfo.irm, isLoading);
           createWeaponCell(weaponCells[2], wInfo.rhm, isLoading);
-          createValueCell(weaponCells[3], wInfo.bomb, isLoading, true);
+          // 폭탄 = per-aircraft × 기체 수
+          var bombAcCount = isDrv ? 1 : getAircraftCount(row);
+          var scaledBomb = wInfo.bomb;
+          if (Array.isArray(wInfo.bomb)) {
+            scaledBomb = wInfo.bomb.map(function(v){ return parseFloat(v)*bombAcCount; });
+          } else if (wInfo.bomb && wInfo.bomb !== '-' && !isNaN(parseFloat(wInfo.bomb))) {
+            scaledBomb = String(parseFloat(wInfo.bomb) * bombAcCount);
+          }
+          createValueCell(weaponCells[3], scaledBomb, isLoading, true);
           // bomb의 ruleMax 초기화 (ordnance 규칙 적용 기준)
           var bombInit = weaponCells[3].querySelector('input, select');
           if (bombInit && !isLoading) {
@@ -6521,6 +6857,16 @@ document.addEventListener('DOMContentLoaded', () => {
     return mission === '아이언 핸드' || task === 'SEAD';
   }
 
+  function getAircraftCount(row) {
+    var grid = row.querySelector('.status-grid');
+    if (!grid) return 1;
+    var count = 0;
+    grid.querySelectorAll('.status-item select').forEach(function(sel){
+      if (sel.style.display !== 'none') count++;
+    });
+    return count || 1;
+  }
+
   function updateOrdnanceCell(row) {
     var cell = getOrdnanceCell(row);
     if (!cell) return;
@@ -6529,9 +6875,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 이전 값 복원용
     var oldState = {};
+    var hasSavedState = false;
     // savedOrdnance가 있으면 우선 사용 (localStorage 복원)
     if (row.dataset.savedOrdnance) {
-      try { oldState = JSON.parse(row.dataset.savedOrdnance); } catch(e){}
+      try { oldState = JSON.parse(row.dataset.savedOrdnance); hasSavedState = true; } catch(e){}
+      // acData가 아직 없으면 savedOrdnance를 보존해두고 나중에 재시도
+      if (!acData || !acData.ordnance || Object.keys(acData.ordnance).length === 0) {
+        cell.innerHTML = '';
+        cell.style.color = 'var(--fade)';
+        cell.textContent = '—';
+        return; // savedOrdnance는 삭제하지 않고 유지
+      }
       delete row.dataset.savedOrdnance;
     } else {
       cell.querySelectorAll('select, input[type=checkbox], input[type=number]').forEach(function(el){
@@ -6563,11 +6917,12 @@ document.addEventListener('DOMContentLoaded', () => {
       var noteAvail = notesAvail[name];
       if (noteAvail && !isAvailableAt(noteAvail, scenDate)) return;
       var val = acData.ordnance[name];
+      var acCount = getAircraftCount(row);
       var line = document.createElement('div');
       line.style.cssText = 'display:flex;align-items:center;gap:4px';
 
       if (Array.isArray(val)) {
-        // 배열 → 드롭다운 (예: Shrike [2,4])
+        // 배열 → 드롭다운 (예: Shrike [2,4]); value는 per-aircraft 유지, 표시만 총합
         var sel = document.createElement('select');
         sel.dataset.ordName = name;
         sel.style.fontSize = '11px';
@@ -6576,10 +6931,10 @@ document.addEventListener('DOMContentLoaded', () => {
         sel.appendChild(optNone);
         val.forEach(function(v){
           var opt = document.createElement('option');
-          opt.value = String(v); opt.textContent = name + ' ×' + v;
+          opt.value = String(v); opt.textContent = name + ' ×' + (v * acCount);
           sel.appendChild(opt);
         });
-        if (isLoading && oldState[name] !== undefined) {
+        if ((isLoading || hasSavedState) && oldState[name] !== undefined) {
           sel.value = String(oldState[name]);
         } else {
           sel.value = String(val[0]); // 기본: 첫 번째 옵션
@@ -6589,25 +6944,26 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         line.appendChild(sel);
       } else {
-        // 단일 숫자 → 잔탄 카운터 (수동 조절 가능)
+        // 단일 숫자 → 잔탄 카운터 (기체 수 × per-aircraft 값)
+        var totalVal = val * acCount;
         var lbl = document.createElement('span');
         lbl.textContent = name;
         lbl.style.cssText = 'min-width:60px;flex:1';
         var numInp = document.createElement('input');
         numInp.type = 'number'; numInp.dataset.ordName = name;
-        numInp.min = '0'; numInp.max = String(val);
+        numInp.min = '0'; numInp.max = String(totalVal);
         numInp.style.cssText = 'width:36px;font-size:11px;text-align:center';
-        if (isLoading && oldState[name] !== undefined) {
+        if ((isLoading || hasSavedState) && oldState[name] !== undefined) {
           numInp.value = String(oldState[name]);
         } else {
-          numInp.value = String(val);
+          numInp.value = String(totalVal);
         }
         var maxLbl = document.createElement('span');
-        maxLbl.textContent = '/' + val;
+        maxLbl.textContent = '/' + totalVal;
         maxLbl.style.cssText = 'color:var(--fade);font-size:10px';
         numInp.addEventListener('change', function(){
           var v = parseInt(numInp.value) || 0;
-          if (v < 0) v = 0; if (v > val) v = val;
+          if (v < 0) v = 0; if (v > totalVal) v = totalVal;
           numInp.value = v;
           // Standard A/B 상호 배타
           if (name === 'Standard A' && v > 0) {
@@ -6628,7 +6984,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     // CBU 전환 옵션 (bomb > 0 + 아이언 핸드/SEAD만)
     var baseBomb = acData.bomb;
-    var numBomb = (baseBomb !== '-' && baseBomb !== null && baseBomb !== undefined) ? parseFloat(baseBomb) || 0 : 0;
+    var numBomb = (baseBomb !== '-' && baseBomb !== null && baseBomb !== undefined) ? (parseFloat(baseBomb) || 0) * getAircraftCount(row) : 0;
     if (numBomb > 0 && armAllowed) {
       var cbuLine = document.createElement('div');
       cbuLine.style.cssText = 'display:flex;align-items:center;gap:4px;border-top:1px solid var(--olive);padding-top:3px;margin-top:2px';
@@ -6646,7 +7002,7 @@ document.addEventListener('DOMContentLoaded', () => {
       var cbuMax = document.createElement('span');
       cbuMax.textContent = '/' + numBomb;
       cbuMax.style.cssText = 'color:var(--fade);font-size:10px';
-      if (isLoading && oldState['CBU'] !== undefined) {
+      if ((isLoading || hasSavedState) && oldState['CBU'] !== undefined) {
         cbuCb.checked = !!oldState['CBU'];
         cbuNum.value = String(oldState['CBU_count'] || numBomb);
         cbuNum.disabled = !cbuCb.checked;
@@ -6742,7 +7098,7 @@ document.addEventListener('DOMContentLoaded', () => {
     var cbuCb = cell.querySelector('input[data-ord-name="CBU"]');
     var cbuNum = cell.querySelector('input[data-ord-name="CBU_count"]');
     if (!cbuCb || !cbuNum) return;
-    var baseBomb = parseFloat(acData.bomb) || 0;
+    var baseBomb = (parseFloat(acData.bomb) || 0) * getAircraftCount(row);
     var weaponCells = getUsWeaponCells(row);
     var bombCell = weaponCells[3];
     if (!bombCell) return;
@@ -6789,29 +7145,30 @@ document.addEventListener('DOMContentLoaded', () => {
     var state = readOrdnanceState(row);
     var baseBomb = acData.bomb;
     if (baseBomb === '-' || baseBomb === null || baseBomb === undefined) return;
-    baseBomb = parseFloat(baseBomb) || 0;
+    var _acCountForBomb = getAircraftCount(row);
+    baseBomb = (parseFloat(baseBomb) || 0) * _acCountForBomb;
     var newBomb = baseBomb;
     var notes = acData.notes || [];
 
-    // notes 파싱하여 규칙 적용
+    // notes 파싱하여 규칙 적용 (notes의 bomb 값은 per-aircraft → acCount 곱함)
     notes.forEach(function(note){
       var m;
       // "If Shrike, Bomb is X"
       m = note.match(/^If Shrike,?\s*Bomb\s*is\s*(\d+\.?\d*)/i);
       if (m && (state['Shrike'] || 0) > 0) {
-        newBomb = parseFloat(m[1]);
+        newBomb = parseFloat(m[1]) * _acCountForBomb;
         return;
       }
       // "If Shrike is N, Bomb is X"
       m = note.match(/^If Shrike\s*is\s*(\d+),?\s*Bomb\s*is\s*(\d+\.?\d*)/i);
       if (m && (state['Shrike'] || 0) === parseInt(m[1])) {
-        newBomb = parseFloat(m[2]);
+        newBomb = parseFloat(m[2]) * _acCountForBomb;
       }
       // "If Shrike is N and Standard A or B is carried, Bomb is X"
       m = note.match(/^If Shrike\s*is\s*(\d+)\s*and\s*Standard\s*A\s*or\s*B\s*is\s*carried,?\s*Bomb\s*is\s*(\d+\.?\d*)/i);
       if (m && (state['Shrike'] || 0) === parseInt(m[1]) &&
           ((state['Standard A'] || 0) > 0 || (state['Standard B'] || 0) > 0)) {
-        newBomb = parseFloat(m[2]);
+        newBomb = parseFloat(m[2]) * _acCountForBomb;
       }
     });
 
@@ -7131,7 +7488,7 @@ document.addEventListener('DOMContentLoaded', () => {
       `<td class="ordnance-cell"></td>` +
       `<td><input type="text" value=""></td>` +
       `<td><div class="role-btn-wrap"><button type="button" class="role-btn us-attacker-btn" data-role="attacker" data-side="us">공격</button><button type="button" class="role-btn us-defender-btn" data-role="defender" data-side="us">방어</button></div></td>` +
-     `<td><button class="abort-btn">중단</button></td><td><button class="view-btn">보기</button></td><td></td>`;
+     `<td><button class="abort-btn">중단</button></td><td></td>`;
   }
   function makeDrvRowHTML() {
     return `<td><select class="callsign-select"></select></td>` +
@@ -7142,7 +7499,7 @@ document.addEventListener('DOMContentLoaded', () => {
       `<td class="bomb-fuel-cell"><div class="bomb-wrap"><input type="text" value=""></div><div class="fuel-wrap"><input type="text" value=""></div></td>` +
       `<td><input type="text" value=""></td>` +
       `<td><div class="role-btn-wrap"><button type="button" class="role-btn drv-attacker-btn" data-role="attacker" data-side="drv">공격</button><button type="button" class="role-btn drv-defender-btn" data-role="defender" data-side="drv">방어</button></div></td>` +
-     `<td><button class="abort-btn">중단</button></td><td><button class="view-btn">보기</button></td><td></td>`;
+     `<td><button class="abort-btn">중단</button></td><td></td>`;
   }
   const modal = document.getElementById('image-modal');
   const modalImage = document.getElementById('modal-image');
@@ -7231,6 +7588,11 @@ document.addEventListener('DOMContentLoaded', () => {
       } else if (t.classList.contains('add-status')) {
         sel.style.display = 'block'; rem.style.display = 'inline-block'; add.style.display = 'none'; sel.selectedIndex = 0;
       }
+      const row = t.closest('tr');
+      if (row) {
+        updateWeaponData(row);    // bomb 셀 총합 갱신
+        updateOrdnanceCell(row);  // ordnance 표시 갱신 (acCount 반영)
+      }
       saveToLocalStorage();
     });
     grid.querySelectorAll('.status-item select').forEach(s => s.addEventListener('change', () => {
@@ -7276,8 +7638,6 @@ document.addEventListener('DOMContentLoaded', () => {
             saveToLocalStorage();
         });
     }
-    const vb = row.querySelector('.view-btn');
-    if (vb) addViewButtonListener(vb);
     row.querySelectorAll('.status-grid').forEach(addStatusGridControls);
     // 역할 버튼 이벤트
     row.querySelectorAll('.role-btn').forEach(btn => {
@@ -8569,7 +8929,7 @@ document.addEventListener('DOMContentLoaded', () => {
     var d=r1d6();
     var alt='고도 1밴드 하강';
     document.getElementById('sam-evasion-dice').textContent=d;
-    document.getElementById('sam-evasion-res').innerHTML='방향: <b>'+d+'</b>  ·  '+alt + '<div style="margin-top: 10px; display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;"><img src="scatter1.png" style="max-width: 100%; width: 400px; border: 1px solid var(--olive);"><img src="scatter2.png" style="max-width: 100%; width: 400px; border: 1px solid var(--olive);"></div>';
+    document.getElementById('sam-evasion-res').innerHTML='방향: <b>'+d+'</b>  ·  '+alt + '<div style="margin-top: 10px; display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;"><img src="assets/scatter1.png" style="max-width: 100%; width: 400px; border: 1px solid var(--olive);"><img src="assets/scatter2.png" style="max-width: 100%; width: 400px; border: 1px solid var(--olive);"></div>';
     document.getElementById('sam-evasion-result').style.display='block';
   }
   function resetAir(){
@@ -8915,17 +9275,25 @@ document.addEventListener('DOMContentLoaded', () => {
     recalcSR3();
     var mod = parseInt(document.getElementById('sr3-total').textContent) || 0;
     var mode = document.getElementById('sr-jam-mode').value;
-    var thresholds = {none:10, def:8, cell:6, chaff:5};
-    var thresh = thresholds[mode];
+    var evadeMin = {none:10, def:8, cell:6, chaff:5}[mode];
+    var missMin  = {none:14, def:10, cell:7, chaff:6}[mode];
     var d = r2(), total = d + mod;
-    var evaded = total >= thresh;
+    var resHTML, badge, badgeCls;
+    if (total >= missMin) {
+      resHTML = '<span class="ok">▸ 빗나감!</span> &nbsp;(' + total + ' ≥ ' + missMin + ')  —  SAM 공격 실패, 피해 없음';
+      badge = '빗나감'; badgeCls = 'success';
+    } else if (total >= evadeMin) {
+      resHTML = '<span class="warn">▸ 회피!</span> &nbsp;(' + evadeMin + ' ≤ ' + total + ' < ' + missMin + ')  —  SAM 회피 기동 수행 (고도 하강 + 무장 투하)';
+      badge = '회피'; badgeCls = 'success';
+    } else {
+      resHTML = '<span class="bad">▸ 효과없음</span> &nbsp;(' + total + ' < ' + evadeMin + ')  →  SAM 공격 결과 그대로 적용, 피해 판정';
+      badge = '방어 실패'; badgeCls = 'danger';
+    }
     document.getElementById('sr3-dice').textContent = d + ' + (' + sign(mod) + ') = ' + total;
-    document.getElementById('sr3-res').innerHTML = evaded
-      ? '<span class="ok">▸ 회피 성공!</span> &nbsp;(' + total + ' ≥ ' + thresh + ')  —  SAM 피해 없음'
-      : '<span class="bad">▸ 회피 실패</span> &nbsp;(' + total + ' < ' + thresh + ')  →  피해 판정';
+    document.getElementById('sr3-res').innerHTML = resHTML;
     document.getElementById('sr3-result').style.display = 'block';
-    setNum('sr3-num','done'); setBadge('sr3-badge', evaded?'회피 성공':'회피 실패', evaded?'success':'danger');
-    if (!evaded) {
+    setNum('sr3-num','done'); setBadge('sr3-badge', badge, badgeCls);
+    if (total < evadeMin) {
       unlock('sr4'); setBadge('sr4-badge','활성화','success');
     }
   }
@@ -9311,6 +9679,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const viewerContent = document.getElementById('adc-viewer-content');
   const closeViewerBtn = document.getElementById('adc-viewer-close');
   fab.addEventListener('click', () => {
+    if (!viewerPanel.classList.contains('hidden')) {
+      viewerPanel.classList.add('hidden');
+      document.body.style.paddingBottom = '';
+      return;
+    }
     viewerContent.innerHTML = '';
     const aircraftNames = new Set();
     document.querySelectorAll('table[id] tbody tr:not(:last-child)').forEach(row => {
@@ -9930,6 +10303,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (log) { log.innerHTML = ''; log.style.display = 'none'; }
     bFlightRollCount = 0;
     if (bFlightBtn) { bFlightBtn.disabled = false; bFlightBtn.style.opacity = ''; bFlightBtn.title = ''; }
+    // GCI 초기화
+    if (typeof gciResetAll === 'function') gciResetAll();
   }
 
   window.recalcSR5 = recalcSR5; window.rollSR5 = rollSR5;
@@ -10205,21 +10580,10 @@ document.addEventListener('DOMContentLoaded', () => {
     botSetResult('bActivationResult', botValHtml(r)+botTagHtml(ok?'bot-tag-ok':'bot-tag-bad', ok?'실제 비행대':'더미'));
   });
 
-  // D — 전투 행동 (개선: 상황 보정 + Hit-and-Clear + 비전투 재설계)
+  // D — 전투 행동
   const bCombBtn = document.getElementById('bCombatBtn');
   if (bCombBtn) bCombBtn.addEventListener('click', ()=>{
-    const r=botRoll();
-    let mod=0;
-    if(document.getElementById('bUndetectedD')?.checked) mod-=2;
-    if(document.getElementById('bUSCluster')?.checked) mod-=1;
-    if(document.getElementById('bUSPreBomb')?.checked) mod-=1;
-    if(document.getElementById('bSAMAcquiredD')?.checked) mod+=2;
-    if(document.getElementById('bUSEgress')?.checked) mod+=2;
-    if(document.getElementById('bDRVDamaged')?.checked) mod+=2;
-    if(document.getElementById('bUSCAPOnly')?.checked) mod+=1;
-    if(document.getElementById('bEra1972')?.checked) mod-=1;
-    if(document.getElementById('bAltDisadv')?.checked) mod+=2;
-    if(document.getElementById('bRearAspect')?.checked) mod-=1;
+    const r=botRoll(), mod=document.getElementById('bUndetectedD')?.checked?-2:0;
     const total=r+mod;
     const usInRange=document.getElementById('bUSInRange')?.checked;
     const isCombat=total<=5 && usInRange;
@@ -10228,119 +10592,46 @@ document.addEventListener('DOMContentLoaded', () => {
       `<div>${botValHtml(calc)}${botTagHtml(isCombat?'bot-tag-ok':'bot-tag-bad',isCombat?'교전':'교전 없음')}</div></div>`);
     const chain=document.getElementById('bCombatChain');
     if(!chain) return;
-    const isIdentified=document.getElementById('bUSIdentified')?.checked;
-    const is1972=document.getElementById('bEra1972')?.checked;
-    const isMiG17=document.querySelector('input[name="bMiGType"][value="mig17"]')?.checked;
     if(isCombat){
-      // F — 교전 행동 (Hit-and-Clear) — 시대별 교리 반영
-      const mTableHtml=isIdentified?`
-            <ol style="margin:0;padding-left:18px;line-height:1.9;">
-              <li>적재 상태(Laden) 타격/폭격 비행대</li>
-              <li>활성 SAM이 표적 획득하지 않은 비행대</li>
-              <li>호위기들과 분리된 비행대</li>
-              <li>SEAD/아이언 핸드 비행대</li>
-              <li>가장 낮은 고도대역에 위치한 비행대</li>
-              <li>가장 가까운 비행대</li>
-              <li>손상된 항공기가 있는 비행대</li>
-              <li>무작위</li>
-            </ol>`:`
-            <ol style="margin:0;padding-left:18px;line-height:1.9;">
-              <li>뭉쳐있는(2개 이상 같은/인접 헥스) US 비행대 그룹</li>
-              <li>활성 SAM이 표적 획득하지 않은 비행대</li>
-              <li>가장 가까운 비행대</li>
-              <li>가장 낮은 고도대역</li>
-              <li>무작위</li>
-            </ol>`;
-
-      const hasRear=document.getElementById('bRearAspect')?.checked;
-      const hasSAM=document.getElementById('bSAMAcquiredD')?.checked;
-
-      // 교전 절차: 상황별 즉시 실행 가능한 지시
-      let fSteps, fAfter;
-      if(hasRear && !isMiG17){
-        // MiG-21 + 후방 → 슬래시 즉시 실행
-        fSteps=`<ol>
-              <li><strong>M 표적 선택 표</strong> 참조 (아래).</li>
-              <li>대시 쓰로틀. 후방 반구에서 <strong>슬래시 공격</strong> 실시.</li>
-              <li>사격: 기관포 → IRM 순서로 가능한 모든 사격 수행.</li>
-            </ol>`;
-      } else if(hasRear && isMiG17){
-        // MiG-17 + 후방 → 후방에서 교전 진입, 선회전
-        fSteps=`<ol>
-              <li><strong>M 표적 선택 표</strong> 참조 (아래).</li>
-              <li>전투 쓰로틀. 후방 반구에서 교전 진입.</li>
-              <li>사격: 기관포 → IRM 순서로 가능한 모든 사격 수행.</li>
-            </ol>`;
-      } else if(isMiG17){
-        // MiG-17 + 후방 아님 → 후방 반구 진입 시도
-        fSteps=`<ol>
-              <li><strong>M 표적 선택 표</strong> 참조 (아래).</li>
-              <li>전투 쓰로틀. 같은 고도에서 후방 반구 진입 시도. 교전 시도.</li>
-              <li>교전 성공 → 기관포 → IRM 순서로 사격.</li>
-              <li>교전 실패 → 초저고도 강하 [☾/⛅: 저고도] 후 이탈.</li>
-            </ol>`;
-      } else {
-        // MiG-21 + 후방 아님 → 후방 반구 진입 시도, 슬래시
-        fSteps=`<ol>
-              <li><strong>M 표적 선택 표</strong> 참조 (아래).</li>
-              <li>대시 쓰로틀. 같은 고도에서 후방 반구 진입 시도. 슬래시 공격.</li>
-              <li>교전 성공 → 기관포 → IRM 순서로 사격.</li>
-              <li>교전 실패 → 초저고도 강하 [☾/⛅: 저고도] 후 이탈.</li>
-            </ol>`;
-      }
-
-      // 교전 후 행동
-      if(hasSAM){
-        fAfter=`<strong style="color:#e8a8a8;">★ 교전 후:</strong> <strong>${is1972?'3':'5'}헥스 밖</strong> 이탈. 초저고도 강하 [☾/⛅: 저고도].${is1972?'<br><span style="opacity:.75;">1972: 호위기를 우회하여 Laden 비행대를 직접 공격.</span>':''}`;
-      } else {
-        fAfter=`<strong style="color:#e8a8a8;">★ 교전 후:</strong><br>
-                표적이 폭격/SEAD/정찰/재밍기 → ${isMiG17?'근접 유지, 재교전':'이탈 후 다음 턴 재접근'}.<br>
-                표적이 전투기 → 이탈, 고가치 표적 탐색.`;
-      }
-
       chain.innerHTML=`
         <div class="bot-card" style="margin-top:4px;">
-          <div class="bot-card-header"><div class="bot-card-icon">F</div><div class="bot-card-title">교전 행동 — ${isMiG17?'MiG-17 선회전':'MiG-21 Hit&Run'}</div></div>
+          <div class="bot-card-header"><div class="bot-card-icon">F</div><div class="bot-card-title">교전 행동</div></div>
           <div class="bot-card-body">
-            ${fSteps}
-            <div style="margin-top:10px;padding:10px 12px;background:rgba(196,90,74,0.15);border:1px solid rgba(196,90,74,0.4);font-size:12px;">
-              ${fAfter}
-            </div>
+            <p><strong>공대공 전투 시도:</strong></p>
+            <ol>
+              <li>표적 선택: <strong>M 표적 선택 표</strong> 참조 (아래).</li>
+              <li>다음과 같이 이동:
+                <ol type="a">
+                  <li>교전에 필요한 경우 대시 쓰로틀, 그렇지 않으면 전투 쓰로틀. 가능하다면 같은 고도에서 후방 반구로 US 비행대 헥스에 진입. 교전 시도; 허용되면 슬래시 공격 수행.</li>
+                  <li>교전에 성공하면 공대공 전투를 해결. 가능한 모든 사격 수행: 기관포 먼저, 그 다음 IRM.</li>
+                  <li>교전에 실패하면 남은 MP를 사용하여 초저고도로 강하 [☾/⛅: 저고도]하고 전진.</li>
+                </ol>
+              </li>
+            </ol>
           </div>
         </div>
         <div class="bot-card" style="margin-top:4px;">
-          <div class="bot-card-header"><div class="bot-card-icon">M</div><div class="bot-card-title">표적 선택 (MiG) — ${isIdentified?'식별 후':'식별 전'}</div></div>
+          <div class="bot-card-header"><div class="bot-card-icon">M</div><div class="bot-card-title">표적 선택 (MiG)</div></div>
           <div class="bot-card-body">
-            <p style="margin-bottom:6px;">${isIdentified?'육안 식별된 US 비행대를 순서대로 선택합니다:':'식별 전 — 뭉침/거리 기준으로 선택합니다:'}</p>
-            ${mTableHtml}
+            <p style="margin-bottom:6px;">다음 조건의 US 비행대를 순서대로 선택합니다:</p>
+            <ol style="margin:0;padding-left:18px;line-height:1.9;">
+              <li>탐지 상태 비행대</li>
+              <li>가장 낮은 고도대역에 위치한 비행대</li>
+              <li>적재 상태(Laden)</li>
+              <li>표적 획득 마커 가장 적은 비행대</li>
+              <li>가장 가까운 비행대</li>
+              <li>손상/물리화된 항공기가 있는 US 비행대</li>
+              <li>남은 US 비행대 중에서 무작위 선택</li>
+            </ol>
           </div>
         </div>`;
     } else {
-      // G — 비전투 행동 (재설계: SAM-MiG-AAA 통합 방공 교리)
-      const gr=botRoll();
-      let gmod=0;
-      if(document.getElementById('bSAMAcquiredD')?.checked) gmod+=3;
-      if(document.getElementById('bUSCluster')?.checked) gmod-=1;
-      if(is1972) gmod-=1;
-      const gtotal=gr+gmod;
+      const gr=botRoll(), gtotal=gr+mod;
       let gtxt, gcls, gdesc;
-      if(gtotal<=2){
-        gtxt='고도 유인';gcls='bot-tag-ok';
-        gdesc='전투 쓰로틀. US 비행대 6헥스 밖(1972: 4헥스) 선회 대기. 하강 유도.';
-      } else if(gtotal<=4){
-        gtxt='대기 궤도';gcls='bot-tag-ok';
-        gdesc='전투 쓰로틀. US 비행대 6헥스 밖(1972: 4헥스) 선회 대기. 다음 턴 교전 준비.';
-      } else if(gtotal<=6){
-        gtxt='차단 위치';gcls='bot-tag-cond';
-        gdesc='전투 쓰로틀. US 비행대 그룹 진행 방향 전방 6헥스+ 지점으로 이동.';
-      } else if(gtotal<=8){
-        gtxt='SAM 구역 클리어';gcls='bot-tag-mod';
-        gdesc='전투 쓰로틀. US 비행대 6헥스 밖으로 이동. SAM 사격 활성화.';
-      } else {
-        gtxt='이탈';gcls='bot-tag-bad';
-        gdesc='전투 쓰로틀. 초저고도 강하 [☾/⛅: 저고도]. 완충지대로 이동.';
-      }
-      const gcalc=gmod?`${gr} ${gmod>0?'+':''}${gmod} = ${gtotal}`:`${gr}`;
+      if(gtotal<=4){gtxt='접근';gcls='bot-tag-ok';gdesc='전투 쓰로틀. <br>표적 선택 후 표적 고도에 맞춰 5헥스 이내에 가지 않으며 전방 호 방향으로 이동.';}
+      else if(gtotal<=8){gtxt='위치 유지';gcls='bot-tag-cond';gdesc='전투 쓰로틀. <br>저고도로 이동. 1MP 전진 → 1MP 좌측 60도 선회. 반복.';}
+      else{gtxt='회피';gcls='bot-tag-bad';gdesc='전투 쓰로틀. <br>가장 가까운 US 비행대로부터 멀어지며 자유 강하로 초저고도 강하 [☾/⛅: 저고도].';}
+      const gcalc=mod?`${gr} ${mod>0?'+':''}${mod} = ${gtotal}`:`${gr}`;
       chain.innerHTML=`
         <div class="bot-card" style="margin-top:4px;">
           <div class="bot-card-header"><div class="bot-card-icon">G</div><div class="bot-card-title">비전투 행동</div></div>
@@ -10349,9 +10640,6 @@ document.addEventListener('DOMContentLoaded', () => {
               ${botValHtml(gcalc)}${botTagHtml(gcls,gtxt)}
             </div>
             <p>${gdesc}</p>
-            ${gmod?`<div style="margin-top:8px;font-size:11px;color:rgba(196,169,107,0.7);">
-              적용 보정:${document.getElementById('bSAMAcquiredD')?.checked?' SAM 획득 +3':''}${document.getElementById('bUSCluster')?.checked?' / US 뭉침 -1':''}${is1972?' / 1972 -1':''}
-            </div>`:''}
           </div>
         </div>`;
     }
@@ -10435,7 +10723,7 @@ document.addEventListener('DOMContentLoaded', () => {
     botSetResult('bSAMActResult', html);
   });
 
-  // L — SAM 사격
+  // L — SAM 사격 + 후속 체인 (공격→방어→피해→회피기동)
   const bSAMFireBtn = document.getElementById('bSAMFireBtn');
   if (bSAMFireBtn) bSAMFireBtn.addEventListener('click', ()=>{
     const r=botRoll(), mod=document.getElementById('bSAMAcq')?.checked?2:0;
@@ -10443,6 +10731,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const ok=total>dist;
     const calc=mod?`${r} +${mod} = ${total}`:`${r}`;
     const salvo=r%2===0;
+    const isFullAcq=document.getElementById('bSAMAcq')?.checked||false;
+    const isLowAlt=document.getElementById('bSAMLowAlt')?.checked||false;
     botSetResult('bSAMFireResult',`<div style="display:flex;flex-direction:column;align-items:flex-end;">`+
       `<div>${botValHtml(calc)}${botTagHtml(ok?'bot-tag-ok':'bot-tag-bad',ok?'사격':'사격 안 함')}</div>`+
       (ok
@@ -10450,7 +10740,11 @@ document.addEventListener('DOMContentLoaded', () => {
         :`<div style="font-size:12px;margin-top:4px;opacity:.8;">US 항공기가 8헥스 이내에서 다시 MP를 소모하면 재시도 가능</div>`)+
       `</div>`);
     const samChain = document.getElementById('bSAMChain');
-    if (samChain) samChain.innerHTML = ok ? `
+    if(!samChain) return;
+    if(!ok){ samChain.innerHTML=''; return; }
+
+    // ── Card M: 표적 선택 ──
+    let chainHTML=`
       <div class="bot-card">
         <div class="bot-card-header"><div class="bot-card-icon">M</div><div class="bot-card-title">표적 선택 (SAM)</div></div>
         <div class="bot-card-body">
@@ -10466,7 +10760,225 @@ document.addEventListener('DOMContentLoaded', () => {
             <li>남은 US 비행대 중에서 무작위 선택</li>
           </ol>
         </div>
-      </div>` : '';
+      </div>`;
+
+    // ── SAM 공격 판정 (auto-roll) ──
+    const atkD=botRoll()+botRoll(); // 2d10
+    let atkMod=0;
+    if(dist>=5) atkMod-=(dist-4);       // 사거리 보정
+    if(!isFullAcq) atkMod-=1;            // 부분 표적 획득 -1
+    if(isLowAlt) atkMod-=2;              // 초저고도 -2
+    if(salvo) atkMod+=2;                 // 일제 사격 +2
+    const atkTotal=atkD+atkMod;
+    const atkHit=atkTotal>=14;
+    let modParts=[];
+    if(dist>=5) modParts.push(`사거리 ${-(dist-4)}`);
+    if(!isFullAcq) modParts.push('부분획득 −1');
+    if(isLowAlt) modParts.push('초저고도 −2');
+    if(salvo) modParts.push('일제사격 +2');
+    const modStr=modParts.length?` (${modParts.join(', ')})`:'';
+
+    chainHTML+=`
+      <div class="bot-card" style="border-color:${atkHit?'var(--grn-b)':'var(--red-b)'};">
+        <div class="bot-card-header"><div class="bot-card-icon" style="${atkHit?'':'background:rgba(90,26,26,.8);color:#e8a8a8;'}">⬥</div><div class="bot-card-title">SAM 공격 판정 [15.42]</div></div>
+        <div class="bot-card-body">
+          <div style="font-size:13px;margin-bottom:6px;">2d10: <strong>${atkD}</strong> + 보정 <strong>${sign(atkMod)}</strong>${modStr} = <strong>${atkTotal}</strong></div>
+          <div style="font-size:14px;font-weight:700;color:${atkHit?'#8ad88a':'#e87878'};">${atkHit?'▸ 명중! (≥14) → 방어 판정':'▸ 실패 (<14) — 효과 없음'}</div>
+        </div>
+      </div>`;
+
+    if(!atkHit){ samChain.innerHTML=chainHTML; return; }
+
+    // ── SAM 방어 판정 (유저 입력 필요) ──
+    chainHTML+=`
+      <div class="bot-card" id="bSAMDefCard">
+        <div class="bot-card-header"><div class="bot-card-icon">⬥</div><div class="bot-card-title">SAM 방어 판정 [15.42]</div></div>
+        <div class="bot-card-body">
+          <div style="margin-bottom:10px;display:flex;flex-wrap:wrap;gap:14px;align-items:center;">
+            <label style="display:flex;align-items:center;gap:8px;">
+              <span>재밍:</span>
+              <select id="bSAMJamMode" style="padding:4px 8px;background:#1c1c10;border:1px solid var(--olive);color:var(--cream);font-size:12px;">
+                <option value="none">방어 재밍 없음</option>
+                <option value="def">방어 재밍 있음</option>
+                <option value="cell">재밍 셀 내</option>
+                <option value="chaff">채프 회랑 내</option>
+              </select>
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;">
+              <span>스탠드오프 재머:</span>
+              <input type="number" id="bSAMSOJ" min="0" max="9" value="0" style="width:40px;padding:4px;background:#1c1c10;border:1px solid var(--olive);color:var(--cream);font-size:12px;">
+            </label>
+          </div>
+          <div style="margin-bottom:10px;display:flex;flex-wrap:wrap;gap:14px;align-items:center;">
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+              <input type="checkbox" id="bSAMDefWeak" data-v="-1">
+              <span>SAM 방어 취약 (−1)</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+              <input type="checkbox" id="bSAMNoLOS" data-v="-1">
+              <span>SAM으로 시야 없음 (−1)</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+              <input type="checkbox" id="bSAMNoRWR" data-v="-2">
+              <span>RWR 없음 (−2)</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+              <input type="checkbox" id="bSAMBeacon" data-v="2">
+              <span>비콘 재밍 (+2)</span>
+            </label>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <button class="bot-roll-btn" id="bSAMDefRollBtn">방어 판정 (2d10)</button>
+            <div class="bot-roll-result" id="bSAMDefResult"></div>
+          </div>
+          <div id="bSAMDefChain" style="margin-top:12px;"></div>
+        </div>
+      </div>`;
+
+    samChain.innerHTML=chainHTML;
+
+    // ── 방어 판정 버튼 핸들러 ──
+    document.getElementById('bSAMDefRollBtn').addEventListener('click', function(){
+      const defD=botRoll()+botRoll(); // 2d10
+      const mode=document.getElementById('bSAMJamMode').value;
+      const evadeMin={none:10,def:8,cell:6,chaff:5}[mode];
+      const missMin={none:14,def:10,cell:7,chaff:6}[mode];
+      const soj=parseInt(document.getElementById('bSAMSOJ').value)||0;
+      let cbMod=0;
+      ['bSAMDefWeak','bSAMNoLOS','bSAMNoRWR','bSAMBeacon'].forEach(id=>{
+        const cb=document.getElementById(id);
+        if(cb&&cb.checked) cbMod+=parseInt(cb.dataset.v)||0;
+      });
+      const defMod=soj+cbMod;
+      const defTotal=defD+defMod;
+
+      let resTag, resLabel, resDetail;
+      if(defTotal>=missMin){
+        resTag='bot-tag-ok'; resLabel='빗나감';
+        resDetail='SAM 공격 실패 — 피해 없음, 회피 기동 불필요';
+      } else if(defTotal>=evadeMin){
+        resTag='bot-tag-cond'; resLabel='회피';
+        resDetail='SAM 회피 기동 수행 (고도 하강 + 무장 투하)';
+      } else {
+        resTag='bot-tag-bad'; resLabel='효과없음';
+        resDetail='방어 실패 → 피해 판정으로 진행';
+      }
+
+      botSetResult('bSAMDefResult',`<div style="display:flex;flex-direction:column;align-items:flex-end;">`+
+        `<div>${botValHtml(defD+' + ('+sign(defMod)+') = '+defTotal)}${botTagHtml(resTag,resLabel)}</div>`+
+        `<div style="font-size:12px;margin-top:4px;">${resDetail}</div>`+
+        `</div>`);
+
+      const defChain=document.getElementById('bSAMDefChain');
+      if(!defChain) return;
+
+      // 빗나감: 체인 종료
+      if(defTotal>=missMin){ defChain.innerHTML=''; return; }
+
+      // 회피: SAM 회피 기동만 (피해 없음)
+      if(defTotal>=evadeMin){
+        const evasD=botRoll();
+        defChain.innerHTML=`
+          <div class="bot-card" style="border-color:#c45a4a;">
+            <div class="bot-card-header"><div class="bot-card-icon" style="background:rgba(90,26,26,.8);color:#e8a8a8;">⬥</div><div class="bot-card-title">SAM 회피 기동 [15.43]</div></div>
+            <div class="bot-card-body">
+              <div style="font-size:12px;color:var(--fade2);margin-bottom:8px;">항공기는 반드시 고도를 한 단계 낮추고, ARM이 아닌 모든 무장을 투하합니다. SAM 방어력이 낮은 항공기는 수행 불가.</div>
+              <div style="font-size:16px;font-weight:700;color:var(--tan);margin-bottom:6px;">회피 방향: ${evasD}</div>
+              <div style="font-size:12px;color:var(--cream);">1d10 = <strong>${evasD}</strong> → 해당 방향으로 이동 + 고도 1밴드 하강</div>
+              <div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
+                <img src="assets/scatter1.png" style="max-width:100%;width:300px;border:1px solid var(--olive);">
+                <img src="assets/scatter2.png" style="max-width:100%;width:300px;border:1px solid var(--olive);">
+              </div>
+            </div>
+          </div>`;
+        return;
+      }
+
+      // 효과없음: SAM 피해 판정 → 피해 시 회피 기동
+      defChain.innerHTML=`
+        <div class="bot-card" id="bSAMDmgCard" style="border-color:var(--red-b);">
+          <div class="bot-card-header"><div class="bot-card-icon" style="background:rgba(90,26,26,.8);color:#e8a8a8;">⬥</div><div class="bot-card-title">SAM 피해 [15.42]</div></div>
+          <div class="bot-card-body">
+            <div style="margin-bottom:10px;display:flex;flex-wrap:wrap;gap:14px;align-items:center;">
+              <label style="display:flex;align-items:center;gap:8px;">
+                <span>비행대 기체 수:</span>
+                <select id="bSAMNumAC" style="padding:4px 8px;background:#1c1c10;border:1px solid var(--olive);color:var(--cream);font-size:12px;">
+                  <option value="1">1기</option>
+                  <option value="2">2기</option>
+                  <option value="3">3기</option>
+                  <option value="4" selected>4기</option>
+                </select>
+              </label>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;">
+              <button class="bot-roll-btn" id="bSAMDmgRollBtn">피해 판정 (1d10)</button>
+              <div class="bot-roll-result" id="bSAMDmgResult"></div>
+            </div>
+            <div id="bSAMDmgChain" style="margin-top:12px;"></div>
+          </div>
+        </div>`;
+
+      // ── 피해 판정 버튼 핸들러 ──
+      document.getElementById('bSAMDmgRollBtn').addEventListener('click', function(){
+        const dmgD=botRoll(); // 1d10
+        const acqCol=isFullAcq?2:1;
+        const fullTbl =['D','D','D, D','C','K','K','K','K','K','K'];
+        const partTbl =['NE','NE','D','D, D','D','D','C','K','K','K'];
+        const result=acqCol>=2?fullTbl[dmgD-1]:partTbl[dmgD-1];
+        const numAC=parseInt(document.getElementById('bSAMNumAC').value)||4;
+        const colIdx=Math.min(numAC-1,3);
+        const dmgItems=result==='NE'?[]:result.split(', ');
+
+        let resultLabel='';
+        if(result==='NE') resultLabel='효과 없음';
+        else if(result==='K') resultLabel='격추';
+        else if(result==='C') resultLabel='무력화';
+        else if(result==='D, D') resultLabel='피해 ×2';
+        else resultLabel='피해';
+
+        let allocHTML='';
+        if(dmgItems.length>0){
+          dmgItems.forEach(dmg=>{
+            const allocD=botRoll();
+            const entry=ALLOC_TBL[allocD-1][colIdx];
+            const finalType=entry.c?'C':dmg;
+            const typeLabel=finalType==='K'?'격추':finalType==='C'?'무력화':'피해';
+            const typeColor=finalType==='K'?'#e05555':finalType==='C'?'#ff9100':'var(--tan)';
+            allocHTML+=`<div style="font-size:12px;margin-top:4px;">배분 주사위: <strong>${allocD}</strong> → <strong style="color:${typeColor}">${entry.n}번기 ${typeLabel}</strong></div>`;
+          });
+        }
+
+        botSetResult('bSAMDmgResult',`<div style="display:flex;flex-direction:column;align-items:flex-end;">`+
+          `<div>${botValHtml(dmgD)}${botTagHtml(result==='NE'?'bot-tag-cond':'bot-tag-bad',resultLabel)}</div>`+
+          `<div style="font-size:12px;margin-top:2px;opacity:.7;">${isFullAcq?'완전':'부분'} 표적 획득</div>`+
+          `</div>`);
+
+        const dmgChain=document.getElementById('bSAMDmgChain');
+        if(!dmgChain) return;
+
+        if(result==='NE'){
+          dmgChain.innerHTML=`<div style="font-size:13px;color:var(--fade);padding:6px 0;">효과 없음 — SAM 해결 완료.</div>`;
+          return;
+        }
+
+        // ── SAM 회피 기동 (자동 굴림) ──
+        const evasD=botRoll();
+        dmgChain.innerHTML=`
+          <div style="font-size:12px;margin-bottom:10px;">${allocHTML}</div>
+          <div class="bot-card" style="border-color:#c45a4a;">
+            <div class="bot-card-header"><div class="bot-card-icon" style="background:rgba(90,26,26,.8);color:#e8a8a8;">⬥</div><div class="bot-card-title">SAM 회피 기동 [15.43]</div></div>
+            <div class="bot-card-body">
+              <div style="font-size:12px;color:var(--fade2);margin-bottom:8px;">피해를 입은 항공기는 반드시 고도를 한 단계 낮추고, ARM이 아닌 모든 무장을 투하합니다. SAM 방어력이 낮은 항공기는 수행 불가.</div>
+              <div style="font-size:16px;font-weight:700;color:var(--tan);margin-bottom:6px;">회피 방향: ${evasD}</div>
+              <div style="font-size:12px;color:var(--cream);">1d10 = <strong>${evasD}</strong> → 해당 방향으로 이동 + 고도 1밴드 하강</div>
+              <div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
+                <img src="assets/scatter1.png" style="max-width:100%;width:300px;border:1px solid var(--olive);">
+                <img src="assets/scatter2.png" style="max-width:100%;width:300px;border:1px solid var(--olive);">
+              </div>
+            </div>
+          </div>`;
+      });
+    });
   });
 
   // Z — LOAL
@@ -10577,6 +11089,480 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+</script>
+
+<!-- ══════════════════════════════════════════════════════════════
+     GCI 지상관제 스크립트
+     ══════════════════════════════════════════════════════════════ -->
+<script>
+(function(){
+const GS={
+  ewRoll:0,ewGrade:'',
+  hasSead:false,hasStrike:false,pilotConfirm:false,strikeClose:false,
+  escortPresent:false,escortCloser:false,twoSquads:false,separated:false,
+  samRange:false,samAcq:false,migClose:false,aaaRange:false,
+  scScore:0,answers:{},phase:0,
+};
+
+const GCI_EW={
+  A:{cls:'lA',desc:'완전 파악',detail:'편대 구성·임무·경로 모두 파악. 레이더 판독 단계 생략 가능.',pre:'사전 배치 제한 없음'},
+  B:{cls:'lB',desc:'주요 정보 파악',detail:'규모·방향·주요 임무 파악. 일부 세부 임무 불명.',pre:'MiG 2편대까지 공중 대기 가능'},
+  C:{cls:'lC',desc:'부분 파악',detail:'진입 방향과 규모만 파악. 임무는 레이더 이동 패턴으로 추론.',pre:'MiG 1편대 공중 대기 가능 (비행장 근처 또는 공중 대기점)'},
+  D:{cls:'lD',desc:'조기경보 실패',detail:'진입 방향만. 모든 것을 직접 관측으로 판단해야 함.',pre:'사전 배치 불가 — 경보 후 긴급 출격'},
+};
+
+window.gciRollEW=function(){
+  const d1=Math.ceil(Math.random()*10),d2=Math.ceil(Math.random()*10);
+  const t=d1+d2; GS.ewRoll=t;
+  GS.ewGrade=t>=16?'A':t>=10?'B':t>=6?'C':'D';
+  const g=GCI_EW[GS.ewGrade];
+  document.getElementById('gci-ew-dice').textContent=t;
+  const lv=document.getElementById('gci-ew-lv');
+  lv.className='gci-ew-lv-txt '+g.cls; lv.textContent=GS.ewGrade;
+  document.getElementById('gci-ew-desc').textContent=g.desc+' — '+g.detail;
+  const pre=document.getElementById('gci-ew-pre');
+  pre.style.display='block'; pre.textContent='▸ '+g.pre;
+  gciSetBdg(0,GS.ewGrade==='A'||GS.ewGrade==='B'?'ok':GS.ewGrade==='C'?'warn':'bad',`EW ${GS.ewGrade} (${t})`);
+  document.getElementById('gci-next0').disabled=false;
+  document.getElementById('gci-restart-btn').style.display='';
+};
+
+function gciTurnSelectorHTML(){
+  return `<div class="gci-turn-sel">
+    <span class="gci-turn-sel-lbl">탐지 후 경과 턴:</span>
+    <button class="gci-btn-turn" onclick="gciSelectTurn(1,this)">1턴</button>
+    <button class="gci-btn-turn" onclick="gciSelectTurn(2,this)">2턴</button>
+    <button class="gci-btn-turn" onclick="gciSelectTurn(3,this)">3턴</button>
+    <button class="gci-btn-turn" onclick="gciSelectTurn(4,this)">4턴+</button>
+  </div>
+  <div id="gci-turn-warn"></div>`;
+}
+
+let gciTurn=0;
+window.gciSelectTurn=function(t, btn){
+  gciTurn=t;
+  document.querySelectorAll('#bot-gci-sub .gci-btn-turn').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');
+  gciUpdateTurnWarn();
+};
+
+function gciUpdateTurnWarn(){
+  const el=document.getElementById('gci-turn-warn'); if(!el) return;
+  const g=GS.ewGrade; const t=gciTurn;
+  let html='';
+  if(g==='B'){
+    if(t<=2) html=`<div class="gci-turn-warn w-cond">탐지 초기 — 공습 표적 방향 불확실. 임무 구분은 가능하나 어느 표적을 노리는지 아직 불명확. 1~2턴 더 관측하면 경로 확정 가능.</div>`;
+    else      html=`<div class="gci-turn-warn w-ok">경로 파악 가능 — 이동 패턴으로 공습 표적 방향 추정 가능. 요격 대상 선정 진행.</div>`;
+  } else if(g==='C'){
+    if(t===1) html=`<div class="gci-turn-warn w-hold">탐지 1턴 — 진입 방향만 확인. 공습 표적 미상. 2~3턴 관측 후 판단 강권. 지금 MiG 출격 시 잘못된 요격 대상 가능성 높음.</div>`;
+    else if(t===2) html=`<div class="gci-turn-warn w-cond">탐지 2턴 — 경로 불완전. 여러 공습 표적 가능성 병존. SEAD 여부 확인 가능하면 판단. 폭격기 방향은 아직 불명.</div>`;
+    else      html=`<div class="gci-turn-warn w-ok">경로 추론 가능 — 이동 패턴으로 어느 표적인지 2~3개로 좁힐 수 있음. 아래 질문으로 요격 대상 판단 진행.</div>`;
+  } else if(g==='D'){
+    if(t<=2) html=`<div class="gci-turn-warn w-hold">탐지 초기 + 조기경보 실패 — 아무것도 모르는 상태. MiG 출격 금지. 파일럿 교전 보고가 들어오거나 3턴 이상 관측 후 재판단.</div>`;
+    else if(t===3) html=`<div class="gci-turn-warn w-cond">탐지 3턴 — 이동 방향으로 대략적 경로 추측 가능. 그러나 여전히 표적 불명. SEAD 분리 여부만 관측하고 신중히 판단.</div>`;
+    else      html=`<div class="gci-turn-warn w-cond">탐지 4턴+ — 경로 방향 어느정도 파악. 그러나 EW D 조건에서는 표적 확정 불가. 파일럿 보고 우선. 판단 신중히.</div>`;
+  }
+  el.innerHTML=html;
+}
+
+function gciBuildRadarPhase(){
+  const body=document.getElementById('gci-card1-body');
+  const g=GS.ewGrade;
+  gciTurn=0;
+
+  if(g==='A'){
+    body.innerHTML=`
+      <div class="gci-rbox go"><div class="gci-rbox-t">EW A — 완전 파악</div>
+      편대 구성·임무·경로 모두 파악. 초반 턴 무관하게 요격 대상 즉시 선정 가능.<br>
+      <small style="color:var(--fade2)">솔로 플레이: 실제 미군 편대 구성을 그대로 사용.</small></div>
+      <div class="gci-nav-row">
+        <button class="gci-btn-back" onclick="gciGoBack(1)">← 이전</button>
+        <button class="gci-btn-next" onclick="gciSkipRadar()">요격 대상 선정 →</button>
+  
+      </div>`;
+    gciSetBdg(1,'ok','생략');
+  } else if(g==='B'){
+    body.innerHTML=`
+      ${gciTurnSelectorHTML()}
+      <div class="gci-info-strip">규모·방향 파악됨. 경과 턴 선택 후 아래 항목 확인.</div>
+      <div class="gci-q-blk" id="gci-q1b1">
+        <div class="gci-q-lbl"><strong>SEAD / Iron Hand 편대 확인됐는가?</strong><span class="gci-q-note">소규모 편대가 SAM 방향으로 분리 이동</span></div>
+        <div class="gci-btn-row">
+          <button class="gci-btn-yn yes" onclick="gciR1ans('sead',true)">YES</button>
+          <button class="gci-btn-yn no" onclick="gciR1ans('sead',false)">NO / 불명</button>
+        </div>
+      </div>
+      <div class="gci-q-blk" id="gci-q1b2">
+        <div class="gci-q-lbl"><strong>폭격 편대 (Strike·Bombing) 확인됐는가?</strong></div>
+        <div class="gci-btn-row">
+          <button class="gci-btn-yn yes" onclick="gciR1ans('strike',true)">YES</button>
+          <button class="gci-btn-yn no" onclick="gciR1ans('strike',false)">NO / 불명</button>
+        </div>
+      </div>
+      <div id="gci-r1-rbox" style="display:none"></div>
+      <div class="gci-nav-row">
+        <button class="gci-btn-back" onclick="gciGoBack(1)">← 이전</button>
+        <button class="gci-btn-next" id="gci-next1" onclick="gciGoNext(1)" disabled>다음 →</button>
+  
+      </div>`;
+    gciSetBdg(1,'','진행 중');
+  } else if(g==='C'){
+    body.innerHTML=`
+      ${gciTurnSelectorHTML()}
+      <div class="gci-info-strip">진입 방향·규모만 파악. 공습 표적 미상 — 예상 표적 목록과 진입 경로 비교하여 추정.</div>
+      <div class="gci-q-blk">
+        <div class="gci-q-lbl"><strong>주 편대와 분리된 소규모 편대(2~4기)가 있는가?</strong><span class="gci-q-note">= SEAD 가능성</span></div>
+        <div class="gci-btn-row">
+          <button class="gci-btn-yn yes" onclick="gciR1ans('sead',true)">YES</button>
+          <button class="gci-btn-yn no" onclick="gciR1ans('sead',false)">NO</button>
+        </div>
+      </div>
+      <div class="gci-q-blk">
+        <div class="gci-q-lbl"><strong>대규모 편대(5기 이상)가 예상 공습 경로를 따라 이동 중인가?</strong><span class="gci-q-note">= Strike/Bombing 가능성. 3턴+ 경과 시에만 신뢰도 높음</span></div>
+        <div class="gci-btn-row">
+          <button class="gci-btn-yn yes" onclick="gciR1ans('strike',true)">YES</button>
+          <button class="gci-btn-yn no" onclick="gciR1ans('strike',false)">NO / 불명</button>
+        </div>
+      </div>
+      <div id="gci-r1-rbox" style="display:none"></div>
+      <div class="gci-nav-row">
+        <button class="gci-btn-back" onclick="gciGoBack(1)">← 이전</button>
+        <button class="gci-btn-next" id="gci-next1" onclick="gciGoNext(1)" disabled>다음 →</button>
+  
+      </div>`;
+    gciSetBdg(1,'','진행 중');
+  } else {
+    body.innerHTML=`
+      ${gciTurnSelectorHTML()}
+      <div class="gci-rbox hold" style="margin-bottom:10px"><div class="gci-rbox-t">EW D — 조기경보 실패</div>
+      MiG 사전 배치 불가. 파일럿 교전 보고 전까지 임무 판단 불가.<br>
+      경과 턴을 선택하면 현재 판단 가능 수준을 확인할 수 있음.</div>
+      <div class="gci-nav-row">
+        <button class="gci-btn-back" onclick="gciGoBack(1)">← 이전</button>
+        <button class="gci-btn-next" onclick="gciGoNext(1)">다음 →</button>
+  
+      </div>`;
+    gciSetBdg(1,'bad','경보 실패');
+  }
+}
+
+let gciR1State={sead:null,strike:null};
+window.gciR1ans=function(type,val){
+  gciR1State[type]=val;
+  if(type==='sead') GS.hasSead=val;
+  if(type==='strike') GS.hasStrike=val;
+  const btns=event.currentTarget.closest('.gci-q-blk').querySelectorAll('.gci-btn-yn');
+  btns.forEach(b=>b.classList.remove('sel'));
+  event.currentTarget.classList.add('sel');
+  if(gciR1State.sead!==null && gciR1State.strike!==null){
+    const rb=document.getElementById('gci-r1-rbox');
+    rb.style.display='block';
+    let chips='';
+    if(gciR1State.sead) chips+=`<span class="gci-chip gci-c-s">SEAD 확인</span>`;
+    if(gciR1State.strike) chips+=`<span class="gci-chip gci-c-k">Strike 확인</span>`;
+    if(!gciR1State.sead&&!gciR1State.strike) chips=`<span class="gci-chip gci-c-h">위협 미확인</span>`;
+    rb.innerHTML=`<div class="gci-rbox ${gciR1State.sead||gciR1State.strike?'go':'hold'}"><div class="gci-chips" style="margin-top:2px">${chips}</div></div>`;
+    const next=document.getElementById('gci-next1');
+    if(next) next.disabled=false;
+    gciSetBdg(1,gciR1State.sead||gciR1State.strike?'ok':'bad',gciR1State.sead||gciR1State.strike?'탐지':'미탐지');
+  }
+};
+
+window.gciSkipRadar=function(){
+  GS.hasSead=true; GS.hasStrike=true; GS.pilotConfirm=true;
+  gciSetPhase(2);
+  setTimeout(()=>gciBuildPriorityContext(),50);
+};
+
+function gciBuildPriorityContext(){
+  const el=document.getElementById('gci-priority-context');
+  if(!el) return;
+  const g=GS.ewGrade;
+  if(g==='A') el.textContent='EW A: 편대 임무 완전 파악. SEAD → Strike 순으로 요격 대상 선정.';
+  else if(g==='B') el.textContent='EW B: 주요 편대 파악됨. 우선순위에 따라 요격 대상 선정.';
+  else if(g==='C') el.textContent='EW C: 레이더 추론 기반. 소규모 분리 편대(SEAD 추정) 우선.';
+  else el.textContent='EW D: 조기경보 실패. 교전 중 파일럿 보고 후 요격 대상 확정.';
+}
+
+window.gciAns=function(qid,val){
+  GS.answers[qid]=val;
+  const blk=document.getElementById(qid);
+  blk.querySelectorAll('.gci-btn-yn').forEach(b=>b.classList.remove('sel'));
+  blk.querySelector(`.gci-btn-yn.${val==='yes'?'yes':'no'}`).classList.add('sel');
+
+  if(qid==='gci-q2a'){GS.hasSead=(val==='yes');gciShow('gci-q2b');}
+  else if(qid==='gci-q2b'){GS.hasStrike=(val==='yes');gciShow('gci-q2c');}
+  else if(qid==='gci-q2c'){GS.pilotConfirm=(val==='yes');if(GS.hasSead&&GS.hasStrike){gciShow('gci-q2d');}else{gciResolveThreat();}}
+  else if(qid==='gci-q2d'){GS.strikeClose=(val==='yes');gciResolveThreat();}
+  else if(qid==='gci-q3a'){GS.escortPresent=(val==='yes');val==='yes'?gciShow('gci-q3b'):gciResolveEscort();}
+  else if(qid==='gci-q3b'){GS.escortCloser=(val==='yes');val==='yes'?gciShow('gci-q3c'):gciResolveEscort();}
+  else if(qid==='gci-q3c'){GS.twoSquads=(val==='yes');val==='yes'?gciResolveEscort():gciShow('gci-q3d');}
+  else if(qid==='gci-q3d'){GS.separated=(val==='yes');gciResolveEscort();}
+  else if(qid==='gci-q4a'){GS.samRange=(val==='yes');val==='yes'?gciShow('gci-q4b'):gciShow('gci-q4d');}
+  else if(qid==='gci-q4b'){GS.samAcq=(val==='yes');val==='yes'?gciShow('gci-q4c'):gciResolveAirDef();}
+  else if(qid==='gci-q4c'){GS.migClose=(val==='yes');gciResolveAirDef();}
+  else if(qid==='gci-q4d'){GS.aaaRange=(val==='yes');gciResolveAirDef();}
+  else if(qid==='gci-q6a'){val==='yes'?gciResolvePost():gciShow('gci-q6b');}
+  else if(qid==='gci-q6b'){val==='yes'?gciResolvePost():gciShow('gci-q6c');}
+  else if(qid==='gci-q6c'){gciResolvePost();}
+};
+
+function gciShow(id){const e=document.getElementById(id);if(e)e.style.display='block';}
+
+function gciResolveThreat(){
+  const rb=document.getElementById('gci-threat-rbox'); rb.style.display='block';
+  const noThreat=!GS.hasSead&&!GS.hasStrike;
+  if(noThreat){
+    rb.innerHTML=`<div class="gci-rbox hold"><div class="gci-rbox-t">위협 편대 미탐지 — 대기</div>요격 대상 없음. MiG 대기.</div>`;
+    gciSetBdg(2,'bad','위협 없음');
+  } else if(GS.hasSead&&GS.hasStrike){
+    // 둘 다 있는 경우: 폭격기 근접 여부로 우선순위 결정
+    let chips='';
+    if(GS.strikeClose){
+      chips+=`<span class="gci-chip gci-c-k">1순위: Strike (6헥스 이내)</span>`;
+      chips+=`<span class="gci-chip gci-c-s">2순위: SEAD</span>`;
+    } else {
+      chips+=`<span class="gci-chip gci-c-s">1순위: SEAD</span>`;
+      chips+=`<span class="gci-chip gci-c-k">2순위: Strike (원거리)</span>`;
+    }
+    if(GS.pilotConfirm) chips+=`<span class="gci-chip gci-c-e">파일럿 확인</span>`;
+    let detail='';
+    if(GS.strikeClose){
+      detail=`폭격 비행대가 목표 6헥스 이내 — 폭격 임박. 폭격기 저지 최우선.<br>SEAD기는 가능하면 별도 편대로 대응, 여유 없으면 SAM/AAA에 맡김.`;
+    } else {
+      detail=`폭격 비행대 아직 원거리 — SEAD기 최대한 요격하여 방공망 보호.<br>폭격기가 6헥스 이내 접근 시 우선순위 전환.`;
+    }
+    rb.innerHTML=`<div class="gci-rbox go"><div class="gci-rbox-t">요격 대상 선정</div><div class="gci-chips" style="margin-top:4px">${chips}</div><div style="margin-top:8px;font-size:12px;line-height:1.6;color:var(--cream)">${detail}</div></div>`;
+    gciSetBdg(2,'ok','선정 완료');
+  } else {
+    let chips='';
+    if(GS.hasSead) chips+=`<span class="gci-chip gci-c-s">요격 대상: SEAD</span>`;
+    if(GS.hasStrike) chips+=`<span class="gci-chip gci-c-k">요격 대상: Strike</span>`;
+    if(GS.pilotConfirm) chips+=`<span class="gci-chip gci-c-e">파일럿 확인</span>`;
+    rb.innerHTML=`<div class="gci-rbox go"><div class="gci-rbox-t">요격 대상 선정</div><div class="gci-chips" style="margin-top:4px">${chips}</div></div>`;
+    gciSetBdg(2,'ok','선정 완료');
+  }
+  document.getElementById('gci-next2').disabled=false;
+}
+
+function gciResolveEscort(){
+  const rb=document.getElementById('gci-escort-rbox'); rb.style.display='block';
+  let msg='',cls='info';
+  if(!GS.escortPresent){msg=`<span class="gci-tag gci-t-atk">직접 공격</span> Escort 없음.`;cls='go';gciSetBdg(3,'ok','Escort 없음');}
+  else if(!GS.escortCloser){msg=`<span class="gci-tag gci-t-atk">직접 공격</span> MiG 위치 유리.`;cls='go';gciSetBdg(3,'ok','위치 유리');}
+  else if(GS.twoSquads){msg=`<span class="gci-tag gci-t-sup">2편대 배정</span> 1편대 Escort 견제(기동만, 교전 최소화), 1편대 요격 대상 공격.`;cls='cond';gciSetBdg(3,'warn','견제 배정');}
+  else if(GS.separated){msg=`<span class="gci-tag gci-t-atk">직접 공격</span> 편대 분리 확인.`;cls='go';gciSetBdg(3,'ok','분리 확인');}
+  else{msg=`<span class="gci-tag gci-t-hld">대기 / 우회</span> Escort 미처리 + 밀착. 접근 각도 조정 또는 다음 턴 대기.`;cls='hold';gciSetBdg(3,'bad','우회 필요');}
+  rb.innerHTML=`<div class="gci-rbox ${cls}">${msg}</div>`;
+  document.getElementById('gci-next3').disabled=false;
+}
+
+function gciResolveAirDef(){
+  const rb=document.getElementById('gci-airdef-rbox'); rb.style.display='block';
+  let msg='',cls='info';
+  if(GS.samRange && GS.samAcq && GS.migClose){
+    msg=`<span class="gci-tag gci-t-atk">MiG 선제</span> MiG가 5헥스 이내 — SAM 사격 불가.
+    <div class="gci-sam-coord">
+      <div class="gci-sam-coord-t">SAM 협조 방안</div>
+      <div class="gci-sam-opt"><span class="gci-sam-opt-lbl">안 A</span><span class="gci-sam-opt-txt">MiG 공격 → 5헥스 밖 이탈 → SAM 사격</span></div>
+      <div class="gci-sam-opt"><span class="gci-sam-opt-lbl">안 B</span><span class="gci-sam-opt-txt">MiG 다른 방향 접근 + SAM 해당 축에서 발사 (공간 분리)</span></div>
+    </div>`;
+    cls='cond'; gciSetBdg(4,'warn','5헥스 충돌');
+  } else if(GS.samRange && GS.samAcq && !GS.migClose){
+    msg=`<span class="gci-tag gci-t-sam">SAM 우선</span> 표적 획득 완료, MiG 5헥스 밖. SAM 발사 → 요격 대상 회피 기동 중 MiG 추가 공격.`;cls='cond';gciSetBdg(4,'warn','SAM 발사 후');
+  } else if(GS.samRange && !GS.samAcq){
+    msg=`<span class="gci-tag gci-t-atk">MiG 선제</span> SAM 미획득. MiG 선공격 → SAM 획득 시 협조.`;cls='go';gciSetBdg(4,'ok','MiG 선제');
+  } else if(GS.aaaRange){
+    msg=`<span class="gci-tag gci-t-atk">공격 허가</span> AAA 엄호 범위 내.`;cls='go';gciSetBdg(4,'ok','AAA 엄호');
+  } else {
+    msg=`<span class="gci-tag gci-t-hld">방공망 없음</span> 출격 점수로 판단. 불리한 환경.`;cls='hold';gciSetBdg(4,'bad','방공망 없음');
+  }
+  rb.innerHTML=`<div class="gci-rbox ${cls}">${msg}</div>`;
+  document.getElementById('gci-next4').disabled=false;
+}
+
+function gciResolvePost(){
+  const rb=document.getElementById('gci-post-rbox'); rb.style.display='block';
+  const a=GS.answers;
+  let msg='',cls='';
+  if(a['gci-q6a']==='yes'){msg=`<span class="gci-tag gci-t-ret">즉시 이탈</span> SAM/AAA 방향으로 유인 가능.`;cls='hold';gciSetBdg(6,'bad','이탈');}
+  else if(a['gci-q6b']==='yes'){msg=`<span class="gci-tag gci-t-ret">귀환</span> 연료 부족.`;cls='hold';gciSetBdg(6,'bad','귀환');}
+  else if(a['gci-q6c']==='yes'){msg=`<span class="gci-tag gci-t-atk">재접근</span> 요격 대상 미폭격. 재접근 허가.`;cls='go';gciSetBdg(6,'ok','재접근');}
+  else{msg=`<span class="gci-tag gci-t-ret">귀환</span> 공습 표적 폭격 완료. 임무 종료.`;cls='cond';gciSetBdg(6,'warn','임무 종료');}
+  rb.innerHTML=`<div class="gci-rbox ${cls}">${msg}</div>`;
+  gciBuildFinal();
+}
+
+window.gciToggleSc=function(li){
+  const cb=li.querySelector('input[type=checkbox]');cb.checked=!cb.checked;
+  li.querySelector('.gci-sc-lbl').classList.toggle('on',cb.checked);
+  gciRecalcSc();
+};
+function gciRecalcSc(){
+  let s=0;
+  document.querySelectorAll('#bot-gci-sub .gci-sc-list input:checked').forEach(cb=>s+=parseInt(cb.dataset.v));
+  GS.scScore=s;
+  document.getElementById('gci-sc-val').textContent=s>0?'+'+s:s;
+  const rb=document.getElementById('gci-sc-rbox');
+  if(s>=3){rb.innerHTML=`<div class="gci-rbox go"><div class="gci-rbox-t">출격 명령</div>점수 ${s>=0?'+'+s:s}. 즉시 요격 대상 방향 투입. 기종은 교전 시 주사위로 결정.</div>`;gciSetBdg(5,'ok','출격');}
+  else if(s>=1){rb.innerHTML=`<div class="gci-rbox cond"><div class="gci-rbox-t">조건부 출격</div>점수 ${s>=0?'+'+s:s}. MiG-21 계열 단독 선제만 허가.</div>`;gciSetBdg(5,'warn','조건부');}
+  else{rb.innerHTML=`<div class="gci-rbox cond"><div class="gci-rbox-t">이륙 후 공중 대기</div>점수 ${s<=0?s:'+'+s}. 조건 불리 — 비행장 근처에서 선회하며 상황 변화 대기.</div>`;gciSetBdg(5,'warn','공중 대기');}
+}
+
+function gciBuildFinal(){
+  const fc=document.getElementById('gci-final-card'); fc.classList.add('on');
+  const fb=document.getElementById('gci-final-body');
+  const sc=GS.scScore;
+  const dec=sc>=3?'출격 명령':sc>=1?'조건부 출격':'이륙 후 공중 대기';
+  const bothThreats=GS.hasSead&&GS.hasStrike;
+
+  // 요격 대상 텍스트
+  let tgtChips='', tgtDetail='';
+  if(bothThreats){
+    if(GS.strikeClose){
+      tgtChips=`<span class="gci-chip gci-c-k">1순위: Strike (6헥스 이내)</span><span class="gci-chip gci-c-s">2순위: SEAD</span>`;
+      tgtDetail='폭격 비행대 목표 6헥스 이내 접근 — 폭격기 저지 최우선. SEAD기는 여유 편대로 대응하거나 SAM/AAA에 위임.';
+    } else {
+      tgtChips=`<span class="gci-chip gci-c-s">1순위: SEAD</span><span class="gci-chip gci-c-k">2순위: Strike (원거리)</span>`;
+      tgtDetail='폭격 비행대 아직 원거리 — SEAD기 최대한 요격하여 방공망 보호. 폭격기가 6헥스 이내 접근 시 우선순위 전환.';
+    }
+  } else if(GS.hasSead){
+    tgtChips=`<span class="gci-chip gci-c-s">요격 대상: SEAD</span>`;
+    tgtDetail='SEAD 편대 요격. 방공망 보호가 핵심.';
+  } else if(GS.hasStrike){
+    tgtChips=`<span class="gci-chip gci-c-k">요격 대상: Strike</span>`;
+    tgtDetail='폭격 편대 요격. 폭탄 투하 전 저지가 목표.';
+  } else {
+    tgtChips=`<span class="gci-chip gci-c-h">위협 미확인</span>`;
+    tgtDetail='위협 편대 미탐지.';
+  }
+  if(GS.pilotConfirm) tgtChips+=`<span class="gci-chip gci-c-e">파일럿 확인</span>`;
+
+  // Escort 상세
+  let escDetail='';
+  if(!GS.escortPresent) escDetail='Escort 없음 — 요격 대상에 직접 공격 가능.';
+  else if(!GS.escortCloser) escDetail='Escort 있으나 MiG 위치가 유리 — Escort에 선점당하기 전에 요격 대상 직접 공격.';
+  else if(GS.twoSquads) escDetail='Escort가 차단 위치 + MiG 2편대 가용 — 1편대는 Escort 견제(기동만, 교전 최소화), 1편대는 요격 대상 공격.';
+  else if(GS.separated) escDetail='Escort와 요격 대상 분리 확인 — Escort 무시하고 요격 대상에 직접 접근.';
+  else escDetail='Escort 미처리 + 밀착 — 정면 돌파 불리. 접근 각도 조정하거나 다음 턴 재시도.';
+
+  // 방공망 상세
+  let defDetail='';
+  if(GS.samRange&&GS.samAcq&&GS.migClose) defDetail='SAM 표적 획득 완료, 그러나 MiG가 5헥스 이내 — SAM 사격 불가. MiG 공격 후 5헥스 밖 이탈 → SAM 사격, 또는 MiG와 SAM이 다른 방향에서 협공.';
+  else if(GS.samRange&&GS.samAcq) defDetail='SAM 표적 획득 완료, MiG 5헥스 밖 — SAM 발사 우선. 요격 대상이 회피 기동하는 동안 MiG 추가 공격.';
+  else if(GS.samRange) defDetail='SAM 사정권 내이나 미획득 — MiG가 선제 공격. SAM 획득 시 후속 협조.';
+  else if(GS.aaaRange) defDetail='AAA 엄호 범위 내 — MiG 공격 허가. AAA가 추가 화력 지원.';
+  else defDetail='SAM·AAA 엄호 없음 — 불리한 환경. 출격 점수에 반영됨.';
+
+  // 출격 결정 상세
+  let decDetail='';
+  if(sc>=3) decDetail=`출격 점수 ${'+'+sc} — 즉시 요격 대상 방향 전 편대 투입. 기종은 교전 시 주사위 판정.`;
+  else if(sc>=1) decDetail=`출격 점수 ${'+'+sc} — MiG-21 계열 단독 선제만 허가. 유리한 위치에서 일격 이탈.`;
+  else decDetail=`출격 점수 ${sc} — 조건 불리. 이륙 후 비행장 근처 선회 대기. 상황 호전 시 투입.`;
+
+  // 공격 후 행동
+  const a=GS.answers;
+  let postDetail='';
+  if(a['gci-q6a']==='yes') postDetail='미군 전투기 추적 중 — 즉시 이탈. SAM/AAA 방향으로 유인하여 방공망 화력 유도.';
+  else if(a['gci-q6b']==='yes') postDetail='연료 부족 — 귀환 명령.';
+  else if(a['gci-q6c']==='yes') postDetail='요격 대상 미폭격 — 재접근 허가. 2차 공격 시도.';
+  else postDetail='폭격 완료 — 임무 종료. 귀환.';
+
+  fb.innerHTML=`
+    <div class="gci-chips" style="margin-bottom:10px">
+      ${tgtChips}
+      <span class="gci-chip ${sc>=3?'gci-c-s':sc>=1?'gci-c-k':'gci-c-h'}">${dec}</span>
+      <span class="gci-chip gci-c-h">EW ${GS.ewGrade} (${GS.ewRoll})</span>
+    </div>
+    <ul style="margin-bottom:6px">
+      <li style="margin-bottom:6px"><strong>요격 대상:</strong> ${tgtDetail}</li>
+      <li style="margin-bottom:6px"><strong>Escort:</strong> ${escDetail}</li>
+      <li style="margin-bottom:6px"><strong>방공망 협조:</strong> ${defDetail}</li>
+      <li style="margin-bottom:6px"><strong>출격 결정:</strong> ${decDetail}</li>
+      <li><strong>공격 후:</strong> ${postDetail}</li>
+    </ul>`;
+}
+
+window.gciGoNext=function(from){
+  const next=from+1;
+  if(from===0){gciBuildRadarPhase();}
+  if(from===1){gciBuildPriorityContext();}
+  gciSetPhase(next);
+};
+window.gciGoBack=function(from){gciSetPhase(from-1);};
+
+function gciSetPhase(n){
+  GS.phase=n;
+  for(let i=0;i<=6;i++){
+    const c=document.getElementById(`gci-card${i}`);
+    if(!c) continue;
+    c.classList.remove('on','done');
+    if(i<n) c.classList.add('on','done');
+    else if(i===n) c.classList.add('on');
+  }
+  gciUpdateProg(n);
+  const ac=document.getElementById(`gci-card${n}`);
+  if(ac) setTimeout(()=>ac.scrollIntoView({behavior:'smooth',block:'start'}),40);
+}
+
+function gciUpdateProg(n){
+  for(let i=0;i<=5;i++){
+    const p=document.getElementById(`gci-ps${i}`);if(!p) continue;
+    p.className='gci-ps';
+    if(i<n) p.classList.add('done');
+    else if(i===n) p.classList.add('active');
+  }
+}
+function gciSetBdg(p,t,tx){const b=document.getElementById(`gci-b${p}`);if(!b)return;b.className='gci-bdg '+(t||'');b.textContent=tx;}
+
+/* 전체 초기화 (Solo Bot 초기화에서 호출) — EW 포함 완전 리셋 */
+window.gciResetAll=function(){
+  Object.assign(GS,{ewRoll:0,ewGrade:'',hasSead:false,hasStrike:false,pilotConfirm:false,strikeClose:false,
+    escortPresent:false,escortCloser:false,twoSquads:false,separated:false,
+    samRange:false,samAcq:false,migClose:false,aaaRange:false,scScore:0,answers:{},phase:0});
+  gciR1State={sead:null,strike:null};
+  gciResetUI();
+  document.getElementById('gci-ew-dice').textContent='—';
+  const lv=document.getElementById('gci-ew-lv'); lv.className='gci-ew-lv-txt'; lv.textContent='—';
+  document.getElementById('gci-ew-desc').textContent='';
+  document.getElementById('gci-ew-pre').style.display='none';
+  gciSetBdg(0,'','진행 중');
+  document.getElementById('gci-next0').disabled=true;
+  document.getElementById('gci-restart-btn').style.display='none';
+  gciSetPhase(0);
+};
+
+/* GCI 처음부터 — EW 결과는 유지, P1부터 재시작 */
+window.gciRestartFlow=function(){
+  const savedEwRoll=GS.ewRoll, savedEwGrade=GS.ewGrade;
+  Object.assign(GS,{hasSead:false,hasStrike:false,pilotConfirm:false,strikeClose:false,
+    escortPresent:false,escortCloser:false,twoSquads:false,separated:false,
+    samRange:false,samAcq:false,migClose:false,aaaRange:false,scScore:0,answers:{},phase:1});
+  GS.ewRoll=savedEwRoll; GS.ewGrade=savedEwGrade;
+  gciR1State={sead:null,strike:null};
+  gciResetUI();
+  gciSetBdg(0,GS.ewGrade==='A'||GS.ewGrade==='B'?'ok':GS.ewGrade==='C'?'warn':'bad',`EW ${GS.ewGrade} (${GS.ewRoll})`);
+  gciBuildRadarPhase();
+  gciSetPhase(1);
+};
+
+/* 공통 UI 초기화 (EW 제외) */
+function gciResetUI(){
+  document.querySelectorAll('#bot-gci-sub .gci-btn-yn').forEach(b=>b.classList.remove('sel'));
+  document.querySelectorAll('#bot-gci-sub input[type=checkbox]').forEach(cb=>{cb.checked=false;});
+  document.querySelectorAll('#bot-gci-sub .gci-sc-lbl').forEach(l=>l.classList.remove('on'));
+  document.getElementById('gci-sc-val').textContent='0';
+  document.getElementById('gci-sc-rbox').innerHTML='';
+  ['gci-threat-rbox','gci-escort-rbox','gci-airdef-rbox','gci-post-rbox'].forEach(id=>{const e=document.getElementById(id);if(e){e.style.display='none';e.innerHTML='';}});
+  ['gci-q2b','gci-q2c','gci-q2d','gci-q3b','gci-q3c','gci-q3d','gci-q4b','gci-q4c','gci-q4d','gci-q6b','gci-q6c'].forEach(id=>{const e=document.getElementById(id);if(e) e.style.display='none';});
+  for(let i=1;i<=6;i++) gciSetBdg(i,'','대기');
+  document.getElementById('gci-next2').disabled=true;
+  document.getElementById('gci-next3').disabled=true;
+  document.getElementById('gci-next4').disabled=true;
+  document.getElementById('gci-final-card').classList.remove('on');
+  document.getElementById('gci-card1-body').innerHTML='';
+}
+})();
 </script>
 
 <!-- Solo Bot 전체 초기화 확인 다이얼로그 -->
