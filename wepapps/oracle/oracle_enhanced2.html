@@ -90,6 +90,7 @@ select.bad {
     left: 50%;
     transform: translateX(-50%);
     font-size: 12px;
+    white-space: pre-line;
   }
   .tooltip:hover .tooltiptext {
     visibility: visible;
@@ -113,10 +114,23 @@ select.bad {
   .value.bad{color:var(--danger);background:rgba(239,68,68,0.06)}
   .value.single{font-size:16px;font-weight:800;color:#e8f0fb;background:rgba(31,111,235,0.15)} /* 요충지 단일 선택 강조 */
   .hint{font-size:12px;color:var(--muted);margin-top:8px}
+  .modal{
+    position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
+    background:rgba(15,30,50,0.98); color:#e8f0fb; padding:24px;
+    border-radius:12px; border:1px solid #1f6feb33; box-shadow:0 0 20px #1f6feb99;
+    font-weight:700; font-size:16px; display:none; z-index:1000;
+    text-align:left; max-width:90%; max-height:80vh; overflow-y:auto; white-space:normal;
+  }
+  .modal.plot-twist{
+    background:rgba(15,30,50,0.95); color:white; text-align:center; max-width:80%; white-space:pre-line;
+  }
   footer{margin-top:18px;color:var(--muted);font-size:13px}
   .flex{display:flex;gap:8px;align-items:center}
-  .guideline-link{display:flex;gap:6px;align-items:center;color:var(--muted);font-size:14px;cursor:pointer}
+  .guideline-link{display:inline-flex;gap:6px;align-items:center;color:var(--muted);font-size:14px;cursor:pointer;border:0;background:none;padding:0;font-family:inherit}
   .guideline-link:hover{color:var(--accent)}
+  .guideline-link:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+  .value.tactic-strong{color:var(--ok);background:rgba(16,185,129,0.06)}
+  .value.tactic-weak{color:var(--danger);background:rgba(239,68,68,0.06)}
   .modal-content h3{font-size:20px;margin:0 0 12px;line-height:1.5;color:#e8f0fb}
   .modal-content h4{font-size:16px;margin:16px 0 8px;color:#e8f0fb}
   .modal-content ul{margin:12px 0;padding-left:24px}
@@ -128,6 +142,8 @@ select.bad {
   .modal-close:hover{color:var(--accent);transform:scale(1.2)}
   @media (max-width:560px){
     .value{min-width:120px}
+    .controls{flex-wrap:wrap}
+    header{flex-direction:column}
     .modal-content h3{font-size:18px}
     .modal-content li{font-size:14px}
     .modal-content ul ul li{font-size:13px}
@@ -144,18 +160,18 @@ select.bad {
     <p class="lead">게임 중 봇 플레이어의 행동을 결정해야할 때마다, 전술/요충지 매트릭스를 참고하여 봇 행동을 결정합니다.</p>
     <p class="lead">성격을 뽑으면(또는 수동으로 바꾸면) 자동 규칙에 따라 상황·전술·요충지가 도출됩니다. 개별 클릭으로 재설정도 가능합니다。</p>
   </div>
-  <div class="guideline-link" id="guideline-link">
+  <button class="guideline-link" id="guideline-link">
     <span>가이드라인</span>
-  </div>
+  </button>
 </header>
 
 <section class="grid">
   <div class="card">
     <div class="card-header">
       <h3>기본 성격 매트릭스</h3>
-      <div class="guideline-link" id="personality-guideline-link">
+      <button class="guideline-link" id="personality-guideline-link">
         <span>가이드라인</span>
-      </div>
+      </button>
     </div>
     <div class="controls" style="justify-content:space-between;margin-bottom:10px">
       <div style="display:flex;gap:8px;align-items:center">
@@ -182,9 +198,9 @@ select.bad {
   <div class="card">
     <div class="card-header">
       <h3>상황 별 매트릭스</h3>
-      <div class="guideline-link" id="situation-guideline-link">
+      <button class="guideline-link" id="situation-guideline-link">
         <span>가이드라인</span>
-      </div>
+      </button>
     </div>
     <div class="controls" style="margin-bottom:8px;justify-content:space-between">
       <div>
@@ -200,9 +216,9 @@ select.bad {
   <div class="card">
     <div class="card-header">
       <h3>전술 매트릭스</h3>
-      <div class="guideline-link" id="tactics-guideline-link">
+      <button class="guideline-link" id="tactics-guideline-link">
         <span>가이드라인</span>
-      </div>
+      </button>
     </div>
     <div class="controls" style="margin-bottom:8px;justify-content:space-between">
       <div>
@@ -215,6 +231,7 @@ select.bad {
       <label style="color:var(--muted);font-size:13px">가중치 강도: </label>
       <input type="range" id="weight-scale" min="0" max="2" step="0.1" value="1" style="width:150px">
       <span id="weight-scale-value" style="color:var(--muted);font-size:13px">1.0</span>
+      <span style="color:var(--muted);font-size:12px;opacity:0.7">(0=완전 랜덤, 2=강한 가중치)</span>
     </div>
     <div id="tactics-list"></div>
     <p class="hint">전술 및 요충지 자동화는 상황 + 성격에 기반한 가중치 규칙을 따릅니다. 가중치 강도를 조절하여 영향을 제어할 수 있습니다。</p>
@@ -225,9 +242,9 @@ select.bad {
   <div class="card">
     <div class="card-header">
       <h3>요충지 선택 매트릭스</h3>
-      <div class="guideline-link" id="keypoint-guideline-link">
+      <button class="guideline-link" id="keypoint-guideline-link">
         <span>가이드라인</span>
-      </div>
+      </button>
     </div>
     <div class="controls" style="margin-bottom:8px;justify-content:space-between">
       <div>
@@ -255,26 +272,7 @@ select.bad {
 </footer>
 
 <!-- 기본 가이드라인 모달 -->
-<div id="guideline-modal" class="modal" style="
-  position: fixed;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  background: rgba(15, 30, 50, 0.98);
-  color: #e8f0fb;
-  padding: 24px;
-  border-radius: 12px;
-  border: 1px solid #1f6feb33;
-  box-shadow: 0 0 20px #1f6feb99;
-  font-weight: 700;
-  font-size: 16px;
-  display: none;
-  z-index: 1000;
-  text-align: left;
-  max-width: 90%;
-  max-height: 80vh;
-  overflow-y: auto;
-  white-space: normal;
-">
+<div id="guideline-modal" class="modal" role="dialog" aria-modal="true">
   <span class="modal-close" id="guideline-close">✕</span>
   <div class="modal-content">
     <h3>기본 가이드라인</h3>
@@ -297,26 +295,7 @@ select.bad {
 </div>
 
 <!-- 성격 가이드라인 모달 -->
-<div id="personality-guideline-modal" class="modal" style="
-  position: fixed;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  background: rgba(15, 30, 50, 0.98);
-  color: #e8f0fb;
-  padding: 24px;
-  border-radius: 12px;
-  border: 1px solid #1f6feb33;
-  box-shadow: 0 0 20px #1f6feb99;
-  font-weight: 700;
-  font-size: 16px;
-  display: none;
-  z-index: 1000;
-  text-align: left;
-  max-width: 90%;
-  max-height: 80vh;
-  overflow-y: auto;
-  white-space: normal;
-">
+<div id="personality-guideline-modal" class="modal" role="dialog" aria-modal="true">
   <span class="modal-close" id="personality-guideline-close">✕</span>
   <div class="modal-content">
     <h3>성격 가이드라인</h3>
@@ -334,26 +313,7 @@ select.bad {
 </div>
 
 <!-- 상황 가이드라인 모달 -->
-<div id="situation-guideline-modal" class="modal" style="
-  position: fixed;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  background: rgba(15, 30, 50, 0.98);
-  color: #e8f0fb;
-  padding: 24px;
-  border-radius: 12px;
-  border: 1px solid #1f6feb33;
-  box-shadow: 0 0 20px #1f6feb99;
-  font-weight: 700;
-  font-size: 16px;
-  display: none;
-  z-index: 1000;
-  text-align: left;
-  max-width: 90%;
-  max-height: 80vh;
-  overflow-y: auto;
-  white-space: normal;
-">
+<div id="situation-guideline-modal" class="modal" role="dialog" aria-modal="true">
   <span class="modal-close" id="situation-guideline-close">✕</span>
   <div class="modal-content">
     <h3>상황 가이드라인</h3>
@@ -371,26 +331,7 @@ select.bad {
 </div>
 
 <!-- 전술 가이드라인 모달 -->
-<div id="tactics-guideline-modal" class="modal" style="
-  position: fixed;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  background: rgba(15, 30, 50, 0.98);
-  color: #e8f0fb;
-  padding: 24px;
-  border-radius: 12px;
-  border: 1px solid #1f6feb33;
-  box-shadow: 0 0 20px #1f6feb99;
-  font-weight: 700;
-  font-size: 16px;
-  display: none;
-  z-index: 1000;
-  text-align: left;
-  max-width: 90%;
-  max-height: 80vh;
-  overflow-y: auto;
-  white-space: normal;
-">
+<div id="tactics-guideline-modal" class="modal" role="dialog" aria-modal="true">
   <span class="modal-close" id="tactics-guideline-close">✕</span>
   <div class="modal-content">
     <h3>전술 가이드라인</h3>
@@ -418,26 +359,7 @@ select.bad {
 </div>
 
 <!-- 요충지 가이드라인 모달 -->
-<div id="keypoint-guideline-modal" class="modal" style="
-  position: fixed;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  background: rgba(15, 30, 50, 0.98);
-  color: #e8f0fb;
-  padding: 24px;
-  border-radius: 12px;
-  border: 1px solid #1f6feb33;
-  box-shadow: 0 0 20px #1f6feb99;
-  font-weight: 700;
-  font-size: 16px;
-  display: none;
-  z-index: 1000;
-  text-align: left;
-  max-width: 90%;
-  max-height: 80vh;
-  overflow-y: auto;
-  white-space: normal;
-">
+<div id="keypoint-guideline-modal" class="modal" role="dialog" aria-modal="true">
   <span class="modal-close" id="keypoint-guideline-close">✕</span>
   <div class="modal-content">
     <h3>요충지 가이드라인</h3>
@@ -458,23 +380,7 @@ select.bad {
 </div>
 
 <!-- 플롯 트위스트 모달 -->
-<div id="plot-twist-modal" class="modal" style="
-  position: fixed;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  background: rgba(15, 30, 50, 0.95);
-  color: white;
-  padding: 16px 24px;
-  border-radius: 12px;
-  box-shadow: 0 0 15px #1f6febcc;
-  font-weight: 700;
-  font-size: 16px;
-  display: none;
-  z-index: 1000;
-  text-align: center;
-  max-width: 80%;
-  white-space: pre-line;
-">
+<div id="plot-twist-modal" class="modal plot-twist">
   <div id="plot-twist-title" style="font-size: 24px; font-weight: 900; margin-bottom: 8px;">상황이 바뀌었습니다!</div>
   <div id="plot-twist-message" style="font-size: 18px; margin-bottom: 6px;"></div>
   <div id="plot-twist-flavor" style="font-size: 14px; font-style: italic; color: #a0b9e9;"></div>
@@ -540,7 +446,7 @@ const questionMatrix = [
   ["아니야","맞아. 하지만...","맞아","맞아. 그리고...","맞아. 그리고...","맞아. 그리고..."],
   ["아니야. 하지만...","맞아. 하지만...","맞아. 하지만...","맞아","맞아. 하지만...","맞아. 하지만..."],
   ["아니야. 그리고...","아니야. 하지만...","맞아","맞아. 하지만...","맞아. 하지만...","맞아"],
-  ["아니야. 그리고...","아니야","맞아. 하지만...","맞아","맞아 아니야.","하지만..."],
+  ["아니야. 그리고...","아니야","맞아. 하지만...","맞아","아니야. 하지만...","맞아. 하지만..."],
   ["아니야. 그리고...","아니야. 그리고...","아니야","아니야. 하지만...","맞아","아니야. 하지만..."],
   ["아니야. 그리고...","아니야. 그리고...","아니야. 그리고...","아니야","아니야. 하지만...","아니야"],
   ["아니야. 그리고...","아니야. 그리고...","아니야. 그리고...","아니야. 그리고...","아니야. 하지만...","아니야. 하지만..."]
@@ -703,7 +609,7 @@ const keypointInfluence = {
 const plotTwistOptions = [
     "모든 성격을 재설정합니다",
     "성격 2개를 재설정합니다",
-    "상황 또는 성격 1개를 재설정합니다", // 이건 유지하지만 handle에서 상황 제외
+    "성격 1개를 재설정합니다",
     "전술 하나를 예상 밖으로 변경합니다",
     "요충지 우선순위 재설정"
 ];
@@ -732,7 +638,7 @@ const plotTwistFlavorTexts = {
     "예상 외 두 핵심 성향의 변화가 포착되었습니다。",
     "적군의 작전 특성이 두 곳에서 급격히 변하고 있습니다。",
   ],
-  "상황 또는 성격 1개를 재설정합니다": [
+  "성격 1개를 재설정합니다": [
     "적의 한 가지 전술적 상황이 변동되었습니다。",
     "전선 상황 중 한 요소가 갑자기 바뀌었습니다。",
     "적군 한 가지 성격 지표가 재설정되었습니다。",
@@ -846,7 +752,7 @@ function updateSituationUI(key) {
   if (el && el.tagName === 'SELECT') {
     const stage = situationState[key] ?? "-";
     el.value = stage;
-    el.className = (stage === "-" ? "val-0" : (stageScore[stage] >= 2 ? "good" : (stageScore[stage] <= -2 ? "bad" : "")));
+    el.className = "value " + (stage === "-" ? "val-0" : (stageScore[stage] >= 2 ? "good" : (stageScore[stage] <= -2 ? "bad" : "")));
   }
 }
 
@@ -855,7 +761,12 @@ function updateTacticUI(key) {
   const el = document.querySelector(selector);
   const val = tacticState[key] ?? "-";
   el.textContent = val;
-  el.className = "value " + (val === "-" ? "val-0" : "");
+  if (val === "-") { el.className = "value val-0"; return; }
+  const opts = tacticsMeta[key];
+  const idx = opts ? opts.indexOf(val) : -1;
+  if (idx >= 0 && idx <= 1) el.className = "value tactic-strong";
+  else if (idx >= opts.length - 2) el.className = "value tactic-weak";
+  else el.className = "value";
 }
 
 function updateKeypointUI() {
@@ -936,42 +847,6 @@ function randomizeTacticsAll() {
   }
 }
 
-// function randomizeKeypoint() {
-//   let choice;
-//   const scale = Number(document.getElementById('weight-scale').value);
-//   if (scale === 0) {
-//     choice = randChoice(keypointKeys);
-//     console.log(`randomizeKeypoint: scale=${scale}, choice=${choice}`);
-//   } else {
-//     let maxScore = -Infinity;
-//     let candidates = [];
-//     keypointKeys.forEach(kp => {
-//       const infl = keypointInfluence[kp];
-//       const score = scoreForInfluenceList(infl);
-//       if (score > maxScore) {
-//         maxScore = score;
-//         candidates = [kp];
-//       } else if (score === maxScore) {
-//         candidates.push(kp);
-//       }
-//       console.log(`randomizeKeypoint: kp=${kp}, scale=${scale}, score=${score}`);
-//     });
-//     choice = randChoice(candidates);
-//     console.log(`randomizeKeypoint: scale=${scale}, choice=${choice}, candidates=${candidates.join(',')}`);
-//   }
-//   keypointState.selected = choice;
-//   updateKeypointUI();
-//   if (Math.random() < 0.1) {
-//     const twist = randChoice(plotTwistOptions);
-//     const flavorList = plotTwistFlavorTexts[twist] || [""];
-//     const flavorText = randChoice(flavorList);
-//     console.log(`PlotTwist: twist=${twist}, flavorText=${flavorText}`);
-//     showPlotTwistModal(twist, flavorText);
-//     handlePlotTwist(twist);
-//     Object.keys(tacticsMeta).forEach(k => updateTacticUI(k));
-//     updateKeypointUI();
-//   }
-// }
 function randomizeKeypoint() {
     let choice;
     const scale = Number(document.getElementById('weight-scale').value);
@@ -1000,13 +875,6 @@ function randomizeKeypoint() {
           break;
         }
       }
-      // 상위 점수 외 선택 가능성 (25%)
-      if (Math.random() < 0.25) {
-        const lowerChoices = scores.filter(s => s.score < Math.max(...scores.map(s => s.score))).map(s => s.keypoint);
-        if (lowerChoices.length > 0) {
-          choice = randChoice(lowerChoices);
-        }
-      }
       // 디버깅 로그
       console.log(`randomizeKeypoint: scale=${scale}, scores=${JSON.stringify(scores)}, probabilities=${probabilities.map(p => p.toFixed(3)).join(',')}, choice=${choice}`);
     }
@@ -1021,10 +889,16 @@ function randomizeKeypoint() {
       return { keypoint: kp, score: scoreForInfluenceList(infl) };
     }).sort((a, b) => b.score - a.score);
     const maxScore = Math.max(...scores.map(s => s.score));
-    const tooltipText = scores.slice(0, 3).map(s => `${s.keypoint}: ${maxScore > 0 ? (s.score / maxScore * 100).toFixed(1) : 0}%`).join('<br>');
-    el.innerHTML = `<span>${choice}</span><span class="tooltiptext">${tooltipText}</span>`;
+    el.textContent = '';
+    const choiceSpan = document.createElement('span');
+    choiceSpan.textContent = choice;
+    const tooltipSpan = document.createElement('span');
+    tooltipSpan.className = 'tooltiptext';
+    tooltipSpan.textContent = scores.slice(0, 3).map(s => `${s.keypoint}: ${maxScore > 0 ? (s.score / maxScore * 100).toFixed(1) : 0}%`).join('\n');
+    el.appendChild(choiceSpan);
+    el.appendChild(tooltipSpan);
     // 플롯 트위스트
-    if (Math.random() < 0.1) {
+    if (Math.random() < 0.05) {
       const twist = randChoice(plotTwistOptions);
       const flavorList = plotTwistFlavorTexts[twist] || [""];
       const flavorText = randChoice(flavorList);
@@ -1068,10 +942,12 @@ function pickIndexFromScore(score) {
   else if (score >= -3) baseIdx = 4;
   else if (score >= -6) baseIdx = 5;
   else baseIdx = 6;
-  let candidates = [baseIdx];
-  if (baseIdx > 0) candidates.unshift(baseIdx - 1);
-  if (baseIdx < 6) candidates.push(baseIdx + 1);
-  return randChoice(candidates);
+  const r = Math.random();
+  if (baseIdx === 0) return r < 0.75 ? 0 : 1;
+  if (baseIdx === 6) return r < 0.75 ? 6 : 5;
+  if (r < 0.6) return baseIdx;
+  if (r < 0.8) return baseIdx - 1;
+  return baseIdx + 1;
 }
 
 function autoGenerateSituations() {
@@ -1088,9 +964,9 @@ function autoGenerateSituations() {
     if (sum >= 5) candidates = [0, 1];
     else if (sum >= 3) candidates = [1, 2];
     else if (sum >= 1) candidates = [2, 3];
-    else if (sum >= -1) candidates = [2, 3];
+    else if (sum >= -1) candidates = [3, 4];
     else if (sum >= -3) candidates = [4, 5];
-    else if (sum >= -5) candidates = [4, 5];
+    else if (sum >= -5) candidates = [5, 6];
     else candidates = [5, 6];
     const choiceIdx = candidates[Math.floor(Math.random() * candidates.length)];
     const stage = COMMON_7[choiceIdx];
@@ -1139,7 +1015,7 @@ function pickTactic(tac) {
   }
   tacticState[tac] = choice;
   updateTacticUI(tac);
-  if (Math.random() < 0.25) {
+  if (Math.random() < 0.08) {
     const twist = randChoice(plotTwistOptions);
     const flavorList = plotTwistFlavorTexts[twist] || [""];
     const flavorText = randChoice(flavorList);
@@ -1158,15 +1034,14 @@ function handlePlotTwist(choice) {
       if (document.getElementById('auto-select').checked) autoGenerateAll();
       break;
     case "성격 2개를 재설정합니다":
+      const shuffled = [...personalityKeys].sort(() => Math.random() - 0.5);
       for (let i = 0; i < 2; i++) {
-        const p = randChoice(personalityKeys);
-        personState[p] = randChoice(COMMON_7);
-        updatePersonUI(p);
+        personState[shuffled[i]] = randChoice(COMMON_7);
+        updatePersonUI(shuffled[i]);
       }
       if (document.getElementById('auto-select').checked) autoGenerateAll();
       break;
-    case "상황 또는 성격 1개를 재설정합니다":
-      // 상황 제외, 성격만 재설정
+    case "성격 1개를 재설정합니다":
       const p = randChoice(personalityKeys);
       personState[p] = randChoice(COMMON_7);
       updatePersonUI(p);
@@ -1191,12 +1066,15 @@ function autoGenerateAll() {
 function showModal(modalId) {
   const modal = document.getElementById(modalId);
   modal.style.display = 'block';
-  const closeModalOnClick = () => {
+  const closeModal = () => {
     modal.style.display = 'none';
-    document.removeEventListener('click', closeModalOnClick);
+    document.removeEventListener('click', closeModal);
+    document.removeEventListener('keydown', onEsc);
   };
+  const onEsc = (e) => { if (e.key === 'Escape') closeModal(); };
   setTimeout(() => {
-    document.addEventListener('click', closeModalOnClick);
+    document.addEventListener('click', closeModal);
+    document.addEventListener('keydown', onEsc);
   }, 0);
 }
 
@@ -1237,7 +1115,7 @@ document.getElementById('randomize-all-situations').addEventListener('click', ()
 });
 document.getElementById('reset-situations').addEventListener('click', () => {
   situationState = {};
-  document.querySelectorAll('#situations-list .value').forEach(v => { v.textContent = "-"; v.className = "value val-0"; });
+  document.querySelectorAll('#situations-list select').forEach(v => { v.value = "-"; v.className = "value val-0"; });
 });
 document.getElementById('randomize-all-tactics').addEventListener('click', () => {
   randomizeTacticsAll();
@@ -1290,16 +1168,6 @@ function attachInitialValues() {
 }
 attachInitialValues();
 
-(function setDataKeys() {
-  const pvals = pContainer.querySelectorAll('.value');
-  pvals.forEach((el, i) => el.dataset.key = personalityKeys[i]);
-  const svals = sContainer.querySelectorAll('.value');
-  svals.forEach((el, i) => el.dataset.key = situationKeys[i]);
-  const tvals = tContainer.querySelectorAll('.value');
-  Object.keys(tacticsMeta).forEach((k, i) => tvals[i] && (tvals[i].dataset.key = k));
-  const kvals = kContainer.querySelectorAll('.value');
-  kvals.forEach((el, i) => el.dataset.key = "selected-keypoint");
-})();
 
 document.getElementById('weight-scale').addEventListener('input', (e) => {
   document.getElementById('weight-scale-value').textContent = e.target.value;
