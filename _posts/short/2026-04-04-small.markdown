@@ -1,0 +1,19 @@
+---
+layout: post
+title: "기대 안했던 게임이 갑자기 재밌을 때"
+date: 2026-04-04 00:00:00
+preview: /photo/260404_small_thumb.jpg
+published: true
+short: "on"
+---
+
+
+
+<img src="/photo/260404_small1.PNG" width="1000">
+<img src="/photo/260404_small2.PNG" width="1000">
+<img src="/photo/260404_small3.PNG" width="1000">
+<img src="/photo/260404_small4.PNG" width="1000">
+<img src="/photo/260404_small5.PNG" width="1000">
+
+
+횡설수설하긴했는데 엄청 간단한 게임이 기대 이상으로 재밌어서 다른 작은 게임들에 관심이 갔다 뭐 이런 얘기입니다 흥
