@@ -43,8 +43,8 @@ DOWNLOADS_DIR = os.path.expanduser('~/Downloads')
 
 # ── 헬퍼 함수 ─────────────────────────────────────────────────────────────────
 def is_thumb(filename: str) -> bool:
-    """파일명에 'thumb'가 포함되어 있으면 썸네일로 판단"""
-    return 'thumb' in os.path.splitext(filename)[0].lower()
+    """파일명(확장자 제외)이 'thumb'으로 끝나면 썸네일로 판단 (예: image_thumb.jpg)"""
+    return os.path.splitext(filename)[0].lower().endswith('thumb')
 
 
 def sort_key(filename: str):
@@ -107,14 +107,14 @@ def process_files(filenames: list, downloads_dir: str, photo_dir: str):
 
         basename = os.path.basename(src)
         dest = os.path.join(photo_dir, basename)
-        shutil.copy2(src, dest)
+        shutil.move(src, dest)
 
         if is_thumb(basename):
             thumb_web = f'/photo/{basename}'
-            print(f'  썸네일 복사: {basename} → /photo/')
+            print(f'  썸네일 이동: {basename} → /photo/')
         else:
             content_files.append(basename)
-            print(f'  이미지 복사: {basename} → /photo/')
+            print(f'  이미지 이동: {basename} → /photo/')
 
     # 숫자 순서로 정렬
     content_files.sort(key=sort_key)
