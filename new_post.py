@@ -43,9 +43,9 @@ DOWNLOADS_DIR = os.path.expanduser('~/Downloads')
 
 # ── 헬퍼 함수 ─────────────────────────────────────────────────────────────────
 def is_thumb(filename: str) -> bool:
-    """파일명(확장자 제외)이 'thumb'으로 끝나면 썸네일로 판단 (예: image_thumb.jpg, thumb.jpg)"""
-    name_part = os.path.splitext(filename)[0].lower()
-    return name_part.endswith('thumb')
+    """파일명(확장자 제외)이 'thumb'으로 끝나면 썸네일로 판단 (예: 260404_small_thumb.jpg)"""
+    name_without_ext = os.path.splitext(filename)[0].lower()
+    return name_without_ext.endswith('thumb')
 
 
 def sort_key(filename: str):
@@ -102,13 +102,20 @@ def process_files(filenames: list, downloads_dir: str, photo_dir: str):
         else:
             src = os.path.join(downloads_dir, fname)
 
-        if not os.path.exists(src):
-            print(f'  [WARN] 파일 없음: {src}')
-            continue
-
         basename = os.path.basename(src)
         dest = os.path.join(photo_dir, basename)
-        shutil.move(src, dest)
+
+        # 파일이 소스(Downloads)에 없으면 이미 목적지(photo)에 있는지 확인
+        if not os.path.exists(src):
+            if os.path.exists(dest):
+                src = dest
+            else:
+                print(f'  [WARN] 파일 없음: {src}')
+                continue
+
+        # 경로가 다를 때만 파일 이동 (이미 photo 폴더에 있으면 생략)
+        if os.path.abspath(src) != os.path.abspath(dest):
+            shutil.move(src, dest)
 
         if is_thumb(basename):
             thumb_web = f'/photo/{basename}'
