@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>블로그 업로더</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #f0f2f5;
+    color: #1a1a1a;
+    min-height: 100vh;
+  }
+
+  header {
+    background: #1a1a1a;
+    color: #fff;
+    padding: 16px 32px;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  header span { font-size: 22px; }
+
+  .container {
+    max-width: 1100px;
+    margin: 32px auto;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  /* ── 카드 ── */
+  .card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 24px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.08);
+  }
+  .card h2 {
+    font-size: 15px;
+    font-weight: 700;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    margin-bottom: 18px;
+  }
+
+  /* ── 폼 필드 ── */
+  .field { margin-bottom: 16px; }
+  .field label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 6px;
+  }
+  .field input,
+  .field select,
+  .field textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1.5px solid #e2e5ea;
+    border-radius: 8px;
+    font-size: 15px;
+    font-family: inherit;
+    background: #fafafa;
+    transition: border-color .15s, background .15s;
+    color: #1a1a1a;
+  }
+  .field input:focus,
+  .field select:focus,
+  .field textarea:focus {
+    outline: none;
+    border-color: #1a1a1a;
+    background: #fff;
+  }
+  .field textarea { resize: vertical; min-height: 110px; }
+
+  /* 카테고리 라디오 */
+  .cat-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .cat-btn {
+    padding: 7px 16px;
+    border: 1.5px solid #e2e5ea;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    background: #fafafa;
+    color: #555;
+    transition: all .15s;
+    user-select: none;
+  }
+  .cat-btn:hover { border-color: #aaa; color: #1a1a1a; }
+  .cat-btn.active {
+    background: #1a1a1a;
+    border-color: #1a1a1a;
+    color: #fff;
+  }
+
+  /* ── 이미지 그리드 ── */
+  .img-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 8px;
+    max-height: 440px;
+    overflow-y: auto;
+    padding: 2px;
+  }
+  .img-tile {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2.5px solid transparent;
+    background: #f0f2f5;
+    transition: border-color .12s, transform .1s;
+    aspect-ratio: 1;
+  }
+  .img-tile:hover { transform: scale(1.03); }
+  .img-tile img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .img-tile .fname {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    background: rgba(0,0,0,.55);
+    color: #fff;
+    font-size: 9px;
+    padding: 3px 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .img-tile .badge {
+    position: absolute;
+    top: 5px; right: 5px;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: #1a1a1a;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    display: none;
+    align-items: center;
+    justify-content: center;
+  }
+  .img-tile.selected {
+    border-color: #1a1a1a;
+  }
+  .img-tile.selected .badge { display: flex; }
+  .img-tile.is-thumb.selected { border-color: #f59e0b; }
+  .img-tile.is-thumb.selected .badge {
+    background: #f59e0b;
+    font-size: 9px;
+  }
+
+  .img-hint {
+    font-size: 12px;
+    color: #999;
+    margin-bottom: 12px;
+    line-height: 1.5;
+  }
+  .img-hint b { color: #f59e0b; }
+  .img-hint i { color: #1a1a1a; font-style: normal; font-weight: 600; }
+
+  /* 선택된 파일 목록 */
+  .selected-list {
+    margin-top: 14px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 10px 14px;
+    min-height: 36px;
+    font-size: 12px;
+    color: #555;
+    line-height: 1.8;
+  }
+  .selected-list .empty { color: #bbb; }
+  .sel-item { display: inline-flex; align-items: center; gap: 4px; margin-right: 6px; }
+  .sel-item .dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: #1a1a1a;
+    flex-shrink: 0;
+  }
+  .sel-item.thumb .dot { background: #f59e0b; }
+
+  /* ── 하단 액션 바 ── */
+  .action-bar {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: #fff;
+    border-radius: 14px;
+    padding: 18px 24px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.08);
+  }
+  .btn-submit {
+    padding: 12px 36px;
+    background: #1a1a1a;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background .15s, transform .1s;
+    letter-spacing: -.2px;
+  }
+  .btn-submit:hover:not(:disabled) { background: #333; transform: translateY(-1px); }
+  .btn-submit:disabled { background: #aaa; cursor: not-allowed; }
+
+  .no-push-wrap {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: #666;
+    cursor: pointer;
+    user-select: none;
+  }
+  .no-push-wrap input { width: auto; cursor: pointer; }
+
+  .status-msg {
+    flex: 1;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 8px 14px;
+    border-radius: 8px;
+    display: none;
+  }
+  .status-msg.ok  { background: #d1fae5; color: #065f46; display: block; }
+  .status-msg.err { background: #fee2e2; color: #991b1b; display: block; }
+  .status-msg.ing { background: #e0e7ff; color: #3730a3; display: block; }
+
+  /* reload 버튼 */
+  .reload-btn {
+    font-size: 12px;
+    background: none;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 4px 10px;
+    cursor: pointer;
+    color: #666;
+    margin-left: auto;
+  }
+  .reload-btn:hover { background: #f0f0f0; }
+</style>
+</head>
+<body>
+
+<header>
+  <span>✏️</span> 블로그 포스트 업로더
+</header>
+
+<div class="container">
+
+  <!-- ── 왼쪽: 포스트 정보 ── -->
+  <div class="card">
+    <h2>포스트 정보</h2>
+
+    <div class="field">
+      <label>카테고리</label>
+      <div class="cat-group" id="catGroup">
+        <div class="cat-btn active" data-val="short">short</div>
+        <div class="cat-btn" data-val="long">long</div>
+        <div class="cat-btn" data-val="notitles">notitles</div>
+        <div class="cat-btn" data-val="rules">rules</div>
+        <div class="cat-btn" data-val="aar">aar</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>제목</label>
+      <input id="title" type="text" placeholder="포스트 제목">
+    </div>
+
+    <div class="field">
+      <label>슬러그 <small style="color:#aaa;font-weight:400;">(URL에 들어갈 영문)</small></label>
+      <input id="slug" type="text" placeholder="my-post">
+    </div>
+
+    <div class="field">
+      <label>날짜</label>
+      <input id="date" type="date">
+    </div>
+
+    <div class="field">
+      <label>본문</label>
+      <textarea id="content" placeholder="포스트 내용을 입력하세요..."></textarea>
+    </div>
+  </div>
+
+  <!-- ── 오른쪽: 이미지 선택 ── -->
+  <div class="card">
+    <h2>이미지 선택 <button class="reload-btn" onclick="loadImages()">↺ 새로고침</button></h2>
+
+    <p class="img-hint">
+      <b>■</b> 노란 테두리 = 썸네일 (<code>thumb</code> 포함된 파일명)<br>
+      <i>■</i> 검은 테두리 = 본문 이미지 (번호 순서대로 삽입)
+    </p>
+
+    <div class="img-grid" id="imgGrid">
+      <p style="color:#bbb; font-size:13px; grid-column:1/-1; padding:20px 0;">
+        이미지 로딩 중...
+      </p>
+    </div>
+
+    <div class="selected-list" id="selectedList">
+      <span class="empty">선택된 이미지 없음</span>
+    </div>
+  </div>
+
+  <!-- ── 하단 액션 바 ── -->
+  <div class="action-bar">
+    <button class="btn-submit" id="submitBtn" onclick="submitPost()">🚀 업로드</button>
+    <label class="no-push-wrap">
+      <input type="checkbox" id="noPush"> push 없이 커밋만
+    </label>
+    <div class="status-msg" id="statusMsg"></div>
+  </div>
+
+</div>
+
+<script>
+// ── 상태 ──────────────────────────────────────────────────────────────────────
+let selectedFiles = [];   // 선택 순서대로
+let category = 'short';
+
+// ── 초기화 ────────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  // 오늘 날짜 세팅
+  document.getElementById('date').value = new Date().toISOString().split('T')[0];
+  loadImages();
+  initCat();
+  initSlugSync();
+});
+
+// ── 카테고리 버튼 ─────────────────────────────────────────────────────────────
+function initCat() {
+  document.querySelectorAll('.cat-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      category = btn.dataset.val;
+    });
+  });
+}
+
+// ── 슬러그 자동 생성 (영문/숫자만 소문자화) ────────────────────────────────────
+function initSlugSync() {
+  document.getElementById('slug').addEventListener('input', e => {
+    // 직접 입력 시 자동변환 안 함
+  });
+}
+
+// ── 이미지 로드 ───────────────────────────────────────────────────────────────
+async function loadImages() {
+  const grid = document.getElementById('imgGrid');
+  grid.innerHTML = '<p style="color:#bbb;font-size:13px;grid-column:1/-1;padding:20px 0;">로딩 중...</p>';
+  selectedFiles = [];
+  renderSelectedList();
+
+  try {
+    const res  = await fetch('/api/images');
+    const list = await res.json();
+    grid.innerHTML = '';
+
+    if (!list.length) {
+      grid.innerHTML = '<p style="color:#bbb;font-size:13px;grid-column:1/-1;padding:20px 0;">Downloads에 이미지 없음</p>';
+      return;
+    }
+
+    list.forEach(fname => {
+      const isThumb = /thumb/i.test(fname.replace(/\.[^.]+$/, ''));
+      const tile = document.createElement('div');
+      tile.className = 'img-tile' + (isThumb ? ' is-thumb' : '');
+      tile.dataset.fname = fname;
+
+      tile.innerHTML = `
+        <img src="/dl/${encodeURIComponent(fname)}" loading="lazy"
+             onerror="this.style.display='none'">
+        <div class="fname">${fname}</div>
+        <div class="badge">${isThumb ? '★' : '?'}</div>
+      `;
+      tile.addEventListener('click', () => toggleFile(tile, fname));
+      grid.appendChild(tile);
+    });
+  } catch(e) {
+    grid.innerHTML = '<p style="color:#e55;font-size:13px;grid-column:1/-1;">서버 연결 실패</p>';
+  }
+}
+
+// ── 파일 선택/해제 ────────────────────────────────────────────────────────────
+function toggleFile(tile, fname) {
+  const idx = selectedFiles.indexOf(fname);
+  if (idx >= 0) {
+    selectedFiles.splice(idx, 1);
+    tile.classList.remove('selected');
+  } else {
+    selectedFiles.push(fname);
+    tile.classList.add('selected');
+  }
+  refreshBadges();
+  renderSelectedList();
+}
+
+function refreshBadges() {
+  // 선택된 타일의 번호 배지 업데이트
+  const thumbFiles = selectedFiles.filter(f => /thumb/i.test(f.replace(/\.[^.]+$/, '')));
+  const contentFiles = selectedFiles.filter(f => !/thumb/i.test(f.replace(/\.[^.]+$/, '')));
+
+  document.querySelectorAll('.img-tile.selected').forEach(tile => {
+    const fname = tile.dataset.fname;
+    const badge = tile.querySelector('.badge');
+    const isThumb = /thumb/i.test(fname.replace(/\.[^.]+$/, ''));
+    if (isThumb) {
+      badge.textContent = '★';
+    } else {
+      const num = contentFiles.indexOf(fname) + 1;
+      badge.textContent = num > 0 ? num : '';
+    }
+  });
+}
+
+function renderSelectedList() {
+  const el = document.getElementById('selectedList');
+  if (!selectedFiles.length) {
+    el.innerHTML = '<span class="empty">선택된 이미지 없음</span>';
+    return;
+  }
+
+  const thumbFiles   = selectedFiles.filter(f => /thumb/i.test(f.replace(/\.[^.]+$/, '')));
+  const contentFiles = selectedFiles.filter(f => !/thumb/i.test(f.replace(/\.[^.]+$/, '')));
+
+  let html = '';
+  thumbFiles.forEach(f => {
+    html += `<span class="sel-item thumb"><span class="dot"></span>${f}</span>`;
+  });
+  contentFiles.forEach((f, i) => {
+    html += `<span class="sel-item"><span class="dot"></span>${i+1}. ${f}</span>`;
+  });
+  el.innerHTML = html;
+}
+
+// ── 업로드 ────────────────────────────────────────────────────────────────────
+async function submitPost() {
+  const title   = document.getElementById('title').value.trim();
+  const slug    = document.getElementById('slug').value.trim();
+  const date    = document.getElementById('date').value;
+  const content = document.getElementById('content').value.trim();
+  const noPush  = document.getElementById('noPush').checked;
+  const msg     = document.getElementById('statusMsg');
+  const btn     = document.getElementById('submitBtn');
+
+  // 유효성
+  if (!title) return showMsg('제목을 입력해주세요.', 'err');
+  if (!slug)  return showMsg('슬러그를 입력해주세요.', 'err');
+  if (!selectedFiles.length && !content)
+    return showMsg('이미지 또는 내용을 입력해주세요.', 'err');
+
+  btn.disabled = true;
+  showMsg('업로드 중...', 'ing');
+
+  try {
+    const res = await fetch('/api/create', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ title, category, slug, date, content,
+                             files: selectedFiles, no_push: noPush }),
+    });
+    const data = await res.json();
+
+    if (data.ok) {
+      showMsg(`✓ 완료! ${noPush ? '커밋만' : '커밋 + 푸시'} 성공`, 'ok');
+      // 초기화
+      document.getElementById('title').value   = '';
+      document.getElementById('slug').value    = '';
+      document.getElementById('content').value = '';
+      selectedFiles = [];
+      document.querySelectorAll('.img-tile.selected')
+        .forEach(t => t.classList.remove('selected'));
+      renderSelectedList();
+    } else {
+      showMsg(`오류: ${data.error}`, 'err');
+    }
+  } catch(e) {
+    showMsg(`서버 오류: ${e.message}`, 'err');
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+function showMsg(text, type) {
+  const el = document.getElementById('statusMsg');
+  el.textContent = text;
+  el.className   = `status-msg ${type}`;
+}
+</script>
+</body>
+</html>
