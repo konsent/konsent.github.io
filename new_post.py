@@ -43,8 +43,9 @@ DOWNLOADS_DIR = os.path.expanduser('~/Downloads')
 
 # ── 헬퍼 함수 ─────────────────────────────────────────────────────────────────
 def is_thumb(filename: str) -> bool:
-    """파일명(확장자 제외)이 'thumb'으로 끝나면 썸네일로 판단 (예: image_thumb.jpg)"""
-    return os.path.splitext(filename)[0].lower().endswith('thumb')
+    """파일명(확장자 제외)이 'thumb'으로 끝나면 썸네일로 판단 (예: image_thumb.jpg, thumb.jpg)"""
+    name_part = os.path.splitext(filename)[0].lower()
+    return name_part.endswith('thumb')
 
 
 def sort_key(filename: str):
