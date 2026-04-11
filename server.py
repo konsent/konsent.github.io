@@ -64,6 +64,7 @@ def api_create():
             slug=data['slug'].strip(),
             filenames=data.get('files', []),
             content=data.get('content', '').strip(),
+            links=data.get('links', []),
             date=date,
             no_push=data.get('no_push', False),
         )

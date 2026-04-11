@@ -137,7 +137,7 @@ def process_files(filenames: list, downloads_dir: str, photo_dir: str):
 
 
 def create_post(title, category, slug, filenames, content='',
-                date=None, downloads_dir=DOWNLOADS_DIR, no_push=False):
+                date=None, downloads_dir=DOWNLOADS_DIR, no_push=False, links=None):
     if date is None:
         date = datetime.now()
 
@@ -158,6 +158,13 @@ def create_post(title, category, slug, filenames, content='',
         body += '\n\n'
     if content:
         body += content.strip() + '\n'
+
+    if links:
+        link_lines = [f'- [{l["name"]}]({l["url"]})' for l in links if l.get('name') and l.get('url')]
+        if link_lines:
+            if content:
+                body += '\n'
+            body += '\n'.join(link_lines) + '\n'
 
     folder = CATEGORIES[category]['folder']
     posts_dir = os.path.join(repo_root, '_posts', folder)

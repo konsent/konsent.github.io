@@ -259,6 +259,44 @@
     margin-left: auto;
   }
   .reload-btn:hover { background: #f0f0f0; }
+
+  /* ── 링크 섹션 ── */
+  .link-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .link-row input { flex: 1; }
+  .link-row input.link-name { flex: 0 0 140px; }
+  .btn-del-link {
+    flex-shrink: 0;
+    width: 30px; height: 30px;
+    border: 1.5px solid #e2e5ea;
+    border-radius: 6px;
+    background: #fafafa;
+    color: #999;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all .15s;
+    line-height: 1;
+  }
+  .btn-del-link:hover { border-color: #e55; color: #e55; background: #fff0f0; }
+  .btn-add-link {
+    margin-top: 4px;
+    padding: 6px 14px;
+    border: 1.5px dashed #ccc;
+    border-radius: 8px;
+    background: none;
+    color: #888;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    transition: all .15s;
+  }
+  .btn-add-link:hover { border-color: #1a1a1a; color: #1a1a1a; background: #fafafa; }
 </style>
 </head>
 <body>
@@ -303,6 +341,12 @@
       <label>본문</label>
       <textarea id="content" placeholder="포스트 내용을 입력하세요..."></textarea>
     </div>
+
+    <div class="field">
+      <label>링크 / 첨부파일</label>
+      <div id="linkRows"></div>
+      <button class="btn-add-link" type="button" onclick="addLinkRow()">+ 링크 추가</button>
+    </div>
   </div>
 
   <!-- ── 오른쪽: 이미지 선택 ── -->
@@ -341,6 +385,45 @@
 let selectedFiles = [];   // 선택 순서대로
 let category = 'short';
 
+// ── 링크 행 관리 ──────────────────────────────────────────────────────────────
+function addLinkRow(name = '', url = '') {
+  const container = document.getElementById('linkRows');
+  const row = document.createElement('div');
+  row.className = 'link-row';
+  row.innerHTML = `
+    <input class="link-name" type="text" placeholder="링크 이름" value="${escAttr(name)}">
+    <input class="link-url"  type="text" placeholder="경로 또는 URL" value="${escAttr(url)}">
+    <button class="btn-del-link" type="button" title="삭제" onclick="delLinkRow(this)">×</button>
+  `;
+  container.appendChild(row);
+}
+
+function delLinkRow(btn) {
+  const container = document.getElementById('linkRows');
+  const row = btn.closest('.link-row');
+  if (container.children.length <= 1) {
+    // 마지막 행은 내용만 지움
+    row.querySelectorAll('input').forEach(i => i.value = '');
+  } else {
+    row.remove();
+  }
+}
+
+function getLinks() {
+  const rows = document.querySelectorAll('#linkRows .link-row');
+  const result = [];
+  rows.forEach(row => {
+    const name = row.querySelector('.link-name').value.trim();
+    const url  = row.querySelector('.link-url').value.trim();
+    if (name || url) result.push({ name, url });
+  });
+  return result;
+}
+
+function escAttr(str) {
+  return str.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
 // ── 초기화 ────────────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   // 오늘 날짜 세팅
@@ -348,6 +431,7 @@ document.addEventListener('DOMContentLoaded', () => {
   loadImages();
   initCat();
   initSlugSync();
+  addLinkRow();
 });
 
 // ── 카테고리 버튼 ─────────────────────────────────────────────────────────────
@@ -481,7 +565,8 @@ async function submitPost() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ title, category, slug, date, content,
-                             files: selectedFiles, no_push: noPush }),
+                             files: selectedFiles, no_push: noPush,
+                             links: getLinks() }),
     });
     const data = await res.json();
 
@@ -491,6 +576,8 @@ async function submitPost() {
       document.getElementById('title').value   = '';
       document.getElementById('slug').value    = '';
       document.getElementById('content').value = '';
+      document.getElementById('linkRows').innerHTML = '';
+      addLinkRow();
       selectedFiles = [];
       document.querySelectorAll('.img-tile.selected')
         .forEach(t => t.classList.remove('selected'));
