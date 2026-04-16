@@ -60,3 +60,4 @@ new_post.py: error: the following arguments are required: --title, --category, -
 127.0.0.1 - - [16/Apr/2026 23:26:11] "POST /api/create HTTP/1.1" 200 -
 127.0.0.1 - - [16/Apr/2026 23:26:12] "POST /api/create HTTP/1.1" 200 -
 127.0.0.1 - - [16/Apr/2026 23:26:13] "POST /api/create HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2026 23:26:13] "POST /api/create HTTP/1.1" 200 -
