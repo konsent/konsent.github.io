@@ -1,0 +1,15 @@
+---
+layout: post
+title: "아아 요새 보드게임이 손에 잘 안잡혀요"
+date: 2026-04-16 00:00:00
+preview: /photo/260416_boring_thumb.jpg
+published: true
+short: "on"
+---
+
+<img src="/photo/260416_boring1.PNG" width="1000">
+<img src="/photo/260416_boring2.PNG" width="1000">
+
+아 이럴 때는 가슴이 뛰는 게임을 지르면 낫는데...
+
+집에 있는 게임하면 되는데!! 왜!!
