@@ -51,3 +51,9 @@
 127.0.0.1 - - [16/Apr/2026 23:24:57] "POST /api/create HTTP/1.1" 200 -
 127.0.0.1 - - [16/Apr/2026 23:25:00] "POST /api/create HTTP/1.1" 200 -
 127.0.0.1 - - [16/Apr/2026 23:25:02] "POST /api/create HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2026 23:25:03] "POST /api/create HTTP/1.1" 200 -
+usage: new_post.py [-h] --title TITLE --category
+                   {short,long,rules,notitles,aar} --slug SLUG
+                   [--files FILES [FILES ...]] [--downloads-dir DOWNLOADS_DIR]
+                   [--content CONTENT] [--date DATE] [--no-push]
+new_post.py: error: the following arguments are required: --title, --category, --slug
