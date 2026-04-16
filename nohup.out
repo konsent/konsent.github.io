@@ -64,3 +64,12 @@ new_post.py: error: the following arguments are required: --title, --category, -
 127.0.0.1 - - [16/Apr/2026 23:26:13] "POST /api/create HTTP/1.1" 200 -
 127.0.0.1 - - [16/Apr/2026 23:26:14] "POST /api/create HTTP/1.1" 200 -
 127.0.0.1 - - [16/Apr/2026 23:26:24] "POST /api/create HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2026 23:26:25] "POST /api/create HTTP/1.1" 200 -
+
+  블로그 업로더 실행 중
+  → http://localhost:5555
+
+ * Serving Flask app 'server'
+ * Debug mode: off
+Address already in use
+Port 5555 is in use by another program. Either identify and stop that program, or start the server with a different port.
