@@ -73,3 +73,4 @@ new_post.py: error: the following arguments are required: --title, --category, -
  * Debug mode: off
 Address already in use
 Port 5555 is in use by another program. Either identify and stop that program, or start the server with a different port.
+127.0.0.1 - - [16/Apr/2026 23:26:43] "POST /api/create HTTP/1.1" 200 -
