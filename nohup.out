@@ -94,3 +94,17 @@ Port 5555 is in use by another program. Either identify and stop that program, o
 127.0.0.1 - - [16/Apr/2026 23:33:51] "POST /api/create HTTP/1.1" 200 -
 127.0.0.1 - - [16/Apr/2026 23:33:51] "POST /api/create HTTP/1.1" 200 -
 127.0.0.1 - - [16/Apr/2026 23:33:52] "GET /api/images HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2026 23:33:56] "POST /api/create HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2026 23:33:59] "GET /api/images HTTP/1.1" 200 -
+
+  블로그 업로더 실행 중
+  → http://localhost:5555
+
+ * Serving Flask app 'server'
+ * Debug mode: off
+[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5555
+[33mPress CTRL+C to quit[0m
+127.0.0.1 - - [16/Apr/2026 23:35:32] "GET /api/images HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2026 23:35:32] "GET /api/images HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2026 23:35:33] "GET /api/images HTTP/1.1" 200 -
