@@ -1,0 +1,13 @@
+---
+layout: post
+title: "아마 우리는 이 게임을 플레이하지 않을 것이다."
+date: 2026-04-17 00:00:00
+preview: /photo/260418_pawn_thumb.jpg
+published: true
+short: "on"
+---
+
+<img src="/photo/260418_pawn1.PNG" width="1000">
+<img src="/photo/260418_pawn2.PNG" width="1000">
+
+중고거래가 아니라 사실상 상호 전당포 관계

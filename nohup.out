@@ -113,3 +113,14 @@ Port 5555 is in use by another program. Either identify and stop that program, o
 127.0.0.1 - - [16/Apr/2026 23:37:55] "[36mGET /dl/260416_boring_thumb.jpg HTTP/1.1[0m" 304 -
 127.0.0.1 - - [16/Apr/2026 23:37:55] "[36mGET /dl/260416_boring1.PNG HTTP/1.1[0m" 304 -
 127.0.0.1 - - [16/Apr/2026 23:37:55] "[36mGET /dl/260416_boring2.PNG HTTP/1.1[0m" 304 -
+127.0.0.1 - - [16/Apr/2026 23:38:23] "POST /api/create HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 00:55:54] "[36mGET / HTTP/1.1[0m" 304 -
+127.0.0.1 - - [18/Apr/2026 00:55:54] "GET /api/images HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 00:55:54] "GET /dl/IMG_3006.PNG HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 00:55:54] "GET /dl/IMG_3005.PNG HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 00:55:54] "GET /dl/IMG_3007.jpg HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 00:55:54] "GET /dl/IMG_2991.PNG HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 00:56:47] "GET /api/images HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 00:56:47] "GET /dl/260418_pawn_thumb.jpg HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 00:56:47] "GET /dl/260418_pawn1.PNG HTTP/1.1" 200 -
+127.0.0.1 - - [18/Apr/2026 00:56:47] "GET /dl/260418_pawn2.PNG HTTP/1.1" 200 -
