@@ -1,0 +1,14 @@
+---
+layout: post
+title: "백두혈통의 부산 아지트와 수염"
+date: 2026-04-27 00:00:00
+preview: /photo/260427_busan_thumb.jpg
+published: true
+short: "on"
+---
+
+<img src="/photo/260427_busan1.PNG" width="1000">
+<img src="/photo/260427_busan2.PNG" width="1000">
+<img src="/photo/260427_busan3.PNG" width="1000">
+
+왜 부산에 만드냐고 서울 마포구에 만들어달라고
