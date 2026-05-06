@@ -9,7 +9,7 @@ short: "on"
 
 <img src="/photo/스크린샷, 2026-05-06 오후 11.14.54.png" width="1000">
 <img src="/photo/IMG_3022.PNG" width="1000">
-<img src="/photo/IMG_3023.PNG" width="1000">
+<img src="/photo/IMG_3026.PNG" width="1000">
 <img src="/photo/IMG_3024.PNG" width="1000">
 
 AI한테 이것저것 먹여서 물어보니 기똥차게 게임을 잘 골라주긴하는데
