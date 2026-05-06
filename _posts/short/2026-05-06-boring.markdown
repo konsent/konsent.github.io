@@ -1,0 +1,17 @@
+---
+layout: post
+title: "AI로 해결하는 보드게임 권태기"
+date: 2026-05-06 00:00:00
+preview: /photo/스크린샷, 2026-05-06 오후 11.14.54.png
+published: true
+short: "on"
+---
+
+<img src="/photo/스크린샷, 2026-05-06 오후 11.14.54.png" width="1000">
+<img src="/photo/IMG_3022.PNG" width="1000">
+<img src="/photo/IMG_3023.PNG" width="1000">
+<img src="/photo/IMG_3024.PNG" width="1000">
+
+AI한테 이것저것 먹여서 물어보니 기똥차게 게임을 잘 골라주긴하는데
+문제는 너무 취향저격이라 골라준 게임이 죄다 방출한 게임들임
+일단 사긴했으니까 취향인건 맞음;
