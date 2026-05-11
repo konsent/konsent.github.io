@@ -1,0 +1,35 @@
+---
+layout: post3
+title: "Enemy Action: Ardennes"
+date: 2026-05-11 00:00:00
+preview: /photo/eaa/eaa_thumb.png
+published: true
+rules: "on"
+short: null
+long: null
+---
+
+<img src="/photo/eaa/eaa_thumb.png" width="1000">
+
+
+
+
+Enemy Action: Ardennes
+<br>
+존 버터필드 명작선. Enemy Action: Ardennes 독일 솔로 규칙서
+<br>
+완성하고 PDF로 만드는 순간에 실수로 중간 내용을 싹 지워버려서.. 눈물을 머금고 다시 작업했습니다. 급하게 다시 수정하느라 중간에 틀린게 있을 수 있거든요... 피드백주시면 수정하겠심니다.
+<br>
+오역이나 빠진 부분 있으면 말씀주세요!!
+
+
+<br>
+-----
+<br>
+v1.0 - 최초 업로드본
+<br>
+-----
+
+
+- [한국어 규칙서 번역본](/photo/eaa/[KOR] EAA rulebook(German) v1.0.pdf)
+

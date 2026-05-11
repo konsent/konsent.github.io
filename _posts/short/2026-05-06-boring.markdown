@@ -2,12 +2,12 @@
 layout: post
 title: "AI로 해결하는 보드게임 권태기"
 date: 2026-05-06 00:00:00
-preview: /photo/스크린샷, 2026-05-06 오후 11.14.54.png
+preview: /photo/boring_thumb.png
 published: true
 short: "on"
 ---
 
-<img src="/photo/스크린샷, 2026-05-06 오후 11.14.54.png" width="1000">
+<img src="/photo/boring_thumb.png" width="1000">
 <img src="/photo/IMG_3022.PNG" width="1000">
 <img src="/photo/IMG_3026.PNG" width="1000">
 <img src="/photo/IMG_3024.PNG" width="1000">
