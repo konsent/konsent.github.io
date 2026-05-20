@@ -185,3 +185,10 @@ Port 5555 is in use by another program. Either identify and stop that program, o
 127.0.0.1 - - [11/May/2026 10:05:37] "GET /dl/IMG_2756.jpg HTTP/1.1" 200 -
 127.0.0.1 - - [11/May/2026 10:05:37] "[36mGET /dl/Untitled%20Fleet%20(Imperial)_1.webp HTTP/1.1[0m" 304 -
 127.0.0.1 - - [11/May/2026 10:05:37] "GET /dl/IMG_2761.jpg HTTP/1.1" 200 -
+127.0.0.1 - - [20/May/2026 22:28:50] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [20/May/2026 22:28:50] "GET /api/images HTTP/1.1" 200 -
+127.0.0.1 - - [20/May/2026 22:28:50] "GET /dl/260520_lotr_thumb.jpg HTTP/1.1" 200 -
+127.0.0.1 - - [20/May/2026 22:28:50] "GET /dl/260520_lotr3.PNG HTTP/1.1" 200 -
+127.0.0.1 - - [20/May/2026 22:28:50] "GET /dl/260520_lotr4.PNG HTTP/1.1" 200 -
+127.0.0.1 - - [20/May/2026 22:28:50] "GET /dl/260520_lotr2.PNG HTTP/1.1" 200 -
+127.0.0.1 - - [20/May/2026 22:28:50] "GET /dl/260520_lotr1.PNG HTTP/1.1" 200 -
