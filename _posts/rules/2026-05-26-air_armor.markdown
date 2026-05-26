@@ -1,0 +1,21 @@
+---
+layout: post3
+title: "Air & Armor: Würzburg, Tactical Armored Warfare in Europe"
+date: 2026-05-26 00:00:00
+preview: /photo/260526_aa_thumb.png
+published: true
+rules: "on"
+---
+
+<img src="/photo/260526_aa1.PNG" width="1000">
+<img src="/photo/260526_aa2.PNG" width="1000">
+<img src="/photo/260526_aa3.PNG" width="1000">
+
+NATO를 이미 가지고 있기도 하고, Air&Armor 규칙서가 너무 두껍다보니 부담돼서 굳이 안사려고 했었거든요..
+
+근데 눈 딱 감고 질러버리고 규칙서 읽어보는데 세상 웬걸 너무 재밌어보임;;
+
+전장의 안개를 참신하게 구현해서 솔로 플레이도 상당히 좋아보입니다.
+솔로 플레이가 안되면 게임을 사지 않는 저에겐 너무 완벽하달까
+
+- [한국어 규칙서 번역본](/photo/air_armor/[KOR]air_armor v1.0.pdf)
