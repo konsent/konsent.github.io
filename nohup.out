@@ -202,3 +202,11 @@ Port 5555 is in use by another program. Either identify and stop that program, o
 127.0.0.1 - - [26/May/2026 23:06:48] "GET /dl/260526_aa1.PNG HTTP/1.1" 200 -
 127.0.0.1 - - [26/May/2026 23:06:48] "GET /dl/260526_aa_thumb.png HTTP/1.1" 200 -
 127.0.0.1 - - [26/May/2026 23:11:08] "POST /api/create HTTP/1.1" 200 -
+127.0.0.1 - - [29/May/2026 00:07:03] "[36mGET / HTTP/1.1[0m" 304 -
+127.0.0.1 - - [29/May/2026 00:07:03] "GET /api/images HTTP/1.1" 200 -
+127.0.0.1 - - [29/May/2026 00:07:03] "GET /dl/260529_curse_thumb.jpg HTTP/1.1" 200 -
+127.0.0.1 - - [29/May/2026 00:07:03] "GET /dl/260529_curse3.PNG HTTP/1.1" 200 -
+127.0.0.1 - - [29/May/2026 00:07:03] "GET /dl/260529_curse2.PNG HTTP/1.1" 200 -
+127.0.0.1 - - [29/May/2026 00:07:03] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+127.0.0.1 - - [29/May/2026 00:07:03] "GET /dl/260529_curse1.PNG HTTP/1.1" 200 -
+127.0.0.1 - - [29/May/2026 00:07:03] "GET /dl/air_armor_thumb.png HTTP/1.1" 200 -

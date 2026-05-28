@@ -1,0 +1,741 @@
+{
+  "phases": [
+    {
+      "id": "phase_1",
+      "title": "플레이 순서",
+      "ref": "9.0",
+      "steps": [
+        {
+          "id": "p1s1",
+          "num": 1,
+          "title": "증원 페이즈",
+          "body": "기동 유닛은 지도 가장자리 진입 지점에 배치합니다. HQ 및 포병 유닛은 지도외 디스플레이에 배치합니다. 헬리콥터 유닛은 준비 박스에 배치합니다. CSP는 CSP 트랙에 배치합니다.",
+          "refs": [
+            "46.6"
+          ],
+          "sub_sequence": null
+        },
+        {
+          "id": "p1s2",
+          "num": 2,
+          "title": "바르샤바 조약군 계획 페이즈",
+          "body": "WP 플레이어는 독립 연대가 있다면 이를 배속합니다. WP 플레이어는 자신의 연대에 대한 작전을 계획합니다. WP 플레이어는 군 오프맵 CP를 소비하여 주공 치트를 배치합니다. 완료되면 WP HQ의 교란 마커를 제거합니다.",
+          "refs": [
+            "12.3",
+            "12.4"
+          ],
+          "sub_sequence": null
+        },
+        {
+          "id": "p1s3",
+          "num": 3,
+          "title": "기동 페이즈",
+          "body": "WP가 주도권을 굴립니다. 홀수면 WP, 짝수면 NATO가 주도권을 가집니다. 양측 모두 완료/패스할 때까지 교대로 활성화 사이클을 진행합니다.",
+          "refs": [
+            "10.0"
+          ],
+          "sub_sequence": "activation_cycle"
+        },
+        {
+          "id": "p1s4",
+          "num": 4,
+          "title": "예비 페이즈",
+          "body": "WP가 주도권을 굴립니다. 홀수면 WP, 짝수면 NATO가 주도권을 가집니다. 승자가 모든 예비 작전을 수행한 뒤, 두 번째 플레이어가 예비 작전을 수행합니다.",
+          "refs": [
+            "13.7"
+          ],
+          "sub_sequence": "reserve_op"
+        },
+        {
+          "id": "p1s5",
+          "num": 5,
+          "title": "공병 페이즈",
+          "body": "양 플레이어는 사용하지 않은 공병 유닛으로 동시에 공병 활동을 수행합니다.",
+          "refs": [
+            "33.0"
+          ],
+          "sub_sequence": null
+        },
+        {
+          "id": "p1s6",
+          "num": 6,
+          "title": "재정비 페이즈",
+          "note": "시나리오 마지막 턴에서는 생략합니다.",
+          "body": "교란·사격 완료·연막·비지속성 가스 마커를 제거합니다(WP HQ 유닛의 교란 마커는 유지). 모든 지상 유닛과 EW 자산을 미사용 면으로 뒤집습니다. 헬리콥터 유닛은 헬리콥터 트랙에서 한 칸 위로 전진시킵니다. HQ 제독, 스텝 마커 제거, 궤멸 확인, HQ 재편성, RP/CP 트랙 초기화, 게임 턴 마커 전진.",
+          "refs": [
+            "44.6",
+            "45.5",
+            "31.0",
+            "30.4",
+            "20.1"
+          ],
+          "sub_sequence": null
+        }
+      ]
+    },
+    {
+      "id": "activation_cycle",
+      "title": "활성화 사이클",
+      "ref": "10.0",
+      "steps": [
+        {
+          "id": "ac1",
+          "num": 1,
+          "title": "활성화 세그먼트",
+          "body": "하나의 사단(WP) 또는 여단(NATO)을 활성화하거나 패스합니다. NATO 독립 대대가 있다면 배속합니다. WP 플레이어만 현재 사이클에 활성화되는 각 기동 연대에 선도 유닛 마커를 배치합니다.",
+          "refs": [
+            "12.3"
+          ],
+          "sub_sequence": null
+        },
+        {
+          "id": "ac2",
+          "num": 2,
+          "title": "재배치 세그먼트",
+          "body": "히든 모드에서 유닛 카운터를 지도에 배치하고 준비된 방어 마커를 제거합니다.",
+          "refs": [
+            "45.6",
+            "45.8"
+          ],
+          "sub_sequence": null
+        },
+        {
+          "id": "ac3",
+          "num": 3,
+          "title": "정찰 세그먼트",
+          "body": "정찰 시도를 실시하고, 획득 성공 헥스에는 획득 마커를 배치합니다.",
+          "refs": [
+            "20.2",
+            "20.3"
+          ],
+          "sub_sequence": null
+        },
+        {
+          "id": "ac4",
+          "num": 4,
+          "title": "타격 세그먼트",
+          "body": "사격, ADM, 가스 타격을 수행합니다.",
+          "refs": [
+            "23.1",
+            "23.6",
+            "44.2"
+          ],
+          "sub_sequence": "fire_strike"
+        },
+        {
+          "id": "ac5",
+          "num": 5,
+          "title": "작전 세그먼트",
+          "body": "원하는 순서대로 작전을 수행합니다.",
+          "refs": [
+            "13.0"
+          ],
+          "sub_sequence": null,
+          "op_choices": [
+            {
+              "label": "행군 작전",
+              "sequence": "march_op"
+            },
+            {
+              "label": "급속 공격",
+              "sequence": "hasty_attack"
+            },
+            {
+              "label": "강습 작전",
+              "sequence": "assault_op"
+            },
+            {
+              "label": "예비 작전",
+              "sequence": "reserve_op"
+            }
+          ]
+        },
+        {
+          "id": "ac6",
+          "num": 6,
+          "title": "교량 폭파 세그먼트",
+          "body": "NATO 플레이어는 설치 폭약으로 민간 교량 폭파를 시도할 수 있습니다.",
+          "refs": [
+            "38.1"
+          ],
+          "sub_sequence": null
+        },
+        {
+          "id": "ac7",
+          "num": 7,
+          "title": "오염 세그먼트",
+          "body": "가스 지대에 있는 활성 편제의 모든 유닛에 대해 오염 확인을 실시합니다.",
+          "refs": [
+            "44.4"
+          ],
+          "sub_sequence": null
+        },
+        {
+          "id": "ac8",
+          "num": 8,
+          "title": "정보 소멸 세그먼트",
+          "body": "지도에서 모든 획득 마커를 제거합니다.",
+          "refs": [
+            "20.3"
+          ],
+          "sub_sequence": null
+        },
+        {
+          "id": "ac9",
+          "num": 9,
+          "title": "준비된 방어 세그먼트",
+          "body": "히든 모드에서 WP 연대마다 준비된 방어 마커 1개, NATO 여단마다 준비된 방어 마커 2개를 배치합니다.",
+          "refs": [
+            "45.8"
+          ],
+          "sub_sequence": null
+        }
+      ]
+    },
+    {
+      "id": "march_op",
+      "title": "행군 작전 사이클",
+      "ref": "13.2",
+      "steps": [
+        {
+          "id": "mo1",
+          "num": 1,
+          "title": "투입 스텝",
+          "body": "참가하는 WP 연대/사단 기지 또는 NATO 유닛/부대를 선언합니다.",
+          "refs": [],
+          "sub_sequence": null
+        },
+        {
+          "id": "mo2",
+          "num": 2,
+          "title": "이동 스텝",
+          "body": "지상 이동으로 유닛을 이동시킵니다. 이동력은 6MP이며, 도로 이동이 가능합니다. 공중기동 유닛은 공중 이동을 위한 추가 펄스를 받습니다.",
+          "refs": [
+            "29.3"
+          ],
+          "sub_sequence": null
+        },
+        {
+          "id": "mo3",
+          "num": 3,
+          "title": "완료 스텝",
+          "body": "작전에 참여한 유닛을 사용면으로 뒤집습니다.",
+          "refs": [],
+          "sub_sequence": null
+        }
+      ]
+    },
+    {
+      "id": "hasty_attack",
+      "title": "급속 공격 작전 사이클",
+      "ref": "13.3",
+      "steps": [
+        {
+          "id": "ha1",
+          "num": 1,
+          "title": "투입 스텝",
+          "body": "참가하는 연대/태스크 포스와 목표 헥스를 선언합니다. 오버런 또는 근접 공격 작전을 선언합니다. NATO는 CP 1개를 소비하고 선도 유닛 마커를 배치합니다. WG Gegenangriff를 선언합니다.",
+          "refs": [
+            "42.0",
+            "43.0",
+            "41.4",
+            "12.9"
+          ],
+          "sub_sequence": null
+        },
+        {
+          "id": "ha2",
+          "num": 2,
+          "title": "이동 스텝",
+          "body": "WP 연대는 6MP로 이동(이동력 전반부 도로 가능). NATO 태스크 포스는 6MP로 이동(도로 불가). 침투 사격과 대공포 사격을 수행합니다.",
+          "refs": [
+            "18.6",
+            "27.2",
+            "29.3"
+          ],
+          "sub_sequence": null
+        },
+        {
+          "id": "ha3",
+          "num": 3,
+          "title": "재밍 스텝",
+          "body": "활성 HQ에 미사용 EW 자산이 있는 경우, 목표 헥스에 대해 재밍 시도를 할 수 있습니다.",
+          "refs": [
+            "39.2"
+          ],
+          "sub_sequence": null
+        },
+        {
+          "id": "ha4",
+          "num": 4,
+          "title": "WG 반격 스텝",
+          "body": "Gegenangriff가 선언되었다면 NATO 플레이어는 Gegenangriff 표에서 주사위를 굴려 대체 순서 사용 여부를 확인합니다.",
+          "refs": [
+            "41.4"
+          ],
+          "sub_sequence": null
+        },
+        {
+          "id": "ha5",
+          "num": 5,
+          "title": "대응 스텝",
+          "body": "비활성 플레이어는 대응 가능 부대 1개를 목표 헥스로 이동시킬 수 있습니다. NATO 플레이어는 1CP를 써서 대응합니다.",
+          "refs": [
+            "19.0"
+          ],
+          "sub_sequence": null
+        },
+        {
+          "id": "ha6",
+          "num": 6,
+          "title": "방어 사격 요청 스텝",
+          "body": "적격 관측병이 있는 비활성 HQ 1개는 포병 유닛 1개에게 사격 요청을 할 수 있습니다. WP는 DAG만 요청할 수 있습니다.",
+          "refs": [
+            "21.3",
+            "22.4"
+          ],
+          "sub_sequence": null
+        },
+        {
+          "id": "ha7",
+          "num": 7,
+          "title": "방어 사격 스텝",
+          "body": "참가 유닛을 상대로 방어 사격을 수행하고, 명중을 흡수합니다. 대포병 사격이 가능합니다.",
+          "refs": [
+            "18.7",
+            "23.4"
+          ],
+          "sub_sequence": "fire_strike"
+        },
+        {
+          "id": "ha8",
+          "num": 8,
+          "title": "공세 사격 요청 스텝",
+          "body": "활성 HQ 1개는 아군 포병 유닛 1개에 대해 사격 요청을 할 수 있습니다.",
+          "refs": [
+            "21.3"
+          ],
+          "sub_sequence": null
+        },
+        {
+          "id": "ha9",
+          "num": 9,
+          "title": "공세 사격 스텝",
+          "body": "목표 헥스를 상대로 공세 사격을 수행하고, 명중을 흡수합니다. 대포병 사격이 가능합니다.",
+          "refs": [
+            "18.8",
+            "23.4"
+          ],
+          "sub_sequence": "fire_strike"
+        },
+        {
+          "id": "ha10",
+          "num": 10,
+          "title": "후퇴 스텝",
+          "body": "후퇴를 선택했다면 방어 유닛을 후퇴시키고, 그로 인해 발생하는 후퇴 사격을 수행합니다.",
+          "refs": [
+            "18.3",
+            "18.4",
+            "18.9"
+          ],
+          "sub_sequence": null
+        },
+        {
+          "id": "ha11",
+          "num": 11,
+          "title": "전진 스텝",
+          "body": "생존한 공격 유닛을 목표 헥스로 전진시킵니다. 교전 대상 유닛이 후퇴하면 해당 유닛을 뒤집습니다.",
+          "refs": [
+            "18.5"
+          ],
+          "sub_sequence": null
+        },
+        {
+          "id": "ha12",
+          "num": 12,
+          "title": "완료 스텝",
+          "body": "참가 유닛을 사용면으로 뒤집고, 선도 유닛 마커와 목표 마커를 제거합니다.",
+          "refs": [],
+          "sub_sequence": null
+        }
+      ]
+    },
+    {
+      "id": "assault_op",
+      "title": "강습 작전 사이클",
+      "ref": "13.4",
+      "steps": [
+        {
+          "id": "ao1",
+          "num": 1,
+          "title": "투입 스텝",
+          "body": "참가하는 연대/태스크 포스와 목표 헥스를 선언합니다. NATO는 CP 1개를 소비하고 선도 유닛 마커를 배치합니다.",
+          "refs": [
+            "12.9"
+          ],
+          "sub_sequence": null
+        },
+        {
+          "id": "ao2",
+          "num": 2,
+          "title": "이동 스텝",
+          "body": "이동력 3MP, 도로 이동 불가. 침투 사격과 대공포 사격을 수행합니다.",
+          "refs": [
+            "18.6",
+            "27.2",
+            "29.3"
+          ],
+          "sub_sequence": null
+        },
+        {
+          "id": "ao3",
+          "num": 3,
+          "title": "재밍 스텝",
+          "body": "활성 HQ에 미사용 EW 자산이 있는 경우, 목표 헥스에 대해 재밍 시도를 할 수 있습니다.",
+          "refs": [
+            "39.2"
+          ],
+          "sub_sequence": null
+        },
+        {
+          "id": "ao4",
+          "num": 4,
+          "title": "대응 스텝",
+          "body": "비활성 플레이어는 대응 가능 부대 1개를 목표 헥스로 이동시킬 수 있습니다. NATO는 1CP 소비.",
+          "refs": [
+            "19.0"
+          ],
+          "sub_sequence": null
+        },
+        {
+          "id": "ao5",
+          "num": 5,
+          "title": "방어 사격 요청 스텝",
+          "body": "비활성 HQ 1개가 사격 요청. NATO는 포병 2개 + 공격헬기 1개, WP는 DAG 1개만 요청 가능.",
+          "refs": [
+            "21.3"
+          ],
+          "sub_sequence": null
+        },
+        {
+          "id": "ao6",
+          "num": 6,
+          "title": "NATO 방어 헬리콥터 이동 스텝",
+          "body": "NATO 공격헬기 유닛을 사격 위치로 이동시킵니다. 이동 중 대공포 사격을 처리합니다. 야간에는 AH-64만 비행합니다.",
+          "refs": [
+            "25.3",
+            "27.2"
+          ],
+          "sub_sequence": null
+        },
+        {
+          "id": "ao7",
+          "num": 7,
+          "title": "방어 사격 스텝",
+          "body": "참가 유닛을 상대로 방어 사격을 수행하고, 명중을 흡수합니다. 대포병 사격이 가능합니다.",
+          "refs": [
+            "18.7",
+            "23.4"
+          ],
+          "sub_sequence": "fire_strike"
+        },
+        {
+          "id": "ao8",
+          "num": 8,
+          "title": "공세 사격 요청 스텝",
+          "body": "활성 HQ 1개는 포병 2개 + 공격헬기 1개에 대해 사격 요청을 할 수 있습니다.",
+          "refs": [
+            "21.3"
+          ],
+          "sub_sequence": null
+        },
+        {
+          "id": "ao9",
+          "num": 9,
+          "title": "공세 헬리콥터 이동 스텝",
+          "body": "공격헬기 유닛을 사격 위치로 이동시킵니다. 이동 중 대공포 사격을 처리합니다. 야간에는 AH-64만 비행합니다.",
+          "refs": [
+            "25.3",
+            "27.2"
+          ],
+          "sub_sequence": null
+        },
+        {
+          "id": "ao10",
+          "num": 10,
+          "title": "공세 사격 스텝",
+          "body": "목표 헥스를 상대로 공세 사격을 수행하고, 명중을 흡수합니다. 대포병 사격이 가능합니다.",
+          "refs": [
+            "18.8",
+            "23.4"
+          ],
+          "sub_sequence": "fire_strike"
+        },
+        {
+          "id": "ao11",
+          "num": 11,
+          "title": "후퇴 스텝",
+          "body": "후퇴를 선택했다면 방어 유닛을 후퇴시키고, 후퇴 사격을 수행합니다.",
+          "refs": [
+            "18.3",
+            "18.4",
+            "18.9"
+          ],
+          "sub_sequence": null
+        },
+        {
+          "id": "ao12",
+          "num": 12,
+          "title": "전진 스텝",
+          "body": "생존한 공격 유닛을 목표 헥스로 전진시킵니다.",
+          "refs": [
+            "18.5"
+          ],
+          "sub_sequence": null
+        },
+        {
+          "id": "ao13",
+          "num": 13,
+          "title": "완료 스텝",
+          "body": "참가 유닛을 사용면으로 뒤집고, 공격 헬기를 회수 박스로 되돌리고, 마커를 제거합니다.",
+          "refs": [],
+          "sub_sequence": null
+        }
+      ]
+    },
+    {
+      "id": "reserve_op",
+      "title": "예비 작전 사이클",
+      "ref": "13.7",
+      "steps": [
+        {
+          "id": "ro1",
+          "num": 1,
+          "title": "투입 스텝",
+          "body": "참가하는 연대/태스크 포스를 선언합니다. NATO는 CP 1개를 소비하고 선도 유닛 마커를 배치합니다.",
+          "refs": [],
+          "sub_sequence": null
+        },
+        {
+          "id": "ro2",
+          "num": 2,
+          "title": "이동 스텝",
+          "body": "지상 이동으로만 이동합니다. 이동력 3MP, 도로 이동 가능. 공중 이동은 허용되지 않습니다.",
+          "refs": [],
+          "sub_sequence": null
+        },
+        {
+          "id": "ro3",
+          "num": 3,
+          "title": "완료 스텝",
+          "body": "참가 유닛을 사용면으로 뒤집고 선도 유닛 마커를 제거합니다.",
+          "refs": [],
+          "sub_sequence": null
+        }
+      ]
+    },
+    {
+      "id": "fire_strike",
+      "title": "화력 타격 순서",
+      "ref": "23.1",
+      "steps": [
+        {
+          "id": "fs1",
+          "num": 1,
+          "title": "표적 선언",
+          "body": "표적 헥스 또는 헥스면을 선언합니다.",
+          "refs": [
+            "38.4"
+          ],
+          "sub_sequence": null
+        },
+        {
+          "id": "fs2",
+          "num": 2,
+          "title": "관측/획득 확인",
+          "body": "표적은 반드시 관측 또는 획득 상태여야 합니다.",
+          "refs": [
+            "21.3",
+            "20.2"
+          ],
+          "sub_sequence": null
+        },
+        {
+          "id": "fs3",
+          "num": 3,
+          "title": "타격 목표 마커 배치",
+          "body": "타격 목표 마커를 배치합니다.",
+          "refs": [
+            "6.3"
+          ],
+          "sub_sequence": null
+        },
+        {
+          "id": "fs4",
+          "num": 4,
+          "title": "사격 요청 HQ 선언",
+          "body": "사격 요청을 수행하는 HQ를 선언합니다.",
+          "refs": [
+            "21.2"
+          ],
+          "sub_sequence": null
+        },
+        {
+          "id": "fs5",
+          "num": 5,
+          "title": "화력 지원 자산 선언",
+          "body": "호출할 특정 화력 지원 자산을 선언합니다.",
+          "refs": [],
+          "sub_sequence": null
+        },
+        {
+          "id": "fs6",
+          "num": 6,
+          "title": "공중 요청 (해당 시)",
+          "body": "공중 유닛을 호출하는 경우, 공중 요청을 실시합니다.",
+          "refs": [
+            "24.2"
+          ],
+          "sub_sequence": null
+        },
+        {
+          "id": "fs7",
+          "num": 7,
+          "title": "공중/공격헬기 편성",
+          "body": "호출된 공중 유닛 또는 공격헬기 유닛을 편성합니다.",
+          "refs": [],
+          "sub_sequence": null
+        },
+        {
+          "id": "fs8",
+          "num": 8,
+          "title": "사격 위치로 이동",
+          "body": "호출된 공중 유닛 또는 공격헬기 유닛을 지도 위의 사격 위치로 가져옵니다.",
+          "refs": [],
+          "sub_sequence": null
+        },
+        {
+          "id": "fs9",
+          "num": 9,
+          "title": "대공 사격 처리",
+          "body": "유발되는 대공 사격이 있다면 수행합니다.",
+          "refs": [
+            "27.0"
+          ],
+          "sub_sequence": null
+        },
+        {
+          "id": "fs10",
+          "num": 10,
+          "title": "조정 사격 전투력 결정",
+          "body": "Fire Effects Chart의 화력 타격 효과 열을 사용하여 각 참가 유닛의 조정된 사격 전투력을 결정합니다.",
+          "refs": [],
+          "sub_sequence": null
+        },
+        {
+          "id": "fs11",
+          "num": 11,
+          "title": "전투력 합산",
+          "body": "모든 참가 유닛의 조정된 사격 전투력을 합산합니다.",
+          "refs": [],
+          "sub_sequence": null
+        },
+        {
+          "id": "fs12",
+          "num": 12,
+          "title": "소수점 버림",
+          "body": "합산값의 소수점 이하는 버립니다.",
+          "refs": [],
+          "sub_sequence": null
+        },
+        {
+          "id": "fs13",
+          "num": 13,
+          "title": "2로 나누기",
+          "body": "2로 나누고 다시 소수점 이하는 버립니다. 이렇게 산출한 값이 유효 화력 강도입니다.",
+          "refs": [],
+          "sub_sequence": null
+        },
+        {
+          "id": "fs14",
+          "num": 14,
+          "title": "CRT 주사위",
+          "body": "CRT에서 주사위를 굴려 명중 보정 수치를 결정합니다.",
+          "refs": [],
+          "sub_sequence": null
+        },
+        {
+          "id": "fs15",
+          "num": 15,
+          "title": "총 명중 수 결정",
+          "body": "명중 보정 수치를 유효 사격 전투력에 더해 총 명중 수를 결정합니다.",
+          "refs": [],
+          "sub_sequence": null
+        },
+        {
+          "id": "fs16",
+          "num": 16,
+          "title": "명중 흡수",
+          "body": "가장 약한 유닛부터 명중을 흡수합니다.",
+          "refs": [
+            "23.2"
+          ],
+          "sub_sequence": null
+        },
+        {
+          "id": "fs17",
+          "num": 17,
+          "title": "교란 마커 배치",
+          "body": "비활성 플레이어는 조정된 방어 전투력이 총 명중 수 이하인 유닛 위에 교란 마커를 배치합니다.",
+          "refs": [
+            "23.3"
+          ],
+          "sub_sequence": null
+        },
+        {
+          "id": "fs18",
+          "num": 18,
+          "title": "사격 완료 마커",
+          "body": "참가한 포병 유닛에 사격 완료 마커를 배치합니다.",
+          "refs": [],
+          "sub_sequence": null
+        },
+        {
+          "id": "fs19",
+          "num": 19,
+          "title": "공격헬기 회수",
+          "body": "공격헬기 유닛이 있다면 아군 지도 가장자리로 이동시킨 뒤 회복 박스로 이동시킵니다.",
+          "refs": [],
+          "sub_sequence": null
+        },
+        {
+          "id": "fs20",
+          "num": 20,
+          "title": "공중 유닛 제거",
+          "body": "공중 유닛이 있다면 지도에서 제거합니다.",
+          "refs": [],
+          "sub_sequence": null
+        },
+        {
+          "id": "fs21",
+          "num": 21,
+          "title": "대포병 사격 (해당 시)",
+          "body": "대포병 사격이 가능합니다.",
+          "refs": [
+            "23.4"
+          ],
+          "sub_sequence": null
+        }
+      ]
+    }
+  ],
+  "phase_index": {
+    "phase_1": 0,
+    "activation_cycle": 1,
+    "march_op": 2,
+    "hasty_attack": 3,
+    "assault_op": 4,
+    "reserve_op": 5,
+    "fire_strike": 6
+  }
+}
