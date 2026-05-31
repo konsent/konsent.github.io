@@ -34,8 +34,13 @@ v1.2 - Modified Defensive Combat Strength: "수정 방어 전투력" → "조정
      - Front: "전선" → "전선군" — 소련군 편제 용어 확정
 <br>
 -----
+<br>
+v1.3 - 목차 영어 병기 삭제(Fire Combat, Ferry Crossing)
+     - 모든 것을 조합하기 -> 총 정리로 변경
+<br>
+-----
 
-- [규칙서 한국어 번역본](/photo/air_armor/[KOR]air_armor v1.2.pdf)
+- [규칙서 한국어 번역본](/photo/air_armor/[KOR]air_armor v1.3.pdf)
 
 
 
