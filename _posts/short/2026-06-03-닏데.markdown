@@ -1,0 +1,13 @@
+---
+layout: post
+title: "룰북은 수면제야"
+date: 2026-06-03 00:00:00
+preview: /photo/IMG_3044 thumb.PNG
+published: true
+short: "on"
+---
+
+<img src="/photo/IMG_3044.PNG" width="1000">
+<img src="/photo/IMG_3045.PNG" width="1000">
+
+3장만에 잠들 자신 있음
