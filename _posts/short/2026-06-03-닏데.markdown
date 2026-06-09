@@ -2,7 +2,7 @@
 layout: post
 title: "룰북은 수면제야"
 date: 2026-06-03 00:00:00
-preview: /photo/IMG_3044 thumb.PNG
+preview: /photo/IMG_3044 thumb.jpg
 published: true
 short: "on"
 ---
