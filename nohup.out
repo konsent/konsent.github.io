@@ -227,3 +227,14 @@ Port 5555 is in use by another program. Either identify and stop that program, o
 127.0.0.1 - - [03/Jun/2026 11:43:16] "[36mGET /dl/IMG_3044.PNG HTTP/1.1[0m" 304 -
 127.0.0.1 - - [03/Jun/2026 11:43:16] "[36mGET /dl/IMG_3045.PNG HTTP/1.1[0m" 304 -
 127.0.0.1 - - [03/Jun/2026 11:43:16] "[36mGET /dl/ChatGPT%20Image%202026년%206월%201일%20오전%2012_23_20.png HTTP/1.1[0m" 304 -
+127.0.0.1 - - [03/Jun/2026 11:43:39] "POST /api/create HTTP/1.1" 200 -
+127.0.0.1 - - [09/Jun/2026 23:09:24] "[36mGET / HTTP/1.1[0m" 304 -
+127.0.0.1 - - [09/Jun/2026 23:09:24] "GET /api/images HTTP/1.1" 200 -
+127.0.0.1 - - [09/Jun/2026 23:09:24] "GET /dl/260609_dollar_thumb.png HTTP/1.1" 200 -
+127.0.0.1 - - [09/Jun/2026 23:09:24] "GET /dl/260609_dollar2.PNG HTTP/1.1" 200 -
+127.0.0.1 - - [09/Jun/2026 23:09:24] "GET /dl/260609_dollar1.PNG HTTP/1.1" 200 -
+127.0.0.1 - - [09/Jun/2026 23:09:24] "GET /dl/260609_dollar3.PNG HTTP/1.1" 200 -
+127.0.0.1 - - [09/Jun/2026 23:09:24] "GET /dl/ChatGPT%20Image%202026년%206월%201일%20오전%2012_23_20.png HTTP/1.1" 200 -
+127.0.0.1 - - [09/Jun/2026 23:09:24] "GET /dl/air_armor_thumb.png HTTP/1.1" 200 -
+127.0.0.1 - - [09/Jun/2026 23:09:24] "GET /dl/IMG_2842.PNG HTTP/1.1" 200 -
+127.0.0.1 - - [09/Jun/2026 23:09:24] "GET /dl/IMG_2841.PNG HTTP/1.1" 200 -
