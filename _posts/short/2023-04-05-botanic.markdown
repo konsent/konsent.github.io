@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/230404_botanic.jpg" width="1000">
+<img src="/photo/230404_botanic.jpg" width="1000" loading="lazy">
 
 
 캐스캐디아와 캘리코를 제작자들이 만든 게임이라고 했을 때도 그러려니 했는데

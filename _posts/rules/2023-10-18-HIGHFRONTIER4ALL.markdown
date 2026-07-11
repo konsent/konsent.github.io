@@ -1,5 +1,5 @@
 ---
-layout: post3
+layout: post
 title: "High Frontier 4 ALL 한글 규칙서"
 date: 2023-10-18 00:00:00
 preview: /photo/HF4-resizethumb.jpeg
@@ -9,14 +9,14 @@ short: null
 long: null
 ---
 
-<img src="/photo/hf4.png" width="300">
+<img src="/photo/hf4.png" width="300" loading="lazy">
 
 처음 이 게임을 알게된 건 보드라이프 커뮤니티에 어떤 분이 올리신 포스팅 덕분이었다.<br>
 포스팅 주제는 BGG 긱 웨이트 탑 10- 대강 이런 내용의 글이었다. <br>
 보통 긱 웨이트라고 하면 게임의 난이도를 직관적으로 파악하는 수치니까 도대체 어떤 게임이 제일 어려운 게임일까 싶어 글을 읽었는데,<br>
 5점 만점 4.81로 제일 어려운 게임이 바로 이 게임 Hifgh Frontier4 ALL이었던 걸로 기억.
 
-<img src="/photo/hf41.png" width="800">
+<img src="/photo/hf41.png" width="800" loading="lazy">
 
 평소에 우주 게임을 좋아하지만 4.81 웨이트 게임을 손댈 자신은 없어서 그러려니 하고 넘어갔었다.<br>
 그런데 그 후 깖님의 인스타 포스팅을 보다가 하이 프론티어를 플레이하는 정말 맛깔나는 후기를 읽고나서는<br>

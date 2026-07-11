@@ -1,5 +1,5 @@
 ---
-layout: post3
+layout: post
 title: "Red Winter: The Soviet Attack at Tolvajärvi, Finland – 8-12 December 1939"
 date: 2026-02-04 00:00:00
 preview: /photo/RW/rw_thumb.png
@@ -9,7 +9,7 @@ short: null
 long: null
 ---
 
-<img src="/photo/RW/rw_thumb.png" width="1000">
+<img src="/photo/RW/rw_thumb.png" width="1000" loading="lazy">
 
 Red Winter: The Soviet Attack at Tolvajärvi, Finland – 8-12 December 1939
 <br>

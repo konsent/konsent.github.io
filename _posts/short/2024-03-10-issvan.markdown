@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/240310_ISSVANGUARD.jpg" width="1000">
+<img src="/photo/240310_ISSVANGUARD.jpg" width="1000" loading="lazy">
 
 솔직히 우주 뽕에 취해서 재미없을 것 각오하고 들어간 게임인데<br>
 피규어들도 너무 예쁘고, 게임도 진짜 재밌더라구요.<br>

@@ -1,5 +1,5 @@
 ---
-layout: post3
+layout: post
 title: "Downfall: Conquest of the Third Reich, 1942-1945"
 date: 2025-11-14 00:00:00
 preview: /photo/Downfall/251114_downfall_thumb.jpeg
@@ -9,7 +9,7 @@ short: null
 long: null
 ---
 
-<img src="/photo/Downfall/251114_downfall_thumb.jpeg" width="1000">
+<img src="/photo/Downfall/251114_downfall_thumb.jpeg" width="1000" loading="lazy">
 
 Downfall: Conquest of the Third Reich, 1942-1945
 <br>

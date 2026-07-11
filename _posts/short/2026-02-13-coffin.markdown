@@ -9,8 +9,8 @@ short: "on"
 
 
 
-<img src="/photo/260213_coffin1.PNG" width="1000">
-<img src="/photo/260213_coffin2.PNG" width="1000">
+<img src="/photo/260213_coffin1.PNG" width="1000" loading="lazy">
+<img src="/photo/260213_coffin2.PNG" width="1000" loading="lazy">
 
 빅박스는 좋은 관짝입니다.
 

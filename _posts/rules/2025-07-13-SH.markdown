@@ -1,5 +1,5 @@
 ---
-layout: post3
+layout: post
 title: "Stellar Horizons"
 date: 2025-07-13 00:00:00
 preview: /photo/SH/250712_SH_thumb.jpg
@@ -9,7 +9,7 @@ short: null
 long: null
 ---
 
-<img src="/photo/SH/250712_SH_thumb.jpg" width="1000">
+<img src="/photo/SH/250712_SH_thumb.jpg" width="1000" loading="lazy">
 
 Stellar Horizons
 <br>

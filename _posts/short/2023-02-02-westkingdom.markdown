@@ -7,14 +7,14 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/westkingdom/230201_westkingdom1-1.jpg" width="1000">
-<img src="/photo/westkingdom/230201_westkingdom1-2.jpg" width="1000">
-<img src="/photo/westkingdom/230201_westkingdom1-3.jpg" width="1000">
-<img src="/photo/westkingdom/230201_westkingdom1-4.jpg" width="1000">
-<img src="/photo/westkingdom/230201_westkingdom1-5.jpg" width="1000">
-<img src="/photo/westkingdom/230201_westkingdom1-6.jpg" width="1000">
-<img src="/photo/westkingdom/230201_westkingdom1-7.jpg" width="1000">
-<img src="/photo/westkingdom/230201_westkingdom1-8.jpg" width="1000">
+<img src="/photo/westkingdom/230201_westkingdom1-1.jpg" width="1000" loading="lazy">
+<img src="/photo/westkingdom/230201_westkingdom1-2.jpg" width="1000" loading="lazy">
+<img src="/photo/westkingdom/230201_westkingdom1-3.jpg" width="1000" loading="lazy">
+<img src="/photo/westkingdom/230201_westkingdom1-4.jpg" width="1000" loading="lazy">
+<img src="/photo/westkingdom/230201_westkingdom1-5.jpg" width="1000" loading="lazy">
+<img src="/photo/westkingdom/230201_westkingdom1-6.jpg" width="1000" loading="lazy">
+<img src="/photo/westkingdom/230201_westkingdom1-7.jpg" width="1000" loading="lazy">
+<img src="/photo/westkingdom/230201_westkingdom1-8.jpg" width="1000" loading="lazy">
 
 
 

@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/241104_hunters.jpg" width="1000">
+<img src="/photo/241104_hunters.jpg" width="1000" loading="lazy">
 
 
 올해의 게임 1위 후보는 바로 Atlantic Chase였는데요, 이번에 그게 바뀌었습니다!<br>

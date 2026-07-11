@@ -9,7 +9,7 @@ short: "on"
 
 
 
-<img src="/photo/250108_clock.png" width="1000">
+<img src="/photo/250108_clock.png" width="1000" loading="lazy">
 
 
 제발 눈 오지마라

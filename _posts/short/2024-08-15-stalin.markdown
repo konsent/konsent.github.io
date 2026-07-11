@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/240815_stalin.jpg" width="1000">
+<img src="/photo/240815_stalin.jpg" width="1000" loading="lazy">
 
 언던티드 스탈린그라드 열심히 달리는 중입니다.<br>
 별밤님이 극찬을 하고 무조건 해봐야한다고 했던 이유를 알 것 같아요.<br>

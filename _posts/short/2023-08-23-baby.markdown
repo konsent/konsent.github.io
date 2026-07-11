@@ -7,6 +7,6 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/230823_baby.jpg" width="1000">
+<img src="/photo/230823_baby.jpg" width="1000" loading="lazy">
 
 깡총이랑 빨리 보드게임하고싶어요

@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/241019_sf.jpg" width="1000">
+<img src="/photo/241019_sf.jpg" width="1000" loading="lazy">
 
 
 네메시스 같은 게임처럼 자기 캐릭터만 조종하는게 아니라, 모든 플레이어가 모든 캐릭터를 조종할 수 있는 특이한 게임이에요.<br>

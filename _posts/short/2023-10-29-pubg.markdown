@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/231029_pubg.jpg" width="1000">
+<img src="/photo/231029_pubg.jpg" width="1000" loading="lazy">
 
 
 배틀그라운드 보드게임 정식 출시!!<br>

@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/220308_nemesis3.jpg" width="1000">
+<img src="/photo/220308_nemesis3.jpg" width="1000" loading="lazy">
 
 
 이번에 올리려고 강아지똥 협찬 만화를 다 그려놓았지만!

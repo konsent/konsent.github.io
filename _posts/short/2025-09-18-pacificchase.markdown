@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/250918_pc.jpg" width="1000">
+<img src="/photo/250918_pc.jpg" width="1000" loading="lazy">
 
 아 이 게임이 진짜 재밌고 소장가치가 있는 게임인데 말이에요
 

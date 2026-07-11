@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/rftg_short1.jpg" width="1000">
+<img src="/photo/rftg_short1.jpg" width="1000" loading="lazy">
 
 <br/><br/>
 

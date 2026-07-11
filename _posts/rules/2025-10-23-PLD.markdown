@@ -1,5 +1,5 @@
 ---
-layout: post3
+layout: post
 title: "Phantom Leader Deluxe"
 date: 2025-10-23 00:00:00
 preview: /photo/PLD/231023_pld_thumb.jpeg
@@ -9,7 +9,7 @@ short: null
 long: null
 ---
 
-<img src="/photo/PLD/231023_pld_thumb.jpeg" width="1000">
+<img src="/photo/PLD/231023_pld_thumb.jpeg" width="1000" loading="lazy">
 
 Phantom Leader Deluxe
 <br>

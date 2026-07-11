@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/240428_sylvion.jpg" width="1000">
+<img src="/photo/240428_sylvion.jpg" width="1000" loading="lazy">
 
 오니림은 1인플로 유명해서 들어본적만 있는 게임인데, 이번에 오니버스의 다른 게임들이 출시하더라구요<br>
 

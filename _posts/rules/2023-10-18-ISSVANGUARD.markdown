@@ -1,5 +1,5 @@
 ---
-layout: post3
+layout: post
 title: "ISS Vanguard 한글 규칙서"
 date: 2023-10-18 00:00:00
 preview: /photo/IV-resizethumb.jpeg
@@ -10,7 +10,7 @@ long: null
 ---
 
 
-<img src="/photo/issvan.png" width="300">
+<img src="/photo/issvan.png" width="300" loading="lazy">
 
 BGG에서 ISS Vanguard라는 이름을 처음 봤을 때 가슴이 두근두근!<br>
 우주를 탐험하는 모험 가득 우주게임은 솔직히 참을 수 없잖아요.<br>
@@ -22,6 +22,6 @@ ISS Vanguard는 우주 테마의 1~4인 협동 캠페인 보드게임입니다. 
 
 개인적으로 작업물 중에 제일 맘에 드는 녀석입니다. 검수를 대충해서 아마 틀린 부분도 많겠지만 ㅋㅋㅋ 작업 하면서 정말 재밌었어요.<br>
 
-<img src="/photo/issvan1.png" width="800">
+<img src="/photo/issvan1.png" width="800" loading="lazy">
 
 - [한국어 규칙서 번역본](/photo/한글 규칙서(ISS VANGUARD) v1.0.pdf)

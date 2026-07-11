@@ -6,7 +6,7 @@ preview: /photo/220611_SWR.jpg
 short: "on"
 ---
 
-<img src="/photo/220611_SWR.jpg" width="1000">
+<img src="/photo/220611_SWR.jpg" width="1000" loading="lazy">
 
 스타워즈 리벨리온 한글판이 하반기에 출시된다는 소식을 이제서야 알았다.
 

@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/230530_sedolgames.jpg" width="1000">
+<img src="/photo/230530_sedolgames.jpg" width="1000" loading="lazy">
 
 
 보드게임 작가로 데뷔하신 이세돌 작가님의 추상 전략 게임 3종 세트!

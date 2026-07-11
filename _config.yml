@@ -3,7 +3,7 @@ title: Stop Bored Play Board
 email: konsent2@gmail.com
 description: "보드게임 일기장"
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "http://konsent.github.io" # the base hostname & protocol for your site
+url: "https://konsent.github.io" # the base hostname & protocol for your site
 #twitter_username: jekyllrb
 #github_username:  konsent
 
@@ -12,6 +12,8 @@ markdown: kramdown
 permalink: pretty
 timezone: Asia/Seoul
 future: true
+sass:
+  style: compressed
 
 # Analytics
 analytics:

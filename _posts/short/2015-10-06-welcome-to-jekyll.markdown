@@ -6,7 +6,7 @@ preview: /photo/220602_TS.jpg
 short: "on"
 ---
 
-<img src="/photo/220602_TS.jpg" width="1200">
+<img src="/photo/220602_TS.jpg" width="1200" loading="lazy">
 
 도화동 고르바초프와 공덕동 조지 부시의 대결
 

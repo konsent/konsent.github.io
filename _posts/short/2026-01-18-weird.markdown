@@ -9,7 +9,7 @@ short: "on"
 
 
 
-<img src="/photo/260118_weird.png" width="1000">
+<img src="/photo/260118_weird.png" width="1000" loading="lazy">
 
 
 숱한 도발 속에 나의 쏘오련 땅크 사단은 베를린을 향해 진격중

@@ -7,14 +7,14 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/agricola/230125_agricola2-1.jpeg" width="1000">
-<img src="/photo/agricola/230125_agricola2-2.jpeg" width="1000">
-<img src="/photo/agricola/230125_agricola2-3.jpeg" width="1000">
-<img src="/photo/agricola/230125_agricola2-4.jpeg" width="1000">
-<img src="/photo/agricola/230125_agricola2-5.jpeg" width="1000">
-<img src="/photo/agricola/230125_agricola2-6.jpeg" width="1000">
-<img src="/photo/agricola/230125_agricola2-7.jpeg" width="1000">
-<img src="/photo/agricola/230125_agricola2-8.jpeg" width="1000">
+<img src="/photo/agricola/230125_agricola2-1.jpeg" width="1000" loading="lazy">
+<img src="/photo/agricola/230125_agricola2-2.jpeg" width="1000" loading="lazy">
+<img src="/photo/agricola/230125_agricola2-3.jpeg" width="1000" loading="lazy">
+<img src="/photo/agricola/230125_agricola2-4.jpeg" width="1000" loading="lazy">
+<img src="/photo/agricola/230125_agricola2-5.jpeg" width="1000" loading="lazy">
+<img src="/photo/agricola/230125_agricola2-6.jpeg" width="1000" loading="lazy">
+<img src="/photo/agricola/230125_agricola2-7.jpeg" width="1000" loading="lazy">
+<img src="/photo/agricola/230125_agricola2-8.jpeg" width="1000" loading="lazy">
 
 
 다시 찾아온 아그리콜라!!

@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/240627_hali.jpg" width="1000">
+<img src="/photo/240627_hali.jpg" width="1000" loading="lazy">
 
 역시 할리갈리는 아이 정서 발달에 좋아 <br>
 

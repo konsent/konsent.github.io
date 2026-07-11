@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/240405_barcelona.jpg" width="1000">
+<img src="/photo/240405_barcelona.jpg" width="1000" loading="lazy">
 
 오랜만에 들고온 히트게임즈 새로운 선주문 신작! 바르셀로나를 소개합니다!<br>
 

@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/240901_aa.jpg" width="1000">
+<img src="/photo/240901_aa.jpg" width="1000" loading="lazy">
 
 코리아보드게임즈의 협찬을 받아 제작한 컨텐츠입니다<br>
 

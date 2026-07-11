@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/240326_counter.jpeg" width="1000">
+<img src="/photo/240326_counter.jpeg" width="1000" loading="lazy">
 
 카운터가 한 두개도 아니고...<br>
 그거 살짝 다듬는거 뭐 보이지도 않겠구먼<br>

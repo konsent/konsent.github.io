@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/241222_top3.jpg" width="1000">
+<img src="/photo/241222_top3.jpg" width="1000" loading="lazy">
 
 
 올해 즐긴 게임은 많이 없지만! 그와중에서도 탑 3을 골라봤어요!<br>

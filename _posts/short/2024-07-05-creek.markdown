@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/240705_creek.jpg" width="1000">
+<img src="/photo/240705_creek.jpg" width="1000" loading="lazy">
 
 히트게임즈 선주문 신작! 비버크릭입니다!<br>
 

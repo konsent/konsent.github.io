@@ -1,5 +1,5 @@
 ---
-layout: post3
+layout: post
 title: "Silent Victory: U.S. Submarines in the Pacific, 1941-45"
 date: 2026-02-04 00:00:00
 preview: /photo/sv/silent_victory_thumb.jpg
@@ -9,10 +9,10 @@ short: null
 long: null
 ---
 
-<img src="/photo/sv/silent_victory_thumb.jpg" width="1000">
+<img src="/photo/sv/silent_victory_thumb.jpg" width="1000" loading="lazy">
 
-<img src="/photo/sv/260225_sv_1.png" width="1000">
-<img src="/photo/sv/260225_sv_2.png" width="1000">
+<img src="/photo/sv/260225_sv_1.png" width="1000" loading="lazy">
+<img src="/photo/sv/260225_sv_2.png" width="1000" loading="lazy">
 
 
 

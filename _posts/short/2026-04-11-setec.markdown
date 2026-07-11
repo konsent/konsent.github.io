@@ -7,10 +7,10 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/260411_setec1.PNG" width="1000">
-<img src="/photo/260411_setec2.PNG" width="1000">
-<img src="/photo/260411_setec3.PNG" width="1000">
-<img src="/photo/260411_setec4.PNG" width="1000">
+<img src="/photo/260411_setec1.PNG" width="1000" loading="lazy">
+<img src="/photo/260411_setec2.PNG" width="1000" loading="lazy">
+<img src="/photo/260411_setec3.PNG" width="1000" loading="lazy">
+<img src="/photo/260411_setec4.PNG" width="1000" loading="lazy">
 
 잘 안 가지고 노는 보드게임을 아이한테 건네주고 그냥 장난감처럼 가지고 놀게 했었는데, 어느 순간부터 점점 제대로 가지고 노는 모습을 발견해서 놀람.
 

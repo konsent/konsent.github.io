@@ -9,12 +9,12 @@ short: "on"
 
 
 
-<img src="/photo/260328_jobssul1.PNG" width="1000">
-<img src="/photo/260328_jobssul2.PNG" width="1000">
-<img src="/photo/260328_jobssul3.PNG" width="1000">
-<img src="/photo/260328_jobssul4.PNG" width="1000">
-<img src="/photo/260328_jobssul5.PNG" width="1000">
-<img src="/photo/260328_jobssul6.PNG" width="1000">
+<img src="/photo/260328_jobssul1.PNG" width="1000" loading="lazy">
+<img src="/photo/260328_jobssul2.PNG" width="1000" loading="lazy">
+<img src="/photo/260328_jobssul3.PNG" width="1000" loading="lazy">
+<img src="/photo/260328_jobssul4.PNG" width="1000" loading="lazy">
+<img src="/photo/260328_jobssul5.PNG" width="1000" loading="lazy">
+<img src="/photo/260328_jobssul6.PNG" width="1000" loading="lazy">
 
 
 하앙

@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/240508_pazuspiel.jpg" width="1000">
+<img src="/photo/240508_pazuspiel.jpg" width="1000" loading="lazy">
 
 벌써 파주 슈필 한 달도 안남았어요<br>
 

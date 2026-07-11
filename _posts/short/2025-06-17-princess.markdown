@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/250617_princess.jpg" width="1000">
+<img src="/photo/250617_princess.jpg" width="1000" loading="lazy">
 
 장단콩주들 모두 모여라
 

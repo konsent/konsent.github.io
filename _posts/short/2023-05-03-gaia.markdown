@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/230408_gaiaproject.jpg" width="1000">
+<img src="/photo/230408_gaiaproject.jpg" width="1000" loading="lazy">
 
 
 테마 게임만 많이했었는데 요새는 유로 게임도 조금씩 해보고 있어요!

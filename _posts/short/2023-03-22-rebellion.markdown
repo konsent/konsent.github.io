@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/220321_rebelion.jpg" width="1000">
+<img src="/photo/220321_rebelion.jpg" width="1000" loading="lazy">
 
 
 기다리고 기다리던 서타워즈 리벨리온 확장 둠칫둠칫

@@ -1,5 +1,5 @@
 ---
-layout: post3
+layout: post
 title: "Hornet Leader"
 date: 2025-11-08 00:00:00
 preview: /photo/HL/251108_HL_thumb.jpg
@@ -9,7 +9,7 @@ short: null
 long: null
 ---
 
-<img src="/photo/HL/251108_HL_thumb.jpg" width="1000">
+<img src="/photo/HL/251108_HL_thumb.jpg" width="1000" loading="lazy">
 
 Hornet Leader 
 <br>

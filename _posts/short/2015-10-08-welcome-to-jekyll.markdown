@@ -6,10 +6,10 @@ preview: /photo/TI4-1.jpg
 short: "on"
 ---
 
-<img src="/photo/TI4-1.jpg" width="1000">
-<img src="/photo/TI4-2.jpg" width="1000">
-<img src="/photo/TI4-3.jpg" width="1000">
-<img src="/photo/TI4-4.jpg" width="1000">
+<img src="/photo/TI4-1.jpg" width="1000" loading="lazy">
+<img src="/photo/TI4-2.jpg" width="1000" loading="lazy">
+<img src="/photo/TI4-3.jpg" width="1000" loading="lazy">
+<img src="/photo/TI4-4.jpg" width="1000" loading="lazy">
 
 여명의 제국 오래 걸린다고 겁먹지 않아도 됨!! 진짜 재밌다구여
 

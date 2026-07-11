@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/231221_forallmankind.jpg" width="1000">
+<img src="/photo/231221_forallmankind.jpg" width="1000" loading="lazy">
 
 요새 For All Mankind라는 드라마를 엄청 재밌게 보고있어요.<br>
 소련이 미국보다 먼저 달을 정복한 세계에서 벌어지는 대체 역사물인데, 기대 이상으로 정말 재밌더라구요..!!<br>

@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/231017_ibgm.jpg" width="1000">
+<img src="/photo/231017_ibgm.jpg" width="1000" loading="lazy">
 
 
 10월28일부터 29일 양일간 양재 aT센터에서 인디보드게임마켓이 열립니다!

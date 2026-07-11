@@ -9,7 +9,7 @@ short: "on"
 
 
 
-<img src="/photo/260204_shelf.PNG" width="1000">
+<img src="/photo/260204_shelf.PNG" width="1000" loading="lazy">
 
 
 

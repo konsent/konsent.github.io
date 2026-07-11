@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/220314_dogshit.jpg" width="1000">
+<img src="/photo/220314_dogshit.jpg" width="1000" loading="lazy">
 
 
 까먹고 안올린 개똥겜 뒤늦게 업로드!

@@ -6,8 +6,8 @@ preview: /photo/220607_SWD1.jpg
 short: "on"
 ---
 
-<img src="/photo/220607_SWD1.jpg" width="1000">
-<img src="/photo/220607_SWD2.jpg" width="1000">
+<img src="/photo/220607_SWD1.jpg" width="1000" loading="lazy">
+<img src="/photo/220607_SWD2.jpg" width="1000" loading="lazy">
 
 난 정말 이기고 싶었다
 

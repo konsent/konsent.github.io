@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/241208_AS.jpg" width="1000">
+<img src="/photo/241208_AS.jpg" width="1000" loading="lazy">
 
 
 우연찮은 기회에 공중전 워게임 Air Superiority를 확장까지 한 번에 구했어요!<br>

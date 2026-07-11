@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/241126_miniature.jpg" width="1000">
+<img src="/photo/241126_miniature.jpg" width="1000" loading="lazy">
 
 
 미니어쳐 게임 도색하는게 부담돼서 할 생각이 없었는데,<br>

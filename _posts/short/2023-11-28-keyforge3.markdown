@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/231128_keyforge.jpg" width="1000">
+<img src="/photo/231128_keyforge.jpg" width="1000" loading="lazy">
 
 
 카드 게임 경험이 미천하야, 이렇게 한 박스를 사서 까보는 경험은 처음이었어요 ㅋㅋ<br>

@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/250330_jdk.jpg" width="1000">
+<img src="/photo/250330_jdk.jpg" width="1000" loading="lazy">
 
 
 긴말 필요없음 장단콩 오셈

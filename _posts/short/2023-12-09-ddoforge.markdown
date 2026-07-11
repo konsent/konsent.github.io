@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/231209_ddoforge.jpg" width="1000">
+<img src="/photo/231209_ddoforge.jpg" width="1000" loading="lazy">
 
 
 온라인으로 해서 따로 어플에 기록은 안했지만 올해 제일 많이한 게임은 역시 키포지..!!<br>

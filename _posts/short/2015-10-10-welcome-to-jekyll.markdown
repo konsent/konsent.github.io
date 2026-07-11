@@ -6,9 +6,9 @@ preview: /photo/220606_RFTG1.jpg
 short: "on"
 ---
 
-<img src="/photo/220606_RFTG1.jpg" width="1000">
-<img src="/photo/220606_RFTG2.jpg" width="1000">
-<img src="/photo/220606_RFTG3.jpg" width="1000">
+<img src="/photo/220606_RFTG1.jpg" width="1000" loading="lazy">
+<img src="/photo/220606_RFTG2.jpg" width="1000" loading="lazy">
+<img src="/photo/220606_RFTG3.jpg" width="1000" loading="lazy">
 
 우주게임에 환장하는 나는 결국 데굴데굴 가이오트 아조씨에 혓바닥에 넘어가 레포갤을 질러버렸고
 

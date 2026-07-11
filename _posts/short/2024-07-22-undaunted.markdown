@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/240722_undaunted.jpg" width="1000">
+<img src="/photo/240722_undaunted.jpg" width="1000" loading="lazy">
 
 언던티드 노르망디는 처음이었는데, 진짜 정말 재밌었습니다.<br>
 일단 덱빌딩이랑 전투를 정말 맛있게 버무렸다는 느낌을 받았고, 시나리오 밸런싱도 정말 절묘하게 짜여있어서 대유쾌!!!<br>

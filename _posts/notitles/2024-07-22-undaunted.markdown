@@ -1,5 +1,5 @@
 ---
-layout: post4
+layout: post
 title: "요새 근황"
 date: 2024-07-24 00:00:00
 preview: /photo/undaunted.png

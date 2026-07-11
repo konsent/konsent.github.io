@@ -7,12 +7,12 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/230102_nemesisldw1-1.jpeg" width="1000">
-<img src="/photo/230102_nemesisldw1-2.jpeg" width="1000">
-<img src="/photo/230102_nemesisldw1-3.jpeg" width="1000">
-<img src="/photo/230102_nemesisldw1-4.jpeg" width="1000">
-<img src="/photo/230102_nemesisldw1-5.jpeg" width="1000">
-<img src="/photo/230102_nemesisldw1-6.jpeg" width="1000">
+<img src="/photo/230102_nemesisldw1-1.jpeg" width="1000" loading="lazy">
+<img src="/photo/230102_nemesisldw1-2.jpeg" width="1000" loading="lazy">
+<img src="/photo/230102_nemesisldw1-3.jpeg" width="1000" loading="lazy">
+<img src="/photo/230102_nemesisldw1-4.jpeg" width="1000" loading="lazy">
+<img src="/photo/230102_nemesisldw1-5.jpeg" width="1000" loading="lazy">
+<img src="/photo/230102_nemesisldw1-6.jpeg" width="1000" loading="lazy">
 
 
 저번 주 코보검 언테임드님 집에 초대받고 놀러가서 게임을 즐겼습니다 쿸쿸쿸

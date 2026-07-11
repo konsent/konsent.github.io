@@ -7,8 +7,8 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/260610_job1.PNG" width="1000">
-<img src="/photo/260610_job2.PNG" width="1000">
-<img src="/photo/260610_job3.PNG" width="1000">
+<img src="/photo/260610_job1.PNG" width="1000" loading="lazy">
+<img src="/photo/260610_job2.PNG" width="1000" loading="lazy">
+<img src="/photo/260610_job3.PNG" width="1000" loading="lazy">
 
 1번은 진짜 할말 많지만 참는다

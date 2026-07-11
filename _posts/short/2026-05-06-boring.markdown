@@ -7,10 +7,10 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/boring_thumb.png" width="1000">
-<img src="/photo/IMG_3022.PNG" width="1000">
-<img src="/photo/IMG_3026.PNG" width="1000">
-<img src="/photo/IMG_3024.PNG" width="1000">
+<img src="/photo/boring_thumb.png" width="1000" loading="lazy">
+<img src="/photo/IMG_3022.PNG" width="1000" loading="lazy">
+<img src="/photo/IMG_3026.PNG" width="1000" loading="lazy">
+<img src="/photo/IMG_3024.PNG" width="1000" loading="lazy">
 
 AI한테 이것저것 먹여서 물어보니 기똥차게 게임을 잘 골라주긴하는데
 문제는 너무 취향저격이라 골라준 게임이 죄다 방출한 게임들임

@@ -1,5 +1,5 @@
 ---
-layout: post4
+layout: post
 title: "가지고 싶은 게임이 왜이리 많은지"
 date: 2024-04-21 00:00:00
 preview: /photo/NT-resizethumb.jpeg
@@ -10,7 +10,7 @@ short: null
 long: null
 ---
 
-<img src="/photo/cpb_thumb.jpeg" width="300"> 
+<img src="/photo/cpb_thumb.jpeg" width="300" loading="lazy"> 
 <br>
 <br>
 최근에 별밤님 추천 게임 Carrier Battle: Philippine Sea 규칙서를 번역하고 있다.
@@ -22,13 +22,13 @@ long: null
 재밌게 규칙서 읽으면서 배송 오기만을 기다리고 있는데, 이 와중에 다니엘님이 게임 하나를 소개해준게 바로 NATO: The Cold War Goes Hot. 제목부터 아주 자극적 쏘핫.
 <br>
 <br>
-<img src="/photo/NATO.png" width="300"> 
+<img src="/photo/NATO.png" width="300" loading="lazy"> 
 <br> 
 <br>
 1차대전부터해서 굵직한 주요 전쟁시기를 다루는 게임들을 하나씩 모아보고 싶단 생각을 했는데, 황혼의 투쟁으로는 카운터 워게임의 그 맛을 채우기 어렵다고 생각한 찰나에 아주 재밌어 보이는 게임이 또 이렇게ㅠㅠ. 주변에 왜이리 뽐을 잘 주는 사람들이 많은지 아주 걱정이 된다. 
 <br>
 <br>
-<img src="/photo/Nato1.png" width="600"> 
+<img src="/photo/Nato1.png" width="600" loading="lazy"> 
 <br> 
 <br>
 규칙서는 88페이지 정도되는 분량인데, 규칙서 서문에 이렇게 쓰여있다: 규칙서 양이 많긴한데 대부분 예시나 중복되는 내용이고, 한 번 익숙해지면 쉽다!. 워게이머들이 하는 '쉽다'가 대부분 함정이긴한데, 게임이 테마가 너무 재밌어 보여서 일단 다음 구매 목록에 올려놓음.
@@ -38,4 +38,4 @@ long: null
 <br> 
 <br>
 <br>
-<img src="/photo/cpb_thumb.jpeg" width="100"> <img src="/photo/NATO.png" width="100"> <img src="/photo/rdr_thumb.png" width="100">
+<img src="/photo/cpb_thumb.jpeg" width="100" loading="lazy"> <img src="/photo/NATO.png" width="100" loading="lazy"> <img src="/photo/rdr_thumb.png" width="100" loading="lazy">

@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/230718_wingleader.jpg" width="1000">
+<img src="/photo/230718_wingleader.jpg" width="1000" loading="lazy">
 
 헥스 타일이 아니면 워게임이 아니라고 하시는 분도 계시겠지만!
 어찌됐건 제 인생 첫번째 워게임이 아닐까 하는 윙 리더 슈프리머시를 즐겨봤습니다 ㅋㅋ

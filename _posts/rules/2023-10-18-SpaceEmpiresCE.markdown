@@ -1,5 +1,5 @@
 ---
-layout: post3
+layout: post
 title: "Space Empires: Close Encounter 한글 규칙서"
 date: 2023-10-18 00:00:00
 preview: /photo/SE-resizethumb.jpeg
@@ -9,7 +9,7 @@ short: null
 long: null
 ---
 
-<img src="/photo/sece.png" width="300">
+<img src="/photo/sece.png" width="300" loading="lazy">
 
 Space Empires: Close Encounters 한글 규칙서<br>
 Space Empires 4X의 첫번째 확장입니다.<br>

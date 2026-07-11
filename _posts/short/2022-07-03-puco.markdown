@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/Puerto.jpg" width="1000">
+<img src="/photo/Puerto.jpg" width="1000" loading="lazy">
 
 친구가 집에 맡긴 푸에르코리코 카드게임
 <br/><br/>

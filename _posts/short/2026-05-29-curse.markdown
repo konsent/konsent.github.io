@@ -7,9 +7,9 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/260529_curse1.PNG" width="1000">
-<img src="/photo/260529_curse2.PNG" width="1000">
-<img src="/photo/260529_curse3.PNG" width="1000">
+<img src="/photo/260529_curse1.PNG" width="1000" loading="lazy">
+<img src="/photo/260529_curse2.PNG" width="1000" loading="lazy">
+<img src="/photo/260529_curse3.PNG" width="1000" loading="lazy">
 
 분명 엄청 잘만든 게임인거 잘 알고.. 평도 좋고.. 주변에서 다 추천하는 갓겜인데도
 

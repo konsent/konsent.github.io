@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/250826_opengame.jpg" width="1000">
+<img src="/photo/250826_opengame.jpg" width="1000" loading="lazy">
 
 안팔길 잘했다
 

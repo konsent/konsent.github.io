@@ -9,7 +9,7 @@ short: "on"
 
 
 
-<img src="/photo/260105_2026.jpg" width="1000">
+<img src="/photo/260105_2026.jpg" width="1000" loading="lazy">
 
 
 새로운 만화로 2026년을 시작해보자

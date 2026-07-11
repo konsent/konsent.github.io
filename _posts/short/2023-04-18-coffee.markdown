@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/230419_coffeerush.jpg" width="1000">
+<img src="/photo/230419_coffeerush.jpg" width="1000" loading="lazy">
 
 
 이번 파주 슈필의 초핫겜 커피 러시!!

@@ -9,8 +9,8 @@ short: "on"
 
 
 
-<img src="/photo/260127_price1.PNG" width="1000">
-<img src="/photo/260127_price2.PNG" width="1000">
+<img src="/photo/260127_price1.PNG" width="1000" loading="lazy">
+<img src="/photo/260127_price2.PNG" width="1000" loading="lazy">
 
 
 나도 못믿겠어

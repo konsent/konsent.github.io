@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/221002_weight.jpg" width="1000">
+<img src="/photo/221002_weight.jpg" width="1000" loading="lazy">
 
 <br/><br/>
 

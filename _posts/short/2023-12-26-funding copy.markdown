@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/231226_funding.jpg" width="1000">
+<img src="/photo/231226_funding.jpg" width="1000" loading="lazy">
 
 제작년에 펀딩했던 게임들이 이제 슬슬 배송을 앞두고 있더라구요.<br>
 올해 받는 건 글렀지만 그래도 내년 초엔 오지 않을까싶습니다..<br>

@@ -1,5 +1,5 @@
 ---
-layout: post3
+layout: post
 title: "Enemy Action: Ardennes"
 date: 2026-05-11 00:00:00
 preview: /photo/eaa/eaa_thumb.png
@@ -9,7 +9,7 @@ short: null
 long: null
 ---
 
-<img src="/photo/eaa/eaa_thumb.png" width="1000">
+<img src="/photo/eaa/eaa_thumb.png" width="1000" loading="lazy">
 
 
 

@@ -6,6 +6,6 @@ preview: /photo/220605_BNZ.jpg
 short: "on"
 ---
 
-<img src="/photo/220605_BNZ.jpg" width="1000">
+<img src="/photo/220605_BNZ.jpg" width="1000" loading="lazy">
 
 티끌모아 태산 푸르대콩으로 인생 역전 콩부자 등극

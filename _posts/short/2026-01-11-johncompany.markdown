@@ -9,7 +9,7 @@ short: "on"
 
 
 
-<img src="/photo/261011_jc.png" width="1000">
+<img src="/photo/261011_jc.png" width="1000" loading="lazy">
 
 
 히트게임즈 협찬 제작 컨텐츠입니다.

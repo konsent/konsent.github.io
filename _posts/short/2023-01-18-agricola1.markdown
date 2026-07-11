@@ -7,12 +7,12 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/agricola/230118_agrcola1-1.jpeg" width="1000">
-<img src="/photo/agricola/230118_agrcola1-2.jpeg" width="1000">
-<img src="/photo/agricola/230118_agrcola1-3.jpeg" width="1000">
-<img src="/photo/agricola/230118_agrcola1-4.jpeg" width="1000">
-<img src="/photo/agricola/230118_agrcola1-5.jpeg" width="1000">
-<img src="/photo/agricola/230118_agrcola1-6.jpeg" width="1000">
+<img src="/photo/agricola/230118_agrcola1-1.jpeg" width="1000" loading="lazy">
+<img src="/photo/agricola/230118_agrcola1-2.jpeg" width="1000" loading="lazy">
+<img src="/photo/agricola/230118_agrcola1-3.jpeg" width="1000" loading="lazy">
+<img src="/photo/agricola/230118_agrcola1-4.jpeg" width="1000" loading="lazy">
+<img src="/photo/agricola/230118_agrcola1-5.jpeg" width="1000" loading="lazy">
+<img src="/photo/agricola/230118_agrcola1-6.jpeg" width="1000" loading="lazy">
 
 
 23년도 첫 시작은 아그리콜라 15주년입니다!

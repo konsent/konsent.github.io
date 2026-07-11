@@ -7,8 +7,8 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/260427_busan1.PNG" width="1000">
-<img src="/photo/260427_busan2.PNG" width="1000">
-<img src="/photo/260427_busan3.PNG" width="1000">
+<img src="/photo/260427_busan1.PNG" width="1000" loading="lazy">
+<img src="/photo/260427_busan2.PNG" width="1000" loading="lazy">
+<img src="/photo/260427_busan3.PNG" width="1000" loading="lazy">
 
 왜 부산에 만드냐고 서울 마포구에 만들어달라고

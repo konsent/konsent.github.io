@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/240802_paper.jpg" width="1000">
+<img src="/photo/240802_paper.jpg" width="1000" loading="lazy">
 
 요새 완전 재밌게 즐기고 있는 NATO: The Cold War Goes Hot!<br>
 마스터 다니엘이 고안한 워게이밍 오라클을 오토마처럼 쓰면서 솔플을 하고있는데, 확실히 이게 있는거랑 없는거랑 다르더라구요<br>

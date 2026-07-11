@@ -9,7 +9,7 @@ short: "on"
 
 
 
-<img src="/photo/260112_clock.png" width="1000">
+<img src="/photo/260112_clock.png" width="1000" loading="lazy">
 
 
 난 왜이렇게 마피아 게임을 못할까

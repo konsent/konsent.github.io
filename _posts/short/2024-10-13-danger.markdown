@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/241013_dangerous.jpg" width="1000">
+<img src="/photo/241013_dangerous.jpg" width="1000" loading="lazy">
 
 
 전운이 감도는 파주에서 게임을 즐기면 두 배로 재밌습니다<br>

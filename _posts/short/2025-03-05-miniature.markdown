@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/250306_miniature.jpg" width="1000">
+<img src="/photo/250306_miniature.jpg" width="1000" loading="lazy">
 
 
 미니어쳐 게임 진짜 재밌는데 설명을 못하겠네

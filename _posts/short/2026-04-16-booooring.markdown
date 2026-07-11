@@ -7,8 +7,8 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/260416_boring1.PNG" width="1000">
-<img src="/photo/260416_boring2.PNG" width="1000">
+<img src="/photo/260416_boring1.PNG" width="1000" loading="lazy">
+<img src="/photo/260416_boring2.PNG" width="1000" loading="lazy">
 
 가끔 현생이 바쁠 때 보드게임이 손에 잘 안잡힐 때가 있는데,
 

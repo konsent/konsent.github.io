@@ -1,5 +1,5 @@
 ---
-layout: post4
+layout: post
 title: "호넷 리더 웹앱은 꽤 괜찮다구요!"
 date: 2026-04-11 00:00:00
 preview: /photo/a7_thumb.png
@@ -10,9 +10,9 @@ short: null
 long: null
 ---
 
-<img src="/photo/hl1.png" width="1000">
-<img src="/photo/hl2.png" width="1000">
-<img src="/photo/hl3.png" width="1000">
+<img src="/photo/hl1.png" width="1000" loading="lazy">
+<img src="/photo/hl2.png" width="1000" loading="lazy">
+<img src="/photo/hl3.png" width="1000" loading="lazy">
 
 호넷 리더를 플레이하려고 만든 솔로 웹앱..
 

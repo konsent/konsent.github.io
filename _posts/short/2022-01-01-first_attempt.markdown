@@ -6,7 +6,7 @@ preview: /photo/220608_SWD.jpg
 short: "on"
 ---
 
-<img src="/photo/220608_SWD.jpg" width="1000">
+<img src="/photo/220608_SWD.jpg" width="1000" loading="lazy">
 
 처음으로 쪼여사가 같이 보드게임을 하고 싶다고 말했다!
 

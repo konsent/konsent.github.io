@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/250927_arcs.jpg" width="1000">
+<img src="/photo/250927_arcs.jpg" width="1000" loading="lazy">
 
 
 세상에 이 게임이 나오다니.

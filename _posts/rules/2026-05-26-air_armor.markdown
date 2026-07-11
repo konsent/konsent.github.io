@@ -1,5 +1,5 @@
 ---
-layout: post3
+layout: post
 title: "Air & Armor: Würzburg, Tactical Armored Warfare in Europe"
 date: 2026-05-26 00:00:00
 preview: /photo/260526_aa_thumb.png
@@ -7,9 +7,9 @@ published: true
 rules: "on"
 ---
 
-<img src="/photo/260526_aa1.PNG" width="1000">
-<img src="/photo/260526_aa2.PNG" width="1000">
-<img src="/photo/260526_aa3.PNG" width="1000">
+<img src="/photo/260526_aa1.PNG" width="1000" loading="lazy">
+<img src="/photo/260526_aa2.PNG" width="1000" loading="lazy">
+<img src="/photo/260526_aa3.PNG" width="1000" loading="lazy">
 
 NATO를 이미 가지고 있기도 하고, Air&Armor 규칙서가 너무 두껍다보니 부담돼서 굳이 안사려고 했었거든요..
 

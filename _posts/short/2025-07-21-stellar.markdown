@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/250721_Stellar.jpg" width="1000">
+<img src="/photo/250721_Stellar.jpg" width="1000" loading="lazy">
 
 오랜만에 즐기는 우주게임
 역시 맛이 좋다

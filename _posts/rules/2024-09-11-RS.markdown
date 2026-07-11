@@ -1,5 +1,5 @@
 ---
-layout: post3
+layout: post
 title: "Red Storm"
 date: 2024-09-11 00:00:00
 preview: /photo/240911_redstorm_thumb.jpg
@@ -9,7 +9,7 @@ short: null
 long: null
 ---
 
-<img src="/photo/240911_redstorm.jpg" width="1000">
+<img src="/photo/240911_redstorm.jpg" width="1000" loading="lazy">
 
 GMT Games Red Storm 규칙서 번역입니다
 <br>

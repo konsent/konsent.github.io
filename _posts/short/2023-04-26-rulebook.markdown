@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/230426_rulebook.jpg" width="1000">
+<img src="/photo/230426_rulebook.jpg" width="1000" loading="lazy">
 
 
 아버지가 되기 전이라 육아책을 많이 읽고 있는데, 아이들 사고력과 문해력을 키우는데 종이접기가 굉장히 좋대요.

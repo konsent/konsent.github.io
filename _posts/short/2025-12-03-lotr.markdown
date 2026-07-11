@@ -9,7 +9,7 @@ short: "on"
 
 히트게임즈 협찬으로 제작한 컨텐츠입니다.
 
-<img src="/photo/251203_lotr.png" width="1000">
+<img src="/photo/251203_lotr.png" width="1000" loading="lazy">
 
 
 반지의 제왕 카드게임 많관부

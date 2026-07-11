@@ -9,9 +9,9 @@ short: "on"
 
 
 
-<img src="/photo/260210_wargame1.PNG" width="1000">
-<img src="/photo/260210_wargame2.PNG" width="1000">
-<img src="/photo/260210_wargame3.PNG" width="1000">
+<img src="/photo/260210_wargame1.PNG" width="1000" loading="lazy">
+<img src="/photo/260210_wargame2.PNG" width="1000" loading="lazy">
+<img src="/photo/260210_wargame3.PNG" width="1000" loading="lazy">
 
 
 내가 왜 워게임에 빠져가지고 진짜

@@ -1,5 +1,5 @@
 ---
-layout: post4
+layout: post
 title: "구매 희망 리스트"
 date: 2024-04-23 00:00:00
 preview: /photo/RDR-resizethumb.jpeg
@@ -10,7 +10,7 @@ short: null
 long: null
 ---
 
-<img src="/photo/cpb_thumb.jpeg" width="100"> <img src="/photo/NATO.png" width="100"> <img src="/photo/rdr_thumb.png" width="100"> <img src="/photo/pog.png" width="100"> <img src="/photo/weimar.png" width="100"> <img src="/photo/IS.png" width="100"> <img src="/photo/na41.jpeg" width="100">
+<img src="/photo/cpb_thumb.jpeg" width="100" loading="lazy"> <img src="/photo/NATO.png" width="100" loading="lazy"> <img src="/photo/rdr_thumb.png" width="100" loading="lazy"> <img src="/photo/pog.png" width="100" loading="lazy"> <img src="/photo/weimar.png" width="100" loading="lazy"> <img src="/photo/IS.png" width="100" loading="lazy"> <img src="/photo/na41.jpeg" width="100" loading="lazy">
 
 <br>
 요새 관심있는 게임들

@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/250212_yuboo.jpg" width="1000">
+<img src="/photo/250212_yuboo.jpg" width="1000" loading="lazy">
 
 
 유부남도 즐거워

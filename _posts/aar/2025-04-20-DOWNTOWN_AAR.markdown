@@ -1,5 +1,5 @@
 ---
-layout: post5
+layout: post
 title: "Downtown: Air War Over Hanoi, 1965-1972"
 date: 2025-04-20 00:00:00
 preview: /photo/250420_downtown_thumb.jpeg

@@ -7,8 +7,8 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/260609_dollar1.PNG" width="1000">
-<img src="/photo/260609_dollar2.PNG" width="1000">
-<img src="/photo/260609_dollar3.PNG" width="1000">
+<img src="/photo/260609_dollar1.PNG" width="1000" loading="lazy">
+<img src="/photo/260609_dollar2.PNG" width="1000" loading="lazy">
+<img src="/photo/260609_dollar3.PNG" width="1000" loading="lazy">
 
 정답은?

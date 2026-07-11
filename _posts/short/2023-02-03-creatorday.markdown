@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/230203_creatorday.JPG" width="1000">
+<img src="/photo/230203_creatorday.JPG" width="1000" loading="lazy">
 
 
 카르카손은 재밌었고

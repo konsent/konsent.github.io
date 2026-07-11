@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/230529_creatorday.jpg" width="1000">
+<img src="/photo/230529_creatorday.jpg" width="1000" loading="lazy">
 
 
 쪼여사 출산 전 마지막 크리에이터 데이!에 다녀왔습니다 호호

@@ -1,5 +1,5 @@
 ---
-layout: post3
+layout: post
 title: "Fields of Fire Deluxe Edition"
 date: 2025-05-29 00:00:00
 preview: /photo/fof_thumb.jpeg
@@ -9,7 +9,7 @@ short: null
 long: null
 ---
 
-<img src="/photo/fof_thumb.jpeg" width="1000">
+<img src="/photo/fof_thumb.jpeg" width="1000" loading="lazy">
 
 Fields of Fire Deluxe Edition
 <br>

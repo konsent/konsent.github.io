@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/250606_oldgamerkeck.jpg" width="1000">
+<img src="/photo/250606_oldgamerkeck.jpg" width="1000" loading="lazy">
 
 한 사람의 열정과 추억이 담뿍 담긴 물건들이 결국엔 골동품 가게에 통쨰로 팔려나가는 모습을 보니
 허무함과 함께 묘한 감정이 드네요. 흐어어

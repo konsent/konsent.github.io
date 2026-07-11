@@ -1,5 +1,5 @@
 ---
-layout: post4
+layout: post
 title: "NATO 구입!"
 date: 2024-05-10 00:00:00
 preview: /photo/NT-resizethumb.jpeg

@@ -9,9 +9,9 @@ short: "on"
 
 
 
-<img src="/photo/260228_solo1.PNG" width="1000">
-<img src="/photo/260228_solo2.PNG" width="1000">
-<img src="/photo/260228_solo3.PNG" width="1000">
+<img src="/photo/260228_solo1.PNG" width="1000" loading="lazy">
+<img src="/photo/260228_solo2.PNG" width="1000" loading="lazy">
+<img src="/photo/260228_solo3.PNG" width="1000" loading="lazy">
 
 
 

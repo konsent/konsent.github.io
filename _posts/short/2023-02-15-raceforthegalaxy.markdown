@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/230215_raceoforthegalaxy.jpg" width="1000">
+<img src="/photo/230215_raceoforthegalaxy.jpg" width="1000" loading="lazy">
 
 
 

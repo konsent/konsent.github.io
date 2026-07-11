@@ -9,8 +9,8 @@ short: "on"
 
 
 
-<img src="/photo/260125_geek1.png" width="1000">
-<img src="/photo/260125_geek2.png" width="1000">
+<img src="/photo/260125_geek1.png" width="1000" loading="lazy">
+<img src="/photo/260125_geek2.png" width="1000" loading="lazy">
 
 
 쉽지않아

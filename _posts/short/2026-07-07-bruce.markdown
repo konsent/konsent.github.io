@@ -7,10 +7,10 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/260707_bruce1.PNG" width="1000">
-<img src="/photo/260707_bruce2.PNG" width="1000">
-<img src="/photo/260707_bruce3.PNG" width="1000">
-<img src="/photo/260707_bruce4.PNG" width="1000">
+<img src="/photo/260707_bruce1.PNG" width="1000" loading="lazy">
+<img src="/photo/260707_bruce2.PNG" width="1000" loading="lazy">
+<img src="/photo/260707_bruce3.PNG" width="1000" loading="lazy">
+<img src="/photo/260707_bruce4.PNG" width="1000" loading="lazy">
 
 보통은 워게임은 오래걸리기도 하고 설명할 자신도 없어서 솔플로 많이 하는 편이거든요.
 

@@ -1,5 +1,5 @@
 ---
-layout: post3
+layout: post
 title: "NATO THE COLD WAR GOES HOT"
 date: 2024-07-29 00:00:00
 preview: /photo/NT-resizethumb.jpeg
@@ -9,7 +9,7 @@ short: null
 long: null
 ---
 
-<img src="/photo/240729_nato.jpg" width="1000">
+<img src="/photo/240729_nato.jpg" width="1000" loading="lazy">
 
 Compass Games NATO THE COLD WAR GOES HOT 규칙서 번역입니다
 <br>

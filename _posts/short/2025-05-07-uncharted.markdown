@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/250507_uncharted.jpg" width="1000">
+<img src="/photo/250507_uncharted.jpg" width="1000" loading="lazy">
 
 
 항로개척자 재밌어요!

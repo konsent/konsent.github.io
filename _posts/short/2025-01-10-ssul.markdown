@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/250110_ssul.jpg" width="1000">
+<img src="/photo/250110_ssul.jpg" width="1000" loading="lazy">
 
 
 아니 IQ 10이면 충분할 줄 알았다구요<br>

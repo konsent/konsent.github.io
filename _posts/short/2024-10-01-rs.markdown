@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/241001_RS.jpg" width="1000">
+<img src="/photo/241001_RS.jpg" width="1000" loading="lazy">
 
 
 워게임메이트 다니엘님이 떠먹여주는 레드 스톰을 즐기고 왔습니다.<br>

@@ -1,5 +1,5 @@
 ---
-layout: post4
+layout: post
 title: "아 듄 재밌네"
 date: 2024-06-06 00:00:00
 preview: /photo/duneup.png

@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/231003_letsbg5.jpg" width="1000">
+<img src="/photo/231003_letsbg5.jpg" width="1000" loading="lazy">
 
 
 기름진 손으로 게임하거나 카드를 막 구부리거나 하는 행동은 앙대요

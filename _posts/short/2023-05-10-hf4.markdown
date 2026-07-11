@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/230510_hf4all.jpg" width="1000">
+<img src="/photo/230510_hf4all.jpg" width="1000" loading="lazy">
 
 
 올해 플레이한 게임 중 제일 재밌네요ㅋㅋ 

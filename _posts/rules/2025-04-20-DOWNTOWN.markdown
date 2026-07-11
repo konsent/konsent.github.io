@@ -1,5 +1,5 @@
 ---
-layout: post3
+layout: post
 title: "Downtown: Air War Over Hanoi, 1965-1972"
 date: 2025-04-20 00:00:00
 preview: /photo/250420_downtown_thumb.jpeg
@@ -9,9 +9,9 @@ short: null
 long: null
 ---
 
-<img src="/wepapps/downtown/solo sop/assets/downtown_artwork.png" width="1000">
+<img src="/wepapps/downtown/solo sop/assets/downtown_artwork.png" width="1000" loading="lazy">
 
-<img src="/photo/250420_downtown.jpg" width="1000">
+<img src="/photo/250420_downtown.jpg" width="1000" loading="lazy">
 
 Downtown: Air War Over Hanoi, 1965-1972
 <br>

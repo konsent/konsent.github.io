@@ -8,7 +8,7 @@ short: "on"
 tags: [스타워즈, 보드게임, 리벨리온]
 ---
 
-<img src="/photo/Rebellion/221024_rebellion.jpg" width="1000">
+<img src="/photo/Rebellion/221024_rebellion.jpg" width="1000" loading="lazy">
 
 <br/><br/>
 

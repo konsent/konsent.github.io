@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/230726_PlanetX.jpg" width="1000">
+<img src="/photo/230726_PlanetX.jpg" width="1000" loading="lazy">
 
 디덕션류 최강이 아닐까 싶을 정도의 갓겜이 드디어!!
 영문판으로 해보고 정말 감탄했던 게임인데 이게 국내 출시하다니....

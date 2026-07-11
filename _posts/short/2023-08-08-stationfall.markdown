@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/230809_stationfall.jpg" width="1000">
+<img src="/photo/230809_stationfall.jpg" width="1000" loading="lazy">
 
 하이프론티어를 출시한 ION GAMES 게임 중에 특히 눈여겨 보고있던 바로 그 게임
 15분 뒤 추락하며 불구덩이가 될 우주 정거장에서 벌어지는 일을 그리는 게임 Stationfall입니다!

@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/230802_justlikeit.jpg" width="1000">
+<img src="/photo/230802_justlikeit.jpg" width="1000" loading="lazy">
 
 
 보드게임이 취미인 사람치고 보드게임 못하는 사람의 변명 잘 들었습니다

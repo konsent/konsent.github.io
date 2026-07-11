@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/240618_paju.jpg" width="1000">
+<img src="/photo/240618_paju.jpg" width="1000" loading="lazy">
 
 파주 동호회 모두 가입하세요 <br>
 

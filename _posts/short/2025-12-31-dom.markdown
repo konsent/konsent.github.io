@@ -10,7 +10,7 @@ short: "on"
 
 히트게임즈 협찬 제작 컨텐츠입니다.
 
-<img src="/photo/251231_dom.png" width="1000">
+<img src="/photo/251231_dom.png" width="1000" loading="lazy">
 
 
 텀블벅 많관부

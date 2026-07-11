@@ -9,7 +9,7 @@ short: "on"
 
 
 
-<img src="/photo/251215_scam.jpg" width="1000">
+<img src="/photo/251215_scam.jpg" width="1000" loading="lazy">
 
 
 사기꾼 씨발놈들

@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/250327_hyunta.jpg" width="1000">
+<img src="/photo/250327_hyunta.jpg" width="1000" loading="lazy">
 
 
 요새는 가슴이 두근거리는 게임이 잘 안보여요..

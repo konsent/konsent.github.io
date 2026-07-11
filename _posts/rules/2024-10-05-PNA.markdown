@@ -1,5 +1,5 @@
 ---
-layout: post3
+layout: post
 title: "PANZER: North Africa"
 date: 2024-10-05 00:00:00
 preview: /photo/pna.jpg
@@ -9,7 +9,7 @@ short: null
 long: null
 ---
 
-<img src="/photo/pna.jpg" width="1000">
+<img src="/photo/pna.jpg" width="1000" loading="lazy">
 
 GMT PANZER: North Africa 규칙서 번역입니다
 <br>

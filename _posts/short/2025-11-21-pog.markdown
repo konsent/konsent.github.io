@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/251121_pog.jpg" width="1000">
+<img src="/photo/251121_pog.jpg" width="1000" loading="lazy">
 
 
 패오글을 할 때는 꼭 직접 만나서 배우세요

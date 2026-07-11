@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/230303_deckbuilding.jpg" width="1000">
+<img src="/photo/230303_deckbuilding.jpg" width="1000" loading="lazy">
 
 
 요새 덱빌딩 게임을 자주 하고 있어요 ㅋㅋ

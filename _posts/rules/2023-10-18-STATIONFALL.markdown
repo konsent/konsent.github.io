@@ -1,5 +1,5 @@
 ---
-layout: post3
+layout: post
 title: "Stationfall 한글화 자료"
 date: 2023-10-18 00:00:00
 preview: /photo/ST-resizethumb.jpeg
@@ -9,7 +9,7 @@ short: null
 long: null
 ---
 
-<img src="/photo/sf.jpeg" width="300">
+<img src="/photo/sf.jpeg" width="300" loading="lazy">
 
 - Stationfall은 15분 뒤 추락하는 우주 정거장에서 생존하는 게임입니다.
 - 규칙서 및 참조표, 게임보드 한글화 자료가 포함되어 있습니다.

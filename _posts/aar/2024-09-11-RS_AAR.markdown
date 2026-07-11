@@ -1,5 +1,5 @@
 ---
-layout: post5
+layout: post
 title: "Red Storm"
 date: 2024-09-11 00:00:00
 preview: /photo/240911_redstorm_thumb.jpg

@@ -9,7 +9,7 @@ short: "on"
 
 
 
-<img src="/photo/251213_noble.jpg" width="1000">
+<img src="/photo/251213_noble.jpg" width="1000" loading="lazy">
 
 
 노블나이트 버스 구함

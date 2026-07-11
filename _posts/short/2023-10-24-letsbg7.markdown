@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/231024_letsbg7.jpg" width="1000">
+<img src="/photo/231024_letsbg7.jpg" width="1000" loading="lazy">
 
 
 신작은 일단 사야지!!!

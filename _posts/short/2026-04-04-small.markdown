@@ -9,11 +9,11 @@ short: "on"
 
 
 
-<img src="/photo/260404_small1.PNG" width="1000">
-<img src="/photo/260404_small2.PNG" width="1000">
-<img src="/photo/260404_small3.PNG" width="1000">
-<img src="/photo/260404_small4.PNG" width="1000">
-<img src="/photo/260404_small5.PNG" width="1000">
+<img src="/photo/260404_small1.PNG" width="1000" loading="lazy">
+<img src="/photo/260404_small2.PNG" width="1000" loading="lazy">
+<img src="/photo/260404_small3.PNG" width="1000" loading="lazy">
+<img src="/photo/260404_small4.PNG" width="1000" loading="lazy">
+<img src="/photo/260404_small5.PNG" width="1000" loading="lazy">
 
 
 횡설수설하긴했는데 엄청 간단한 게임이 기대 이상으로 재밌어서 다른 작은 게임들에 관심이 갔다 뭐 이런 얘기입니다 흥

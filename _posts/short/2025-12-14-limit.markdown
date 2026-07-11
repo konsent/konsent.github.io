@@ -9,7 +9,7 @@ short: "on"
 
 
 
-<img src="/photo/251214_limit.jpg" width="1000">
+<img src="/photo/251214_limit.jpg" width="1000" loading="lazy">
 
 
 같이하는 사람들에 따라 게임 양상이 엄청 많이 바뀔 것 같음.

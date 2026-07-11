@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/250930_poll.jpg" width="1000">
+<img src="/photo/250930_poll.jpg" width="1000" loading="lazy">
 
 
 https://hitgames.kr/sub/vote_list.php?&page=1

@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/240101_scope.jpg" width="1000">
+<img src="/photo/240101_scope.jpg" width="1000" loading="lazy">
 
 오늘도 가져온 히트 게임즈 펀딩 게임 소개! 스코프 3부작입니다!<br>
 

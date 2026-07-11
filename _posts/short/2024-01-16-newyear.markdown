@@ -7,7 +7,7 @@ published: true
 short: "on"
 ---
 
-<img src="/photo/20240116_newyear.jpg" width="1000">
+<img src="/photo/20240116_newyear.jpg" width="1000" loading="lazy">
 
 정신차려보니 23년 벌써 끝나버렸어요. 이건 말도 안돼<br>
 

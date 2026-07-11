@@ -1,5 +1,5 @@
 ---
-layout: post2
+layout: post
 title: "스타워즈 리벨리온"
 date: 2022-11-01 00:00:00
 preview: /photo/Rebellion/221101_rebellion_thumb.jpg
@@ -8,49 +8,49 @@ long: "on"
 short: null
 ---
 
-<img src="/photo/Rebellion/221101_rebellion_thumb.jpg" width="1000">
-<img src="/photo/Rebellion/221101_rebellion1.jpg" width="1000">
-<img src="/photo/Rebellion/221101_rebellion2.jpg" width="1000">
-<img src="/photo/Rebellion/221101_rebellion3.jpg" width="1000">
-<img src="/photo/Rebellion/221101_rebellion4.jpg" width="1000">
-<img src="/photo/Rebellion/221101_rebellion5.jpg" width="1000">
-<img src="/photo/Rebellion/221101_rebellion6.jpg" width="1000">
-<img src="/photo/Rebellion/221101_rebellion7.jpg" width="1000">
-<img src="/photo/Rebellion/221101_rebellion8.jpg" width="1000">
-<img src="/photo/Rebellion/221101_rebellion9.jpg" width="1000">
+<img src="/photo/Rebellion/221101_rebellion_thumb.jpg" width="1000" loading="lazy">
+<img src="/photo/Rebellion/221101_rebellion1.jpg" width="1000" loading="lazy">
+<img src="/photo/Rebellion/221101_rebellion2.jpg" width="1000" loading="lazy">
+<img src="/photo/Rebellion/221101_rebellion3.jpg" width="1000" loading="lazy">
+<img src="/photo/Rebellion/221101_rebellion4.jpg" width="1000" loading="lazy">
+<img src="/photo/Rebellion/221101_rebellion5.jpg" width="1000" loading="lazy">
+<img src="/photo/Rebellion/221101_rebellion6.jpg" width="1000" loading="lazy">
+<img src="/photo/Rebellion/221101_rebellion7.jpg" width="1000" loading="lazy">
+<img src="/photo/Rebellion/221101_rebellion8.jpg" width="1000" loading="lazy">
+<img src="/photo/Rebellion/221101_rebellion9.jpg" width="1000" loading="lazy">
 <br/><br/>
-<img src="/photo/Rebellion/221106_rebellion_thumb.jpg" width="1000">
-<img src="/photo/Rebellion/221106_rebellion1.jpg" width="1000">
-<img src="/photo/Rebellion/221106_rebellion2.jpg" width="1000">
-<img src="/photo/Rebellion/221106_rebellion3.jpg" width="1000">
-<img src="/photo/Rebellion/221106_rebellion4.jpg" width="1000">
-<img src="/photo/Rebellion/221106_rebellion5.jpg" width="1000">
-<img src="/photo/Rebellion/221106_rebellion6.jpg" width="1000">
-<img src="/photo/Rebellion/221106_rebellion7.jpg" width="1000">
-<img src="/photo/Rebellion/221106_rebellion8.jpg" width="1000">
-<img src="/photo/Rebellion/221106_rebellion9.jpg" width="1000">
+<img src="/photo/Rebellion/221106_rebellion_thumb.jpg" width="1000" loading="lazy">
+<img src="/photo/Rebellion/221106_rebellion1.jpg" width="1000" loading="lazy">
+<img src="/photo/Rebellion/221106_rebellion2.jpg" width="1000" loading="lazy">
+<img src="/photo/Rebellion/221106_rebellion3.jpg" width="1000" loading="lazy">
+<img src="/photo/Rebellion/221106_rebellion4.jpg" width="1000" loading="lazy">
+<img src="/photo/Rebellion/221106_rebellion5.jpg" width="1000" loading="lazy">
+<img src="/photo/Rebellion/221106_rebellion6.jpg" width="1000" loading="lazy">
+<img src="/photo/Rebellion/221106_rebellion7.jpg" width="1000" loading="lazy">
+<img src="/photo/Rebellion/221106_rebellion8.jpg" width="1000" loading="lazy">
+<img src="/photo/Rebellion/221106_rebellion9.jpg" width="1000" loading="lazy">
 <br/><br/>
-<img src="/photo/Rebellion/221113_rebellion_thumb.jpg" width="1000">
-<img src="/photo/Rebellion/221113_rebellion1.jpg" width="1000">
-<img src="/photo/Rebellion/221113_rebellion2.jpg" width="1000">
-<img src="/photo/Rebellion/221113_rebellion3.jpg" width="1000">
-<img src="/photo/Rebellion/221113_rebellion4.jpg" width="1000">
-<img src="/photo/Rebellion/221113_rebellion5.jpg" width="1000">
-<img src="/photo/Rebellion/221113_rebellion6.jpg" width="1000">
-<img src="/photo/Rebellion/221113_rebellion7.jpg" width="1000">
-<img src="/photo/Rebellion/221113_rebellion8.jpg" width="1000">
-<img src="/photo/Rebellion/221113_rebellion9.jpg" width="1000">
+<img src="/photo/Rebellion/221113_rebellion_thumb.jpg" width="1000" loading="lazy">
+<img src="/photo/Rebellion/221113_rebellion1.jpg" width="1000" loading="lazy">
+<img src="/photo/Rebellion/221113_rebellion2.jpg" width="1000" loading="lazy">
+<img src="/photo/Rebellion/221113_rebellion3.jpg" width="1000" loading="lazy">
+<img src="/photo/Rebellion/221113_rebellion4.jpg" width="1000" loading="lazy">
+<img src="/photo/Rebellion/221113_rebellion5.jpg" width="1000" loading="lazy">
+<img src="/photo/Rebellion/221113_rebellion6.jpg" width="1000" loading="lazy">
+<img src="/photo/Rebellion/221113_rebellion7.jpg" width="1000" loading="lazy">
+<img src="/photo/Rebellion/221113_rebellion8.jpg" width="1000" loading="lazy">
+<img src="/photo/Rebellion/221113_rebellion9.jpg" width="1000" loading="lazy">
 <br/><br/>
-<img src="/photo/Rebellion/221128_rebellion_thumb.jpg" width="1000">
-<img src="/photo/Rebellion/221128_rebellion1.jpg" width="1000">
-<img src="/photo/Rebellion/221128_rebellion2.jpg" width="1000">
-<img src="/photo/Rebellion/221128_rebellion3.jpg" width="1000">
-<img src="/photo/Rebellion/221128_rebellion4.jpg" width="1000">
-<img src="/photo/Rebellion/221128_rebellion5.jpg" width="1000">
-<img src="/photo/Rebellion/221128_rebellion6.jpg" width="1000">
-<img src="/photo/Rebellion/221128_rebellion7.jpg" width="1000">
-<img src="/photo/Rebellion/221128_rebellion8.jpg" width="1000">
-<img src="/photo/Rebellion/221128_rebellion9.jpg" width="1000">
+<img src="/photo/Rebellion/221128_rebellion_thumb.jpg" width="1000" loading="lazy">
+<img src="/photo/Rebellion/221128_rebellion1.jpg" width="1000" loading="lazy">
+<img src="/photo/Rebellion/221128_rebellion2.jpg" width="1000" loading="lazy">
+<img src="/photo/Rebellion/221128_rebellion3.jpg" width="1000" loading="lazy">
+<img src="/photo/Rebellion/221128_rebellion4.jpg" width="1000" loading="lazy">
+<img src="/photo/Rebellion/221128_rebellion5.jpg" width="1000" loading="lazy">
+<img src="/photo/Rebellion/221128_rebellion6.jpg" width="1000" loading="lazy">
+<img src="/photo/Rebellion/221128_rebellion7.jpg" width="1000" loading="lazy">
+<img src="/photo/Rebellion/221128_rebellion8.jpg" width="1000" loading="lazy">
+<img src="/photo/Rebellion/221128_rebellion9.jpg" width="1000" loading="lazy">
 <br/><br/>
 
 코리아보드게임즈에서 협찬 받은 리벨리온!!
