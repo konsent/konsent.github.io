@@ -10,8 +10,12 @@ rules: "on"
 <img src="/photo/air_superiority/as_thumb.png" width="1000" loading="lazy">
 
 J.D Webster 작가님의 명작 공중전 워게임. Air Superiority/Air Strike를 포괄하는 Air Power 규칙서입니다.
+<br>
+<br>
 박스 아트에 반해서 구매했건만 아직도 제대로 플레이 못한 게임...
+<br>
 번역해야지 해야지 하면서 진척도 안되고 답답해서 이번에 아예 AI로 번역 검수까지 진행했습니다.
+<br>
 검수를 제대로 한것도 아니라서 원문 규칙서랑 같이 올렸습니다 호호(당당)
 
 
