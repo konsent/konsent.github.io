@@ -1,0 +1,14 @@
+---
+layout: post
+title: "우리나라에도 보드게임 상설 매장이 많았으면 좋겠다"
+date: 2026-07-20 00:00:00
+preview: /photo/260720_sangseol_thumb.jpg
+published: true
+short: "on"
+---
+
+<img src="/photo/260720_sangseol1.PNG" width="1000">
+<img src="/photo/260720_sangseol2.PNG" width="1000">
+<img src="/photo/260720_sangseol3.PNG" width="1000">
+
+부럽다 부러워
