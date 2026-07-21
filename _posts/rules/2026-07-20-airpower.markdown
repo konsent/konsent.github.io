@@ -26,6 +26,6 @@ v1.0 - 최초 업로드본
 -----
 
 
-- [규칙서 한국어 번역본](/photo/air_superiority/AIR_POWER_II_한글_규칙서 V1.0.pdf)
-- [규칙서 원문 번역본](/photo/air_superiority/AIR POWER II Rules.v.FNL-12-2022.docx)
+- [규칙서 한국어 번역본](/photo/air_superiority/AIR_POWER_II_한글_규칙서%20V1.0.pdf)
+- [규칙서 원문](/photo/air_superiority/AIR%20POWER%20II%20Rules.v.FNL-12-2022.docx)
 
