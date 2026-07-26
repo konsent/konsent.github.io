@@ -1,0 +1,15 @@
+---
+layout: post
+title: "[만화] 나는 전략 게임을 더럽게 못한다."
+date: 2026-07-26 00:00:00
+preview: /photo/260726_wonbin_thumb.jpg
+published: true
+short: "on"
+---
+
+<img src="/photo/260726_wonbin1.PNG" width="1000">
+<img src="/photo/260726_wonbin2.PNG" width="1000">
+<img src="/photo/260726_wonbin3.PNG" width="1000">
+<img src="/photo/260726_wonbin4.PNG" width="1000">
+
+계획은 겁쟁이들이나 짜는 것이다.
