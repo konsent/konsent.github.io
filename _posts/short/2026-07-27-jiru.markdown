@@ -1,0 +1,12 @@
+---
+layout: post
+title: "지루하고 현학적"
+date: 2026-07-27 00:00:00
+preview: /photo/260728_jiru_thumb.jpg
+published: true
+short: "on"
+---
+
+<img src="/photo/260728_jiru.PNG" width="1000">
+
+아빠는 아빠 보드게임할테니까 너는 니꺼 하고 있으라 하면 득달같이 달려와서 주사위 뺏어감
