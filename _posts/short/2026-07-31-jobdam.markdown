@@ -1,0 +1,13 @@
+---
+layout: post
+title: "보드게임 잡담) 보드게임 도둑 3대장"
+date: 2026-07-31 00:00:00
+preview: /photo/260731_jobdam_thumb.jpg
+published: true
+short: "on"
+---
+
+<img src="/photo/260731_jobdam1.PNG" width="1000">
+<img src="/photo/260731_jobdam2.PNG" width="1000">
+
+야한 룰마는 파주 장단콩 클럽으로 당장 집합
