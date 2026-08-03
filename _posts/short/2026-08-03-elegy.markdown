@@ -1,0 +1,15 @@
+---
+layout: post
+title: "[만화] 게임 테마에 대해 좀 더 깊게 알고 싶을 때가 있나요"
+date: 2026-08-03 00:00:00
+preview: /photo/260803_elegy_thumb.jpg
+published: true
+short: "on"
+---
+
+<img src="/photo/260803_elegy1.PNG" width="1000">
+<img src="/photo/260803_elegy2.PNG" width="1000">
+<img src="/photo/260803_elegy3.PNG" width="1000">
+<img src="/photo/260803_elegy4.PNG" width="1000">
+
+고인물분들이 득달같이 달려와서 이것저것 챙겨주신 것 빼고는 전부 거짓말입니다.
