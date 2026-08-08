@@ -1,0 +1,15 @@
+---
+layout: post
+title: "난 니케 잘 몰라요 암것도 몰라요"
+date: 2026-08-08 00:00:00
+preview: /photo/260808_nike_thumb.jpg
+published: true
+short: "on"
+---
+
+<img src="/photo/260808_nike1.PNG" width="1000">
+<img src="/photo/260808_nike2.PNG" width="1000">
+<img src="/photo/260808_nike3.PNG" width="1000">
+<img src="/photo/260808_nike4.PNG" width="1000">
+
+그냥 주작가님 팬이라고 난 몰라
