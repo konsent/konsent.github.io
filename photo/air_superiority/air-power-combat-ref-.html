@@ -1,0 +1,480 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Air Power II · Combat & Damage Reference</title>
+<style>
+  :root{
+    --ink:#111111;
+    --charcoal:#39393b;
+    --mute:#707072;
+    --stone:#9e9ea0;
+    --canvas:#ffffff;
+    --soft:#f5f5f5;
+    --hair:#cacacb;
+    --hair-soft:#e5e5e5;
+    --danger:#d30005;
+    --success:#007d48;
+  }
+  *{box-sizing:border-box}
+  /* 한국어 어절 중간 분리 방지 — 본문 전반 */
+  p,li,td,th,.callout,.note,.subtitle,.card,.step,.band,.metric,.chip,.pill{word-break:keep-all}
+  html,body{margin:0;padding:0;background:#ececec;color:var(--ink);font-family:Inter,"Helvetica Neue",Arial,"Noto Sans KR",sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  body{padding:24px 0}
+  .sheet{
+    --s:1;
+    width:210mm; min-height:297mm; margin:0 auto 24px; background:var(--canvas);
+    padding:11mm 11mm 9mm; position:relative; overflow:hidden;
+    break-after:page; page-break-after:always;
+  }
+  /* 페이지별 확대 배율 — 어절 분리 직전까지 실측으로 확정 */
+  .sheet.s1{--s:1.10}
+  .sheet.s2{--s:1.05}
+  .sheet.s3{--s:1.30}
+  .sheet.s4{--s:1.34}
+  .sheet:last-child{break-after:auto;page-break-after:auto}
+  /* 2단 페이지: 남는 세로 공간을 섹션 사이로 분산 */
+  .sheet.s2 > .grid-2 > .stack{align-content:space-between}
+  .topline{height:4px;background:var(--ink);margin-bottom:14px}
+  .header{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:16px}
+  .brand{font-family:Impact,"Arial Narrow",Arial,sans-serif;font-size:36px;line-height:.88;letter-spacing:.2px;text-transform:uppercase;font-weight:800}
+  .brand small{display:block;margin-top:7px;font-family:Inter,"Helvetica Neue",Arial,sans-serif;font-size:10px;line-height:1.2;letter-spacing:.14em;font-weight:600;color:var(--mute)}
+  .page-meta{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end;max-width:48%}
+  .pill{display:inline-flex;align-items:center;min-height:27px;padding:5px 11px;border-radius:999px;background:var(--soft);font-size:10px;font-weight:700;white-space:nowrap}
+  .pill.dark{background:var(--ink);color:#fff}
+  .title-block{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:end;border-bottom:1px solid var(--hair);padding-bottom:calc(14px * var(--s));margin-bottom:calc(16px * var(--s))}
+  h1{font-family:Impact,"Arial Narrow",Arial,sans-serif;font-size:calc(42px * var(--s));line-height:.92;letter-spacing:-.3px;margin:0;text-transform:uppercase;font-weight:800}
+  .subtitle{font-size:calc(12px * var(--s));line-height:1.5;color:var(--mute);margin-top:7px}
+  .page-no{font-size:52px;line-height:.85;font-weight:800;color:var(--soft);letter-spacing:-.04em}
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:calc(14px * var(--s))}
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:calc(10px * var(--s))}
+  .stack{display:grid;grid-auto-rows:max-content;gap:calc(12px * var(--s))}
+  .section{break-inside:avoid;page-break-inside:avoid}
+  .section-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:calc(7px * var(--s))}
+  .section-head h2{font-size:calc(16px * var(--s));line-height:1.25;margin:0;font-weight:700;letter-spacing:-.01em}
+  .rule{font-size:calc(9px * var(--s));line-height:1;color:var(--mute);font-weight:700;white-space:nowrap}
+  .card{background:var(--soft);padding:calc(12px * var(--s)) calc(12px * var(--s)) calc(11px * var(--s));border-radius:0;break-inside:avoid;page-break-inside:avoid}
+  .card.white{background:#fff;border-top:1px solid var(--hair)}
+  .card.dark{background:var(--ink);color:#fff}
+  .card h3{font-size:calc(13px * var(--s));line-height:1.3;margin:0 0 7px;font-weight:750}
+  .card p{font-size:calc(10.8px * var(--s));line-height:1.48;margin:0;color:inherit}
+  .card .muted{color:var(--mute)}
+  .card.dark .muted{color:#c8c8c8}
+  .metric-row{display:grid;grid-template-columns:repeat(4,1fr);gap:calc(8px * var(--s));margin-bottom:calc(14px * var(--s))}
+  .metric{background:var(--soft);padding:calc(10px * var(--s)) calc(10px * var(--s)) calc(9px * var(--s));min-height:calc(62px * var(--s))}
+  .metric b{display:block;font-size:calc(18px * var(--s));line-height:1;margin-bottom:5px}
+  .metric span{font-size:calc(9.5px * var(--s));line-height:1.3;color:var(--mute);font-weight:650}
+  table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:calc(10px * var(--s));line-height:1.38}
+  th{background:var(--ink);color:#fff;padding:calc(7px * var(--s)) calc(7px * var(--s));text-align:left;font-size:calc(9.5px * var(--s));font-weight:700;vertical-align:top}
+  td{padding:calc(7px * var(--s)) calc(7px * var(--s));border-bottom:1px solid var(--hair-soft);vertical-align:top;word-break:keep-all}
+  tr:nth-child(even) td{background:#fafafa}
+  .compact td,.compact th{padding:calc(6px * var(--s)) calc(6px * var(--s))}
+  .center{text-align:center}
+  .strong{font-weight:750}
+  .danger{color:var(--danger);font-weight:750}
+  .success{color:var(--success);font-weight:750}
+  .note{font-size:calc(9.8px * var(--s));line-height:1.45;color:var(--charcoal)}
+  .note strong{color:var(--ink)}
+  ul.clean{list-style:none;padding:0;margin:0;display:grid;gap:5px}
+  ul.clean li{position:relative;padding-left:calc(11px * var(--s));font-size:calc(10.5px * var(--s));line-height:1.42}
+  ul.clean li:before{content:"";position:absolute;left:0;top:.54em;width:4px;height:4px;border-radius:50%;background:var(--ink)}
+  .dark ul.clean li:before{background:#fff}
+  .split-list{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}
+  .chips{display:flex;gap:calc(5px * var(--s));flex-wrap:wrap;margin-top:calc(7px * var(--s))}
+  .chip{border:1px solid var(--hair);border-radius:999px;padding:calc(3px * var(--s)) calc(8px * var(--s));font-size:calc(9px * var(--s));font-weight:700;background:#fff}
+  .chip.black{background:var(--ink);border-color:var(--ink);color:#fff}
+  .formula{background:var(--ink);color:#fff;padding:calc(11px * var(--s)) calc(13px * var(--s));font-size:calc(15px * var(--s));line-height:1.25;font-weight:800;margin-bottom:9px}
+  /* 누적 피해: 세로 3행. 레이블 폭 고정 + 값 좌측 정렬 */
+  .cum-list{display:grid;gap:calc(9px * var(--s))}
+  .cum-row{display:grid;grid-template-columns:calc(72px * var(--s)) 1fr;align-items:baseline;gap:calc(10px * var(--s))}
+  .cum-row .mini-title{margin-bottom:0}
+  .cum-row b{font-size:calc(22px * var(--s));line-height:1.1;white-space:nowrap}
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:calc(8px * var(--s))}
+  .step{background:var(--soft);padding:calc(10px * var(--s));min-height:calc(74px * var(--s))}
+  .step .n{font-size:calc(20px * var(--s));font-weight:800;line-height:1;margin-bottom:6px}
+  .step p{font-size:calc(10px * var(--s));line-height:1.35;margin:0;color:var(--charcoal)}
+  .band-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:calc(5px * var(--s))}
+  .band{background:var(--soft);padding:calc(7px * var(--s)) calc(5px * var(--s));text-align:center}
+  .band b{display:block;font-size:calc(11px * var(--s));margin-bottom:2px}
+  .band span{font-size:calc(8.7px * var(--s));color:var(--mute)}
+  .callout{border-left:4px solid var(--ink);padding:calc(8px * var(--s)) calc(10px * var(--s));background:#fff;font-size:calc(10px * var(--s));line-height:1.42}
+  .warning{border-left-color:var(--danger)}
+  .mini-title{font-size:calc(10px * var(--s));font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--mute);margin-bottom:5px}
+  .footer{position:absolute;left:11mm;right:11mm;bottom:6mm;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--hair);padding-top:6px;font-size:8.5px;line-height:1.2;color:var(--mute)}
+  .footer b{color:var(--ink)}
+  .tight{margin-top:calc(8px * var(--s))}
+  .mt10{margin-top:calc(10px * var(--s))}.mt12{margin-top:calc(12px * var(--s))}.mt14{margin-top:calc(14px * var(--s))}
+  .w-20{width:20%}.w-24{width:24%}.w-26{width:26%}.w-28{width:28%}.w-30{width:30%}.w-32{width:32%}.w-34{width:34%}.w-36{width:36%}.w-38{width:38%}.w-40{width:40%}
+  @page{size:A4;margin:0}
+  @media print{
+    html,body{background:#fff}
+    body{padding:0}
+    .sheet{margin:0;width:210mm;height:297mm;min-height:297mm;box-shadow:none}
+  }
+  @media screen and (max-width:900px){
+    body{padding:0}.sheet{width:100%;min-height:auto;margin:0;border-bottom:12px solid #ececec}.footer{position:static;margin-top:18px}.grid-2{grid-template-columns:1fr}.page-meta{max-width:55%}
+  }
+</style>
+</head>
+<body>
+
+<!-- PAGE 1 -->
+<section class="sheet s1">
+  <div class="topline"></div>
+  <header class="header">
+    <div class="brand">AIR POWER<small>II · COMBAT REFERENCE</small></div>
+    <div class="page-meta"><span class="pill dark">기총 사격</span><span class="pill">Rule 9</span></div>
+  </header>
+  <div class="title-block"><div><h1>기총 사격</h1><div class="subtitle">명중 판정, DRM, 탄약, 사격 제한</div></div><div class="page-no">01</div></div>
+
+  <div class="metric-row">
+    <div class="metric"><b>2회</b><span>턴당 최대 사격</span></div>
+    <div class="metric"><b>1 FP</b><span>사격 사이 최소 이동</span></div>
+    <div class="metric"><b>2 hex</b><span>기본 최대 사거리</span></div>
+    <div class="metric"><b>1d10</b><span>명중 판정</span></div>
+  </div>
+
+  <section class="section">
+    <div class="section-head"><h2>명중 판정</h2><span class="rule">TO-HIT</span></div>
+    <div class="formula">1d10 ≤ 사거리별 기준 명중 수치 + DRM</div>
+    <div class="grid-2">
+      <div class="card"><h3>사거리</h3><p>기본 최대 <b>2헥스</b>. 고도 차이는 <b>2레벨당 1헥스</b>를 추가 사거리로 계산.</p></div>
+      <div class="card"><h3>기본 명중 수치</h3><p>ADC의 <b>Internal Gun Data</b>에 있는 Range 0 / 1 / 2 값을 사용.</p></div>
+    </div>
+  </section>
+
+  <div class="grid-2 mt14">
+    <div class="stack">
+      <section class="section">
+        <div class="section-head"><h2>Gunnery DRM</h2></div>
+        <table class="compact">
+          <thead><tr><th class="w-34">항목</th><th class="w-24">DRM</th><th>적용</th></tr></thead>
+          <tbody>
+            <tr><td><b>Target Size</b></td><td>ADC Size</td><td>표적 크기 보정값 적용</td></tr>
+            <tr><td><b>Snap Shot</b></td><td><b>+1</b></td><td>0.5 Ammo 소모</td></tr>
+            <tr><td><b>Angle-Off</b></td><td>표 적용</td><td>편각 표의 수정치 사용</td></tr>
+            <tr><td><b>사격자 손상</b></td><td>L +1<br>H +2<br>C +3</td><td>현재 손상 단계 기준</td></tr>
+            <tr><td><b>Pilot Quality</b></td><td>등급별</td><td>숙련도 수정치 적용</td></tr>
+            <tr><td><b>Gunsight</b></td><td>최고 선회율</td><td>사격 전 기록한 가장 높은 선회율 적용</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="section">
+        <div class="section-head"><h2>SSGT / Radar Ranging</h2><span class="rule">ADV</span></div>
+        <div class="card">
+          <ul class="clean">
+            <li><b>SSGT:</b> 60° 이하에서 추적. 시작 속도의 <b>1/3 FP</b> 이동마다 <b>−1 DRM</b>, 최대 <b>−2</b>.</li>
+            <li><b>RE:</b> SSGT 상태에서만 Radar Ranging 혜택.</li>
+            <li><b>CA:</b> 90° 이하에서는 SSGT 없이 가능.</li>
+            <li><b>IG:</b> 모든 편각에서 가능.</li>
+            <li>락온 상태면 자동 성공. 미락온이면 <b>1d10 ≤ ADC 레이더 락온 수치</b>.</li>
+          </ul>
+        </div>
+      </section>
+    </div>
+
+    <div class="stack">
+      <section class="section">
+        <div class="section-head"><h2>사격 형태</h2></div>
+        <div class="grid-2" style="gap:8px">
+          <div class="card"><h3>Full Shot</h3><p><b>1 Ammo</b><br>2초 사격. 정상 피해 등급 적용.</p></div>
+          <div class="card"><h3>Snap Shot</h3><p><b>0.5 Ammo</b><br>+1 DRM. 최종 피해 <b>1단계 하향</b>. Superficial은 유지.</p></div>
+        </div>
+        <div class="callout mt10"><strong>Multiple Guns:</strong> 명중 주사위는 1회. 가장 높은 Damage Rating을 사용하고, 추가 명중 기총 1정당 Damage Roll에 <b>+1</b>.</div>
+      </section>
+
+      <section class="section">
+        <div class="section-head"><h2>ET / Recovery</h2></div>
+        <div class="card dark">
+          <p>ET 수행 중 또는 직후 헥스에서는 <b>기총 사격 불가</b>.</p>
+          <p class="mt10">사격 전 시작 속도의 <b>1/2 FP</b>를 Wings Level 또는 ET 미만 선회로 이동하면 제한 해제.</p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head"><h2>사격 제한</h2></div>
+        <div class="card">
+          <ul class="clean">
+            <li>표적은 반드시 <b>Sighted</b> 상태.</li>
+            <li>상승 중 아래 표적, 하강 중 위 표적 사격 불가.</li>
+            <li>LVL 동일 헥스 사격은 동일 고도. 다른 헥스는 동일 또는 <b>±1 레벨</b>.</li>
+            <li>Roll Prep/실행 직후 <b>1 HFP</b> 전진 전 사격 불가.</li>
+            <li>Close Formation의 Wingman은 기총 사격 불가.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head"><h2>Abort</h2></div>
+        <div class="callout"><strong>주사위 전 취소 가능.</strong> Ammo는 소모하지 않지만 해당 턴의 사격 기회 1회는 사용한 것으로 처리.</div>
+      </section>
+    </div>
+  </div>
+  <div class="footer"><span><b>Air Power II</b> · Combat & Damage Reference</span><span>01 / 04</span></div>
+</section>
+
+<!-- PAGE 2 -->
+<section class="sheet s2">
+  <div class="topline"></div>
+  <header class="header"><div class="brand">AIR POWER<small>II · COMBAT REFERENCE</small></div><div class="page-meta"><span class="pill dark">공대공 로켓</span><span class="pill">Rule 9</span></div></header>
+  <div class="title-block"><div><h1>공대공 로켓</h1><div class="subtitle">Rocketry, RF 변환, AIR-2 Genie</div></div><div class="page-no">02</div></div>
+
+  <div class="metric-row">
+    <div class="metric"><b>1회</b><span>턴당 로켓 사격</span></div>
+    <div class="metric"><b>1–4</b><span>유효 사거리(hex)</span></div>
+    <div class="metric"><b>−2</b><span>Damage DRM</span></div>
+    <div class="metric"><b>1 RF</b><span>RK 10발 환산</span></div>
+  </div>
+
+  <section class="section">
+    <div class="section-head"><h2>로켓 판정</h2><span class="rule">ROCKETRY</span></div>
+    <div class="steps">
+      <div class="step"><div class="n">1</div><p>발사할 <b>Rocket Factors (RF)</b> 선언.</p></div>
+      <div class="step"><div class="n">2</div><p>Air-to-Air Rocketry Table에서 <b>Base To-Hit</b>과 <b>Attack Rating</b> 확인.</p></div>
+      <div class="step"><div class="n">3</div><p><b>1d10 ≤ Base To-Hit + DRM</b>이면 명중.</p></div>
+    </div>
+  </section>
+
+  <div class="grid-2 mt14">
+    <div class="stack">
+      <section class="section">
+        <div class="section-head"><h2>기본 조건</h2></div>
+        <div class="card">
+          <ul class="clean">
+            <li>사거리 <b>1–4헥스</b>. Range 0 사격 불가.</li>
+            <li>고도 차이 <b>2레벨당 1헥스</b> 추가 사거리.</li>
+            <li>표적은 <b>Limited Radar Arc</b> 내 위치.</li>
+            <li>적용 DRM: Target Size, Deflection, Gunsight, SSGT, Radar Ranging, Pilot Quality.</li>
+            <li>명중 후 Damage Roll에 <b>−2 DRM</b>.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head"><h2>발사 제한</h2></div>
+        <div class="card">
+          <ul class="clean">
+            <li>표적은 Sighted 상태여야 함.</li>
+            <li>상승/하강 시 기총과 동일한 피치 사격 제한 적용.</li>
+            <li>이번 턴 HT / BT / ET 수행 시 발사 불가.</li>
+            <li>Slide 외 특수 기동 Prep/실행 중 발사 불가.</li>
+            <li><b>같은 턴에 기총과 로켓을 함께 사용할 수 없음.</b></li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head"><h2>CCA</h2><span class="rule">ADV</span></div>
+        <div class="callout"><strong>−2 To-Hit DRM</strong><br>턴 시작부터 Radar Lock 유지, TT 이상 선회 및 Slide 외 특수 기동 없음, 고도 변화 ±1 레벨 이내.</div>
+      </section>
+
+      <section class="section">
+        <div class="section-head"><h2>RK → AtA RF</h2></div>
+        <table class="compact">
+          <thead><tr><th>장비</th><th class="center">AtA RF</th></tr></thead>
+          <tbody>
+            <tr><td>개별 RK 10발</td><td class="center"><b>1.0</b></td></tr>
+            <tr><td>Small Pod ≤ 7발</td><td class="center"><b>0.5</b></td></tr>
+            <tr><td>Medium Pod ≤ 19발</td><td class="center"><b>1.0</b></td></tr>
+            <tr><td>Large Pod &gt; 19발</td><td class="center"><b>1.0</b></td></tr>
+            <tr><td>Heavy Rocket Pod</td><td class="center"><b>2.0</b></td></tr>
+          </tbody>
+        </table>
+      </section>
+    </div>
+
+    <div class="stack">
+      <section class="section">
+        <div class="section-head"><h2>AIR-2 Genie</h2><span class="rule">ADV</span></div>
+        <div class="card dark">
+          <h3>발사 조건</h3>
+          <ul class="clean">
+            <li>표적 Radar Lock 유지</li>
+            <li>발사 순간 Wings Level</li>
+            <li>Missile Launch Phase에서 <b>1d10 ≤ Genie Launch Number</b></li>
+            <li>실패하면 Dud Motor로 무장 제거</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head"><h2>비행 / 분산</h2></div>
+        <div class="card">
+          <ul class="clean">
+            <li>무유도. 일직선 HFP로 이동.</li>
+            <li>발사 기체가 상승/하강 중이면 동일 비율로 VFP 사용, VFP당 고도 <b>2레벨</b> 변화.</li>
+            <li>비행 후 1d10 두 번: 첫 롤은 방향, 두 번째 롤은 <b>결과 ÷ 2 반내림</b> 헥스 이동.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head"><h2>핵 유폭</h2></div>
+        <div class="card">
+          <div class="formula" style="font-size:calc(13px * var(--s))">1d10 = 10 → Dud</div>
+          <ul class="clean">
+            <li>그 외 결과는 유폭. 범위 <b>6헥스 / 고도 12레벨</b>.</li>
+            <li>동일 헥스 기체는 고도와 소속에 관계없이 <b>Vaporized</b>.</li>
+          </ul>
+        </div>
+        <div class="formula mt10" style="font-size:calc(13px * var(--s))">Attack Rating = 12 − (2 × 폭발 중심과의 헥스 거리)</div>
+      </section>
+    </div>
+  </div>
+  <div class="footer"><span><b>Air Power II</b> · Combat & Damage Reference</span><span>02 / 04</span></div>
+</section>
+
+<!-- PAGE 3 -->
+<section class="sheet s3">
+  <div class="topline"></div>
+  <header class="header"><div class="brand">AIR POWER<small>II · DAMAGE REFERENCE</small></div><div class="page-meta"><span class="pill dark">피해 판정</span><span class="pill">Rule 10</span></div></header>
+  <div class="title-block"><div><h1>피해 판정</h1><div class="subtitle">Damage Resolution과 누적 피해</div></div><div class="page-no">03</div></div>
+
+  <section class="section">
+    <div class="section-head"><h2>판정 순서</h2></div>
+    <div class="steps">
+      <div class="step"><div class="n">1</div><p>무장의 <b>Attack Rating</b> 확인. 표적이 이미 L/H/C 피해 상태면 AR을 <b>+1단계</b>.</p></div>
+      <div class="step"><div class="n">2</div><p><b>1d10</b>에 Vulnerability와 Direct Hit / Rocket의 <b>−2 DRM</b> 적용.</p></div>
+      <div class="step"><div class="n">3</div><p>보정 주사위 값과 Attack Rating을 Damage Table에 대조.</p></div>
+    </div>
+  </section>
+
+  <section class="section mt14">
+    <div class="section-head"><h2>피해 등급</h2></div>
+    <table>
+      <thead><tr><th class="w-24">결과</th><th>효과</th></tr></thead>
+      <tbody>
+        <tr><td><b>Superficial</b></td><td>전술적 영향 없음.</td></tr>
+        <tr><td><b>Light · L</b></td><td>모든 공격 사격에 <b>+1 To-Hit DRM</b>.</td></tr>
+        <tr><td><b>Heavy · H</b></td><td><b>+2 To-Hit DRM</b>. Accel 생산량 <b>1/2</b>. 피격 즉시 모든 Radar Lock 소실.</td></tr>
+        <tr><td><b>Crippled · C</b></td><td><b>+3 To-Hit DRM</b>. Accel 생산량 <b>1/2</b>. 피격 즉시 모든 Radar Lock 소실.</td></tr>
+        <tr><td><b>Killed · K</b></td><td>기체 카운터 즉시 제거. 격추 VP 100% 정산.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <div class="grid-2 mt14">
+    <div class="stack">
+      <section class="section">
+        <div class="section-head"><h2>누적 피해</h2></div>
+        <div class="card dark">
+          <div class="cum-list">
+            <div class="cum-row"><span class="mini-title" style="color:#aaa">Light</span><b>3L → H</b></div>
+            <div class="cum-row"><span class="mini-title" style="color:#aaa">Heavy</span><b>2H → C</b></div>
+            <div class="cum-row"><span class="mini-title" style="color:#aaa">Crippled</span><b>C + H → K</b></div>
+          </div>
+        </div>
+      </section>
+      <section class="section">
+        <div class="section-head"><h2>Previous Damage</h2></div>
+        <div class="callout"><strong>이미 L / H / C 피해가 있으면</strong><br>새로 맞은 무장의 Attack Rating을 <b>+1단계</b> 높여 Damage Table에 적용.</div>
+      </section>
+    </div>
+
+    <div class="stack">
+      <section class="section">
+        <div class="section-head"><h2>Damage DRM</h2></div>
+        <div class="card">
+          <ul class="clean">
+            <li><b>Vulnerability:</b> ADC의 값을 주사위에 적용.</li>
+            <li><b>Direct Hit / Rocket:</b> Damage Roll에 <b>−2 DRM</b>.</li>
+            <li>피해 테이블은 보정된 1d10 결과와 Attack Rating으로 판정.</li>
+          </ul>
+        </div>
+      </section>
+      <section class="section">
+        <div class="section-head"><h2>정리</h2></div>
+        <div class="card white">
+          <p><b>사격 명중 → Attack Rating → Damage DRM → Damage Table → 누적 피해 반영</b></p>
+          <p class="muted mt10">이 페이지는 피해 등급 판정과 상태 누적만 다룹니다. 점증 피해와 Damage Control은 다음 페이지.</p>
+        </div>
+      </section>
+    </div>
+  </div>
+  <div class="footer"><span><b>Air Power II</b> · Combat & Damage Reference</span><span>03 / 04</span></div>
+</section>
+
+<!-- PAGE 4 -->
+<section class="sheet s4">
+  <div class="topline"></div>
+  <header class="header"><div class="brand">AIR POWER<small>II · DAMAGE REFERENCE</small></div><div class="page-meta"><span class="pill dark">복구 / 선택 규칙</span><span class="pill">Rule 10.3–10.5</span></div></header>
+  <div class="title-block"><div><h1>피해 복구 / 선택 규칙</h1><div class="subtitle">Progressive Damage, Damage Control, Optional Damage</div></div><div class="page-no">04</div></div>
+
+  <div class="grid-2">
+    <div class="stack">
+      <section class="section">
+        <div class="section-head"><h2>Progressive Damage</h2><span class="rule">ADV · 10.3</span></div>
+        <div class="card">
+          <ul class="clean">
+            <li>피격 턴은 검사하지 않음.</li>
+            <li>다음 턴 Admin Phase부터 매 턴 <b>1d10</b>.</li>
+            <li>새 피격으로 피해 등급이 상승한 턴은 검사 면제.</li>
+            <li>주사위가 현재 피해 단계의 Progressive Damage 기준치 이하이면 <b>1단계 악화</b>.</li>
+          </ul>
+          <div class="formula mt10" style="font-size:calc(13px * var(--s))">L → H → C → K</div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head"><h2>Damage Control</h2><span class="rule">DC</span></div>
+        <div class="card dark"><p>피격 다음 턴 <b>Flight Movement 시작 시</b> 선언. 성공하면 신규 피격 전까지 Progressive Damage 검사를 중단.</p></div>
+        <table class="compact mt10">
+          <thead><tr><th class="w-36">항목</th><th>DC 중 제한</th></tr></thead>
+          <tbody>
+            <tr><td><b>전투 / 센서</b></td><td>공격, 락온, 무장 발사, 유도, 레이더/센서 작업 불가</td></tr>
+            <tr><td><b>특수 기동</b></td><td>Slide 외 전부 불가</td></tr>
+            <tr><td><b>선회</b></td><td>EZ까지만 허용</td></tr>
+            <tr><td><b>출력 / 상승</b></td><td>AB 금지. Military 이하의 SC만 허용</td></tr>
+            <tr><td><b>하강</b></td><td>SD만, 턴당 최대 2 VFP</td></tr>
+            <tr><td><b>기타</b></td><td>FD / Jettison 허용, TFF 금지</td></tr>
+          </tbody>
+        </table>
+        <div class="callout warning mt10"><strong>DC 중 신규 피격:</strong> 1개 이상의 새 손상을 받으면 현재 DC 진행은 즉시 무효.</div>
+      </section>
+    </div>
+
+    <div class="stack">
+      <section class="section">
+        <div class="section-head"><h2>Pilot Quality</h2><span class="rule">RULE 18.2</span></div>
+        <table class="compact">
+          <thead><tr><th>등급</th><th>DC</th></tr></thead>
+          <tbody>
+            <tr><td><b>Green</b></td><td>원칙적으로 선언 불가. 복좌형에서 WSO가 Regular 이상이면 Novice 자격으로 시도 가능.</td></tr>
+            <tr><td><b>Novice</b></td><td>DC 제한을 <b>연속 2턴</b> 유지.</td></tr>
+            <tr><td><b>Regular / Veteran</b></td><td><b>1턴</b> 완료 시 안정화.</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="section">
+        <div class="section-head"><h2>Optional Damage</h2><span class="rule">ADV · 10.4</span></div>
+        <div class="card">
+          <ul class="clean">
+            <li>L / H / C 확정 후 <b>1d10</b>으로 Optional Damage Table 판정.</li>
+            <li>시스템 손상은 공격자에게 비공개. Fire / Smoke처럼 보이는 징후만 공개.</li>
+            <li>기체에 없는 계통이 나오면 재굴림. 두 번째도 없는 계통이면 해당 시스템 손상은 무시.</li>
+            <li>기본 손상 DRM과 Progressive Damage에는 원래 L/H/C 등급을 그대로 사용.</li>
+            <li>무장 통제 및 발사 계통이 작동하면 손상 DRM을 적용하고 계속 사격 가능.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head"><h2>Crash Site</h2><span class="rule">ADV · 10.5</span></div>
+        <div class="card">
+          <ul class="clean">
+            <li>Stall / Departed / 지형 충돌 / 저고도 GLOC 추락은 <b>현재 헥스 또는 헥사이드</b>.</li>
+            <li>피격 격추 또는 Eject 후 버려진 기체는 속도와 Facing으로 <b>CSLD</b> 판정.</li>
+            <li>최종 추락 헥스의 지상 개체 1개를 무작위 선정하여 <b>1–2 odds</b>로 충돌 피해 판정.</li>
+          </ul>
+        </div>
+      </section>
+    </div>
+  </div>
+  <div class="footer"><span><b>Air Power II</b> · Combat & Damage Reference</span><span>04 / 04</span></div>
+</section>
+
+</body>
+</html>

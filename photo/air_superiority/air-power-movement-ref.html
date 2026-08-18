@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Air Power II · Movement Reference</title>
+<style>
+  :root{
+    --ink:#111111;
+    --charcoal:#39393b;
+    --mute:#707072;
+    --stone:#9e9ea0;
+    --canvas:#ffffff;
+    --soft:#f5f5f5;
+    --hair:#cacacb;
+    --hair-soft:#e5e5e5;
+    --danger:#d30005;
+    --success:#007d48;
+  }
+  *{box-sizing:border-box}
+  /* 한국어 어절 중간 분리 방지 — 본문 전반 */
+  p,li,td,th,.callout,.note,.subtitle,.card,.step,.band,.metric,.chip,.pill{word-break:keep-all}
+  html,body{margin:0;padding:0;background:#ececec;color:var(--ink);font-family:Inter,"Helvetica Neue",Arial,"Noto Sans KR",sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  body{padding:24px 0}
+  .sheet{
+    --s:1;
+    width:210mm; min-height:297mm; margin:0 auto 24px; background:var(--canvas);
+    padding:11mm 11mm 9mm; position:relative; overflow:hidden;
+    break-after:page; page-break-after:always;
+  }
+  /* 페이지별 확대 배율 — 어절 분리가 생기기 직전 값으로 실측 확정 */
+  .sheet.s1{--s:1.24}
+  .sheet.s2{--s:1.17}
+  .sheet.s3{--s:1.25}
+  .sheet.s4{--s:1.30}
+  .sheet:last-child{break-after:auto;page-break-after:auto}
+  /* 2단 페이지: 남는 세로 공간을 섹션 사이로 분산해 양쪽 단이 바닥까지 닿게 */
+  .sheet.s1 > .grid-2 > .stack,
+  .sheet.s4 > .grid-2 > .stack{align-content:space-between}
+  .topline{height:4px;background:var(--ink);margin-bottom:14px}
+  .header{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:16px}
+  .brand{font-family:Impact,"Arial Narrow",Arial,sans-serif;font-size:36px;line-height:.88;letter-spacing:.2px;text-transform:uppercase;font-weight:800}
+  .brand small{display:block;margin-top:7px;font-family:Inter,"Helvetica Neue",Arial,sans-serif;font-size:10px;line-height:1.2;letter-spacing:.14em;font-weight:600;color:var(--mute)}
+  .page-meta{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end;max-width:48%}
+  .pill{display:inline-flex;align-items:center;min-height:27px;padding:5px 11px;border-radius:999px;background:var(--soft);font-size:10px;font-weight:700;white-space:nowrap}
+  .pill.dark{background:var(--ink);color:#fff}
+  .title-block{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:end;border-bottom:1px solid var(--hair);padding-bottom:calc(14px * var(--s));margin-bottom:calc(16px * var(--s))}
+  h1{font-family:Impact,"Arial Narrow",Arial,sans-serif;font-size:calc(42px * var(--s));line-height:.92;letter-spacing:-.3px;margin:0;text-transform:uppercase;font-weight:800}
+  .subtitle{font-size:calc(12px * var(--s));line-height:1.5;color:var(--mute);margin-top:7px}
+  .page-no{font-size:52px;line-height:.85;font-weight:800;color:var(--soft);letter-spacing:-.04em}
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:calc(14px * var(--s))}
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:calc(10px * var(--s))}
+  .stack{display:grid;grid-auto-rows:max-content;gap:calc(12px * var(--s))}
+  .section{break-inside:avoid;page-break-inside:avoid}
+  .section-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:calc(7px * var(--s))}
+  .section-head h2{font-size:calc(16px * var(--s));line-height:1.25;margin:0;font-weight:700;letter-spacing:-.01em}
+  .rule{font-size:calc(9px * var(--s));line-height:1;color:var(--mute);font-weight:700;white-space:nowrap}
+  .card{background:var(--soft);padding:calc(12px * var(--s)) calc(12px * var(--s)) calc(11px * var(--s));border-radius:0;break-inside:avoid;page-break-inside:avoid}
+  .card.white{background:#fff;border-top:1px solid var(--hair)}
+  .card.dark{background:var(--ink);color:#fff}
+  .card h3{font-size:calc(13px * var(--s));line-height:1.3;margin:0 0 7px;font-weight:750}
+  .card p{font-size:calc(10.8px * var(--s));line-height:1.48;margin:0;color:inherit}
+  .card .muted{color:var(--mute)}
+  .card.dark .muted{color:#c8c8c8}
+  .metric-row{display:grid;grid-template-columns:repeat(4,1fr);gap:calc(8px * var(--s));margin-bottom:calc(14px * var(--s))}
+  .metric{background:var(--soft);padding:calc(10px * var(--s)) calc(10px * var(--s)) calc(9px * var(--s));min-height:calc(62px * var(--s))}
+  .metric b{display:block;font-size:calc(18px * var(--s));line-height:1;margin-bottom:5px}
+  .metric span{font-size:calc(9.5px * var(--s));line-height:1.3;color:var(--mute);font-weight:650}
+  table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:calc(10px * var(--s));line-height:1.38}
+  th{background:var(--ink);color:#fff;padding:calc(7px * var(--s)) calc(7px * var(--s));text-align:left;font-size:calc(9.5px * var(--s));font-weight:700;vertical-align:top}
+  td{padding:calc(7px * var(--s)) calc(7px * var(--s));border-bottom:1px solid var(--hair-soft);vertical-align:top;word-break:keep-all}
+  tr:nth-child(even) td{background:#fafafa}
+  .compact td,.compact th{padding:calc(6px * var(--s)) calc(6px * var(--s))}
+  .center{text-align:center}
+  .strong{font-weight:750}
+  .danger{color:var(--danger);font-weight:750}
+  .success{color:var(--success);font-weight:750}
+  .note{font-size:calc(9.8px * var(--s));line-height:1.45;color:var(--charcoal)}
+  .note strong{color:var(--ink)}
+  ul.clean{list-style:none;padding:0;margin:0;display:grid;gap:5px}
+  ul.clean li{position:relative;padding-left:calc(11px * var(--s));font-size:calc(10.5px * var(--s));line-height:1.42}
+  ul.clean li:before{content:"";position:absolute;left:0;top:.54em;width:4px;height:4px;border-radius:50%;background:var(--ink)}
+  .dark ul.clean li:before{background:#fff}
+  .split-list{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}
+  .chips{display:flex;gap:calc(5px * var(--s));flex-wrap:wrap;margin-top:calc(7px * var(--s))}
+  .chip{border:1px solid var(--hair);border-radius:999px;padding:calc(3px * var(--s)) calc(8px * var(--s));font-size:calc(9px * var(--s));font-weight:700;background:#fff}
+  .chip.black{background:var(--ink);border-color:var(--ink);color:#fff}
+  .formula{background:var(--ink);color:#fff;padding:calc(11px * var(--s)) calc(13px * var(--s));font-size:calc(15px * var(--s));line-height:1.25;font-weight:800;margin-bottom:9px}
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:calc(8px * var(--s))}
+  .step{background:var(--soft);padding:calc(10px * var(--s));min-height:calc(74px * var(--s))}
+  .step .n{font-size:calc(20px * var(--s));font-weight:800;line-height:1;margin-bottom:6px}
+  .step p{font-size:calc(10px * var(--s));line-height:1.35;margin:0;color:var(--charcoal)}
+  .band-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:calc(5px * var(--s))}
+  .band{background:var(--soft);padding:calc(7px * var(--s)) calc(5px * var(--s));text-align:center}
+  .band b{display:block;font-size:calc(11px * var(--s));margin-bottom:2px}
+  .band span{font-size:calc(8.7px * var(--s));color:var(--mute)}
+  .callout{border-left:4px solid var(--ink);padding:calc(8px * var(--s)) calc(10px * var(--s));background:#fff;font-size:calc(10px * var(--s));line-height:1.42}
+  .warning{border-left-color:var(--danger)}
+  .mini-title{font-size:calc(10px * var(--s));font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--mute);margin-bottom:5px}
+  .footer{position:absolute;left:11mm;right:11mm;bottom:6mm;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--hair);padding-top:6px;font-size:8.5px;line-height:1.2;color:var(--mute)}
+  .footer b{color:var(--ink)}
+  .tight{margin-top:calc(8px * var(--s))}
+  .mt10{margin-top:calc(10px * var(--s))}.mt12{margin-top:calc(12px * var(--s))}.mt14{margin-top:calc(14px * var(--s))}
+  .w-20{width:20%}.w-24{width:24%}.w-26{width:26%}.w-28{width:28%}.w-30{width:30%}.w-32{width:32%}.w-34{width:34%}.w-36{width:36%}.w-38{width:38%}.w-40{width:40%}
+  @page{size:A4;margin:0}
+  @media print{
+    html,body{background:#fff}
+    body{padding:0}
+    .sheet{margin:0;width:210mm;height:297mm;min-height:297mm;box-shadow:none}
+  }
+  @media screen and (max-width:900px){
+    body{padding:0}.sheet{width:100%;min-height:auto;margin:0;border-bottom:12px solid #ececec}.footer{position:static;margin-top:18px}.grid-2{grid-template-columns:1fr}.page-meta{max-width:55%}
+  }
+</style>
+</head>
+<body>
+
+<!-- PAGE 1 -->
+<section class="sheet s1">
+  <div class="topline"></div>
+  <header class="header">
+    <div class="brand">AIR POWER<small>II · MOVEMENT REFERENCE</small></div>
+    <div class="page-meta"><span class="pill dark">수평 이동</span><span class="pill">Rule 5 · 7</span></div>
+  </header>
+
+  <div class="title-block">
+    <div><h1>수평 이동 / 선회</h1><div class="subtitle">전진, 선회, 뱅크 전환</div></div><div class="page-no">01</div>
+  </div>
+
+  <div class="metric-row">
+    <div class="metric"><b>12초</b><span>1 게임 턴</span></div>
+    <div class="metric"><b>⅓ mi</b><span>1 hex / hexside</span></div>
+    <div class="metric"><b>1,000 ft</b><span>고도 1 레벨</span></div>
+    <div class="metric"><b>30°</b><span>1 Facing</span></div>
+  </div>
+
+  <div class="grid-2">
+    <div class="stack">
+      <section class="section">
+        <div class="section-head"><h2>선회 최소 속도</h2><span class="rule">RULE 7.4</span></div>
+        <table class="compact">
+          <thead><tr><th>선회</th><th>필요 시작 속도</th></tr></thead>
+          <tbody>
+            <tr><td class="strong">EZ</td><td>Minimum Speed 이상</td></tr>
+            <tr><td class="strong">TT</td><td>Minimum Speed + <b>0.5 FP</b></td></tr>
+            <tr><td class="strong">HT</td><td>Minimum Speed + <b>1.0 FP</b></td></tr>
+            <tr><td class="strong">BT</td><td>Minimum Speed + <b>1.5 FP</b></td></tr>
+            <tr><td class="strong">ET</td><td>Minimum Speed + <b>2.0 FP</b></td></tr>
+          </tbody>
+        </table>
+        <div class="chips"><span class="chip">Canard −0.5 FP</span><span class="chip">Flaps/Slats −0.5 FP</span></div>
+      </section>
+
+      <section class="section">
+        <div class="section-head"><h2>선회 진행</h2><span class="rule">RULE 7.0–7.3</span></div>
+        <div class="card">
+          <ul class="clean">
+            <li><b>선회 전진 거리:</b> 통합 선회 차트의 요구 FP만큼 이동할 때마다 기수 <b>30°</b> 전환.</li>
+            <li><b>Turn Carry:</b> 필요한 FP를 채우지 못하면 누적 FP·방향·선회율을 다음 턴으로 이월.</li>
+            <li><b>뱅크 역전:</b> 좌↔우 선회 전환 전에 <b>1 FP</b> 선소모. 선회 전진 거리에 포함하지 않음.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head"><h2>Roll Rate 보정</h2></div>
+        <div class="grid-2" style="gap:8px">
+          <div class="card"><h3>High Roll Rate</h3><p>뱅크 역전 비용 <b>없음</b>. 반대 방향 선회에 바로 진입.</p></div>
+          <div class="card"><h3>Low Roll Rate</h3><p>뱅크 역전 <b>2 FP</b>. Wings Level에서 최초 선회 진입 시 <b>1 HFP</b>.</p></div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head"><h2>고도 밴드</h2><span class="rule">RULE 8 / 12</span></div>
+        <div class="band-grid">
+          <div class="band"><b>LO</b><span>1–7</span></div><div class="band"><b>ML</b><span>8–16</span></div><div class="band"><b>MH</b><span>17–25</span></div><div class="band"><b>HI</b><span>26–35</span></div><div class="band"><b>VH</b><span>36–45</span></div><div class="band"><b>EH</b><span>46–60</span></div><div class="band"><b>UH</b><span>61+</span></div>
+        </div>
+      </section>
+    </div>
+
+    <div class="stack">
+      <section class="section">
+        <div class="section-head"><h2>지속 선회 드래그</h2><span class="rule">ADV · 7.2</span></div>
+        <div class="card dark">
+          <h3>첫 30° 이후, 추가 30°마다</h3>
+          <div class="grid-3">
+            <div><div class="mini-title" style="color:#aaa">일반</div><b style="font-size:20px">+1.0</b><p class="muted">Decel</p></div>
+            <div><div class="mini-title" style="color:#aaa">High Bleed</div><b style="font-size:20px">+1.5</b><p class="muted">Decel</p></div>
+            <div><div class="mini-title" style="color:#aaa">Low Bleed</div><b style="font-size:20px">+0.5</b><p class="muted">Decel</p></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head"><h2>GLOC</h2><span class="rule">ADV · 7.5</span></div>
+        <div class="card">
+          <p><b>LO / ML / MH</b>에서 ET 선회로 30° 전환 즉시 승무원별 판정.</p>
+          <div class="formula mt10" style="font-size:13px">1d10 + 수정치 ≤ 1 → GLOC</div>
+          <ul class="clean">
+            <li>연속 ET/BT 검사 횟수당 <b>−1</b></li>
+            <li>후방석 WSO <b>−1</b></li>
+            <li>Canted Seat <b>+1</b></li>
+            <li>GLOC 시 레이더 락온 및 무장 사용 불가</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head"><h2>Flaps / Slats</h2><span class="rule">ADV · 7.6</span></div>
+        <div class="callout"><strong>속도 요건 −0.5 FP</strong><br>HT / BT / ET 수행 시 추가 <b>+1.0 Decel</b>.</div>
+      </section>
+
+      <section class="section">
+        <div class="section-head"><h2>Turn Carry 표기</h2></div>
+        <div class="card white"><p><b>예: 2BTL</b><br><span class="muted">Break Turn Left를 위해 2 FP를 소모한 상태. 다음 턴에 이어서 계산.</span></p></div>
+      </section>
+    </div>
+  </div>
+  <div class="footer"><span><b>Air Power II</b> · Movement Reference</span><span>01 / 04</span></div>
+</section>
+
+<!-- PAGE 2 -->
+<section class="sheet s2">
+  <div class="topline"></div>
+  <header class="header"><div class="brand">AIR POWER<small>II · MOVEMENT REFERENCE</small></div><div class="page-meta"><span class="pill dark">수직 이동</span><span class="pill">Rule 5.5 · 8</span></div></header>
+  <div class="title-block"><div><h1>수직 이동</h1><div class="subtitle">상승, 하강, 피치 전환</div></div><div class="page-no">02</div></div>
+
+  <section class="section">
+    <div class="section-head"><h2>피치 전환</h2><span class="rule">RULE 5.5</span></div>
+    <table class="compact">
+      <thead><tr><th class="w-24">직전 턴</th><th class="w-24">이번 턴</th><th>VFP 사용 전 조건</th></tr></thead>
+      <tbody>
+        <tr><td><b>LVL</b></td><td>상승 / 하강</td><td>첫 <b>1 FP</b>를 HFP로 전진 후 VFP 사용</td></tr>
+        <tr><td><b>상승</b></td><td>하강</td><td>가용 FP의 <b>1/2</b> HFP 선소모</td></tr>
+        <tr><td><b>하강</b></td><td>상승</td><td>가용 FP의 <b>1/2</b> HFP 선소모</td></tr>
+        <tr><td><b>상승 / 하강</b></td><td>LVL</td><td>제한 없음</td></tr>
+        <tr><td><b>동일 타입</b></td><td>동일 타입</td><td>HFP / VFP 순서 자유</td></tr>
+      </tbody>
+    </table>
+    <div class="callout mt10"><strong>HPR:</strong> 상승↔하강 반전 시 가용 FP의 <b>1/3</b>만 HFP로 선소모.</div>
+  </section>
+
+  <div class="grid-2 mt14">
+    <div class="stack">
+      <section class="section">
+        <div class="section-head"><h2>상승</h2><span class="rule">RULE 8.1</span></div>
+        <div class="card"><p><b>1/3–2/3:</b> 상승 시 최소 1/3은 HFP, 최대 2/3만 VFP. 시작 속도가 CLB Speed 미만이면 <b>CCC 1/2</b>.</p></div>
+      </section>
+
+      <section class="section">
+        <table>
+          <thead><tr><th class="w-26">유형</th><th>핵심</th><th class="w-28">정산 / 제한</th></tr></thead>
+          <tbody>
+            <tr><td><b>SC</b><br><span class="muted">Sustained</span></td><td>Min Speed +1.0 이상.<br>CCC≤2: 1/VFP<br>CCC&gt;2: 1–2/VFP<br>CCC≥6: 3/VFP 가능</td><td>CCC 한계 내 <b>+0.5 Decel/레벨</b>, 초과 <b>+1.0</b><br>EZ만, Slide만</td></tr>
+            <tr><td><b>ZC</b><br><span class="muted">Zoom</span></td><td>누구나 선언 가능.<br>상승량은 SC와 동일.</td><td><b>+1.0 Decel/레벨</b><br>ET 불가</td></tr>
+            <tr><td><b>VC</b><br><span class="muted">Vertical</span></td><td>직전 턴 상승 상태.<br>VFP당 <b>1–2레벨</b>.</td><td><b>+1.5 Decel/레벨</b><br>선회·특수기동 불가, Vertical Roll만</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="section">
+        <div class="section-head"><h2>Superclimb</h2><span class="rule">ADV · 8.1.4</span></div>
+        <div class="card dark"><h3>CCC ≥ 6.0</h3><p>SC 또는 ZC에서 <b>1 VFP → 3레벨 상승</b>. 감속은 해당 상승 유형의 레벨당 규칙을 그대로 적용.</p></div>
+      </section>
+    </div>
+
+    <div class="stack">
+      <section class="section">
+        <div class="section-head"><h2>하강</h2><span class="rule">RULE 8.2</span></div>
+        <div class="card"><p>다이빙 상태 및 중력 가속을 받으려면 한 턴에 <b>최소 2레벨</b> 강하. FD를 제외하면 강하 <b>1레벨당 +1.0 Accel</b>.</p></div>
+      </section>
+
+      <section class="section">
+        <table>
+          <thead><tr><th class="w-24">유형</th><th>핵심</th><th class="w-30">정산 / 제한</th></tr></thead>
+          <tbody>
+            <tr><td><b>SD</b><br><span class="muted">Steep</span></td><td>최소 1/3 HFP.<br>VFP당 <b>1–2레벨</b>.</td><td><b>+1.0 Accel/레벨</b><br>기동 제한 없음</td></tr>
+            <tr><td><b>UD</b><br><span class="muted">Unloaded</span></td><td>직전 턴 LVL.<br>VFP당 1레벨, 최대 2 VFP.</td><td>가용 FP 1/2 이상 무부하 전진. 사격·센서 불가. 2레벨 하강 시 종료 시 SD.</td></tr>
+            <tr><td><b>VD</b><br><span class="muted">Vertical</span></td><td>직전 턴 하강.<br>VFP당 <b>2–3레벨</b>.</td><td>일반 선회 불가, VR만.<br>풀아웃 1/2 선소모(HPR 1/3).</td></tr>
+            <tr><td><b>FD</b><br><span class="muted">Free</span></td><td>LVL 유지 중 HFP 1 소모 직후 <b>1레벨</b> 하강.</td><td><b>Accel 없음</b><br>기동 제한 없음</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="section">
+        <div class="callout warning"><strong>VD 즉시 복귀:</strong> 시작 속도 ≤ <b>2.0</b>이면 LVL 복귀 가능. HPR은 ≤ <b>3.0</b>.</div>
+      </section>
+    </div>
+  </div>
+  <div class="footer"><span><b>Air Power II</b> · Movement Reference</span><span>02 / 04</span></div>
+</section>
+
+<!-- PAGE 3 -->
+<section class="sheet s3">
+  <div class="topline"></div>
+  <header class="header"><div class="brand">AIR POWER<small>II · MOVEMENT REFERENCE</small></div><div class="page-meta"><span class="pill dark">에너지</span><span class="pill">특수 기동</span></div></header>
+  <div class="title-block"><div><h1>에너지 / 특수 기동</h1><div class="subtitle">속도 정산과 기동 비용</div></div><div class="page-no">03</div></div>
+
+  <section class="section">
+    <div class="section-head"><h2>에너지 정산</h2><span class="rule">RULE 6.2</span></div>
+    <div class="formula">Net = 총 Accel − 총 Decel</div>
+    <div class="steps">
+      <div class="step"><div class="n">+0.5</div><p>일반 기체: Net Accel <b>2.0</b>마다 다음 시작 속도 +0.5 FP.</p></div>
+      <div class="step"><div class="n">+0.5</div><p>Rapid Accel: Net Accel <b>1.5</b>마다 다음 시작 속도 +0.5 FP.</p></div>
+      <div class="step"><div class="n">−0.5</div><p>모든 기체: Net Decel <b>2.0</b>마다 다음 시작 속도 −0.5 FP.</p></div>
+    </div>
+    <div class="callout mt10"><strong>Carry:</strong> 남는 Accel/Decel은 최대 1.5까지 이월. 남은 0.5 HFP/VFP도 Carry로 기록하며, 다음 턴의 0.5와 결합해 1.0 FP로 사용.</div>
+  </section>
+
+  <section class="section mt14">
+    <div class="section-head"><h2>특수 기동 Prep 보정</h2><span class="rule">RULE 13.1</span></div>
+    <div class="band-grid" style="grid-template-columns:repeat(5,1fr)">
+      <div class="band"><b>HI</b><span>+1 HFP</span></div><div class="band"><b>VH</b><span>+2 HFP</span></div><div class="band"><b>EH</b><span>+3 HFP</span></div><div class="band"><b>UH</b><span>+4 HFP</span></div><div class="band"><b>Mach 1+</b><span>추가 +1 HFP</span></div>
+    </div>
+  </section>
+
+  <section class="section mt14">
+    <div class="section-head"><h2>특수 기동</h2><span class="rule">RULE 13</span></div>
+    <table class="compact">
+      <thead><tr><th class="w-24">기동</th><th class="w-20">Prep</th><th class="w-20">실행 / Decel</th><th>제한</th></tr></thead>
+      <tbody>
+        <tr><td><b>Slide</b></td><td>2 HFP</td><td>1 HFP<br>2회째 +1 Decel</td><td>속도 ≤9: 1회 / &gt;9: 2회. 전투 제한 없음.</td></tr>
+        <tr><td><b>Displacement Roll</b></td><td>시작 속도 1/3</td><td>ADC 규정치</td><td>Prep/실행 직후 기총 불가. 시작 즉시 레이더 락 소실.</td></tr>
+        <tr><td><b>Lag Roll</b></td><td>시작 속도 1/3</td><td>ADC 규정치</td><td>DR과 동일. 실행에 30° 회전 포함.</td></tr>
+        <tr><td><b>Vertical Roll</b></td><td>없음</td><td>0 FP<br>2회째부터 +1 Decel/회</td><td>VC/VD에서만. 최대 180°. Low Roll Rate는 90°.</td></tr>
+        <tr><td><b>Half-Roll & Dive</b></td><td>피치 전환 규칙</td><td>0 FP / 없음</td><td>선언 턴 무장 사격·레이더 유도 불가.</td></tr>
+        <tr><td><b>Cobra</b></td><td>Wings Level</td><td>가용 FP 1/2<br><b>+4 Decel</b></td><td>Recovery Period 전 전투·레이더 불가.</td></tr>
+        <tr><td><b>Cobra Turn</b></td><td>Wings Level</td><td>가용 FP 1/2<br><b>+4 Decel</b></td><td>제자리 최대 90° 회전. Recovery 동일.</td></tr>
+        <tr><td><b>Kulbit</b></td><td>Wings Level</td><td>가용 FP 1/2<br><b>+5 Decel</b></td><td>제자리 360° 루프. Recovery 동일.</td></tr>
+        <tr><td><b>Kulbit Reversal</b></td><td>Wings Level</td><td>가용 FP 1/2<br><b>+4 Decel</b></td><td>120–180° 반전 하강. 완료 후 최소 1 VFP 강하.</td></tr>
+      </tbody>
+    </table>
+  </section>
+  <div class="footer"><span><b>Air Power II</b> · Movement Reference</span><span>03 / 04</span></div>
+</section>
+
+<!-- PAGE 4 -->
+<section class="sheet s4">
+  <div class="topline"></div>
+  <header class="header"><div class="brand">AIR POWER<small>II · MOVEMENT REFERENCE</small></div><div class="page-meta"><span class="pill dark">예외 규칙</span><span class="pill">TFF · Stall · Formation</span></div></header>
+  <div class="title-block"><div><h1>예외 규칙</h1><div class="subtitle">TFF, 실속, 편대, 무장 투하</div></div><div class="page-no">04</div></div>
+
+  <div class="grid-2">
+    <div class="stack">
+      <section class="section">
+        <div class="section-head"><h2>Terrain Following Flight</h2><span class="rule">ADV · 20.2</span></div>
+        <div class="card">
+          <ul class="clean">
+            <li><b>진입:</b> LVL + 지상 1레벨 이내 → T-level. 비용 없음.</li>
+            <li><b>탈출:</b> 언제든 지상 1레벨로 복귀. 비용 없음.</li>
+            <li>지형 −1레벨: 자동 하강 + <b>0.5 Accel</b>.</li>
+            <li>지형 +1레벨: 자동 상승 + <b>1.0 Decel</b>.</li>
+            <li>지형 변화가 2레벨 이상이면 TFF 유지 불가.</li>
+            <li>Ridge / Built-up 진입 전 반드시 탈출.</li>
+          </ul>
+        </div>
+        <div class="callout warning mt10"><strong>제한:</strong> Roll, Damage Control, ET, Engage, 일부 Radar 운용, 유도무기 통제, 레이저 조사, AAM 발사 불가.</div>
+        <div class="card dark mt10"><h3>탐지 / 방어</h3><p>공대공 미사일 명중 롤에 <b>+1</b>. 일반 SAM은 유도 불가(T-capable 제외). 지상 육안 탐지는 12 hex 초과 불가. 일반 EWR은 탐지 불가.</p></div>
+      </section>
+      <section class="section">
+        <div class="section-head"><h2>Jettison</h2><span class="rule">RULE 4.4</span></div>
+        <div class="card"><p>Flight Phase 중 즉시 선언. 투하 종류와 수량은 선택 가능. 가벼워진 구성의 비행 성능은 <b>다음 1 FP 이동부터</b> 적용. 엔진 Accel 생산량 증가는 <b>다음 턴</b>부터.</p></div>
+      </section>
+
+    </div>
+
+    <div class="stack">
+      <section class="section">
+        <div class="section-head"><h2>Stall / Departure</h2><span class="rule">RULE 6.4 · 7.7</span></div>
+        <table class="compact">
+          <thead><tr><th class="w-28">상태</th><th>처리</th></tr></thead>
+          <tbody>
+            <tr><td><b>Stall 진입</b></td><td>턴 시작 속도 &lt; Minimum Speed. 전진·선회 금지.</td></tr>
+            <tr><td><b>Stall 낙하</b></td><td>턴 종료 시 <b>시작 속도 +1</b> 레벨 낙하(올림).</td></tr>
+            <tr><td><b>Stall Accel</b></td><td>첫 턴 +0.5/레벨, 2번째부터 +1.0/레벨.</td></tr>
+            <tr><td><b>Departure 검사</b></td><td>Stalled Aircraft Phase에 <b>1d10 ≤ 5</b>.</td></tr>
+            <tr><td><b>Departed 낙하</b></td><td>턴 종료 시 <b>시작 속도 +2</b> 레벨.</td></tr>
+            <tr><td><b>Departed 회복</b></td><td>매 Stalled Phase에 <b>1d10 ≤ 6</b>. 다음 속도는 Min Speed.</td></tr>
+            <tr><td><b>Maneuvering Departure</b></td><td>조건 충족 시 <b>1d10 ≤ 4</b>. 잔여 FP/2(반내림)만큼 전방 시프트 후 Departed.</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="section">
+        <div class="section-head"><h2>Formation</h2><span class="rule">RULE 5.6 · 7.8 · 8.6</span></div>
+        <div class="card">
+          <h3>Close Formation</h3>
+          <ul class="clean">
+            <li>최대 4대, 동일 hex·고도.</li>
+            <li>2대: 최대 <b>HT</b>. 3–4대: <b>EZ / TT</b>만.</li>
+            <li>상승: AB 없는 <b>SC</b>만.</li>
+            <li>하강: 턴당 최대 2레벨의 <b>SD / FD</b>.</li>
+            <li>특수 기동은 <b>Slide</b>만.</li>
+          </ul>
+        </div>
+        <div class="callout warning mt10"><strong>제한 위반:</strong> Tactical Formation으로 해체. 마지막 진입 기체는 충돌 검사, <span style="white-space:nowrap"><b>1d10 = 1</b>이면</span> 양 기체 Killed.</div>
+        <div class="card mt10"><h3>Tactical Formation</h3><p>서로 6 hex 이내, 3 고도 레벨 이내. 조건을 유지하면 선회·상승/하강·특수 기동에 별도 제한 없음.</p></div>
+      </section>
+    </div>
+  </div>
+  <div class="footer"><span><b>Air Power II</b> · Movement Reference</span><span>04 / 04</span></div>
+</section>
+
+</body>
+</html>

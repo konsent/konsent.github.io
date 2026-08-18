@@ -28,4 +28,5 @@ v1.0 - 최초 업로드본
 
 - [규칙서 한국어 번역본](/photo/air_superiority/AIR_POWER_II_한글_규칙서%20V1.0.pdf)
 - [규칙서 원문](/photo/air_superiority/AIR%20POWER%20II%20Rules.v.FNL-12-2022.docx)
-
+- [참조표(수평/수직 이동](/photo/air_superiority/air-power-movement-ref.html)
+- [참조표(기총/로켓 공격](/photo/air_superiority/air-power-combat-ref-.html)
