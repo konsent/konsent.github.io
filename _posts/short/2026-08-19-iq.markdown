@@ -1,0 +1,12 @@
+---
+layout: post
+title: "나는 왜 워게임을 혼자 하는가"
+date: 2026-08-19 00:00:00
+preview: /photo/260820_iq_thumb.jpg
+published: true
+short: "on"
+---
+
+<img src="/photo/260820_iq.PNG" width="1000">
+
+정답: 룰을 알긴 아는데 설명을 할 자신이 없어서
