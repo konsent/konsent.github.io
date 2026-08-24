@@ -1,0 +1,14 @@
+---
+layout: post
+title: "워게임 아무말"
+date: 2026-08-24 00:00:00
+preview: /photo/260824_jobdam_thumb.jpg
+published: true
+short: "on"
+---
+
+<img src="/photo/260824_jobdam_1.PNG" width="1000">
+<img src="/photo/260824_jobdam_2.PNG" width="1000">
+<img src="/photo/260824_jobdam_3.PNG" width="1000">
+
+딱히 주제가 있는 만화는 아닙니다. 의식의 흐름따라 아무말을 열심히 하고있습니다
