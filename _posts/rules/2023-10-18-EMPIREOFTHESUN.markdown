@@ -35,11 +35,15 @@ v1.2 - 16.41 * 수정.
 카드 자료 v3 - 잠수함 카드 포함 카드 에러 수정(Six_fail님 제보)
 <br>
 -----
+<br>
+카드 자료 v4 - 화질개선 고화질 카드 및 2판 내용 반영 전체 완전 수정)
+<br>
+-----
 
 - [자료 링크](/photo/[KOR]EOTS.pdf)
 
 카드 한글화 자료
-- [카드 한글화](/photo/eots/[KOR]eots_card_v3.pdf)
+- [카드 한글화](/photo/eots/[KOR]eots_card_v4.pdf)
 
 일본군 에라스무스(오토마) 자료입니다. 틀린 부분 있어요!
 - [자료 다운로드 링크](https://drive.google.com/file/d/1zkBbiArIxtLtp5MZE-tE7ruYy3Mkngoj/view?usp=sharing)
