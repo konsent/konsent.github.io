@@ -36,14 +36,18 @@ v1.2 - 16.41 * 수정.
 <br>
 -----
 <br>
-카드 자료 v4 - 화질개선 고화질 카드 및 2판 내용 반영 전체 완전 수정)
+카드 자료 v4 - 화질개선 고화질 카드 및 2판 내용 반영 전체 완전 수정
+<br>
+-----
+<br>
+카드 자료 v5 - 카드 이미지 성조기/기습 아이콘 수정. 액시옴 작전, 아호 작전 카드명 수정
 <br>
 -----
 
 - [자료 링크](/photo/[KOR]EOTS.pdf)
 
 카드 한글화 자료
-- [카드 한글화](/photo/eots/[KOR]eots_card_v4.pdf)
+- [카드 한글화](/photo/eots/[KOR]eots_card_v5.pdf)
 
 일본군 에라스무스(오토마) 자료입니다. 틀린 부분 있어요!
 - [자료 다운로드 링크](https://drive.google.com/file/d/1zkBbiArIxtLtp5MZE-tE7ruYy3Mkngoj/view?usp=sharing)
@@ -61,5 +65,3 @@ v1.2 - 16.41 * 수정.
 플레이 중 헷갈리는 내용을 정리한 자료입니다.
 - [놓치기 쉬운 규칙](/wepapps/eots/aid.html)
 
-
-테스트
