@@ -43,11 +43,15 @@ v1.2 - 16.41 * 수정.
 카드 자료 v5 - 카드 이미지 성조기/기습 아이콘 수정. 액시옴 작전, 아호 작전 카드명 수정
 <br>
 -----
+<br>
+카드 자료 v6 - 일본군 잠수함 카드(24,27,75,86등) 문구 수정
+<br>
+-----
 
 - [자료 링크](/photo/[KOR]EOTS.pdf)
 
 카드 한글화 자료
-- [카드 한글화](/photo/eots/[KOR]eots_card_v5.pdf)
+- [카드 한글화](/photo/eots/[KOR]eots_card_v6.pdf)
 
 일본군 에라스무스(오토마) 자료입니다. 틀린 부분 있어요!
 - [자료 다운로드 링크](https://drive.google.com/file/d/1zkBbiArIxtLtp5MZE-tE7ruYy3Mkngoj/view?usp=sharing)
