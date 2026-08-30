@@ -53,6 +53,9 @@ v1.2 - 16.41 * 수정.
 카드 한글화 자료
 - [카드 한글화](/photo/eots/[KOR]eots_card_v6.pdf)
 
+카드 한글화 자료 반영된 바살 모듈(6.0.2버전 기준)
+- [카드 한글화](/photo/eots/태양의%20제국-자동생성본.vmod)
+
 일본군 에라스무스(오토마) 자료입니다. 틀린 부분 있어요!
 - [자료 다운로드 링크](https://drive.google.com/file/d/1zkBbiArIxtLtp5MZE-tE7ruYy3Mkngoj/view?usp=sharing)
 
