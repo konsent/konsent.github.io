@@ -1,0 +1,14 @@
+---
+layout: post
+title: "[만화] 워게임 작가 아저씨한테 간택받은 이야기"
+date: 2026-09-06 00:00:00
+preview: /photo/260907_aakorea_thumb.jpg
+published: true
+short: "on"
+---
+
+<img src="/photo/260907_aakorea1.PNG" width="1000">
+<img src="/photo/260907_aakorea2.PNG" width="1000">
+<img src="/photo/260907_aakorea3.PNG" width="1000">
+
+빨리 플레이테스트 하고싶다 이거에요
