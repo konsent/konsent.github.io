@@ -1,0 +1,21 @@
+---
+layout: post
+title: "AI 딸깍 번역이 좋은데 괜히 아쉬운 이유"
+date: 2026-09-21 00:00:00
+preview: /photo/260921_ai_thumb.jpg
+published: true
+short: "on"
+---
+
+<img src="/photo/260921_ai1.PNG" width="1000">
+<img src="/photo/260921_ai2.PNG" width="1000">
+<img src="/photo/260921_ai3.PNG" width="1000">
+<img src="/photo/260921_ai4.PNG" width="1000">
+
+요새 규칙서나 시나리오북이나 AI한테 시켜서 번역/검수까지 시켜서 받은 결과물이 꽤 있는데, 식질 작업이나 인간 검수를 하기엔 애정이 잘 안생기더라구요.
+
+
+
+하 원래 처음부터 읽으면서 단어장 만들고.. 초벌 번역을 AI한테 돌리고..  AI 욕하면서 직접 검수하면서 또 읽고.. 이러면서 공부도 되고 뿌듯하기도 했는데!
+
+이젠 그런게 없어부러 아쉬워부러
