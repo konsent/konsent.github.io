@@ -1,0 +1,27 @@
+---
+layout: post
+title: "Spruance Leader"
+date: 2026-10-11 00:00:00
+preview: /photo/Spruance/spruance_thumb.png
+published: true
+rules: "on"
+---
+
+<img src="/photo/Spruance/spruance_thumb.png" width="1000" loading="lazy">
+
+DVG의 함대전 솔리테어 게임. Spruance Leader입니다.
+<br>
+이번에 DVG 클리어런스 세일 때 Vassal 파일을 구매해서 이참에 규칙서도 번역했습니다(재고 떨이 행사에 디지털 파일도 할인해주는 멋쟁이 회사). 
+<br>
+요새 AI 딸깍으로 번역에 흥미가 많이 떨어졌었는데, 오랜만에 직접 번역해서 산출물을 내니까 퀄리티와 상관없이 뿌듯하고 재밌었습니다..
+<br>
+
+
+-----
+<br>
+v1.0 - 최초 업로드본
+<br>
+-----
+
+
+- [규칙서 한국어 번역본](/photo/Spruance/Spruance_leader_kor2.pdf)
