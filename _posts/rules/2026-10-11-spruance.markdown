@@ -26,3 +26,4 @@ v1.0 - 최초 업로드본
 
 - [코어 규칙서 한국어 번역본](/photo/Spruance/[KOR]%20Spruance_Leader_Core_Rulebook%20ver1.0.pdf)
 - [잠수함 확장 규칙서 한국어 번역본](/photo/Spruance/[KOR]%20Spruance_Leader_Sub_Rulebook%20ver1.0.pdf)
+- [항공모함 확장 규칙서 한국어 번역본](/photo/Spruance/[KOR]%20Spruance_Leader_Carrier_rulebook%20ver1.0.pdf)
