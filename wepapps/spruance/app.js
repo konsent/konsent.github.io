@@ -11,8 +11,6 @@ const elements = {
   key: $("#card-key"),
   title: $("#card-title"),
   image: $("#card-image"),
-  imagePlaceholder: $("#media-placeholder"),
-  imagePath: $("#image-path"),
   steps: $("#steps"),
   notesPanel: $("#notes-panel"),
   notes: $("#notes"),
@@ -109,19 +107,15 @@ function renderCard() {
   elements.title.textContent = card.title;
   const imagePath = (card.image ?? "").normalize("NFC");
   elements.image.hidden = true;
-  elements.imagePlaceholder.hidden = false;
-  elements.imagePath.textContent = imagePath || "사진 경로를 지정하세요";
   elements.image.alt = `${card.title} 관련 사진`;
   elements.image.onload = () => {
     if (elements.image.getAttribute("src") === imagePath) {
       elements.image.hidden = false;
-      elements.imagePlaceholder.hidden = true;
     }
   };
   elements.image.onerror = () => {
     if (elements.image.getAttribute("src") === imagePath) {
       elements.image.hidden = true;
-      elements.imagePlaceholder.hidden = false;
     }
   };
   elements.image.src = imagePath;

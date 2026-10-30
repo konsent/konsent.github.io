@@ -92,10 +92,6 @@ h2 { margin: 0; font-size: 1rem; }
 .card-media { position: relative; aspect-ratio: 16 / 6; margin: 0 0 20px; overflow: hidden; border: 1px solid var(--line); border-radius: 10px; background: #1a2226; }
 .card-media img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
 .card-media [hidden] { display: none !important; }
-.media-placeholder { position: absolute; inset: 0; display: grid; align-content: center; gap: 1px; padding: 16px 20px; background: linear-gradient(125deg, rgba(121, 139, 143, .18), transparent 37%), repeating-linear-gradient(135deg, rgba(255, 255, 255, .025) 0 1px, transparent 1px 7px), #242e32; color: var(--muted); }
-.media-placeholder span { color: var(--teal); font-family: ui-monospace, monospace; font-size: .66rem; font-weight: 800; letter-spacing: .12em; }
-.media-placeholder strong { color: var(--ink); font-size: .92rem; }
-.media-placeholder small { color: var(--faint); font-family: ui-monospace, monospace; font-size: .7rem; }
 .steps { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; counter-reset: step; }
 .steps li { position: relative; min-height: 2.4rem; padding: 6px 6px 6px 2.8rem; counter-increment: step; text-wrap: pretty; word-break: keep-all; overflow-wrap: break-word; }
 .steps li::before { content: counter(step); position: absolute; inset: 6px auto auto 0; display: grid; width: 1.9rem; height: 1.9rem; place-items: center; border: 1px solid var(--teal); border-radius: 50%; color: var(--teal); font-weight: 800; font-size: .8rem; }
@@ -146,7 +142,6 @@ dialog::backdrop { background: rgba(0, 8, 13, .72); }
   .card-scroll { padding: 14px 18px; }
   h1 { margin-bottom: 12px; font-size: 1.3rem; }
   .card-media { aspect-ratio: 16 / 3.2; margin-bottom: 12px; }
-  .media-placeholder { padding: 10px 14px; }
   .steps { gap: 7px; }
   .steps li { min-height: 2.15rem; padding-block: 4px; line-height: 1.48; }
   .steps li::before { inset-block-start: 4px; }
