@@ -1,0 +1,17 @@
+---
+layout: post
+title: "아니 다들 도대체 돈이 어디서 나서 게임을 그렇게 사는거에요"
+date: 2026-10-30 00:00:00
+preview: /photo/261030_sara_thumb.jpg
+published: true
+short: "on"
+---
+
+<img src="/photo/261030_sara1.PNG" width="1000">
+<img src="/photo/261030_sara2.PNG" width="1000">
+<img src="/photo/261030_sara3.PNG" width="1000">
+<img src="/photo/261030_sara4.PNG" width="1000">
+
+게임 소개 만화인줄 알았다면 힝 속았지
+
+사라고 시벌
