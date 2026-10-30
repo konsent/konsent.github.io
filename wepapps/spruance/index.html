@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#08202b" />
+    <meta name="description" content="Spruance Leader 단계별 플레이 가이드" />
+    <title>Spruance Leader 플레이 가이드</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell" aria-live="polite">
+      <section class="guide-card" aria-labelledby="card-title">
+        <header class="card-header">
+          <div class="eyebrow">
+            <span id="section-label">불러오는 중</span>
+            <span id="kind-label" class="kind-label"></span>
+          </div>
+          <div class="header-actions">
+            <span id="card-number" class="card-number" aria-label="카드 번호"></span>
+            <button id="toc-button" class="icon-button" type="button" aria-haspopup="dialog" aria-label="목차와 검색 열기">목차</button>
+          </div>
+        </header>
+
+        <div id="card-scroll" class="card-scroll" tabindex="-1">
+          <p id="card-key" class="card-key"></p>
+          <h1 id="card-title">카드를 불러오는 중입니다.</h1>
+          <figure id="card-media" class="card-media">
+            <img id="card-image" hidden alt="" />
+            <div id="media-placeholder" class="media-placeholder">
+              <span>PHOTO SLOT</span>
+              <strong>항모전단 사진 삽입 예정</strong>
+              <small id="image-path"></small>
+            </div>
+          </figure>
+          <ol id="steps" class="steps"></ol>
+          <aside id="notes-panel" class="notes-panel" hidden>
+            <h2>주의사항</h2>
+            <ul id="notes"></ul>
+          </aside>
+        </div>
+
+        <footer class="card-footer">
+          <div class="navigation-row" aria-label="카드 둘러보기">
+            <button id="history-back" class="secondary-button" type="button">방금 보던 화면</button>
+            <button id="previous-card" class="secondary-button" type="button">이전 카드</button>
+            <button id="next-card" class="secondary-button" type="button">다음 카드</button>
+          </div>
+          <div id="flow-actions" class="flow-actions" aria-label="게임 진행 선택"></div>
+        </footer>
+      </section>
+      <p class="browse-hint">좌우 화살표와 스와이프는 카드 둘러보기입니다. 실제 플레이는 아래 선택 버튼을 사용하세요.</p>
+    </main>
+
+    <dialog id="toc-dialog" class="toc-dialog" aria-labelledby="toc-title">
+      <div class="dialog-header">
+        <div>
+          <p class="eyebrow">Spruance Leader</p>
+          <h2 id="toc-title">목차와 검색</h2>
+        </div>
+        <div class="dialog-actions">
+          <button id="open-reset" class="secondary-button" type="button">처음부터</button>
+          <button id="close-toc" class="icon-button" type="button" aria-label="목차 닫기">닫기</button>
+        </div>
+      </div>
+      <label class="search-label" for="search-input">카드 번호, 제목, 본문 검색</label>
+      <input id="search-input" type="search" autocomplete="off" placeholder="예: 공습, 45, SSN" />
+      <div id="toc-content" class="toc-content"></div>
+    </dialog>
+
+    <dialog id="confirm-dialog" class="confirm-dialog" aria-labelledby="confirm-title">
+      <h2 id="confirm-title">처음부터 시작할까요?</h2>
+      <p>마지막 카드와 방문 이력이 지워집니다. 게임 수치는 저장하지 않습니다.</p>
+      <div class="dialog-buttons">
+        <button id="cancel-reset" class="secondary-button" type="button">취소</button>
+        <button id="confirm-reset" class="primary-button" type="button">처음부터</button>
+      </div>
+    </dialog>
+
+    <template id="error-template">
+      <section class="error-card" role="alert">
+        <p class="eyebrow">데이터 오류</p>
+        <h1>가이드 데이터를 열 수 없습니다.</h1>
+        <p>로컬 서버에서 앱을 실행한 뒤 다시 시도하세요.</p>
+      </section>
+    </template>
+    <script type="module" src="app.js"></script>
+  </body>
+</html>
