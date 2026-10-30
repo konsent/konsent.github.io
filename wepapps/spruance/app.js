@@ -107,23 +107,24 @@ function renderCard() {
   elements.number.textContent = `카드 ${card.number}`;
   elements.key.textContent = card.key;
   elements.title.textContent = card.title;
+  const imagePath = (card.image ?? "").normalize("NFC");
   elements.image.hidden = true;
   elements.imagePlaceholder.hidden = false;
-  elements.imagePath.textContent = card.image || "사진 경로를 지정하세요";
+  elements.imagePath.textContent = imagePath || "사진 경로를 지정하세요";
   elements.image.alt = `${card.title} 관련 사진`;
   elements.image.onload = () => {
-    if (elements.image.getAttribute("src") === card.image) {
+    if (elements.image.getAttribute("src") === imagePath) {
       elements.image.hidden = false;
       elements.imagePlaceholder.hidden = true;
     }
   };
   elements.image.onerror = () => {
-    if (elements.image.getAttribute("src") === card.image) {
+    if (elements.image.getAttribute("src") === imagePath) {
       elements.image.hidden = true;
       elements.imagePlaceholder.hidden = false;
     }
   };
-  elements.image.src = card.image || "";
+  elements.image.src = imagePath;
   renderList(elements.steps, card.steps);
   elements.notesPanel.hidden = !card.notes.length;
   renderList(elements.notes, card.notes);
