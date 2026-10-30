@@ -197,7 +197,7 @@
       ],
       "kind": "step",
       "number": 6,
-      "image": "assets/sop/귀향1.jpeg",
+      "image": "assets/sop/항모수리1.jpeg",
       "buttons": [
         {
           "text": "휴식 및 임무 마감",
@@ -252,7 +252,7 @@
       ],
       "kind": "step",
       "number": 8,
-      "image": "assets/sop/이지스1.jpg",
+      "image": "assets/sop/비행갑판 발진3.jpeg",
       "buttons": [
         {
           "text": "캠페인 지도 준비",
@@ -362,7 +362,7 @@
       ],
       "kind": "step",
       "number": 12,
-      "image": "assets/sop/미군기동부대2.jpeg",
+      "image": "assets/sop/함대항행1.jpeg",
       "buttons": [
         {
           "text": "기본·항모: 공습 확인",
@@ -578,6 +578,7 @@
       ],
       "kind": "step",
       "number": 19,
+      "imageOverride": "assets/sop/함재기표적공격3.jpeg",
       "image": "assets/sop/함재기타격편대1.jpg",
       "buttons": [
         {
@@ -905,6 +906,7 @@
       ],
       "kind": "step",
       "number": 30,
+      "imageOverride": "assets/sop/소련잠수함조우1.jpg",
       "image": "assets/sop/미군 공격잠수함1.jpg",
       "buttons": [
         {
@@ -929,6 +931,7 @@
       ],
       "kind": "step",
       "number": 31,
+      "imageOverride": "assets/sop/소련잠수함조우2.jpeg",
       "image": "assets/sop/미군 공격잠수함2.jpg",
       "buttons": [
         {
@@ -1017,6 +1020,7 @@
       ],
       "kind": "step",
       "number": 34,
+      "imageOverride": "assets/sop/소련잠수함3.jpeg",
       "image": "assets/sop/소련 잠수함2.jpeg",
       "buttons": [
         {
@@ -1044,6 +1048,7 @@
       ],
       "kind": "step",
       "number": 35,
+      "imageOverride": "assets/sop/소련잠수함조우3.jpeg",
       "image": "assets/sop/미군 공격잠수함1.jpg",
       "buttons": [
         {
@@ -1131,6 +1136,7 @@
       ],
       "kind": "step",
       "number": 38,
+      "imageOverride": "assets/sop/항모전투기 CAP2.jpg",
       "image": "assets/sop/항모전투기 CAP1.jpg",
       "buttons": [
         {
@@ -1162,6 +1168,7 @@
       ],
       "kind": "step",
       "number": 39,
+      "imageOverride": "assets/sop/항모전투기 공중전1.jpeg",
       "image": "assets/sop/항모전투기 CAP1.jpg",
       "buttons": [
         {
@@ -1301,6 +1308,7 @@
       ],
       "kind": "step",
       "number": 44,
+      "imageOverride": "assets/sop/타격대항모착함2.jpeg",
       "image": "assets/sop/귀향1.jpeg",
       "buttons": [
         {
@@ -1328,6 +1336,7 @@
       ],
       "kind": "return",
       "number": 45,
+      "imageOverride": "assets/sop/귀환2.jpeg",
       "image": "assets/sop/항모전단1.jpg",
       "buttons": [
         {
@@ -1389,6 +1398,7 @@
       ],
       "kind": "step",
       "number": 47,
+      "imageOverride": "assets/sop/비행갑판 발진4.jpeg",
       "image": "assets/sop/비행갑판 발진1.jpeg",
       "buttons": [
         {
@@ -1479,6 +1489,7 @@
       ],
       "kind": "step",
       "number": 50,
+      "imageOverride": "assets/sop/함재기표적공격1.jpg",
       "image": "assets/sop/전자전기1.jpeg",
       "buttons": [
         {
@@ -1504,6 +1515,7 @@
       ],
       "kind": "step",
       "number": 51,
+      "imageOverride": "assets/sop/함재기표적공격2.jpeg",
       "image": "assets/sop/함재기타격편대2.jpeg",
       "buttons": [
         {
@@ -1542,6 +1554,7 @@
       ],
       "kind": "step",
       "number": 52,
+      "imageOverride": "assets/sop/비행갑판 발진5.jpeg",
       "image": "assets/sop/비행갑판 발진2.jpeg",
       "buttons": [
         {
@@ -1576,6 +1589,7 @@
       ],
       "kind": "step",
       "number": 53,
+      "imageOverride": "assets/sop/타격대항모착함1.jpg",
       "image": "assets/sop/귀향1.jpeg",
       "buttons": [
         {
@@ -1664,6 +1678,7 @@
       ],
       "kind": "step",
       "number": 56,
+      "imageOverride": "assets/sop/진급1.webp",
       "image": "assets/sop/브리핑2.jpg",
       "buttons": [
         {
@@ -1690,6 +1705,7 @@
       ],
       "kind": "return",
       "number": 57,
+      "imageOverride": "assets/sop/타격대항모착함3.jpeg",
       "image": "assets/sop/항모전단1.jpg",
       "buttons": [
         {
@@ -1748,6 +1764,7 @@
       ],
       "kind": "step",
       "number": 59,
+      "imageOverride": "assets/sop/귀환1.jpeg",
       "image": "assets/sop/귀향1.jpeg",
       "buttons": [
         {

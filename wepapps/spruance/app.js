@@ -105,7 +105,7 @@ function renderCard() {
   elements.number.textContent = `카드 ${card.number}`;
   elements.key.textContent = card.key;
   elements.title.textContent = card.title;
-  const imagePath = (card.image ?? "").normalize("NFC");
+  const imagePath = (card.imageOverride ?? card.image ?? "").normalize("NFC");
   elements.image.hidden = true;
   elements.image.alt = `${card.title} 관련 사진`;
   elements.image.onload = () => {
