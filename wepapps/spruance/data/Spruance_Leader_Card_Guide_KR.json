@@ -168,6 +168,7 @@
       ],
       "kind": "step",
       "number": 5,
+      "imageOverride": "assets/sop/브리핑3.jpeg",
       "image": "assets/sop/브리핑1.jpg",
       "buttons": [
         {
@@ -278,6 +279,7 @@
       ],
       "kind": "step",
       "number": 9,
+      "imageOverride": "assets/sop/이지스4.jpeg",
       "image": "assets/sop/미군기동부대1.jpg",
       "buttons": [
         {
@@ -304,6 +306,7 @@
       ],
       "kind": "choice",
       "number": 10,
+      "imageOverride": "assets/sop/전함1.jpeg",
       "image": "assets/sop/항모전단2.webp",
       "buttons": [
         {
@@ -453,6 +456,7 @@
       ],
       "kind": "choice",
       "number": 15,
+      "imageOverride": "assets/sop/함재기준비2.jpeg",
       "image": "assets/sop/항모전단2.webp",
       "buttons": [
         {
@@ -511,6 +515,7 @@
       ],
       "kind": "choice",
       "number": 17,
+      "imageOverride": "assets/sop/항모전단5.jpeg",
       "image": "assets/sop/미군기동부대1.jpg",
       "buttons": [
         {
@@ -545,6 +550,7 @@
       ],
       "kind": "choice",
       "number": 18,
+      "imageOverride": "assets/sop/전함2.jpeg",
       "image": "assets/sop/소련 TF1.jpg",
       "buttons": [
         {
@@ -608,6 +614,7 @@
       ],
       "kind": "choice",
       "number": 20,
+      "imageOverride": "assets/sop/항모전단6.jpeg",
       "image": "assets/sop/항모전단1.jpg",
       "buttons": [
         {
@@ -664,6 +671,7 @@
       ],
       "kind": "step",
       "number": 22,
+      "imageOverride": "assets/sop/소련잠수함4.jpeg",
       "image": "assets/sop/소련 TF2.jpg",
       "buttons": [
         {
@@ -808,6 +816,7 @@
       ],
       "kind": "step",
       "number": 27,
+      "imageOverride": "assets/sop/이지스5.jpeg",
       "image": "assets/sop/이지스2.jpeg",
       "buttons": [
         {
@@ -875,6 +884,7 @@
       ],
       "kind": "step",
       "number": 29,
+      "imageOverride": "assets/sop/대잠헬기3.jpeg",
       "image": "assets/sop/이지스3.jpeg",
       "buttons": [
         {
@@ -1226,6 +1236,7 @@
       ],
       "kind": "step",
       "number": 41,
+      "imageOverride": "assets/sop/소련적기접근1.jpg",
       "image": "assets/sop/함대방공1.jpeg",
       "buttons": [
         {
@@ -1280,6 +1291,7 @@
       ],
       "kind": "step",
       "number": 43,
+      "imageOverride": "assets/sop/소련적기접근2.jpeg",
       "image": "assets/sop/소련 대함공격기1.jpeg",
       "buttons": [
         {
@@ -1372,6 +1384,7 @@
       ],
       "kind": "step",
       "number": 46,
+      "imageOverride": "assets/sop/함재기준비3.jpeg",
       "image": "assets/sop/항모전단2.webp",
       "buttons": [
         {
@@ -1736,6 +1749,7 @@
       ],
       "kind": "step",
       "number": 58,
+      "imageOverride": "assets/sop/귀환3.jpeg",
       "image": "assets/sop/브리핑1.jpg",
       "buttons": [
         {
@@ -1793,6 +1807,7 @@
       ],
       "kind": "step",
       "number": 60,
+      "imageOverride": "assets/sop/항모착함3.jpeg",
       "image": "assets/sop/미군기동부대2.jpeg",
       "buttons": [
         {
@@ -1820,6 +1835,7 @@
       ],
       "kind": "reference",
       "number": 61,
+      "imageOverride": "assets/sop/전투상황실1.jpg",
       "image": "assets/sop/브리핑2.jpg",
       "buttons": [
         {
@@ -1854,6 +1870,7 @@
       "sources": [],
       "kind": "menu",
       "number": 62,
+      "imageOverride": "assets/sop/항모착함2.jpeg",
       "image": "assets/sop/항모전단1.jpg",
       "buttons": [
         {
