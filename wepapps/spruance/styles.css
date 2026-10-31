@@ -135,6 +135,17 @@ dialog::backdrop { background: rgba(0, 8, 13, .72); }
 .primary-button:hover { background: #9fc5c1; }
 .error-card { margin: auto; padding: 28px; border: 1px solid #a86262; border-radius: 14px; background: #351d25; }
 
+@media (min-width: 600px) and (max-width: 900px) {
+  .app-shell { width: 100%; padding: 12px; }
+  .guide-card { width: 100%; max-height: calc(100dvh - 40px); }
+  .card-scroll { display: grid; grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr); column-gap: 20px; align-content: start; padding: 18px 22px; }
+  .card-key, .card-scroll > h1 { grid-column: 1 / -1; }
+  .card-scroll > h1 { margin-bottom: 14px; }
+  .card-media { grid-row: 3 / span 2; margin: 0; aspect-ratio: 16 / 9; }
+  .steps { grid-column: 2; grid-row: 3; }
+  .notes-panel { grid-column: 2; grid-row: 4; margin-top: 14px; }
+}
+
 @media (max-width: 480px) {
   .app-shell { padding: 0; gap: 0; }
   .guide-card { max-height: calc(100dvh - 26px); border-inline: 0; border-radius: 0; }
