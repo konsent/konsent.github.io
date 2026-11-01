@@ -1,0 +1,17 @@
+---
+layout: post
+title: "혼자 스뿌뿌뿌 하면서 노는 만화"
+date: 2026-11-01 00:00:00
+preview: /photo/261101_sl_thumb.jpg
+published: true
+short: "on"
+---
+
+<img src="/photo/261101_sl1.PNG" width="1000">
+<img src="/photo/261101_sl2.PNG" width="1000">
+<img src="/photo/261101_sl3.PNG" width="1000">
+<img src="/photo/261101_sl4.PNG" width="1000">
+
+별 내용은 없습니다..
+
+이게 되네 싶어서 기분이 좋았습니다
