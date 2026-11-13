@@ -1,0 +1,16 @@
+---
+layout: post
+title: "아크스 언제옴?"
+date: 2026-11-13 00:00:00
+preview: /photo/IMG_3194.PNG
+published: true
+short: "on"
+---
+
+<img src="/photo/IMG_3194.PNG" width="1000">
+<img src="/photo/IMG_3195.PNG" width="1000">
+<img src="/photo/IMG_3196.PNG" width="1000">
+<img src="/photo/IMG_3197.PNG" width="1000">
+<img src="/photo/IMG_3198.jpg" width="1000">
+
+펀 딩 시 러
